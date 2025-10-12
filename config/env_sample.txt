@@ -1,0 +1,15 @@
+# OpenAI API Configuration
+# .env 파일을 프로젝트 루트에 생성하고 아래 내용을 복사하세요
+# Copy this content to .env file in project root
+
+OPENAI_API_KEY=your_openai_api_key_here
+
+# Application Settings
+APP_ENV=development
+DEBUG=True
+
+# Database (if needed in future)
+# DATABASE_URL=
+
+# Other API Keys (if needed)
+# SNOMED_API_KEY=

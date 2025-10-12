@@ -1,0 +1,387 @@
+# OCR System Configuration v3.0
+# Date: 2025-10-12
+# Purpose: Configure advanced OCR processing for allergy test results
+
+system:
+  version: "3.0"
+  environment: "production"
+  debug_mode: false
+  log_level: "INFO"
+  max_processing_time_seconds: 30
+  retry_attempts: 3
+
+ocr_engine:
+  provider: "tesseract"  # Options: tesseract, google_vision, azure_ocr, aws_textract
+  settings:
+    tesseract:
+      path: "/usr/local/bin/tesseract"
+      language: ["kor", "eng"]  # Korean + English
+      psm: 6  # Page segmentation mode
+      oem: 3  # OCR engine mode
+      config:
+        - "preserve_interword_spaces=1"
+        - "tessedit_char_whitelist=0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz가-힣.,-()[]<>×xX*/"
+    
+    google_vision:
+      api_key: "${GOOGLE_VISION_API_KEY}"
+      features:
+        - "DOCUMENT_TEXT_DETECTION"
+        - "TEXT_DETECTION"
+      language_hints: ["ko", "en"]
+    
+    azure_ocr:
+      endpoint: "${AZURE_ENDPOINT}"
+      api_key: "${AZURE_API_KEY}"
+      api_version: "3.2"
+    
+    aws_textract:
+      region: "ap-northeast-2"
+      access_key: "${AWS_ACCESS_KEY}"
+      secret_key: "${AWS_SECRET_KEY}"
+
+image_preprocessing:
+  enabled: true
+  operations:
+    - name: "resize"
+      enabled: true
+      params:
+        min_width: 1000
+        max_width: 4000
+        maintain_aspect_ratio: true
+    
+    - name: "deskew"
+      enabled: true
+      params:
+        angle_threshold: 5.0
+        auto_detect: true
+    
+    - name: "denoise"
+      enabled: true
+      params:
+        method: "gaussian_blur"
+        kernel_size: 3
+    
+    - name: "contrast_enhancement"
+      enabled: true
+      params:
+        method: "adaptive_histogram_equalization"
+        clip_limit: 2.0
+    
+    - name: "binarization"
+      enabled: false
+      params:
+        method: "otsu"
+        threshold: 127
+
+test_detection:
+  rules:
+    spt:
+      required_keywords:
+        - ["size", "wheal", "flare", "mm"]
+        - ["크기", "팽진", "발적"]
+      column_headers:
+        - "Allergen"
+        - "Size"
+        - "Result"
+        - "알레르겐"
+        - "크기"
+        - "결과"
+      
+    mast:
+      required_keywords:
+        - ["class", "kU/L", "IgE"]
+        - ["클래스", "단위"]
+      column_headers:
+        - "Allergen"
+        - "Class"
+        - "Value"
+        - "Unit"
+        - "알레르겐"
+        - "클래스"
+        - "수치"
+        - "단위"
+    
+    immunocap:
+      required_keywords:
+        - ["ImmunoCAP", "specific IgE"]
+      column_headers:
+        - "Allergen"
+        - "Result"
+        - "kUA/L"
+
+data_extraction:
+  table_detection:
+    method: "hough_transform"  # Options: hough_transform, deep_learning
+    min_rows: 3
+    min_columns: 2
+    border_detection: true
+    
+  text_extraction:
+    multi_line_merge: true
+    preserve_formatting: true
+    confidence_threshold: 0.7
+    
+  number_extraction:
+    decimal_separator: "."
+    thousand_separator: ","
+    formats:
+      - pattern: "\\d+\\.\\d+"
+        type: "decimal"
+      - pattern: "\\d+[xX×]\\d+"
+        type: "dimension"
+      - pattern: "Class\\s*[0-6]"
+        type: "class"
+
+allergen_normalization:
+  database_path: "./allergen_database.json"
+  fuzzy_matching:
+    enabled: true
+    threshold: 0.8
+    algorithm: "levenshtein"
+  
+  synonym_expansion:
+    enabled: true
+    max_synonyms: 5
+  
+  cross_reference:
+    snomed_ct: true
+    loinc: true
+    who_iuis: true
+
+interpretation_rules:
+  spt:
+    positive_criteria:
+      - condition: "mean_diameter >= 3.0"
+        interpretation: "positive"
+      - condition: "mean_diameter >= histamine_control * 0.5"
+        interpretation: "positive"
+      - condition: "mean_diameter >= 2.0"
+        interpretation: "borderline"
+      - condition: "mean_diameter < 2.0"
+        interpretation: "negative"
+    
+    significance_levels:
+      high: "mean_diameter >= 5.0"
+      moderate: "mean_diameter >= 3.0 and mean_diameter < 5.0"
+      low: "mean_diameter >= 2.0 and mean_diameter < 3.0"
+      none: "mean_diameter < 2.0"
+  
+  mast:
+    positive_criteria:
+      - condition: "class >= 1"
+        interpretation: "positive"
+      - condition: "value >= 0.35"
+        interpretation: "positive"
+      - condition: "class == 0 and value < 0.35"
+        interpretation: "negative"
+    
+    class_ranges:
+      0: 
+        range: "<0.35 kU/L"
+        interpretation: "negative"
+      1:
+        range: "0.35-0.70 kU/L"
+        interpretation: "low_positive"
+      2:
+        range: "0.71-3.50 kU/L"
+        interpretation: "moderate_positive"
+      3:
+        range: "3.51-17.50 kU/L"
+        interpretation: "high_positive"
+      4:
+        range: "17.51-50.00 kU/L"
+        interpretation: "very_high_positive"
+      5:
+        range: "50.01-100.00 kU/L"
+        interpretation: "very_high_positive"
+      6:
+        range: ">100.00 kU/L"
+        interpretation: "extremely_high_positive"
+
+quality_control:
+  validation_checks:
+    - name: "control_presence"
+      description: "Check for positive/negative controls"
+      required_for: ["SPT"]
+      severity: "warning"
+    
+    - name: "value_range"
+      description: "Verify values are within expected ranges"
+      ranges:
+        spt_wheal: [0, 30]
+        ige_value: [0, 5000]
+        class_level: [0, 6]
+      severity: "error"
+    
+    - name: "data_completeness"
+      description: "Check for missing required fields"
+      required_fields:
+        - "allergen_name"
+        - "measurement_value"
+      severity: "warning"
+    
+    - name: "consistency"
+      description: "Verify logical consistency"
+      rules:
+        - "if class == 0 then value < 0.35"
+        - "if positive_control exists then value > 0"
+      severity: "warning"
+  
+  confidence_calculation:
+    weights:
+      ocr_clarity: 0.3
+      data_completeness: 0.3
+      value_plausibility: 0.2
+      format_consistency: 0.2
+    
+    thresholds:
+      high_confidence: 0.9
+      medium_confidence: 0.7
+      low_confidence: 0.5
+      manual_review_required: 0.5
+
+output:
+  format: "json"  # Options: json, xml, csv, fhir
+  
+  json_settings:
+    indent: 2
+    ensure_ascii: false
+    sort_keys: false
+    
+  include_metadata: true
+  include_raw_text: true
+  include_confidence_scores: true
+  include_warnings: true
+  
+  file_naming:
+    pattern: "ocr_result_{timestamp}_{patient_id}.json"
+    timestamp_format: "%Y%m%d_%H%M%S"
+
+integration:
+  fhir_conversion:
+    enabled: true
+    profile: "http://hl7.org/fhir/StructureDefinition/Observation"
+    version: "R4"
+    
+  database:
+    enabled: true
+    type: "postgresql"  # Options: postgresql, mysql, mongodb
+    connection_string: "${DATABASE_URL}"
+    
+  message_queue:
+    enabled: false
+    type: "rabbitmq"  # Options: rabbitmq, kafka, aws_sqs
+    connection_string: "${MESSAGE_QUEUE_URL}"
+    
+  webhook:
+    enabled: false
+    url: "${WEBHOOK_URL}"
+    method: "POST"
+    headers:
+      Content-Type: "application/json"
+      Authorization: "Bearer ${WEBHOOK_TOKEN}"
+
+monitoring:
+  metrics:
+    enabled: true
+    provider: "prometheus"  # Options: prometheus, cloudwatch, datadog
+    
+    tracked_metrics:
+      - "processing_time"
+      - "extraction_success_rate"
+      - "confidence_score_distribution"
+      - "allergen_detection_count"
+      - "error_rate"
+  
+  logging:
+    enabled: true
+    level: "INFO"
+    format: "json"
+    
+    destinations:
+      - type: "file"
+        path: "./logs/ocr_processing.log"
+        rotation: "daily"
+        retention_days: 30
+      
+      - type: "console"
+        enabled: true
+      
+      - type: "syslog"
+        enabled: false
+        host: "localhost"
+        port: 514
+  
+  alerting:
+    enabled: true
+    
+    rules:
+      - name: "low_confidence_alert"
+        condition: "average_confidence < 0.6"
+        severity: "warning"
+        notification: "email"
+      
+      - name: "processing_failure_alert"
+        condition: "error_rate > 0.1"
+        severity: "critical"
+        notification: "slack"
+    
+    channels:
+      email:
+        smtp_server: "${SMTP_SERVER}"
+        from: "ocr-system@hospital.com"
+        to: ["admin@hospital.com"]
+      
+      slack:
+        webhook_url: "${SLACK_WEBHOOK_URL}"
+        channel: "#ocr-alerts"
+
+performance:
+  caching:
+    enabled: true
+    type: "redis"  # Options: redis, memcached, in-memory
+    ttl_seconds: 3600
+    
+  parallel_processing:
+    enabled: true
+    max_workers: 4
+    batch_size: 10
+    
+  optimization:
+    lazy_loading: true
+    memory_limit_mb: 2048
+    gpu_acceleration: false
+
+security:
+  data_encryption:
+    at_rest: true
+    in_transit: true
+    algorithm: "AES-256-GCM"
+    
+  api_authentication:
+    enabled: true
+    type: "jwt"  # Options: jwt, api_key, oauth2
+    
+  audit_logging:
+    enabled: true
+    log_access: true
+    log_modifications: true
+    retention_days: 365
+    
+  pii_handling:
+    anonymization: false
+    masking: true
+    fields_to_mask:
+      - "patient_name"
+      - "patient_id"
+      - "date_of_birth"
+
+development:
+  test_mode: false
+  mock_ocr_engine: false
+  sample_data_path: "./test_data/"
+  
+  debugging:
+    save_preprocessed_images: false
+    save_intermediate_results: false
+    verbose_logging: false

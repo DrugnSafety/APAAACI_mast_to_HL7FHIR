@@ -1,0 +1,85 @@
+{
+  "version": "2.0",
+  "fhir_profile": "http://hl7.org/fhir/StructureDefinition/AllergyIntolerance",
+  "generation_rules": {
+    "clinical_status": {
+      "default": "active",
+      "conditions": {
+        "resolved": "when last_reaction > 2_years_ago",
+        "inactive": "when explicitly_stated_by_patient"
+      }
+    },
+    "verification_status": {
+      "default": "confirmed",
+      "mapping": {
+        "test_positive_with_symptoms": "confirmed",
+        "test_positive_no_symptoms": "refuted",
+        "test_positive_unknown_exposure": "unconfirmed"
+      }
+    },
+    "type": {
+      "default": "allergy",
+      "override_for_foods": "intolerance"
+    },
+    "category_mapping": {
+      "mite": "environment",
+      "pollen": "environment",
+      "mold": "environment",
+      "animal": "environment",
+      "insect": "environment",
+      "food": "food",
+      "medication": "medication"
+    },
+    "criticality_assessment": {
+      "high": [
+        "peanut", "tree_nuts", "shellfish", 
+        "bee_venom", "wasp_venom", "medications"
+      ],
+      "low": [
+        "pollen", "mold", "animal_dander"
+      ],
+      "unable_to_assess": ["unknown_allergens"]
+    },
+    "reaction_mapping": {
+      "common_manifestations": {
+        "respiratory": {
+          "codes": ["267036007", "49727002", "62315008"],
+          "displays": ["Dyspnea", "Cough", "Wheezing"]
+        },
+        "skin": {
+          "codes": ["271807003", "418363000", "247472004"],
+          "displays": ["Rash", "Itching", "Hives"]
+        },
+        "gastrointestinal": {
+          "codes": ["422587007", "62315008", "422400008"],
+          "displays": ["Nausea", "Vomiting", "Abdominal pain"]
+        },
+        "anaphylaxis": {
+          "codes": ["39579001"],
+          "displays": ["Anaphylaxis"]
+        }
+      }
+    }
+  },
+  "data_quality_rules": {
+    "required_fields": [
+      "clinicalStatus",
+      "verificationStatus",
+      "code",
+      "patient"
+    ],
+    "conditional_required": {
+      "if_symptomatic": ["reaction", "recordedDate"],
+      "if_medication": ["criticality"]
+    }
+  },
+  "audit_trail": {
+    "include_metadata": true,
+    "fields": [
+      "created_by",
+      "created_at",
+      "data_source",
+      "confidence_score"
+    ]
+  }
+}

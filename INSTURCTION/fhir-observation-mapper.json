@@ -1,0 +1,114 @@
+{
+  "version": "1.2",
+  "fhir_version": "R4",
+  "mapping_rules": {
+    "resource_type": "Observation",
+    "profile": "http://hl7.org/fhir/StructureDefinition/allergyintolerance-test",
+    "status_mapping": {
+      "completed": "final",
+      "in_progress": "preliminary",
+      "cancelled": "cancelled"
+    },
+    "code_systems": {
+      "primary": "http://snomed.info/sct",
+      "secondary": "http://loinc.org",
+      "local": "http://hospital.local/codes"
+    },
+    "interpretation_mapping": {
+      "positive": {
+        "code": "POS",
+        "display": "Positive",
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+      },
+      "negative": {
+        "code": "NEG",
+        "display": "Negative",
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+      },
+      "equivocal": {
+        "code": "IND",
+        "display": "Indeterminate",
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation"
+      }
+    }
+  },
+  "allergen_code_mapping": {
+    "dermatophagoides_farinae": {
+      "snomed": "419474003",
+      "loinc": "6088-5",
+      "display": "Dermatophagoides farinae IgE"
+    },
+    "dermatophagoides_pteronyssinus": {
+      "snomed": "419801006",
+      "loinc": "6087-7",
+      "display": "Dermatophagoides pteronyssinus IgE"
+    },
+    "cat_dander": {
+      "snomed": "256259004",
+      "loinc": "6833-8",
+      "display": "Cat dander IgE"
+    },
+    "dog_dander": {
+      "snomed": "313030008",
+      "loinc": "6098-4",
+      "display": "Dog dander IgE"
+    },
+    "aspergillus_fumigatus": {
+      "snomed": "419644008",
+      "loinc": "6025-7",
+      "display": "Aspergillus fumigatus IgE"
+    },
+    "alternaria_alternata": {
+      "snomed": "419209009",
+      "loinc": "6020-8",
+      "display": "Alternaria alternata IgE"
+    },
+    "birch_pollen": {
+      "snomed": "256277009",
+      "loinc": "15283-2",
+      "display": "Birch pollen IgE"
+    },
+    "ragweed_pollen": {
+      "snomed": "256307001",
+      "loinc": "6183-4",
+      "display": "Ragweed pollen IgE"
+    },
+    "egg_white": {
+      "snomed": "303299009",
+      "loinc": "6106-5",
+      "display": "Egg white IgE"
+    },
+    "milk": {
+      "snomed": "412071004",
+      "loinc": "6150-3",
+      "display": "Cow milk IgE"
+    },
+    "peanut": {
+      "snomed": "412163001",
+      "loinc": "6206-3",
+      "display": "Peanut IgE"
+    },
+    "shrimp": {
+      "snomed": "412238003",
+      "loinc": "6246-7",
+      "display": "Shrimp IgE"
+    }
+  },
+  "value_quantity_units": {
+    "spt": {
+      "code": "mm",
+      "system": "http://unitsofmeasure.org",
+      "display": "millimeter"
+    },
+    "mast": {
+      "code": "k[IU]/L",
+      "system": "http://unitsofmeasure.org",
+      "display": "kilounits per liter"
+    },
+    "total_ige": {
+      "code": "[IU]/mL",
+      "system": "http://unitsofmeasure.org",
+      "display": "international units per milliliter"
+    }
+  }
+}

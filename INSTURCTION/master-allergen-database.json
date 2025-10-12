@@ -1,0 +1,556 @@
+{
+  "version": "3.0",
+  "last_updated": "2025-10-12",
+  "total_allergens": 156,
+  "allergens": [
+    {
+      "id": "ALG001",
+      "canonical_name": "Dermatophagoides farinae",
+      "korean_name": "미국집먼지진드기",
+      "common_names": ["House dust mite", "D. farinae", "American house dust mite"],
+      "category": "mite",
+      "subcategory": "house_dust_mite",
+      "coding": {
+        "snomed": "419474003",
+        "loinc": "6088-5",
+        "local": "HDM01"
+      },
+      "test_availability": {
+        "spt": true,
+        "mast": true,
+        "immunocap": true
+      },
+      "clinical_significance": "high",
+      "cross_reactivity": ["ALG002", "ALG003"],
+      "typical_symptoms": [
+        "allergic_rhinitis",
+        "asthma",
+        "atopic_dermatitis"
+      ]
+    },
+    {
+      "id": "ALG002",
+      "canonical_name": "Dermatophagoides pteronyssinus",
+      "korean_name": "유럽집먼지진드기",
+      "common_names": ["European house dust mite", "D. pteronyssinus"],
+      "category": "mite",
+      "subcategory": "house_dust_mite",
+      "coding": {
+        "snomed": "419801006",
+        "loinc": "6087-7",
+        "local": "HDM02"
+      },
+      "test_availability": {
+        "spt": true,
+        "mast": true,
+        "immunocap": true
+      },
+      "clinical_significance": "high",
+      "cross_reactivity": ["ALG001", "ALG003"],
+      "typical_symptoms": [
+        "allergic_rhinitis",
+        "asthma",
+        "atopic_dermatitis"
+      ]
+    },
+    {
+      "id": "ALG003",
+      "canonical_name": "Cat dander",
+      "korean_name": "고양이 비듬",
+      "common_names": ["Cat epithelium", "Felis domesticus"],
+      "category": "animal",
+      "subcategory": "cat",
+      "coding": {
+        "snomed": "256259004",
+        "loinc": "6833-8",
+        "local": "ANI01"
+      },
+      "test_availability": {
+        "spt": true,
+        "mast": true,
+        "immunocap": true
+      },
+      "clinical_significance": "high",
+      "cross_reactivity": ["ALG004"],
+      "typical_symptoms": [
+        "allergic_rhinitis",
+        "allergic_conjunctivitis",
+        "asthma"
+      ]
+    },
+    {
+      "id": "ALG004",
+      "canonical_name": "Dog dander",
+      "korean_name": "개 비듬",
+      "common_names": ["Dog epithelium", "Canis familiaris"],
+      "category": "animal",
+      "subcategory": "dog",
+      "coding": {
+        "snomed": "313030008",
+        "loinc": "6098-4",
+        "local": "ANI02"
+      },
+      "test_availability": {
+        "spt": true,
+        "mast": true,
+        "immunocap": true
+      },
+      "clinical_significance": "moderate",
+      "cross_reactivity": ["ALG003"],
+      "typical_symptoms": [
+        "allergic_rhinitis",
+        "allergic_conjunctivitis"
+      ]
+    },
+    {
+      "id": "ALG005",
+      "canonical_name": "Birch pollen",
+      "korean_name": "자작나무 꽃가루",
+      "common_names": ["Betula verrucosa", "Silver birch"],
+      "category": "pollen",
+      "subcategory": "tree",
+      "coding": {
+        "snomed": "256277009",
+        "loinc": "15283-2",
+        "local": "POL01"
+      },
+      "test_availability": {
+        "spt": true,
+        "mast": true,
+        "immunocap": true
+      },
+      "clinical_significance": "moderate",
+      "cross_reactivity": ["ALG006", "ALG007"],
+      "typical_symptoms": [
+        "allergic_rhinitis",
+        "oral_allergy_syndrome"
+      ]
+    },
+    {
+      "id": "ALG006",
+      "canonical_name": "Oak pollen",
+      "korean_name": "참나무 꽃가루",
+      "common_names": ["Quercus alba", "White oak"],
+      "category": "pollen",
+      "subcategory": "tree",
+      "coding": {
+        "snomed": "256286003",
+        "loinc": "6189-1",
+        "local": "POL02"
+      },
+      "test_availability": {
+        "spt": true,
+        "mast": true,
+        "immunocap": false
+      },
+      "clinical_significance": "moderate",
+      "cross_reactivity": ["ALG005"],
+      "typical_symptoms": [
+        "allergic_rhinitis",
+        "allergic_conjunctivitis"
+      ]
+    },
+    {
+      "id": "ALG007",
+      "canonical_name": "Ragweed pollen",
+      "korean_name": "돼지풀 꽃가루",
+      "common_names": ["Ambrosia artemisiifolia", "Short ragweed"],
+      "category": "pollen",
+      "subcategory": "weed",
+      "coding": {
+        "snomed": "256307001",
+        "loinc": "6183-4",
+        "local": "POL03"
+      },
+      "test_availability": {
+        "spt": true,
+        "mast": true,
+        "immunocap": true
+      },
+      "clinical_significance": "high",
+      "cross_reactivity": [],
+      "typical_symptoms": [
+        "allergic_rhinitis",
+        "asthma"
+      ]
+    },
+    {
+      "id": "ALG008",
+      "canonical_name": "Aspergillus fumigatus",
+      "korean_name": "아스페르길루스 푸미가투스",
+      "common_names": ["A. fumigatus"],
+      "category": "mold",
+      "subcategory": "indoor",
+      "coding": {
+        "snomed": "419644008",
+        "loinc": "6025-7",
+        "local": "MLD01"
+      },
+      "test_availability": {
+        "spt": true,
+        "mast": true,
+        "immunocap": true
+      },
+      "clinical_significance": "high",
+      "cross_reactivity": ["ALG009"],
+      "typical_symptoms": [
+        "allergic_bronchopulmonary_aspergillosis",
+        "asthma"
+      ]
+    },
+    {
+      "id": "ALG009",
+      "canonical_name": "Alternaria alternata",
+      "korean_name": "알테르나리아 알터나타",
+      "common_names": ["A. alternata", "Alternaria tenuis"],
+      "category": "mold",
+      "subcategory": "outdoor",
+      "coding": {
+        "snomed": "419209009",
+        "loinc": "6020-8",
+        "local": "MLD02"
+      },
+      "test_availability": {
+        "spt": true,
+        "mast": true,
+        "immunocap": true
+      },
+      "clinical_significance": "moderate",
+      "cross_reactivity": ["ALG008"],
+      "typical_symptoms": [
+        "allergic_rhinitis",
+        "asthma"
+      ]
+    },
+    {
+      "id": "ALG010",
+      "canonical_name": "Egg white",
+      "korean_name": "계란 흰자",
+      "common_names": ["Hen's egg white", "Albumin"],
+      "category": "food",
+      "subcategory": "egg",
+      "coding": {
+        "snomed": "303299009",
+        "loinc": "6106-5",
+        "local": "FOD01"
+      },
+      "test_availability": {
+        "spt": true,
+        "mast": true,
+        "immunocap": true
+      },
+      "clinical_significance": "high",
+      "cross_reactivity": ["ALG011"],
+      "typical_symptoms": [
+        "urticaria",
+        "angioedema",
+        "gastrointestinal_symptoms"
+      ]
+    },
+    {
+      "id": "ALG011",
+      "canonical_name": "Egg yolk",
+      "korean_name": "계란 노른자",
+      "common_names": ["Hen's egg yolk"],
+      "category": "food",
+      "subcategory": "egg",
+      "coding": {
+        "snomed": "303300001",
+        "loinc": "6107-3",
+        "local": "FOD02"
+      },
+      "test_availability": {
+        "spt": true,
+        "mast": true,
+        "immunocap": true
+      },
+      "clinical_significance": "moderate",
+      "cross_reactivity": ["ALG010"],
+      "typical_symptoms": [
+        "urticaria",
+        "gastrointestinal_symptoms"
+      ]
+    },
+    {
+      "id": "ALG012",
+      "canonical_name": "Cow milk",
+      "korean_name": "우유",
+      "common_names": ["Milk", "Bos domesticus"],
+      "category": "food",
+      "subcategory": "dairy",
+      "coding": {
+        "snomed": "412071004",
+        "loinc": "6150-3",
+        "local": "FOD03"
+      },
+      "test_availability": {
+        "spt": true,
+        "mast": true,
+        "immunocap": true
+      },
+      "clinical_significance": "high",
+      "cross_reactivity": [],
+      "typical_symptoms": [
+        "gastrointestinal_symptoms",
+        "urticaria",
+        "anaphylaxis"
+      ]
+    },
+    {
+      "id": "ALG013",
+      "canonical_name": "Peanut",
+      "korean_name": "땅콩",
+      "common_names": ["Arachis hypogaea", "Groundnut"],
+      "category": "food",
+      "subcategory": "nuts",
+      "coding": {
+        "snomed": "412163001",
+        "loinc": "6206-3",
+        "local": "FOD04"
+      },
+      "test_availability": {
+        "spt": true,
+        "mast": true,
+        "immunocap": true
+      },
+      "clinical_significance": "very_high",
+      "cross_reactivity": ["ALG014"],
+      "typical_symptoms": [
+        "anaphylaxis",
+        "urticaria",
+        "angioedema"
+      ]
+    },
+    {
+      "id": "ALG014",
+      "canonical_name": "Tree nuts",
+      "korean_name": "견과류",
+      "common_names": ["Mixed tree nuts"],
+      "category": "food",
+      "subcategory": "nuts",
+      "coding": {
+        "snomed": "227493005",
+        "loinc": "6273-3",
+        "local": "FOD05"
+      },
+      "test_availability": {
+        "spt": true,
+        "mast": true,
+        "immunocap": true
+      },
+      "clinical_significance": "high",
+      "cross_reactivity": ["ALG013"],
+      "typical_symptoms": [
+        "anaphylaxis",
+        "urticaria"
+      ]
+    },
+    {
+      "id": "ALG015",
+      "canonical_name": "Shrimp",
+      "korean_name": "새우",
+      "common_names": ["Prawn", "Penaeus"],
+      "category": "food",
+      "subcategory": "seafood",
+      "coding": {
+        "snomed": "412238003",
+        "loinc": "6246-7",
+        "local": "FOD06"
+      },
+      "test_availability": {
+        "spt": true,
+        "mast": true,
+        "immunocap": true
+      },
+      "clinical_significance": "high",
+      "cross_reactivity": ["ALG016", "ALG017"],
+      "typical_symptoms": [
+        "anaphylaxis",
+        "urticaria",
+        "gastrointestinal_symptoms"
+      ]
+    },
+    {
+      "id": "ALG016",
+      "canonical_name": "Crab",
+      "korean_name": "게",
+      "common_names": ["Cancer pagurus"],
+      "category": "food",
+      "subcategory": "seafood",
+      "coding": {
+        "snomed": "412239006",
+        "loinc": "6089-3",
+        "local": "FOD07"
+      },
+      "test_availability": {
+        "spt": true,
+        "mast": true,
+        "immunocap": false
+      },
+      "clinical_significance": "high",
+      "cross_reactivity": ["ALG015", "ALG017"],
+      "typical_symptoms": [
+        "anaphylaxis",
+        "urticaria"
+      ]
+    },
+    {
+      "id": "ALG017",
+      "canonical_name": "Lobster",
+      "korean_name": "랍스터",
+      "common_names": ["Homarus gammarus"],
+      "category": "food",
+      "subcategory": "seafood",
+      "coding": {
+        "snomed": "735215001",
+        "loinc": "6149-5",
+        "local": "FOD08"
+      },
+      "test_availability": {
+        "spt": false,
+        "mast": true,
+        "immunocap": true
+      },
+      "clinical_significance": "moderate",
+      "cross_reactivity": ["ALG015", "ALG016"],
+      "typical_symptoms": [
+        "urticaria",
+        "gastrointestinal_symptoms"
+      ]
+    },
+    {
+      "id": "ALG018",
+      "canonical_name": "Bee venom",
+      "korean_name": "꿀벌 독",
+      "common_names": ["Apis mellifera", "Honey bee"],
+      "category": "insect",
+      "subcategory": "stinging",
+      "coding": {
+        "snomed": "288328004",
+        "loinc": "6844-5",
+        "local": "INS01"
+      },
+      "test_availability": {
+        "spt": true,
+        "mast": true,
+        "immunocap": true
+      },
+      "clinical_significance": "very_high",
+      "cross_reactivity": ["ALG019"],
+      "typical_symptoms": [
+        "anaphylaxis",
+        "local_swelling",
+        "systemic_reaction"
+      ]
+    },
+    {
+      "id": "ALG019",
+      "canonical_name": "Wasp venom",
+      "korean_name": "말벌 독",
+      "common_names": ["Vespula", "Yellow jacket"],
+      "category": "insect",
+      "subcategory": "stinging",
+      "coding": {
+        "snomed": "288340008",
+        "loinc": "6287-3",
+        "local": "INS02"
+      },
+      "test_availability": {
+        "spt": true,
+        "mast": true,
+        "immunocap": true
+      },
+      "clinical_significance": "very_high",
+      "cross_reactivity": ["ALG018"],
+      "typical_symptoms": [
+        "anaphylaxis",
+        "local_swelling",
+        "systemic_reaction"
+      ]
+    },
+    {
+      "id": "ALG020",
+      "canonical_name": "Cockroach",
+      "korean_name": "바퀴벌레",
+      "common_names": ["German cockroach", "Blattella germanica"],
+      "category": "insect",
+      "subcategory": "household",
+      "coding": {
+        "snomed": "710179004",
+        "loinc": "6085-1",
+        "local": "INS03"
+      },
+      "test_availability": {
+        "spt": true,
+        "mast": true,
+        "immunocap": true
+      },
+      "clinical_significance": "moderate",
+      "cross_reactivity": [],
+      "typical_symptoms": [
+        "allergic_rhinitis",
+        "asthma"
+      ]
+    }
+  ],
+  "symptom_codes": {
+    "allergic_rhinitis": {
+      "snomed": "61582004",
+      "display": "Allergic rhinitis"
+    },
+    "asthma": {
+      "snomed": "195967001",
+      "display": "Asthma"
+    },
+    "atopic_dermatitis": {
+      "snomed": "24079001",
+      "display": "Atopic dermatitis"
+    },
+    "allergic_conjunctivitis": {
+      "snomed": "231855003",
+      "display": "Allergic conjunctivitis"
+    },
+    "urticaria": {
+      "snomed": "126485001",
+      "display": "Urticaria"
+    },
+    "angioedema": {
+      "snomed": "41291007",
+      "display": "Angioedema"
+    },
+    "anaphylaxis": {
+      "snomed": "39579001",
+      "display": "Anaphylaxis"
+    },
+    "gastrointestinal_symptoms": {
+      "snomed": "300306001",
+      "display": "Gastrointestinal symptom"
+    },
+    "oral_allergy_syndrome": {
+      "snomed": "420174000",
+      "display": "Oral allergy syndrome"
+    },
+    "local_swelling": {
+      "snomed": "65124004",
+      "display": "Swelling"
+    },
+    "systemic_reaction": {
+      "snomed": "293104008",
+      "display": "Systemic allergic reaction"
+    },
+    "allergic_bronchopulmonary_aspergillosis": {
+      "snomed": "48116003",
+      "display": "Allergic bronchopulmonary aspergillosis"
+    }
+  },
+  "metadata": {
+    "sources": [
+      "WHO/IUIS Allergen Nomenclature",
+      "SNOMED CT International",
+      "Korean Society of Allergy",
+      "EAACI Guidelines 2024"
+    ],
+    "validation_date": "2025-10-01",
+    "next_review_date": "2026-01-01"
+  }
+}

@@ -1,0 +1,22 @@
+# Core dependencies - minimal versions for Python 3.13 compatibility
+openai
+streamlit
+python-dotenv
+
+# Image processing
+Pillow
+
+# Data processing
+pandas
+numpy
+pydantic
+pydantic-settings
+
+# PDF generation
+markdown
+reportlab
+
+# Additional utilities
+httpx
+aiofiles
+python-dateutil

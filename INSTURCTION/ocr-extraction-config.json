@@ -1,0 +1,66 @@
+{
+  "version": "2.0",
+  "updated": "2025-10-12",
+  "ocr_settings": {
+    "supported_test_types": ["SPT", "MAST", "UniCAP", "ImmunoCAP"],
+    "confidence_threshold": 0.8,
+    "language_detection": ["ko", "en"],
+    "output_format": "structured_json"
+  },
+  "extraction_rules": {
+    "spt_specific": {
+      "positive_criteria": {
+        "absolute": "mean_diameter >= 3.0mm",
+        "relative": "mean_diameter >= (histamine_control * 0.5)"
+      },
+      "control_detection": {
+        "positive_control": ["histamine", "히스타민"],
+        "negative_control": ["saline", "생리식염수", "음성대조"]
+      }
+    },
+    "mast_specific": {
+      "positive_criteria": {
+        "class_based": "class >= 1",
+        "value_based": "value >= 0.35 kU/L"
+      },
+      "unit_mapping": {
+        "kU/L": "kilounits per liter",
+        "IU/mL": "international units per milliliter"
+      }
+    }
+  },
+  "allergen_categories": {
+    "mite": {
+      "keywords": ["dermatophagoides", "진드기", "dust mite"],
+      "subcategories": ["house dust mite", "storage mite"]
+    },
+    "pollen": {
+      "keywords": ["pollen", "꽃가루", "화분"],
+      "subcategories": ["tree", "grass", "weed"]
+    },
+    "mold": {
+      "keywords": ["aspergillus", "alternaria", "곰팡이", "진균"],
+      "subcategories": ["indoor", "outdoor"]
+    },
+    "animal": {
+      "keywords": ["dander", "epithelium", "비듬", "털"],
+      "subcategories": ["cat", "dog", "rodent", "bird"]
+    },
+    "food": {
+      "keywords": ["egg", "milk", "peanut", "계란", "우유", "땅콩"],
+      "subcategories": ["nuts", "seafood", "grains", "fruits"]
+    },
+    "insect": {
+      "keywords": ["venom", "cockroach", "벌", "바퀴벌레"],
+      "subcategories": ["stinging", "biting", "household"]
+    }
+  },
+  "quality_checks": {
+    "required_fields": ["allergen_name", "test_result"],
+    "validation_rules": {
+      "numeric_values": "must be parseable as float",
+      "date_format": "YYYY-MM-DD",
+      "allergen_names": "must match known allergen database"
+    }
+  }
+}

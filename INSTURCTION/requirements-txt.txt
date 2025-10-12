@@ -1,0 +1,45 @@
+# Core OCR and Image Processing
+pytesseract>=0.3.10
+Pillow>=10.0.0
+
+# Data Processing
+numpy>=1.24.0
+pandas>=2.0.0
+
+# Web Requests
+requests>=2.31.0
+
+# JSON and YAML Processing
+pyyaml>=6.0
+
+# Optional: Google Cloud Vision API
+# Uncomment if using Google Vision
+# google-cloud-vision>=3.4.0
+
+# Optional: Azure Computer Vision
+# Uncomment if using Azure
+# azure-cognitiveservices-vision-computervision>=0.9.0
+
+# Optional: AWS Textract
+# Uncomment if using AWS
+# boto3>=1.28.0
+
+# Optional: Advanced OCR with EasyOCR
+# Uncomment for better multilingual support
+# easyocr>=1.7.0
+
+# Optional: Web API Framework
+# Uncomment if building API server
+# flask>=3.0.0
+# fastapi>=0.104.0
+# uvicorn>=0.24.0
+
+# Development and Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+black>=23.9.0
+flake8>=6.1.0
+
+# Logging and Monitoring
+python-dotenv>=1.0.0
+colorlog>=6.7.0
