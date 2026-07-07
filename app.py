@@ -188,6 +188,7 @@ with tabs[0]:
         pos0 = sum(1 for r in ocr_result.results if rs._is_positive(r, ocr_result.test_type))
         c3.metric("양성(자동판정)", pos0)
 
+        _table_columns = ["No.", "알러젠", "한글명", "수치", "단위", "Class", "판정"]
         rows = []
         for r in ocr_result.results:
             value = r.value if r.value is not None else r.mean_mm
@@ -197,19 +198,25 @@ with tabs[0]:
                 "Class": str(r.class_value) if r.class_value is not None else "",
                 "판정": "양성" if rs._is_positive(r, ocr_result.test_type) else "음성",
             })
-        df = pd.DataFrame(rows)
-        edited_df = st.data_editor(
-            df, use_container_width=True, hide_index=True, num_rows="fixed",
-            column_config={
-                "No.": st.column_config.NumberColumn("No.", disabled=True),
-                "수치": st.column_config.NumberColumn("수치", format="%.2f"),
-                "판정": st.column_config.SelectboxColumn("판정", options=["양성", "음성"], required=True),
-            },
-        )
-        pos_rows = edited_df[edited_df["판정"] == "양성"]
-        if not pos_rows.empty:
-            st.warning(f"🔴 양성 알러젠 {len(pos_rows)}개: " +
-                       ", ".join(f"{row['알러젠']}" for _, row in pos_rows.iterrows()))
+
+        if not rows:
+            st.error("⚠️ OCR이 이미지에서 알러젠 항목을 하나도 인식하지 못했습니다. "
+                     "이미지가 선명한지, 표 전체가 잘리지 않고 보이는지 확인 후 1단계에서 다시 업로드해주세요.")
+            edited_df = pd.DataFrame(columns=_table_columns)
+        else:
+            df = pd.DataFrame(rows, columns=_table_columns)
+            edited_df = st.data_editor(
+                df, use_container_width=True, hide_index=True, num_rows="fixed",
+                column_config={
+                    "No.": st.column_config.NumberColumn("No.", disabled=True),
+                    "수치": st.column_config.NumberColumn("수치", format="%.2f"),
+                    "판정": st.column_config.SelectboxColumn("판정", options=["양성", "음성"], required=True),
+                },
+            )
+            pos_rows = edited_df[edited_df["판정"] == "양성"]
+            if not pos_rows.empty:
+                st.warning(f"🔴 양성 알러젠 {len(pos_rows)}개: " +
+                           ", ".join(f"{row['알러젠']}" for _, row in pos_rows.iterrows()))
 
         cc1, cc2 = st.columns(2)
         with cc1:
@@ -217,7 +224,8 @@ with tabs[0]:
                 st.session_state.edited_ocr_result = None
                 st.rerun()
         with cc2:
-            if st.button("✅ 확정하고 다음 단계로", type="primary", use_container_width=True):
+            if st.button("✅ 확정하고 다음 단계로", type="primary", use_container_width=True,
+                         disabled=not rows):
                 from copy import deepcopy
                 edited = deepcopy(ocr_result)
                 edited.test_type = TestType(selected_test_type)
