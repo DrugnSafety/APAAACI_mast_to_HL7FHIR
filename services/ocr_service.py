@@ -60,7 +60,7 @@ class OCRService:
         """기본 OCR 프롬프트 반환"""
         return """Extract allergy test results from this image and return JSON with the following structure:
         {
-            "test_type": "SPT or MAST",
+            "test_type": "SPT, MAST, or UniCAP",
             "patient": {
                 "name": "patient name or null",
                 "test_date": "YYYY-MM-DD or null"
@@ -72,20 +72,29 @@ class OCRService:
                     "size_text": "for SPT: original size text like '12.5x12' or null",
                     "mean_mm": "for SPT: average of two dimensions in mm (e.g., (12.5+12)/2 = 12.25)",
                     "value": "numeric value",
-                    "unit": "unit (mm for SPT, kU/L for MAST)",
-                    "class": "for MAST: class value or null",
+                    "unit": "unit (mm for SPT, kU/L for MAST/UniCAP)",
+                    "class": "for MAST/UniCAP: class value (0-6) or null",
                     "interpretation": "Positive or Negative"
                 }
             ]
         }
-        
+
+        Determine test_type from the report:
+        - "SPT" / "Skin Prick" / "피부단자검사" -> SPT (wheal size in mm)
+        - "MAST" / "AdvanSure" / "Allergy screen" panels -> MAST (specific IgE, class + kU/L)
+        - "UniCAP" / "ImmunoCAP" / "specific IgE (kU/L)" quantitative single-allergen reports -> UniCAP
+
         IMPORTANT for SPT (Skin Prick Test):
         - If size is written as "12.5x12" or "12.5×12", extract as size_text: "12.5x12"
         - Calculate mean_mm as the average: (12.5 + 12) / 2 = 12.25
         - Set value = mean_mm
         - Set unit = "mm"
         - Positive if mean_mm >= 3.0
-        
+
+        IMPORTANT for MAST / UniCAP (specific IgE):
+        - value = numeric IgE concentration in kU/L (e.g., 3.52); unit = "kU/L"
+        - class = reported class 0-6 if shown; Positive if class >= 1 or value >= 0.35 kU/L
+
         Extract all allergens visible in the image."""
     
     def _encode_image(self, image_source: Union[str, Path, Image.Image, bytes]) -> str:
@@ -350,9 +359,14 @@ class OCRService:
                 logger.warning("OCR 응답이 딕셔너리가 아님, 기본값 사용")
                 data = {}
             
-            # TestType 파싱
+            # TestType 파싱 (SPT / MAST / UniCAP)
             test_type_str = str(data.get('test_type', 'SPT')).upper()
-            test_type = TestType.SPT if 'SPT' in test_type_str else TestType.MAST
+            if 'SPT' in test_type_str or 'PRICK' in test_type_str or '피부' in test_type_str:
+                test_type = TestType.SPT
+            elif 'UNICAP' in test_type_str or 'IMMUNOCAP' in test_type_str or 'CAP' in test_type_str:
+                test_type = TestType.UNICAP
+            else:
+                test_type = TestType.MAST
             
             # PatientInfo 파싱
             patient_data = data.get('patient', {})
@@ -422,7 +436,7 @@ class OCRService:
                         size_text=size_text,
                         mean_mm=mean_mm,
                         value=value,
-                        unit=item.get('unit', 'kU/L' if test_type == TestType.MAST else 'mm'),
+                        unit=item.get('unit', 'mm' if test_type == TestType.SPT else 'kU/L'),
                         class_value=item.get('class') or item.get('class_value'),
                         interpretation=interpretation
                     )

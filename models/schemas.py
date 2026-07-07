@@ -13,8 +13,9 @@ from enum import Enum
 
 class TestType(str, Enum):
     """검사 종류"""
-    SPT = "SPT"
-    MAST = "MAST"
+    SPT = "SPT"       # 피부단자검사 (Skin Prick Test), 팽진 크기 mm
+    MAST = "MAST"     # 다중 알레르겐 동시검사, 특이 IgE (class / kU/L)
+    UNICAP = "UniCAP"  # ImmunoCAP 정량 특이 IgE (kU/L), MAST 와 동일하게 해석
 
 
 class InterpretationType(str, Enum):
@@ -448,8 +449,8 @@ def determine_interpretation(
         else:
             return InterpretationType.NEGATIVE
     
-    elif test_type == TestType.MAST:
-        # MAST 양성 기준: Class 1 이상 또는 0.35 kU/L 이상
+    elif test_type in (TestType.MAST, TestType.UNICAP):
+        # MAST/UniCAP 양성 기준: Class 1 이상 또는 0.35 kU/L 이상
         if class_value:
             if isinstance(class_value, int) and class_value >= 1:
                 return InterpretationType.POSITIVE

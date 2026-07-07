@@ -108,7 +108,7 @@ class RelevanceService:
             except (ValueError, TypeError):
                 pass
         # MAST/UniCAP 정량값 (kU/L)
-        if test_type == TestType.MAST and value is not None:
+        if test_type in (TestType.MAST, TestType.UNICAP) and value is not None:
             if value < 0.35:
                 return None
             if value < 3.5:
@@ -174,7 +174,7 @@ class RelevanceService:
                 korean_name=r.korean_name or kb.get("korean_name"),
                 category=normalize_category(kb.get("category")),
                 test_value=r.value if r.value is not None else r.mean_mm,
-                test_unit=r.unit or ("mm" if ocr_result.test_type == TestType.SPT else None),
+                test_unit=r.unit or ("mm" if ocr_result.test_type == TestType.SPT else "kU/L"),
                 class_value=r.class_value,
                 strength=strength,
                 kb=kb,

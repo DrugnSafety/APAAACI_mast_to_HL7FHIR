@@ -178,7 +178,11 @@ with tabs[0]:
         ocr_result = st.session_state.edited_ocr_result or st.session_state.ocr_result
 
         c1, c2, c3 = st.columns(3)
-        c1.metric("검사 종류", ocr_result.test_type.value)
+        _tt_options = [t.value for t in TestType]
+        _tt_index = _tt_options.index(ocr_result.test_type.value) if ocr_result.test_type.value in _tt_options else 0
+        selected_test_type = c1.selectbox(
+            "검사 종류", _tt_options, index=_tt_index,
+            help="OCR이 검사 종류를 잘못 인식했다면 여기서 바로잡으세요. (SPT=팽진 mm, MAST/UniCAP=특이 IgE kU/L)")
         c2.metric("추출 항목", len(ocr_result.results))
         rs = get_relevance_service()
         pos0 = sum(1 for r in ocr_result.results if rs._is_positive(r, ocr_result.test_type))
@@ -216,6 +220,7 @@ with tabs[0]:
             if st.button("✅ 확정하고 다음 단계로", type="primary", use_container_width=True):
                 from copy import deepcopy
                 edited = deepcopy(ocr_result)
+                edited.test_type = TestType(selected_test_type)
                 for idx, row in edited_df.iterrows():
                     if idx < len(edited.results):
                         edited.results[idx].allergen_name = row["알러젠"]

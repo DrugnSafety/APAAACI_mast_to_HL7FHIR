@@ -93,8 +93,8 @@ class FHIRService:
                     "code": "mm"
                 }
                 
-            elif test_type == TestType.MAST and allergen_result.value is not None:
-                # MAST 결과: IgE value in kU/L
+            elif test_type in (TestType.MAST, TestType.UNICAP) and allergen_result.value is not None:
+                # MAST/UniCAP 결과: IgE value in kU/L
                 observation["valueQuantity"] = {
                     "value": allergen_result.value,
                     "unit": allergen_result.unit or "kU/L",

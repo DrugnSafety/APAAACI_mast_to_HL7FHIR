@@ -113,6 +113,38 @@ def test_screening_antihistamine_flag():
     print("✓ screening antihistamine SPT-false-negative flag")
 
 
+def test_unicap_pipeline():
+    """UniCAP(ImmunoCAP) 결과가 MAST 와 동일하게 특이 IgE(kU/L)로 해석되는지"""
+    from models.schemas import determine_interpretation
+    from services.fhir_service import FHIRService
+    rs = get_relevance_service()
+    ocr = OCRResult(
+        test_type=TestType.UNICAP,
+        patient=PatientInfo(name="유니캡", age=28, gender="M", test_date="2026-06-10"),
+        results=[
+            AllergenResult(index=1, raw_text="Der f 3.52", allergen_name="Dermatophagoides farinae",
+                           korean_name="집먼지진드기", value=3.52, unit="kU/L", class_value=3),
+            AllergenResult(index=2, raw_text="Cat 0.12", allergen_name="Cat dander",
+                           korean_name="고양이", value=0.12, unit="kU/L", class_value=0),
+        ],
+    )
+    # 양성 판정: ≥0.35 kU/L
+    assert determine_interpretation(TestType.UNICAP, value=3.52) == InterpretationType.POSITIVE
+    assert determine_interpretation(TestType.UNICAP, value=0.12) == InterpretationType.NEGATIVE
+    # 양성만 평가 대상
+    res = rs.build_assessments(ocr, None)
+    names = [a.allergen_name for a in res.assessments]
+    assert names == ["Dermatophagoides farinae"], f"UniCAP 양성 필터 실패: {names}"
+    assert res.assessments[0].test_unit == "kU/L"
+    assert rs.compute_strength(TestType.UNICAP, None, 3.52, 3) == "moderate"
+    # FHIR: 특이 IgE 코드 + kU/L
+    obs = FHIRService().create_observation(ocr.results[0], patient_id="p1",
+                                           test_type=TestType.UNICAP, test_date="2026-06-10")
+    assert obs["code"]["coding"][0]["display"] == "Specific IgE measurement"
+    assert obs["valueQuantity"]["unit"] == "kU/L"
+    print("✓ UniCAP handled as specific-IgE (parse/positivity/strength/FHIR)")
+
+
 def test_cardnews_and_report():
     from services.cardnews_service import get_cardnews_service
     from services.report_service import ReportService
