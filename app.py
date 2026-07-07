@@ -1,880 +1,589 @@
 """
-Allergy Test Analysis System - Streamlit Main Application
-알레르기 검사 자동 분석 및 FHIR 변환 시스템
+알레르기 검사결과 환자용 리포트 플랫폼 - Streamlit 메인 애플리케이션
+
+흐름:
+  1) 검사지 업로드 & OCR + OCR 점검/수정
+  2) 환자 정보 & 스크리닝 문진 (알레르기 질환력·약제·증상 패턴/침범 장기)
+  3) 양성 알러젠 backdata + 임상적 의미 감별 (감작 vs 실제 알레르기)
+  4) 환자 맞춤 리포트 & 카드뉴스
+  5) HL7 FHIR 표준 변환 (Observation / AllergyIntolerance)
 """
 
-import streamlit as st
 import json
-import base64
-from pathlib import Path
-from datetime import datetime
-from PIL import Image
-import io
 import logging
-import pandas as pd
+from datetime import datetime
 
-# 서비스 임포트
+import pandas as pd
+import streamlit as st
+import streamlit.components.v1 as components
+from PIL import Image
+
 from config.settings import settings
+from models.schemas import (
+    TestType, InterpretationType, ScreeningProfile, SymptomSeasonPattern,
+    ClinicalRelevance, SymptomFeedback,
+)
 from services.ocr_service import get_ocr_service
 from services.fhir_service import get_fhir_service
-from services.chatbot_service import get_chatbot_service
 from services.report_service import get_report_service
-from models.schemas import ProcessingStep, ProcessingStatus, SymptomFeedback, PatientInfo, AllergenResult, InterpretationType, TestType
+from services.knowledge_service import get_knowledge_service
+from services.relevance_service import (
+    get_relevance_service, ANSWER_OPTIONS, ANSWER_LABELS_KO,
+)
+from services.screening_service import (
+    get_screening_service, MONTH_LABELS_KO, SEASON_PATTERN_LABELS_KO,
+)
+from services.cardnews_service import get_cardnews_service
 from utils.file_manager import get_file_manager
 from utils.pdf_generator import PDFGenerator
 
-# 로깅 설정
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# =============== 페이지 설정 ===============
-st.set_page_config(
-    page_title="Allergy Test Analysis System",
-    page_icon="🏥",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+st.set_page_config(page_title="알레르기 검사결과 환자 리포트", page_icon="🌿",
+                   layout="wide", initial_sidebar_state="expanded")
 
-# =============== 세션 상태 초기화 ===============
-if 'current_step' not in st.session_state:
-    st.session_state.current_step = 0
-if 'ocr_result' not in st.session_state:
-    st.session_state.ocr_result = None
-if 'edited_ocr_result' not in st.session_state:
-    st.session_state.edited_ocr_result = None
-if 'patient_info' not in st.session_state:
-    st.session_state.patient_info = {}
-if 'chat_session' not in st.session_state:
-    st.session_state.chat_session = None
-if 'symptom_feedback' not in st.session_state:
-    st.session_state.symptom_feedback = None
-if 'fhir_observation' not in st.session_state:
-    st.session_state.fhir_observation = None
-if 'fhir_allergy' not in st.session_state:
-    st.session_state.fhir_allergy = None
-if 'report' not in st.session_state:
-    st.session_state.report = None
-if 'uploaded_image' not in st.session_state:
-    st.session_state.uploaded_image = None
-if 'chat_messages' not in st.session_state:
-    st.session_state.chat_messages = []
+# ---------------- 세션 상태 ----------------
+_DEFAULTS = {
+    "current_step": 0,
+    "uploaded_image": None,
+    "ocr_result": None,
+    "edited_ocr_result": None,
+    "patient_info": {},
+    "screening": None,
+    "relevance_result": None,
+    "patient_report": None,
+    "cardnews_html": None,
+    "fhir_observation": None,
+    "fhir_allergy": None,
+}
+for k, v in _DEFAULTS.items():
+    if k not in st.session_state:
+        st.session_state[k] = v
 
-# =============== 스타일 설정 ===============
+CATEGORY_KO = {
+    "mite": "🛏️ 집먼지진드기", "animal": "🐾 동물", "pollen_tree": "🌳 나무 꽃가루",
+    "pollen_grass": "🌾 잔디 꽃가루", "pollen_weed": "🍂 잡초 꽃가루", "mold": "🍄 곰팡이",
+    "insect": "🪳 곤충", "food": "🍽️ 음식", "other": "📌 기타",
+}
+RELEVANCE_META = {
+    ClinicalRelevance.CLINICALLY_RELEVANT: ("🔴 실제 주의", "#d1373a"),
+    ClinicalRelevance.SENSITIZED_ONLY: ("⚪ 감작만", "#5a6472"),
+    ClinicalRelevance.INDETERMINATE: ("🟡 관찰 필요", "#b6842a"),
+    ClinicalRelevance.NOT_ASSESSED: ("⬜ 미평가", "#999999"),
+}
+
+# ---------------- 스타일 ----------------
 st.markdown("""
 <style>
-    .main-header {
-        text-align: center;
-        padding: 2rem;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-radius: 10px;
-        margin-bottom: 2rem;
-    }
-    .step-indicator {
-        display: flex;
-        justify-content: space-between;
-        margin: 2rem 0;
-    }
-    .step {
-        flex: 1;
-        text-align: center;
-        padding: 1rem;
-        border: 2px solid #e0e0e0;
-        border-radius: 5px;
-        margin: 0 0.5rem;
-    }
-    .step.active {
-        background-color: #667eea;
-        color: white;
-        border-color: #667eea;
-    }
-    .step.completed {
-        background-color: #48bb78;
-        color: white;
-        border-color: #48bb78;
-    }
-    .chat-message {
-        padding: 1rem;
-        margin: 0.5rem 0;
-        border-radius: 10px;
-    }
-    .user-message {
-        background-color: #e3f2fd;
-        text-align: right;
-    }
-    .assistant-message {
-        background-color: #f5f5f5;
-    }
-    .stTabs [data-baseweb="tab-list"] button[aria-selected="true"] {
-        background-color: #667eea;
-        color: white;
-    }
+.main-header{text-align:center;padding:1.6rem;background:linear-gradient(135deg,#5b6ff0 0%,#8a4dd6 100%);
+color:#fff;border-radius:12px;margin-bottom:1.2rem;}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;color:#fff;}
 </style>
 """, unsafe_allow_html=True)
 
-# =============== 헤더 ===============
 st.markdown("""
 <div class="main-header">
-    <h1>🏥 Allergy Test Analysis System</h1>
-    <p>AI-powered OCR Analysis and FHIR Standard Conversion</p>
+  <h1>🌿 알레르기 검사결과 환자용 리포트</h1>
+  <p>검사 양성이 곧 알레르기는 아닙니다 — 실제 증상과 연결해 드립니다</p>
 </div>
 """, unsafe_allow_html=True)
 
-# =============== 사이드바 ===============
+
+def _api_ready():
+    key = st.session_state.get("api_key")
+    return key and key != "your_openai_api_key_here"
+
+
+# ---------------- 사이드바 ----------------
 with st.sidebar:
-    st.header("⚙️ Settings")
-    
-    # 세션 상태에 API 키 저장
-    if 'api_key' not in st.session_state:
+    st.header("⚙️ 설정")
+    if "api_key" not in st.session_state:
         st.session_state.api_key = settings.openai_api_key
-    
-    # API 키 확인
-    api_key_status = "✅ Configured" if st.session_state.api_key and st.session_state.api_key != "your_openai_api_key_here" else "❌ Not configured"
-    st.info(f"OpenAI API Key: {api_key_status}")
-    
-    # API 키 입력 필드
-    api_key_input = st.text_input(
-        "Enter OpenAI API Key", 
-        value=st.session_state.api_key if st.session_state.api_key and st.session_state.api_key != "your_openai_api_key_here" else "",
-        type="password",
-        help="Enter your API key starting with sk-"
-    )
-    
+    status = "✅ 설정됨" if _api_ready() else "❌ 미설정"
+    st.info(f"OpenAI API Key: {status}")
+    api_key_input = st.text_input("OpenAI API Key 입력", type="password",
+                                  value=st.session_state.api_key if _api_ready() else "",
+                                  help="OCR 및 리포트 생성에 사용됩니다 (sk-...)")
     if api_key_input and api_key_input != st.session_state.api_key:
         st.session_state.api_key = api_key_input
         settings.openai_api_key = api_key_input
-        st.success("✅ API key has been configured!")
-        st.rerun()
-    
-    st.markdown("---")
-    
-    # 진행 단계 표시
-    st.header("📊 Progress")
-    steps = [
-        "1️⃣ Image Upload & OCR",
-        "2️⃣ OCR Result Review/Edit",
-        "3️⃣ Patient Information",
-        "4️⃣ Symptom Feedback",
-        "5️⃣ FHIR Generation",
-        "6️⃣ Report Generation"
-    ]
-    
-    for idx, step_name in enumerate(steps):
-        if idx < st.session_state.current_step:
-            st.write(f"✅ ~~{step_name}~~")
-        elif idx == st.session_state.current_step:
-            st.write(f"▶️ **{step_name}**")
-        else:
-            st.write(f"⏸️ {step_name}")
-    
-    st.markdown("---")
-    
-    # 리셋 버튼
-    if st.button("🔄 Start Over", type="secondary", use_container_width=True):
-        for key in ['current_step', 'ocr_result', 'edited_ocr_result', 'patient_info', 'chat_session', 
-                   'symptom_feedback', 'fhir_observation', 'fhir_allergy', 'report', 
-                   'uploaded_image', 'chat_messages']:
-            if key in st.session_state:
-                st.session_state[key] = None if key != 'current_step' else 0
-                if key == 'patient_info':
-                    st.session_state[key] = {}
-                elif key == 'chat_messages':
-                    st.session_state[key] = []
+        st.success("API 키가 설정되었습니다!")
         st.rerun()
 
-# =============== 메인 컨텐츠 ===============
-# 탭 생성
-tab_titles = ["1️⃣ OCR Analysis", "2️⃣ Result Review", "3️⃣ Patient Info", "4️⃣ Symptom Feedback", "5️⃣ FHIR Generation", "6️⃣ Report"]
+    st.markdown("---")
+    st.header("📊 진행 단계")
+    steps = ["1️⃣ 검사지 업로드 & OCR", "2️⃣ 환자정보 & 스크리닝",
+             "3️⃣ 양성 알러젠 감별", "4️⃣ 리포트 & 카드뉴스", "5️⃣ FHIR 변환"]
+    for idx, name in enumerate(steps):
+        if idx < st.session_state.current_step:
+            st.write(f"✅ ~~{name}~~")
+        elif idx == st.session_state.current_step:
+            st.write(f"▶️ **{name}**")
+        else:
+            st.write(f"⏸️ {name}")
+
+    st.markdown("---")
+    kb = get_knowledge_service()
+    st.caption(f"📚 알러젠 지식베이스: {kb.stats()['total']}종 (v{kb.stats().get('version')})")
+    if st.button("🔄 처음부터 다시", use_container_width=True):
+        for k, v in _DEFAULTS.items():
+            st.session_state[k] = v.copy() if isinstance(v, dict) else v
+        st.rerun()
+
+tab_titles = ["1️⃣ 업로드 & OCR", "2️⃣ 환자정보 & 스크리닝",
+              "3️⃣ 양성 알러젠 감별", "4️⃣ 리포트 & 카드뉴스", "5️⃣ FHIR"]
 tabs = st.tabs(tab_titles)
 
-# =============== Tab 1: OCR 분석 ===============
+
+# =====================================================================
+# Step 1: 업로드 & OCR + 점검
+# =====================================================================
 with tabs[0]:
-    st.header("📷 Step 1: Image Upload and OCR Analysis")
-    
+    st.header("📷 1단계. 검사지 업로드 및 OCR")
     col1, col2 = st.columns([2, 1])
-    
     with col1:
-        uploaded_file = st.file_uploader(
-            "Select allergy test result image",
-            type=['png', 'jpg', 'jpeg'],
-            help="SPT (Skin Prick Test) or MAST/UniCAP test result image"
-        )
-        
+        uploaded_file = st.file_uploader("알레르기 검사 결과지 이미지",
+                                         type=["png", "jpg", "jpeg"],
+                                         help="피부반응검사(SPT), MAST, UniCAP 결과지")
         if uploaded_file is not None:
-            # 이미지 표시
             image = Image.open(uploaded_file)
             st.session_state.uploaded_image = image
-            st.image(image, caption="Uploaded Image", use_container_width=True)
-            
-            # OCR 분석 버튼
-            if st.button("🚀 Start OCR Analysis", type="primary", use_container_width=True):
-                # API 키 확인
-                if not st.session_state.get('api_key') or st.session_state.api_key == "your_openai_api_key_here":
-                    st.error("⚠️ Please set your OpenAI API key first!")
+            st.image(image, caption="업로드된 검사지", use_container_width=True)
+            if st.button("🚀 OCR 분석 시작", type="primary", use_container_width=True):
+                if not _api_ready():
+                    st.error("먼저 OpenAI API 키를 설정해주세요.")
                     st.stop()
-                
-                with st.spinner("Analyzing image..."):
+                with st.spinner("이미지에서 검사 결과를 추출하는 중..."):
                     try:
-                        # OCR 서비스 호출
-                        ocr_service = get_ocr_service(api_key=st.session_state.api_key)
-                        ocr_result = ocr_service.extract_from_image(image)
-                        
-                        # 결과 저장
-                        st.session_state.ocr_result = ocr_result
-                        st.session_state.edited_ocr_result = None  # 수정된 결과 초기화
-                        st.success("✅ OCR analysis completed!")
-                        st.session_state.current_step = 1
+                        ocr = get_ocr_service(api_key=st.session_state.api_key)
+                        st.session_state.ocr_result = ocr.extract_from_image(image)
+                        st.session_state.edited_ocr_result = None
+                        st.success("OCR 분석 완료! 아래에서 결과를 점검해주세요.")
+                        if st.session_state.current_step < 1:
+                            st.session_state.current_step = 1
                         st.rerun()
-                    
                     except Exception as e:
-                        st.error(f"Error during OCR analysis: {e}")
+                        st.error(f"OCR 분석 오류: {e}")
                         logger.error(f"OCR error: {e}")
-    
     with col2:
-        st.info("""
-        **Supported Formats:**
-        - SPT (Skin Prick Test)
-        - MAST/UniCAP (Serum Specific IgE)
-        
-        **Recommendations:**
-        - Clear image quality
-        - Full table visible
-        - 1MB ~ 10MB size
-        """)
+        st.info("**지원 검사**\n- 피부반응검사(SPT)\n- MAST (혈청 특이 IgE)\n- UniCAP/ImmunoCAP\n\n"
+                "**권장**\n- 표 전체가 선명하게 보이는 이미지\n- 1~10MB")
 
-# =============== Tab 2: OCR 결과 검토 및 수정 ===============
-with tabs[1]:
-    st.header("📝 Step 2: OCR Result Review and Edit")
-    
-    if not st.session_state.ocr_result:
-        st.warning("Please complete OCR analysis first.")
-    else:
+    # OCR 점검/수정
+    if st.session_state.ocr_result:
+        st.markdown("---")
+        st.subheader("🔍 OCR 결과 점검 및 수정")
+        st.caption("OCR이 잘못 읽은 값이 있으면 아래 표에서 직접 수정하세요. 양성/음성 판정도 조정할 수 있습니다.")
         ocr_result = st.session_state.edited_ocr_result or st.session_state.ocr_result
-        
-        # 기본 정보 표시
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.metric("Test Type", ocr_result.test_type.value)
-        with col2:
-            st.metric("Extracted Items", len(ocr_result.results))
-        with col3:
-            positive_count = sum(1 for r in ocr_result.results 
-                               if r.interpretation and str(r.interpretation).lower() in ['positive', 'p'])
-            st.metric("Positive Items", positive_count)
-        
-        st.markdown("### 🔍 Test Result Edit")
-        st.info("You can edit incorrectly recognized data in the table below.")
-        
-        # 결과를 수정 가능한 데이터프레임으로 변환
-        if ocr_result.results:
-            results_data = []
-            for r in ocr_result.results:
-                # 수치 값 결정
-                value = r.value or r.mean_mm or 0.0
-                
-                # 판정 기준 적용
-                # SPT: mean_mm 또는 value >= 3.0이면 양성
-                # MAST: class >= 1 또는 value >= 0.35면 양성
-                if ocr_result.test_type == TestType.SPT:
-                    is_positive = value >= 3.0
-                elif ocr_result.test_type == TestType.MAST:
-                    # MAST의 경우 class 값이나 value로 판정
-                    class_val = r.class_value
-                    is_positive = False
-                    if class_val:
-                        try:
-                            is_positive = int(class_val) >= 1
-                        except:
-                            pass
-                    if not is_positive and value >= 0.35:
-                        is_positive = True
-                else:
-                    # 기존 interpretation 사용
-                    is_positive = r.interpretation and str(r.interpretation).lower() in ['positive', 'p']
-                
-                results_data.append({
-                    "No.": r.index,
-                    "Allergen": r.allergen_name,
-                    "Korean Name": r.korean_name or "",
-                    "Value": value,
-                    "Unit": r.unit or "",
-                    "Result": "Positive" if is_positive else "Negative"
-                })
-            
-            # 수정 가능한 데이터프레임 생성
-            df = pd.DataFrame(results_data)
-            
-            # 데이터 에디터로 수정 가능하게
-            edited_df = st.data_editor(
-                df,
-                use_container_width=True,
-                hide_index=True,
-                column_config={
-                    "No.": st.column_config.NumberColumn("No.", disabled=True),
-                    "Allergen": st.column_config.TextColumn("Allergen"),
-                    "Korean Name": st.column_config.TextColumn("Korean Name"),
-                    "Value": st.column_config.NumberColumn("Value", format="%.2f"),
-                    "Unit": st.column_config.TextColumn("Unit"),
-                    "Result": st.column_config.SelectboxColumn(
-                        "Result",
-                        options=["Positive", "Negative"],
-                        required=True
-                    )
-                },
-                num_rows="fixed"
-            )
-            
-            # 양성 알레르겐 하이라이트
-            positive_rows = edited_df[edited_df["Result"] == "Positive"]
-            if not positive_rows.empty:
-                st.warning(f"🔴 Positive Allergens ({len(positive_rows)} items):")
-                for _, row in positive_rows.iterrows():
-                    st.write(f"- {row['Allergen']}: {row['Value']} {row['Unit']}")
-            
-            # 수정 사항 저장
-            col1, col2 = st.columns([1, 1])
-            with col2:
-                if st.button("✅ Save Changes and Proceed", type="primary", use_container_width=True):
-                    # 수정된 데이터를 OCRResult로 변환
-                    from copy import deepcopy
-                    edited_ocr = deepcopy(ocr_result)
-                    
-                    # 수정된 결과 반영
-                    positive_count = 0
-                    for idx, row in edited_df.iterrows():
-                        if idx < len(edited_ocr.results):
-                            edited_ocr.results[idx].allergen_name = row["Allergen"]
-                            edited_ocr.results[idx].korean_name = row["Korean Name"]
-                            edited_ocr.results[idx].value = row["Value"]
-                            edited_ocr.results[idx].unit = row["Unit"]
-                            edited_ocr.results[idx].interpretation = InterpretationType.POSITIVE if row["Result"] == "Positive" else InterpretationType.NEGATIVE
-                            
-                            # 디버깅: 저장되는 값 확인
-                            if row["Result"] == "Positive":
-                                positive_count += 1
-                                logger.info(f"Step 2 - Saving positive: {row['Allergen']}, interpretation: {edited_ocr.results[idx].interpretation}")
-                    
-                    logger.info(f"Step 2 - Total positive allergens saved: {positive_count}")
-                    st.session_state.edited_ocr_result = edited_ocr
-                    st.session_state.current_step = 2
-                    
-                    # 세션에 저장 확인
-                    if hasattr(st.session_state, 'edited_ocr_result'):
-                        logger.info(f"Step 2 - edited_ocr_result saved to session_state")
-                    else:
-                        logger.error("Step 2 - Failed to save edited_ocr_result to session_state")
-                    
-                    # Step 4를 위한 채팅 세션 초기화 (수정된 결과 반영)
-                    if 'chat_session' in st.session_state:
-                        st.session_state.chat_session = None
-                    if 'chat_messages' in st.session_state:
-                        st.session_state.chat_messages = []
-                    st.success(f"✅ Changes saved. (Positive: {positive_count} items)")
-                    st.rerun()
-            
-            with col1:
-                if st.button("↩️ Reset Changes", type="secondary", use_container_width=True):
-                    st.session_state.edited_ocr_result = None
-                    st.rerun()
 
-# =============== Tab 3: 환자 정보 ===============
-with tabs[2]:
-    st.header("👤 Step 3: Patient Information")
-    
+        c1, c2, c3 = st.columns(3)
+        c1.metric("검사 종류", ocr_result.test_type.value)
+        c2.metric("추출 항목", len(ocr_result.results))
+        rs = get_relevance_service()
+        pos0 = sum(1 for r in ocr_result.results if rs._is_positive(r, ocr_result.test_type))
+        c3.metric("양성(자동판정)", pos0)
+
+        rows = []
+        for r in ocr_result.results:
+            value = r.value if r.value is not None else r.mean_mm
+            rows.append({
+                "No.": r.index, "알러젠": r.allergen_name, "한글명": r.korean_name or "",
+                "수치": value if value is not None else 0.0, "단위": r.unit or "",
+                "Class": str(r.class_value) if r.class_value is not None else "",
+                "판정": "양성" if rs._is_positive(r, ocr_result.test_type) else "음성",
+            })
+        df = pd.DataFrame(rows)
+        edited_df = st.data_editor(
+            df, use_container_width=True, hide_index=True, num_rows="fixed",
+            column_config={
+                "No.": st.column_config.NumberColumn("No.", disabled=True),
+                "수치": st.column_config.NumberColumn("수치", format="%.2f"),
+                "판정": st.column_config.SelectboxColumn("판정", options=["양성", "음성"], required=True),
+            },
+        )
+        pos_rows = edited_df[edited_df["판정"] == "양성"]
+        if not pos_rows.empty:
+            st.warning(f"🔴 양성 알러젠 {len(pos_rows)}개: " +
+                       ", ".join(f"{row['알러젠']}" for _, row in pos_rows.iterrows()))
+
+        cc1, cc2 = st.columns(2)
+        with cc1:
+            if st.button("↩️ 수정 취소", use_container_width=True):
+                st.session_state.edited_ocr_result = None
+                st.rerun()
+        with cc2:
+            if st.button("✅ 확정하고 다음 단계로", type="primary", use_container_width=True):
+                from copy import deepcopy
+                edited = deepcopy(ocr_result)
+                for idx, row in edited_df.iterrows():
+                    if idx < len(edited.results):
+                        edited.results[idx].allergen_name = row["알러젠"]
+                        edited.results[idx].korean_name = row["한글명"] or None
+                        edited.results[idx].value = row["수치"]
+                        edited.results[idx].unit = row["단위"] or None
+                        edited.results[idx].interpretation = (
+                            InterpretationType.POSITIVE if row["판정"] == "양성"
+                            else InterpretationType.NEGATIVE)
+                st.session_state.edited_ocr_result = edited
+                # 이후 단계 결과 초기화(재평가)
+                st.session_state.relevance_result = None
+                st.session_state.patient_report = None
+                st.session_state.cardnews_html = None
+                st.session_state.fhir_observation = None
+                st.session_state.fhir_allergy = None
+                st.session_state.current_step = max(st.session_state.current_step, 1)
+                st.success("OCR 결과가 확정되었습니다. '2단계' 탭으로 이동하세요.")
+                st.rerun()
+
+
+# =====================================================================
+# Step 2: 환자 정보 & 스크리닝
+# =====================================================================
+with tabs[1]:
+    st.header("🧑‍⚕️ 2단계. 환자 정보 & 스크리닝 문진")
     if st.session_state.current_step < 1:
-        st.warning("Please complete the previous steps first.")
+        st.warning("먼저 1단계(OCR)를 완료해주세요.")
     else:
-        # 환자 정보 입력 폼
-        with st.form("patient_info_form"):
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                patient_name = st.text_input(
-                    "Patient Name", 
-                    value=st.session_state.patient_info.get('name', ''),
-                    placeholder="John Doe"
-                )
-                patient_age = st.number_input(
-                    "Age",
-                    min_value=1,
-                    max_value=120,
-                    value=st.session_state.patient_info.get('age', 30)
-                )
-            
-            with col2:
-                patient_gender = st.selectbox(
-                    "Gender",
-                    options=["M", "F"],
-                    format_func=lambda x: 'Male' if x == 'M' else 'Female',
-                    index=0 if st.session_state.patient_info.get('gender', 'M') == 'M' else 1
-                )
-                test_date = st.date_input(
-                    "Test Date",
-                    value=datetime.now().date()
-                )
-            
-            submitted = st.form_submit_button("✅ Save and Proceed", type="primary", use_container_width=True)
-            
+        sc_svc = get_screening_service()
+        with st.form("screening_form"):
+            st.subheader("👤 기본 정보")
+            b1, b2, b3, b4 = st.columns(4)
+            name = b1.text_input("이름", value=st.session_state.patient_info.get("name", ""))
+            age = b2.number_input("나이", 1, 120, value=st.session_state.patient_info.get("age", 30))
+            gender = b3.selectbox("성별", ["M", "F"],
+                                  format_func=lambda x: "남성" if x == "M" else "여성",
+                                  index=0 if st.session_state.patient_info.get("gender", "M") == "M" else 1)
+            test_date = b4.date_input("검사일", value=datetime.now().date())
+
+            st.markdown("---")
+            st.subheader("🩺 알레르기 질환력")
+            st.caption("현재 진단받았거나 의심되는 알레르기 질환을 모두 선택하세요.")
+            disease_opts = sc_svc.disease_options()
+            disease_sel = st.multiselect(
+                "질환", options=[o["code"] for o in disease_opts],
+                format_func=lambda c: next((o["label"] for o in disease_opts if o["code"] == c), c),
+                default=st.session_state.screening.allergic_diseases if st.session_state.screening else [],
+            )
+
+            st.subheader("💊 현재 복용 약제")
+            st.caption("특히 항히스타민제는 피부반응검사(SPT) 결과에 영향을 줄 수 있습니다.")
+            med_opts = sc_svc.medication_options()
+            med_sel = st.multiselect(
+                "약제", options=[o["code"] for o in med_opts],
+                format_func=lambda c: next((o["label"] for o in med_opts if o["code"] == c), c),
+                default=st.session_state.screening.current_medications if st.session_state.screening else [],
+            )
+            antihist_recent = st.checkbox("최근 5~7일 내 항히스타민제를 복용했다",
+                                          value=bool(st.session_state.screening.antihistamine_recent) if st.session_state.screening else False)
+
+            st.markdown("---")
+            st.subheader("🤧 증상 특성")
+            symptom_present = st.radio("현재 알레르기 증상이 있나요?", [True, False],
+                                       format_func=lambda x: "있음" if x else "없음", horizontal=True,
+                                       index=0 if (st.session_state.screening.symptom_present if st.session_state.screening else True) else 1)
+            season_pattern = st.selectbox(
+                "증상의 계절 패턴", list(SEASON_PATTERN_LABELS_KO.keys()),
+                format_func=lambda c: SEASON_PATTERN_LABELS_KO[c],
+                index=list(SEASON_PATTERN_LABELS_KO.keys()).index(
+                    st.session_state.screening.season_pattern.value) if st.session_state.screening else 3,
+            )
+            worse_months = st.multiselect(
+                "증상이 특히 심해지는 달 (계절성인 경우)", options=list(range(1, 13)),
+                format_func=lambda m: MONTH_LABELS_KO[m - 1],
+                default=st.session_state.screening.worse_months if st.session_state.screening else [],
+            )
+            organ_opts = sc_svc.organ_system_options()
+            organ_sel = st.multiselect(
+                "노출 시 나타나는 증상 부위(계열)", options=[o["code"] for o in organ_opts],
+                format_func=lambda c: next((o["label"] for o in organ_opts if o["code"] == c), c),
+                default=st.session_state.screening.organ_systems if st.session_state.screening else [],
+            )
+            severity = st.select_slider("증상 정도", options=["mild", "moderate", "severe"],
+                                        format_func=lambda s: {"mild": "경증", "moderate": "중등도", "severe": "중증"}[s],
+                                        value=st.session_state.screening.symptom_severity if (st.session_state.screening and st.session_state.screening.symptom_severity) else "moderate")
+            triggers = st.text_area("스스로 느끼는 유발 요인(자유 기재)",
+                                    value=st.session_state.screening.triggers_free_text if st.session_state.screening else "")
+
+            submitted = st.form_submit_button("✅ 저장하고 다음 단계로", type="primary", use_container_width=True)
             if submitted:
-                # 환자 정보 저장
                 st.session_state.patient_info = {
-                    'name': patient_name,
-                    'age': patient_age,
-                    'gender': patient_gender,
-                    'test_date': test_date.strftime("%Y-%m-%d")
+                    "name": name or "환자", "age": int(age), "gender": gender,
+                    "test_date": test_date.strftime("%Y-%m-%d"),
                 }
-                
-                # OCR 결과에 환자 정보 업데이트
+                st.session_state.screening = ScreeningProfile(
+                    allergic_diseases=disease_sel, current_medications=med_sel,
+                    antihistamine_recent=antihist_recent, symptom_present=bool(symptom_present),
+                    season_pattern=SymptomSeasonPattern(season_pattern), worse_months=worse_months,
+                    organ_systems=organ_sel, symptom_severity=severity,
+                    perennial_symptom=(season_pattern in ("perennial", "both")),
+                    triggers_free_text=triggers or None,
+                )
+                # 환자정보를 OCR 결과에도 반영
                 ocr_result = st.session_state.edited_ocr_result or st.session_state.ocr_result
                 if ocr_result:
-                    ocr_result.patient.name = patient_name
-                    ocr_result.patient.age = patient_age
-                    ocr_result.patient.gender = patient_gender
-                    ocr_result.patient.test_date = test_date.strftime("%Y-%m-%d")
-                
-                st.session_state.current_step = 3
-                st.success("✅ Patient information saved.")
+                    ocr_result.patient.name = st.session_state.patient_info["name"]
+                    ocr_result.patient.age = st.session_state.patient_info["age"]
+                    ocr_result.patient.gender = gender
+                    ocr_result.patient.test_date = st.session_state.patient_info["test_date"]
+                # 감별 초기화(스크리닝 반영 재계산)
+                st.session_state.relevance_result = None
+                st.session_state.current_step = max(st.session_state.current_step, 2)
+                st.success("저장되었습니다. '3단계' 탭으로 이동하세요.")
                 st.rerun()
 
-# =============== Tab 4: 증상 피드백 ===============
-with tabs[3]:
-    st.header("💬 Step 4: Symptom Feedback Collection")
-    
-    if st.session_state.current_step < 3:
-        st.warning("Please complete the previous steps first.")
+        # 스크리닝 요약/주의사항
+        if st.session_state.screening:
+            summ = sc_svc.summarize(st.session_state.screening)
+            for flag in summ["flags"]:
+                st.warning(f"⚠️ {flag}")
+
+
+# =====================================================================
+# Step 3: 양성 알러젠 backdata + 감별
+# =====================================================================
+with tabs[2]:
+    st.header("🧬 3단계. 양성 알러젠 backdata & 임상적 의미 감별")
+    if st.session_state.current_step < 2:
+        st.warning("먼저 2단계(환자정보 & 스크리닝)를 완료해주세요.")
     else:
-        # Step 2에서 검토/수정된 OCR 결과 사용
-        edited_result = st.session_state.get('edited_ocr_result')
-        original_result = st.session_state.get('ocr_result')
-        
-        # 디버깅: 세션 상태 확인
-        logger.info(f"Step 4 - edited_result exists: {edited_result is not None}")
-        logger.info(f"Step 4 - original_result exists: {original_result is not None}")
-        
-        # 수정된 결과가 있으면 사용, 없으면 원본 사용
-        ocr_result = edited_result if edited_result else original_result
-        
-        # 디버깅: 어떤 결과를 사용하는지 확인
-        if edited_result:
-            logger.info("Step 4 - Using edited OCR result")
-        else:
-            logger.info("Step 4 - Using original OCR result")
-        
-        if not ocr_result:
-            st.error("OCR 결과를 찾을 수 없습니다. Step 1부터 다시 시작해주세요.")
-            st.stop()
-        
-        # 환자 정보 표시
-        patient_info = st.session_state.patient_info
-        st.info(f"""
-        👤 **환자 정보**
-        - 이름: {patient_info['name']}
-        - 나이: {patient_info['age']}세
-        - 성별: {'남성' if patient_info['gender'] == 'M' else '여성'}
-        - 검사일: {patient_info['test_date']}
-        """)
-        
-        # 양성 알레르겐 수집 및 표시
-        positive_allergens = []
-        grouped_allergens = {}
-        
-        if ocr_result and ocr_result.results:
-            # 디버깅: 전체 결과 확인
-            logger.info(f"Step 4 - OCR results count: {len(ocr_result.results)}")
-            
-            for r in ocr_result.results:
-                # 디버깅: 각 결과의 interpretation 확인
-                logger.info(f"Allergen: {r.allergen_name}, Interpretation: {r.interpretation}, Type: {type(r.interpretation)}")
-                
-                # InterpretationType.POSITIVE 또는 문자열 "Positive", "양성" 등 확인
-                is_positive = False
-                if r.interpretation:
-                    if isinstance(r.interpretation, InterpretationType):
-                        is_positive = r.interpretation == InterpretationType.POSITIVE
-                    else:
-                        # 문자열로 된 경우
-                        interp_str = str(r.interpretation).lower()
-                        is_positive = interp_str in ['positive', 'p', '양성']
-                
-                if is_positive:
-                    # 카테고리 추출
-                    category = r.category or "기타"
-                    if category not in grouped_allergens:
-                        grouped_allergens[category] = []
-                    
-                    grouped_allergens[category].append({
-                        'name': r.allergen_name,
-                        'korean': r.korean_name,
-                        'value': r.value or r.mean_mm,
-                        'unit': r.unit
-                    })
-                    
-                    positive_allergens.append(r.allergen_name)
-                    logger.info(f"Added positive allergen: {r.allergen_name}")
-        
-        logger.info(f"Total positive allergens found: {len(positive_allergens)}")
-        
-        # 양성 알레르겐 표시
-        if grouped_allergens:
-            st.markdown("### 🔴 양성 반응 알레르겐 (그룹별)")
-            
-            cols = st.columns(2)
-            col_idx = 0
-            
-            category_map = {
-                "Mite": "🕷️ 진드기",
-                "Pollen": "🌸 꽃가루",
-                "Mold": "🍄 곰팡이",
-                "Animal": "🐾 동물",
-                "Insect": "🐛 곤충",
-                "Food": "🍽️ 음식",
-                "Other": "📌 기타"
-            }
-            
-            for category, allergens in grouped_allergens.items():
-                with cols[col_idx % 2]:
-                    category_label = category_map.get(category, f"📌 {category}")
-                    st.markdown(f"**{category_label}**")
-                    for allergen in allergens:
-                        korean = f" ({allergen['korean']})" if allergen['korean'] else ""
-                        value_str = f" - {allergen['value']} {allergen['unit']}" if allergen['value'] else ""
-                        st.write(f"• {allergen['name']}{korean}{value_str}")
-                col_idx += 1
-            
-            st.markdown("---")
-        else:
-            st.warning("양성 반응을 보인 알레르겐이 없습니다. Step 2로 돌아가서 OCR 결과를 확인해주세요.")
-            
-            # 디버깅 정보 표시
-            with st.expander("🔍 디버깅 정보"):
-                if ocr_result and ocr_result.results:
-                    st.write(f"전체 알레르겐 수: {len(ocr_result.results)}")
-                    for r in ocr_result.results[:5]:  # 처음 5개만 표시
-                        st.write(f"- {r.allergen_name}: {r.interpretation} (Type: {type(r.interpretation).__name__})")
-                else:
-                    st.write("OCR 결과가 없습니다.")
-        
-        # 채팅 세션 및 메시지 초기화
-        if positive_allergens:
-            # chat_messages 초기화
-            if 'chat_messages' not in st.session_state:
-                st.session_state.chat_messages = []
-            
-            # 챗봇 세션이 없거나, 초기 메시지가 없으면 생성
-            if not st.session_state.get('chat_session') or not st.session_state.chat_messages:
-                chatbot_service = get_chatbot_service(api_key=st.session_state.get('api_key'))
-                
-                # 챗봇 세션 시작
-                st.session_state.chat_session = chatbot_service.create_session(
-                    patient_id=st.session_state.patient_info['name'],
-                    ocr_result=ocr_result,
-                    patient_name=st.session_state.patient_info['name'],
-                    patient_age=st.session_state.patient_info['age'],
-                    patient_gender=st.session_state.patient_info['gender']
-                )
-                
-                # 초기 메시지 생성
-                initial_msg = f"""안녕하세요, {st.session_state.patient_info['name']}님!
-                
-위에 표시된 양성 반응 알레르겐들을 확인해주셨나요?
-
-이제 몇 가지 중요한 질문을 드리겠습니다:
-
-**🔍 질문 1:** 위의 양성 반응을 보인 알레르겐 중에서 **실제로 노출되었을 때 증상이 있었던 것**이 있나요?
-있다면 어떤 항목인지, 어떤 증상이 있었는지 알려주세요.
-
-예시:
-- "진드기에 노출되면 재채기와 콧물이 심해요"
-- "고양이를 만지면 눈이 가렵고 충혈돼요"
-- "계란을 먹으면 두드러기가 나요"
-
-증상이 없었던 것이나 노출 경험이 없는 것도 함께 알려주시면 더 정확한 관리 계획을 세울 수 있습니다."""
-                
-                # 초기 메시지 추가
-                st.session_state.chat_messages = [
-                    {"role": "assistant", "content": initial_msg}
-                ]
-        
-        # 채팅 인터페이스 (양성 알레르겐이 있을 때만)
-        if positive_allergens:
-            st.markdown("### 💬 증상 확인 대화")
-            
-            # 기존 메시지 표시
-            for message in st.session_state.get('chat_messages', []):
-                with st.chat_message(message["role"]):
-                    st.write(message["content"])
-            
-            # 사용자 입력
-            user_input = st.chat_input("답변을 입력해주세요...")
-            
-            if user_input:
-                # 사용자 메시지 추가
-                st.session_state.chat_messages.append({"role": "user", "content": user_input})
-                
-                # 챗봇 응답 생성
-                with st.spinner("답변 생성 중..."):
-                    chatbot_service = get_chatbot_service(api_key=st.session_state.get('api_key'))
-                    
-                    # 세션이 없으면 생성
-                    if not st.session_state.get('chat_session'):
-                        st.session_state.chat_session = chatbot_service.create_session(
-                            patient_id=st.session_state.patient_info['name'],
-                            ocr_result=ocr_result,
-                            patient_name=st.session_state.patient_info['name'],
-                            patient_age=st.session_state.patient_info['age'],
-                            patient_gender=st.session_state.patient_info['gender']
-                        )
-                    
-                    response, symptom_feedback = chatbot_service.process_user_response(
-                        st.session_state.chat_session,
-                        user_input,
-                        ocr_result
-                    )
-                    
-                    # 응답 추가
-                    st.session_state.chat_messages.append({"role": "assistant", "content": response})
-                    
-                    # 증상 피드백 저장
-                    if symptom_feedback:
-                        st.session_state.symptom_feedback = symptom_feedback
-                
-                st.rerun()
-        else:
-            st.info("양성 반응을 보인 알레르겐이 없어서 증상 피드백을 수집할 수 없습니다.")
-        
-        # 증상 피드백 완료 확인
-        if st.session_state.get('symptom_feedback'):
-            st.success("✅ 증상 피드백 수집이 완료되었습니다.")
-            
-            # 수집된 정보 표시
-            with st.expander("📋 수집된 증상 정보 확인", expanded=True):
-                feedback = st.session_state.symptom_feedback
-                st.json({
-                    "증상 있음": feedback.exposure_feedback.get("symptomatic", []),
-                    "증상 없음": feedback.exposure_feedback.get("asymptomatic", []),
-                    "노출 경험 없음": feedback.exposure_feedback.get("unknown_exposure", [])
-                })
-            
-            # 재시작 버튼 추가
-            if st.button("🔄 증상 피드백 다시 수집", help="채팅을 다시 시작하여 증상 정보를 재수집합니다."):
-                # 증상 관련 세션 데이터 리셋
-                st.session_state.symptom_feedback = None
-                st.session_state.chat_session = None
-                st.session_state.chat_messages = []
-                st.rerun()
-        
-        # 다음 단계 버튼
-        col1, col2 = st.columns([3, 1])
-        with col2:
-            if st.button("✅ 다음 단계로 진행", type="primary", use_container_width=True):
-                if not st.session_state.get('symptom_feedback'):
-                    # 기본 피드백 생성 (모든 양성 알레르겐을 symptomatic으로)
-                    if positive_allergens:
-                        st.session_state.symptom_feedback = SymptomFeedback(
-                            patient_id=st.session_state.patient_info['name'],
-                            test_date=st.session_state.patient_info['test_date'],
-                            patient_name=st.session_state.patient_info['name'],
-                            patient_age=st.session_state.patient_info['age'],
-                            patient_gender=st.session_state.patient_info['gender'],
-                            exposure_feedback={
-                                "symptomatic": positive_allergens,
-                                "asymptomatic": [],
-                                "unknown_exposure": []
-                            }
-                        )
-                
-                st.session_state.current_step = 4
-                st.rerun()
-
-# =============== Tab 5: FHIR 생성 ===============
-with tabs[4]:
-    st.header("🏥 Step 5: FHIR 리소스 생성")
-    
-    if st.session_state.current_step < 4:
-        st.warning("먼저 이전 단계들을 완료해주세요.")
-    else:
-        fhir_service = get_fhir_service()
         ocr_result = st.session_state.edited_ocr_result or st.session_state.ocr_result
-        
-        # FHIR Observation Bundle 생성
-        if not st.session_state.fhir_observation and ocr_result:
-            with st.spinner("FHIR Observation 생성 중..."):
-                st.session_state.fhir_observation = fhir_service.create_observation_bundle(
-                    ocr_result,
-                    patient_id=st.session_state.patient_info['name']
-                )
-        
-        # FHIR AllergyIntolerance Bundle 생성
-        if not st.session_state.fhir_allergy and st.session_state.symptom_feedback:
-            with st.spinner("FHIR AllergyIntolerance 생성 중..."):
-                st.session_state.fhir_allergy = fhir_service.create_allergy_intolerance_bundle(
-                    st.session_state.symptom_feedback,
-                    ocr_result
-                )
-        
-        # FHIR 리소스 표시
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.subheader("📊 FHIR Observation Bundle")
-            if st.session_state.fhir_observation:
-                st.json(st.session_state.fhir_observation)
-                
-                # 다운로드 버튼
-                json_str = json.dumps(st.session_state.fhir_observation, ensure_ascii=False, indent=2)
-                st.download_button(
-                    label="📥 Observation Bundle 다운로드",
-                    data=json_str,
-                    file_name=f"{st.session_state.patient_info['name']}_observation_{datetime.now().strftime('%Y%m%d')}.json",
-                    mime="application/json"
-                )
-        
-        with col2:
-            st.subheader("🔴 FHIR AllergyIntolerance Bundle")
-            if st.session_state.fhir_allergy:
-                st.json(st.session_state.fhir_allergy)
-                
-                # 다운로드 버튼
-                json_str = json.dumps(st.session_state.fhir_allergy, ensure_ascii=False, indent=2)
-                st.download_button(
-                    label="📥 AllergyIntolerance Bundle 다운로드",
-                    data=json_str,
-                    file_name=f"{st.session_state.patient_info['name']}_allergy_{datetime.now().strftime('%Y%m%d')}.json",
-                    mime="application/json"
-                )
-        
-        # 다음 단계 버튼
-        if st.button("✅ 저장 및 다음 단계로", type="primary", use_container_width=True):
-            # 파일 저장
-            if st.session_state.fhir_observation:
-                file_manager = get_file_manager()
-                file_manager.save_json(
-                    data=st.session_state.fhir_observation,
-                    patient_name=st.session_state.patient_info['name'],
-                    test_type=ocr_result.test_type.value,
-                    file_type='observation'
-                )
-            
-            if st.session_state.fhir_allergy:
-                file_manager = get_file_manager()
-                file_manager.save_json(
-                    data=st.session_state.fhir_allergy,
-                    patient_name=st.session_state.patient_info['name'],
-                    test_type=ocr_result.test_type.value,
-                    file_type='allergy'
-                )
-            
-            st.session_state.current_step = 5
-            st.rerun()
+        rs = get_relevance_service()
 
-# =============== Tab 6: 리포트 생성 ===============
-with tabs[5]:
-    st.header("📄 Step 6: 맞춤형 알레르기 관리 리포트")
-    
-    if st.session_state.current_step < 5:
-        st.warning("먼저 이전 단계들을 완료해주세요.")
+        if st.session_state.relevance_result is None:
+            st.session_state.relevance_result = rs.build_assessments(ocr_result, st.session_state.screening)
+
+        result = st.session_state.relevance_result
+        assessments = result.assessments
+
+        if not assessments:
+            st.warning("양성으로 판정된 알러젠이 없습니다. 1단계에서 OCR 결과의 판정을 확인해주세요.")
+        else:
+            st.info("💡 **핵심:** 검사 양성은 '감작'을 뜻할 뿐입니다. 각 알러젠에 대해 아래 질문에 답하면, "
+                    "**실제로 증상을 유발하는 알러젠**과 **감작만 된 알러젠**을 구분해 드립니다.")
+            st.markdown(f"**양성 알러젠 {len(assessments)}개**를 감별합니다.")
+
+            for i, a in enumerate(assessments):
+                kb = a.kb or {}
+                cat_label = CATEGORY_KO.get(a.category, "📌 기타")
+                strength_ko = {"weak": "약한 양성", "moderate": "중등도 양성", "strong": "강한 양성"}.get(a.strength or "", "")
+                title = f"{cat_label} · {a.korean_name or a.allergen_name}"
+                if strength_ko:
+                    title += f"  ({strength_ko})"
+                with st.expander(title, expanded=(i == 0)):
+                    # backdata
+                    meta = []
+                    if kb.get("season_label_ko"):
+                        meta.append(f"🗓️ 주요 시기: {kb['season_label_ko']}")
+                    io = {"indoor": "실내", "outdoor": "실외", "both": "실내·외"}.get(kb.get("indoor_outdoor"), "")
+                    if io:
+                        meta.append(f"📍 노출: {io}")
+                    if a.season_overlap is True:
+                        meta.append("🔗 환자 악화 시기와 시즌 일치")
+                    if meta:
+                        st.caption(" · ".join(meta))
+                    if kb.get("biology_ko"):
+                        st.markdown(f"**특성·생활사:** {kb['biology_ko']}")
+                    if kb.get("exposure_environment_ko"):
+                        st.markdown(f"**노출 환경:** {kb['exposure_environment_ko']}")
+                    if kb.get("cross_reactivity_ko"):
+                        st.markdown(f"**교차반응:** {kb['cross_reactivity_ko']}")
+                    if kb.get("oral_allergy_syndrome_ko"):
+                        st.markdown(f"**구강알레르기증후군:** {kb['oral_allergy_syndrome_ko']}")
+                    src = kb.get("source")
+                    if src == "wikipedia":
+                        st.caption("ℹ️ 일부 정보는 외부 검색(Wikipedia)으로 보강되었습니다.")
+                    elif src == "category_default":
+                        st.caption("ℹ️ 지식베이스에 없는 알러젠이라 카테고리 기본 정보를 사용합니다.")
+
+                    st.markdown("**감별 질문**")
+                    hints = rs.probe_hints(a)
+                    if hints:
+                        st.caption("참고: " + " / ".join(hints[:3]))
+                    questions = rs.build_questions(a)
+                    for q in questions:
+                        cur = a.answers.get(q["id"], "unsure")
+                        choice = st.radio(
+                            q["question"], ANSWER_OPTIONS,
+                            format_func=lambda c: ANSWER_LABELS_KO[c],
+                            index=ANSWER_OPTIONS.index(cur) if cur in ANSWER_OPTIONS else 2,
+                            horizontal=True, key=f"q_{i}_{q['id']}",
+                        )
+                        a.answers[q["id"]] = choice
+
+            st.markdown("---")
+            if st.button("🧠 임상적 의미 판정하기", type="primary", use_container_width=True):
+                rs.classify_all(result)
+                st.session_state.patient_report = None
+                st.session_state.cardnews_html = None
+                st.session_state.current_step = max(st.session_state.current_step, 3)
+                st.rerun()
+
+            # 판정 결과 표시
+            if any(a.relevance != ClinicalRelevance.NOT_ASSESSED for a in assessments):
+                st.markdown("### 📋 감별 결과")
+                summary = rs.summarize(result)
+                s1, s2, s3 = st.columns(3)
+                s1.metric("🔴 실제 주의", summary["counts"]["clinically_relevant"])
+                s2.metric("⚪ 감작만", summary["counts"]["sensitized_only"])
+                s3.metric("🟡 관찰 필요", summary["counts"]["indeterminate"])
+                for a in assessments:
+                    label, color = RELEVANCE_META.get(a.relevance, ("", "#999"))
+                    st.markdown(
+                        f'<span class="pill" style="background:{color}">{label}</span> '
+                        f'**{a.korean_name or a.allergen_name}**', unsafe_allow_html=True)
+                    if a.rationale_ko:
+                        st.caption(a.rationale_ko)
+                st.success("판정 완료! '4단계' 탭에서 맞춤 리포트와 카드뉴스를 생성하세요.")
+
+
+# =====================================================================
+# Step 4: 리포트 & 카드뉴스
+# =====================================================================
+with tabs[3]:
+    st.header("📄 4단계. 환자 맞춤 리포트 & 카드뉴스")
+    result = st.session_state.relevance_result
+    assessed = result and any(a.relevance != ClinicalRelevance.NOT_ASSESSED for a in result.assessments)
+    if st.session_state.current_step < 3 or not assessed:
+        st.warning("먼저 3단계에서 '임상적 의미 판정하기'를 완료해주세요.")
     else:
-        if not st.session_state.report:
-            with st.spinner("맞춤형 리포트를 생성하고 있습니다..."):
-                try:
-                    report_service = get_report_service(api_key=st.session_state.get('api_key'))
-                    report = report_service.generate_report(
-                        symptom_feedback=st.session_state.symptom_feedback,
-                        fhir_allergy_bundle=st.session_state.fhir_allergy
-                    )
-                    st.session_state.report = report
-                    st.success("✅ 리포트 생성이 완료되었습니다!")
-                except Exception as e:
-                    st.error(f"리포트 생성 중 오류가 발생했습니다: {e}")
-                    logger.error(f"Report generation error: {e}")
-        
-        if st.session_state.report:
-            # 리포트 표시
-            report = st.session_state.report
-            ocr_result = st.session_state.edited_ocr_result or st.session_state.ocr_result
-            
-            # 환자 정보
-            st.markdown(f"""
-            ### 환자 정보
-            - **이름**: {report.patient_name}
-            - **나이**: {report.patient_age}세
-            - **성별**: {report.patient_gender}
-            - **검사일**: {report.test_date}
-            """)
-            
-            # 주요 알레르겐
-            if report.key_allergens:
-                st.markdown("### 🔴 주요 양성 알레르겐")
-                for allergen in report.key_allergens:
-                    st.write(f"- {allergen}")
-            
-            # 리포트 섹션들
-            for section in report.sections:
-                st.markdown(f"### {section.icon} {section.title}" if section.icon else f"### {section.title}")
-                for content in section.content:
-                    st.write(content)
-            
-            # 다운로드 버튼들
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                # Markdown 다운로드
-                if report.markdown_content:
-                    st.download_button(
-                        label="📥 Markdown 리포트 다운로드",
-                        data=report.markdown_content,
-                        file_name=f"{report.patient_name}_리포트_{datetime.now().strftime('%Y%m%d')}.md",
-                        mime="text/markdown"
-                    )
-            
-            with col2:
-                # PDF 다운로드
-                if report.markdown_content:
+        colA, colB = st.columns(2)
+        with colA:
+            if st.button("📝 맞춤 리포트 생성", type="primary", use_container_width=True):
+                with st.spinner("리포트를 작성하는 중..."):
                     try:
-                        pdf_generator = PDFGenerator()
-                        # markdown_to_pdf 메서드는 이제 bytes를 반환
-                        pdf_bytes = pdf_generator.markdown_to_pdf(report.markdown_content)
-                        
-                        if pdf_bytes:
-                            st.download_button(
-                                label="📥 PDF 리포트 다운로드",
-                                data=pdf_bytes,
-                                file_name=f"{report.patient_name}_리포트_{datetime.now().strftime('%Y%m%d')}.pdf",
-                                mime="application/pdf"
-                            )
-                            
-                            # 파일 저장
-                            file_manager = get_file_manager()
-                            file_manager.save_pdf(
-                                pdf_bytes=pdf_bytes,
-                                patient_name=st.session_state.patient_info['name'],
-                                test_type=ocr_result.test_type.value
-                            )
+                        report_svc = get_report_service(api_key=st.session_state.get("api_key")) if _api_ready() else None
+                    except Exception:
+                        report_svc = None
+                    try:
+                        if report_svc is None:
+                            # API 없이 결정론적 리포트
+                            from services.report_service import ReportService
+                            svc = ReportService.__new__(ReportService)
+                            svc.api_key = None
+                            md = ReportService.build_patient_report_markdown(
+                                svc, result, st.session_state.patient_info, st.session_state.screening)
+                            report = ReportService._parse_patient_markdown(
+                                svc, md, result, st.session_state.patient_info)
+                        else:
+                            report = report_svc.generate_patient_report(
+                                result, st.session_state.patient_info, st.session_state.screening,
+                                use_llm=_api_ready())
+                        st.session_state.patient_report = report
+                        st.success("리포트 생성 완료!")
                     except Exception as e:
-                        st.warning(f"PDF 생성 중 오류: {e}")
-                        logger.error(f"PDF generation error: {e}")
-            
-            # 완료 메시지
-            st.success("""
-            ✅ **모든 처리가 완료되었습니다!**
-            
-            생성된 파일들:
-            - FHIR Observation Bundle
-            - FHIR AllergyIntolerance Bundle  
-            - 맞춤형 알레르기 관리 리포트 (MD/PDF)
-            
-            모든 파일은 `output/` 폴더에 저장되었습니다.
-            """)
+                        st.error(f"리포트 생성 오류: {e}")
+                        logger.error(f"report error: {e}")
+        with colB:
+            if st.button("🎨 카드뉴스 생성", use_container_width=True):
+                cn = get_cardnews_service()
+                st.session_state.cardnews_html = cn.generate_html(
+                    result, st.session_state.patient_info, st.session_state.screening)
+                st.success("카드뉴스 생성 완료!")
 
-# =============== 진행 상태 표시 ===============
+        # 카드뉴스
+        if st.session_state.cardnews_html:
+            st.markdown("### 🎨 카드뉴스")
+            components.html(st.session_state.cardnews_html, height=520, scrolling=True)
+            st.download_button("📥 카드뉴스 HTML 다운로드", data=st.session_state.cardnews_html,
+                               file_name=f"{st.session_state.patient_info.get('name','환자')}_카드뉴스.html",
+                               mime="text/html")
+
+        # 리포트
+        if st.session_state.patient_report:
+            report = st.session_state.patient_report
+            st.markdown("### 📄 맞춤 리포트")
+            st.markdown(report.markdown_content)
+
+            d1, d2 = st.columns(2)
+            with d1:
+                st.download_button("📥 Markdown 다운로드", data=report.markdown_content or "",
+                                   file_name=f"{report.patient_name}_리포트_{datetime.now():%Y%m%d}.md",
+                                   mime="text/markdown")
+            with d2:
+                try:
+                    pdf_bytes = PDFGenerator().markdown_to_pdf(report.markdown_content or "")
+                    if pdf_bytes:
+                        st.download_button("📥 PDF 다운로드", data=pdf_bytes,
+                                           file_name=f"{report.patient_name}_리포트_{datetime.now():%Y%m%d}.pdf",
+                                           mime="application/pdf")
+                except Exception as e:
+                    st.caption(f"PDF 생성 불가: {e}")
+            st.session_state.current_step = max(st.session_state.current_step, 4)
+
+
+# =====================================================================
+# Step 5: FHIR 변환
+# =====================================================================
+def _relevance_to_symptom_feedback(result, patient_info) -> SymptomFeedback:
+    """감별 결과 → SymptomFeedback (기존 FHIR 빌더 호환).
+    clinically_relevant → symptomatic, sensitized_only → asymptomatic, indeterminate → unknown_exposure"""
+    sym, asym, unk = [], [], []
+    for a in result.assessments:
+        nm = a.allergen_name
+        if a.relevance == ClinicalRelevance.CLINICALLY_RELEVANT:
+            sym.append(nm)
+        elif a.relevance == ClinicalRelevance.SENSITIZED_ONLY:
+            asym.append(nm)
+        else:
+            unk.append(nm)
+    return SymptomFeedback(
+        patient_id=patient_info.get("name", "환자"),
+        test_date=patient_info.get("test_date") or datetime.now().strftime("%Y-%m-%d"),
+        patient_name=patient_info.get("name"), patient_age=patient_info.get("age"),
+        patient_gender=patient_info.get("gender"),
+        exposure_feedback={"symptomatic": sym, "asymptomatic": asym, "unknown_exposure": unk},
+    )
+
+
+with tabs[4]:
+    st.header("🏥 5단계. HL7 FHIR 표준 변환")
+    result = st.session_state.relevance_result
+    assessed = result and any(a.relevance != ClinicalRelevance.NOT_ASSESSED for a in result.assessments)
+    if not assessed:
+        st.warning("먼저 3단계 감별을 완료해주세요.")
+    else:
+        ocr_result = st.session_state.edited_ocr_result or st.session_state.ocr_result
+        fhir = get_fhir_service()
+        feedback = _relevance_to_symptom_feedback(result, st.session_state.patient_info)
+
+        if st.session_state.fhir_observation is None:
+            st.session_state.fhir_observation = fhir.create_observation_bundle(
+                ocr_result, patient_id=st.session_state.patient_info.get("name"))
+        if st.session_state.fhir_allergy is None:
+            st.session_state.fhir_allergy = fhir.create_allergy_intolerance_bundle(feedback, ocr_result)
+
+        st.caption("AllergyIntolerance는 '실제 주의(임상적으로 의미 있는)'로 판정된 알러젠만 confirmed로 생성됩니다.")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.subheader("📊 Observation Bundle")
+            st.json(st.session_state.fhir_observation, expanded=False)
+            st.download_button("📥 Observation 다운로드",
+                               data=json.dumps(st.session_state.fhir_observation, ensure_ascii=False, indent=2),
+                               file_name=f"{st.session_state.patient_info.get('name','환자')}_observation.json",
+                               mime="application/json")
+        with col2:
+            st.subheader("🔴 AllergyIntolerance Bundle")
+            st.json(st.session_state.fhir_allergy, expanded=False)
+            st.download_button("📥 AllergyIntolerance 다운로드",
+                               data=json.dumps(st.session_state.fhir_allergy, ensure_ascii=False, indent=2),
+                               file_name=f"{st.session_state.patient_info.get('name','환자')}_allergy.json",
+                               mime="application/json")
+
+        if st.button("💾 결과 파일 저장(output/)", use_container_width=True):
+            fm = get_file_manager()
+            fm.save_json(st.session_state.fhir_observation, st.session_state.patient_info.get("name", "환자"),
+                         ocr_result.test_type.value, "observation")
+            fm.save_json(st.session_state.fhir_allergy, st.session_state.patient_info.get("name", "환자"),
+                         ocr_result.test_type.value, "allergy")
+            st.success("output/ 폴더에 저장되었습니다.")
+
+
+# ---------------- 진행률 ----------------
 if st.session_state.current_step > 0:
-    progress = st.session_state.current_step / 6
+    progress = min(st.session_state.current_step / 5, 1.0)
     st.progress(progress, text=f"전체 진행률: {int(progress * 100)}%")
 
-# =============== 푸터 ===============
 st.markdown("---")
-st.markdown("""
-<div style="text-align: center; color: gray;">
-    <p>Allergy Test Analysis System v1.0 | Powered by OpenAI GPT-4</p>
-</div>
-""", unsafe_allow_html=True)
+st.markdown('<div style="text-align:center;color:gray">알레르기 검사결과 환자 리포트 플랫폼 · '
+            '검사 양성 ≠ 알레르기, 실제 증상과 연결합니다</div>', unsafe_allow_html=True)

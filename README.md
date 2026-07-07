@@ -1,179 +1,107 @@
-# 🏥 알레르기 검사 자동 분석 및 FHIR 변환 시스템
+# 🌿 알레르기 검사결과 환자용 리포트 플랫폼
 
-AI 기반 알레르기 검사 결과 자동 분석, HL7 FHIR 표준 변환, 맞춤형 관리 리포트 생성 시스템
+알레르기 검사(피부반응검사·MAST·UniCAP) 결과를 업로드하면, **검사 양성이 실제 알레르기 증상을 유발하는지**를
+환자 문진과 알러젠 지식베이스로 감별하여 **환자 맞춤형 리포트와 카드뉴스**를 생성하는 플랫폼입니다.
+
+> **핵심 철학:** 검사 양성은 "감작(sensitization)"을 뜻할 뿐입니다. 실제 알레르기 질환은
+> **해당 알러젠에 노출될 때(또는 그 계절에) 증상이 재현성 있게 나타날 때** 성립합니다.
+> 이 플랫폼은 그 둘을 구분해, 정말 주의해야 할 알러젠에 집중하도록 돕습니다.
+
+---
 
 ## 📋 주요 기능
 
-- **🔍 OCR 자동 추출**: OpenAI GPT Vision API를 사용한 검사 결과 자동 인식
-- **🏥 FHIR 표준 변환**: HL7 FHIR R4 Observation 및 AllergyIntolerance 리소스 생성
-- **💬 증상 피드백 챗봇**: GPT 기반 대화형 증상 수집
-- **📄 맞춤형 리포트**: 한국어 알레르기 관리 계획 자동 생성
-- **🖥️ 직관적 UI**: Streamlit 기반 웹 인터페이스
+1. **🔍 OCR 추출 + 점검** — GPT Vision으로 SPT/MAST/UniCAP 결과지를 읽고, 사용자가 표에서 직접 수정·확정
+2. **🧑‍⚕️ 스크리닝 문진** — 알레르기 질환력, 복용 약제(항히스타민제의 SPT 위음성 주의), 증상의 계절/연중 패턴, 침범 장기(코·눈·하기도·피부·소화기·전신)
+3. **📚 알러젠 backdata** — 양성 알러젠별 특성·생활사·노출환경·계절성·교차반응·회피수칙을 지식베이스에서 제공(없는 알러젠은 Wikipedia 외부검색으로 보강)
+4. **🧬 임상적 의미 감별 (핵심)** — 알러젠별 노출·시즌·재현성 질문으로 **실제 알레르기(clinically_relevant) / 감작만(sensitized_only) / 관찰 필요(indeterminate)** 판정
+5. **📄 맞춤 리포트** — 증상 유발 알러젠 중심 + 예방·관리 플랜(회피수칙·약물·면역치료·추적) Markdown/PDF
+6. **🎨 카드뉴스** — 주요 결과를 공유용 카드뉴스(HTML)로 생성
+7. **🏥 HL7 FHIR 변환** — Observation(전체) + AllergyIntolerance(임상적으로 의미 있는 항목만 confirmed)
+
+---
+
+## 🔄 사용 흐름 (5단계)
+
+| 단계 | 화면 | 내용 |
+|------|------|------|
+| 1 | 업로드 & OCR | 검사지 이미지 업로드 → OCR → 결과 점검/수정/확정 |
+| 2 | 환자정보 & 스크리닝 | 기본정보 + 알레르기 질환력·약제·증상 패턴·침범 장기 |
+| 3 | 양성 알러젠 감별 | 알러젠별 backdata 확인 + 노출/시즌/재현성 질문 → 임상적 의미 판정 |
+| 4 | 리포트 & 카드뉴스 | 맞춤 리포트(MD/PDF) + 카드뉴스(HTML) 생성/다운로드 |
+| 5 | FHIR | Observation / AllergyIntolerance 번들 생성/다운로드 |
+
+---
+
+## 🧠 감별 로직 (sensitization vs true allergy)
+
+각 양성 알러젠에 대해 3가지를 확인합니다.
+
+1. **노출 경험** (`exposed`) — 이 알러젠 환경/음식에 노출된 적이 있는가
+2. **노출/시즌 시 증상** (`symptom_on_exposure`) — 노출될 때(또는 그 계절에) 증상이 생기거나 심해지는가
+3. **재현성** (`reproducible`) — 반복적으로 나타나는가
+
+판정 규칙:
+
+- `symptom_on_exposure = 예` → **clinically_relevant** (실제 알레르기)
+- `exposed = 예` & `symptom_on_exposure = 아니오` → **sensitized_only** (감작만, 과도한 회피 불필요)
+- 그 외(노출 없음/정보 부족) → **indeterminate** (관찰 필요)
+
+**계절 자동 대조:** 스크리닝에서 입력한 증상 악화 월과 알러젠의 한국 시즌(예: 봄 나무꽃가루 3~5월,
+가을 잡초 8~10월)이 겹치면 증상악화 응답을 자동 제안합니다. 예) 봄철 악화 환자가 자작나무 강양성 →
+"봄철 증상 악화" 자동 제안, 반대로 봄철에 증상이 없다면 감작만으로 안내.
+
+관련 코드: `services/relevance_service.py`, 지식베이스: `data/allergen_knowledge_base.json`
+
+---
 
 ## 🚀 빠른 시작
 
-### 1. 환경 설정
-
 ```bash
-# 프로젝트 클론
-cd /Users/mingyukang/python/APAAACI_mast_to_HL7FHIR
-
-# 가상환경 생성 및 활성화
-python -m venv .venv
-source .venv/bin/activate  # macOS/Linux
-# 또는
-.venv\Scripts\activate  # Windows
-
-# 패키지 설치
+python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
-```
 
-### 2. OpenAI API 키 설정
+# OpenAI API 키 설정 (.env)
+echo "OPENAI_API_KEY=sk-..." > .env
 
-프로젝트 루트에 `.env` 파일을 생성하고 다음 내용을 추가:
-
-```env
-OPENAI_API_KEY=your_openai_api_key_here
-```
-
-> 💡 API 키는 [OpenAI Platform](https://platform.openai.com)에서 발급받을 수 있습니다.
-
-### 3. 애플리케이션 실행
-
-```bash
 streamlit run app.py
 ```
 
-브라우저가 자동으로 열리며 `http://localhost:8501`에서 실행됩니다.
+브라우저에서 `http://localhost:8501` 로 접속합니다. (API 키는 앱 사이드바에서도 입력 가능)
 
-## 📁 프로젝트 구조
+### 엔진 회귀 테스트 (API 불필요)
 
-```
-APAAACI_mast_to_HL7FHIR/
-│
-├── app.py                    # Streamlit 메인 애플리케이션
-├── requirements.txt          # Python 패키지 의존성
-├── .env                      # 환경 변수 (생성 필요)
-│
-├── config/
-│   ├── settings.py          # 애플리케이션 설정
-│   └── env_sample.txt       # .env 파일 예제
-│
-├── models/
-│   └── schemas.py           # Pydantic 데이터 모델
-│
-├── services/
-│   ├── ocr_service.py       # OCR 처리 서비스
-│   ├── fhir_service.py      # FHIR 리소스 생성
-│   ├── chatbot_service.py   # 증상 피드백 챗봇
-│   └── report_service.py    # 리포트 생성 서비스
-│
-├── utils/
-│   └── allergen_mapper.py   # 알레르겐 매핑 유틸리티
-│
-├── instructions/            # 프롬프트 및 템플릿
-│   ├── OCR_prompt.md
-│   ├── chatbot_prompt_messages.json
-│   ├── allergen_map_prompt_v2.json
-│   └── ...
-│
-├── input_images/           # 샘플 이미지
-├── output/                 # 생성된 결과물
-└── tasks/                  # PRD 및 작업 목록
+```bash
+python test_relevance_engine.py
 ```
 
-## 🔄 사용 방법
+---
 
-### Step 1: 이미지 업로드
-- SPT(피부단자검사) 또는 MAST 검사 결과지 이미지 업로드
-- 지원 형식: JPG, PNG
+## 📁 프로젝트 구조 (핵심)
 
-### Step 2: OCR 결과 확인
-- 자동으로 추출된 데이터 확인
-- 필요시 수동 편집 가능
+```
+app.py                              # Streamlit 5단계 플랫폼
+data/allergen_knowledge_base.json   # 알러젠 backdata + 감별 rubric
+models/schemas.py                   # 스크리닝/감별/리포트 데이터 모델
+services/
+  ├─ ocr_service.py                 # GPT Vision OCR
+  ├─ knowledge_service.py           # 지식베이스 조회 + Wikipedia 외부검색 보강
+  ├─ screening_service.py           # 스크리닝 문진 라벨/요약
+  ├─ relevance_service.py           # 임상적 의미 감별 엔진 (핵심)
+  ├─ report_service.py              # 환자 맞춤 리포트(결정론 + GPT 다듬기)
+  ├─ cardnews_service.py            # 카드뉴스 HTML 생성
+  └─ fhir_service.py                # HL7 FHIR 변환
+test_relevance_engine.py            # 감별 엔진 테스트
+```
 
-### Step 3: 환자 정보 입력
-- 이름, 나이, 성별 입력
-- 검사 날짜 확인
-
-### Step 4: 증상 피드백
-- AI 챗봇과 대화하며 증상 경험 입력
-- 양성 알레르겐 중 실제 증상 분류
-
-### Step 5: FHIR Observation 생성
-- 검사 결과를 FHIR 표준으로 변환
-- JSON 파일 다운로드 가능
-
-### Step 6: FHIR AllergyIntolerance 생성
-- 증상이 있는 알레르겐만 선별
-- 임상적 의미를 갖는 FHIR 리소스 생성
-
-### Step 7: 리포트 생성
-- 맞춤형 한국어 관리 계획
-- Markdown 및 PDF 형식 지원
-
-## 📊 샘플 데이터
-
-`input_images/` 폴더에 테스트용 샘플 이미지가 포함되어 있습니다:
-- `mast_1.png`, `MAST_2.png` - MAST 검사 결과
-- `skin_prick_test_1.jpg`, `skin_prick_test_2.jpg` - SPT 검사 결과
-
-## 🔧 고급 설정
-
-`config/settings.py`에서 다음 설정을 조정할 수 있습니다:
-
-- OCR 신뢰도 임계값
-- API 타임아웃
-- 리포트 언어 설정
-- PDF 생성 옵션
+---
 
 ## ⚠️ 주의사항
 
-1. **API 키 보안**: `.env` 파일을 공유하지 마세요
-2. **개인정보**: 환자 정보는 로컬에만 저장됩니다
-3. **의료 조언**: AI 생성 리포트는 참고용이며, 의료진 상담이 필요합니다
-
-## 🐛 문제 해결
-
-### "OpenAI API 키가 설정되지 않았습니다" 오류
-- `.env` 파일이 프로젝트 루트에 있는지 확인
-- API 키가 올바른지 확인
-
-### OCR 추출 실패
-- 이미지가 선명하고 전체 표가 보이는지 확인
-- 이미지 크기가 10MB 이하인지 확인
-
-### Streamlit 실행 오류
-- 가상환경이 활성화되어 있는지 확인
-- 모든 패키지가 설치되어 있는지 확인: `pip install -r requirements.txt`
-
-## 📝 라이선스
-
-이 프로젝트는 연구 및 교육 목적으로 제작되었습니다.
-
-## 👥 기여
-
-문의사항이나 개선 제안은 이슈를 생성해주세요.
-
-## 📞 지원
-
-- 기술 지원: [GitHub Issues](https://github.com/your-repo/issues)
-- 이메일: your-email@example.com
+- 본 리포트/카드뉴스는 **교육용 참고 자료**이며, 정확한 진단·치료는 담당 의료진과 상담해야 합니다.
+- 환자 정보는 로컬에서만 처리됩니다. API 키(.env)는 공유하지 마세요.
+- 최근 항히스타민제 복용은 SPT 위음성을 유발할 수 있어, 스크리닝에서 자동으로 경고합니다.
 
 ---
 
-**Version:** 1.0.0  
-**Last Updated:** 2025-10-12  
-**Developed by:** AI Assistant & User
-
----
-
-## 🎯 다음 단계
-
-시스템이 정상적으로 실행되면:
-
-1. **실제 검사 결과로 테스트**: 본인의 알레르기 검사 결과로 테스트
-2. **리포트 검토**: 생성된 리포트를 의료진과 공유
-3. **피드백 수집**: 시스템 개선을 위한 의견 제공
-
-감사합니다! 🙏
+**Version:** 2.0 · 환자 리포트 중심 재설계
