@@ -4,6 +4,19 @@
    ========================================================================= */
 'use strict';
 
+// FastAPI 오류 detail(문자열 또는 검증오류 배열)을 사람이 읽을 수 있는 문장으로 변환
+function fmtErr(detail, fallback) {
+  if (!detail) return fallback;
+  if (typeof detail === 'string') return detail;
+  if (Array.isArray(detail)) {
+    return detail.map(e => {
+      const loc = Array.isArray(e.loc) ? e.loc.slice(-2).join('.') : '';
+      return (loc ? loc + ': ' : '') + (e.msg || JSON.stringify(e));
+    }).join(' / ');
+  }
+  try { return JSON.stringify(detail); } catch (_) { return fallback; }
+}
+
 const API = {
   async health() { return (await fetch('/api/health')).json(); },
   async demo() { return (await fetch('/api/ocr/demo')).json(); },
@@ -11,12 +24,12 @@ const API = {
   async ocr(file) {
     const fd = new FormData(); fd.append('file', file);
     const r = await fetch('/api/ocr', { method: 'POST', body: fd });
-    if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.detail || 'OCR 실패'); }
+    if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(fmtErr(e.detail, 'OCR 실패')); }
     return r.json();
   },
   async post(path, body) {
     const r = await fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-    if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(e.detail || (path + ' 실패')); }
+    if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(fmtErr(e.detail, path + ' 실패')); }
     return r.json();
   },
 };

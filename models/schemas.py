@@ -101,13 +101,18 @@ class AllergenResult(BaseModel):
     value: Optional[float] = Field(None, description="MAST/UniCAP 수치")
     unit: Optional[str] = Field(None, description="단위 (mm, kU/L, IU/mL)")
     class_value: Optional[Union[int, str]] = Field(None, description="Class 값 (0-6, P, N)", alias="class")
-    
+
     # 공통 필드
-    category: Optional[AllergenCategory] = None
-    subcategory: Optional[AllergenSubcategory] = None
+    # category/subcategory 는 OCR·매핑·KB·프론트에서 다양한 표기(대문자 enum, 소문자
+    # 정규화값 'pollen_tree' 등)로 들어오므로 관대하게 문자열로 받는다(다운스트림에서 normalize).
+    category: Optional[str] = None
+    subcategory: Optional[str] = None
     interpretation: Optional[InterpretationType] = None
     confidence: float = Field(1.0, description="OCR 신뢰도 (0-1)")
     note: Optional[str] = Field(None, description="추가 메모")
+
+    class Config:
+        populate_by_name = True  # 'class' alias 와 'class_value' 필드명 모두 허용
 
 
 class OCRResult(BaseModel):
