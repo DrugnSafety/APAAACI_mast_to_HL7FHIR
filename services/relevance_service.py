@@ -130,10 +130,20 @@ class RelevanceService:
 
     @staticmethod
     def _is_positive(r: AllergenResult, test_type: TestType) -> bool:
+        # 명시적 양성/음성만 신뢰; UNKNOWN/EQUIVOCAL 은 아래 수치 기반으로 재판정
         if r.interpretation is not None:
             if isinstance(r.interpretation, InterpretationType):
-                return r.interpretation == InterpretationType.POSITIVE
-            return str(r.interpretation).lower() in ("positive", "p", "양성")
+                if r.interpretation == InterpretationType.POSITIVE:
+                    return True
+                if r.interpretation == InterpretationType.NEGATIVE:
+                    return False
+                # UNKNOWN/EQUIVOCAL -> 수치 기반 판정으로 폴백
+            else:
+                s = str(r.interpretation).lower()
+                if s in ("positive", "p", "양성"):
+                    return True
+                if s in ("negative", "n", "음성"):
+                    return False
         # interpretation 없을 때 수치 기반
         value = r.value if r.value is not None else r.mean_mm
         if test_type == TestType.SPT:

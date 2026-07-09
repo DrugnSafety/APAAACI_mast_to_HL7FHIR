@@ -145,6 +145,41 @@ def test_unicap_pipeline():
     print("✓ UniCAP handled as specific-IgE (parse/positivity/strength/FHIR)")
 
 
+def test_ocr_parsing_large_mast_panel():
+    """대형 다열 MAST 패널 파싱: Total IgE 제외, Class 기반 양성판정, 단위 보존, 잘린 응답 복구"""
+    import json as _json
+    from services.ocr_service import OCRService
+    from services.relevance_service import RelevanceService
+    from utils.allergen_mapper import get_allergen_mapper
+    svc = OCRService.__new__(OCRService)
+    svc.allergen_mapper = get_allergen_mapper()
+
+    rows = [
+        {"index": 1, "allergen_name": "Total IgE (총 IgE)", "class": None, "value": 100, "unit": "IU/ml"},
+        {"index": 2, "allergen_name": "D. pteronyssinus (진드기 Dp)", "class": 3, "value": 15.12, "unit": "IU/ml"},
+        {"index": 3, "allergen_name": "D. farinae (진드기 Df)", "class": 0, "value": 0.21, "unit": "IU/ml"},
+        {"index": 21, "allergen_name": "House dust (집먼지)", "class": 2, "value": 1.50, "unit": "IU/ml"},
+        {"index": 42, "allergen_name": "Peanut (땅콩)", "class": 2, "value": 3.40, "unit": "IU/ml"},
+        {"index": 61, "allergen_name": "Mushroom (버섯)", "class": 1, "value": 0.62, "unit": "IU/ml"},
+        {"index": 62, "allergen_name": "Candida albicans (칸디다곰팡이)", "class": 4, "value": 22.25, "unit": "IU/ml"},
+    ]
+    full = _json.dumps({"test_type": "MAST", "patient": {}, "results": rows}, ensure_ascii=False)
+
+    res = svc._parse_ocr_result(svc._extract_json(full))
+    assert res.test_type == TestType.MAST
+    assert all("total ige" not in r.allergen_name.lower() for r in res.results), "Total IgE 미제외"
+    assert res.results[0].unit == "IU/ml", "단위(IU/ml) 보존 실패"
+    pos = [r for r in res.results if RelevanceService._is_positive(r, res.test_type)]
+    assert len(pos) == 5, f"Class 기반 양성 5개 기대, 실제 {len(pos)}"
+
+    # 잘린 응답 → SPT 빈 결과가 아니라 완성 행 복구 + MAST 유지
+    cut = full[: full.find("Peanut") - 20]
+    res2 = svc._parse_ocr_result(svc._extract_json(cut))
+    assert res2.test_type == TestType.MAST, "잘린 응답에서 test_type이 SPT로 유실됨"
+    assert len(res2.results) >= 2, "잘린 응답 복구 실패"
+    print("✓ OCR: large multi-column MAST panel (Total IgE 제외·Class 양성·단위보존·truncation 복구)")
+
+
 def test_questionnaire_engine():
     """적응형 문진 생성 + 그룹 답변 기반 판정 검증"""
     from services.questionnaire_service import (

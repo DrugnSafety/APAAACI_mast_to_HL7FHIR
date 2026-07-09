@@ -17,8 +17,14 @@ from openai import OpenAI
 from pydantic import ValidationError
 
 from config.settings import Settings
-from models.schemas import OCRResult, AllergenResult, TestType, PatientInfo, InterpretationType
+from models.schemas import (
+    OCRResult, AllergenResult, TestType, PatientInfo, InterpretationType,
+    determine_interpretation,
+)
 from utils.allergen_mapper import get_allergen_mapper
+
+# 알러젠이 아닌 요약/대조 행 (결과에서 제외)
+_NON_ALLERGEN_ROWS = ("total ige", "총 ige", "total-ige", "totalige")
 
 # 로거 설정
 logger = logging.getLogger(__name__)
@@ -58,44 +64,38 @@ class OCRService:
     
     def _get_default_prompt(self) -> str:
         """기본 OCR 프롬프트 반환"""
-        return """Extract allergy test results from this image and return JSON with the following structure:
-        {
-            "test_type": "SPT, MAST, or UniCAP",
-            "patient": {
-                "name": "patient name or null",
-                "test_date": "YYYY-MM-DD or null"
-            },
-            "results": [
-                {
-                    "index": 1,
-                    "allergen_name": "allergen name",
-                    "size_text": "for SPT: original size text like '12.5x12' or null",
-                    "mean_mm": "for SPT: average of two dimensions in mm (e.g., (12.5+12)/2 = 12.25)",
-                    "value": "numeric value",
-                    "unit": "unit (mm for SPT, kU/L for MAST/UniCAP)",
-                    "class": "for MAST/UniCAP: class value (0-6) or null",
-                    "interpretation": "Positive or Negative"
-                }
-            ]
-        }
+        return """You are extracting an allergy test result table from an image. Return ONLY a valid JSON object.
 
-        Determine test_type from the report:
-        - "SPT" / "Skin Prick" / "피부단자검사" -> SPT (wheal size in mm)
-        - "MAST" / "AdvanSure" / "Allergy screen" panels -> MAST (specific IgE, class + kU/L)
-        - "UniCAP" / "ImmunoCAP" / "specific IgE (kU/L)" quantitative single-allergen reports -> UniCAP
+REQUIRED JSON STRUCTURE:
+{
+  "test_type": "SPT" | "MAST" | "UniCAP",
+  "patient": { "name": "or null", "test_date": "YYYY-MM-DD or null" },
+  "results": [
+    { "index": 1, "allergen_name": "as printed (keep English + any Korean in parentheses)",
+      "class": 0-6 or null, "value": number or null, "unit": "IU/ml | kU/L | mm" }
+  ]
+}
 
-        IMPORTANT for SPT (Skin Prick Test):
-        - If size is written as "12.5x12" or "12.5×12", extract as size_text: "12.5x12"
-        - Calculate mean_mm as the average: (12.5 + 12) / 2 = 12.25
-        - Set value = mean_mm
-        - Set unit = "mm"
-        - Positive if mean_mm >= 3.0
+READ EVERY ROW — do not stop early:
+- Tables are OFTEN laid out in TWO COLUMNS (e.g. No 1–31 on the left, No 32–62 on the right).
+  Read the LEFT column top-to-bottom, THEN the RIGHT column top-to-bottom. Include ALL numbered rows.
+- Keep the allergen name exactly as printed, including the Korean in parentheses,
+  e.g. "D. pteronyssinus (진드기 Dp)", "Peanut (땅콩)".
+- Preserve the value's unit as shown on the report (this report uses "IU/ml"; some use "kU/L").
 
-        IMPORTANT for MAST / UniCAP (specific IgE):
-        - value = numeric IgE concentration in kU/L (e.g., 3.52); unit = "kU/L"
-        - class = reported class 0-6 if shown; Positive if class >= 1 or value >= 0.35 kU/L
+DETERMINE test_type:
+- Title/labels contain "MAST" or columns "Class" + "IU/ml"(IgE) -> "MAST"
+- "UniCAP"/"ImmunoCAP" quantitative specific IgE -> "UniCAP"
+- "SPT"/"Skin Prick"/"피부단자검사" with wheal size in mm -> "SPT"
 
-        Extract all allergens visible in the image."""
+FIELD RULES:
+- MAST/UniCAP: read the "Class" number (0–6) AND the numeric IgE value with its unit.
+  Do NOT invent a Positive/Negative column if the report has none — leave interpretation out;
+  positivity is derived from Class (>=1) or value (>=0.35 kU/L).
+- SPT: put wheal size in "value" with unit "mm".
+- EXCLUDE the summary row "Total IgE" / "총 IgE" from results (it is not an allergen).
+
+Be exhaustive and accurate. Return the JSON only."""
     
     def _encode_image(self, image_source: Union[str, Path, Image.Image, bytes]) -> str:
         """
@@ -176,7 +176,7 @@ class OCRService:
                             ]
                         }
                     ],
-                    max_tokens=4096,
+                    max_tokens=16384,
                     temperature=0.1,  # 낮은 temperature로 일관성 있는 결과 유도
                     response_format={"type": "json_object"}  # JSON 모드 강제
                 )
@@ -204,7 +204,7 @@ class OCRService:
                             ]
                         }
                     ],
-                    max_tokens=4096,
+                    max_tokens=16384,
                     temperature=0.1
                 )
             
@@ -296,13 +296,86 @@ class OCRService:
                     except:
                         pass
         
-        # 시도 4: 기본 구조 반환
+        # 시도 4: 잘린 응답에서 완성된 결과 객체만이라도 건져낸다 (대형 패널 대비)
+        salvaged = self._salvage_partial_json(content)
+        if salvaged and salvaged.get("results"):
+            logger.warning(f"JSON이 잘렸으나 {len(salvaged['results'])}개 항목을 복구했습니다.")
+            return salvaged
+
+        # 시도 5: 기본 구조 반환 (test_type 은 원문에서 추정)
         logger.error("JSON 추출 실패, 기본 구조 반환")
         return {
-            "test_type": "SPT",
+            "test_type": self._sniff_test_type(content) or "MAST",
             "patient": {},
             "results": []
         }
+
+    @staticmethod
+    def _sniff_test_type(text: str) -> Optional[str]:
+        """원문 텍스트에서 검사 종류 추정."""
+        low = (text or "").lower()
+        if "unicap" in low or "immunocap" in low:
+            return "UniCAP"
+        if "mast" in low or "iu/ml" in low or "ku/l" in low or "class" in low:
+            return "MAST"
+        if "spt" in low or "prick" in low or "피부" in low:
+            return "SPT"
+        return None
+
+    def _salvage_partial_json(self, content: str) -> Optional[Dict[str, Any]]:
+        """잘린 JSON에서 test_type 과 완성된 result 객체들을 정규식/괄호매칭으로 복구."""
+        import re
+        if not content:
+            return None
+        test_type = self._sniff_test_type(content) or "MAST"
+
+        # "results" 배열 시작 위치 이후에서 완성된 {...} 객체를 순서대로 추출
+        start = content.find('"results"')
+        scan_from = content.find('[', start) if start != -1 else content.find('[')
+        if scan_from == -1:
+            scan_from = 0
+        objs: list = []
+        i = scan_from
+        n = len(content)
+        while i < n:
+            if content[i] == '{':
+                depth = 0
+                j = i
+                in_str = False
+                esc = False
+                while j < n:
+                    c = content[j]
+                    if in_str:
+                        if esc:
+                            esc = False
+                        elif c == '\\':
+                            esc = True
+                        elif c == '"':
+                            in_str = False
+                    else:
+                        if c == '"':
+                            in_str = True
+                        elif c == '{':
+                            depth += 1
+                        elif c == '}':
+                            depth -= 1
+                            if depth == 0:
+                                frag = content[i:j + 1]
+                                try:
+                                    obj = json.loads(frag)
+                                    if isinstance(obj, dict) and (
+                                        obj.get("allergen_name") or obj.get("name") or obj.get("allergen")):
+                                        objs.append(obj)
+                                except Exception:
+                                    pass
+                                break
+                    j += 1
+                i = j + 1
+            else:
+                i += 1
+        if not objs:
+            return None
+        return {"test_type": test_type, "patient": {}, "results": objs}
     
     def _safe_float(self, value: Any) -> Optional[float]:
         """안전한 float 변환"""
@@ -393,19 +466,26 @@ class OCRService:
                     if not isinstance(item, dict):
                         continue
                     
-                    # interpretation 파싱
-                    interp_str = str(item.get('interpretation', 'Unknown'))
-                    if any(x in interp_str for x in ['Positive', 'P', '+', '양성', 'positive']):
-                        interpretation = InterpretationType.POSITIVE
-                    elif any(x in interp_str for x in ['Negative', 'N', '-', '음성', 'negative']):
-                        interpretation = InterpretationType.NEGATIVE
-                    else:
-                        interpretation = InterpretationType.UNKNOWN
-                    
                     # 필수 필드 확인
                     allergen_name = item.get('allergen_name', '')
                     if not allergen_name:
                         allergen_name = item.get('name', '') or item.get('allergen', '') or f"Unknown_{idx+1}"
+
+                    # 알러젠이 아닌 요약 행(Total IgE 등)은 제외
+                    _norm_name = allergen_name.strip().lower().replace(" ", "")
+                    if _norm_name.startswith("totalige") or _norm_name.startswith("total-ige") \
+                            or "총ige" in _norm_name:
+                        continue
+
+                    # interpretation: 명시적 Positive/Negative 가 있으면 사용,
+                    # 없으면 Class/수치로부터 결정론적으로 유도
+                    interp_str = str(item.get('interpretation') or '')
+                    if any(x in interp_str for x in ['Positive', '양성', 'positive']):
+                        interpretation = InterpretationType.POSITIVE
+                    elif any(x in interp_str for x in ['Negative', '음성', 'negative']):
+                        interpretation = InterpretationType.NEGATIVE
+                    else:
+                        interpretation = None  # 아래에서 수치 기반으로 채움
                     
                     # SPT의 경우 size_text 처리
                     size_text = item.get('size_text')
@@ -427,7 +507,21 @@ class OCRService:
                     value = self._safe_float(item.get('value'))
                     if test_type == TestType.SPT and not value and mean_mm:
                         value = mean_mm
-                    
+
+                    class_value = item.get('class')
+                    if class_value is None:
+                        class_value = item.get('class_value')
+
+                    # interpretation 이 명시되지 않았으면 Class/수치로부터 유도
+                    if interpretation is None:
+                        interpretation = determine_interpretation(
+                            test_type=test_type,
+                            mean_mm=mean_mm,
+                            class_value=class_value,
+                            value=value,
+                            histamine_control=patient.histamine_mean_mm,
+                        )
+
                     result = AllergenResult(
                         index=item.get('index', idx + 1),
                         raw_text=item.get('raw_text', ''),
@@ -436,8 +530,8 @@ class OCRService:
                         size_text=size_text,
                         mean_mm=mean_mm,
                         value=value,
-                        unit=item.get('unit', 'mm' if test_type == TestType.SPT else 'kU/L'),
-                        class_value=item.get('class') or item.get('class_value'),
+                        unit=item.get('unit') or ('mm' if test_type == TestType.SPT else 'kU/L'),
+                        class_value=class_value,
                         interpretation=interpretation
                     )
                     results.append(result)

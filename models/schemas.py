@@ -460,18 +460,24 @@ def determine_interpretation(
     
     elif test_type in (TestType.MAST, TestType.UNICAP):
         # MAST/UniCAP 양성 기준: Class 1 이상 또는 0.35 kU/L 이상
-        if class_value:
-            if isinstance(class_value, int) and class_value >= 1:
-                return InterpretationType.POSITIVE
-            elif class_value == "P":
-                return InterpretationType.POSITIVE
-            elif class_value == "N" or (isinstance(class_value, int) and class_value == 0):
-                return InterpretationType.NEGATIVE
-        
+        if class_value is not None and str(class_value).strip() != "":
+            token = str(class_value).strip().upper()
+            try:
+                c = int(float(token))
+                if c >= 1:
+                    return InterpretationType.POSITIVE
+                if c == 0:
+                    return InterpretationType.NEGATIVE
+            except (ValueError, TypeError):
+                if token in ("P", "POSITIVE", "양성"):
+                    return InterpretationType.POSITIVE
+                if token in ("N", "NEGATIVE", "음성"):
+                    return InterpretationType.NEGATIVE
+
         if value is not None:
             if value >= 0.35:
                 return InterpretationType.POSITIVE
             else:
                 return InterpretationType.NEGATIVE
-    
+
     return InterpretationType.UNKNOWN
