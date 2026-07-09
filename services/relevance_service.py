@@ -156,6 +156,9 @@ class RelevanceService:
         worse_months = screening.worse_months if screening else []
 
         for r in ocr_result.results:
+            # 이름이 비어 있는 행(빈 추가 행 등)은 감별 대상에서 제외
+            if not (r.allergen_name or "").strip() and not (r.korean_name or "").strip():
+                continue
             if not self._is_positive(r, ocr_result.test_type):
                 continue
 

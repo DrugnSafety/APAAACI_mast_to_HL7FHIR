@@ -327,6 +327,15 @@ class ScreeningProfile(BaseModel):
     symptom_severity: Optional[str] = Field(None, description="mild/moderate/severe")
     perennial_symptom: Optional[bool] = Field(None, description="연중 지속 증상 여부")
     triggers_free_text: Optional[str] = Field(None, description="스스로 인지한 유발요인")
+    # 음식/구강 알레르기 스크리닝
+    oral_allergy_syndrome: Optional[bool] = Field(
+        None, description="과일·채소·견과 섭취 시 입·입술·목 가려움/부종 (구강알레르기증후군, OAS)"
+    )
+    oas_foods: List[str] = Field(default_factory=list, description="OAS 유발 음식(자유 기재)")
+    food_systemic_reaction: Optional[bool] = Field(
+        None, description="특정 음식 섭취 후 두드러기·호흡곤란·복통 등 전신 반응"
+    )
+    food_reaction_foods: List[str] = Field(default_factory=list, description="전신 반응 유발 음식")
     notes: Optional[str] = None
 
     @validator('worse_months', each_item=True)

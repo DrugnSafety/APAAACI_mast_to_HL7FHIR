@@ -35,39 +35,44 @@
 
 ## 🧠 감별 로직 (sensitization vs true allergy)
 
-각 양성 알러젠에 대해 3가지를 확인합니다.
+알러젠마다 같은 질문을 반복하지 않고, **큰 그림 → 카테고리별 핵심 포인트** 순의 적응형 문진을 씁니다.
 
-1. **노출 경험** (`exposed`) — 이 알러젠 환경/음식에 노출된 적이 있는가
-2. **노출/시즌 시 증상** (`symptom_on_exposure`) — 노출될 때(또는 그 계절에) 증상이 생기거나 심해지는가
-3. **재현성** (`reproducible`) — 반복적으로 나타나는가
+1. **증상 패턴** — 연중(통년성) / 계절성 / 둘 다 / 없음 을 먼저 묻습니다.
+2. **악화 계절** — 계절성/둘 다이거나 꽃가루 양성이면 봄·여름·가을·겨울 중 선택.
+3. **음식·구강 알레르기** — 구강알레르기증후군(OAS), 음식 섭취 후 전신 반응 여부.
+4. **카테고리별 감별 포인트** (양성 알러젠에 따라 동적으로 생성)
+   - **계절성 꽃가루** — 시즌 그룹(봄 나무 / 초여름 잔디 / 가을 잡초)당 1문항으로 악화 여부 확인
+   - **실내 통년성(진드기·바퀴)** — 저녁·새벽·이른 아침 악화(실내 알러젠의 전형적 시그니처),
+     집을 비우면 호전, 먼지·이불 정리 시 악화
+   - **곰팡이** — 습한 곳·장마철·곰팡이 공간에서 악화
+   - **동물** — 사육/접촉 여부, 접촉 증가 시 증상 악화
+   - **음식** — 그 음식 섭취 시 증상 재현 여부
 
-판정 규칙:
+판정: 위 그룹 답변을 알러젠 특성과 대조하여
+**clinically_relevant** / **sensitized_only** / **indeterminate** 로 분류합니다. 계절성 알러젠은
+악화 계절과 한국 내 피크 시즌을 자동 대조하며, 구체적 시즌 질문이 코스한 계절 선택보다 우선합니다.
 
-- `symptom_on_exposure = 예` → **clinically_relevant** (실제 알레르기)
-- `exposed = 예` & `symptom_on_exposure = 아니오` → **sensitized_only** (감작만, 과도한 회피 불필요)
-- 그 외(노출 없음/정보 부족) → **indeterminate** (관찰 필요)
-
-**계절 자동 대조:** 스크리닝에서 입력한 증상 악화 월과 알러젠의 한국 시즌(예: 봄 나무꽃가루 3~5월,
-가을 잡초 8~10월)이 겹치면 증상악화 응답을 자동 제안합니다. 예) 봄철 악화 환자가 자작나무 강양성 →
-"봄철 증상 악화" 자동 제안, 반대로 봄철에 증상이 없다면 감작만으로 안내.
-
-관련 코드: `services/relevance_service.py`, 지식베이스: `data/allergen_knowledge_base.json`
+관련 코드: `services/questionnaire_service.py`(문진·판정), `services/relevance_service.py`(양성 판정·감작 강도),
+지식베이스: `data/allergen_knowledge_base.json`
 
 ---
 
-## 🚀 빠른 시작
+## 🚀 빠른 시작 (v2 웹앱 · 권장)
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-# OpenAI API 키 설정 (.env)
-echo "OPENAI_API_KEY=sk-..." > .env
+# OpenAI API 키 설정 (.env) — OCR 사용 시 필요, 없어도 데모/직접입력으로 체험 가능
+cp config/env_sample.txt .env      # 그리고 OPENAI_API_KEY=sk-... 입력
 
-streamlit run app.py
+uvicorn server:app --reload        # http://127.0.0.1:8000
 ```
 
-브라우저에서 `http://localhost:8501` 로 접속합니다. (API 키는 앱 사이드바에서도 입력 가능)
+세련된 반응형 웹앱(라이트/다크)이 열립니다. **API 키가 없어도** 상단의 ‘데모 데이터로 체험’ 또는
+‘결과를 직접 입력’으로 전체 흐름(문진·감별·리포트·카드뉴스·FHIR)을 확인할 수 있습니다.
+
+> 레거시 Streamlit UI: `streamlit run app.py` (http://localhost:8501)
 
 ### 엔진 회귀 테스트 (API 불필요)
 
@@ -80,18 +85,21 @@ python test_relevance_engine.py
 ## 📁 프로젝트 구조 (핵심)
 
 ```
-app.py                              # Streamlit 5단계 플랫폼
+server.py                           # ✨ FastAPI 백엔드 (v2, 권장)
+web/                                # ✨ 프론트엔드 (index.html · styles.css · app.js)
+app.py                              # 레거시 Streamlit 5단계 플랫폼
 data/allergen_knowledge_base.json   # 알러젠 backdata + 감별 rubric
 models/schemas.py                   # 스크리닝/감별/리포트 데이터 모델
 services/
-  ├─ ocr_service.py                 # GPT Vision OCR
+  ├─ ocr_service.py                 # GPT Vision OCR (SPT/MAST/UniCAP)
   ├─ knowledge_service.py           # 지식베이스 조회 + Wikipedia 외부검색 보강
   ├─ screening_service.py           # 스크리닝 문진 라벨/요약
-  ├─ relevance_service.py           # 임상적 의미 감별 엔진 (핵심)
+  ├─ relevance_service.py           # 임상적 의미 감별(감작 강도·양성 판정)
+  ├─ questionnaire_service.py       # ✨ 적응형(그룹화) 문진 엔진 (핵심)
   ├─ report_service.py              # 환자 맞춤 리포트(결정론 + GPT 다듬기)
   ├─ cardnews_service.py            # 카드뉴스 HTML 생성
   └─ fhir_service.py                # HL7 FHIR 변환
-test_relevance_engine.py            # 감별 엔진 테스트
+test_relevance_engine.py            # 감별·문진 엔진 테스트
 ```
 
 ---

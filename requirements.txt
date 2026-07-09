@@ -3,6 +3,12 @@ openai
 streamlit
 python-dotenv
 
+# Web app (FastAPI 기반 신규 프론트엔드)
+fastapi
+uvicorn
+python-multipart
+jinja2
+
 # Image processing
 Pillow
 

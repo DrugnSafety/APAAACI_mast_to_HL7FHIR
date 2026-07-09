@@ -145,6 +145,82 @@ def test_unicap_pipeline():
     print("✓ UniCAP handled as specific-IgE (parse/positivity/strength/FHIR)")
 
 
+def test_questionnaire_engine():
+    """적응형 문진 생성 + 그룹 답변 기반 판정 검증"""
+    from services.questionnaire_service import (
+        get_questionnaire_engine, Q_PATTERN, Q_SEASONS, Q_INDOOR_TIMING,
+        Q_MITE_DUST, QP_POLLEN, QP_ANIMAL_CONTACT, QP_ANIMAL_WORSE, QP_FOOD_REACT,
+        Q_OAS, Q_FOOD_SYSTEMIC,
+    )
+    rs = get_relevance_service()
+    ocr = OCRResult(
+        test_type=TestType.MAST,
+        patient=PatientInfo(name="문진", test_date="2026-06-01"),
+        results=[
+            _mast("Dermatophagoides farinae", "미국집먼지진드기", 20.0, 4, AllergenCategory.MITE, idx=1),
+            _mast("Birch pollen", "자작나무 꽃가루", 6.0, 3, AllergenCategory.POLLEN, idx=2),
+            _mast("Cat dander", "고양이 비듬", 1.5, 2, AllergenCategory.ANIMAL, idx=3),
+            _mast("Peanut", "땅콩", 2.0, 2, AllergenCategory.FOOD, idx=4),
+        ],
+    )
+    res = rs.build_assessments(ocr, None)
+    eng = get_questionnaire_engine()
+    q = eng.build(res, None)
+
+    # 섹션이 카테고리별로 생성되고, 알러젠마다 3문항 반복이 아님
+    sec_ids = [s["id"] for s in q["sections"]]
+    assert "pattern" in sec_ids and "pollen" in sec_ids and "indoor" in sec_ids
+    assert "animal" in sec_ids and "food" in sec_ids
+    # 꽃가루는 시즌 그룹당 1문항 (알러젠 수와 무관)
+    pollen_sec = next(s for s in q["sections"] if s["id"] == "pollen")
+    assert len(pollen_sec["questions"]) == 1, "나무꽃가루 1종이면 봄 시즌 1문항이어야 함"
+
+    # 판정: 진드기(아침+먼지 yes)→relevant, 자작(봄 no)→sensitized,
+    #       고양이(접촉 yes/악화 no)→sensitized, 땅콩(섭취 no)→sensitized
+    answers = {
+        Q_PATTERN: "perennial",
+        Q_SEASONS: [],
+        QP_POLLEN + "spring_tree": "no",
+        Q_INDOOR_TIMING: "yes",
+        Q_MITE_DUST: "yes",
+        QP_ANIMAL_CONTACT + "agn2": "yes",
+        QP_ANIMAL_WORSE + "agn2": "no",
+        QP_FOOD_REACT + "agn3": "no",
+        Q_OAS: "no", Q_FOOD_SYSTEMIC: "no",
+    }
+    eng.classify(res, answers, None)
+    by = {a.allergen_name: a.relevance for a in res.assessments}
+    assert by["Dermatophagoides farinae"] == ClinicalRelevance.CLINICALLY_RELEVANT
+    assert by["Birch pollen"] == ClinicalRelevance.SENSITIZED_ONLY
+    assert by["Cat dander"] == ClinicalRelevance.SENSITIZED_ONLY
+    assert by["Peanut"] == ClinicalRelevance.SENSITIZED_ONLY
+    for a in res.assessments:
+        assert a.rationale_ko, f"근거 문구 없음: {a.allergen_name}"
+    print("✓ adaptive questionnaire build + grouped-answer classification")
+
+
+def test_questionnaire_food_systemic_and_oas():
+    """전신 음식반응/OAS 로직: 전신반응 yes → 음식 알러젠 relevant, OAS 교차반응 노트"""
+    from services.questionnaire_service import get_questionnaire_engine, Q_FOOD_SYSTEMIC, Q_OAS, QP_POLLEN
+    rs = get_relevance_service()
+    ocr = OCRResult(
+        test_type=TestType.MAST, patient=PatientInfo(name="음식"),
+        results=[
+            _mast("Peanut", "땅콩", 5.0, 3, AllergenCategory.FOOD, idx=1),
+            _mast("Birch pollen", "자작나무 꽃가루", 5.0, 3, AllergenCategory.POLLEN, idx=2),
+        ],
+    )
+    res = rs.build_assessments(ocr, None)
+    eng = get_questionnaire_engine()
+    eng.build(res, None)
+    eng.classify(res, {Q_FOOD_SYSTEMIC: "yes", Q_OAS: "yes", QP_POLLEN + "spring_tree": "yes"}, None)
+    by = {a.allergen_name: a for a in res.assessments}
+    assert by["Peanut"].relevance == ClinicalRelevance.CLINICALLY_RELEVANT
+    assert "전신" in by["Peanut"].rationale_ko
+    assert "구강알레르기증후군" in by["Birch pollen"].rationale_ko  # OAS 교차반응 노트
+    print("✓ food systemic reaction + OAS cross-reaction note")
+
+
 def test_cardnews_and_report():
     from services.cardnews_service import get_cardnews_service
     from services.report_service import ReportService

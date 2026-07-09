@@ -32,10 +32,16 @@ class ReportService:
             api_key: OpenAI API 키 (None일 경우 settings에서 가져옴)
         """
         self.api_key = api_key or settings.openai_api_key
-        if not self.api_key:
-            raise ValueError("OpenAI API 키가 설정되지 않았습니다.")
-        
-        self.client = OpenAI(api_key=self.api_key)
+        # API 키가 없어도 결정론적 리포트(build_patient_report_markdown)는 동작해야 하므로
+        # 여기서 예외를 던지지 않는다. LLM 다듬기 단계에서만 client 가 필요하다.
+        if self.api_key and self.api_key != "your_openai_api_key_here":
+            try:
+                self.client = OpenAI(api_key=self.api_key)
+            except Exception as e:
+                logger.warning(f"OpenAI 클라이언트 초기화 실패(결정론적 리포트만 사용): {e}")
+                self.client = None
+        else:
+            self.client = None
         self._load_report_template()
     
     def _load_report_template(self):
@@ -727,7 +733,7 @@ class ReportService:
         base_md = self.build_patient_report_markdown(relevance_result, patient_info, screening)
         final_md = base_md
 
-        if use_llm and self.api_key and self.api_key != "your_openai_api_key_here":
+        if use_llm and self.client and self.api_key and self.api_key != "your_openai_api_key_here":
             try:
                 prompt = (
                     "너는 한국의 알레르기 전문의다. 아래 [초안]은 환자의 알레르기 검사 결과와 "
