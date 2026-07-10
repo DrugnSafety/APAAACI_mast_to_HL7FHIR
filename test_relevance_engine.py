@@ -184,7 +184,7 @@ def test_questionnaire_engine():
     """적응형 문진 생성 + 그룹 답변 기반 판정 검증"""
     from services.questionnaire_service import (
         get_questionnaire_engine, Q_PATTERN, Q_SEASONS, Q_INDOOR_TIMING,
-        Q_MITE_DUST, QP_POLLEN, QP_ANIMAL_CONTACT, QP_ANIMAL_WORSE, QP_FOOD_REACT,
+        Q_MITE_DUST, QP_POLLEN, QP_ANIMAL_CONTACT, QP_ANIMAL_WORSE, QP_FOOD_SYMPTOMS,
         Q_OAS, Q_FOOD_SYSTEMIC,
     )
     rs = get_relevance_service()
@@ -220,7 +220,7 @@ def test_questionnaire_engine():
         Q_MITE_DUST: "yes",
         QP_ANIMAL_CONTACT + "agn2": "yes",
         QP_ANIMAL_WORSE + "agn2": "no",
-        QP_FOOD_REACT + "agn3": "no",
+        QP_FOOD_SYMPTOMS + "agn3": ["none"],  # 땅콩 문제없이 섭취 → 감작만
         Q_OAS: "no", Q_FOOD_SYSTEMIC: "no",
     }
     eng.classify(res, answers, None)
@@ -232,6 +232,41 @@ def test_questionnaire_engine():
     for a in res.assessments:
         assert a.rationale_ko, f"근거 문구 없음: {a.allergen_name}"
     print("✓ adaptive questionnaire build + grouped-answer classification")
+
+
+def test_shellfish_and_mite_tropomyosin():
+    """갑각류 양방향 감별 + 진드기↔갑각류 트로포마이오신 교차반응"""
+    from services.questionnaire_service import (
+        get_questionnaire_engine, Q_PATTERN, Q_INDOOR_TIMING, Q_MITE_DUST,
+        Q_MITE_SHELLFISH, QP_SHELLFISH,
+    )
+    rs = get_relevance_service()
+    eng = get_questionnaire_engine()
+
+    # (a) 새우 강양성이지만 잘 먹음 → 감작만 (reverse scenario)
+    ocr = OCRResult(test_type=TestType.MAST, patient=PatientInfo(name="새우"),
+                    results=[_mast("Shrimp", "새우", 25.0, 4, AllergenCategory.FOOD, idx=1)])
+    res = rs.build_assessments(ocr, None)
+    q = eng.build(res, None)
+    fq = [x["id"] for s in q["sections"] if s["id"] == "food" for x in s["questions"]]
+    assert any(x.startswith("shellfish_react__") for x in fq), "갑각류 섭취반응 질문 없음"
+    eng.classify(res, {QP_SHELLFISH + "agn0": "none"}, None)
+    assert res.assessments[0].relevance == ClinicalRelevance.SENSITIZED_ONLY, "강양성+무증상은 감작만이어야"
+
+    # (b) 진드기 양성, 갑각류 미검사 → 트로포마이오신 질문 생성 + 전신반응 → note
+    ocr2 = OCRResult(test_type=TestType.MAST, patient=PatientInfo(name="진드기"),
+                     results=[_mast("Dermatophagoides farinae", "집먼지진드기", 20.0, 4, AllergenCategory.MITE, idx=1)])
+    res2 = rs.build_assessments(ocr2, None)
+    q2 = eng.build(res2, None)
+    fq2 = [x["id"] for s in q2["sections"] if s["id"] == "food" for x in s["questions"]]
+    assert Q_MITE_SHELLFISH in fq2, "진드기 양성 시 갑각류 교차반응 질문이 있어야"
+    eng.classify(res2, {Q_PATTERN: "perennial", Q_INDOOR_TIMING: "yes", Q_MITE_DUST: "yes",
+                        Q_MITE_SHELLFISH: "systemic"}, None)
+    assert "트로포마이오신" in res2.assessments[0].rationale_ko, "진드기-갑각류 교차 note 누락"
+    # FHIR 교차반응 음식 항목에 갑각류 포함
+    items = eng.crossreactive_food_items(res2.assessments, {Q_MITE_SHELLFISH: "systemic"})
+    assert any(it["source"] == "mite_tropomyosin" for it in items), "FHIR 교차반응 갑각류 항목 누락"
+    print("✓ shellfish bidirectional + mite-tropomyosin cross-reactivity")
 
 
 def test_questionnaire_food_systemic_and_oas():

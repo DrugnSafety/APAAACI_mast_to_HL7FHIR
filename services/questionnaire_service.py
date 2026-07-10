@@ -51,7 +51,27 @@ Q_PATTERN = "symptom_pattern"           # perennial / seasonal / both / none
 Q_SEASONS = "worse_seasons"             # multi: spring/summer/fall/winter
 Q_OAS = "oral_allergy_syndrome"         # 구강알레르기증후군
 Q_OAS_FOODS = "oas_foods"               # 교차반응으로 증상 유발하는 음식(다중) - 양성 꽃가루 기반
+Q_MITE_SHELLFISH = "mite_shellfish"     # 진드기↔갑각류 트로포마이오신 교차반응 (none/oral/systemic/never)
 Q_FOOD_SYSTEMIC = "food_systemic"       # 음식 전신 반응
+QP_SHELLFISH = "shellfish_react__"      # + key : 갑각류 섭취 시 반응(양방향 감별)
+QP_FOOD_SYMPTOMS = "food_symptoms__"    # + key : 일반 음식 섭취 시 증상 유형(다중)
+
+# 음식/갑각류 섭취 반응 유형 (단일)
+FOOD_REACT_OPTIONS = [
+    {"value": "none", "label": "잘 먹어요 (증상 없음)"},
+    {"value": "oral", "label": "입·입술·목만 가렵거나 부어요"},
+    {"value": "systemic", "label": "두드러기·호흡곤란·복통 등 전신 증상"},
+    {"value": "never", "label": "먹어본 적 없음 / 잘 모르겠어요"},
+]
+# 일반 음식 증상 유형 (다중)
+FOOD_SYMPTOM_OPTIONS = [
+    {"value": "oral", "label": "입·목 가려움/부종"},
+    {"value": "skin", "label": "두드러기·피부 발진"},
+    {"value": "gi", "label": "복통·구토·설사"},
+    {"value": "breathing", "label": "호흡곤란·기침·쌕쌕"},
+    {"value": "anaphylaxis", "label": "어지럼·아나필락시스"},
+    {"value": "none", "label": "먹어도 증상 없음"},
+]
 Q_INDOOR_TIMING = "indoor_timing"       # 저녁/새벽/이른아침 악화
 Q_INDOOR_AWAY = "indoor_away"           # 집 비우면 호전
 Q_MITE_DUST = "mite_dust"               # 먼지·이불 정리 시 악화
@@ -284,57 +304,70 @@ class QuestionnaireEngine:
                 "questions": animal_qs,
             })
 
-        # ---- 섹션 6: 음식 / 구강알레르기 ----
-        if foods or pollen_oas:
-            food_qs = [
-                {
-                    "id": Q_OAS,
-                    "type": "single",
+        # ---- 섹션 6: 음식 / 구강알레르기 / 교차반응 ----
+        ks = get_knowledge_service()
+        shellfish_foods = [(i, a) for i, a in foods if ks.is_shellfish(a.allergen_name, a.korean_name)]
+        other_foods = [(i, a) for i, a in foods if (i, a) not in shellfish_foods]
+        if foods or pollen_oas or has_mite:
+            food_qs = []
+            # (1) 꽃가루 OAS 게이트
+            if pollen_oas or foods:
+                food_qs.append({
+                    "id": Q_OAS, "type": "single",
                     "title": "생과일·생채소·견과를 먹으면 입·입술·혀·목이 가렵거나 붓나요?",
                     "help": "구강알레르기증후군(OAS)일 수 있습니다. 꽃가루 알레르기와 관련이 깊습니다.",
-                    "options": YNU,
-                    "applies_to": [],
-                },
-            ]
-            # 양성 꽃가루 기반 교차반응 음식 후속 질문 (OAS='예'일 때 노출)
-            pfas_opts, pfas_link = self._pfas_options(assessments)
-            if pfas_opts:
-                food_qs.append({
-                    "id": Q_OAS_FOODS,
-                    "type": "multi",
-                    "title": "그렇다면, 아래 음식 중 먹었을 때 입·목 증상이 생기는 것을 모두 선택하세요.",
-                    "help": "양성으로 나온 꽃가루와 교차반응이 알려진 음식들입니다. 실제로 증상이 있었던 것만 고르세요. "
-                            "(대부분 익히면 괜찮아지지만, 견과·콩·셀러리 등은 전신 반응 가능성도 있어 주의)",
-                    "options": pfas_opts + [{"value": "none", "label": "해당 없음 / 문제된 음식 없음"}],
-                    "applies_to": [],
-                    "reveal_if": {"question": Q_OAS, "equals": YES},
+                    "options": YNU, "applies_to": [],
                 })
-            food_qs.append({
-                "id": Q_FOOD_SYSTEMIC,
-                "type": "single",
-                "title": "특정 음식을 먹은 뒤 두드러기·호흡곤란·복통 등 전신 증상이 있었나요?",
-                "help": "전신 반응(아나필락시스 포함)은 응급 상황일 수 있어 반드시 확인합니다.",
-                "options": YNU,
-                "applies_to": [],
-            })
-            for i, a in foods:
+                pfas_opts, _ = self._pfas_options(assessments)
+                if pfas_opts:
+                    food_qs.append({
+                        "id": Q_OAS_FOODS, "type": "multi",
+                        "title": "그렇다면, 아래 음식 중 먹었을 때 입·목 증상이 생기는 것을 모두 선택하세요.",
+                        "help": "양성으로 나온 꽃가루와 교차반응이 알려진 음식들입니다. 실제로 증상이 있었던 것만 고르세요. "
+                                "(대부분 익히면 괜찮아지지만, 견과·콩·셀러리 등은 전신 반응 가능성도 있어 주의)",
+                        "options": pfas_opts + [{"value": "none", "label": "해당 없음 / 문제된 음식 없음"}],
+                        "applies_to": [], "reveal_if": {"question": Q_OAS, "equals": YES},
+                    })
+            # (2) 진드기↔갑각류 트로포마이오신 (갑각류 양성이 없을 때만 일반 질문)
+            if has_mite and not shellfish_foods:
+                food_qs.append({
+                    "id": Q_MITE_SHELLFISH, "type": "single",
+                    "title": "새우·게 등 갑각류를 먹으면 입·목 또는 전신에 증상이 생기나요?",
+                    "help": "집먼지진드기와 갑각류는 '트로포마이오신'이라는 공통 단백질로 교차반응할 수 있어, "
+                            "갑각류 검사를 안 했거나 음성이어도 증상이 나타날 수 있습니다.",
+                    "options": FOOD_REACT_OPTIONS,
+                    "applies_to": [_key(i) for i, a in enumerate(assessments) if _cat(a) == "mite"],
+                })
+            # (3) 갑각류 양성 → 실제 섭취 반응(양방향 감별)
+            for i, a in shellfish_foods:
                 nm = _name(a)
                 food_qs.append({
-                    "id": QP_FOOD_REACT + _key(i),
-                    "type": "single",
-                    "title": f"{nm}을(를) 먹으면 반복적으로 증상이 생기나요?",
-                    "help": "현재 문제없이 먹고 있다면 ‘아니오’를 선택하세요.",
-                    "options": [
-                        {"value": YES, "label": "예, 먹으면 증상이 생겨요"},
-                        {"value": NO, "label": "아니오, 문제없이 먹어요"},
-                        {"value": UNSURE, "label": "먹어본 적 없음 / 잘 모르겠어요"},
-                    ],
-                    "applies_to": [_key(i)],
+                    "id": QP_SHELLFISH + _key(i), "type": "single",
+                    "title": f"{nm}을(를) 실제로 먹었을 때 어떤가요?",
+                    "help": "검사에 강양성이어도 실제로 먹으면 아무렇지 않은 경우(감작만)가 흔합니다. "
+                            "무증상이면 불필요하게 끊을 필요가 없습니다.",
+                    "options": FOOD_REACT_OPTIONS, "applies_to": [_key(i)],
                 })
+            # (4) 일반 음식 양성 → 증상 유형(다중)
+            for i, a in other_foods:
+                nm = _name(a)
+                food_qs.append({
+                    "id": QP_FOOD_SYMPTOMS + _key(i), "type": "multi",
+                    "title": f"{nm}을(를) 먹으면 어떤 증상이 생기나요?",
+                    "help": "여러 개 선택 가능. 현재 문제없이 먹고 있다면 ‘먹어도 증상 없음’을 고르세요.",
+                    "options": FOOD_SYMPTOM_OPTIONS, "applies_to": [_key(i)],
+                })
+            # (5) 전신 반응 게이트
+            food_qs.append({
+                "id": Q_FOOD_SYSTEMIC, "type": "single",
+                "title": "특정 음식을 먹은 뒤 두드러기·호흡곤란·복통 등 전신 증상이 있었나요?",
+                "help": "전신 반응(아나필락시스 포함)은 응급 상황일 수 있어 반드시 확인합니다.",
+                "options": YNU, "applies_to": [],
+            })
             sections.append({
                 "id": "food",
-                "title": "음식·구강 알레르기",
-                "subtitle": "먹었을 때의 반응으로 실제 음식 알레르기를 가립니다.",
+                "title": "음식·구강 알레르기 · 교차반응",
+                "subtitle": "먹었을 때의 반응으로 실제 음식 알레르기와 교차반응을 가립니다.",
                 "questions": food_qs,
             })
 
@@ -391,6 +424,24 @@ class QuestionnaireEngine:
         label = {o["value"]: o["label"] for o in opts}
         return [{"en": v, "ko": label.get(v, v), "pollens": link.get(v, [])} for v in selected]
 
+    def crossreactive_food_items(self, assessments, answers):
+        """FHIR 매핑용 교차반응 음식 통합 목록 (꽃가루 OAS + 진드기↔갑각류).
+        반환: [{"en","ko","source","severity","pollens"?}]"""
+        items = []
+        for f in self.oas_selected_foods(assessments, answers):
+            items.append({**f, "source": "pollen", "severity": "oral"})
+        # 진드기↔갑각류 (갑각류 검사가 양성으로 별도 존재하지 않을 때만 추가)
+        answers = answers or {}
+        ms = answers.get(Q_MITE_SHELLFISH)
+        ks = get_knowledge_service()
+        has_mite = any(_cat(a) == "mite" for a in assessments)
+        has_pos_shellfish = any(_cat(a) == "food" and ks.is_shellfish(a.allergen_name, a.korean_name)
+                                for a in assessments)
+        if has_mite and not has_pos_shellfish and ms in ("oral", "systemic"):
+            items.append({"en": "shellfish", "ko": "새우·게(갑각류)", "source": "mite_tropomyosin",
+                          "severity": ms, "pollens": []})
+        return items
+
     def _prefill(
         self, assessments: List[AllergenAssessment], screening: Optional[ScreeningProfile]
     ) -> Dict[str, Any]:
@@ -437,6 +488,7 @@ class QuestionnaireEngine:
         mite_dust = answers.get(Q_MITE_DUST)
         mold_damp = answers.get(Q_MOLD_DAMP)
         roach_env = answers.get(Q_ROACH_ENV)
+        mite_shellfish = answers.get(Q_MITE_SHELLFISH)  # 진드기↔갑각류 트로포마이오신
 
         # OAS 로 선택된 교차반응 음식을 꽃가루별로 정리
         oas_by_pollen: Dict[str, List[str]] = {}
@@ -444,14 +496,15 @@ class QuestionnaireEngine:
             for p in f.get("pollens", []):
                 oas_by_pollen.setdefault(p, []).append(f["ko"])
 
+        ks = get_knowledge_service()
         for i, a in enumerate(result.assessments):
             cat = _cat(a)
-            # 답변 흔적을 assessment.answers 에도 남겨 리포트/디버깅에 활용
             if cat in POLLEN_GROUPS:
                 self._classify_pollen(a, cat, answers, worse_months, oas,
                                       oas_by_pollen.get(_name(a), []))
             elif cat == "mite":
                 self._classify_indoor(a, "mite", indoor_timing, indoor_away, mite_dust, pattern)
+                self._append_mite_shellfish_note(a, mite_shellfish)
             elif cat == "insect":
                 self._classify_indoor(a, "insect", indoor_timing, indoor_away, roach_env, pattern)
             elif cat == "mold":
@@ -459,10 +512,21 @@ class QuestionnaireEngine:
             elif cat == "animal":
                 self._classify_animal(a, _key(i), answers)
             elif cat == "food":
-                self._classify_food(a, _key(i), answers, oas, food_systemic)
+                if ks.is_shellfish(a.allergen_name, a.korean_name):
+                    self._classify_shellfish(a, _key(i), answers, has_mite="mite" in [_cat(x) for x in result.assessments])
+                else:
+                    self._classify_food_symptoms(a, _key(i), answers, food_systemic)
             else:
                 self._classify_generic(a, pattern)
         return result
+
+    def _append_mite_shellfish_note(self, a, mite_shellfish):
+        if mite_shellfish in ("oral", "systemic"):
+            sev = "전신 반응" if mite_shellfish == "systemic" else "입·목 증상"
+            a.rationale_ko = (a.rationale_ko or "") + (
+                f" 또한 진드기-갑각류 교차반응(트로포마이오신)으로 새우·게 섭취 시 {sev}이 있다고 하셨습니다. "
+                f"갑각류 섭취에 {'각별히 ' if mite_shellfish=='systemic' else ''}주의하세요"
+                f"{'(전신 반응 병력은 전문의 평가 필요)' if mite_shellfish=='systemic' else ''}.")
 
     # ---- 카테고리별 판정 ----
     def _classify_pollen(self, a, cat, answers, worse_months, oas, oas_foods=None):
@@ -578,27 +642,57 @@ class QuestionnaireEngine:
             a.relevance = ClinicalRelevance.INDETERMINATE
             a.rationale_ko = f"{name} 접촉·증상 정보가 부족해 판정을 보류합니다."
 
-    def _classify_food(self, a, key, answers, oas, food_systemic):
+    def _classify_shellfish(self, a, key, answers, has_mite=False):
+        """갑각류(새우·게) — 양방향 감별: 강양성이어도 무증상이면 감작만."""
         name = _name(a)
-        react = answers.get(QP_FOOD_REACT + key)
-        if react == YES or food_systemic == YES:
+        react = answers.get(QP_SHELLFISH + key)
+        trop = " (집먼지진드기와의 트로포마이오신 교차반응 가능성도 함께 고려됩니다.)" if has_mite else ""
+        if react == "systemic":
             a.relevance = ClinicalRelevance.CLINICALLY_RELEVANT
-            sys_note = " 특히 전신 반응(두드러기·호흡곤란 등) 병력이 있다면 반드시 전문의 평가가 필요합니다." \
-                if food_systemic == YES else ""
             a.rationale_ko = (
-                f"{name} 섭취 시 증상이 재현되어 임상적으로 의미 있는 음식 알레르기로 판단됩니다.{sys_note}")
-        elif react == NO:
+                f"{name} 섭취 시 두드러기·호흡곤란 등 전신 증상이 있어, 임상적으로 의미 있는 갑각류 "
+                f"알레르기로 판단됩니다. 섭취를 피하고 전문의 평가·응급계획이 필요합니다.{trop}")
+        elif react == "oral":
+            a.relevance = ClinicalRelevance.CLINICALLY_RELEVANT
+            a.rationale_ko = (
+                f"{name} 섭취 시 입·목에 국소 증상이 있습니다(구강알레르기증후군형). 생물·많은 양에서 특히 "
+                f"주의하고, 증상이 심해지면 전문의와 상의하세요.{trop}")
+        elif react == "none":
             a.relevance = ClinicalRelevance.SENSITIZED_ONLY
             a.rationale_ko = (
-                f"검사는 양성이지만 {name}을(를) 현재 문제없이 섭취하고 있습니다. → 감작만 된 상태로 "
-                f"보이며, 불필요한 식이 제한은 오히려 해로울 수 있습니다.")
-        else:
-            oas_hint = ""
-            if oas == YES:
-                oas_hint = " 생것 섭취 시 입·목 증상(구강알레르기증후군) 여부도 함께 확인하세요."
+                f"검사는 양성(때로 강양성)이지만 {name}을(를) 실제로 문제없이 드시고 있습니다. → 감작만 된 "
+                f"상태로, 불필요하게 갑각류를 끊을 필요가 없습니다. 새 증상이 생기면 재평가하세요.{trop}")
+        else:  # never / 정보부족
             a.relevance = ClinicalRelevance.INDETERMINATE
             a.rationale_ko = (
-                f"{name} 섭취 경험·증상 정보가 부족해 판정을 보류합니다.{oas_hint}")
+                f"{name}을(를) 먹어본 경험·증상 정보가 부족해 판정을 보류합니다. 소량부터 섭취해 반응을 "
+                f"관찰하되, 과거 전신 반응이 있었다면 전문의와 먼저 상의하세요.{trop}")
+
+    def _classify_food_symptoms(self, a, key, answers, food_systemic):
+        """일반 음식 — 증상 유형(다중)으로 판정·중증도 구분."""
+        name = _name(a)
+        syms = set(answers.get(QP_FOOD_SYMPTOMS + key, []) or [])
+        systemic_syms = syms & {"skin", "gi", "breathing", "anaphylaxis"}
+        if "none" in syms and not (syms - {"none"}):
+            a.relevance = ClinicalRelevance.SENSITIZED_ONLY
+            a.rationale_ko = (
+                f"검사는 양성이지만 {name}을(를) 현재 문제없이 섭취하고 있습니다. → 감작만 된 상태로 보이며, "
+                f"불필요한 식이 제한은 오히려 해로울 수 있습니다.")
+        elif systemic_syms or food_systemic == YES:
+            a.relevance = ClinicalRelevance.CLINICALLY_RELEVANT
+            severe = ("anaphylaxis" in syms) or ("breathing" in syms) or food_systemic == YES
+            note = " 전신 반응(호흡곤란·아나필락시스) 병력은 응급 위험이 있어 반드시 전문의 평가와 응급계획이 필요합니다." if severe else ""
+            a.rationale_ko = (
+                f"{name} 섭취 시 {'전신 ' if severe else ''}알레르기 증상이 재현되어 임상적으로 의미 있는 "
+                f"음식 알레르기로 판단됩니다.{note}")
+        elif "oral" in syms:
+            a.relevance = ClinicalRelevance.CLINICALLY_RELEVANT
+            a.rationale_ko = (
+                f"{name} 섭취 시 입·목에 국소 증상이 있습니다(구강알레르기증후군형). 생물에서 특히 주의하고, "
+                f"대개 가열 시 증상이 줄어듭니다.")
+        else:
+            a.relevance = ClinicalRelevance.INDETERMINATE
+            a.rationale_ko = f"{name} 섭취 경험·증상 정보가 부족해 판정을 보류합니다."
 
     def _classify_generic(self, a, pattern):
         a.relevance = ClinicalRelevance.INDETERMINATE

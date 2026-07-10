@@ -83,5 +83,17 @@
     "pollen_tree": "Birch pollen",
     "pollen_weed": "Mugwort pollen",
     "pollen_grass": "Timothy grass pollen"
-  }
+  },
+  "mite_shellfish": {
+    "component": "Tropomyosin (Der p 10 / Der f 10)",
+    "note_ko": "집먼지진드기의 트로포마이오신은 새우·게 등 갑각류 트로포마이오신과 교차반응합니다. 그래서 갑각류 검사가 없거나 음성이어도 집먼지진드기 감작만으로 새우·게 섭취 시 입·목 또는 전신 증상이 나타날 수 있습니다. 반대로 갑각류에 강하게 감작되어 있어도 실제로 먹으면 아무 증상이 없는 경우(감작만)도 흔합니다 — 이때는 불필요한 식이 제한을 피해야 합니다.",
+    "foods": [
+      {"ko": "새우", "en": "shrimp"},
+      {"ko": "게", "en": "crab"},
+      {"ko": "랍스터·가재", "en": "lobster"},
+      {"ko": "조개·굴", "en": "shellfish_mollusk"},
+      {"ko": "오징어·문어", "en": "cephalopod"}
+    ]
+  },
+  "shellfish_food_names": ["shrimp", "crab", "lobster", "prawn", "새우", "게", "랍스터", "가재", "대하", "꽃게"]
 }

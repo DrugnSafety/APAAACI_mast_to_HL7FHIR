@@ -237,10 +237,10 @@ def fhir(req: ClassifyRequest):
     result = rs.build_assessments(req.ocr, req.screening)
     engine = get_questionnaire_engine()
     engine.classify(result, req.answers, req.screening)
-    oas_foods = engine.oas_selected_foods(result.assessments, req.answers)
+    cross_foods = engine.crossreactive_food_items(result.assessments, req.answers)
 
     fs = FHIRService()
-    return fs.build_bundles_from_relevance(req.ocr, result, req.screening, oas_foods)
+    return fs.build_bundles_from_relevance(req.ocr, result, req.screening, cross_foods)
 
 
 # ============================================================

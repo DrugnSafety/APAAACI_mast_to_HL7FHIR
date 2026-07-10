@@ -498,11 +498,19 @@ class FHIRService:
                 a, patient_id, patient_name, recorded, high_criticality=high)
             allergy_bundle["entry"].append({"resource": ai})
 
-        # 교차반응(OAS) 음식 알러젠 추가 — 의심(unconfirmed)
+        # 교차반응 음식 알러젠 추가 — 의심(unconfirmed)
         for f in (oas_foods or []):
-            pollens = ", ".join(f.get("pollens", []))
-            note = (f"꽃가루-음식 교차반응(구강알레르기증후군). 연관 꽃가루: {pollens}. "
-                    f"생과일·채소 섭취 시 입·목 증상, 대개 가열 시 완화.")
+            source = f.get("source", "pollen")
+            severity = f.get("severity", "oral")
+            if source == "mite_tropomyosin":
+                note = ("집먼지진드기-갑각류 교차반응(트로포마이오신). 갑각류 검사가 없거나 음성이어도 "
+                        "새우·게 섭취 시 " + ("전신 반응" if severity == "systemic" else "입·목 증상") + " 가능.")
+                crit = "high" if severity == "systemic" else "low"
+            else:
+                pollens = ", ".join(f.get("pollens", []))
+                note = (f"꽃가루-음식 교차반응(구강알레르기증후군). 연관 꽃가루: {pollens}. "
+                        f"생과일·채소 섭취 시 입·목 증상, 대개 가열 시 완화.")
+                crit = "high" if food_systemic else "low"
             ai = {
                 "resourceType": "AllergyIntolerance",
                 "id": f"allergy-{uuid4().hex[:8]}",
@@ -513,7 +521,7 @@ class FHIRService:
                     "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
                     "code": "unconfirmed", "display": "Unconfirmed"}]},
                 "type": "allergy", "category": ["food"],
-                "criticality": "high" if food_systemic else "low",
+                "criticality": crit,
                 "code": {"text": f.get("ko") or f.get("en")},
                 "patient": {"reference": f"Patient/{patient_id}", "display": patient_name or patient_id},
                 "note": [{"text": note}],
