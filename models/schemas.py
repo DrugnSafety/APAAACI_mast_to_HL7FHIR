@@ -67,6 +67,11 @@ class PatientInfo(BaseModel):
     age: Optional[int] = Field(None, description="환자 나이")
     gender: Optional[Literal["M", "F", "남", "여"]] = Field(None, description="환자 성별")
     test_date: Optional[str] = Field(None, description="검사 날짜 (YYYY-MM-DD)")
+    # 검사 기관/보고 정보 (HL7 FHIR performer/Organization 매핑용)
+    facility: Optional[str] = Field(None, description="검사 시행 기관/병원/검사실 이름")
+    ordering_provider: Optional[str] = Field(None, description="의뢰 의사/의뢰기관")
+    report_date: Optional[str] = Field(None, description="보고서 발행일 (YYYY-MM-DD)")
+    patient_id_external: Optional[str] = Field(None, description="검사지에 인쇄된 환자/차트 번호")
     histamine_mean_mm: Optional[float] = Field(None, description="SPT 히스타민 대조 평균값")
     negative_control_mean_mm: Optional[float] = Field(None, description="SPT 음성 대조 평균값")
     

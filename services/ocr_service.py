@@ -69,12 +69,22 @@ class OCRService:
 REQUIRED JSON STRUCTURE:
 {
   "test_type": "SPT" | "MAST" | "UniCAP",
-  "patient": { "name": "or null", "test_date": "YYYY-MM-DD or null" },
+  "patient": {
+    "name": "or null", "age": number or null, "gender": "M" | "F" | null,
+    "test_date": "YYYY-MM-DD or null", "report_date": "YYYY-MM-DD or null",
+    "facility": "testing lab / hospital / clinic name or null",
+    "ordering_provider": "ordering doctor or referring org or null",
+    "patient_id_external": "printed chart/patient number or null"
+  },
   "results": [
     { "index": 1, "allergen_name": "as printed (keep English + any Korean in parentheses)",
       "class": 0-6 or null, "value": number or null, "unit": "IU/ml | kU/L | mm" }
   ]
 }
+
+PATIENT / FACILITY: read any printed patient demographics (name, age, sex) and the
+testing institution (병원/검사실/laboratory name), ordering doctor, chart/patient number,
+and dates (collection/report). Use null when a field is not printed. Do NOT invent values.
 
 READ EVERY ROW — do not stop early:
 - Tables are OFTEN laid out in TWO COLUMNS (e.g. No 1–31 on the left, No 32–62 on the right).
@@ -385,6 +395,17 @@ Be exhaustive and accurate. Return the JSON only."""
             return float(value)
         except (TypeError, ValueError):
             return None
+
+    def _safe_int(self, value: Any) -> Optional[int]:
+        """안전한 int 변환 (문자열 '34세' 등에서 숫자만 추출)"""
+        if value is None:
+            return None
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            import re
+            m = re.search(r"\d+", str(value))
+            return int(m.group()) if m else None
     
     def _fix_common_json_errors(self, json_str: str) -> str:
         """일반적인 JSON 오류 수정"""
@@ -443,11 +464,20 @@ Be exhaustive and accurate. Return the JSON only."""
             
             # PatientInfo 파싱
             patient_data = data.get('patient', {})
+            _g = patient_data.get('gender')
+            if isinstance(_g, str):
+                _g = _g.strip().upper()[:1]
+                _g = {"M": "M", "F": "F", "남": "M", "여": "F"}.get(_g) or (
+                    "M" if _g in ("남",) else "F" if _g in ("여",) else None)
             patient = PatientInfo(
                 name=patient_data.get('name'),
-                age=patient_data.get('age'),
-                gender=patient_data.get('gender'),
+                age=self._safe_int(patient_data.get('age')),
+                gender=_g,
                 test_date=patient_data.get('test_date'),
+                report_date=patient_data.get('report_date'),
+                facility=patient_data.get('facility'),
+                ordering_provider=patient_data.get('ordering_provider'),
+                patient_id_external=patient_data.get('patient_id_external'),
                 histamine_mean_mm=patient_data.get('histamine_mean_mm'),
                 negative_control_mean_mm=patient_data.get('negative_control_mean_mm')
             )

@@ -21,6 +21,31 @@ from config.settings import BASE_DIR
 logger = logging.getLogger(__name__)
 
 KB_PATH = BASE_DIR / "data" / "allergen_knowledge_base.json"
+PFAS_PATH = BASE_DIR / "data" / "pollen_food_cross_reactivity.json"
+
+# 알레르겐 면역치료(SCIT/SLIT) 적용 가능성 (카테고리 기준)
+IMMUNOTHERAPY_BY_CATEGORY: Dict[str, Dict[str, Any]] = {
+    "mite": {"eligible": True,
+             "ko": "집먼지진드기는 알레르겐 면역치료(설하/피하)의 근거가 가장 확실한 대표 대상입니다. "
+                   "3~5년 꾸준히 받으면 증상·약물 필요를 줄이고 천식 진행을 예방할 수 있습니다."},
+    "pollen_tree": {"eligible": True,
+                    "ko": "꽃가루 알레르기는 면역치료(설하/피하)로 증상을 줄일 수 있는 대표 대상입니다. "
+                          "특히 약물로 조절이 어렵거나 증상이 심할 때 고려합니다."},
+    "pollen_grass": {"eligible": True,
+                     "ko": "잔디(화본과) 꽃가루는 설하면역치료(정제) 근거가 잘 확립된 대상입니다."},
+    "pollen_weed": {"eligible": True,
+                    "ko": "잡초 꽃가루도 면역치료 대상이 될 수 있어, 증상이 심하면 전문의와 상의하세요."},
+    "animal": {"eligible": True,
+               "ko": "고양이 등 동물 알레르기도 면역치료가 가능하나, 접촉 회피가 우선입니다. "
+                     "직업상 회피가 어렵거나 증상이 심할 때 고려합니다."},
+    "mold": {"eligible": True,
+             "ko": "알테르나리아 등 일부 곰팡이는 면역치료가 가능하지만 표준화·근거가 제한적입니다."},
+    "insect": {"eligible": False,
+               "ko": "바퀴 등 실내 곤충 알레르기의 면역치료는 근거가 제한적이라, 환경 관리가 우선입니다."},
+    "food": {"eligible": False,
+             "ko": "음식 알레르기는 일반적 면역치료(SCIT/SLIT) 대상이 아니며, 회피가 기본입니다. "
+                   "일부(우유·계란·땅콩)는 전문기관의 경구면역치료(OIT) 대상이 될 수 있습니다."},
+}
 
 # 카테고리 정규화: 다양한 표기를 표준 키로
 CATEGORY_ALIASES = {
@@ -292,6 +317,42 @@ class KnowledgeService:
             if normalize_category(rule.get("category")) == cat:
                 return rule
         return None
+
+    # ---------- 면역치료 적용 가능성 ----------
+    def immunotherapy_info(self, category: Optional[str], name: str = "") -> Dict[str, Any]:
+        cat = normalize_category(category)
+        info = IMMUNOTHERAPY_BY_CATEGORY.get(cat, {"eligible": False, "ko": ""})
+        return {"eligible": bool(info.get("eligible")), "ko": info.get("ko", ""), "category": cat}
+
+    # ---------- 꽃가루-음식 교차반응(PFAS/OAS) ----------
+    def _load_pfas(self) -> Dict[str, Any]:
+        if getattr(self, "_pfas", None) is None:
+            try:
+                with open(PFAS_PATH, "r", encoding="utf-8") as f:
+                    self._pfas = json.load(f)
+            except Exception as e:
+                logger.warning(f"PFAS 데이터셋 로드 실패: {e}")
+                self._pfas = {"pollen_food": {}, "category_fallback": {}}
+        return self._pfas
+
+    def pfas_foods_for(self, canonical_name: str, category: Optional[str] = None) -> Dict[str, Any]:
+        """양성 꽃가루에 대해 교차반응 가능 음식 목록 반환.
+        반환: {"group_ko": str, "foods": [{"ko","en"}...]} 또는 빈 dict."""
+        data = self._load_pfas()
+        pf = data.get("pollen_food", {})
+        entry = pf.get(canonical_name)
+        # 이름 매칭 실패 시 카테고리 대표값으로 폴백
+        if not entry and category:
+            fb = data.get("category_fallback", {}).get(normalize_category(category))
+            entry = pf.get(fb) if fb else None
+        if not entry:
+            return {}
+        # same_as 참조 해소
+        if entry.get("same_as"):
+            ref = pf.get(entry["same_as"], {})
+            foods = ref.get("foods", [])
+            return {"group_ko": entry.get("group_ko", ""), "foods": foods}
+        return {"group_ko": entry.get("group_ko", ""), "foods": entry.get("foods", [])}
 
     def stats(self) -> Dict[str, Any]:
         cats: Dict[str, int] = {}

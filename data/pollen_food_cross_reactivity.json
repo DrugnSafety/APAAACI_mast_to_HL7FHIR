@@ -1,0 +1,87 @@
+{
+  "version": "1.0",
+  "locale": "ko-KR",
+  "description": "꽃가루-음식 알레르기 증후군(PFAS, 구강알레르기증후군 OAS) 교차반응 데이터셋. 꽃가루 감작 시 교차반응으로 특정 생과일·채소·견과 섭취 후 입·입술·목의 가려움/부종이 생길 수 있다. 대부분 가열 시 증상이 줄어든다(불안정 단백질). 견과·셀러리·콩 등 일부는 전신 반응 가능성이 있어 주의.",
+  "note_ko": "이 목록은 교차반응 '가능성'이 알려진 대표 음식이며, 실제 반응 여부는 개인마다 다릅니다. 먹었을 때 실제 증상이 있었던 음식만 임상적으로 의미가 있습니다.",
+  "pollen_food": {
+    "Birch pollen": {
+      "group_ko": "자작나무(PR-10/Bet v 1) 계열",
+      "component": "Bet v 1 homologue (PR-10)",
+      "foods": [
+        {"ko": "사과", "en": "apple"},
+        {"ko": "복숭아", "en": "peach"},
+        {"ko": "배", "en": "pear"},
+        {"ko": "체리", "en": "cherry"},
+        {"ko": "자두·살구", "en": "plum/apricot"},
+        {"ko": "키위", "en": "kiwi"},
+        {"ko": "당근", "en": "carrot"},
+        {"ko": "셀러리", "en": "celery"},
+        {"ko": "헤이즐넛", "en": "hazelnut"},
+        {"ko": "아몬드", "en": "almond"},
+        {"ko": "땅콩", "en": "peanut"},
+        {"ko": "콩(대두)", "en": "soybean"}
+      ]
+    },
+    "Oak pollen": {
+      "group_ko": "참나무(PR-10) 계열",
+      "component": "PR-10 (Bet v 1 유사)",
+      "same_as": "Birch pollen"
+    },
+    "Alder pollen": {
+      "group_ko": "오리나무(PR-10) 계열",
+      "component": "PR-10 (Bet v 1 유사)",
+      "same_as": "Birch pollen"
+    },
+    "Mugwort pollen": {
+      "group_ko": "쑥(셀러리-당근-향신료 증후군)",
+      "component": "Art v 1 / defensin, LTP, profilin",
+      "foods": [
+        {"ko": "셀러리", "en": "celery"},
+        {"ko": "당근", "en": "carrot"},
+        {"ko": "파슬리·고수", "en": "parsley/coriander"},
+        {"ko": "향신료(커민·회향·후추)", "en": "spices"},
+        {"ko": "겨자", "en": "mustard"},
+        {"ko": "망고", "en": "mango"},
+        {"ko": "해바라기씨", "en": "sunflower seed"},
+        {"ko": "리치·포도", "en": "lychee/grape"}
+      ]
+    },
+    "Ragweed pollen": {
+      "group_ko": "돼지풀(멜론-바나나 증후군)",
+      "component": "Amb a 1 / profilin",
+      "foods": [
+        {"ko": "멜론(수박·참외·머스크멜론)", "en": "melon"},
+        {"ko": "바나나", "en": "banana"},
+        {"ko": "오이", "en": "cucumber"},
+        {"ko": "애호박", "en": "zucchini"},
+        {"ko": "해바라기씨", "en": "sunflower seed"},
+        {"ko": "카모마일차", "en": "chamomile"}
+      ]
+    },
+    "Japanese hop pollen": {
+      "group_ko": "환삼덩굴",
+      "component": "profilin 등(자료 제한적)",
+      "foods": [
+        {"ko": "멜론류", "en": "melon"},
+        {"ko": "바나나", "en": "banana"}
+      ]
+    },
+    "Timothy grass pollen": {
+      "group_ko": "화본과(잔디) 꽃가루",
+      "component": "profilin (Phl p 12) 등",
+      "foods": [
+        {"ko": "멜론(수박·참외)", "en": "melon"},
+        {"ko": "토마토", "en": "tomato"},
+        {"ko": "오렌지·감귤", "en": "orange"},
+        {"ko": "키위", "en": "kiwi"},
+        {"ko": "땅콩", "en": "peanut"},
+        {"ko": "감자(생)", "en": "potato"}
+      ]
+    }
+  },
+  "category_fallback": {
+    "pollen_tree": "Birch pollen",
+    "pollen_weed": "Mugwort pollen",
+    "pollen_grass": "Timothy grass pollen"
+  }
+}

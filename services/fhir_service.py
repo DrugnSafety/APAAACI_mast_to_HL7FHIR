@@ -379,6 +379,151 @@ class FHIRService:
             logger.error(f"AllergyIntolerance Bundle 생성 실패: {e}")
             raise
     
+    # =====================================================================
+    # v2: 감별(relevance) 결과 기반 통합 번들 — Observation(전체) + AllergyIntolerance
+    # =====================================================================
+    def _category_fhir(self, cat: str) -> str:
+        """내부 카테고리 → FHIR AllergyIntolerance.category (food|medication|environment|biologic)"""
+        cat = (cat or "").lower()
+        if cat == "food":
+            return "food"
+        return "environment"
+
+    def build_allergy_intolerance_from_assessment(
+        self, a: Any, patient_id: str, patient_name: Optional[str],
+        recorded_date: Optional[str], high_criticality: bool = False,
+        extra_note: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """AllergenAssessment(감별 결과)를 AllergyIntolerance 로 변환.
+        - verificationStatus: confirmed(임상적 유의) / unconfirmed(감작만·미확정=의심)
+        - criticality: high(전신·아나필락시스·강감작) / low / unable-to-assess(미확정)
+        - clinicalStatus: active
+        """
+        from models.schemas import ClinicalRelevance
+        name = a.allergen_name
+        korean = a.korean_name
+        mapping = self.allergen_mapper.find_allergen(name)
+        snomed = mapping.snomed if mapping else None
+        cat = self._category_fhir(str(a.category))
+
+        rel = a.relevance
+        if rel == ClinicalRelevance.CLINICALLY_RELEVANT:
+            verification = ("confirmed", "Confirmed")
+        else:  # sensitized_only / indeterminate → 의심(미확인)
+            verification = ("unconfirmed", "Unconfirmed")
+
+        # criticality: 실제 유발(relevant)일 때만 high 로 격상. 감작만/미확정은 낮게.
+        if rel == ClinicalRelevance.INDETERMINATE:
+            criticality = "unable-to-assess"
+        elif rel == ClinicalRelevance.CLINICALLY_RELEVANT and (high_criticality or a.strength == "strong"):
+            criticality = "high"
+        elif rel == ClinicalRelevance.CLINICALLY_RELEVANT:
+            criticality = "low"
+        else:  # sensitized_only
+            criticality = "low"
+
+        coding_text = f"{name}" + (f" ({korean})" if korean and korean != name else "")
+        res: Dict[str, Any] = {
+            "resourceType": "AllergyIntolerance",
+            "id": f"allergy-{uuid4().hex[:8]}",
+            "clinicalStatus": {"coding": [{
+                "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+                "code": "active", "display": "Active"}]},
+            "verificationStatus": {"coding": [{
+                "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+                "code": verification[0], "display": verification[1]}]},
+            "type": "allergy",
+            "category": [cat],
+            "criticality": criticality,
+            "code": {"coding": ([{"system": "http://snomed.info/sct", "code": snomed,
+                                  "display": name}] if snomed else []),
+                     "text": coding_text},
+            "patient": {"reference": f"Patient/{patient_id}",
+                        "display": patient_name or patient_id},
+        }
+        if recorded_date:
+            res["recordedDate"] = recorded_date
+        # 감작 근거/판정을 note 로 남김
+        notes = []
+        if a.rationale_ko:
+            notes.append(a.rationale_ko)
+        if rel != ClinicalRelevance.CLINICALLY_RELEVANT:
+            notes.append("검사 양성이나 임상적 유발은 미확인(감작/의심) 상태 — verificationStatus=unconfirmed.")
+        if extra_note:
+            notes.append(extra_note)
+        if notes:
+            res["note"] = [{"text": " ".join(notes)}]
+        # 임상적으로 유의하면 reaction 요약 추가
+        if rel == ClinicalRelevance.CLINICALLY_RELEVANT:
+            res["reaction"] = [{
+                "manifestation": [{"text": "노출 시 알레르기 증상 유발(문진 확인)"}],
+                "severity": "severe" if criticality == "high" else "moderate",
+            }]
+        return res
+
+    def build_bundles_from_relevance(
+        self, ocr_result: OCRResult, relevance_result: Any,
+        screening: Any = None, oas_foods: Optional[List[Dict[str, Any]]] = None,
+    ) -> Dict[str, Any]:
+        """검사 전체는 Observation 으로, 양성/의심 알러젠은 AllergyIntolerance 로 매핑."""
+        from models.schemas import ClinicalRelevance
+        patient_id = (ocr_result.patient.name or f"patient-{uuid4().hex[:6]}").replace(" ", "_")
+        patient_name = ocr_result.patient.name
+        recorded = ocr_result.patient.test_date
+
+        # 고위험(criticality=high) 신호: 아나필락시스/전신 병력
+        high = False
+        food_systemic = False
+        if screening is not None:
+            diseases = getattr(screening, "allergic_diseases", []) or []
+            organs = getattr(screening, "organ_systems", []) or []
+            food_systemic = bool(getattr(screening, "food_systemic_reaction", False))
+            if "anaphylaxis" in diseases or "systemic" in organs or food_systemic:
+                high = True
+
+        # 1) Observation — 모든 결과(양성+음성) + 검사기관 performer
+        obs_bundle = self.create_observation_bundle(ocr_result, patient_id=patient_id)
+        facility = getattr(ocr_result.patient, "facility", None)
+        if facility:
+            for entry in obs_bundle.get("entry", []):
+                entry["resource"]["performer"] = [{"display": facility}]
+
+        # 2) AllergyIntolerance — 감별 대상(양성) 전부 + 교차반응 음식
+        allergy_bundle = {
+            "resourceType": "Bundle", "id": f"bundle-allergy-{uuid4().hex[:8]}",
+            "type": "collection", "entry": []
+        }
+        for a in relevance_result.assessments:
+            ai = self.build_allergy_intolerance_from_assessment(
+                a, patient_id, patient_name, recorded, high_criticality=high)
+            allergy_bundle["entry"].append({"resource": ai})
+
+        # 교차반응(OAS) 음식 알러젠 추가 — 의심(unconfirmed)
+        for f in (oas_foods or []):
+            pollens = ", ".join(f.get("pollens", []))
+            note = (f"꽃가루-음식 교차반응(구강알레르기증후군). 연관 꽃가루: {pollens}. "
+                    f"생과일·채소 섭취 시 입·목 증상, 대개 가열 시 완화.")
+            ai = {
+                "resourceType": "AllergyIntolerance",
+                "id": f"allergy-{uuid4().hex[:8]}",
+                "clinicalStatus": {"coding": [{
+                    "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+                    "code": "active", "display": "Active"}]},
+                "verificationStatus": {"coding": [{
+                    "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+                    "code": "unconfirmed", "display": "Unconfirmed"}]},
+                "type": "allergy", "category": ["food"],
+                "criticality": "high" if food_systemic else "low",
+                "code": {"text": f.get("ko") or f.get("en")},
+                "patient": {"reference": f"Patient/{patient_id}", "display": patient_name or patient_id},
+                "note": [{"text": note}],
+            }
+            if recorded:
+                ai["recordedDate"] = recorded
+            allergy_bundle["entry"].append({"resource": ai})
+
+        return {"observation_bundle": obs_bundle, "allergy_intolerance_bundle": allergy_bundle}
+
     def bundle_to_dict(self, bundle: Dict[str, Any]) -> Dict[str, Any]:
         """
         FHIR Bundle을 딕셔너리로 변환 (이미 딕셔너리이므로 그대로 반환)

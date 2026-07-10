@@ -34,7 +34,7 @@ from models.schemas import (
     ScreeningProfile,
     SymptomSeasonPattern,
 )
-from services.knowledge_service import normalize_category
+from services.knowledge_service import normalize_category, get_knowledge_service
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +50,7 @@ YNU = [
 Q_PATTERN = "symptom_pattern"           # perennial / seasonal / both / none
 Q_SEASONS = "worse_seasons"             # multi: spring/summer/fall/winter
 Q_OAS = "oral_allergy_syndrome"         # 구강알레르기증후군
+Q_OAS_FOODS = "oas_foods"               # 교차반응으로 증상 유발하는 음식(다중) - 양성 꽃가루 기반
 Q_FOOD_SYSTEMIC = "food_systemic"       # 음식 전신 반응
 Q_INDOOR_TIMING = "indoor_timing"       # 저녁/새벽/이른아침 악화
 Q_INDOOR_AWAY = "indoor_away"           # 집 비우면 호전
@@ -294,15 +295,28 @@ class QuestionnaireEngine:
                     "options": YNU,
                     "applies_to": [],
                 },
-                {
-                    "id": Q_FOOD_SYSTEMIC,
-                    "type": "single",
-                    "title": "특정 음식을 먹은 뒤 두드러기·호흡곤란·복통 등 전신 증상이 있었나요?",
-                    "help": "전신 반응(아나필락시스 포함)은 응급 상황일 수 있어 반드시 확인합니다.",
-                    "options": YNU,
-                    "applies_to": [],
-                },
             ]
+            # 양성 꽃가루 기반 교차반응 음식 후속 질문 (OAS='예'일 때 노출)
+            pfas_opts, pfas_link = self._pfas_options(assessments)
+            if pfas_opts:
+                food_qs.append({
+                    "id": Q_OAS_FOODS,
+                    "type": "multi",
+                    "title": "그렇다면, 아래 음식 중 먹었을 때 입·목 증상이 생기는 것을 모두 선택하세요.",
+                    "help": "양성으로 나온 꽃가루와 교차반응이 알려진 음식들입니다. 실제로 증상이 있었던 것만 고르세요. "
+                            "(대부분 익히면 괜찮아지지만, 견과·콩·셀러리 등은 전신 반응 가능성도 있어 주의)",
+                    "options": pfas_opts + [{"value": "none", "label": "해당 없음 / 문제된 음식 없음"}],
+                    "applies_to": [],
+                    "reveal_if": {"question": Q_OAS, "equals": YES},
+                })
+            food_qs.append({
+                "id": Q_FOOD_SYSTEMIC,
+                "type": "single",
+                "title": "특정 음식을 먹은 뒤 두드러기·호흡곤란·복통 등 전신 증상이 있었나요?",
+                "help": "전신 반응(아나필락시스 포함)은 응급 상황일 수 있어 반드시 확인합니다.",
+                "options": YNU,
+                "applies_to": [],
+            })
             for i, a in foods:
                 nm = _name(a)
                 food_qs.append({
@@ -342,6 +356,40 @@ class QuestionnaireEngine:
             "allergen_index": allergen_index,
             "answer_prefill": self._prefill(assessments, screening),
         }
+
+    def _pfas_options(self, assessments):
+        """양성 꽃가루들의 교차반응 음식을 모아 (다중선택 옵션, en->꽃가루 연결맵) 반환."""
+        ks = get_knowledge_service()
+        seen = {}
+        link = {}
+        for a in assessments:
+            if _cat(a) not in POLLEN_GROUPS:
+                continue
+            canonical = a.allergen_name
+            pf = ks.pfas_foods_for(canonical, _cat(a))
+            for food in pf.get("foods", []):
+                en, ko = food.get("en"), food.get("ko")
+                if not en:
+                    continue
+                if en not in seen:
+                    seen[en] = {"value": en, "label": ko or en}
+                link.setdefault(en, [])
+                pname = _name(a)
+                if pname not in link[en]:
+                    link[en].append(pname)
+        return list(seen.values()), link
+
+    def oas_selected_foods(self, assessments, answers):
+        """OAS='예'이고 사용자가 고른 교차반응 음식 목록을 반환.
+        반환: [{"en","ko","pollens":[...]}]"""
+        if (answers or {}).get(Q_OAS) != YES:
+            return []
+        selected = [v for v in (answers.get(Q_OAS_FOODS, []) or []) if v and v != "none"]
+        if not selected:
+            return []
+        opts, link = self._pfas_options(assessments)
+        label = {o["value"]: o["label"] for o in opts}
+        return [{"en": v, "ko": label.get(v, v), "pollens": link.get(v, [])} for v in selected]
 
     def _prefill(
         self, assessments: List[AllergenAssessment], screening: Optional[ScreeningProfile]
@@ -390,11 +438,18 @@ class QuestionnaireEngine:
         mold_damp = answers.get(Q_MOLD_DAMP)
         roach_env = answers.get(Q_ROACH_ENV)
 
+        # OAS 로 선택된 교차반응 음식을 꽃가루별로 정리
+        oas_by_pollen: Dict[str, List[str]] = {}
+        for f in self.oas_selected_foods(result.assessments, answers):
+            for p in f.get("pollens", []):
+                oas_by_pollen.setdefault(p, []).append(f["ko"])
+
         for i, a in enumerate(result.assessments):
             cat = _cat(a)
             # 답변 흔적을 assessment.answers 에도 남겨 리포트/디버깅에 활용
             if cat in POLLEN_GROUPS:
-                self._classify_pollen(a, cat, answers, worse_months, oas)
+                self._classify_pollen(a, cat, answers, worse_months, oas,
+                                      oas_by_pollen.get(_name(a), []))
             elif cat == "mite":
                 self._classify_indoor(a, "mite", indoor_timing, indoor_away, mite_dust, pattern)
             elif cat == "insect":
@@ -410,14 +465,18 @@ class QuestionnaireEngine:
         return result
 
     # ---- 카테고리별 판정 ----
-    def _classify_pollen(self, a, cat, answers, worse_months, oas):
+    def _classify_pollen(self, a, cat, answers, worse_months, oas, oas_foods=None):
         g = POLLEN_GROUPS[cat]
         season_ans = answers.get(QP_POLLEN + g["group"])
         peak = set((a.kb or {}).get("peak_months_korea", []) or g["months"])
         overlap = bool(peak & worse_months) if worse_months else None
         name = _name(a)
         oas_note = ""
-        if oas == YES and (a.kb or {}).get("oral_allergy_syndrome_ko"):
+        if oas_foods:
+            oas_note = (f" 또한 {name}와 교차반응으로 **{', '.join(oas_foods)}** 섭취 시 입·목 증상"
+                        f"(구강알레르기증후군)이 나타난다고 하셨습니다. 해당 음식은 생으로 먹을 때 특히 주의하고, "
+                        f"익히면 대개 증상이 줄어듭니다.")
+        elif oas == YES and (a.kb or {}).get("oral_allergy_syndrome_ko"):
             oas_note = (f" 또한 {name} 감작은 일부 생과일·채소와 교차반응(구강알레르기증후군)을 "
                         f"일으킬 수 있어, 해당 음식 섭취 시 입·목 증상에 유의하세요.")
 

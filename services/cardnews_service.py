@@ -21,6 +21,7 @@ from models.schemas import (
     ClinicalRelevance,
     ScreeningProfile,
 )
+from services.knowledge_service import get_knowledge_service
 
 logger = logging.getLogger(__name__)
 
@@ -61,8 +62,12 @@ class CardNewsService:
         cards: List[str] = []
         cards.append(self._cover_card(name, test_date, relevant, sensitized, indeterminate))
         cards.append(self._relevant_card(relevant))
+        # 실제 주의 알러젠별 상세 카드 (생활사·노출·환경관리·면역치료)
+        for a in relevant[:4]:
+            cards.append(self._allergen_detail_card(a))
         cards.append(self._sensitized_card(sensitized, indeterminate))
         cards.append(self._prevention_card(relevant))
+        cards.append(self._treatment_card(relevant, screening))
         cards.append(self._closing_card(name))
 
         cards_html = "\n".join(f'<div class="card">{c}</div>' for c in cards)
@@ -159,6 +164,62 @@ class CardNewsService:
         </div>
         """
 
+    def _allergen_detail_card(self, a: AllergenAssessment) -> str:
+        kb = a.kb or {}
+        emoji = _CATEGORY_EMOJI.get(a.category, "•")
+        nm = _esc(a.korean_name or a.allergen_name)
+        bio = _esc(self._short(kb.get("biology_ko", ""), 90))
+        expo = _esc(self._short(kb.get("exposure_environment_ko", ""), 80))
+        tips = [t for t in (kb.get("avoidance_control_ko") or [])[:3]]
+        tips_html = "".join(f"<li>{_esc(t)}</li>" for t in tips)
+        try:
+            imt = get_knowledge_service().immunotherapy_info(a.category, a.allergen_name)
+        except Exception:
+            imt = {"eligible": False}
+        imt_html = (f'<div class="imt">💉 면역치료(근본치료) 가능 대상 — 증상이 심하거나 약으로 조절이 '
+                    f'어려우면 전문의와 상의하세요.</div>') if imt.get("eligible") else ""
+        return f"""
+        <div class="section detail">
+          <div class="tag">{emoji} 알러젠 알아보기</div>
+          <h2>{nm}</h2>
+          {f'<p class="desc"><b>어떤 알러젠?</b> {bio}</p>' if bio else ''}
+          {f'<p class="desc"><b>어디서 노출?</b> {expo}</p>' if expo else ''}
+          {f'<div class="mini-title">🏠 이렇게 관리하세요</div><ul class="tips">{tips_html}</ul>' if tips_html else ''}
+          {imt_html}
+        </div>
+        """
+
+    def _treatment_card(self, relevant: List[AllergenAssessment], screening) -> str:
+        eligible = []
+        ks = get_knowledge_service()
+        for a in relevant:
+            try:
+                if ks.immunotherapy_info(a.category, a.allergen_name).get("eligible"):
+                    eligible.append(a.korean_name or a.allergen_name)
+            except Exception:
+                pass
+        imt_line = (
+            f'<li>💉 <b>면역치료 후보:</b> {_esc(", ".join(dict.fromkeys(eligible)))} — 원인 알러젠에 '
+            f'대한 근본치료(설하/피하)를 전문의와 상의할 수 있어요.</li>' if eligible else ''
+        )
+        return f"""
+        <div class="section treatment">
+          <div class="tag">🩺 치료와 연결하기</div>
+          <h2>기존 치료와<br/>어떻게 함께 갈까</h2>
+          <ul class="tips">
+            <li>💊 <b>증상 조절:</b> 항히스타민제·비강 스테로이드 등은 증상을 빠르게 줄여줍니다. 증상 시기에 맞춰 예방적으로 쓰면 더 효과적입니다.</li>
+            <li>🛡️ <b>회피가 기본:</b> 실제 주의 알러젠의 노출을 줄이는 것이 약물 효과를 높입니다.</li>
+            {imt_line}
+            <li>🧑‍⚕️ <b>정기 점검:</b> 증상 변화·약물 반응을 담당 의료진과 3~12개월 간격으로 재평가하세요.</li>
+          </ul>
+        </div>
+        """
+
+    @staticmethod
+    def _short(text: str, n: int) -> str:
+        text = (text or "").strip()
+        return text if len(text) <= n else text[:n].rstrip() + "…"
+
     def _closing_card(self, name) -> str:
         return f"""
         <div class="closing">
@@ -199,6 +260,11 @@ class CardNewsService:
   .relevant .tag {{ background:#ffe3e3; color:#d1373a; }}
   .sensitized .tag {{ background:#eef0f4; color:#5a6472; }}
   .prevention .tag {{ background:#e4f5ec; color:#1f9d5b; }}
+  .detail .tag {{ background:#e8ecfd; color:#4a4fe0; }}
+  .treatment .tag {{ background:#e5f1fb; color:#1f6fb2; }}
+  .detail .desc b, .treatment .tips b {{ color:#2a3350; }}
+  .imt {{ margin-top:12px; font-size:12.5px; background:#f0edff; color:#5a34c9; border-radius:10px; padding:10px 12px; line-height:1.5; }}
+  .section.detail, .section.treatment {{ overflow-y:auto; }}
   .section h2 {{ font-size:24px; line-height:1.3; margin:14px 0 10px; font-weight:800; }}
   .desc {{ font-size:13px; line-height:1.6; color:#4a5060; }}
   .chips {{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; overflow:auto; }}

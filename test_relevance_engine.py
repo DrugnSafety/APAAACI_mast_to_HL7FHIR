@@ -256,6 +256,56 @@ def test_questionnaire_food_systemic_and_oas():
     print("✓ food systemic reaction + OAS cross-reaction note")
 
 
+def test_pfas_and_immunotherapy():
+    """PFAS 교차반응 데이터 + 면역치료 정보 로드/조회"""
+    from services.knowledge_service import get_knowledge_service
+    ks = get_knowledge_service()
+    pf = ks.pfas_foods_for("Birch pollen", "pollen_tree")
+    assert any(f["en"] == "apple" for f in pf["foods"]), "자작나무 PFAS 사과 없음"
+    pf2 = ks.pfas_foods_for("Ragweed pollen", "pollen_weed")
+    assert any("melon" in f["en"] for f in pf2["foods"]), "돼지풀 PFAS 멜론 없음"
+    assert ks.immunotherapy_info("mite")["eligible"] is True
+    assert ks.immunotherapy_info("food")["eligible"] is False
+    print("✓ PFAS dataset + immunotherapy eligibility")
+
+
+def test_fhir_v2_bundles():
+    """FHIR v2: 전체 Observation(음성 포함) + AllergyIntolerance(confirmed/unconfirmed/criticality) + OAS 음식"""
+    from services.fhir_service import FHIRService
+    from services.questionnaire_service import (
+        get_questionnaire_engine, Q_PATTERN, QP_POLLEN, Q_INDOOR_TIMING, Q_MITE_DUST, Q_OAS, Q_OAS_FOODS,
+    )
+    rs = get_relevance_service()
+    ocr = OCRResult(
+        test_type=TestType.MAST,
+        patient=PatientInfo(name="에프", test_date="2026-06-01", facility="OO병원"),
+        results=[
+            _mast("Dermatophagoides farinae", "집먼지진드기", 20.0, 4, AllergenCategory.MITE, idx=1),
+            _mast("Birch pollen", "자작나무 꽃가루", 6.0, 3, AllergenCategory.POLLEN, idx=2),
+            _mast("Dog dander", "개 비듬", 0.1, 0, AllergenCategory.ANIMAL,
+                  interp=InterpretationType.NEGATIVE, idx=3),
+        ],
+    )
+    res = rs.build_assessments(ocr, None)
+    eng = get_questionnaire_engine()
+    answers = {Q_PATTERN: "both", QP_POLLEN + "spring_tree": "yes",
+               Q_INDOOR_TIMING: "yes", Q_MITE_DUST: "yes", Q_OAS: "yes", Q_OAS_FOODS: ["apple"]}
+    eng.classify(res, answers, None)
+    oas_foods = eng.oas_selected_foods(res.assessments, answers)
+    bundles = FHIRService().build_bundles_from_relevance(ocr, res, None, oas_foods)
+
+    obs = bundles["observation_bundle"]["entry"]
+    assert len(obs) == 3, "Observation은 음성 포함 전체 3개여야 함"
+    assert obs[0]["resource"].get("performer"), "검사기관 performer 누락"
+    ai = bundles["allergy_intolerance_bundle"]["entry"]
+    codes = [e["resource"].get("code", {}).get("text", "") for e in ai]
+    verifs = {e["resource"]["code"]["text"]: e["resource"]["verificationStatus"]["coding"][0]["code"] for e in ai}
+    assert any("apple" in c or "사과" in c for c in codes), "OAS 교차반응 음식(사과) AllergyIntolerance 누락"
+    # 임상적 유의(진드기·자작)=confirmed
+    assert any(v == "confirmed" for v in verifs.values())
+    print("✓ FHIR v2 bundles (all-obs + performer + AllergyIntolerance status + OAS food)")
+
+
 def test_cardnews_and_report():
     from services.cardnews_service import get_cardnews_service
     from services.report_service import ReportService

@@ -18,6 +18,7 @@ from models.schemas import (
     ScreeningProfile,
 )
 from services.screening_service import get_screening_service
+from services.knowledge_service import normalize_category, get_knowledge_service
 
 # 로거 설정
 logger = logging.getLogger(__name__)
@@ -512,6 +513,25 @@ class ReportService:
     # ==================================================================
 
     _STRENGTH_KO = {"weak": "약한 양성", "moderate": "중등도 양성", "strong": "강한 양성"}
+    _ONE_LINE_ACTION = {
+        "mite": "침구 관리와 실내 습도 조절이 핵심",
+        "animal": "해당 동물과의 접촉·침실 노출 줄이기",
+        "pollen_tree": "봄철 외출·환기 관리",
+        "pollen_grass": "초여름 잔디·풀밭 노출 주의",
+        "pollen_weed": "가을철 야외 노출 주의",
+        "mold": "실내 습도 낮추고 곰팡이 제거",
+        "insect": "주방·서식처 위생 관리",
+        "food": "해당 음식 섭취 주의(전신 반응 시 응급)",
+    }
+
+    def _one_line_relevant(self, a) -> str:
+        """실제 주의 알러젠 한 줄 요약 (한눈에 보기용)."""
+        nm = a.korean_name or a.allergen_name
+        cat = normalize_category(a.category)
+        action = self._ONE_LINE_ACTION.get(cat, "노출 상황 관리 필요")
+        season = (a.kb or {}).get("season_label_ko", "")
+        seg = f" · {season}" if season and cat.startswith("pollen") else ""
+        return f"**{nm}**{seg} — {action}"
 
     def build_patient_report_markdown(
         self,
@@ -543,13 +563,24 @@ class ReportService:
         md.append(info + f"  \n**검사일:** {test_date}  \n**리포트 작성일:** {today}")
         md.append("\n---\n")
 
-        # 0. 핵심 요약
+        # 0. 핵심 요약 (구조화)
+        total = len(relevant) + len(sensitized) + len(indeterminate)
         md.append("## 0️⃣ 한눈에 보기")
         md.append(
-            f"- 🔴 **실제 주의가 필요한 알러젠(증상 유발): {len(relevant)}개** — {names(relevant)}\n"
-            f"- ⚪ **감작만 된 알러젠(증상 없음): {len(sensitized)}개** — {names(sensitized)}\n"
-            f"- 🟡 **관찰이 필요한 알러젠: {len(indeterminate)}개** — {names(indeterminate)}"
+            f"> **{name}님**은 이번 검사에서 총 **{total}개** 항목에 양성(감작)으로 나왔고, "
+            f"그중 문진 결과 **실제로 증상을 일으키는 것으로 확인된 알러젠은 {len(relevant)}개**입니다."
         )
+        md.append(
+            "| 구분 | 개수 | 의미 | 대상 |\n"
+            "|---|---|---|---|\n"
+            f"| 🔴 실제 주의 | **{len(relevant)}** | 노출 시 실제 증상 유발 → 적극 관리 | {names(relevant)} |\n"
+            f"| ⚪ 감작만 | {len(sensitized)} | 검사만 양성, 증상 없음 → 과도한 회피 불필요 | {names(sensitized)} |\n"
+            f"| 🟡 관찰 필요 | {len(indeterminate)} | 노출·정보 부족 → 경과 관찰 | {names(indeterminate)} |"
+        )
+        if relevant:
+            md.append("**🔴 지금 우선 관리할 알러젠 요약**")
+            for a in relevant:
+                md.append(f"- {self._one_line_relevant(a)}")
 
         # 스크리닝 요약
         if screening is not None:
@@ -667,6 +698,13 @@ class ReportService:
             lines.append("- **회피·관리 수칙:**")
             for tip in avoid[:5]:
                 lines.append(f"    - {tip}")
+        # 면역치료 가능 여부
+        try:
+            imt = get_knowledge_service().immunotherapy_info(a.category, a.allergen_name)
+            if imt.get("eligible") and imt.get("ko"):
+                lines.append(f"- **💉 면역치료(알레르기 근본치료) 가능:** {imt['ko']}")
+        except Exception:
+            pass
         return "\n".join(lines)
 
     def _prevention_plan_md(

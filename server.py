@@ -145,7 +145,9 @@ def ocr_demo():
     """데모용 검사결과 (API 키 없이 전체 흐름 체험)."""
     demo = OCRResult(
         test_type=TestType.MAST,
-        patient=PatientInfo(name="홍길동", age=32, gender="M", test_date="2026-06-15"),
+        patient=PatientInfo(name="홍길동", age=32, gender="M", test_date="2026-06-15",
+                            report_date="2026-06-17", facility="OO대학교병원 진단검사의학과",
+                            ordering_provider="알레르기내과 김OO", patient_id_external="C1234567"),
         results=[
             AllergenResult(index=1, raw_text="D. farinae 4", allergen_name="Dermatophagoides farinae",
                            korean_name="집먼지진드기(D.farinae)", value=17.6, unit="kU/L",
@@ -226,33 +228,19 @@ def classify(req: ClassifyRequest):
 
 @app.post("/api/fhir")
 def fhir(req: ClassifyRequest):
-    """FHIR Observation(전체) + AllergyIntolerance(임상적 유의 알러젠만) Bundle 생성."""
+    """FHIR 매핑.
+    - Observation: 전체 검사결과(양성+음성) + 검사기관 performer
+    - AllergyIntolerance: 양성/의심 알러젠 전부 (임상적 유의=confirmed, 감작·미확정=unconfirmed),
+      criticality/clinicalStatus 코딩, 꽃가루-음식 교차반응(OAS) 음식도 포함
+    """
     rs = get_relevance_service()
     result = rs.build_assessments(req.ocr, req.screening)
     engine = get_questionnaire_engine()
     engine.classify(result, req.answers, req.screening)
+    oas_foods = engine.oas_selected_foods(result.assessments, req.answers)
 
     fs = FHIRService()
-    patient_id = (req.ocr.patient.name or "patient").replace(" ", "_")
-    obs_bundle = fs.create_observation_bundle(req.ocr, patient_id=patient_id)
-
-    relevant = result.by_relevance(ClinicalRelevance.CLINICALLY_RELEVANT)
-    sensitized = result.by_relevance(ClinicalRelevance.SENSITIZED_ONLY)
-    indeterminate = result.by_relevance(ClinicalRelevance.INDETERMINATE)
-    sf = SymptomFeedback(
-        patient_id=patient_id,
-        test_date=req.ocr.patient.test_date or "",
-        patient_name=req.ocr.patient.name,
-        patient_age=req.ocr.patient.age,
-        patient_gender=req.ocr.patient.gender,
-        exposure_feedback={
-            "symptomatic": [a.allergen_name for a in relevant],
-            "asymptomatic": [a.allergen_name for a in sensitized],
-            "unknown_exposure": [a.allergen_name for a in indeterminate],
-        },
-    )
-    allergy_bundle = fs.create_allergy_intolerance_bundle(sf, req.ocr)
-    return {"observation_bundle": obs_bundle, "allergy_intolerance_bundle": allergy_bundle}
+    return fs.build_bundles_from_relevance(req.ocr, result, req.screening, oas_foods)
 
 
 # ============================================================

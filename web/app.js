@@ -61,10 +61,16 @@ function download(name, text, type = 'application/json') {
 }
 
 function isPositive(r, testType) {
-  if (r.interpretation) return String(r.interpretation).toLowerCase().startsWith('pos') || r.interpretation === '양성';
-  if (testType === 'SPT') return (r.mean_mm ?? r.value ?? 0) >= 3;
-  if (r.class_value != null && !isNaN(parseInt(r.class_value))) return parseInt(r.class_value) >= 1;
-  return (r.value ?? 0) >= 0.35;
+  if (r.interpretation === 'Positive' || r.interpretation === '양성') return true;
+  if (r.interpretation === 'Negative' || r.interpretation === '음성') return false;
+  return deriveInterp(r, testType) === 'Positive';
+}
+// 수치/Class 로부터 양성/음성 유도 (사용자가 표 값을 수정하면 판정도 갱신)
+function deriveInterp(r, testType) {
+  if (testType === 'SPT') return ((r.mean_mm ?? r.value ?? 0) >= 3) ? 'Positive' : 'Negative';
+  const cls = (r.class_value != null && String(r.class_value).trim() !== '') ? parseInt(r.class_value) : null;
+  if (cls != null && !isNaN(cls)) return cls >= 1 ? 'Positive' : 'Negative';
+  return ((r.value ?? 0) >= 0.35) ? 'Positive' : 'Negative';
 }
 
 /* ---------------- navigation ---------------- */
@@ -173,6 +179,22 @@ function addRow(data = {}) {
 }
 function posCount() { return S.ocr.results.filter(r => isPositive(r, S.ocr.test_type)).length; }
 
+// 검사지에서 추출된 기관/날짜/환자정보를 정보카드로 표시 (있을 때만)
+function renderExtractedMeta(p) {
+  p = p || {};
+  const items = [];
+  if (p.facility) items.push(['🏥 검사기관', p.facility]);
+  if (p.ordering_provider) items.push(['👨‍⚕️ 의뢰', p.ordering_provider]);
+  if (p.test_date) items.push(['🗓️ 검사일', p.test_date]);
+  if (p.report_date) items.push(['📄 보고일', p.report_date]);
+  if (p.patient_id_external) items.push(['🔖 차트번호', p.patient_id_external]);
+  if (!items.length) return '';
+  return `<div class="card soft" style="margin-bottom:16px;display:flex;flex-wrap:wrap;gap:8px 22px">
+    ${items.map(([k, v]) => `<div style="font-size:13px"><span style="color:var(--text-3);font-weight:700">${k}</span> <span style="color:var(--text)">${esc(v)}</span></div>`).join('')}
+    <div style="flex-basis:100%;font-size:11.5px;color:var(--text-3)">↑ 검사지에서 자동 추출된 정보입니다. FHIR 변환 시 함께 매핑됩니다.</div>
+  </div>`;
+}
+
 function renderReview() {
   const tt = S.ocr.test_type;
   const rows = S.ocr.results.map((r, i) => {
@@ -196,6 +218,8 @@ function renderReview() {
         <h1>읽어온 결과를 확인·수정하세요</h1>
         <p>잘못 읽힌 값은 표에서 직접 고치고, <b>누락된 알러젠은 아래 ‘＋ 항목 추가’</b>로 넣을 수 있습니다. 양성/음성 판정도 클릭으로 바꿀 수 있어요.</p>
       </div>
+
+      ${renderExtractedMeta(S.ocr.patient)}
 
       <div class="field-inline" style="margin-bottom:16px">
         <label style="font-weight:700;font-size:13.5px">검사 종류</label>
@@ -233,7 +257,10 @@ function renderReview() {
   // bindings
   $('#testType').addEventListener('change', e => {
     S.ocr.test_type = e.target.value;
-    S.ocr.results.forEach(r => { if (!r.unit || r.unit === 'mm' || r.unit === 'kU/L') r.unit = e.target.value === 'SPT' ? 'mm' : 'kU/L'; });
+    S.ocr.results.forEach(r => {
+      if (!r.unit || r.unit === 'mm' || r.unit === 'kU/L') r.unit = e.target.value === 'SPT' ? 'mm' : 'kU/L';
+      r.interpretation = deriveInterp(r, S.ocr.test_type); // 검사종류 바뀌면 판정 재계산
+    });
     renderReview();
   });
   $('#tbody').addEventListener('input', e => {
@@ -243,6 +270,14 @@ function renderReview() {
     if (f === 'value') v = v === '' ? null : parseFloat(v);
     if (f === 'class_value') v = v === '' ? null : v;
     S.ocr.results[i][f] = v;
+    // 수치/Class/단위를 수정하면 양성/음성 판정을 값 기준으로 다시 계산
+    if (['value', 'class_value', 'mean_mm'].includes(f)) {
+      S.ocr.results[i].interpretation = deriveInterp(S.ocr.results[i], S.ocr.test_type);
+    }
+  });
+  // 편집 확정(blur/enter) 시 표를 갱신해 판정·양성수·다음버튼 상태를 반영
+  $('#tbody').addEventListener('change', e => {
+    if (['value', 'class_value', 'unit'].includes(e.target.dataset.f)) renderReview();
   });
   $('#tbody').addEventListener('blur', async e => {
     if (e.target.dataset.f === 'allergen_name' && e.target.value.trim()) {
@@ -376,12 +411,21 @@ function renderQuestionnaire() {
         qq.options.map(o => `<button type="button" class="choice ${val === o.value ? 'sel' : ''}" data-v="${o.value}">
           <span class="radio"></span><span class="body"><span class="t">${esc(o.label)}</span>${o.hint ? `<span class="h">${esc(o.hint)}</span>` : ''}</span></button>`).join('') + `</div>`;
     }
-    return `<div class="q-block">
+    // reveal_if: 특정 답변일 때만 노출 (예: OAS='예'일 때 교차반응 음식 질문)
+    let revealAttr = '', hiddenCls = '';
+    if (qq.reveal_if) {
+      revealAttr = ` data-revealq="${esc(qq.reveal_if.question)}" data-revealv="${esc(qq.reveal_if.equals)}"`;
+      if (S.answers[qq.reveal_if.question] !== qq.reveal_if.equals) hiddenCls = ' hidden';
+    }
+    return `<div class="q-block${hiddenCls}"${revealAttr}>
       <div class="q-title">${esc(qq.title)}</div>
       ${qq.help ? `<div class="q-help">${esc(qq.help)}</div>` : ''}
       ${applyTags(qq.applies_to)}
       ${control}</div>`;
   };
+  const applyReveals = () => view().querySelectorAll('[data-revealq]').forEach(b => {
+    b.classList.toggle('hidden', S.answers[b.dataset.revealq] !== b.dataset.revealv);
+  });
 
   const sections = q.sections.map(sec => `
     <div class="q-section">
@@ -409,6 +453,7 @@ function renderQuestionnaire() {
     const b = e.target.closest('.choice'); if (!b) return;
     S.answers[g.dataset.single] = b.dataset.v;
     g.querySelectorAll('.choice').forEach(c => c.classList.toggle('sel', c === b));
+    applyReveals();
   }));
   view().querySelectorAll('[data-multi]').forEach(g => g.addEventListener('click', e => {
     const b = e.target.closest('.chip-opt'); if (!b) return;
