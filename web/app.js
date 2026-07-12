@@ -303,11 +303,52 @@ function renderReview() {
 /* =========================================================================
    STEP 2 — 스크리닝 (환자정보 + 질환력 + 약제 + 침범 장기)
    ========================================================================= */
+// 알러젠 이름으로 대략적 카테고리 추정 (스크리닝 개인화 배너용)
+function guessCategory(name, korean) {
+  const s = `${name || ''} ${korean || ''}`.toLowerCase();
+  if (/(dermatophagoides|mite|진드기|farinae|pteronyss)/.test(s)) return 'mite';
+  if (/(pollen|birch|oak|alder|ragweed|mugwort|hop|timothy|grass|자작|참나무|오리나무|돼지풀|쑥|환삼|잔디|꽃가루)/.test(s)) return 'pollen';
+  if (/(cat|dog|dander|고양이|개 |비듬|animal|반려)/.test(s)) return 'animal';
+  if (/(alternaria|aspergillus|cladosporium|mold|penicillium|곰팡이)/.test(s)) return 'mold';
+  if (/(cockroach|바퀴|roach)/.test(s)) return 'insect';
+  if (/(shrimp|crab|lobster|prawn|새우|게|랍스터|가재|대하|꽃게)/.test(s)) return 'shellfish';
+  if (/(egg|milk|peanut|wheat|soy|nut|fish|계란|우유|땅콩|밀|콩|견과|생선|food|음식|과일|fruit)/.test(s)) return 'food';
+  return 'other';
+}
+const SCREEN_CAT_LABEL = { mite: '집먼지진드기', pollen: '꽃가루', animal: '동물', mold: '곰팡이', insect: '곤충(바퀴)', shellfish: '갑각류', food: '음식', other: '기타' };
+const SCREEN_HINTS = {
+  pollen: '🌳 꽃가루 양성 — 증상이 <b>특정 계절</b>에 심해지는지가 핵심입니다. 다음 단계에서 시즌별로 확인합니다.',
+  mite: '🛏️ 집먼지진드기 양성 — <b>연중·아침·먼지 노출</b> 시 증상, 그리고 <b>새우·게 교차반응</b>을 다음 단계에서 확인합니다.',
+  animal: '🐾 동물 양성 — 해당 동물 <b>접촉 시 증상</b> 여부가 중요합니다.',
+  shellfish: '🦐 갑각류 양성 — <b>실제로 먹었을 때</b> 반응하는지(강양성이어도 잘 먹으면 감작만)를 확인합니다.',
+  food: '🍽️ 음식 양성 — 먹었을 때 <b>어떤 증상</b>(입·목/피부/소화기/호흡/전신)이 나오는지 확인합니다.',
+  mold: '🍄 곰팡이 양성 — <b>습한 환경</b>에서 악화되는지 확인합니다.',
+  insect: '🪳 바퀴 양성 — 실내 환경과의 연관을 확인합니다.',
+};
+function screeningContext() {
+  const tt = S.ocr.test_type;
+  const pos = (S.ocr.results || []).filter(r => isPositive(r, tt));
+  const cats = {};
+  pos.forEach(r => { const c = guessCategory(r.allergen_name, r.korean_name); (cats[c] = cats[c] || []).push(r.korean_name || r.allergen_name); });
+  return { pos, cats };
+}
+
 function renderScreening() {
   const o = S.options || { screening_options: { diseases: [], medications: [], organ_systems: [] } };
   const opt = o.screening_options;
   const sc = S.screening || (S.screening = { allergic_diseases: [], current_medications: [], organ_systems: [], symptom_present: true });
   const p = S.ocr.patient;
+  const ctx = screeningContext();
+  const catKeys = Object.keys(ctx.cats).filter(c => c !== 'other');
+  const banner = ctx.pos.length ? `
+    <div class="card soft" style="margin-bottom:18px;border-left:4px solid var(--brand)">
+      <div style="font-weight:800;font-size:14px;margin-bottom:6px">🔬 검사에서 양성으로 확인된 알러젠 ${ctx.pos.length}개</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
+        ${catKeys.map(c => `<span class="chip-opt sel" style="cursor:default">${SCREEN_CAT_LABEL[c]} ${ctx.cats[c].length}</span>`).join('')}
+      </div>
+      <div style="font-size:12.5px;color:var(--text-2)">아래 문진과 <b>다음 단계 감별 질문</b>이 이 결과에 맞춰 자동 구성됩니다.</div>
+      ${catKeys.map(c => SCREEN_HINTS[c] ? `<div class="q-help" style="margin-top:8px">${SCREEN_HINTS[c]}</div>` : '').join('')}
+    </div>` : '';
 
   const chipList = (items, selected, key) => `<div class="chips" data-chipgroup="${key}">` +
     items.map(it => `<button type="button" class="chip-opt ${selected.includes(it.code) ? 'sel' : ''}" data-code="${it.code}">${esc(it.label)}</button>`).join('') + `</div>`;
@@ -319,6 +360,8 @@ function renderScreening() {
         <h1>몇 가지만 알려주세요</h1>
         <p>기저 알레르기 질환과 복용 약제, 증상이 나타나는 부위를 확인합니다. 이 정보로 감별 정확도가 올라갑니다.</p>
       </div>
+
+      ${banner}
 
       <div class="card soft" style="margin-bottom:20px">
         <div class="grid-3">
