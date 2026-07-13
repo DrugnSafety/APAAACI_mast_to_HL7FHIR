@@ -31,6 +31,68 @@ class AllergenMapper:
         self.mapping_file_path = mapping_file_path
         self.database = self._load_database()
         self._build_lookup_tables()
+        self._load_cdm_map()
+
+    # ------------------------------------------------------------------
+    # CDM(OMOP) SNOMED 기매핑 — 병원 제공 엑셀(255a467b CDM_SPT_Mapping.xlsx) 기반
+    # data/cdm_snomed_mapping.json 을 로드하여 알러젠별 concept_id·concept_name·
+    # vocabulary(SNOMED/LOINC) 를 FHIR coding 의 1순위 소스로 사용한다.
+    # ------------------------------------------------------------------
+    def _cdm_norm(self, x: str) -> str:
+        return re.sub(r"[^a-z0-9가-힣]", "", (x or "").lower())
+
+    def _load_cdm_map(self):
+        self.cdm_entries: List[Dict[str, Any]] = []
+        self.cdm_lookup: Dict[str, int] = {}
+        self.cdm_qualifiers: Dict[str, Any] = {}
+        try:
+            path = Path(__file__).resolve().parent.parent / "data" / "cdm_snomed_mapping.json"
+            if not path.exists():
+                return
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            self.cdm_entries = data.get("entries", [])
+            self.cdm_qualifiers = data.get("qualifiers", {})
+            # 저장된 lookup(정규화 키 → 인덱스) 재사용
+            self.cdm_lookup = {k: v for k, v in (data.get("lookup") or {}).items()}
+            logger.info(f"CDM SNOMED 기매핑 로드: {len(self.cdm_entries)}개 항원, {len(self.cdm_lookup)} 키")
+        except Exception as e:  # 데이터 파일 문제로 전체 매핑이 죽지 않도록 방어
+            logger.warning(f"CDM SNOMED 기매핑 로드 실패(무시): {e}")
+
+    def cdm_find(self, name: str, korean: str = "") -> Optional[Dict[str, Any]]:
+        """CDM 기매핑에서 항원 concept 를 조회. 실패 시 접미사 제거·부분일치로 재시도."""
+        if not self.cdm_entries:
+            return None
+        for cand in (name, korean):
+            k = self._cdm_norm(cand)
+            if k and k in self.cdm_lookup:
+                return self.cdm_entries[self.cdm_lookup[k]]
+        # 'pollen/dander/protein …' 접미사 제거 후 재시도
+        stripped = re.sub(r"\b(pollen|dander|epithelium|protein|mix|mixture|allergen|hair|fur|feathers)\b",
+                          "", name or "", flags=re.I).strip()
+        k = self._cdm_norm(stripped)
+        if k and k in self.cdm_lookup:
+            return self.cdm_entries[self.cdm_lookup[k]]
+        # 부분 일치(정규화 키가 서로 포함) — 짧은 오타/약어 흡수
+        if k and len(k) >= 3:
+            for key, idx in self.cdm_lookup.items():
+                if len(key) >= 3 and (k in key or key in k):
+                    return self.cdm_entries[idx]
+        return None
+
+    def get_coding(self, name: str, korean: str = "") -> Optional[Dict[str, str]]:
+        """FHIR code.coding 1건 생성 — CDM 기매핑 우선, 없으면 기존 snomed 필드로 폴백.
+        vocabulary 에 따라 SNOMED/LOINC system URI 를 구분한다."""
+        cdm = self.cdm_find(name, korean)
+        if cdm and cdm.get("concept_id"):
+            voc = (cdm.get("vocabulary") or "SNOMED").upper()
+            system = "http://loinc.org" if voc == "LOINC" else "http://snomed.info/sct"
+            return {"system": system, "code": str(cdm["concept_id"]),
+                    "display": cdm.get("concept_name") or name}
+        code = self.get_snomed_code(name if name else korean)
+        if code:
+            return {"system": "http://snomed.info/sct", "code": str(code), "display": name or korean}
+        return None
     
     def _load_database(self) -> AllergenDatabase:
         """알레르겐 매핑 데이터베이스 로드"""

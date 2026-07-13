@@ -72,6 +72,7 @@ def _assessment_public(a) -> Dict[str, Any]:
         "strength": a.strength,
         "relevance": a.relevance.value if a.relevance else "not_assessed",
         "rationale_ko": a.rationale_ko,
+        "oas_foods": a.oas_foods or [],
         "season_label_ko": kb.get("season_label_ko", ""),
         "biology_ko": kb.get("biology_ko", ""),
         "exposure_environment_ko": kb.get("exposure_environment_ko", ""),

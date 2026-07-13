@@ -346,6 +346,9 @@ class ScreeningProfile(BaseModel):
         None, description="특정 음식 섭취 후 두드러기·호흡곤란·복통 등 전신 반응"
     )
     food_reaction_foods: List[str] = Field(default_factory=list, description="전신 반응 유발 음식")
+    # 반려동물 사육 여부 (동물 알러젠 노출 판정에 활용)
+    pets: List[str] = Field(default_factory=list, description="키우는 동물 코드 (cat/dog/other)")
+    pets_other: Optional[str] = Field(None, description="기타 반려동물(주관식)")
     notes: Optional[str] = None
 
     @validator('worse_months', each_item=True)
@@ -371,6 +374,8 @@ class AllergenAssessment(BaseModel):
     answers: Dict[str, str] = Field(default_factory=dict)
     # 자동 계산: 알레르겐 시즌과 환자 악화 시즌의 겹침
     season_overlap: Optional[bool] = None
+    # 구강알레르기증후군(OAS): 이 알러젠과 교차반응으로 환자가 증상을 보고한 음식(한글명)
+    oas_foods: List[str] = Field(default_factory=list)
     # 판정
     relevance: ClinicalRelevance = ClinicalRelevance.NOT_ASSESSED
     rationale_ko: Optional[str] = None

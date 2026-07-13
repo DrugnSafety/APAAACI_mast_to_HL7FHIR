@@ -338,7 +338,45 @@ def test_fhir_v2_bundles():
     assert any("apple" in c or "사과" in c for c in codes), "OAS 교차반응 음식(사과) AllergyIntolerance 누락"
     # 임상적 유의(진드기·자작)=confirmed
     assert any(v == "confirmed" for v in verifs.values())
-    print("✓ FHIR v2 bundles (all-obs + performer + AllergyIntolerance status + OAS food)")
+
+    # CDM(OMOP) 기매핑이 Observation.component 코드로 반영되는지 검증
+    obs_codes = {}
+    for e in obs:
+        comp = e["resource"].get("component", [])
+        if comp:
+            c = comp[0]["code"]["coding"][0]
+            obs_codes[c["code"]] = c["display"]
+    assert "46273588" in obs_codes and obs_codes["46273588"] == "Dermatophagoides farinae protein", \
+        f"D.farinae CDM concept_id/display 누락: {obs_codes}"
+    assert "765811" in obs_codes and obs_codes["765811"] == "Birch pollen", \
+        f"Birch CDM concept_id/display 누락: {obs_codes}"
+    # AllergyIntolerance.code 도 CDM concept_id 사용
+    ai_codes = [e["resource"]["code"]["coding"][0]["code"]
+                for e in ai if e["resource"]["code"].get("coding")]
+    assert "765811" in ai_codes, f"Birch AllergyIntolerance CDM concept_id 누락: {ai_codes}"
+    print("✓ FHIR v2 bundles (all-obs + performer + AllergyIntolerance status + OAS food + CDM SNOMED coding)")
+
+
+def test_cdm_snomed_mapping():
+    """병원 제공 CDM(OMOP) 기매핑 엑셀 → 알러젠별 concept_id·concept_name·vocabulary 조회."""
+    from utils.allergen_mapper import get_allergen_mapper
+    m = get_allergen_mapper()
+    assert len(getattr(m, "cdm_entries", [])) >= 150, "CDM 기매핑 항원 수 부족"
+    # 대표 항원: (조회명, 기대 concept_id, 기대 display)
+    cases = [
+        ("Birch", "765811", "Birch pollen"),
+        ("Dermatophagoides farinae", "46273588", "Dermatophagoides farinae protein"),
+        ("Cat", "4125384", "Cat dander"),
+        ("Cat hair", "4125384", "Cat dander"),  # 신규 별칭
+        ("Squid", "42536271", "Squid"),          # 신규 음식 항원
+    ]
+    for name, cid, disp in cases:
+        c = m.get_coding(name, "")
+        assert c and c["code"] == cid and c["display"] == disp, f"{name} 매핑 오류: {c}"
+        assert c["system"] in ("http://snomed.info/sct", "http://loinc.org")
+    # 미매핑 항원은 None (예외 없이)
+    assert m.get_coding("완전신종알러젠ZZZ", "") is None
+    print("✓ CDM(OMOP) SNOMED 기매핑 로드 및 concept 조회(신규 별칭 포함)")
 
 
 def test_cardnews_and_report():

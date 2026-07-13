@@ -45,9 +45,6 @@ class FHIRService:
             FHIR Observation 딕셔너리
         """
         try:
-            # SNOMED 코드 조회
-            snomed_code = self.allergen_mapper.get_snomed_code(allergen_result.allergen_name)
-            
             # Observation 딕셔너리 생성
             observation = {
                 "resourceType": "Observation",
@@ -119,18 +116,14 @@ class FHIRService:
                     }
                 ]
             
-            # 알레르겐 정보를 component로 추가
-            if snomed_code:
+            # 알레르겐 정보를 component로 추가 (CDM 기매핑 우선 → concept_name 을 display 로)
+            coding = self.allergen_mapper.get_coding(
+                allergen_result.allergen_name, allergen_result.korean_name or "")
+            if coding:
                 observation["component"] = [
                     {
                         "code": {
-                            "coding": [
-                                {
-                                    "system": "http://snomed.info/sct",
-                                    "code": snomed_code,
-                                    "display": allergen_result.allergen_name
-                                }
-                            ],
+                            "coding": [coding],
                             "text": f"{allergen_result.allergen_name} ({allergen_result.korean_name})"
                         }
                     }
@@ -219,7 +212,6 @@ class FHIRService:
         try:
             # 알레르겐 정보 조회
             mapping = self.allergen_mapper.find_allergen(allergen_name)
-            snomed_code = mapping.snomed if mapping else None
             korean_name = mapping.korean_name if mapping else None
             category = mapping.category if mapping else "environment"
             
@@ -283,16 +275,11 @@ class FHIRService:
             # Criticality
             allergy["criticality"] = "high" if exposure_status == ExposureStatus.SYMPTOMATIC else "low"
             
-            # Code (allergen)
+            # Code (allergen) — CDM 기매핑 우선
             allergy["code"] = {}
-            if snomed_code:
-                allergy["code"]["coding"] = [
-                    {
-                        "system": "http://snomed.info/sct",
-                        "code": snomed_code,
-                        "display": allergen_name
-                    }
-                ]
+            coding = self.allergen_mapper.get_coding(allergen_name, korean_name or "")
+            if coding:
+                allergy["code"]["coding"] = [coding]
             allergy["code"]["text"] = f"{allergen_name} ({korean_name})" if korean_name else allergen_name
             
             # Patient
@@ -389,6 +376,21 @@ class FHIRService:
             return "food"
         return "environment"
 
+    def _lookup_mapping(self, name: str, korean: str = ""):
+        """SNOMED 매핑 조회 — 실패 시 'pollen/dander/protein' 접미사 제거·한글명으로 재시도."""
+        m = self.allergen_mapper.find_allergen(name)
+        if m:
+            return m
+        import re
+        stripped = re.sub(r"\b(pollen|dander|epithelium|protein|mix|allergen)\b", "", name, flags=re.I).strip()
+        if stripped and stripped.lower() != (name or "").lower():
+            m = self.allergen_mapper.find_allergen(stripped)
+            if m:
+                return m
+        if korean:
+            m = self.allergen_mapper.find_allergen(korean)
+        return m
+
     def build_allergy_intolerance_from_assessment(
         self, a: Any, patient_id: str, patient_name: Optional[str],
         recorded_date: Optional[str], high_criticality: bool = False,
@@ -402,8 +404,7 @@ class FHIRService:
         from models.schemas import ClinicalRelevance
         name = a.allergen_name
         korean = a.korean_name
-        mapping = self.allergen_mapper.find_allergen(name)
-        snomed = mapping.snomed if mapping else None
+        coding = self.allergen_mapper.get_coding(name, korean or "")  # CDM 기매핑 우선
         cat = self._category_fhir(str(a.category))
 
         rel = a.relevance
@@ -435,20 +436,36 @@ class FHIRService:
             "type": "allergy",
             "category": [cat],
             "criticality": criticality,
-            "code": {"coding": ([{"system": "http://snomed.info/sct", "code": snomed,
-                                  "display": name}] if snomed else []),
+            "code": {"coding": ([coding] if coding else []),
                      "text": coding_text},
             "patient": {"reference": f"Patient/{patient_id}",
                         "display": patient_name or patient_id},
         }
         if recorded_date:
             res["recordedDate"] = recorded_date
-        # 감작 근거/판정을 note 로 남김
+        # note: 판정 근거 + 리포트/카드뉴스의 개별 알러젠 정보(생활사·노출·회피·면역치료·OAS)를 포함
+        kb = a.kb or {}
         notes = []
         if a.rationale_ko:
             notes.append(a.rationale_ko)
         if rel != ClinicalRelevance.CLINICALLY_RELEVANT:
             notes.append("검사 양성이나 임상적 유발은 미확인(감작/의심) 상태 — verificationStatus=unconfirmed.")
+        if getattr(a, "oas_foods", None):
+            notes.append(f"구강알레르기증후군(OAS) 교차반응 음식: {', '.join(a.oas_foods)} (생것 주의, 익히면 완화).")
+        if kb.get("season_label_ko"):
+            notes.append(f"주요 시기: {kb['season_label_ko']}.")
+        if kb.get("exposure_environment_ko"):
+            notes.append(f"주요 노출 환경: {kb['exposure_environment_ko']}")
+        av = kb.get("avoidance_control_ko") or []
+        if av:
+            notes.append("회피·관리: " + "; ".join(av[:3]) + ".")
+        try:
+            from services.knowledge_service import get_knowledge_service
+            imt = get_knowledge_service().immunotherapy_info(a.category, a.allergen_name)
+            if imt.get("eligible"):
+                notes.append("면역치료(SCIT/SLIT) 고려 가능 대상.")
+        except Exception:
+            pass
         if extra_note:
             notes.append(extra_note)
         if notes:

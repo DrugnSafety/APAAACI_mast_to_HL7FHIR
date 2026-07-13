@@ -463,6 +463,18 @@ class QuestionnaireEngine:
             pre[Q_OAS] = YES if screening.oral_allergy_syndrome else NO
         if screening.food_systemic_reaction is not None:
             pre[Q_FOOD_SYSTEMIC] = YES if screening.food_systemic_reaction else NO
+        # 반려동물 사육 → 동물 접촉 질문 자동 제안
+        pets = screening.pets or []
+        if pets:
+            for i, a in enumerate(assessments):
+                if _cat(a) != "animal":
+                    continue
+                nm = f"{a.allergen_name} {a.korean_name or ''}".lower()
+                species = "cat" if ("cat" in nm or "고양이" in nm) else ("dog" if ("dog" in nm or "개" in nm) else None)
+                if species and species in pets:
+                    pre[QP_ANIMAL_CONTACT + _key(i)] = YES
+                elif "none" in pets:
+                    pre[QP_ANIMAL_CONTACT + _key(i)] = NO
         return pre
 
     # ============================================================
@@ -500,8 +512,9 @@ class QuestionnaireEngine:
         for i, a in enumerate(result.assessments):
             cat = _cat(a)
             if cat in POLLEN_GROUPS:
-                self._classify_pollen(a, cat, answers, worse_months, oas,
-                                      oas_by_pollen.get(_name(a), []))
+                oas_foods_here = oas_by_pollen.get(_name(a), [])
+                a.oas_foods = oas_foods_here  # 결과카드/리포트/카드뉴스/FHIR 로 전파
+                self._classify_pollen(a, cat, answers, worse_months, oas, oas_foods_here)
             elif cat == "mite":
                 self._classify_indoor(a, "mite", indoor_timing, indoor_away, mite_dust, pattern)
                 self._append_mite_shellfish_note(a, mite_shellfish)

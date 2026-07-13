@@ -581,6 +581,13 @@ class ReportService:
             md.append("**🔴 지금 우선 관리할 알러젠 요약**")
             for a in relevant:
                 md.append(f"- {self._one_line_relevant(a)}")
+        # 구강알레르기증후군(OAS) 요약
+        oas_items = [a for a in relevance_result.assessments if getattr(a, "oas_foods", None)]
+        if oas_items:
+            parts = [f"{(a.korean_name or a.allergen_name)} ↔ {', '.join(a.oas_foods)}" for a in oas_items]
+            md.append(
+                "**🍎 구강알레르기증후군(OAS) 주의** — 아래 꽃가루 감작과 교차반응으로 특정 음식 섭취 시 "
+                "입·목 증상이 나타납니다(생것 주의, 익히면 대개 완화): " + " · ".join(parts))
 
         # 스크리닝 요약
         if screening is not None:
@@ -689,7 +696,12 @@ class ReportService:
             lines.append(f"- **주로 노출되는 환경:** {kb['exposure_environment_ko']}")
         if kb.get("cross_reactivity_ko"):
             lines.append(f"- **교차반응:** {kb['cross_reactivity_ko']}")
-        if kb.get("oral_allergy_syndrome_ko"):
+        if getattr(a, "oas_foods", None):
+            lines.append(
+                f"- **🍎 구강알레르기증후군(OAS) 주의:** {', '.join(a.oas_foods)} 섭취 시 입·목 가려움/부종이 "
+                f"나타난다고 하셨습니다. 이 알러젠은 **구강알레르기증후군에 해당**하므로 해당 음식을 생으로 먹을 때 "
+                f"주의하고(대개 익히면 완화), 증상이 심하거나 목·호흡기까지 번지면 즉시 진료를 받으세요.")
+        elif kb.get("oral_allergy_syndrome_ko"):
             lines.append(f"- **구강알레르기증후군:** {kb['oral_allergy_syndrome_ko']}")
         if a.rationale_ko:
             lines.append(f"- **판정 근거:** {a.rationale_ko}")

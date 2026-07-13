@@ -65,6 +65,10 @@ class CardNewsService:
         # 실제 주의 알러젠별 상세 카드 (생활사·노출·환경관리·면역치료)
         for a in relevant[:4]:
             cards.append(self._allergen_detail_card(a))
+        # 구강알레르기증후군(OAS) 카드 (환자가 보고한 교차반응 음식이 있을 때)
+        oas_items = [a for a in result.assessments if getattr(a, "oas_foods", None)]
+        if oas_items:
+            cards.append(self._oas_card(oas_items))
         cards.append(self._sensitized_card(sensitized, indeterminate))
         cards.append(self._prevention_card(relevant))
         cards.append(self._treatment_card(relevant, screening))
@@ -189,6 +193,23 @@ class CardNewsService:
         </div>
         """
 
+    def _oas_card(self, oas_items: List[AllergenAssessment]) -> str:
+        rows = "".join(
+            f'<div class="chip">🌳 <b>{_esc(a.korean_name or a.allergen_name)}</b> '
+            f'<span class="chip-season">↔ {_esc(", ".join(a.oas_foods))}</span></div>'
+            for a in oas_items)
+        return f"""
+        <div class="section oas">
+          <div class="tag">🍎 구강알레르기증후군</div>
+          <h2>꽃가루와 엮인<br/>음식 주의</h2>
+          <p class="desc">아래 꽃가루에 감작되어 있어, <b>교차반응</b>으로 특정 생과일·채소를 먹으면
+          <b>입·입술·목이 가렵거나 붓는</b> 구강알레르기증후군(OAS)이 생길 수 있습니다.</p>
+          <div class="chips">{rows}</div>
+          <p class="desc" style="margin-top:12px">💡 대부분 <b>익히면 증상이 줄어듭니다.</b> 목·호흡기까지
+          번지거나 심하면 즉시 진료를 받으세요.</p>
+        </div>
+        """
+
     def _treatment_card(self, relevant: List[AllergenAssessment], screening) -> str:
         eligible = []
         ks = get_knowledge_service()
@@ -262,6 +283,8 @@ class CardNewsService:
   .prevention .tag {{ background:#e4f5ec; color:#1f9d5b; }}
   .detail .tag {{ background:#e8ecfd; color:#4a4fe0; }}
   .treatment .tag {{ background:#e5f1fb; color:#1f6fb2; }}
+  .oas .tag {{ background:#fdf3e3; color:#d9860a; }}
+  .oas .chip {{ background:#fff8ee; border-color:#f3dcae; }}
   .detail .desc b, .treatment .tips b {{ color:#2a3350; }}
   .imt {{ margin-top:12px; font-size:12.5px; background:#f0edff; color:#5a34c9; border-radius:10px; padding:10px 12px; line-height:1.5; }}
   .section.detail, .section.treatment {{ overflow-y:auto; }}

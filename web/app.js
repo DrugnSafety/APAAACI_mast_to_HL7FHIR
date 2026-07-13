@@ -45,6 +45,7 @@ const S = {
   classify: null,
 };
 
+let SHOW_ALL_ROWS = false;  // OCR 검토 표: 측정값만 보기(false) / 전체 보기(true)
 const STEPS = ['검사지 업로드', 'OCR 검토', '문진·스크리닝', '증상 감별 문진', '결과 리포트'];
 const CAT_EMOJI = { mite: '🛏️', animal: '🐾', pollen_tree: '🌳', pollen_grass: '🌾', pollen_weed: '🍂', mold: '🍄', insect: '🪳', food: '🍽️', other: '•' };
 const REL_LABEL = { clinically_relevant: '실제 주의', sensitized_only: '감작만', indeterminate: '관찰 필요', not_assessed: '미평가' };
@@ -66,11 +67,13 @@ function isPositive(r, testType) {
   return deriveInterp(r, testType) === 'Positive';
 }
 // 수치/Class 로부터 양성/음성 유도 (사용자가 표 값을 수정하면 판정도 갱신)
+// MAST/UniCAP: Class>=1 '또는' 수치>=0.35 이면 양성 (수치를 양성 이상으로 올리면 자동 양성)
 function deriveInterp(r, testType) {
   if (testType === 'SPT') return ((r.mean_mm ?? r.value ?? 0) >= 3) ? 'Positive' : 'Negative';
   const cls = (r.class_value != null && String(r.class_value).trim() !== '') ? parseInt(r.class_value) : null;
-  if (cls != null && !isNaN(cls)) return cls >= 1 ? 'Positive' : 'Negative';
-  return ((r.value ?? 0) >= 0.35) ? 'Positive' : 'Negative';
+  const clsPos = (cls != null && !isNaN(cls)) ? cls >= 1 : false;
+  const valPos = (parseFloat(r.value) || 0) >= 0.35;
+  return (clsPos || valPos) ? 'Positive' : 'Negative';
 }
 
 /* ---------------- navigation ---------------- */
@@ -195,9 +198,27 @@ function renderExtractedMeta(p) {
   </div>`;
 }
 
+function rowMeasured(r) {
+  // '측정된 값'이 있는 행: 수치>0 또는 Class>=1 또는 양성. (0/음성 행은 기본 숨김)
+  const v = parseFloat(r.value); const cls = parseInt(r.class_value);
+  return (v > 0) || (!isNaN(cls) && cls >= 1) || isPositive(r, S.ocr.test_type);
+}
+// 표를 다시 그리지 않고 요약(양성 수·안내 문구·다음 버튼)만 제자리 갱신.
+// 값/Class 를 편집하는 동안 표가 통째로 재렌더되지 않게 하여 편집 중인 셀이 사라지거나
+// 포커스가 튀는 문제를 방지한다. (측정값만 보기 필터는 다음 전체 렌더 때 반영)
+function refreshReviewSummary() {
+  const n = posCount();
+  const pn = $('#posN'); if (pn) pn.textContent = n;
+  const ps = $('#posSummary');
+  if (ps) ps.innerHTML = n ? `<div class="pos-summary">🔴 양성 알러젠 ${n}개 — 다음 단계에서 이 항목들의 실제 임상적 의미를 감별합니다.</div>` : '';
+  const nx = $('#next'); if (nx) nx.disabled = !n;
+}
 function renderReview() {
   const tt = S.ocr.test_type;
-  const rows = S.ocr.results.map((r, i) => {
+  const allRows = S.ocr.results.map((r, i) => ({ r, i }));
+  const shown = SHOW_ALL_ROWS ? allRows : allRows.filter(({ r }) => rowMeasured(r));
+  const hiddenN = allRows.length - shown.length;
+  const rows = shown.map(({ r, i }) => {
     const on = isPositive(r, tt);
     return `<tr data-i="${i}">
       <td style="color:var(--text-3);width:34px">${i + 1}</td>
@@ -240,12 +261,13 @@ function renderReview() {
 
       <div class="tbl-toolbar">
         <button class="btn subtle sm" id="btnAdd">＋ 항목 추가</button>
-        <span class="hint">알러젠 이름을 영문/한글로 입력하면 저장 시 자동으로 특성 정보를 붙입니다.</span>
+        <button class="btn secondary sm" id="btnShowAll">${SHOW_ALL_ROWS ? '측정값만 보기' : `전체 보기${hiddenN ? ` (음성/0값 ${hiddenN}개)` : ''}`}</button>
+        <span class="hint">${SHOW_ALL_ROWS ? '수치 0/음성 항목까지 모두 표시 중' : '수치가 측정된 항목만 표시 중'}</span>
         <span class="spacer"></span>
         <span class="hint">양성 <span class="badge-count" id="posN">${posCount()}</span></span>
       </div>
 
-      ${posCount() ? `<div class="pos-summary">🔴 양성 알러젠 ${posCount()}개 — 다음 단계에서 이 항목들의 실제 임상적 의미를 감별합니다.</div>` : ''}
+      <div id="posSummary">${posCount() ? `<div class="pos-summary">🔴 양성 알러젠 ${posCount()}개 — 다음 단계에서 이 항목들의 실제 임상적 의미를 감별합니다.</div>` : ''}</div>
 
       <div class="actions">
         <button class="btn secondary" id="back">← 이전</button>
@@ -270,14 +292,14 @@ function renderReview() {
     if (f === 'value') v = v === '' ? null : parseFloat(v);
     if (f === 'class_value') v = v === '' ? null : v;
     S.ocr.results[i][f] = v;
-    // 수치/Class/단위를 수정하면 양성/음성 판정을 값 기준으로 다시 계산
+    // 수치/Class 를 수정하면 즉시 양성/음성 판정을 다시 계산하고, 그 행의 판정 버튼·요약을 제자리 갱신
     if (['value', 'class_value', 'mean_mm'].includes(f)) {
-      S.ocr.results[i].interpretation = deriveInterp(S.ocr.results[i], S.ocr.test_type);
+      const on = deriveInterp(S.ocr.results[i], S.ocr.test_type);
+      S.ocr.results[i].interpretation = on;
+      const tog = tr.querySelector('.pos-toggle');
+      if (tog) { const pos = on === 'Positive'; tog.textContent = pos ? '양성' : '음성'; tog.classList.toggle('on', pos); tog.classList.toggle('off', !pos); }
+      refreshReviewSummary();
     }
-  });
-  // 편집 확정(blur/enter) 시 표를 갱신해 판정·양성수·다음버튼 상태를 반영
-  $('#tbody').addEventListener('change', e => {
-    if (['value', 'class_value', 'unit'].includes(e.target.dataset.f)) renderReview();
   });
   $('#tbody').addEventListener('blur', async e => {
     if (e.target.dataset.f === 'allergen_name' && e.target.value.trim()) {
@@ -295,7 +317,8 @@ function renderReview() {
     if (tog) { const i = +tog.dataset.toggle; const on = isPositive(S.ocr.results[i], S.ocr.test_type);
       S.ocr.results[i].interpretation = on ? 'Negative' : 'Positive'; renderReview(); }
   });
-  $('#btnAdd').addEventListener('click', () => { addRow(); renderReview(); setTimeout(() => { const inp = view().querySelector('tbody tr:last-child input'); inp && inp.focus(); }, 0); });
+  $('#btnAdd').addEventListener('click', () => { SHOW_ALL_ROWS = true; addRow(); renderReview(); setTimeout(() => { const inp = view().querySelector('tbody tr:last-child input'); inp && inp.focus(); }, 0); });
+  $('#btnShowAll').addEventListener('click', () => { SHOW_ALL_ROWS = !SHOW_ALL_ROWS; renderReview(); });
   $('#back').addEventListener('click', () => goto(0));
   $('#next').addEventListener('click', () => goto(2));
 }
@@ -336,7 +359,8 @@ function screeningContext() {
 function renderScreening() {
   const o = S.options || { screening_options: { diseases: [], medications: [], organ_systems: [] } };
   const opt = o.screening_options;
-  const sc = S.screening || (S.screening = { allergic_diseases: [], current_medications: [], organ_systems: [], symptom_present: true });
+  const sc = S.screening || (S.screening = { allergic_diseases: [], current_medications: [], organ_systems: [], pets: [], symptom_present: true });
+  if (!sc.pets) sc.pets = [];
   const p = S.ocr.patient;
   const ctx = screeningContext();
   const catKeys = Object.keys(ctx.cats).filter(c => c !== 'other');
@@ -386,6 +410,14 @@ function renderScreening() {
       <div class="field"><label>알레르기 증상이 나타나는 부위 <span class="hint">(복수 선택)</span></label>
         ${chipList(opt.organ_systems, sc.organ_systems, 'organ_systems')}</div>
 
+      <div class="field"><label>반려동물을 키우거나 자주 접촉하나요? <span class="hint">(복수 선택)</span></label>
+        <div class="chips" data-chipgroup="pets">
+          ${[['cat','🐱 고양이'],['dog','🐶 강아지'],['other','기타'],['none','키우지 않음']].map(([code,label]) =>
+            `<button type="button" class="chip-opt ${(sc.pets||[]).includes(code) ? 'sel' : ''}" data-code="${code}">${label}</button>`).join('')}
+        </div>
+        <input class="input ${(sc.pets||[]).includes('other') ? '' : 'hidden'}" id="petsOther" style="margin-top:8px" placeholder="기타 동물을 입력하세요 (예: 햄스터, 토끼, 새)" value="${esc(sc.pets_other||'')}" />
+      </div>
+
       <div class="actions">
         <button class="btn secondary" id="back">← 이전</button>
         <span class="spacer"></span>
@@ -404,6 +436,9 @@ function renderScreening() {
       if (key === 'current_medications') {
         $('#ahWarn').innerHTML = arr.includes('antihistamine')
           ? `<div class="notice flag" style="margin-top:10px">⚠️ 항히스타민제 복용 중이라면 피부반응검사(SPT)에서 <b>위음성</b>이 나올 수 있어, 결과 해석에 주의가 필요합니다.</div>` : '';
+      }
+      if (key === 'pets') {
+        const po = $('#petsOther'); if (po) po.classList.toggle('hidden', !arr.includes('other'));
       }
       renderScreeningChips(sc);
     });
@@ -425,6 +460,7 @@ async function submitScreening() {
   p.name = $('#pName').value.trim(); p.age = $('#pAge').value ? parseInt($('#pAge').value) : null;
   p.gender = $('#pGender').value; p.test_date = $('#pDate').value || null;
   sc.antihistamine_recent = sc.current_medications.includes('antihistamine');
+  const po = $('#petsOther'); sc.pets_other = (po && sc.pets.includes('other')) ? po.value.trim() : null;
   const btn = $('#next'); btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> 문진 준비 중…';
   try {
     const res = await API.post('/api/questionnaire', { ocr: S.ocr, screening: sc });
@@ -572,26 +608,33 @@ function renderResultTab() {
     $('#dlCn').addEventListener('click', () => download(`${(S.ocr.patient.name || 'patient')}_cardnews.html`, c.cardnews_html, 'text/html'));
   } else if (RESULT_TAB === 'fhir') {
     body.innerHTML = `<div class="card soft">
-      <p class="q-help" style="margin-bottom:14px">전체 검사 결과는 <b>Observation</b>으로, 임상적으로 의미 있다고 판정된 알러젠만 <b>AllergyIntolerance(confirmed)</b>로 HL7 FHIR R4 리소스를 생성합니다.</p>
-      <div class="download-row">
-        <button class="btn subtle sm" id="dlObs">⬇️ Observation Bundle</button>
-        <button class="btn subtle sm" id="dlAllergy">⬇️ AllergyIntolerance Bundle</button>
+      <p class="q-help" style="margin-bottom:12px"><b>Observation</b> = 전체 검사결과(양성+음성), <b>AllergyIntolerance</b> = 양성/의심 알러젠(교차반응 음식 포함). verificationStatus: 임상적 유발 확인=confirmed, 감작만/미확정=unconfirmed.</p>
+      <div id="fhirSummary" style="margin-bottom:12px"></div>
+      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
+        <button class="btn ${FHIR_VIEW==='allergy'?'primary':'secondary'} sm" id="vAllergy">AllergyIntolerance</button>
+        <button class="btn ${FHIR_VIEW==='obs'?'primary':'secondary'} sm" id="vObs">Observation</button>
+        <span class="spacer" style="flex:1"></span>
+        <button class="btn subtle sm" id="dlObs">⬇️ Observation</button>
+        <button class="btn subtle sm" id="dlAllergy">⬇️ AllergyIntolerance</button>
       </div>
-      <pre id="fhirPreview" style="margin-top:16px;max-height:340px;overflow:auto;background:var(--bg-subtle);padding:14px;border-radius:12px;font-size:12px"></pre></div>`;
+      <pre id="fhirPreview" style="max-height:420px;overflow:auto;background:var(--bg-subtle);padding:14px;border-radius:12px;font-size:12px">불러오는 중…</pre></div>`;
     loadFhir();
   }
 }
 function cardForAllergen(a) {
+  const hasOas = (a.oas_foods && a.oas_foods.length);
   const kb = [];
   if (a.season_label_ko) kb.push(['시즌', esc(a.season_label_ko)]);
+  if (hasOas) kb.push(['🍎 구강알레르기증후군(OAS) 유발 음식', esc(a.oas_foods.join(', ')) + ' — 생것 섭취 시 입·목 증상 주의, 대개 익히면 완화']);
   if (a.biology_ko) kb.push(['특성·생활사', esc(a.biology_ko)]);
   if (a.exposure_environment_ko) kb.push(['주요 노출 환경', esc(a.exposure_environment_ko)]);
   if (a.cross_reactivity_ko) kb.push(['교차반응', esc(a.cross_reactivity_ko)]);
-  if (a.oral_allergy_syndrome_ko) kb.push(['구강알레르기증후군', esc(a.oral_allergy_syndrome_ko)]);
+  if (a.oral_allergy_syndrome_ko) kb.push(['구강알레르기증후군(일반)', esc(a.oral_allergy_syndrome_ko)]);
   const av = (a.avoidance_control_ko || []).slice(0, 5);
   const kbHtml = kb.map(([k, v]) => `<div class="kb-item"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('') +
     (av.length ? `<div class="kb-item"><div class="k">회피·관리 수칙</div><ul>${av.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>` : '');
   const srcTag = a.source && a.source !== 'knowledge_base' ? `<span class="src-tag"> · 출처: ${a.source === 'wikipedia' ? 'Wikipedia' : '기본값'}</span>` : '';
+  const oasBadge = hasOas ? `<span class="rel-badge" style="background:var(--indet-soft);color:var(--indet);border:1px solid var(--indet-border)">🍎 OAS</span>` : '';
   return `<div class="allergen-card">
     <div class="ac-head">
       <span class="emoji">${CAT_EMOJI[a.category] || '•'}</span>
@@ -599,6 +642,7 @@ function cardForAllergen(a) {
         <div class="nm">${esc(a.korean_name || a.allergen_name)}</div>
         <div class="meta">${CAT_LABEL[a.category] || a.category} · ${a.test_value ?? '-'}${a.test_unit ? ' ' + esc(a.test_unit) : ''}${a.class_value != null ? ` · class ${esc(a.class_value)}` : ''}${a.strength ? ` · 감작 ${({weak:'약',moderate:'중',strong:'강'})[a.strength] || a.strength}` : ''}${srcTag}</div>
       </div>
+      ${oasBadge}
       <span class="rel-badge ${a.relevance}">${REL_LABEL[a.relevance]}</span>
       <span class="chevron">▾</span>
     </div>
@@ -608,14 +652,33 @@ function cardForAllergen(a) {
     </div>
   </div>`;
 }
+let FHIR_VIEW = 'allergy';
+function fhirRenderPreview() {
+  const f = S.fhir; if (!f) return;
+  const bundle = FHIR_VIEW === 'obs' ? f.observation_bundle : f.allergy_intolerance_bundle;
+  $('#fhirPreview').textContent = JSON.stringify(bundle, null, 2);
+  const ai = (f.allergy_intolerance_bundle.entry || []).map(e => e.resource);
+  const env = ai.filter(r => (r.category || []).includes('environment')).length;
+  const food = ai.filter(r => (r.category || []).includes('food')).length;
+  const obsN = (f.observation_bundle.entry || []).length;
+  const conf = ai.filter(r => (r.verificationStatus?.coding?.[0]?.code) === 'confirmed').length;
+  const el = $('#fhirSummary');
+  if (el) el.innerHTML = `<div style="display:flex;flex-wrap:wrap;gap:8px">
+    <span class="chip-opt sel" style="cursor:default">Observation ${obsN}</span>
+    <span class="chip-opt sel" style="cursor:default">환경 알러젠 ${env}</span>
+    <span class="chip-opt sel" style="cursor:default">음식 알러젠 ${food}</span>
+    <span class="chip-opt sel" style="cursor:default">confirmed ${conf}</span></div>`;
+}
 async function loadFhir() {
   try {
     const f = await API.post('/api/fhir', { ocr: S.ocr, screening: S.screening, answers: S.answers });
     S.fhir = f;
-    $('#fhirPreview').textContent = JSON.stringify(f.allergy_intolerance_bundle, null, 2);
+    fhirRenderPreview();
+    $('#vAllergy').addEventListener('click', () => { FHIR_VIEW = 'allergy'; renderResultTab(); });
+    $('#vObs').addEventListener('click', () => { FHIR_VIEW = 'obs'; renderResultTab(); });
     $('#dlObs').addEventListener('click', () => download(`${(S.ocr.patient.name || 'patient')}_observation.json`, JSON.stringify(f.observation_bundle, null, 2)));
     $('#dlAllergy').addEventListener('click', () => download(`${(S.ocr.patient.name || 'patient')}_allergyintolerance.json`, JSON.stringify(f.allergy_intolerance_bundle, null, 2)));
-  } catch (e) { $('#fhirPreview').textContent = 'FHIR 생성 실패: ' + e.message; }
+  } catch (e) { const el = $('#fhirPreview'); if (el) el.textContent = 'FHIR 생성 실패: ' + e.message; }
 }
 
 /* ---------------- theme ---------------- */
