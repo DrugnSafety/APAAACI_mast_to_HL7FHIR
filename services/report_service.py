@@ -672,6 +672,40 @@ class ReportService:
         )
         return "\n\n".join(md)
 
+    def build_patient_report_html_document(
+        self,
+        relevance_result: "RelevanceAssessmentResult",
+        patient_info: Dict[str, Any],
+        screening: Optional["ScreeningProfile"] = None,
+    ) -> str:
+        """맞춤 리포트를 인쇄(PDF)·화면 겸용의 자체 완결형 HTML 문서로 생성.
+        report_design 스킬(단일 디자인 소스)로 감싸 HTML/PDF 두 버전의 일관성을 보장한다."""
+        from services.report_design import render_report_document
+        from services.relevance_service import RelevanceService
+
+        md = self.build_patient_report_markdown(relevance_result, patient_info, screening)
+        # 본문 마크다운 → HTML (표지·요약 타일은 문서 템플릿이 별도로 그림)
+        try:
+            import markdown as md_lib
+            body_html = md_lib.markdown(md, extensions=["extra", "sane_lists", "nl2br"])
+        except Exception:
+            body_html = "<pre>" + md + "</pre>"
+        # 표지 헤더에 이미 이름/검사일이 있으므로 본문 첫 H1(제목)은 중복 제거
+        import re
+        body_html = re.sub(r"<h1>.*?</h1>", "", body_html, count=1, flags=re.S)
+
+        name = patient_info.get("name") or relevance_result.patient_name or "환자"
+        meta = {
+            "name": name,
+            "age": patient_info.get("age"),
+            "gender": self._format_gender(patient_info.get("gender")) if patient_info.get("gender") else None,
+            "test_date": patient_info.get("test_date") or relevance_result.test_date,
+            "facility": patient_info.get("facility"),
+            "report_date": patient_info.get("report_date"),
+        }
+        summary = RelevanceService.summarize(relevance_result)
+        return render_report_document(f"{name}님 맞춤 알레르기 리포트", meta, summary, body_html)
+
     def _allergen_detail_md(self, a: "AllergenAssessment", detailed: bool = True) -> str:
         kb = a.kb or {}
         nm = a.korean_name or a.allergen_name

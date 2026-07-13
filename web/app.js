@@ -114,6 +114,7 @@ function renderStepper() {
 }
 function render() {
   renderStepper();
+  document.body.setAttribute('data-appstep', S.step);  // 모바일 전용 UI(스크리닝=2/문진=3) 스코프용
   [renderUpload, renderReview, renderScreening, renderQuestionnaire, renderResults][S.step]();
 }
 
@@ -657,9 +658,21 @@ function renderResultTab() {
     body.innerHTML = sorted.map(cardForAllergen).join('') || '<p class="q-help">양성 알러젠이 없습니다.</p>';
     body.querySelectorAll('.ac-head').forEach(h => h.addEventListener('click', () => h.closest('.allergen-card').classList.toggle('open')));
   } else if (RESULT_TAB === 'report') {
-    body.innerHTML = `<div class="card"><div class="report-render">${c.report_html}</div></div>
-      <div class="download-row"><button class="btn subtle sm" id="dlMd">📝 Markdown 저장</button></div>`;
-    $('#dlMd').addEventListener('click', () => download(`${(S.ocr.patient.name || 'patient')}_allergy_report.md`, c.report_markdown, 'text/markdown'));
+    const doc = c.report_document_html || `<div class="report-render">${c.report_html}</div>`;
+    body.innerHTML = `<iframe class="report-frame" id="rpt"></iframe>
+      <div class="download-row">
+        <button class="btn primary sm" id="dlPdf">🖨️ PDF로 저장 / 인쇄</button>
+        <button class="btn subtle sm" id="dlHtml">🌐 HTML 저장</button>
+        <button class="btn subtle sm" id="dlMd">📝 Markdown 저장</button>
+      </div>`;
+    const nm = (S.ocr.patient.name || 'patient');
+    $('#rpt').srcdoc = doc;
+    // PDF: 리포트 iframe 자체를 인쇄(대상 'PDF로 저장') → HTML 과 100% 동일 레이아웃
+    $('#dlPdf').addEventListener('click', () => {
+      const f = $('#rpt'); if (f && f.contentWindow) { f.contentWindow.focus(); f.contentWindow.print(); }
+    });
+    $('#dlHtml').addEventListener('click', () => download(`${nm}_allergy_report.html`, doc, 'text/html'));
+    $('#dlMd').addEventListener('click', () => download(`${nm}_allergy_report.md`, c.report_markdown, 'text/markdown'));
   } else if (RESULT_TAB === 'cardnews') {
     body.innerHTML = `<iframe class="cardnews-frame" id="cn"></iframe>
       <div class="download-row"><button class="btn subtle sm" id="dlCn">🖼️ 카드뉴스 HTML 저장</button></div>`;

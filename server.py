@@ -205,16 +205,19 @@ def classify(req: ClassifyRequest):
         "age": req.ocr.patient.age,
         "gender": req.ocr.patient.gender,
         "test_date": req.ocr.patient.test_date,
+        "facility": getattr(req.ocr.patient, "facility", None),
+        "report_date": getattr(req.ocr.patient, "report_date", None),
     }
 
-    report_md = get_report_service().build_patient_report_markdown(
-        result, patient_info, req.screening
-    )
+    rsvc = get_report_service()
+    report_md = rsvc.build_patient_report_markdown(result, patient_info, req.screening)
     try:
         import markdown as md_lib
         report_html = md_lib.markdown(report_md, extensions=["extra", "sane_lists"])
     except Exception:
         report_html = "<pre>" + report_md + "</pre>"
+    # PDF/HTML 겸용 인쇄형 문서(단일 디자인 소스) — 화면 표시 + 다운로드 + 인쇄(PDF)
+    report_document_html = rsvc.build_patient_report_html_document(result, patient_info, req.screening)
 
     cardnews_html = get_cardnews_service().generate_html(result, patient_info, req.screening)
 
@@ -223,6 +226,7 @@ def classify(req: ClassifyRequest):
         "summary": RelevanceService.summarize(result),
         "report_markdown": report_md,
         "report_html": report_html,
+        "report_document_html": report_document_html,
         "cardnews_html": cardnews_html,
     }
 
