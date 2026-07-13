@@ -45,7 +45,7 @@ const S = {
   classify: null,
 };
 
-let SHOW_ALL_ROWS = false;  // OCR 검토 표: 측정값만 보기(false) / 전체 보기(true)
+let REVIEW_TAB = 'measured';  // OCR 검토 표 탭: 'measured'(수치>0) / 'zero'(수치 0·미측정)
 const STEPS = ['검사지 업로드', 'OCR 검토', '문진·스크리닝', '증상 감별 문진', '결과 리포트'];
 const CAT_EMOJI = { mite: '🛏️', animal: '🐾', pollen_tree: '🌳', pollen_grass: '🌾', pollen_weed: '🍂', mold: '🍄', insect: '🪳', food: '🍽️', other: '•' };
 const REL_LABEL = { clinically_relevant: '실제 주의', sensitized_only: '감작만', indeterminate: '관찰 필요', not_assessed: '미평가' };
@@ -74,6 +74,24 @@ function deriveInterp(r, testType) {
   const clsPos = (cls != null && !isNaN(cls)) ? cls >= 1 : false;
   const valPos = (parseFloat(r.value) || 0) >= 0.35;
   return (clsPos || valPos) ? 'Positive' : 'Negative';
+}
+// MAST/UniCAP 특이 IgE 수치(kU/L) → Class(0-6). 표준 CAP 구간.
+function valueToClass(v) {
+  v = parseFloat(v); if (isNaN(v)) return null;
+  if (v < 0.35) return 0;
+  if (v < 0.70) return 1;
+  if (v < 3.50) return 2;
+  if (v < 17.5) return 3;
+  if (v < 50.0) return 4;
+  if (v < 100) return 5;
+  return 6;
+}
+// 검사종류별 기본 단위
+function defaultUnit(testType) { return testType === 'SPT' ? 'mm' : 'kU/L'; }
+// 검토 탭 분류: 수치>0 이면 measured, 그 외(0/빈값)는 zero
+function rowIsZero(r) {
+  const v = parseFloat(r.value);
+  return isNaN(v) || v === 0;
 }
 
 /* ---------------- navigation ---------------- */
@@ -215,54 +233,68 @@ function refreshReviewSummary() {
 }
 function renderReview() {
   const tt = S.ocr.test_type;
+  const isSPT = tt === 'SPT';
+  const valueLabel = isSPT ? '팽진(mm)' : '수치(kU/L)';
   const allRows = S.ocr.results.map((r, i) => ({ r, i }));
-  const shown = SHOW_ALL_ROWS ? allRows : allRows.filter(({ r }) => rowMeasured(r));
-  const hiddenN = allRows.length - shown.length;
+  const zeroN = allRows.filter(({ r }) => rowIsZero(r)).length;
+  const measuredN = allRows.length - zeroN;
+  const shown = allRows.filter(({ r }) => REVIEW_TAB === 'zero' ? rowIsZero(r) : !rowIsZero(r));
   const rows = shown.map(({ r, i }) => {
     const on = isPositive(r, tt);
+    // SPT 는 Class 개념이 없으므로 비활성화(—). MAST/UniCAP 만 Class 편집.
+    const classCell = isSPT
+      ? `<td style="width:66px;text-align:center;color:var(--text-3)">—</td>`
+      : `<td style="width:66px"><input data-f="class_value" value="${r.class_value ?? ''}" placeholder="0-6" title="수치 입력 시 자동 계산" /></td>`;
     return `<tr data-i="${i}">
       <td style="color:var(--text-3);width:34px">${i + 1}</td>
       <td><input data-f="allergen_name" value="${esc(r.allergen_name)}" placeholder="예: Dermatophagoides farinae" /></td>
       <td><input data-f="korean_name" value="${esc(r.korean_name)}" placeholder="한글명(선택)" /></td>
       <td class="num" style="width:96px"><input data-f="value" type="number" step="0.01" value="${r.value ?? ''}" /></td>
       <td style="width:78px"><input data-f="unit" value="${esc(r.unit || '')}" /></td>
-      <td style="width:66px"><input data-f="class_value" value="${r.class_value ?? ''}" placeholder="0-6" /></td>
+      ${classCell}
       <td style="width:78px"><button class="pos-toggle ${on ? 'on' : 'off'}" data-toggle="${i}">${on ? '양성' : '음성'}</button></td>
       <td style="width:40px"><button class="btn danger-ghost" data-del="${i}" title="삭제">🗑️</button></td>
     </tr>`;
   }).join('');
+  const emptyMsg = REVIEW_TAB === 'zero'
+    ? '수치 0(미측정) 항목이 없습니다.'
+    : '측정된(수치>0) 항목이 없습니다. ‘＋ 항목 추가’로 넣거나 <b>수치 0 항목</b> 탭을 확인하세요.';
 
   view().innerHTML = `
     <div class="panel">
       <div class="panel-head">
         <div class="eyebrow">STEP 2 · OCR 검토</div>
         <h1>읽어온 결과를 확인·수정하세요</h1>
-        <p>잘못 읽힌 값은 표에서 직접 고치고, <b>누락된 알러젠은 아래 ‘＋ 항목 추가’</b>로 넣을 수 있습니다. 양성/음성 판정도 클릭으로 바꿀 수 있어요.</p>
+        <p>잘못 읽힌 값은 표에서 직접 고치고, <b>누락된 알러젠은 아래 ‘＋ 항목 추가’</b>로 넣을 수 있습니다. 수치를 고치면 Class·판정이 자동으로 바뀝니다.</p>
       </div>
 
       ${renderExtractedMeta(S.ocr.patient)}
 
-      <div class="field-inline" style="margin-bottom:16px">
+      <div class="field-inline" style="margin-bottom:14px">
         <label style="font-weight:700;font-size:13.5px">검사 종류</label>
         <select class="input" id="testType" style="width:auto">
           ${['SPT', 'MAST', 'UniCAP'].map(t => `<option value="${t}" ${tt === t ? 'selected' : ''}>${t}</option>`).join('')}
         </select>
-        <span class="hint">SPT=팽진(mm) · MAST/UniCAP=특이 IgE(kU/L)</span>
+        <span class="hint">${isSPT ? 'SPT=팽진 크기(mm), 평균 3mm 이상 양성' : 'MAST/UniCAP=특이 IgE(kU/L), Class 1↑ 또는 0.35↑ 양성'}</span>
+      </div>
+
+      <div class="rv-tabs" role="tablist">
+        <button class="rv-tab ${REVIEW_TAB === 'measured' ? 'active' : ''}" data-rvtab="measured">측정값 <span class="rv-count">${measuredN}</span></button>
+        <button class="rv-tab ${REVIEW_TAB === 'zero' ? 'active' : ''}" data-rvtab="zero">수치 0 항목 <span class="rv-count">${zeroN}</span></button>
+        <span class="hint" style="margin-left:auto">${REVIEW_TAB === 'zero' ? '수치가 0이거나 미측정된 항목입니다. 필요 시 수치를 입력하세요.' : '수치가 측정된 항목입니다.'}</span>
       </div>
 
       <div class="tbl-wrap">
         <table class="grid">
           <thead><tr>
-            <th>#</th><th>알러젠</th><th>한글명</th><th>수치</th><th>단위</th><th>Class</th><th>판정</th><th></th>
+            <th>#</th><th>알러젠</th><th>한글명</th><th>${valueLabel}</th><th>단위</th><th>Class</th><th>판정</th><th></th>
           </tr></thead>
-          <tbody id="tbody">${rows || `<tr><td colspan="8" style="text-align:center;color:var(--text-3);padding:26px">아직 항목이 없습니다. ‘＋ 항목 추가’로 넣어주세요.</td></tr>`}</tbody>
+          <tbody id="tbody">${rows || `<tr><td colspan="8" style="text-align:center;color:var(--text-3);padding:26px">${emptyMsg}</td></tr>`}</tbody>
         </table>
       </div>
 
       <div class="tbl-toolbar">
         <button class="btn subtle sm" id="btnAdd">＋ 항목 추가</button>
-        <button class="btn secondary sm" id="btnShowAll">${SHOW_ALL_ROWS ? '측정값만 보기' : `전체 보기${hiddenN ? ` (음성/0값 ${hiddenN}개)` : ''}`}</button>
-        <span class="hint">${SHOW_ALL_ROWS ? '수치 0/음성 항목까지 모두 표시 중' : '수치가 측정된 항목만 표시 중'}</span>
         <span class="spacer"></span>
         <span class="hint">양성 <span class="badge-count" id="posN">${posCount()}</span></span>
       </div>
@@ -277,11 +309,16 @@ function renderReview() {
     </div>`;
 
   // bindings
+  // 검사종류 변경: 단위를 새 종류 기본값으로 바꾸고, SPT↔MAST 판정 기준으로 재계산 후 표를 다시 그린다.
+  // (MAST→SPT 로 바꿔도 이전 값·Class·판정이 그대로 남던 문제 수정)
   $('#testType').addEventListener('change', e => {
-    S.ocr.test_type = e.target.value;
+    const nt = e.target.value; S.ocr.test_type = nt;
+    const nu = defaultUnit(nt);
     S.ocr.results.forEach(r => {
-      if (!r.unit || r.unit === 'mm' || r.unit === 'kU/L') r.unit = e.target.value === 'SPT' ? 'mm' : 'kU/L';
-      r.interpretation = deriveInterp(r, S.ocr.test_type); // 검사종류 바뀌면 판정 재계산
+      if (!r.unit || r.unit === 'mm' || r.unit === 'kU/L' || r.unit === 'IU/mL') r.unit = nu;
+      if (nt === 'SPT') { r.class_value = null; }               // SPT 는 Class 없음
+      else if (r.value != null && r.value !== '') { r.class_value = valueToClass(r.value); }  // 수치→Class
+      r.interpretation = deriveInterp(r, nt);                    // 판정 재계산
     });
     renderReview();
   });
@@ -292,10 +329,16 @@ function renderReview() {
     if (f === 'value') v = v === '' ? null : parseFloat(v);
     if (f === 'class_value') v = v === '' ? null : v;
     S.ocr.results[i][f] = v;
-    // 수치/Class 를 수정하면 즉시 양성/음성 판정을 다시 계산하고, 그 행의 판정 버튼·요약을 제자리 갱신
+    // 수치 수정 → (MAST/UniCAP) Class 자동 계산 + 판정 재계산. Class 직접 수정 → 판정만 재계산.
     if (['value', 'class_value', 'mean_mm'].includes(f)) {
-      const on = deriveInterp(S.ocr.results[i], S.ocr.test_type);
-      S.ocr.results[i].interpretation = on;
+      const r = S.ocr.results[i];
+      if (f === 'value' && S.ocr.test_type !== 'SPT') {
+        r.class_value = (v == null) ? null : valueToClass(v);
+        const cinp = tr.querySelector('input[data-f="class_value"]');
+        if (cinp) cinp.value = r.class_value ?? '';               // Class 셀 즉시 반영
+      }
+      const on = deriveInterp(r, S.ocr.test_type);
+      r.interpretation = on;
       const tog = tr.querySelector('.pos-toggle');
       if (tog) { const pos = on === 'Positive'; tog.textContent = pos ? '양성' : '음성'; tog.classList.toggle('on', pos); tog.classList.toggle('off', !pos); }
       refreshReviewSummary();
@@ -317,8 +360,11 @@ function renderReview() {
     if (tog) { const i = +tog.dataset.toggle; const on = isPositive(S.ocr.results[i], S.ocr.test_type);
       S.ocr.results[i].interpretation = on ? 'Negative' : 'Positive'; renderReview(); }
   });
-  $('#btnAdd').addEventListener('click', () => { SHOW_ALL_ROWS = true; addRow(); renderReview(); setTimeout(() => { const inp = view().querySelector('tbody tr:last-child input'); inp && inp.focus(); }, 0); });
-  $('#btnShowAll').addEventListener('click', () => { SHOW_ALL_ROWS = !SHOW_ALL_ROWS; renderReview(); });
+  // 새 항목은 수치 0(미측정)로 추가되므로 '수치 0 항목' 탭으로 전환해 보여준다.
+  $('#btnAdd').addEventListener('click', () => { REVIEW_TAB = 'zero'; addRow(); renderReview(); setTimeout(() => { const inp = view().querySelector('tbody tr:last-child input'); inp && inp.focus(); }, 0); });
+  view().querySelectorAll('[data-rvtab]').forEach(b => b.addEventListener('click', () => {
+    REVIEW_TAB = b.dataset.rvtab; renderReview();
+  }));
   $('#back').addEventListener('click', () => goto(0));
   $('#next').addEventListener('click', () => goto(2));
 }
@@ -473,6 +519,16 @@ async function submitScreening() {
 /* =========================================================================
    STEP 3 — 적응형 감별 문진
    ========================================================================= */
+// reveal 조건 평가: {any_of:[...]} | {question, equals} | {question, any:[...]} | {question, includes_any:[...]}
+function condMet(cond) {
+  if (!cond) return true;
+  if (cond.any_of) return cond.any_of.some(condMet);
+  const a = S.answers[cond.question];
+  if (cond.equals !== undefined) return a === cond.equals;
+  if (cond.any) return cond.any.includes(a);
+  if (cond.includes_any) return Array.isArray(a) && a.some(x => cond.includes_any.includes(x));
+  return true;
+}
 function renderQuestionnaire() {
   const q = S.questionnaire; const idx = q.allergen_index;
   const applyTags = (arr) => (arr && arr.length)
@@ -490,11 +546,12 @@ function renderQuestionnaire() {
         qq.options.map(o => `<button type="button" class="choice ${val === o.value ? 'sel' : ''}" data-v="${o.value}">
           <span class="radio"></span><span class="body"><span class="t">${esc(o.label)}</span>${o.hint ? `<span class="h">${esc(o.hint)}</span>` : ''}</span></button>`).join('') + `</div>`;
     }
-    // reveal_if: 특정 답변일 때만 노출 (예: OAS='예'일 때 교차반응 음식 질문)
+    // reveal 조건: reveal_if({question, equals|any|includes_any}) 또는 reveal_if_any([...])
+    const cond = qq.reveal_if_any ? { any_of: qq.reveal_if_any } : (qq.reveal_if || null);
     let revealAttr = '', hiddenCls = '';
-    if (qq.reveal_if) {
-      revealAttr = ` data-revealq="${esc(qq.reveal_if.question)}" data-revealv="${esc(qq.reveal_if.equals)}"`;
-      if (S.answers[qq.reveal_if.question] !== qq.reveal_if.equals) hiddenCls = ' hidden';
+    if (cond) {
+      revealAttr = ` data-reveal='${esc(JSON.stringify(cond))}'`;
+      if (!condMet(cond)) hiddenCls = ' hidden';
     }
     return `<div class="q-block${hiddenCls}"${revealAttr}>
       <div class="q-title">${esc(qq.title)}</div>
@@ -502,8 +559,9 @@ function renderQuestionnaire() {
       ${applyTags(qq.applies_to)}
       ${control}</div>`;
   };
-  const applyReveals = () => view().querySelectorAll('[data-revealq]').forEach(b => {
-    b.classList.toggle('hidden', S.answers[b.dataset.revealq] !== b.dataset.revealv);
+  const applyReveals = () => view().querySelectorAll('[data-reveal]').forEach(b => {
+    let c; try { c = JSON.parse(b.dataset.reveal); } catch (_) { return; }
+    b.classList.toggle('hidden', !condMet(c));
   });
 
   const sections = q.sections.map(sec => `
@@ -537,10 +595,11 @@ function renderQuestionnaire() {
   view().querySelectorAll('[data-multi]').forEach(g => g.addEventListener('click', e => {
     const b = e.target.closest('.chip-opt'); if (!b) return;
     const id = g.dataset.multi, v = b.dataset.v; let arr = S.answers[id] || [];
-    if (v === 'none') arr = arr.includes('none') ? [] : ['none'];
-    else { arr = arr.filter(x => x !== 'none'); arr = arr.includes(v) ? arr.filter(x => x !== v) : [...arr, v]; }
+    if (v === 'none' || v === 'no') arr = arr.includes(v) ? [] : [v];
+    else { arr = arr.filter(x => x !== 'none' && x !== 'no'); arr = arr.includes(v) ? arr.filter(x => x !== v) : [...arr, v]; }
     S.answers[id] = arr;
     g.querySelectorAll('.chip-opt').forEach(c => c.classList.toggle('sel', arr.includes(c.dataset.v)));
+    applyReveals();
   }));
   $('#back').addEventListener('click', () => goto(2));
   $('#next').addEventListener('click', submitClassify);

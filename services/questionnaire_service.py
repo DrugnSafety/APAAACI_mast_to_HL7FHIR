@@ -77,11 +77,34 @@ Q_INDOOR_AWAY = "indoor_away"           # 집 비우면 호전
 Q_MITE_DUST = "mite_dust"               # 먼지·이불 정리 시 악화
 Q_MOLD_DAMP = "mold_damp"               # 습한 곳 악화
 Q_ROACH_ENV = "roach_env"               # 오래된 건물·주방
+Q_OAS_SYSTEMIC = "oas_systemic"         # OAS에서 아나필락시스/전신 두드러기 발생 여부
+Q_FOOD_SYSTEMIC_FOODS = "food_systemic_foods"  # 전신반응 유발 음식(다중)
 # 동적 id 접두사
 QP_POLLEN = "pollen_season__"           # + group(spring/summer_grass/fall)
 QP_ANIMAL_CONTACT = "animal_contact__"  # + key
 QP_ANIMAL_WORSE = "animal_worse__"      # + key
 QP_FOOD_REACT = "food_react__"          # + key
+QP_SEVERITY = "severity__"              # + key/scope : 증상 중증도(경증/중등증/중증/아나필락시스)
+QP_FOOD_SYSTEMIC_SEV = "food_systemic_sev__"   # + key : 전신반응 음식별 중증도
+
+# 증상 중증도 (단일)
+SEVERITY_OPTIONS = [
+    {"value": "mild", "label": "경증 — 가벼운 국소 증상, 일상에 큰 지장 없음"},
+    {"value": "moderate", "label": "중등증 — 증상이 뚜렷하고 일상·수면에 지장"},
+    {"value": "severe", "label": "중증 — 증상이 심해 약 없이는 조절이 어려움"},
+    {"value": "anaphylaxis", "label": "아나필락시스 — 호흡곤란·전신 두드러기·어지럼(응급 병력)"},
+]
+
+
+def _severity_question(qid, applies, reveal, title="증상이 있을 때, 가장 심했던 정도는 어느 쪽에 가깝나요?"):
+    """알러젠별 증상 중증도 추가 질의. reveal 조건이 충족될 때만 노출."""
+    q = {
+        "id": qid, "type": "single", "title": title,
+        "help": "가장 심했던 에피소드 기준으로 골라주세요. 중증·아나필락시스는 전문의 평가가 필요합니다.",
+        "options": SEVERITY_OPTIONS, "applies_to": applies,
+    }
+    q.update(reveal)
+    return q
 
 # 꽃가루 시즌 그룹 정의
 POLLEN_GROUPS = {
@@ -213,6 +236,11 @@ class QuestionnaireEngine:
                         "options": YNU,
                         "applies_to": applies,
                     })
+                    # 증상 있음(예) → 해당 시즌 증상 중증도 추가 질의
+                    pollen_qs.append(_severity_question(
+                        QP_SEVERITY + "pollen_" + g["group"], applies,
+                        {"reveal_if": {"question": QP_POLLEN + g["group"], "any": [YES]}},
+                        title=f"{g['season_ko']} 증상이 있을 때, 가장 심했던 정도는?"))
             sections.append({
                 "id": "pollen",
                 "title": "꽃가루 시즌 증상",
@@ -267,6 +295,24 @@ class QuestionnaireEngine:
                     "options": YNU,
                     "applies_to": [_key(i) for i, a in enumerate(assessments) if _cat(a) == "mold"],
                 })
+            # 실내 알러젠 증상 있음(어느 항목이든 예) → 증상 중증도 추가 질의
+            indoor_reveal = []
+            if has_indoor_perennial:
+                indoor_reveal += [{"question": Q_INDOOR_TIMING, "any": [YES]},
+                                  {"question": Q_INDOOR_AWAY, "any": [YES]}]
+            if has_mite:
+                indoor_reveal.append({"question": Q_MITE_DUST, "any": [YES]})
+            if has_insect:
+                indoor_reveal.append({"question": Q_ROACH_ENV, "any": [YES]})
+            if has_mold:
+                indoor_reveal.append({"question": Q_MOLD_DAMP, "any": [YES]})
+            if indoor_reveal:
+                applies_all = [_key(i) for i, a in enumerate(assessments)
+                               if _cat(a) in ("mite", "insect", "mold")]
+                indoor_qs.append(_severity_question(
+                    QP_SEVERITY + "indoor", applies_all,
+                    {"reveal_if_any": indoor_reveal},
+                    title="실내 환경 노출로 증상이 있을 때, 가장 심했던 정도는?"))
             sections.append({
                 "id": "indoor",
                 "title": "실내 환경 알러젠",
@@ -297,6 +343,10 @@ class QuestionnaireEngine:
                     "options": YNU,
                     "applies_to": [_key(i)],
                 })
+                animal_qs.append(_severity_question(
+                    QP_SEVERITY + _key(i), [_key(i)],
+                    {"reveal_if": {"question": QP_ANIMAL_WORSE + _key(i), "any": [YES]}},
+                    title=f"{nm} 접촉 시 증상이 있을 때, 가장 심했던 정도는?"))
             sections.append({
                 "id": "animal",
                 "title": "동물 알러젠",
@@ -328,6 +378,18 @@ class QuestionnaireEngine:
                         "options": pfas_opts + [{"value": "none", "label": "해당 없음 / 문제된 음식 없음"}],
                         "applies_to": [], "reveal_if": {"question": Q_OAS, "equals": YES},
                     })
+                    # OAS 에서 아나필락시스/전신 두드러기 발생 여부 — 대개 국소지만 견과·콩·셀러리 등은 전신 가능
+                    food_qs.append({
+                        "id": Q_OAS_SYSTEMIC, "type": "single",
+                        "title": "위 음식으로 입·목을 넘어 전신 두드러기·호흡곤란·어지럼(아나필락시스)이 있었던 적이 있나요?",
+                        "help": "대부분의 구강알레르기증후군은 입·목에 국한되지만, 일부(견과·콩·셀러리 등)는 전신 반응이 올 수 있어 확인합니다.",
+                        "options": [
+                            {"value": "no", "label": "아니오 — 입·입술·목 증상만 있었어요"},
+                            {"value": "systemic", "label": "예 — 전신 두드러기가 있었어요"},
+                            {"value": "anaphylaxis", "label": "예 — 호흡곤란·어지럼 등 아나필락시스가 있었어요"},
+                        ],
+                        "applies_to": [], "reveal_if": {"question": Q_OAS, "equals": YES},
+                    })
             # (2) 진드기↔갑각류 트로포마이오신 (갑각류 양성이 없을 때만 일반 질문)
             if has_mite and not shellfish_foods:
                 food_qs.append({
@@ -338,7 +400,7 @@ class QuestionnaireEngine:
                     "options": FOOD_REACT_OPTIONS,
                     "applies_to": [_key(i) for i, a in enumerate(assessments) if _cat(a) == "mite"],
                 })
-            # (3) 갑각류 양성 → 실제 섭취 반응(양방향 감별)
+            # (3) 갑각류 양성 → 실제 섭취 반응(양방향 감별) + 증상 있으면 중증도
             for i, a in shellfish_foods:
                 nm = _name(a)
                 food_qs.append({
@@ -348,7 +410,11 @@ class QuestionnaireEngine:
                             "무증상이면 불필요하게 끊을 필요가 없습니다.",
                     "options": FOOD_REACT_OPTIONS, "applies_to": [_key(i)],
                 })
-            # (4) 일반 음식 양성 → 증상 유형(다중)
+                food_qs.append(_severity_question(
+                    QP_SEVERITY + _key(i), [_key(i)],
+                    {"reveal_if": {"question": QP_SHELLFISH + _key(i), "any": ["oral", "systemic"]}},
+                    title=f"{nm} 섭취 시 증상이 있을 때, 가장 심했던 정도는?"))
+            # (4) 일반 음식 양성 → 증상 유형(다중) + 증상 있으면 중증도
             for i, a in other_foods:
                 nm = _name(a)
                 food_qs.append({
@@ -357,13 +423,33 @@ class QuestionnaireEngine:
                     "help": "여러 개 선택 가능. 현재 문제없이 먹고 있다면 ‘먹어도 증상 없음’을 고르세요.",
                     "options": FOOD_SYMPTOM_OPTIONS, "applies_to": [_key(i)],
                 })
-            # (5) 전신 반응 게이트
+                food_qs.append(_severity_question(
+                    QP_SEVERITY + _key(i), [_key(i)],
+                    {"reveal_if": {"question": QP_FOOD_SYMPTOMS + _key(i),
+                                   "includes_any": ["oral", "skin", "gi", "breathing", "anaphylaxis"]}},
+                    title=f"{nm} 섭취 시 증상이 있을 때, 가장 심했던 정도는?"))
+            # (5) 전신 반응 게이트 → 유발 음식(다중) + 음식별 중증도
             food_qs.append({
                 "id": Q_FOOD_SYSTEMIC, "type": "single",
                 "title": "특정 음식을 먹은 뒤 두드러기·호흡곤란·복통 등 전신 증상이 있었나요?",
                 "help": "전신 반응(아나필락시스 포함)은 응급 상황일 수 있어 반드시 확인합니다.",
                 "options": YNU, "applies_to": [],
             })
+            sys_food_opts = [{"value": _key(i), "label": _name(a)} for i, a in foods]
+            sys_food_opts.append({"value": "other", "label": "그 밖의 음식(검사에 없던 음식)"})
+            food_qs.append({
+                "id": Q_FOOD_SYSTEMIC_FOODS, "type": "multi",
+                "title": "전신 증상을 일으켰던 음식을 모두 선택하세요.",
+                "help": "여러 개일 수 있습니다. 각 음식마다 아래에서 심했던 정도를 여쭤봅니다.",
+                "options": sys_food_opts,
+                "applies_to": [], "reveal_if": {"question": Q_FOOD_SYSTEMIC, "equals": YES},
+            })
+            for i, a in foods:
+                nm = _name(a)
+                food_qs.append(_severity_question(
+                    QP_FOOD_SYSTEMIC_SEV + _key(i), [_key(i)],
+                    {"reveal_if": {"question": Q_FOOD_SYSTEMIC_FOODS, "includes_any": [_key(i)]}},
+                    title=f"{nm}로 인한 전신 증상은 어느 정도였나요?"))
             sections.append({
                 "id": "food",
                 "title": "음식·구강 알레르기 · 교차반응",
@@ -426,10 +512,14 @@ class QuestionnaireEngine:
 
     def crossreactive_food_items(self, assessments, answers):
         """FHIR 매핑용 교차반응 음식 통합 목록 (꽃가루 OAS + 진드기↔갑각류).
-        반환: [{"en","ko","source","severity","pollens"?}]"""
+        반환: [{"en","ko","source","severity","pollens"?}]
+        severity: oral(국소)/systemic(전신 두드러기)/anaphylaxis — OAS 전신 게이트 반영"""
         items = []
+        answers = answers or {}
+        oas_sys = answers.get(Q_OAS_SYSTEMIC)  # no / systemic / anaphylaxis
+        oas_sev = "anaphylaxis" if oas_sys == "anaphylaxis" else ("systemic" if oas_sys == "systemic" else "oral")
         for f in self.oas_selected_foods(assessments, answers):
-            items.append({**f, "source": "pollen", "severity": "oral"})
+            items.append({**f, "source": "pollen", "severity": oas_sev})
         # 진드기↔갑각류 (갑각류 검사가 양성으로 별도 존재하지 않을 때만 추가)
         answers = answers or {}
         ms = answers.get(Q_MITE_SHELLFISH)
@@ -516,12 +606,12 @@ class QuestionnaireEngine:
                 a.oas_foods = oas_foods_here  # 결과카드/리포트/카드뉴스/FHIR 로 전파
                 self._classify_pollen(a, cat, answers, worse_months, oas, oas_foods_here)
             elif cat == "mite":
-                self._classify_indoor(a, "mite", indoor_timing, indoor_away, mite_dust, pattern)
+                self._classify_indoor(a, "mite", indoor_timing, indoor_away, mite_dust, pattern, answers)
                 self._append_mite_shellfish_note(a, mite_shellfish)
             elif cat == "insect":
-                self._classify_indoor(a, "insect", indoor_timing, indoor_away, roach_env, pattern)
+                self._classify_indoor(a, "insect", indoor_timing, indoor_away, roach_env, pattern, answers)
             elif cat == "mold":
-                self._classify_mold(a, mold_damp, worse_months, pattern)
+                self._classify_mold(a, mold_damp, worse_months, pattern, answers)
             elif cat == "animal":
                 self._classify_animal(a, _key(i), answers)
             elif cat == "food":
@@ -532,6 +622,33 @@ class QuestionnaireEngine:
             else:
                 self._classify_generic(a, pattern)
         return result
+
+    # ---- 중증도/증상 보조 ----
+    _SEV_RANK = {"mild": 1, "moderate": 2, "severe": 3, "anaphylaxis": 4}
+
+    def _pick_severity(self, answers, *qids, default=None):
+        """여러 severity 질문 중 답변된 것들에서 가장 높은 중증도를 반환."""
+        best, best_rank = None, 0
+        for qid in qids:
+            v = (answers or {}).get(qid)
+            r = self._SEV_RANK.get(v, 0)
+            if r > best_rank:
+                best, best_rank = v, r
+        return best or default
+
+    def _set_symptoms(self, a, manifestations, severity):
+        """문진에서 확인된 증상(reaction.manifestation)과 중증도를 assessment 에 기록."""
+        a.reported_symptoms = [m for m in (manifestations or []) if m]
+        if severity:
+            a.severity = severity
+
+    _FOOD_SYMPTOM_TEXT = {
+        "oral": "입·입술·목 가려움/부종",
+        "skin": "두드러기·피부 발진",
+        "gi": "복통·구토·설사",
+        "breathing": "호흡곤란·기침·쌕쌕거림",
+        "anaphylaxis": "아나필락시스(어지럼·전신 반응)",
+    }
 
     def _append_mite_shellfish_note(self, a, mite_shellfish):
         if mite_shellfish in ("oral", "systemic"):
@@ -574,6 +691,8 @@ class QuestionnaireEngine:
             a.rationale_ko = (
                 f"{g['season_ko']}에 증상이 실제로 악화되어, 검사 양성이 임상적으로 의미 있는 "
                 f"꽃가루 알레르기로 판단됩니다. 해당 시즌 외출·환기 관리가 중요합니다.{oas_note}")
+            sev = self._pick_severity(answers, QP_SEVERITY + "pollen_" + g["group"], default="moderate")
+            self._set_symptoms(a, [f"{g['season_ko']} 코·눈 증상 악화(재채기·콧물·코막힘·눈 가려움)"], sev)
         elif verdict == "sensitized":
             a.relevance = ClinicalRelevance.SENSITIZED_ONLY
             a.rationale_ko = (
@@ -586,7 +705,7 @@ class QuestionnaireEngine:
                 f"{g['season_ko']} 증상 변화 정보가 부족해 판정을 보류합니다. 다음 시즌에 증상 "
                 f"악화 여부를 관찰해 보세요.{oas_note}")
 
-    def _classify_indoor(self, a, kind, timing, away, specific, pattern):
+    def _classify_indoor(self, a, kind, timing, away, specific, pattern, answers=None):
         name = _name(a)
         strong = any(x == YES for x in (timing, away, specific))
         all_no = all(x == NO for x in (timing, away, specific) if x is not None) and \
@@ -604,6 +723,8 @@ class QuestionnaireEngine:
             a.rationale_ko = (
                 f"{('·'.join(trg)) or '노출 시 악화'} 패턴이 확인되어, {label} 알레르기가 실제 증상의 "
                 f"원인으로 작용하는 것으로 판단됩니다. 침구·실내 환경 관리가 핵심입니다.")
+            sev = self._pick_severity(answers or {}, QP_SEVERITY + "indoor", default="moderate")
+            self._set_symptoms(a, [f"{label} 실내 노출 시 코·눈·호흡기 증상 악화(" + ("·".join(trg) or "노출 시 악화") + ")"], sev)
         elif all_no:
             a.relevance = ClinicalRelevance.SENSITIZED_ONLY
             a.rationale_ko = (
@@ -615,7 +736,7 @@ class QuestionnaireEngine:
                 f"{label} 관련 노출·증상 정보가 부족해 판정을 보류합니다. 저녁·아침 증상, 청소·이불 "
                 f"정리 시 변화, 외박 시 호전 여부를 기록해 보세요.")
 
-    def _classify_mold(self, a, damp, worse_months, pattern):
+    def _classify_mold(self, a, damp, worse_months, pattern, answers=None):
         peak = set((a.kb or {}).get("peak_months_korea", []) or [7, 8, 9])
         overlap = bool(peak & worse_months) if worse_months else None
         if damp == YES or overlap is True:
@@ -623,6 +744,8 @@ class QuestionnaireEngine:
             a.rationale_ko = (
                 "습한 환경·곰팡이 노출 시 증상이 악화되어, 곰팡이 알레르기가 임상적으로 의미 있는 "
                 "것으로 판단됩니다. 제습·환기·곰팡이 제거가 중요합니다.")
+            sev = self._pick_severity(answers or {}, QP_SEVERITY + "indoor", default="moderate")
+            self._set_symptoms(a, ["습한 환경·곰팡이 노출 시 코·호흡기 증상 악화"], sev)
         elif damp == NO or overlap is False:
             a.relevance = ClinicalRelevance.SENSITIZED_ONLY
             a.rationale_ko = (
@@ -641,6 +764,8 @@ class QuestionnaireEngine:
             a.rationale_ko = (
                 f"{name} 접촉이 늘 때 증상이 악화되어, 임상적으로 의미 있는 동물 알레르기로 판단됩니다. "
                 f"접촉을 줄이고 침실 등 생활공간 노출을 관리하세요.")
+            sev = self._pick_severity(answers, QP_SEVERITY + key, default="moderate")
+            self._set_symptoms(a, [f"{name} 접촉 시 코·눈·피부·호흡기 증상 악화"], sev)
         elif contact == YES and worse == NO:
             a.relevance = ClinicalRelevance.SENSITIZED_ONLY
             a.rationale_ko = (
@@ -659,17 +784,24 @@ class QuestionnaireEngine:
         """갑각류(새우·게) — 양방향 감별: 강양성이어도 무증상이면 감작만."""
         name = _name(a)
         react = answers.get(QP_SHELLFISH + key)
+        # 전신반응 게이트에서 이 음식을 지목했으면 전신으로 승격
+        if key in (answers.get(Q_FOOD_SYSTEMIC_FOODS, []) or []):
+            react = "systemic"
         trop = " (집먼지진드기와의 트로포마이오신 교차반응 가능성도 함께 고려됩니다.)" if has_mite else ""
         if react == "systemic":
             a.relevance = ClinicalRelevance.CLINICALLY_RELEVANT
             a.rationale_ko = (
                 f"{name} 섭취 시 두드러기·호흡곤란 등 전신 증상이 있어, 임상적으로 의미 있는 갑각류 "
                 f"알레르기로 판단됩니다. 섭취를 피하고 전문의 평가·응급계획이 필요합니다.{trop}")
+            sev = self._pick_severity(answers, QP_SEVERITY + key, QP_FOOD_SYSTEMIC_SEV + key, default="severe")
+            self._set_symptoms(a, [f"{name} 섭취 시 전신 증상(두드러기·호흡곤란 등)"], sev)
         elif react == "oral":
             a.relevance = ClinicalRelevance.CLINICALLY_RELEVANT
             a.rationale_ko = (
                 f"{name} 섭취 시 입·목에 국소 증상이 있습니다(구강알레르기증후군형). 생물·많은 양에서 특히 "
                 f"주의하고, 증상이 심해지면 전문의와 상의하세요.{trop}")
+            sev = self._pick_severity(answers, QP_SEVERITY + key, default="mild")
+            self._set_symptoms(a, [f"{name} 섭취 시 입·목 국소 증상"], sev)
         elif react == "none":
             a.relevance = ClinicalRelevance.SENSITIZED_ONLY
             a.rationale_ko = (
@@ -686,23 +818,33 @@ class QuestionnaireEngine:
         name = _name(a)
         syms = set(answers.get(QP_FOOD_SYMPTOMS + key, []) or [])
         systemic_syms = syms & {"skin", "gi", "breathing", "anaphylaxis"}
-        if "none" in syms and not (syms - {"none"}):
+        # 전신반응 게이트에서 이 음식을 지목했는지
+        picked_systemic = key in (answers.get(Q_FOOD_SYSTEMIC_FOODS, []) or [])
+        manifest = [self._FOOD_SYMPTOM_TEXT[s] for s in
+                    ("oral", "skin", "gi", "breathing", "anaphylaxis") if s in syms]
+        if "none" in syms and not (syms - {"none"}) and not picked_systemic:
             a.relevance = ClinicalRelevance.SENSITIZED_ONLY
             a.rationale_ko = (
                 f"검사는 양성이지만 {name}을(를) 현재 문제없이 섭취하고 있습니다. → 감작만 된 상태로 보이며, "
                 f"불필요한 식이 제한은 오히려 해로울 수 있습니다.")
-        elif systemic_syms or food_systemic == YES:
+        elif systemic_syms or food_systemic == YES or picked_systemic:
             a.relevance = ClinicalRelevance.CLINICALLY_RELEVANT
-            severe = ("anaphylaxis" in syms) or ("breathing" in syms) or food_systemic == YES
+            severe = ("anaphylaxis" in syms) or ("breathing" in syms) or picked_systemic
+            systemic_wording = severe or (food_systemic == YES)
             note = " 전신 반응(호흡곤란·아나필락시스) 병력은 응급 위험이 있어 반드시 전문의 평가와 응급계획이 필요합니다." if severe else ""
             a.rationale_ko = (
-                f"{name} 섭취 시 {'전신 ' if severe else ''}알레르기 증상이 재현되어 임상적으로 의미 있는 "
+                f"{name} 섭취 시 {'전신 ' if systemic_wording else ''}알레르기 증상이 재현되어 임상적으로 의미 있는 "
                 f"음식 알레르기로 판단됩니다.{note}")
+            default_sev = "severe" if severe else "moderate"
+            sev = self._pick_severity(answers, QP_SEVERITY + key, QP_FOOD_SYSTEMIC_SEV + key, default=default_sev)
+            self._set_symptoms(a, manifest or [f"{name} 섭취 시 전신 알레르기 증상"], sev)
         elif "oral" in syms:
             a.relevance = ClinicalRelevance.CLINICALLY_RELEVANT
             a.rationale_ko = (
                 f"{name} 섭취 시 입·목에 국소 증상이 있습니다(구강알레르기증후군형). 생물에서 특히 주의하고, "
                 f"대개 가열 시 증상이 줄어듭니다.")
+            sev = self._pick_severity(answers, QP_SEVERITY + key, default="mild")
+            self._set_symptoms(a, manifest or [f"{name} 섭취 시 입·목 국소 증상"], sev)
         else:
             a.relevance = ClinicalRelevance.INDETERMINATE
             a.rationale_ko = f"{name} 섭취 경험·증상 정보가 부족해 판정을 보류합니다."

@@ -206,9 +206,14 @@ def test_questionnaire_engine():
     sec_ids = [s["id"] for s in q["sections"]]
     assert "pattern" in sec_ids and "pollen" in sec_ids and "indoor" in sec_ids
     assert "animal" in sec_ids and "food" in sec_ids
-    # 꽃가루는 시즌 그룹당 1문항 (알러젠 수와 무관)
+    # 꽃가루는 시즌 그룹당 1문항 (알러젠 수와 무관) — severity 후속 문항은 제외하고 카운트
+    from services.questionnaire_service import QP_POLLEN, QP_SEVERITY
     pollen_sec = next(s for s in q["sections"] if s["id"] == "pollen")
-    assert len(pollen_sec["questions"]) == 1, "나무꽃가루 1종이면 봄 시즌 1문항이어야 함"
+    season_qs = [qq for qq in pollen_sec["questions"] if qq["id"].startswith(QP_POLLEN)]
+    assert len(season_qs) == 1, "나무꽃가루 1종이면 봄 시즌 1문항이어야 함"
+    # severity 후속 문항이 reveal 조건과 함께 존재
+    sev_qs = [qq for qq in pollen_sec["questions"] if qq["id"].startswith(QP_SEVERITY)]
+    assert len(sev_qs) == 1 and sev_qs[0].get("reveal_if"), "시즌 증상 있음 → 중증도 후속 문항 필요"
 
     # 판정: 진드기(아침+먼지 yes)→relevant, 자작(봄 no)→sensitized,
     #       고양이(접촉 yes/악화 no)→sensitized, 땅콩(섭취 no)→sensitized

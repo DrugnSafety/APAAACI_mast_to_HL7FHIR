@@ -376,6 +376,10 @@ class AllergenAssessment(BaseModel):
     season_overlap: Optional[bool] = None
     # 구강알레르기증후군(OAS): 이 알러젠과 교차반응으로 환자가 증상을 보고한 음식(한글명)
     oas_foods: List[str] = Field(default_factory=list)
+    # 문진에서 보고된 실제 증상(노출 시 발현) — FHIR reaction.manifestation.text 로 사용
+    reported_symptoms: List[str] = Field(default_factory=list)
+    # 증상 중증도: none/mild/moderate/severe/anaphylaxis — FHIR reaction.severity·criticality 로 사용
+    severity: Optional[str] = None
     # 판정
     relevance: ClinicalRelevance = ClinicalRelevance.NOT_ASSESSED
     rationale_ko: Optional[str] = None

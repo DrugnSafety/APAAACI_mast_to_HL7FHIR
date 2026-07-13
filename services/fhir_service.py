@@ -408,19 +408,20 @@ class FHIRService:
         cat = self._category_fhir(str(a.category))
 
         rel = a.relevance
+        severity = getattr(a, "severity", None)
+        has_symptoms = bool(getattr(a, "reported_symptoms", None))
         if rel == ClinicalRelevance.CLINICALLY_RELEVANT:
             verification = ("confirmed", "Confirmed")
         else:  # sensitized_only / indeterminate → 의심(미확인)
             verification = ("unconfirmed", "Unconfirmed")
 
-        # criticality: 실제 유발(relevant)일 때만 high 로 격상. 감작만/미확정은 낮게.
+        # criticality: 중증도 기반. 증상이 없었던(감작만) 알러젠은 low, 미확정은 평가불가.
+        # 중증·아나필락시스만 high 로 격상한다.
         if rel == ClinicalRelevance.INDETERMINATE:
             criticality = "unable-to-assess"
-        elif rel == ClinicalRelevance.CLINICALLY_RELEVANT and (high_criticality or a.strength == "strong"):
+        elif severity in ("severe", "anaphylaxis") or high_criticality:
             criticality = "high"
-        elif rel == ClinicalRelevance.CLINICALLY_RELEVANT:
-            criticality = "low"
-        else:  # sensitized_only
+        else:  # relevant(경증·중등증) 또는 sensitized_only(무증상)
             criticality = "low"
 
         coding_text = f"{name}" + (f" ({korean})" if korean and korean != name else "")
@@ -443,15 +444,20 @@ class FHIRService:
         }
         if recorded_date:
             res["recordedDate"] = recorded_date
-        # note: 판정 근거 + 리포트/카드뉴스의 개별 알러젠 정보(생활사·노출·회피·면역치료·OAS)를 포함
+
+        # ── reaction.manifestation.text = 문진에서 확인된 실제 증상(노출 시 발현) ──
+        # ── note.text = 맞춤리포트·카드뉴스의 해당 알러젠 코멘트(감별근거·생활사·노출·회피·면역치료·OAS) ──
         kb = a.kb or {}
         notes = []
         if a.rationale_ko:
             notes.append(a.rationale_ko)
         if rel != ClinicalRelevance.CLINICALLY_RELEVANT:
             notes.append("검사 양성이나 임상적 유발은 미확인(감작/의심) 상태 — verificationStatus=unconfirmed.")
+        # OAS: 이 꽃가루 감작이 원인이 되어 아래 음식에 교차반응이 나타남을 관련 꽃가루 note 에 명시
         if getattr(a, "oas_foods", None):
-            notes.append(f"구강알레르기증후군(OAS) 교차반응 음식: {', '.join(a.oas_foods)} (생것 주의, 익히면 완화).")
+            notes.append(
+                f"구강알레르기증후군(OAS): {name} 감작으로 인해 {', '.join(a.oas_foods)} 섭취 시 "
+                f"입·목 교차반응이 나타납니다(생것 주의, 익히면 대개 완화). 해당 음식은 별도 AllergyIntolerance 로 함께 기록됩니다.")
         if kb.get("season_label_ko"):
             notes.append(f"주요 시기: {kb['season_label_ko']}.")
         if kb.get("exposure_environment_ko"):
@@ -470,13 +476,25 @@ class FHIRService:
             notes.append(extra_note)
         if notes:
             res["note"] = [{"text": " ".join(notes)}]
-        # 임상적으로 유의하면 reaction 요약 추가
-        if rel == ClinicalRelevance.CLINICALLY_RELEVANT:
-            res["reaction"] = [{
-                "manifestation": [{"text": "노출 시 알레르기 증상 유발(문진 확인)"}],
-                "severity": "severe" if criticality == "high" else "moderate",
-            }]
+
+        # 문진에서 실제 증상이 확인된 경우에만 reaction 을 기록(감작만/미확정은 reaction 없음)
+        manifestations = getattr(a, "reported_symptoms", None) or []
+        if rel == ClinicalRelevance.CLINICALLY_RELEVANT and manifestations:
+            reaction = {
+                "manifestation": [{"text": m} for m in manifestations],
+                "severity": self._fhir_reaction_severity(severity),
+                "description": "환자 문진에서 확인된 노출 시 증상",
+            }
+            if severity == "anaphylaxis":
+                reaction["manifestation"].append({"text": "아나필락시스 병력(응급)"})
+            res["reaction"] = [reaction]
         return res
+
+    @staticmethod
+    def _fhir_reaction_severity(severity: Optional[str]) -> str:
+        """내부 중증도 → FHIR reaction.severity(mild|moderate|severe). 아나필락시스는 severe."""
+        return {"mild": "mild", "moderate": "moderate",
+                "severe": "severe", "anaphylaxis": "severe"}.get(severity or "", "moderate")
 
     def build_bundles_from_relevance(
         self, ocr_result: OCRResult, relevance_result: Any,
@@ -515,32 +533,53 @@ class FHIRService:
                 a, patient_id, patient_name, recorded, high_criticality=high)
             allergy_bundle["entry"].append({"resource": ai})
 
-        # 교차반응 음식 알러젠 추가 — 의심(unconfirmed)
+        # 교차반응 음식 알러젠 추가 — 설문에서 증상이 확인되었으므로 confirmed + SNOMED 코딩
         for f in (oas_foods or []):
             source = f.get("source", "pollen")
-            severity = f.get("severity", "oral")
+            severity = f.get("severity", "oral")  # oral / systemic / anaphylaxis
+            en, ko = f.get("en"), f.get("ko")
+            # 교차반응 항원도 SNOMED(CDM 기매핑) 코딩
+            coding = self.allergen_mapper.get_coding(en or "", ko or "")
+            # 증상 표현(reaction.manifestation) + 중증도
+            if severity == "anaphylaxis":
+                sym_txt, fhir_sev, crit = "섭취 시 아나필락시스(호흡곤란·전신 두드러기·어지럼)", "severe", "high"
+            elif severity == "systemic":
+                sym_txt, fhir_sev, crit = "섭취 시 전신 두드러기 등 전신 반응", "severe", "high"
+            else:  # oral
+                sym_txt, fhir_sev, crit = "섭취 시 입·입술·목 가려움/부종(국소)", "mild", "low"
             if source == "mite_tropomyosin":
-                note = ("집먼지진드기-갑각류 교차반응(트로포마이오신). 갑각류 검사가 없거나 음성이어도 "
-                        "새우·게 섭취 시 " + ("전신 반응" if severity == "systemic" else "입·목 증상") + " 가능.")
-                crit = "high" if severity == "systemic" else "low"
+                trigger = "집먼지진드기(트로포마이오신 교차반응)"
+                note = (f"교차반응 원인 항원: {trigger}. 집먼지진드기와 갑각류는 공통 단백질(트로포마이오신)로 "
+                        f"교차반응하여, 갑각류 검사가 없거나 음성이어도 새우·게 섭취 시 증상이 나타날 수 있습니다. "
+                        f"이번 반응은 이 교차반응으로 인해 발생했습니다.")
+                manifestation = f"새우·게(갑각류) {sym_txt}"
             else:
-                pollens = ", ".join(f.get("pollens", []))
-                note = (f"꽃가루-음식 교차반응(구강알레르기증후군). 연관 꽃가루: {pollens}. "
-                        f"생과일·채소 섭취 시 입·목 증상, 대개 가열 시 완화.")
-                crit = "high" if food_systemic else "low"
+                pollens = ", ".join(f.get("pollens", [])) or "관련 꽃가루"
+                trigger = pollens
+                note = (f"교차반응 원인 항원: {trigger}. 위 꽃가루 감작과의 교차반응(구강알레르기증후군)으로 인해 "
+                        f"{ko or en} 섭취 시 증상이 발생했습니다. 대개 생것에서 증상이 나타나고 익히면 완화되지만, "
+                        f"전신 반응 병력이 있으면 전문의 평가가 필요합니다.")
+                manifestation = f"{ko or en} {sym_txt}(구강알레르기증후군)"
             ai = {
                 "resourceType": "AllergyIntolerance",
                 "id": f"allergy-{uuid4().hex[:8]}",
                 "clinicalStatus": {"coding": [{
                     "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
                     "code": "active", "display": "Active"}]},
+                # 설문을 통해 증상이 확인되었으므로 confirmed
                 "verificationStatus": {"coding": [{
                     "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
-                    "code": "unconfirmed", "display": "Unconfirmed"}]},
+                    "code": "confirmed", "display": "Confirmed"}]},
                 "type": "allergy", "category": ["food"],
                 "criticality": crit,
-                "code": {"text": f.get("ko") or f.get("en")},
+                "code": {"coding": ([coding] if coding else []),
+                         "text": ko or en},
                 "patient": {"reference": f"Patient/{patient_id}", "display": patient_name or patient_id},
+                "reaction": [{
+                    "manifestation": [{"text": manifestation}],
+                    "severity": fhir_sev,
+                    "description": "환자 문진에서 확인된 교차반응 증상",
+                }],
                 "note": [{"text": note}],
             }
             if recorded:
