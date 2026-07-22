@@ -1,0 +1,98 @@
+{
+  "version": "1.0",
+  "locale": "ko-KR",
+  "source": "EAACI Molecular Allergology User's Guide 2.0 + WHO/IUIS Allergen Nomenclature (allergen.org, BioNames) + docs/crd_cross_reactivity_research.md",
+  "note_ko": "분자 성분(단백질 family) 카탈로그. 교차반응은 이 family 공유로 '문진 후보'를 생성하며, 실제 임상 교차반응은 증상으로 확정한다. 서열 상동성으로 임상 교차반응을 자동 판정할 수 없으므로(3113명 중 86.4% 상호배타), clinical_risk 는 집단 수준 경향이며 절대 안전/위험 플래그가 아니다.",
+  "families": {
+    "pr10": {
+      "name_ko": "PR-10 (Bet v 1 계열)", "family": "PR-10 / Bet v 1", "cross_reactive": true,
+      "heat_stable": false, "clinical_risk": "oral_to_moderate", "marker": "Bet v 1",
+      "note_ko": "자작나무 Bet v 1 상동체. 나무꽃가루-과일/채소 교차반응(구강알레르기증후군)의 주 원인. 대개 경증이나 때때로 중증 — 'OAS 전용·안전'으로 단정 금지.",
+      "source": "MAUG 2.0; JACI Global 2024"
+    },
+    "profilin": {
+      "name_ko": "프로필린 (Bet v 2 계열)", "family": "Profilin", "cross_reactive": true,
+      "heat_stable": false, "clinical_risk": "oral", "marker": null,
+      "note_ko": "범-꽃가루/음식 pan-allergen. 대개 생과일·채소 섭취 시 입·목 국소 증상. 단 멜론·수박 등에서 전신 반응 가능(특히 잔디꽃가루 고노출) — 절대 안전 플래그 아님.",
+      "source": "Scala 2011; Kleine-Tebbe 2021"
+    },
+    "nsltp": {
+      "name_ko": "지질전달단백 (nsLTP, Pru p 3 계열)", "family": "nsLTP", "cross_reactive": true,
+      "heat_stable": true, "clinical_risk": "systemic", "marker": "Pru p 3",
+      "note_ko": "열·소화에 안정 → 전신 반응 위험(지중해형). 교차반응은 가변·patchy(Rosaceae 간 강, 밀·땅콩 LTP와는 약).",
+      "source": "JACI Global 2024"
+    },
+    "tropomyosin": {
+      "name_ko": "트로포마이오신", "family": "Tropomyosin", "cross_reactive": true,
+      "heat_stable": true, "clinical_risk": "systemic", "marker": "Pen m 1 / Der p 10",
+      "note_ko": "무척추동물 pan-allergen. 갑각류·연체류·집먼지진드기(Der p 10)·바퀴·식용곤충·아니사키스 공유. 열·소화 안정 → 조리해도 잔존.",
+      "source": "JACI Global 2024; WHO/IUIS"
+    },
+    "arginine_kinase": {
+      "name_ko": "아르기닌 키나아제", "family": "Arginine kinase", "cross_reactive": true,
+      "heat_stable": true, "clinical_risk": "systemic", "marker": null,
+      "note_ko": "또 다른 무척추동물 pan-allergen. 갑각류·진드기·바퀴·나방 공유.",
+      "source": "WHO/IUIS allergen.org"
+    },
+    "parvalbumin": {
+      "name_ko": "파브알부민", "family": "Parvalbumin", "cross_reactive": true,
+      "heat_stable": true, "clinical_risk": "systemic", "marker": "Gad c 1",
+      "note_ko": "생선 주요 pan-allergen(10-12kDa, 열·소화 안정). 민감도 높고 특이도 낮아 '어종 특정'이 아니라 '생선 범교차' 표지.",
+      "source": "Springer 2017"
+    },
+    "serum_albumin": {
+      "name_ko": "혈청알부민", "family": "Serum albumin", "cross_reactive": true,
+      "heat_stable": false, "clinical_risk": "raw_systemic", "marker": null,
+      "note_ko": "포유류 혈청알부민(Bos d 6/Fel d 2/Sus s 1). 열불안정 → 익힌 고기·우유는 대개 관용, 생/덜익힘은 위험(pork-cat 증후군, 고감작 고양이 환자 ~3%). 1차 감작보다 교차반응 표지.",
+      "source": "Springer 2017"
+    },
+    "lipocalin": {
+      "name_ko": "리포칼린", "family": "Lipocalin", "cross_reactive": true,
+      "heat_stable": null, "clinical_risk": "variable", "marker": "Fel d 4 / Can f 1",
+      "note_ko": "동물 비듬 주 알레르겐 family. 고양이·개·소·말·설치류 공유. 개 Can f 1은 고양이 Fel d 7과 교차.",
+      "source": "Springer 2017"
+    },
+    "storage_2s_albumin": {
+      "name_ko": "2S 알부민(저장단백)", "family": "2S albumin", "cross_reactive": true,
+      "heat_stable": true, "clinical_risk": "systemic", "marker": "Ara h 2 / Ana o 3",
+      "note_ko": "견과·종자 저장단백. 열·소화 안정 → 전신·아나필락시스 위험. 땅콩 Ara h 2 양성은 진짜·중증 위험 표지.",
+      "source": "WHO/IUIS Pomés 2018"
+    },
+    "polcalcin": {
+      "name_ko": "폴칼신", "family": "Polcalcin", "cross_reactive": true,
+      "heat_stable": null, "clinical_risk": "oral", "marker": null,
+      "note_ko": "꽃가루 범-교차 표지(음식 교차반응 없음). 자작·쑥·올리브·잔디·돼지풀 공유 — 다중 꽃가루 감작의 원인.",
+      "source": "PMC8167734"
+    },
+    "ole_e1_like": {
+      "name_ko": "Ole e 1 유사 단백", "family": "Ole e 1-like", "cross_reactive": true,
+      "heat_stable": null, "clinical_risk": "oral", "marker": "Ole e 1",
+      "note_ko": "물푸레·올리브·질경이·잔디 공유. Ole e 1은 올리브/물푸레 1차 감작 marker.",
+      "source": "PMC8167734"
+    },
+    "thaumatin_pr5": {
+      "name_ko": "타우마틴 유사 단백 (PR-5)", "family": "Thaumatin-like protein (PR-5)", "cross_reactive": true,
+      "heat_stable": null, "clinical_risk": "variable", "marker": null,
+      "note_ko": "사과·바나나·키위·복숭아·체리·삼나무 공유.",
+      "source": "WHO/IUIS allergen.org"
+    },
+    "secretoglobin": {
+      "name_ko": "세크레토글로빈 (Fel d 1)", "family": "Secretoglobin (uteroglobin)", "cross_reactive": false,
+      "heat_stable": null, "clinical_risk": "marker", "marker": "Fel d 1",
+      "note_ko": "고양이 주요 marker(>90% 인식, 교차반응 없음). 양성이면 진짜 고양이 알레르기 1차 감작 확정.",
+      "source": "Springer 2017"
+    },
+    "ccd": {
+      "name_ko": "교차반응 탄수화물 결정기 (CCD)", "family": "Cross-reactive carbohydrate determinant", "cross_reactive": true,
+      "heat_stable": true, "clinical_risk": "usually_low", "marker": null,
+      "note_ko": "꽃가루·독·식물성 식품 간 광범위 IgE 교차(글리칸). 대개 임상 의미 낮아 '위양성' 유발 — 증상 없으면 무시.",
+      "source": "MAUG 2.0"
+    },
+    "pectate_lyase": {
+      "name_ko": "펙테이트 리아제", "family": "Pectate lyase", "cross_reactive": true,
+      "heat_stable": null, "clinical_risk": "oral_to_moderate", "marker": "Amb a 1 / Cup a 1",
+      "note_ko": "돼지풀 Amb a 1·쑥 Art v 6·삼나무 계열 marker 이자 잡초 꽃가루 간 교차. 음식 교차반응은 제한적.",
+      "source": "WHO/IUIS Pomés 2018"
+    }
+  }
+}

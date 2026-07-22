@@ -384,6 +384,55 @@ def test_cdm_snomed_mapping():
     print("✓ CDM(OMOP) SNOMED 기매핑 로드 및 concept 조회(신규 별칭 포함)")
 
 
+def test_allergen_registry_p0():
+    """P0: 단일 항원 레지스트리 + 성분(component) 교차반응 파생 데이터 검증."""
+    import json
+    root = Path(__file__).resolve().parent
+    reg_path = root / "data" / "allergens.json"
+    if not reg_path.exists():
+        print("✓ (skip) data/allergens.json 미생성 — scripts/build_allergen_registry.py 필요")
+        return
+    reg = json.loads(reg_path.read_text(encoding="utf-8"))
+    comp = json.loads((root / "data" / "allergen_components.json").read_text(encoding="utf-8"))["families"]
+    antigens = reg["antigens"]
+    by = {a["canonical_name"]: a for a in antigens}
+    # 모든 항원이 코드 보유(FHIR 정합)
+    assert all(a["coding"]["omop_concept_id"] or a["coding"]["snomed"] for a in antigens), "코드 누락 항원"
+    # category 보정: 성분 근거로 food 로 교정된 항원들
+    for food in ["Apple", "Celery", "Shrimp", "Lobster", "Peach", "Cod"]:
+        assert by[food]["category"] == "food", f"{food} category 보정 실패: {by[food]['category']}"
+
+    # 성분 역인덱스로 교차반응 후보 파생
+    from collections import defaultdict
+    import re
+    def norm(s): return re.sub(r"[^a-z0-9가-힣]", "", (s or "").lower())
+    name2a = {}
+    for a in antigens:
+        for nm in [a["canonical_name"], a.get("korean_name")] + a.get("aliases", []):
+            if nm: name2a.setdefault(norm(nm), a)
+    c2a = defaultdict(list)
+    for a in antigens:
+        for c in a.get("components", []):
+            if comp.get(c, {}).get("cross_reactive"): c2a[c].append(a["canonical_name"])
+    def crossreact(q):
+        a = name2a[norm(q)]
+        out = set()
+        for c in a.get("components", []):
+            if comp.get(c, {}).get("cross_reactive"):
+                out |= {x for x in c2a[c] if x != a["canonical_name"]}
+        return out
+    # 새우 → tropomyosin 공유로 진드기·다른 갑각/연체 후보(음식↔음식 + 진드기↔갑각류)
+    sh = crossreact("Shrimp")
+    assert "Dermatophagoides pteronyssinus" in sh and "Lobster" in sh, f"새우 교차반응 파생 실패: {sh}"
+    # 셀러리 → PR-10/nsLTP 공유로 당근·사과·복숭아
+    ce = crossreact("Celery")
+    assert "Carrot" in ce and "Apple" in ce, f"셀러리 교차반응 파생 실패: {ce}"
+    # 대구 → parvalbumin 공유로 고등어·연어
+    cod = crossreact("Cod")
+    assert "Mackerel" in cod and "Salmon" in cod, f"대구 교차반응 파생 실패: {cod}"
+    print("✓ P0 항원 레지스트리 + 성분 교차반응 파생(새우↔진드기·갑각, 셀러리↔당근·사과, 대구↔생선)")
+
+
 def test_cardnews_and_report():
     from services.cardnews_service import get_cardnews_service
     from services.report_service import ReportService
