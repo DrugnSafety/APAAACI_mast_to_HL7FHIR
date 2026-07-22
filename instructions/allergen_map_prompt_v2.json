@@ -510,14 +510,18 @@
       "snomed": "4104621"
     },
     {
-      "canonical_name": "Dermatophagoides farina",
-      "korean_name": "북아메리카 집먼지진드기",
+      "canonical_name": "Dermatophagoides farinae",
+      "korean_name": "미국집먼지진드기",
       "aliases": [
         "D. farinae",
         "D.f.",
         "Der f",
         "Dermatophagoides farina",
-        "북아메리카 집먼지진드기"
+        "북아메리카 집먼지진드기",
+        "Dermatophagoides farinae",
+        "House dust mite",
+        "HDM",
+        "미국집먼지진드기"
       ],
       "ocr_aliases": [],
       "category": "Mite",
@@ -1694,6 +1698,191 @@
       "category": "Other",
       "subcategory": null,
       "snomed": "4132477"
+    },
+    {
+      "canonical_name": "Wheat",
+      "korean_name": "밀",
+      "aliases": [
+        "소맥",
+        "밀가루",
+        "Triticum",
+        "통밀",
+        "Tri a"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": "4047302"
+    },
+    {
+      "canonical_name": "Maize",
+      "korean_name": "옥수수",
+      "aliases": [
+        "Corn",
+        "콘",
+        "Zea mays",
+        "옥수수가루",
+        "Zea m"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": "4041339"
+    },
+    {
+      "canonical_name": "Apricot",
+      "korean_name": "살구",
+      "aliases": [
+        "Prunus armeniaca",
+        "Pru ar"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Cashew",
+      "korean_name": "캐슈넛",
+      "aliases": [
+        "Cashew nut",
+        "캐슈",
+        "Ana o",
+        "Anacardium"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Crayfish",
+      "korean_name": "가재",
+      "aliases": [
+        "민물가재",
+        "Astacus",
+        "크레이피시"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Guinea pig",
+      "korean_name": "기니피그",
+      "aliases": [
+        "Cavia",
+        "기니픽",
+        "Cav p"
+      ],
+      "ocr_aliases": [],
+      "category": "Animal",
+      "subcategory": "Indoor",
+      "snomed": null
+    },
+    {
+      "canonical_name": "Hazelnut",
+      "korean_name": "헤이즐넛",
+      "aliases": [
+        "개암",
+        "Cor a",
+        "Filbert",
+        "헤이즐럿",
+        "헤이즐 넛"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Hornbeam",
+      "korean_name": "서어나무",
+      "aliases": [
+        "Carpinus",
+        "Car b"
+      ],
+      "ocr_aliases": [],
+      "category": "Pollen",
+      "subcategory": "Tree",
+      "snomed": null
+    },
+    {
+      "canonical_name": "Mung bean",
+      "korean_name": "녹두",
+      "aliases": [
+        "Vigna radiata",
+        "녹두콩"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Olive",
+      "korean_name": "올리브",
+      "aliases": [
+        "Olea",
+        "올리브나무",
+        "Ole e"
+      ],
+      "ocr_aliases": [],
+      "category": "Pollen",
+      "subcategory": "Tree",
+      "snomed": null
+    },
+    {
+      "canonical_name": "Pecan",
+      "korean_name": "피칸",
+      "aliases": [
+        "Carya",
+        "피칸넛"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Pistachio",
+      "korean_name": "피스타치오",
+      "aliases": [
+        "Pistacia",
+        "Pis v",
+        "피스타치오넛"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Sesame",
+      "korean_name": "참깨",
+      "aliases": [
+        "깨",
+        "Ses i",
+        "참깨씨",
+        "Sesamum"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Watermelon",
+      "korean_name": "수박",
+      "aliases": [
+        "Citrullus",
+        "워터멜론"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
     }
   ]
 }

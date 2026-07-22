@@ -2,7 +2,7 @@
  "version": "1.0",
  "generated_by": "scripts/build_allergen_registry.py (P0 read-only merge)",
  "note_ko": "4개 사일로 병합 단일 항원 레지스트리. 아직 앱에 연결되지 않음(P2+에서 위임). 성분 태깅은 data/component_membership.json 에서 관리.",
- "count": 115,
+ "count": 129,
  "antigens": [
   {
    "id": "2_spotted_spider_mite",
@@ -158,6 +158,30 @@
     "profilin",
     "nsltp",
     "thaumatin_pr5"
+   ]
+  },
+  {
+   "id": "apricot",
+   "canonical_name": "Apricot",
+   "korean_name": "살구",
+   "aliases": [
+    "Prunus armeniaca",
+    "Pru ar"
+   ],
+   "ocr_aliases": [],
+   "category": "food",
+   "subcategory": null,
+   "coding": {
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": [
+    "pr10",
+    "nsltp"
    ]
   },
   {
@@ -499,6 +523,31 @@
    "components": []
   },
   {
+   "id": "cashew",
+   "canonical_name": "Cashew",
+   "korean_name": "캐슈넛",
+   "aliases": [
+    "Cashew nut",
+    "캐슈",
+    "Ana o",
+    "Anacardium"
+   ],
+   "ocr_aliases": [],
+   "category": "food",
+   "subcategory": null,
+   "coding": {
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": [
+    "2s_albumin"
+   ]
+  },
+  {
    "id": "cat_dander",
    "canonical_name": "Cat dander",
    "korean_name": "고양이 표피",
@@ -737,6 +786,31 @@
    "components": []
   },
   {
+   "id": "crayfish",
+   "canonical_name": "Crayfish",
+   "korean_name": "가재",
+   "aliases": [
+    "민물가재",
+    "Astacus",
+    "크레이피시"
+   ],
+   "ocr_aliases": [],
+   "category": "food",
+   "subcategory": null,
+   "coding": {
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": [
+    "tropomyosin",
+    "arginine_kinase"
+   ]
+  },
+  {
    "id": "cultivated_oat",
    "canonical_name": "Cultivated oat",
    "korean_name": "귀리",
@@ -784,15 +858,19 @@
    "components": []
   },
   {
-   "id": "dermatophagoides_farina",
-   "canonical_name": "Dermatophagoides farina",
-   "korean_name": "북아메리카 집먼지진드기",
+   "id": "dermatophagoides_farinae",
+   "canonical_name": "Dermatophagoides farinae",
+   "korean_name": "미국집먼지진드기",
    "aliases": [
     "D. farinae",
     "D.f.",
     "Der f",
     "Dermatophagoides farina",
-    "북아메리카 집먼지진드기"
+    "북아메리카 집먼지진드기",
+    "Dermatophagoides farinae",
+    "House dust mite",
+    "HDM",
+    "미국집먼지진드기"
    ],
    "ocr_aliases": [],
    "category": "mite",
@@ -805,7 +883,10 @@
     "concept_name": "Dermatophagoides farinae protein"
    },
    "kb_ref": "Dermatophagoides farinae",
-   "components": []
+   "components": [
+    "tropomyosin",
+    "arginine_kinase"
+   ]
   },
   {
    "id": "dermatophagoides_pteronyssinus",
@@ -1116,6 +1197,31 @@
    "components": []
   },
   {
+   "id": "guinea_pig",
+   "canonical_name": "Guinea pig",
+   "korean_name": "기니피그",
+   "aliases": [
+    "Cavia",
+    "기니픽",
+    "Cav p"
+   ],
+   "ocr_aliases": [],
+   "category": "animal",
+   "subcategory": "Indoor",
+   "coding": {
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": [
+    "serum_albumin",
+    "lipocalin"
+   ]
+  },
+  {
    "id": "hazel",
    "canonical_name": "Hazel",
    "korean_name": "개암나무",
@@ -1138,6 +1244,35 @@
    "kb_ref": null,
    "components": [
     "pr10",
+    "profilin"
+   ]
+  },
+  {
+   "id": "hazelnut",
+   "canonical_name": "Hazelnut",
+   "korean_name": "헤이즐넛",
+   "aliases": [
+    "개암",
+    "Cor a",
+    "Filbert",
+    "헤이즐럿",
+    "헤이즐 넛"
+   ],
+   "ocr_aliases": [],
+   "category": "food",
+   "subcategory": null,
+   "coding": {
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": [
+    "pr10",
+    "2s_albumin",
+    "nsltp",
     "profilin"
    ]
   },
@@ -1183,6 +1318,29 @@
    },
    "kb_ref": null,
    "components": []
+  },
+  {
+   "id": "hornbeam",
+   "canonical_name": "Hornbeam",
+   "korean_name": "서어나무",
+   "aliases": [
+    "Carpinus",
+    "Car b"
+   ],
+   "ocr_aliases": [],
+   "category": "pollen_tree",
+   "subcategory": "Tree",
+   "coding": {
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": [
+    "pr10"
+   ]
   },
   {
    "id": "indoor_mold_mixture",
@@ -1452,6 +1610,33 @@
    ]
   },
   {
+   "id": "maize",
+   "canonical_name": "Maize",
+   "korean_name": "옥수수",
+   "aliases": [
+    "Corn",
+    "콘",
+    "Zea mays",
+    "옥수수가루",
+    "Zea m"
+   ],
+   "ocr_aliases": [],
+   "category": "food",
+   "subcategory": null,
+   "coding": {
+    "omop_concept_id": "4041339",
+    "snomed": "4041339",
+    "vocabulary": "SNOMED",
+    "coding_source": "cdm",
+    "concept_name": "Cornflour"
+   },
+   "kb_ref": null,
+   "components": [
+    "nsltp",
+    "profilin"
+   ]
+  },
+  {
    "id": "meadow_fescue",
    "canonical_name": "Meadow fescue",
    "korean_name": "넓은김의털",
@@ -1544,6 +1729,29 @@
     "polcalcin",
     "nsltp",
     "ole_e_1"
+   ]
+  },
+  {
+   "id": "mung_bean",
+   "canonical_name": "Mung bean",
+   "korean_name": "녹두",
+   "aliases": [
+    "Vigna radiata",
+    "녹두콩"
+   ],
+   "ocr_aliases": [],
+   "category": "food",
+   "subcategory": null,
+   "coding": {
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": [
+    "pr10"
    ]
   },
   {
@@ -1711,6 +1919,32 @@
    "kb_ref": null,
    "components": [
     "tropomyosin"
+   ]
+  },
+  {
+   "id": "olive",
+   "canonical_name": "Olive",
+   "korean_name": "올리브",
+   "aliases": [
+    "Olea",
+    "올리브나무",
+    "Ole e"
+   ],
+   "ocr_aliases": [],
+   "category": "pollen_tree",
+   "subcategory": "Tree",
+   "coding": {
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": [
+    "ole_e_1",
+    "polcalcin",
+    "thaumatin_pr5"
    ]
   },
   {
@@ -1911,6 +2145,29 @@
    ]
   },
   {
+   "id": "pecan",
+   "canonical_name": "Pecan",
+   "korean_name": "피칸",
+   "aliases": [
+    "Carya",
+    "피칸넛"
+   ],
+   "ocr_aliases": [],
+   "category": "food",
+   "subcategory": null,
+   "coding": {
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": [
+    "2s_albumin"
+   ]
+  },
+  {
    "id": "penicillium",
    "canonical_name": "Penicillium",
    "korean_name": "페니실리움",
@@ -1998,6 +2255,30 @@
    },
    "kb_ref": null,
    "components": []
+  },
+  {
+   "id": "pistachio",
+   "canonical_name": "Pistachio",
+   "korean_name": "피스타치오",
+   "aliases": [
+    "Pistacia",
+    "Pis v",
+    "피스타치오넛"
+   ],
+   "ocr_aliases": [],
+   "category": "food",
+   "subcategory": null,
+   "coding": {
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": [
+    "2s_albumin"
+   ]
   },
   {
    "id": "plaice",
@@ -2331,6 +2612,31 @@
    ]
   },
   {
+   "id": "sesame",
+   "canonical_name": "Sesame",
+   "korean_name": "참깨",
+   "aliases": [
+    "깨",
+    "Ses i",
+    "참깨씨",
+    "Sesamum"
+   ],
+   "ocr_aliases": [],
+   "category": "food",
+   "subcategory": null,
+   "coding": {
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": [
+    "2s_albumin"
+   ]
+  },
+  {
    "id": "sheep",
    "canonical_name": "Sheep",
    "korean_name": "양고기",
@@ -2650,6 +2956,56 @@
    "components": [
     "2s_albumin",
     "nsltp"
+   ]
+  },
+  {
+   "id": "watermelon",
+   "canonical_name": "Watermelon",
+   "korean_name": "수박",
+   "aliases": [
+    "Citrullus",
+    "워터멜론"
+   ],
+   "ocr_aliases": [],
+   "category": "food",
+   "subcategory": null,
+   "coding": {
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": [
+    "profilin"
+   ]
+  },
+  {
+   "id": "wheat",
+   "canonical_name": "Wheat",
+   "korean_name": "밀",
+   "aliases": [
+    "소맥",
+    "밀가루",
+    "Triticum",
+    "통밀",
+    "Tri a"
+   ],
+   "ocr_aliases": [],
+   "category": "food",
+   "subcategory": null,
+   "coding": {
+    "omop_concept_id": null,
+    "snomed": "4047302",
+    "vocabulary": "SNOMED",
+    "coding_source": "snomed",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": [
+    "nsltp",
+    "profilin"
    ]
   },
   {
