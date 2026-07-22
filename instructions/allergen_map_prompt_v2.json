@@ -102,7 +102,7 @@
       "ocr_aliases": [
         "A1mond"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "4104630"
     },
@@ -145,7 +145,7 @@
       "ocr_aliases": [
         "App1e"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "42536408"
     },
@@ -201,7 +201,7 @@
       "ocr_aliases": [
         "8anana"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "4106295"
     },
@@ -259,7 +259,7 @@
       "ocr_aliases": [
         "8eef"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "4037235"
     },
@@ -327,7 +327,7 @@
         "당근"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "4106300"
     },
@@ -367,7 +367,7 @@
       "ocr_aliases": [
         "Ce1ery"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "4104625"
     },
@@ -445,7 +445,7 @@
         "대구"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "42536425"
     },
@@ -701,7 +701,7 @@
         "포도"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "4106299"
     },
@@ -794,7 +794,7 @@
         "키위"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "4128608"
     },
@@ -847,7 +847,7 @@
       "ocr_aliases": [
         "Lenti1s"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "4025400"
     },
@@ -859,7 +859,7 @@
         "바닷가재"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "42537051"
     },
@@ -873,7 +873,7 @@
       "ocr_aliases": [
         "Mackere1"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "42536299"
     },
@@ -900,7 +900,7 @@
       "ocr_aliases": [
         "Me1on"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "4125392"
     },
@@ -981,7 +981,7 @@
       "ocr_aliases": [
         "Musse1"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "4026892"
     },
@@ -1105,7 +1105,7 @@
       "ocr_aliases": [
         "0range - fruit"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "4106294"
     },
@@ -1134,7 +1134,7 @@
       "ocr_aliases": [
         "0yster"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "42536963"
     },
@@ -1146,7 +1146,7 @@
         "복숭아"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "42536304"
     },
@@ -1158,7 +1158,7 @@
         "땅콩"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "42538933"
     },
@@ -1170,7 +1170,7 @@
         "배"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "42536305"
     },
@@ -1289,7 +1289,7 @@
         "돼지고기"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "4037243"
     },
@@ -1301,7 +1301,7 @@
         "감자"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "42536307"
     },
@@ -1435,7 +1435,7 @@
       "ocr_aliases": [
         "Sa1mon"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "42536274"
     },
@@ -1449,7 +1449,7 @@
         "생선 혼합"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "4026887"
     },
@@ -1473,7 +1473,7 @@
         "새우"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "4150599"
     },
@@ -1497,7 +1497,7 @@
         "오징어"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "42536271"
     },
@@ -1509,7 +1509,7 @@
         "딸기"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "4008942"
     },
@@ -1547,7 +1547,7 @@
         "토마토"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "42536194"
     },
@@ -1597,7 +1597,7 @@
         "참치"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "4037433"
     },
@@ -1639,7 +1639,7 @@
       "ocr_aliases": [
         "Wa1nut"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "4103782"
     },

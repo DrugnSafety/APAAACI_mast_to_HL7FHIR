@@ -274,6 +274,48 @@ def test_shellfish_and_mite_tropomyosin():
     print("✓ shellfish bidirectional + mite-tropomyosin cross-reactivity")
 
 
+def test_component_crossreactivity_p2():
+    """P2: 성분(component) 기반 교차반응 문진 자동생성 + 선택 → confirmed FHIR 교차반응 항원."""
+    from services.crossreactivity_service import get_crossreactivity_service
+    if not get_crossreactivity_service().has_data():
+        print("✓ (skip) 레지스트리 미생성 — P2 교차반응 스킵")
+        return
+    from services.questionnaire_service import get_questionnaire_engine, QP_CROSSREACT, _key
+    from services.fhir_service import FHIRService
+    rs = get_relevance_service()
+    ocr = OCRResult(
+        test_type=TestType.MAST, patient=PatientInfo(name="교차", test_date="2026-07-13"),
+        results=[
+            _mast("Celery", "샐러리", 5.0, 3, AllergenCategory.FOOD, idx=1),
+            _mast("Shrimp", "새우", 8.0, 3, AllergenCategory.FOOD, idx=2),
+        ],
+    )
+    res = rs.build_assessments(ocr, None)
+    eng = get_questionnaire_engine()
+    q = eng.build(res, None)
+    # 셀러리·새우 각각 교차반응 문항이 데이터에서 생성됨
+    cq = {qq["id"]: qq for sec in q["sections"] for qq in sec["questions"] if qq["id"].startswith(QP_CROSSREACT)}
+    assert len(cq) == 2, f"교차반응 문항 2개 기대: {list(cq)}"
+    celery_opts = [o["value"] for qid, qq in cq.items() for o in qq["options"] if "샐러리" in qq["title"]]
+    assert "Carrot" in celery_opts and "Apple" in celery_opts, f"셀러리 교차반응 후보 누락: {celery_opts}"
+    shrimp_opts = [o["value"] for qid, qq in cq.items() for o in qq["options"] if "새우" in qq["title"]]
+    assert "Crab" in shrimp_opts, f"새우 교차반응 후보(게) 누락: {shrimp_opts}"
+
+    # 셀러리 교차반응으로 당근·사과 선택 → confirmed 교차반응 항원 FHIR
+    ans = {QP_CROSSREACT + _key(0): ["Carrot", "Apple"], QP_CROSSREACT + _key(1): ["Crab"]}
+    eng.classify(res, ans, None)
+    items = eng.crossreactive_food_items(res.assessments, ans)
+    kos = {it["ko"] for it in items}
+    assert {"당근", "사과", "게"} <= kos, f"교차반응 항목 누락: {kos}"
+    assert all(it["source"] == "component" for it in items if it["ko"] in ("당근", "사과", "게"))
+    bundles = FHIRService().build_bundles_from_relevance(ocr, res, None, items)
+    ai = [e["resource"] for e in bundles["allergy_intolerance_bundle"]["entry"]]
+    carrot = next(r for r in ai if r["code"]["text"] == "당근")
+    assert carrot["verificationStatus"]["coding"][0]["code"] == "confirmed"
+    assert carrot["code"].get("coding"), "당근 SNOMED coding 누락"
+    print("✓ P2 성분기반 교차반응 문진(셀러리→당근·사과, 새우→게) + confirmed FHIR 교차반응 항원")
+
+
 def test_questionnaire_food_systemic_and_oas():
     """전신 음식반응/OAS 로직: 전신반응 yes → 음식 알러젠 relevant, OAS 교차반응 노트"""
     from services.questionnaire_service import get_questionnaire_engine, Q_FOOD_SYSTEMIC, Q_OAS, QP_POLLEN

@@ -238,6 +238,19 @@ class KnowledgeService:
             return result
 
         cat = normalize_category(category)
+        # KB 미수록·미분류(other) 항원은 allergen_mapper(base map)의 카테고리로 보정.
+        # (Celery·Apple 등 음식 항원이 KB 18종에 없어 'other' 로 떨어져 문진에서 누락되던 문제 해결)
+        if cat == "other":
+            try:
+                from utils.allergen_mapper import get_allergen_mapper
+                mp = get_allergen_mapper().find_allergen(name) or (
+                    get_allergen_mapper().find_allergen(korean_name) if korean_name else None)
+                if mp and mp.category:
+                    mapped = normalize_category(mp.category)
+                    if mapped != "other":
+                        cat = mapped
+            except Exception:
+                pass
 
         # 외부검색 (Wikipedia) 보강
         web = None

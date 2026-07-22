@@ -363,7 +363,7 @@
    "ocr_aliases": [
     "8eef"
    ],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "omop_concept_id": "4037235",
@@ -2460,7 +2460,7 @@
     "돼지고기"
    ],
    "ocr_aliases": [],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "omop_concept_id": "4037243",

@@ -86,6 +86,7 @@ QP_ANIMAL_WORSE = "animal_worse__"      # + key
 QP_FOOD_REACT = "food_react__"          # + key
 QP_SEVERITY = "severity__"              # + key/scope : 증상 중증도(경증/중등증/중증/아나필락시스)
 QP_FOOD_SYSTEMIC_SEV = "food_systemic_sev__"   # + key : 전신반응 음식별 중증도
+QP_CROSSREACT = "crossreact__"          # + key : 성분기반 교차반응 음식(다중) — 데이터 파생
 
 # 증상 중증도 (단일)
 SEVERITY_OPTIONS = [
@@ -141,6 +142,11 @@ SEASON_MONTHS = {
 
 def _key(i: int) -> str:
     return f"agn{i}"
+
+
+def _norm_key(s) -> str:
+    import re as _re
+    return _re.sub(r"[^a-z0-9가-힣]", "", (s or "").lower())
 
 
 def _cat(a: AllergenAssessment) -> str:
@@ -414,6 +420,7 @@ class QuestionnaireEngine:
                     QP_SEVERITY + _key(i), [_key(i)],
                     {"reveal_if": {"question": QP_SHELLFISH + _key(i), "any": ["oral", "systemic"]}},
                     title=f"{nm} 섭취 시 증상이 있을 때, 가장 심했던 정도는?"))
+                self._append_crossreact_q(food_qs, a, _key(i), assessments)
             # (4) 일반 음식 양성 → 증상 유형(다중) + 증상 있으면 중증도
             for i, a in other_foods:
                 nm = _name(a)
@@ -428,6 +435,7 @@ class QuestionnaireEngine:
                     {"reveal_if": {"question": QP_FOOD_SYMPTOMS + _key(i),
                                    "includes_any": ["oral", "skin", "gi", "breathing", "anaphylaxis"]}},
                     title=f"{nm} 섭취 시 증상이 있을 때, 가장 심했던 정도는?"))
+                self._append_crossreact_q(food_qs, a, _key(i), assessments)
             # (5) 전신 반응 게이트 → 유발 음식(다중) + 음식별 중증도
             food_qs.append({
                 "id": Q_FOOD_SYSTEMIC, "type": "single",
@@ -510,6 +518,70 @@ class QuestionnaireEngine:
         label = {o["value"]: o["label"] for o in opts}
         return [{"en": v, "ko": label.get(v, v), "pollens": link.get(v, [])} for v in selected]
 
+    def _append_crossreact_q(self, food_qs, a, key, assessments):
+        """양성 음식 항원에 대해 성분(component) 공유 교차반응 음식 문항을 데이터에서 생성.
+        (하드코딩 대신 crossreactivity_service 파생. 이미 양성인 음식은 제외 — 직접 문진됨.)"""
+        try:
+            from services.crossreactivity_service import get_crossreactivity_service
+            svc = get_crossreactivity_service()
+        except Exception:
+            return
+        if not svc.has_data():
+            return
+        positive_names = set()
+        for x in assessments:
+            positive_names.add(x.allergen_name)
+            if x.korean_name:
+                positive_names.add(x.korean_name)
+        cands = svc.candidate_foods(a.allergen_name, a.korean_name or "",
+                                    exclude_names=positive_names, limit=8)
+        if not cands:
+            return
+        nm = _name(a)
+        risk = svc.worst_risk(a.allergen_name, a.korean_name or "")
+        warn = ("이 중 일부는 전신 반응(두드러기·호흡곤란) 위험이 있어 특히 주의가 필요합니다. "
+                if risk in ("systemic", "raw_systemic") else "대개 입·목 증상이지만 개인차가 있습니다. ")
+        opts = [{"value": c["name"], "label": c["korean"] or c["name"]} for c in cands]
+        opts.append({"value": "none", "label": "해당 없음 / 문제된 것 없음"})
+        food_qs.append({
+            "id": QP_CROSSREACT + key, "type": "multi",
+            "title": f"{nm}와(과) 교차반응이 알려진 아래 음식 중, 드셨을 때 증상이 있었던 것을 모두 고르세요.",
+            "help": f"{nm}와 같은 단백질(성분)을 공유해 교차반응할 수 있는 음식들입니다. {warn}"
+                    f"실제로 증상이 있었던 것만 고르세요(감작만이면 불필요한 제한은 피합니다).",
+            "options": opts, "applies_to": [key],
+        })
+
+    def component_crossreact_items(self, assessments, answers):
+        """성분기반 교차반응 문항에서 '증상 있음'으로 선택된 음식을 FHIR 매핑용 항목으로 반환.
+        반환: [{en, ko, source, severity, trigger}]"""
+        answers = answers or {}
+        try:
+            from services.crossreactivity_service import get_crossreactivity_service
+            svc = get_crossreactivity_service()
+        except Exception:
+            return []
+        items, seen = [], set()
+        oas_sys = answers.get(Q_OAS_SYSTEMIC)
+        for i, a in enumerate(assessments):
+            sel = [v for v in (answers.get(QP_CROSSREACT + _key(i), []) or []) if v and v != "none"]
+            if not sel:
+                continue
+            trig = _name(a)
+            risk = svc.worst_risk(a.allergen_name, a.korean_name or "")
+            sev = "systemic" if risk in ("systemic", "raw_systemic") else "oral"
+            if oas_sys == "anaphylaxis":
+                sev = "anaphylaxis"
+            for en in sel:
+                rec = svc.find(en)
+                ko = (rec.get("korean_name") if rec else None) or en
+                key = en.lower()
+                if key in seen:
+                    continue
+                seen.add(key)
+                items.append({"en": en, "ko": ko, "source": "component",
+                              "severity": sev, "pollens": [], "trigger": trig})
+        return items
+
     def crossreactive_food_items(self, assessments, answers):
         """FHIR 매핑용 교차반응 음식 통합 목록 (꽃가루 OAS + 진드기↔갑각류).
         반환: [{"en","ko","source","severity","pollens"?}]
@@ -530,6 +602,14 @@ class QuestionnaireEngine:
         if has_mite and not has_pos_shellfish and ms in ("oral", "systemic"):
             items.append({"en": "shellfish", "ko": "새우·게(갑각류)", "source": "mite_tropomyosin",
                           "severity": ms, "pollens": []})
+        # 성분(component) 기반 교차반응(데이터 파생) — 셀러리↔당근, 새우↔게, 우유↔소고기 등
+        seen = {(_norm_key(it.get("en")), _norm_key(it.get("ko"))) for it in items}
+        for it in self.component_crossreact_items(assessments, answers):
+            k = (_norm_key(it.get("en")), _norm_key(it.get("ko")))
+            if k in seen:
+                continue
+            seen.add(k)
+            items.append(it)
         return items
 
     def _prefill(

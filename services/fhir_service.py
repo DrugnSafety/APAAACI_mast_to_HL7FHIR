@@ -553,6 +553,12 @@ class FHIRService:
                         f"교차반응하여, 갑각류 검사가 없거나 음성이어도 새우·게 섭취 시 증상이 나타날 수 있습니다. "
                         f"이번 반응은 이 교차반응으로 인해 발생했습니다.")
                 manifestation = f"새우·게(갑각류) {sym_txt}"
+            elif source == "component":
+                trigger = f.get("trigger") or "교차반응 항원"
+                note = (f"교차반응 원인 항원: {trigger}. {trigger}와(과) 공통 단백질 성분을 공유해 교차반응하며, "
+                        f"{ko or en} 섭취 시 증상이 발생했습니다(성분 기반 교차반응). "
+                        f"열·소화에 안정한 성분은 조리해도 반응이 남을 수 있어 주의가 필요합니다.")
+                manifestation = f"{ko or en} {sym_txt}(교차반응)"
             else:
                 pollens = ", ".join(f.get("pollens", [])) or "관련 꽃가루"
                 trigger = pollens
