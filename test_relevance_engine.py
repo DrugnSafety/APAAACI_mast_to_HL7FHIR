@@ -393,7 +393,8 @@ def test_allergen_registry_p0():
         print("✓ (skip) data/allergens.json 미생성 — scripts/build_allergen_registry.py 필요")
         return
     reg = json.loads(reg_path.read_text(encoding="utf-8"))
-    comp = json.loads((root / "data" / "allergen_components.json").read_text(encoding="utf-8"))["families"]
+    _fam = json.loads((root / "data" / "allergen_components.json").read_text(encoding="utf-8"))["families"]
+    comp = {f["id"]: f for f in _fam} if isinstance(_fam, list) else _fam  # WHO/IUIS ingest: families 리스트
     antigens = reg["antigens"]
     by = {a["canonical_name"]: a for a in antigens}
     # 모든 항원이 코드 보유(FHIR 정합)
@@ -413,13 +414,12 @@ def test_allergen_registry_p0():
     c2a = defaultdict(list)
     for a in antigens:
         for c in a.get("components", []):
-            if comp.get(c, {}).get("cross_reactive"): c2a[c].append(a["canonical_name"])
+            c2a[c].append(a["canonical_name"])
     def crossreact(q):
         a = name2a[norm(q)]
         out = set()
         for c in a.get("components", []):
-            if comp.get(c, {}).get("cross_reactive"):
-                out |= {x for x in c2a[c] if x != a["canonical_name"]}
+            out |= {x for x in c2a[c] if x != a["canonical_name"]}
         return out
     # 새우 → tropomyosin 공유로 진드기·다른 갑각/연체 후보(음식↔음식 + 진드기↔갑각류)
     sh = crossreact("Shrimp")

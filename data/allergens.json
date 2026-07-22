@@ -519,7 +519,6 @@
    },
    "kb_ref": "Cat dander",
    "components": [
-    "secretoglobin",
     "serum_albumin",
     "lipocalin"
    ]
@@ -973,7 +972,7 @@
    },
    "kb_ref": null,
    "components": [
-    "ole_e1_like"
+    "ole_e_1"
    ]
   },
   {
@@ -1305,7 +1304,7 @@
     "pr10",
     "nsltp",
     "thaumatin_pr5",
-    "storage_2s_albumin"
+    "2s_albumin"
    ]
   },
   {
@@ -1353,7 +1352,7 @@
    "components": [
     "profilin",
     "polcalcin",
-    "ole_e1_like"
+    "ole_e_1"
    ]
   },
   {
@@ -1544,7 +1543,7 @@
     "profilin",
     "polcalcin",
     "nsltp",
-    "ole_e1_like"
+    "ole_e_1"
    ]
   },
   {
@@ -1581,7 +1580,7 @@
     "겨자"
    ],
    "ocr_aliases": [],
-   "category": "food",
+   "category": "other",
    "subcategory": null,
    "coding": {
     "omop_concept_id": "4202198",
@@ -1592,7 +1591,7 @@
    },
    "kb_ref": null,
    "components": [
-    "storage_2s_albumin"
+    "2s_albumin"
    ]
   },
   {
@@ -1882,7 +1881,7 @@
    },
    "kb_ref": "Peanut",
    "components": [
-    "storage_2s_albumin",
+    "2s_albumin",
     "pr10",
     "nsltp",
     "profilin"
@@ -2466,7 +2465,7 @@
    "components": [
     "profilin",
     "polcalcin",
-    "ole_e1_like"
+    "ole_e_1"
    ]
   },
   {
@@ -2649,7 +2648,7 @@
    },
    "kb_ref": null,
    "components": [
-    "storage_2s_albumin",
+    "2s_albumin",
     "nsltp"
    ]
   },
@@ -2674,7 +2673,7 @@
    },
    "kb_ref": null,
    "components": [
-    "ole_e1_like",
+    "ole_e_1",
     "polcalcin"
    ]
   },

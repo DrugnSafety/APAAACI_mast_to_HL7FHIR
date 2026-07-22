@@ -62,7 +62,9 @@ def main():
     cdm = json.loads(CDM.read_text(encoding="utf-8"))
     kb = json.loads(KB.read_text(encoding="utf-8"))["entries"]
     mem = json.loads(MEMBERSHIP.read_text(encoding="utf-8"))["membership"]
-    comp_cat = json.loads(COMPONENTS.read_text(encoding="utf-8"))["families"]
+    # 성분 카탈로그(WHO/IUIS ingest, P1)는 families 를 리스트로 보관 → id→family dict 로 인덱싱
+    _fam_raw = json.loads(COMPONENTS.read_text(encoding="utf-8"))["families"]
+    comp_cat = {f["id"]: f for f in _fam_raw} if isinstance(_fam_raw, list) else _fam_raw
 
     # CDM 역인덱스: 정규화 문자열 → concept
     cdm_lookup = cdm.get("lookup", {})

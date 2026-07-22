@@ -19,7 +19,9 @@ from collections import defaultdict
 
 ROOT = Path(__file__).resolve().parent.parent
 REG = json.loads((ROOT / "data" / "allergens.json").read_text(encoding="utf-8"))
-COMP = json.loads((ROOT / "data" / "allergen_components.json").read_text(encoding="utf-8"))["families"]
+_FAM_RAW = json.loads((ROOT / "data" / "allergen_components.json").read_text(encoding="utf-8"))["families"]
+# 성분 카탈로그(WHO/IUIS ingest, P1) = families 리스트 → id→family dict
+COMP = {f["id"]: f for f in _FAM_RAW} if isinstance(_FAM_RAW, list) else _FAM_RAW
 ANTIGENS = REG["antigens"]
 
 
@@ -34,12 +36,11 @@ for a in ANTIGENS:
         if nm:
             BY_NAME.setdefault(norm(nm), a)
 
-# 성분 → [항원] 역인덱스 (cross_reactive family 만)
+# 성분 → [항원] 역인덱스 (레지스트리 항원에 태깅된 것)
 COMP_TO_ANTIGENS = defaultdict(list)
 for a in ANTIGENS:
     for c in a.get("components", []):
-        if COMP.get(c, {}).get("cross_reactive"):
-            COMP_TO_ANTIGENS[c].append(a)
+        COMP_TO_ANTIGENS[c].append(a)
 
 
 def cross_reactants(query):
@@ -49,13 +50,11 @@ def cross_reactants(query):
     groups = []
     for c in a.get("components", []):
         fam = COMP.get(c, {})
-        if not fam.get("cross_reactive"):
-            continue
         others = [x for x in COMP_TO_ANTIGENS[c] if x["canonical_name"] != a["canonical_name"]]
         if others:
             groups.append({
-                "component": c, "family": fam.get("family"),
-                "risk": fam.get("clinical_risk"), "heat_stable": fam.get("heat_stable"),
+                "component": c, "family": fam.get("name_en") or fam.get("family") or c,
+                "risk": fam.get("risk") or fam.get("clinical_risk"), "heat_stable": fam.get("heat_stable"),
                 "note_ko": fam.get("note_ko"),
                 "candidates": [x.get("korean_name") or x["canonical_name"] for x in others],
             })

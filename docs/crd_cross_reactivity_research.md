@@ -1,5 +1,10 @@
 # CRD(Component-Resolved Diagnostics) 기반 교차반응 DB 설계 — 조사 리포트
 
+> **관련 문서(병렬 작업 통합됨)**: 실제 WHO/IUIS allergen.org 성분 카탈로그는 `data/allergen_components.json`
+> (P1 ingest, 47 family·329 species)와 `data/component_family_rules.json`로 구축돼 있고, 별도 조사 리포트
+> [`crd_research_report.md`](./crd_research_report.md)·[`component_family_seed_from_iuis.md`](./component_family_seed_from_iuis.md)도 있다.
+> 본 문서는 그와 **동일 결론(family≠임상 교차반응)** 에 독립 도달했으며, 여기서는 §2 family 표와 §5 레지스트리 2단계 모델에 초점을 둔다.
+
 > 딥리서치 결과(에이전트 106, 근거 82개 추출 → 25개 적대적 검증 → 22개 확정·3개 반증, 출처 24). 이 문서는 §`allergen_db_redesign_plan.md`를 **CRD 2단계 모델**로 업그레이드하는 근거·설계다.
 
 ---

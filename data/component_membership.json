@@ -1,104 +1,354 @@
 {
   "version": "1.0",
-  "note_ko": "항원(whole-extract)이 배출할 수 있는 후보 성분(component family) 매핑. 교차반응 '문진 후보' 생성의 원천. 키는 항원명/별칭으로 매칭(대소문자·공백 무시)하며, 새 항원·교차반응은 여기에 한 줄 추가하면 된다(코드 무수정). 출처: docs/crd_cross_reactivity_research.md (allergen.org BioNames + MAUG 2.0).",
+  "note_ko": "항원(whole-extract)이 배출할 수 있는 후보 성분(component family) 매핑. 교차반응 '문진 후보' 생성의 원천. 키는 항원명/별칭으로 매칭(대소문자·공백 무시)하며, 새 항원·교차반응은 여기에 한 줄 추가하면 된다(코드 무수정). 출처: docs/crd_cross_reactivity_research.md (allergen.org BioNames + MAUG 2.0). (family id는 data/allergen_components.json 카탈로그와 정합; Fel d 1 secretoglobin은 marker라 교차반응 생성 안 함 → 제외.)",
   "membership": {
-    "Shrimp": ["tropomyosin", "arginine_kinase"],
-    "Crab": ["tropomyosin", "arginine_kinase"],
-    "Lobster": ["tropomyosin", "arginine_kinase"],
-    "Prawn": ["tropomyosin", "arginine_kinase"],
-    "Crayfish": ["tropomyosin", "arginine_kinase"],
-    "Krill": ["tropomyosin"],
-    "Squid": ["tropomyosin"],
-    "Octopus": ["tropomyosin"],
-    "Oyster": ["tropomyosin"],
-    "Mussel": ["tropomyosin"],
-    "Clam": ["tropomyosin"],
-    "Abalone": ["tropomyosin"],
-    "Snail": ["tropomyosin"],
-    "Anisakis": ["tropomyosin"],
-    "Dermatophagoides pteronyssinus": ["tropomyosin", "arginine_kinase"],
-    "Dermatophagoides farinae": ["tropomyosin", "arginine_kinase"],
-    "House dust mite": ["tropomyosin", "arginine_kinase"],
-    "American cockroach": ["tropomyosin", "arginine_kinase", "lipocalin"],
-    "German cockroach": ["tropomyosin", "arginine_kinase", "lipocalin"],
-    "Cockroach": ["tropomyosin", "arginine_kinase"],
-
-    "Cod": ["parvalbumin"],
-    "Salmon": ["parvalbumin"],
-    "Mackerel": ["parvalbumin"],
-    "Tuna": ["parvalbumin"],
-    "Carp": ["parvalbumin"],
-    "Herring": ["parvalbumin"],
-    "Sardine": ["parvalbumin"],
-    "Pollock": ["parvalbumin"],
-
-    "Cat dander": ["secretoglobin", "serum_albumin", "lipocalin"],
-    "Cat": ["secretoglobin", "serum_albumin", "lipocalin"],
-    "Dog dander": ["lipocalin", "serum_albumin"],
-    "Dog": ["lipocalin", "serum_albumin"],
-    "Horse dander": ["lipocalin", "serum_albumin"],
-    "Cow dander": ["lipocalin", "serum_albumin"],
-    "Cattle": ["serum_albumin", "lipocalin"],
-    "Pig": ["serum_albumin"],
-    "Beef": ["serum_albumin"],
-    "Pork": ["serum_albumin"],
-    "Cow milk": ["serum_albumin"],
-    "Milk": ["serum_albumin"],
-    "Hamster": ["lipocalin"],
-    "Mouse": ["lipocalin"],
-    "Rat": ["lipocalin"],
-    "Rabbit": ["lipocalin"],
-    "Guinea pig": ["serum_albumin", "lipocalin"],
-
-    "Birch": ["pr10", "profilin", "polcalcin"],
-    "Alder": ["pr10", "profilin", "polcalcin"],
-    "Hazel": ["pr10", "profilin"],
-    "Oak": ["pr10", "profilin"],
-    "Hornbeam": ["pr10"],
-    "Beech": ["pr10"],
-    "Mugwort": ["profilin", "polcalcin", "nsltp", "ole_e1_like"],
-    "Ragweed": ["profilin", "polcalcin", "pectate_lyase"],
-    "Timothy grass": ["profilin", "polcalcin", "ole_e1_like"],
-    "Bermuda grass": ["profilin", "polcalcin"],
-    "Olive": ["ole_e1_like", "polcalcin", "thaumatin_pr5"],
-    "Ash": ["ole_e1_like", "polcalcin"],
-    "Plantain": ["ole_e1_like"],
-    "Japanese cedar": ["thaumatin_pr5"],
-    "Japanese hop": ["profilin"],
-    "Lamb's quarters": ["profilin", "polcalcin", "ole_e1_like"],
-
-    "Apple": ["pr10", "profilin", "nsltp", "thaumatin_pr5"],
-    "Peach": ["nsltp", "pr10", "profilin", "thaumatin_pr5"],
-    "Apricot": ["pr10", "nsltp"],
-    "Pear": ["pr10"],
-    "Cherry": ["pr10", "nsltp", "thaumatin_pr5"],
-    "Plum": ["pr10", "nsltp"],
-    "Kiwi fruit": ["pr10", "nsltp", "thaumatin_pr5", "storage_2s_albumin"],
-    "Banana": ["profilin", "thaumatin_pr5"],
-    "Melon": ["profilin"],
-    "Watermelon": ["profilin"],
-    "Grape": ["nsltp"],
-    "Strawberry": ["pr10"],
-    "Orange": ["profilin"],
-    "Tomato": ["profilin", "nsltp"],
-    "Carrot": ["pr10", "profilin"],
-    "Celery": ["pr10", "profilin", "nsltp"],
-    "Potato": ["pr10"],
-
-    "Peanut": ["storage_2s_albumin", "pr10", "nsltp", "profilin"],
-    "Soybean": ["pr10", "profilin", "storage_2s_albumin"],
-    "Hazelnut": ["pr10", "storage_2s_albumin", "nsltp", "profilin"],
-    "Walnut": ["storage_2s_albumin", "nsltp"],
-    "Cashew": ["storage_2s_albumin"],
-    "Pistachio": ["storage_2s_albumin"],
-    "Almond": ["pr10", "profilin", "nsltp"],
-    "Pecan": ["storage_2s_albumin"],
-    "Sesame": ["storage_2s_albumin"],
-    "Mustard": ["storage_2s_albumin"],
-    "Wheat": ["nsltp", "profilin"],
-    "Maize": ["nsltp", "profilin"],
-    "Lentil": ["nsltp"],
-    "Mung bean": ["pr10"]
+    "Shrimp": [
+      "tropomyosin",
+      "arginine_kinase"
+    ],
+    "Crab": [
+      "tropomyosin",
+      "arginine_kinase"
+    ],
+    "Lobster": [
+      "tropomyosin",
+      "arginine_kinase"
+    ],
+    "Prawn": [
+      "tropomyosin",
+      "arginine_kinase"
+    ],
+    "Crayfish": [
+      "tropomyosin",
+      "arginine_kinase"
+    ],
+    "Krill": [
+      "tropomyosin"
+    ],
+    "Squid": [
+      "tropomyosin"
+    ],
+    "Octopus": [
+      "tropomyosin"
+    ],
+    "Oyster": [
+      "tropomyosin"
+    ],
+    "Mussel": [
+      "tropomyosin"
+    ],
+    "Clam": [
+      "tropomyosin"
+    ],
+    "Abalone": [
+      "tropomyosin"
+    ],
+    "Snail": [
+      "tropomyosin"
+    ],
+    "Anisakis": [
+      "tropomyosin"
+    ],
+    "Dermatophagoides pteronyssinus": [
+      "tropomyosin",
+      "arginine_kinase"
+    ],
+    "Dermatophagoides farinae": [
+      "tropomyosin",
+      "arginine_kinase"
+    ],
+    "House dust mite": [
+      "tropomyosin",
+      "arginine_kinase"
+    ],
+    "American cockroach": [
+      "tropomyosin",
+      "arginine_kinase",
+      "lipocalin"
+    ],
+    "German cockroach": [
+      "tropomyosin",
+      "arginine_kinase",
+      "lipocalin"
+    ],
+    "Cockroach": [
+      "tropomyosin",
+      "arginine_kinase"
+    ],
+    "Cod": [
+      "parvalbumin"
+    ],
+    "Salmon": [
+      "parvalbumin"
+    ],
+    "Mackerel": [
+      "parvalbumin"
+    ],
+    "Tuna": [
+      "parvalbumin"
+    ],
+    "Carp": [
+      "parvalbumin"
+    ],
+    "Herring": [
+      "parvalbumin"
+    ],
+    "Sardine": [
+      "parvalbumin"
+    ],
+    "Pollock": [
+      "parvalbumin"
+    ],
+    "Cat dander": [
+      "serum_albumin",
+      "lipocalin"
+    ],
+    "Cat": [
+      "serum_albumin",
+      "lipocalin"
+    ],
+    "Dog dander": [
+      "lipocalin",
+      "serum_albumin"
+    ],
+    "Dog": [
+      "lipocalin",
+      "serum_albumin"
+    ],
+    "Horse dander": [
+      "lipocalin",
+      "serum_albumin"
+    ],
+    "Cow dander": [
+      "lipocalin",
+      "serum_albumin"
+    ],
+    "Cattle": [
+      "serum_albumin",
+      "lipocalin"
+    ],
+    "Pig": [
+      "serum_albumin"
+    ],
+    "Beef": [
+      "serum_albumin"
+    ],
+    "Pork": [
+      "serum_albumin"
+    ],
+    "Cow milk": [
+      "serum_albumin"
+    ],
+    "Milk": [
+      "serum_albumin"
+    ],
+    "Hamster": [
+      "lipocalin"
+    ],
+    "Mouse": [
+      "lipocalin"
+    ],
+    "Rat": [
+      "lipocalin"
+    ],
+    "Rabbit": [
+      "lipocalin"
+    ],
+    "Guinea pig": [
+      "serum_albumin",
+      "lipocalin"
+    ],
+    "Birch": [
+      "pr10",
+      "profilin",
+      "polcalcin"
+    ],
+    "Alder": [
+      "pr10",
+      "profilin",
+      "polcalcin"
+    ],
+    "Hazel": [
+      "pr10",
+      "profilin"
+    ],
+    "Oak": [
+      "pr10",
+      "profilin"
+    ],
+    "Hornbeam": [
+      "pr10"
+    ],
+    "Beech": [
+      "pr10"
+    ],
+    "Mugwort": [
+      "profilin",
+      "polcalcin",
+      "nsltp",
+      "ole_e_1"
+    ],
+    "Ragweed": [
+      "profilin",
+      "polcalcin",
+      "pectate_lyase"
+    ],
+    "Timothy grass": [
+      "profilin",
+      "polcalcin",
+      "ole_e_1"
+    ],
+    "Bermuda grass": [
+      "profilin",
+      "polcalcin"
+    ],
+    "Olive": [
+      "ole_e_1",
+      "polcalcin",
+      "thaumatin_pr5"
+    ],
+    "Ash": [
+      "ole_e_1",
+      "polcalcin"
+    ],
+    "Plantain": [
+      "ole_e_1"
+    ],
+    "Japanese cedar": [
+      "thaumatin_pr5"
+    ],
+    "Japanese hop": [
+      "profilin"
+    ],
+    "Lamb's quarters": [
+      "profilin",
+      "polcalcin",
+      "ole_e_1"
+    ],
+    "Apple": [
+      "pr10",
+      "profilin",
+      "nsltp",
+      "thaumatin_pr5"
+    ],
+    "Peach": [
+      "nsltp",
+      "pr10",
+      "profilin",
+      "thaumatin_pr5"
+    ],
+    "Apricot": [
+      "pr10",
+      "nsltp"
+    ],
+    "Pear": [
+      "pr10"
+    ],
+    "Cherry": [
+      "pr10",
+      "nsltp",
+      "thaumatin_pr5"
+    ],
+    "Plum": [
+      "pr10",
+      "nsltp"
+    ],
+    "Kiwi fruit": [
+      "pr10",
+      "nsltp",
+      "thaumatin_pr5",
+      "2s_albumin"
+    ],
+    "Banana": [
+      "profilin",
+      "thaumatin_pr5"
+    ],
+    "Melon": [
+      "profilin"
+    ],
+    "Watermelon": [
+      "profilin"
+    ],
+    "Grape": [
+      "nsltp"
+    ],
+    "Strawberry": [
+      "pr10"
+    ],
+    "Orange": [
+      "profilin"
+    ],
+    "Tomato": [
+      "profilin",
+      "nsltp"
+    ],
+    "Carrot": [
+      "pr10",
+      "profilin"
+    ],
+    "Celery": [
+      "pr10",
+      "profilin",
+      "nsltp"
+    ],
+    "Potato": [
+      "pr10"
+    ],
+    "Peanut": [
+      "2s_albumin",
+      "pr10",
+      "nsltp",
+      "profilin"
+    ],
+    "Soybean": [
+      "pr10",
+      "profilin",
+      "2s_albumin"
+    ],
+    "Hazelnut": [
+      "pr10",
+      "2s_albumin",
+      "nsltp",
+      "profilin"
+    ],
+    "Walnut": [
+      "2s_albumin",
+      "nsltp"
+    ],
+    "Cashew": [
+      "2s_albumin"
+    ],
+    "Pistachio": [
+      "2s_albumin"
+    ],
+    "Almond": [
+      "pr10",
+      "profilin",
+      "nsltp"
+    ],
+    "Pecan": [
+      "2s_albumin"
+    ],
+    "Sesame": [
+      "2s_albumin"
+    ],
+    "Mustard": [
+      "2s_albumin"
+    ],
+    "Wheat": [
+      "nsltp",
+      "profilin"
+    ],
+    "Maize": [
+      "nsltp",
+      "profilin"
+    ],
+    "Lentil": [
+      "nsltp"
+    ],
+    "Mung bean": [
+      "pr10"
+    ]
   },
   "unmatched_log_hint": "빌드 시 registry 항원과 매칭 안 된 키는 build 로그에 남긴다(오탈자·명칭 불일치 확인용)."
 }
