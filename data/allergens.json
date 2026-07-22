@@ -2,7 +2,7 @@
  "version": "1.0",
  "generated_by": "scripts/build_allergen_registry.py (P0 read-only merge)",
  "note_ko": "4개 사일로 병합 단일 항원 레지스트리. 아직 앱에 연결되지 않음(P2+에서 위임). 성분 태깅은 data/component_membership.json 에서 관리.",
- "count": 129,
+ "count": 134,
  "antigens": [
   {
    "id": "2_spotted_spider_mite",
@@ -786,6 +786,60 @@
    "components": []
   },
   {
+   "id": "cow_milk",
+   "canonical_name": "Cow milk",
+   "korean_name": "우유",
+   "aliases": [
+    "Milk",
+    "우유단백",
+    "Bos d",
+    "소젖",
+    "밀크"
+   ],
+   "ocr_aliases": [],
+   "category": "food",
+   "subcategory": null,
+   "coding": {
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": "Cow milk",
+   "components": [
+    "serum_albumin"
+   ]
+  },
+  {
+   "id": "crab",
+   "canonical_name": "Crab",
+   "korean_name": "게",
+   "aliases": [
+    "꽃게",
+    "Blue crab",
+    "Portunus",
+    "대게",
+    "킹크랩",
+    "Cha f"
+   ],
+   "ocr_aliases": [],
+   "category": "food",
+   "subcategory": null,
+   "coding": {
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": [
+    "tropomyosin",
+    "arginine_kinase"
+   ]
+  },
+  {
    "id": "crayfish",
    "canonical_name": "Crayfish",
    "korean_name": "가재",
@@ -1218,6 +1272,30 @@
    "kb_ref": null,
    "components": [
     "serum_albumin",
+    "lipocalin"
+   ]
+  },
+  {
+   "id": "hamster",
+   "canonical_name": "Hamster",
+   "korean_name": "햄스터",
+   "aliases": [
+    "Cricetus",
+    "Mesocricetus",
+    "Pho s"
+   ],
+   "ocr_aliases": [],
+   "category": "animal",
+   "subcategory": "Indoor",
+   "coding": {
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": [
     "lipocalin"
    ]
   },
@@ -1681,6 +1759,30 @@
    "kb_ref": null,
    "components": [
     "profilin"
+   ]
+  },
+  {
+   "id": "mouse",
+   "canonical_name": "Mouse",
+   "korean_name": "생쥐",
+   "aliases": [
+    "Mus musculus",
+    "마우스",
+    "Mus m"
+   ],
+   "ocr_aliases": [],
+   "category": "animal",
+   "subcategory": "Indoor",
+   "coding": {
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": [
+    "lipocalin"
    ]
   },
   {
@@ -2679,6 +2781,34 @@
    "components": [
     "tropomyosin",
     "arginine_kinase"
+   ]
+  },
+  {
+   "id": "soybean",
+   "canonical_name": "Soybean",
+   "korean_name": "대두",
+   "aliases": [
+    "콩",
+    "Soy",
+    "Glycine max",
+    "메주콩",
+    "Gly m"
+   ],
+   "ocr_aliases": [],
+   "category": "food",
+   "subcategory": null,
+   "coding": {
+    "omop_concept_id": "4103602",
+    "snomed": "4103602",
+    "vocabulary": "SNOMED",
+    "coding_source": "cdm",
+    "concept_name": "Bean"
+   },
+   "kb_ref": null,
+   "components": [
+    "pr10",
+    "profilin",
+    "2s_albumin"
    ]
   },
   {

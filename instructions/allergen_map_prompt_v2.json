@@ -1883,6 +1883,78 @@
       "category": "Food",
       "subcategory": null,
       "snomed": null
+    },
+    {
+      "canonical_name": "Crab",
+      "korean_name": "게",
+      "aliases": [
+        "꽃게",
+        "Blue crab",
+        "Portunus",
+        "대게",
+        "킹크랩",
+        "Cha f"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Cow milk",
+      "korean_name": "우유",
+      "aliases": [
+        "Milk",
+        "우유단백",
+        "Bos d",
+        "소젖",
+        "밀크"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Mouse",
+      "korean_name": "생쥐",
+      "aliases": [
+        "Mus musculus",
+        "마우스",
+        "Mus m"
+      ],
+      "ocr_aliases": [],
+      "category": "Animal",
+      "subcategory": "Indoor",
+      "snomed": null
+    },
+    {
+      "canonical_name": "Hamster",
+      "korean_name": "햄스터",
+      "aliases": [
+        "Cricetus",
+        "Mesocricetus",
+        "Pho s"
+      ],
+      "ocr_aliases": [],
+      "category": "Animal",
+      "subcategory": "Indoor",
+      "snomed": null
+    },
+    {
+      "canonical_name": "Soybean",
+      "korean_name": "대두",
+      "aliases": [
+        "콩",
+        "Soy",
+        "Glycine max",
+        "메주콩",
+        "Gly m"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": "4103602"
     }
   ]
 }
