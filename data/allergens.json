@@ -108,6 +108,31 @@
    ]
   },
   {
+   "id": "alpha_lactalbumin",
+   "canonical_name": "Alpha-lactalbumin",
+   "korean_name": "락토알부민",
+   "aliases": [
+    "Alpha-lactalbumin",
+    "Lactalbumin",
+    "락토알부민"
+   ],
+   "ocr_aliases": [
+    "Lacta1bumin"
+   ],
+   "category": "food",
+   "subcategory": null,
+   "coding": {
+    "snomed_ct": null,
+    "omop_concept_id": "4010500",
+    "snomed": "4010500",
+    "vocabulary": "SNOMED",
+    "coding_source": "cdm",
+    "concept_name": "Lactalbumin"
+   },
+   "kb_ref": null,
+   "components": []
+  },
+  {
    "id": "alternaria_alternata",
    "canonical_name": "Alternaria alternata",
    "korean_name": "얼터나리아",
@@ -132,33 +157,6 @@
    },
    "kb_ref": "Alternaria alternata",
    "components": []
-  },
-  {
-   "id": "american_cockroach_protein",
-   "canonical_name": "American cockroach protein",
-   "korean_name": "미국바퀴",
-   "aliases": [
-    "American cockroach",
-    "American cockroach protein",
-    "미국바퀴"
-   ],
-   "ocr_aliases": [],
-   "category": "insect",
-   "subcategory": "Cockroach",
-   "coding": {
-    "snomed_ct": null,
-    "omop_concept_id": "46273915",
-    "snomed": "46273915",
-    "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "American cockroach protein"
-   },
-   "kb_ref": null,
-   "components": [
-    "tropomyosin",
-    "arginine_kinase",
-    "lipocalin"
-   ]
   },
   {
    "id": "anisakis",
@@ -297,7 +295,7 @@
     "아보카도"
    ],
    "ocr_aliases": [],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,
@@ -350,7 +348,7 @@
     "Bar1ey",
     "8arley"
    ],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,
@@ -374,7 +372,7 @@
    "ocr_aliases": [
     "8ean"
    ],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,
@@ -504,7 +502,7 @@
     "양배추"
    ],
    "ocr_aliases": [],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,
@@ -600,7 +598,7 @@
     "암소건락소-치즈원료"
    ],
    "ocr_aliases": [],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,
@@ -774,7 +772,7 @@
     "귤"
    ],
    "ocr_aliases": [],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,
@@ -838,8 +836,8 @@
    ]
   },
   {
-   "id": "cockroach_protein",
-   "canonical_name": "Cockroach protein",
+   "id": "cockroach",
+   "canonical_name": "Cockroach",
    "korean_name": "바퀴벌레",
    "aliases": [
     "Cockroach",
@@ -864,6 +862,62 @@
    ]
   },
   {
+   "id": "cockroach_american",
+   "canonical_name": "Cockroach, American",
+   "korean_name": "미국바퀴",
+   "aliases": [
+    "Cockroach, American",
+    "American cockroach",
+    "American cockroach protein",
+    "미국바퀴"
+   ],
+   "ocr_aliases": [],
+   "category": "insect",
+   "subcategory": "Cockroach",
+   "coding": {
+    "snomed_ct": null,
+    "omop_concept_id": "46273915",
+    "snomed": "46273915",
+    "vocabulary": "SNOMED",
+    "coding_source": "cdm",
+    "concept_name": "American cockroach protein"
+   },
+   "kb_ref": null,
+   "components": [
+    "tropomyosin",
+    "arginine_kinase",
+    "lipocalin"
+   ]
+  },
+  {
+   "id": "cockroach_german",
+   "canonical_name": "Cockroach, German",
+   "korean_name": "독일바퀴",
+   "aliases": [
+    "Cockroach, German",
+    "German cockroach",
+    "German cockroach protein",
+    "독일바퀴"
+   ],
+   "ocr_aliases": [],
+   "category": "insect",
+   "subcategory": "Cockroach",
+   "coding": {
+    "snomed_ct": null,
+    "omop_concept_id": "46272547",
+    "snomed": "46272547",
+    "vocabulary": "SNOMED",
+    "coding_source": "cdm",
+    "concept_name": "German cockroach protein"
+   },
+   "kb_ref": "German cockroach",
+   "components": [
+    "tropomyosin",
+    "arginine_kinase",
+    "lipocalin"
+   ]
+  },
+  {
    "id": "cod",
    "canonical_name": "Cod",
    "korean_name": "대구",
@@ -885,6 +939,33 @@
    "kb_ref": null,
    "components": [
     "parvalbumin"
+   ]
+  },
+  {
+   "id": "common_ragweed",
+   "canonical_name": "Common ragweed",
+   "korean_name": "돼지풀",
+   "aliases": [
+    "Common ragweed",
+    "Ragweed",
+    "돼지풀"
+   ],
+   "ocr_aliases": [],
+   "category": "pollen_weed",
+   "subcategory": "Weed",
+   "coding": {
+    "snomed_ct": null,
+    "omop_concept_id": "4103592",
+    "snomed": "4103592",
+    "vocabulary": "SNOMED",
+    "coding_source": "cdm",
+    "concept_name": "Ragweed pollen"
+   },
+   "kb_ref": "Ragweed pollen",
+   "components": [
+    "profilin",
+    "polcalcin",
+    "pectate_lyase"
    ]
   },
   {
@@ -925,7 +1006,7 @@
     "Cornf1our",
     "Comflour"
    ],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,
@@ -960,33 +1041,6 @@
    "kb_ref": null,
    "components": [
     "lipocalin",
-    "serum_albumin"
-   ]
-  },
-  {
-   "id": "cow_milk",
-   "canonical_name": "Cow milk",
-   "korean_name": "우유",
-   "aliases": [
-    "Milk",
-    "우유단백",
-    "Bos d",
-    "소젖",
-    "밀크"
-   ],
-   "ocr_aliases": [],
-   "category": "food",
-   "subcategory": null,
-   "coding": {
-    "snomed_ct": null,
-    "omop_concept_id": null,
-    "snomed": null,
-    "vocabulary": "SNOMED",
-    "coding_source": "none",
-    "concept_name": null
-   },
-   "kb_ref": "Cow milk",
-   "components": [
     "serum_albumin"
    ]
   },
@@ -1189,7 +1243,7 @@
     "계란흰자"
    ],
    "ocr_aliases": [],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,
@@ -1213,7 +1267,7 @@
    "ocr_aliases": [
     "Egg yo1k"
    ],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,
@@ -1222,6 +1276,29 @@
     "vocabulary": "SNOMED",
     "coding_source": "cdm",
     "concept_name": "Egg yolk"
+   },
+   "kb_ref": null,
+   "components": []
+  },
+  {
+   "id": "egg_whole",
+   "canonical_name": "Egg, whole",
+   "korean_name": "달걀 전체",
+   "aliases": [
+    "Egg, whole",
+    "Hen's egg",
+    "달걀 전체"
+   ],
+   "ocr_aliases": [],
+   "category": "food",
+   "subcategory": null,
+   "coding": {
+    "snomed_ct": null,
+    "omop_concept_id": "4120251",
+    "snomed": "4120251",
+    "vocabulary": "SNOMED",
+    "coding_source": "cdm",
+    "concept_name": "Hen's egg"
    },
    "kb_ref": null,
    "components": []
@@ -1313,8 +1390,8 @@
    "ocr_aliases": [
     "Fa1se acacia"
    ],
-   "category": "other",
-   "subcategory": null,
+   "category": "pollen_tree",
+   "subcategory": "Tree",
    "coding": {
     "snomed_ct": null,
     "omop_concept_id": "43020816",
@@ -1349,33 +1426,6 @@
    "components": []
   },
   {
-   "id": "german_cockroach_protein",
-   "canonical_name": "German cockroach protein",
-   "korean_name": "독일바퀴",
-   "aliases": [
-    "German cockroach",
-    "German cockroach protein",
-    "독일바퀴"
-   ],
-   "ocr_aliases": [],
-   "category": "insect",
-   "subcategory": "Cockroach",
-   "coding": {
-    "snomed_ct": null,
-    "omop_concept_id": "46272547",
-    "snomed": "46272547",
-    "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "German cockroach protein"
-   },
-   "kb_ref": "German cockroach",
-   "components": [
-    "tropomyosin",
-    "arginine_kinase",
-    "lipocalin"
-   ]
-  },
-  {
    "id": "goldenrod",
    "canonical_name": "Goldenrod",
    "korean_name": "미역취",
@@ -1387,8 +1437,8 @@
    "ocr_aliases": [
     "Go1denrod"
    ],
-   "category": "other",
-   "subcategory": null,
+   "category": "pollen_weed",
+   "subcategory": "Weed",
    "coding": {
     "snomed_ct": null,
     "omop_concept_id": "46272528",
@@ -1427,7 +1477,7 @@
   {
    "id": "grass",
    "canonical_name": "Grass",
-   "korean_name": "나무 꽃가루 혼합",
+   "korean_name": "목초(화본과) 꽃가루",
    "aliases": [
     "Grass",
     "Grass mixture",
@@ -1556,28 +1606,6 @@
    ]
   },
   {
-   "id": "hen_s_egg",
-   "canonical_name": "Hen's egg",
-   "korean_name": "달걀 전체",
-   "aliases": [
-    "Hen's egg",
-    "달걀 전체"
-   ],
-   "ocr_aliases": [],
-   "category": "other",
-   "subcategory": null,
-   "coding": {
-    "snomed_ct": null,
-    "omop_concept_id": "4120251",
-    "snomed": "4120251",
-    "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Hen's egg"
-   },
-   "kb_ref": null,
-   "components": []
-  },
-  {
    "id": "herring",
    "canonical_name": "Herring",
    "korean_name": "청어",
@@ -1684,8 +1712,8 @@
     "Indoor mo1d mixture",
     "lndoor mold mixture"
    ],
-   "category": "other",
-   "subcategory": "Mold mix",
+   "category": "mold",
+   "subcategory": null,
    "coding": {
     "snomed_ct": null,
     "omop_concept_id": "4224654",
@@ -1773,8 +1801,8 @@
    "components": []
   },
   {
-   "id": "kiwi_fruit",
-   "canonical_name": "Kiwi fruit",
+   "id": "kiwi",
+   "canonical_name": "Kiwi",
    "korean_name": "키위",
    "aliases": [
     "Kiwi",
@@ -1825,30 +1853,6 @@
    ]
   },
   {
-   "id": "lactalbumin",
-   "canonical_name": "Lactalbumin",
-   "korean_name": "락토알부민",
-   "aliases": [
-    "Lactalbumin",
-    "락토알부민"
-   ],
-   "ocr_aliases": [
-    "Lacta1bumin"
-   ],
-   "category": "other",
-   "subcategory": null,
-   "coding": {
-    "snomed_ct": null,
-    "omop_concept_id": "4010500",
-    "snomed": "4010500",
-    "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Lactalbumin"
-   },
-   "kb_ref": null,
-   "components": []
-  },
-  {
    "id": "lamb_s_quarters",
    "canonical_name": "Lamb's quarters",
    "korean_name": "명아주",
@@ -1897,8 +1901,8 @@
    "components": []
   },
   {
-   "id": "lentils",
-   "canonical_name": "Lentils",
+   "id": "lentil",
+   "canonical_name": "Lentil",
    "korean_name": "렌즈콩",
    "aliases": [
     "Lentil",
@@ -1975,10 +1979,12 @@
    ]
   },
   {
-   "id": "maize",
-   "canonical_name": "Maize",
+   "id": "maize_corn",
+   "canonical_name": "Maize (corn)",
    "korean_name": "옥수수",
    "aliases": [
+    "Maize (corn)",
+    "Maize",
     "Corn",
     "콘",
     "Zea mays",
@@ -2012,8 +2018,8 @@
     "넓은김의털"
    ],
    "ocr_aliases": [],
-   "category": "other",
-   "subcategory": null,
+   "category": "pollen_grass",
+   "subcategory": "Grass",
    "coding": {
     "snomed_ct": null,
     "omop_concept_id": "4116689",
@@ -2049,6 +2055,34 @@
    "kb_ref": null,
    "components": [
     "profilin"
+   ]
+  },
+  {
+   "id": "milk",
+   "canonical_name": "Milk",
+   "korean_name": "우유",
+   "aliases": [
+    "Cow milk",
+    "Milk",
+    "우유단백",
+    "Bos d",
+    "소젖",
+    "밀크"
+   ],
+   "ocr_aliases": [],
+   "category": "food",
+   "subcategory": null,
+   "coding": {
+    "snomed_ct": null,
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": "Cow milk",
+   "components": [
+    "serum_albumin"
    ]
   },
   {
@@ -2185,7 +2219,7 @@
     "겨자"
    ],
    "ocr_aliases": [],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,
@@ -2233,7 +2267,7 @@
     "뉴로스포라"
    ],
    "ocr_aliases": [],
-   "category": "other",
+   "category": "mold",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,
@@ -2285,8 +2319,8 @@
    "ocr_aliases": [
     "0at"
    ],
-   "category": "pollen_grass",
-   "subcategory": "Grass",
+   "category": "food",
+   "subcategory": null,
    "coding": {
     "snomed_ct": null,
     "omop_concept_id": "4303810",
@@ -2362,7 +2396,7 @@
    "ocr_aliases": [
     "0nion"
    ],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,
@@ -2376,8 +2410,8 @@
    "components": []
   },
   {
-   "id": "orange_fruit",
-   "canonical_name": "Orange - fruit",
+   "id": "orange",
+   "canonical_name": "Orange",
    "korean_name": "오렌지",
    "aliases": [
     "Orange",
@@ -2430,7 +2464,7 @@
   {
    "id": "outdoor_mold_mixture",
    "canonical_name": "Outdoor mold mixture",
-   "korean_name": "실외 곰팡이 홉합",
+   "korean_name": "실외 곰팡이 혼합",
    "aliases": [
     "Outdoor mold mixture",
     "실외 곰팡이 홉합"
@@ -2439,8 +2473,8 @@
     "Outdoor mo1d mixture",
     "0utdoor mold mixture"
    ],
-   "category": "other",
-   "subcategory": "Mold mix",
+   "category": "mold",
+   "subcategory": null,
    "coding": {
     "snomed_ct": null,
     "omop_concept_id": "4224654",
@@ -2614,7 +2648,7 @@
     "피망"
    ],
    "ocr_aliases": [],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,
@@ -2660,8 +2694,8 @@
    "ocr_aliases": [
     "Pineapp1e"
    ],
-   "category": "pollen_tree",
-   "subcategory": "Tree",
+   "category": "food",
+   "subcategory": null,
    "coding": {
     "snomed_ct": null,
     "omop_concept_id": "4106297",
@@ -2709,7 +2743,7 @@
    "ocr_aliases": [
     "P1aice"
    ],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,
@@ -2920,32 +2954,6 @@
    ]
   },
   {
-   "id": "ragweed",
-   "canonical_name": "Ragweed",
-   "korean_name": "돼지풀",
-   "aliases": [
-    "Ragweed",
-    "돼지풀"
-   ],
-   "ocr_aliases": [],
-   "category": "pollen_weed",
-   "subcategory": "Weed",
-   "coding": {
-    "snomed_ct": null,
-    "omop_concept_id": "4103592",
-    "snomed": "4103592",
-    "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Ragweed pollen"
-   },
-   "kb_ref": "Ragweed pollen",
-   "components": [
-    "profilin",
-    "polcalcin",
-    "pectate_lyase"
-   ]
-  },
-  {
    "id": "rat_epithelium",
    "canonical_name": "Rat epithelium",
    "korean_name": "쥐 상피",
@@ -2982,7 +2990,7 @@
     "쌀가루"
    ],
    "ocr_aliases": [],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,
@@ -3044,16 +3052,17 @@
    "components": []
   },
   {
-   "id": "rye_grass",
-   "canonical_name": "Rye grass",
+   "id": "rye_grass_perennial",
+   "canonical_name": "Rye grass, perennial",
    "korean_name": "호밀풀",
    "aliases": [
+    "Rye grass, perennial",
     "Rye grass",
     "호밀풀"
    ],
    "ocr_aliases": [],
-   "category": "food",
-   "subcategory": null,
+   "category": "pollen_grass",
+   "subcategory": "Grass",
    "coding": {
     "snomed_ct": null,
     "omop_concept_id": "4117480",
@@ -3094,7 +3103,7 @@
   {
    "id": "sardine",
    "canonical_name": "Sardine",
-   "korean_name": "생선 혼합",
+   "korean_name": "정어리",
    "aliases": [
     "Ele",
     "Sardine",
@@ -3152,7 +3161,7 @@
     "양고기"
    ],
    "ocr_aliases": [],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,
@@ -3252,7 +3261,7 @@
     "시금치"
    ],
    "ocr_aliases": [],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,
@@ -3314,8 +3323,8 @@
    ]
   },
   {
-   "id": "timothy_grass",
-   "canonical_name": "Timothy grass",
+   "id": "timothy",
+   "canonical_name": "Timothy",
    "korean_name": "티모시",
    "aliases": [
     "Timothy",
@@ -3376,8 +3385,8 @@
    "ocr_aliases": [
     "Tree mixture l"
    ],
-   "category": "other",
-   "subcategory": "Tree pollen mix",
+   "category": "pollen_tree",
+   "subcategory": "Tree",
    "coding": {
     "snomed_ct": null,
     "omop_concept_id": null,
@@ -3398,8 +3407,8 @@
     "나무 꽃가루 혼합-2"
    ],
    "ocr_aliases": [],
-   "category": "other",
-   "subcategory": "Tree pollen mix",
+   "category": "pollen_tree",
+   "subcategory": "Tree",
    "coding": {
     "snomed_ct": null,
     "omop_concept_id": null,
@@ -3420,7 +3429,7 @@
     "송어"
    ],
    "ocr_aliases": [],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,
@@ -3458,10 +3467,11 @@
    ]
   },
   {
-   "id": "tyrophagus_putrescentiae_protein",
-   "canonical_name": "Tyrophagus putrescentiae protein",
+   "id": "tyrophagus_putrescentiae",
+   "canonical_name": "Tyrophagus putrescentiae",
    "korean_name": "긴털가루진드기",
    "aliases": [
+    "Tyrophagus putrescentiae",
     "T putres.",
     "Tyrophagus putrescentiae protein",
     "긴털가루진드기"
@@ -3622,7 +3632,7 @@
    "ocr_aliases": [
     "Who1emea1 f1our"
    ],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,
@@ -3670,7 +3680,7 @@
     "맥주용효모"
    ],
    "ocr_aliases": [],
-   "category": "other",
+   "category": "food",
    "subcategory": null,
    "coding": {
     "snomed_ct": null,

@@ -4,10 +4,12 @@
 > (`data/allergens.json`, 147종)의 **영어 canonical 명칭**을 ThermoFisher Phadia
 > allergen catalog (https://www.thermofisher.com/phadia/wo/en/) 명명 규칙에 맞춘다.
 >
-> ⚠️ **본 표는 "제안"이며 자동 적용하지 않았습니다.** 아래 표를 전문가가 확인한 뒤,
-> 확정된 항목만 반영합니다(레지스트리 canonical rename 또는 alias 추가).
-> ImmunoCAP 코드(d/e/g/w/t/f/i/m/k…)는 제가 확신하는 항목만 표기했고, 불확실한 것은
-> `?` 로 남겼습니다. 국내 orderable/한국 감작 패턴은 명칭 표준화와 무관하므로 제외했습니다.
+> ✅ **적용 완료(2026-07-23)** — 사용자 확정에 따라 A/B/C 명칭 표준화 + D그룹 데이터 오류
+> 교정을 base map(`allergen_map_prompt_v2.json`)에 반영하고 레지스트리를 재생성했습니다.
+> canonical rename 시 **기존 명칭을 aliases 로 보존**해 OCR·성분 membership 하위호환을 유지합니다.
+> 예외: `False acacia`(→Acacia 개명은 속(genus) 혼동 위험으로 **개명 보류**, 카테고리만 tree 로
+> 교정) / `Hen's egg`(전란 분리 대신 `Egg, whole` 로 개명, 데이터 손실 없음).
+> ImmunoCAP 코드(d/e/g/w/t/f/i/m/k…)는 확신 항목만 표기, 불확실한 것은 `?`.
 
 ---
 
