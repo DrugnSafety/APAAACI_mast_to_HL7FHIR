@@ -4,12 +4,18 @@
 > (`data/allergens.json`, 147종)의 **영어 canonical 명칭**을 ThermoFisher Phadia
 > allergen catalog (https://www.thermofisher.com/phadia/wo/en/) 명명 규칙에 맞춘다.
 >
-> ✅ **적용 완료(2026-07-23)** — 사용자 확정에 따라 A/B/C 명칭 표준화 + D그룹 데이터 오류
-> 교정을 base map(`allergen_map_prompt_v2.json`)에 반영하고 레지스트리를 재생성했습니다.
-> canonical rename 시 **기존 명칭을 aliases 로 보존**해 OCR·성분 membership 하위호환을 유지합니다.
-> 예외: `False acacia`(→Acacia 개명은 속(genus) 혼동 위험으로 **개명 보류**, 카테고리만 tree 로
-> 교정) / `Hen's egg`(전란 분리 대신 `Egg, whole` 로 개명, 데이터 손실 없음).
-> ImmunoCAP 코드(d/e/g/w/t/f/i/m/k…)는 확신 항목만 표기, 불확실한 것은 `?`.
+> ✅ **최종 확정 반영(2026-07-23, 사용자 행별 결정)** — base map(`allergen_map_prompt_v2.json`)에
+> 반영 후 레지스트리 재생성. canonical rename 시 **기존 명칭을 aliases 로 보존**(OCR·성분 membership 하위호환).
+>
+> **행별 확정 결과:**
+> - **1·2·3·5·6·7·8·9·12·13·17·18** → TF 제안 수록.
+> - **4** `Cockroach protein` → **`Cockroach, Mix`**(2·3번=독일·미국바퀴가 모두 포함된 혼합 항원).
+> - **10 `Cow milk`·11 `Ragweed`·14 `Hen's egg`·15 `Casein`·16 `Lactalbumin`** → **현행 명칭 유지**(개명 안 함).
+> - **17** `False acacia` → **`Acacia`**(TF 수락; `False acacia`·`Robinia pseudoacacia`·아까시나무 alias 보존).
+> - **19 `Sole`** → 별도 항원 미추가(넙치·가자미류는 기존 `Plaice`가 커버) — 검토 리스트에서 제외.
+> - **D1** Pineapple 오류수정 / **D2** `Grass` ko=`잔디 꽃가루 혼합` / **D3** `정어리` / **D4** `실외 곰팡이 혼합` /
+>   **D5** `Oat`(귀리가루,food)·`Cultivated oat`(귀리,pollen)는 **서로 다른 항원으로 별도 유지** /
+>   **D6** category=food / **D7** 꽃가루로 분류. → `other` 30종 **→ 1종(Latex만)**.
 
 ---
 
@@ -23,7 +29,7 @@
 | 1 | `Tyrophagus putrescentiae protein` | **Tyrophagus putrescentiae** | d72 | 긴털가루진드기, 학명만 |
 | 2 | `German cockroach protein` | **Cockroach, German** (*Blattella germanica*) | i6 | |
 | 3 | `American cockroach protein` | **Cockroach, American** (*Periplaneta americana*) | i206 | |
-| 4 | `Cockroach protein` | **Cockroach, German** 로 통합 검토 | i6 | 종 불명 → 국내 우점종(독일바퀴) 기준 |
+| 4 | `Cockroach protein` | **Cockroach, Mix** ✅확정 | i6/i206 | 2·3번(독일·미국바퀴)이 모두 포함된 혼합 항원 |
 
 ## B. 불필요한 수식어(grass/fruit/– fruit) 제거 → ImmunoCAP 일반명
 
@@ -39,16 +45,16 @@
 
 | # | 현재 명칭 | ThermoFisher 표준(제안) | ImmunoCAP | 비고 |
 |---|-----------|------------------------|-----------|------|
-| 10 | `Cow milk` | **Milk** (또는 Cow's milk) | f2 | ImmunoCAP catalog는 "Milk" |
-| 11 | `Ragweed` | **Common ragweed** (*Ambrosia artemisiifolia*) | w1 | |
-| 12 | `Lentils` | **Lentil** | f235 | 단수 |
-| 13 | `Maize` | **Maize (corn)** | f8 | `Cornflour`(옥수수가루)와 중복 정리 필요 |
-| 14 | `Hen's egg` | **Egg white**(f1) / **Egg yolk**(f75) 로 분리 | f1/f75 | ImmunoCAP에 "전란" 단일 코드 없음 |
-| 15 | `Casein` | **Casein** (nComponent) | f78 (m) | 우유 성분(component), 카테고리=food |
-| 16 | `Lactalbumin` | **Alpha-lactalbumin** | f76 | 우유 성분 |
-| 17 | `False acacia` | **Acacia** / *Robinia pseudoacacia* | ? | 명칭 확인 필요 |
-| 18 | `Plaice` | **Plaice** (*Pleuronectes platessa*) | f254 | 확인용(정상) |
-| 19 | `Sole`(미보유) | 필요 시 추가 | — | 참고 |
+| 10 | `Cow milk` | ~~Milk~~ → **현행 유지(`Cow milk`)** | f2 | 사용자 확정: 개명 안 함 |
+| 11 | `Ragweed` | ~~Common ragweed~~ → **현행 유지(`Ragweed`)** | w1 | 사용자 확정: 개명 안 함 |
+| 12 | `Lentils` | **Lentil** ✅ | f235 | 단수 |
+| 13 | `Maize` | **Maize (corn)** ✅ | f8 | |
+| 14 | `Hen's egg` | ~~Egg white/yolk 분리~~ → **현행 유지(`Hen's egg`)** | f245 | 사용자 확정: 유지(category=food) |
+| 15 | `Casein` | **현행 유지(`Casein`)** | f78 (m) | category=food(D6) |
+| 16 | `Lactalbumin` | ~~Alpha-lactalbumin~~ → **현행 유지(`Lactalbumin`)** | f76 | 사용자 확정: 유지(category=food) |
+| 17 | `False acacia` | **Acacia** ✅ (alias: False acacia·Robinia pseudoacacia) | ? | 사용자 수락 |
+| 18 | `Plaice` | **Plaice** (*Pleuronectes platessa*) | f254 | 명칭 유지(category=food) |
+| ~~19~~ | ~~`Sole`(미보유)~~ | 리스트 제외 | — | 넙치·가자미류는 `Plaice`가 커버 |
 
 ## D. 검토 중 발견한 데이터 품질 이슈(명칭 외 — 별도 확인 요청)
 

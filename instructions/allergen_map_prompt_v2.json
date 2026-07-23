@@ -126,10 +126,10 @@
       "canonical_name": "Cockroach, American",
       "korean_name": "미국바퀴",
       "aliases": [
-        "Cockroach, American",
         "American cockroach",
         "American cockroach protein",
-        "미국바퀴"
+        "미국바퀴",
+        "Cockroach, American"
       ],
       "ocr_aliases": [],
       "category": "Insect",
@@ -426,12 +426,13 @@
       "snomed": "46272811"
     },
     {
-      "canonical_name": "Cockroach",
+      "canonical_name": "Cockroach, Mix",
       "korean_name": "바퀴벌레",
       "aliases": [
         "Cockroach",
         "Cockroach protein",
-        "바퀴벌레"
+        "바퀴벌레",
+        "Cockroach, Mix"
       ],
       "ocr_aliases": [],
       "category": "Insect",
@@ -627,12 +628,14 @@
       "snomed": "4104620"
     },
     {
-      "canonical_name": "False acacia",
+      "canonical_name": "Acacia",
       "korean_name": "아까시나무",
       "aliases": [
         "False Acacia",
         "False acacia",
-        "아까시나무"
+        "아까시나무",
+        "Acacia",
+        "Robinia pseudoacacia"
       ],
       "ocr_aliases": [
         "Fa1se acacia"
@@ -670,10 +673,10 @@
       "canonical_name": "Cockroach, German",
       "korean_name": "독일바퀴",
       "aliases": [
-        "Cockroach, German",
         "German cockroach",
         "German cockroach protein",
-        "독일바퀴"
+        "독일바퀴",
+        "Cockroach, German"
       ],
       "ocr_aliases": [],
       "category": "Insect",
@@ -709,7 +712,7 @@
     },
     {
       "canonical_name": "Grass",
-      "korean_name": "목초(화본과) 꽃가루",
+      "korean_name": "잔디 꽃가루 혼합",
       "aliases": [
         "Grass",
         "Grass mixture",
@@ -735,10 +738,9 @@
       "snomed": "4117473"
     },
     {
-      "canonical_name": "Egg, whole",
+      "canonical_name": "Hen's egg",
       "korean_name": "달걀 전체",
       "aliases": [
-        "Egg, whole",
         "Hen's egg",
         "달걀 전체"
       ],
@@ -802,10 +804,9 @@
       "snomed": "4128608"
     },
     {
-      "canonical_name": "Alpha-lactalbumin",
+      "canonical_name": "Lactalbumin",
       "korean_name": "락토알부민",
       "aliases": [
-        "Alpha-lactalbumin",
         "Lactalbumin",
         "락토알부민"
       ],
@@ -1325,10 +1326,9 @@
       "snomed": "4103623"
     },
     {
-      "canonical_name": "Common ragweed",
+      "canonical_name": "Ragweed",
       "korean_name": "돼지풀",
       "aliases": [
-        "Common ragweed",
         "Ragweed",
         "돼지풀"
       ],
@@ -1338,10 +1338,9 @@
       "snomed": "4103592"
     },
     {
-      "canonical_name": "Common ragweed",
+      "canonical_name": "Ragweed",
       "korean_name": "돼지풀",
       "aliases": [
-        "Common ragweed",
         "Ragweed",
         "돼지풀"
       ],
@@ -1410,9 +1409,9 @@
       "canonical_name": "Rye grass, perennial",
       "korean_name": "호밀풀",
       "aliases": [
-        "Rye grass, perennial",
         "Rye grass",
-        "호밀풀"
+        "호밀풀",
+        "Rye grass, perennial"
       ],
       "ocr_aliases": [],
       "category": "Pollen",
@@ -1423,10 +1422,10 @@
       "canonical_name": "Rye grass, perennial",
       "korean_name": "호밀풀",
       "aliases": [
-        "Rye grass, perennial",
         "Rye",
         "Rye grass",
-        "호밀풀"
+        "호밀풀",
+        "Rye grass, perennial"
       ],
       "ocr_aliases": [],
       "category": "Pollen",
@@ -1613,10 +1612,10 @@
       "canonical_name": "Tyrophagus putrescentiae",
       "korean_name": "긴털가루진드기",
       "aliases": [
-        "Tyrophagus putrescentiae",
         "T putres.",
         "Tyrophagus putrescentiae protein",
-        "긴털가루진드기"
+        "긴털가루진드기",
+        "Tyrophagus putrescentiae"
       ],
       "ocr_aliases": [],
       "category": "Mite",
@@ -1727,13 +1726,13 @@
       "canonical_name": "Maize (corn)",
       "korean_name": "옥수수",
       "aliases": [
-        "Maize (corn)",
-        "Maize",
         "Corn",
         "콘",
         "Zea mays",
         "옥수수가루",
-        "Zea m"
+        "Zea m",
+        "Maize (corn)",
+        "Maize"
       ],
       "ocr_aliases": [],
       "category": "Food",
@@ -1912,10 +1911,9 @@
       "snomed": null
     },
     {
-      "canonical_name": "Milk",
+      "canonical_name": "Cow milk",
       "korean_name": "우유",
       "aliases": [
-        "Cow milk",
         "Milk",
         "우유단백",
         "Bos d",
