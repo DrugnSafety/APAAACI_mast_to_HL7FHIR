@@ -240,11 +240,12 @@ def test_questionnaire_engine():
 
 
 def test_shellfish_and_mite_tropomyosin():
-    """갑각류 양방향 감별 + 진드기↔갑각류 트로포마이오신 교차반응"""
+    """갑각류 양방향 감별 + 진드기↔갑각류 트로포마이오신 교차반응(성분 엔진, P3)"""
     from services.questionnaire_service import (
         get_questionnaire_engine, Q_PATTERN, Q_INDOOR_TIMING, Q_MITE_DUST,
-        Q_MITE_SHELLFISH, QP_SHELLFISH,
+        QP_SHELLFISH, QP_CROSSREACT,
     )
+    from services.crossreactivity_service import get_crossreactivity_service
     rs = get_relevance_service()
     eng = get_questionnaire_engine()
 
@@ -258,20 +259,26 @@ def test_shellfish_and_mite_tropomyosin():
     eng.classify(res, {QP_SHELLFISH + "agn0": "none"}, None)
     assert res.assessments[0].relevance == ClinicalRelevance.SENSITIZED_ONLY, "강양성+무증상은 감작만이어야"
 
-    # (b) 진드기 양성, 갑각류 미검사 → 트로포마이오신 질문 생성 + 전신반응 → note
+    if not get_crossreactivity_service().has_data():
+        print("✓ shellfish bidirectional (교차반응 성분엔진 스킵 — 레지스트리 미생성)")
+        return
+    # (b) 진드기 양성, 갑각류 미검사 → 성분(tropomyosin) 기반 갑각류 교차반응 질문 생성(데이터 파생)
     ocr2 = OCRResult(test_type=TestType.MAST, patient=PatientInfo(name="진드기"),
                      results=[_mast("Dermatophagoides farinae", "집먼지진드기", 20.0, 4, AllergenCategory.MITE, idx=1)])
     res2 = rs.build_assessments(ocr2, None)
     q2 = eng.build(res2, None)
-    fq2 = [x["id"] for s in q2["sections"] if s["id"] == "food" for x in s["questions"]]
-    assert Q_MITE_SHELLFISH in fq2, "진드기 양성 시 갑각류 교차반응 질문이 있어야"
+    crossq = [x for s in q2["sections"] if s["id"] == "food"
+              for x in s["questions"] if x["id"].startswith(QP_CROSSREACT)]
+    assert crossq, "진드기 양성 시 성분기반 갑각류 교차반응 질문이 있어야"
+    opts = [o["value"] for o in crossq[0]["options"]]
+    assert any(v in opts for v in ("Shrimp", "Crab", "Lobster")), f"갑각류 후보 누락: {opts}"
+    # 새우 선택 → FHIR 교차반응 항목(component)에 포함
     eng.classify(res2, {Q_PATTERN: "perennial", Q_INDOOR_TIMING: "yes", Q_MITE_DUST: "yes",
-                        Q_MITE_SHELLFISH: "systemic"}, None)
-    assert "트로포마이오신" in res2.assessments[0].rationale_ko, "진드기-갑각류 교차 note 누락"
-    # FHIR 교차반응 음식 항목에 갑각류 포함
-    items = eng.crossreactive_food_items(res2.assessments, {Q_MITE_SHELLFISH: "systemic"})
-    assert any(it["source"] == "mite_tropomyosin" for it in items), "FHIR 교차반응 갑각류 항목 누락"
-    print("✓ shellfish bidirectional + mite-tropomyosin cross-reactivity")
+                        QP_CROSSREACT + "agn0": ["Shrimp"]}, None)
+    items = eng.crossreactive_food_items(res2.assessments, {QP_CROSSREACT + "agn0": ["Shrimp"]})
+    comp = [it for it in items if it["source"] == "component"]
+    assert comp and any("새우" in (it["ko"] or "") for it in comp), f"진드기→갑각류 교차반응 항목 누락: {items}"
+    print("✓ shellfish bidirectional + 진드기→갑각류 성분기반 교차반응(P3)")
 
 
 def test_component_crossreactivity_p2():

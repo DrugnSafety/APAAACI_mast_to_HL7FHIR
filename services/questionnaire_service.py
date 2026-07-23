@@ -396,16 +396,12 @@ class QuestionnaireEngine:
                         ],
                         "applies_to": [], "reveal_if": {"question": Q_OAS, "equals": YES},
                     })
-            # (2) 진드기↔갑각류 트로포마이오신 (갑각류 양성이 없을 때만 일반 질문)
-            if has_mite and not shellfish_foods:
-                food_qs.append({
-                    "id": Q_MITE_SHELLFISH, "type": "single",
-                    "title": "새우·게 등 갑각류를 먹으면 입·목 또는 전신에 증상이 생기나요?",
-                    "help": "집먼지진드기와 갑각류는 '트로포마이오신'이라는 공통 단백질로 교차반응할 수 있어, "
-                            "갑각류 검사를 안 했거나 음성이어도 증상이 나타날 수 있습니다.",
-                    "options": FOOD_REACT_OPTIONS,
-                    "applies_to": [_key(i) for i, a in enumerate(assessments) if _cat(a) == "mite"],
-                })
+            # (2) 환경 항원(진드기·바퀴 등) → 공유 성분(트로포마이오신 등) 기반 음식 교차반응
+            #     (데이터 파생 — 하드코딩 진드기↔갑각류 특수 블록을 성분 엔진으로 대체.
+            #      갑각류가 이미 양성이면 후보에서 제외되어 자동으로 묻지 않는다.)
+            for i, a in enumerate(assessments):
+                if _cat(a) in ("mite", "insect"):
+                    self._append_crossreact_q(food_qs, a, _key(i), assessments)
             # (3) 갑각류 양성 → 실제 섭취 반응(양방향 감별) + 증상 있으면 중증도
             for i, a in shellfish_foods:
                 nm = _name(a)
@@ -592,17 +588,8 @@ class QuestionnaireEngine:
         oas_sev = "anaphylaxis" if oas_sys == "anaphylaxis" else ("systemic" if oas_sys == "systemic" else "oral")
         for f in self.oas_selected_foods(assessments, answers):
             items.append({**f, "source": "pollen", "severity": oas_sev})
-        # 진드기↔갑각류 (갑각류 검사가 양성으로 별도 존재하지 않을 때만 추가)
-        answers = answers or {}
-        ms = answers.get(Q_MITE_SHELLFISH)
-        ks = get_knowledge_service()
-        has_mite = any(_cat(a) == "mite" for a in assessments)
-        has_pos_shellfish = any(_cat(a) == "food" and ks.is_shellfish(a.allergen_name, a.korean_name)
-                                for a in assessments)
-        if has_mite and not has_pos_shellfish and ms in ("oral", "systemic"):
-            items.append({"en": "shellfish", "ko": "새우·게(갑각류)", "source": "mite_tropomyosin",
-                          "severity": ms, "pollens": []})
-        # 성분(component) 기반 교차반응(데이터 파생) — 셀러리↔당근, 새우↔게, 우유↔소고기 등
+        # 진드기↔갑각류 등 환경↔음식 교차반응은 이제 성분(component) 엔진이 처리(아래 통합)
+        # 성분(component) 기반 교차반응(데이터 파생) — 셀러리↔당근, 새우↔게, 진드기↔갑각류, 우유↔소고기 등
         seen = {(_norm_key(it.get("en")), _norm_key(it.get("ko"))) for it in items}
         for it in self.component_crossreact_items(assessments, answers):
             k = (_norm_key(it.get("en")), _norm_key(it.get("ko")))
@@ -670,7 +657,6 @@ class QuestionnaireEngine:
         mite_dust = answers.get(Q_MITE_DUST)
         mold_damp = answers.get(Q_MOLD_DAMP)
         roach_env = answers.get(Q_ROACH_ENV)
-        mite_shellfish = answers.get(Q_MITE_SHELLFISH)  # 진드기↔갑각류 트로포마이오신
 
         # OAS 로 선택된 교차반응 음식을 꽃가루별로 정리
         oas_by_pollen: Dict[str, List[str]] = {}
@@ -687,7 +673,6 @@ class QuestionnaireEngine:
                 self._classify_pollen(a, cat, answers, worse_months, oas, oas_foods_here)
             elif cat == "mite":
                 self._classify_indoor(a, "mite", indoor_timing, indoor_away, mite_dust, pattern, answers)
-                self._append_mite_shellfish_note(a, mite_shellfish)
             elif cat == "insect":
                 self._classify_indoor(a, "insect", indoor_timing, indoor_away, roach_env, pattern, answers)
             elif cat == "mold":
@@ -729,14 +714,6 @@ class QuestionnaireEngine:
         "breathing": "호흡곤란·기침·쌕쌕거림",
         "anaphylaxis": "아나필락시스(어지럼·전신 반응)",
     }
-
-    def _append_mite_shellfish_note(self, a, mite_shellfish):
-        if mite_shellfish in ("oral", "systemic"):
-            sev = "전신 반응" if mite_shellfish == "systemic" else "입·목 증상"
-            a.rationale_ko = (a.rationale_ko or "") + (
-                f" 또한 진드기-갑각류 교차반응(트로포마이오신)으로 새우·게 섭취 시 {sev}이 있다고 하셨습니다. "
-                f"갑각류 섭취에 {'각별히 ' if mite_shellfish=='systemic' else ''}주의하세요"
-                f"{'(전신 반응 병력은 전문의 평가 필요)' if mite_shellfish=='systemic' else ''}.")
 
     # ---- 카테고리별 판정 ----
     def _classify_pollen(self, a, cat, answers, worse_months, oas, oas_foods=None):
