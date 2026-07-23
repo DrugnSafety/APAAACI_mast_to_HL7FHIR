@@ -358,10 +358,6 @@ class KnowledgeService:
             return {"group_ko": entry.get("group_ko", ""), "foods": foods}
         return {"group_ko": entry.get("group_ko", ""), "foods": entry.get("foods", [])}
 
-    def mite_shellfish(self) -> Dict[str, Any]:
-        """진드기↔갑각류(트로포마이오신) 교차반응 정보."""
-        return self._load_pfas().get("mite_shellfish", {}) or {}
-
     def is_shellfish(self, name: str, korean_name: str = "") -> bool:
         """알러젠 이름이 갑각류(새우·게 등)인지 판별."""
         data = self._load_pfas()

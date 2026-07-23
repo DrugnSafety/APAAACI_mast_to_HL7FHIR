@@ -51,7 +51,6 @@ Q_PATTERN = "symptom_pattern"           # perennial / seasonal / both / none
 Q_SEASONS = "worse_seasons"             # multi: spring/summer/fall/winter
 Q_OAS = "oral_allergy_syndrome"         # 구강알레르기증후군
 Q_OAS_FOODS = "oas_foods"               # 교차반응으로 증상 유발하는 음식(다중) - 양성 꽃가루 기반
-Q_MITE_SHELLFISH = "mite_shellfish"     # 진드기↔갑각류 트로포마이오신 교차반응 (none/oral/systemic/never)
 Q_FOOD_SYSTEMIC = "food_systemic"       # 음식 전신 반응
 QP_SHELLFISH = "shellfish_react__"      # + key : 갑각류 섭취 시 반응(양방향 감별)
 QP_FOOD_SYMPTOMS = "food_symptoms__"    # + key : 일반 음식 섭취 시 증상 유형(다중)
