@@ -31,6 +31,22 @@ def _norm(s: str) -> str:
     return re.sub(r"[^a-z0-9가-힣]", "", (s or "").lower())
 
 
+# 항원명 뒤에 붙는 검사표기 수식어 — "Birch pollen"→"Birch", "Cat epithelium"→"Cat" 등
+# 레지스트리 canonical 과 OCR/MAST 표기의 차이를 흡수(성분 lookup 강건화)
+_QUALIFIER_TOKENS = {
+    "pollen", "꽃가루", "mix", "mixture", "혼합", "mould", "mold", "곰팡이",
+    "dander", "비듬", "epithelium", "epithelia", "상피", "hair", "털", "feather", "깃털",
+    "dust", "먼지", "extract", "추출물", "sp", "spp", "species",
+}
+
+
+def _strip_qualifiers(s: str) -> str:
+    """수식어 토큰을 제거해 핵심 항원명만 남긴다(예: 'Birch pollen'→'birch')."""
+    toks = re.split(r"[\s,()·/]+", (s or "").lower())
+    core = [t for t in toks if t and t not in _QUALIFIER_TOKENS]
+    return _norm("".join(core))
+
+
 class CrossreactivityService:
     def __init__(self):
         self._load()
@@ -39,6 +55,7 @@ class CrossreactivityService:
         self.antigens: List[Dict[str, Any]] = []
         self.families: Dict[str, Dict[str, Any]] = {}
         self.by_name: Dict[str, Dict[str, Any]] = {}
+        self.by_core: Dict[str, Dict[str, Any]] = {}  # 수식어 제거 핵심명 → 항원(폴백 매칭)
         self.comp_to_antigens: Dict[str, List[Dict[str, Any]]] = defaultdict(list)
         try:
             reg = json.loads((_DATA / "allergens.json").read_text(encoding="utf-8"))
@@ -49,6 +66,9 @@ class CrossreactivityService:
                 for nm in [a.get("canonical_name"), a.get("korean_name")] + a.get("aliases", []):
                     if nm:
                         self.by_name.setdefault(_norm(nm), a)
+                        core = _strip_qualifiers(nm)
+                        if core:
+                            self.by_core.setdefault(core, a)
                 for c in a.get("components", []):
                     self.comp_to_antigens[c].append(a)
             logger.info(f"교차반응 서비스 로드: 항원 {len(self.antigens)}, family {len(self.families)}")
@@ -56,10 +76,16 @@ class CrossreactivityService:
             logger.warning(f"교차반응 데이터 로드 실패(교차반응 문진 비활성): {e}")
 
     def find(self, name: str, korean: str = "") -> Optional[Dict[str, Any]]:
+        # 1) 정확 일치(정규화)
         for cand in (name, korean):
             a = self.by_name.get(_norm(cand))
             if a:
                 return a
+        # 2) 수식어 제거 후 핵심명 일치("Birch pollen"→"Birch", "자작나무 꽃가루"→"자작나무")
+        for cand in (name, korean):
+            core = _strip_qualifiers(cand)
+            if core and core in self.by_core:
+                return self.by_core[core]
         return None
 
     def _fam_risk_rank(self, fam_id: str) -> int:

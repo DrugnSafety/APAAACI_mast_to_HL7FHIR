@@ -301,6 +301,36 @@ def test_is_shellfish_registry_based_item3():
     print("✓ item3 is_shellfish 레지스트리 기반(어류·진드기·바퀴 제외)")
 
 
+def test_oas_component_engine_integration_item4():
+    """item4: OAS(꽃가루-음식)를 성분 엔진으로 통합 —
+    (a) find()가 'Birch pollen'→'Birch' 수식어 흡수, (b) OAS 옵션이 큐레이션 PFAS +
+    성분엔진 파생을 통합(엔진 전용 음식도 포함)."""
+    from services.crossreactivity_service import get_crossreactivity_service
+    svc = get_crossreactivity_service()
+    if not svc.has_data():
+        print("✓ (skip) 레지스트리 미생성 — item4 OAS 통합 스킵")
+        return
+    # (a) 수식어가 붙은 검사표기도 레지스트리 항원으로 해소
+    a = svc.find("Birch pollen", "자작나무 꽃가루")
+    assert a and a["canonical_name"] == "Birch" and "pr10" in a.get("components", []), \
+        f"'Birch pollen' 성분 lookup 실패: {a}"
+    assert svc.find("Cat epithelium", "고양이 상피"), "'Cat epithelium' 수식어 해소 실패"
+
+    from services.questionnaire_service import get_questionnaire_engine
+    rs = get_relevance_service()
+    ocr = OCRResult(test_type=TestType.MAST, patient=PatientInfo(name="꽃"),
+                    results=[_mast("Birch pollen", "자작나무 꽃가루", 5.0, 3, AllergenCategory.POLLEN, idx=1)])
+    res = rs.build_assessments(ocr, None)
+    eng = get_questionnaire_engine()
+    opts, link = eng._pfas_options(res.assessments)
+    labels = {o["label"] for o in opts}
+    # 큐레이션 PFAS 음식(자작-사과) 유지
+    assert "사과" in labels, f"큐레이션 PFAS 음식(사과) 누락: {labels}"
+    # 성분엔진 전용 음식(자작 큐레이션 목록에 없는 것)도 통합됨
+    assert labels & {"바나나", "옥수수"}, f"성분엔진 파생 음식 통합 실패: {labels}"
+    print("✓ item4 OAS 성분엔진 통합(수식어 해소 + 큐레이션+엔진 음식 통합)")
+
+
 def test_category_resolver_p4():
     """P4: 카테고리 resolve 파이프라인 — 이름변형(Dog hair·Horse dander)도 강건 분류 +
     동물 문진 누락 버그(원 보고 버그) 해결."""

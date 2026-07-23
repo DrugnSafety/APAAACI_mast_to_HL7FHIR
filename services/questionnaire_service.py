@@ -480,26 +480,59 @@ class QuestionnaireEngine:
         }
 
     def _pfas_options(self, assessments):
-        """양성 꽃가루들의 교차반응 음식을 모아 (다중선택 옵션, en->꽃가루 연결맵) 반환."""
+        """양성 꽃가루들의 교차반응 음식을 모아 (다중선택 옵션, en->꽃가루 연결맵) 반환.
+
+        두 소스를 통합한다(하나의 교차반응 엔진으로 수렴 — item4):
+          1) 큐레이션 PFAS 데이터셋(pollen_food_cross_reactivity.json) — 임상 특이 PFAS 증후군
+             (자작-사과, 쑥-셀러리·향신료 등)을 우선(먼저 나열).
+          2) 성분(component) 교차반응 엔진 — 레지스트리에 성분(PR-10·profilin·nsLTP)이
+             태깅된 꽃가루면 자동으로 음식 후보를 파생(신규 꽃가루도 데이터만 있으면 확장).
+        중복은 정규화 키로 제거하고, 옵션의 en 값은 소스별 표기를 보존한다.
+        """
         ks = get_knowledge_service()
-        seen = {}
-        link = {}
+        try:
+            from services.crossreactivity_service import get_crossreactivity_service
+            svc = get_crossreactivity_service()
+        except Exception:
+            svc = None
+        # 이미 양성으로 패널에 있는 항원은 교차반응 후보에서 제외(직접 문진되므로)
+        positive_names = set()
+        for x in assessments:
+            positive_names.add(x.allergen_name)
+            if x.korean_name:
+                positive_names.add(x.korean_name)
+
+        options: List[Dict[str, str]] = []
+        link: Dict[str, List[str]] = {}
+        seen_norm: Dict[str, str] = {}  # 정규화(ko/en) → 대표 en(옵션 value)
+
+        def _add(en, ko, pollen_name):
+            if not en:
+                return
+            key = _norm_key(ko) or _norm_key(en)
+            rep = seen_norm.get(key)
+            if rep is None:
+                rep = en
+                seen_norm[key] = rep
+                options.append({"value": rep, "label": ko or en})
+                link[rep] = []
+            if pollen_name and pollen_name not in link[rep]:
+                link[rep].append(pollen_name)
+
         for a in assessments:
             if _cat(a) not in POLLEN_GROUPS:
                 continue
-            canonical = a.allergen_name
-            pf = ks.pfas_foods_for(canonical, _cat(a))
+            pname = _name(a)
+            # (1) 큐레이션 PFAS 우선
+            pf = ks.pfas_foods_for(a.allergen_name, _cat(a))
             for food in pf.get("foods", []):
-                en, ko = food.get("en"), food.get("ko")
-                if not en:
-                    continue
-                if en not in seen:
-                    seen[en] = {"value": en, "label": ko or en}
-                link.setdefault(en, [])
-                pname = _name(a)
-                if pname not in link[en]:
-                    link[en].append(pname)
-        return list(seen.values()), link
+                _add(food.get("en"), food.get("ko"), pname)
+            # (2) 성분 엔진 파생(레지스트리 성분 태깅 기반) — 통합
+            if svc and svc.has_data():
+                for c in svc.candidate_foods(a.allergen_name, a.korean_name or "",
+                                             exclude_names=positive_names, limit=8):
+                    _add(c["name"], c["korean"] or c["name"], pname)
+        return options, link
 
     def oas_selected_foods(self, assessments, answers):
         """OAS='예'이고 사용자가 고른 교차반응 음식 목록을 반환.
