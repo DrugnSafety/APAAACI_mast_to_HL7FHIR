@@ -281,6 +281,26 @@ def test_shellfish_and_mite_tropomyosin():
     print("✓ shellfish bidirectional + 진드기→갑각류 성분기반 교차반응(P3)")
 
 
+def test_is_shellfish_registry_based_item3():
+    """item3: is_shellfish() 레지스트리(성분) 기반 이관 —
+    food+tropomyosin=조개/갑각, 어류(parvalbumin)·진드기·바퀴는 제외."""
+    from services.knowledge_service import get_knowledge_service
+    from services.crossreactivity_service import get_crossreactivity_service
+    ks = get_knowledge_service()
+    if not get_crossreactivity_service().has_data():
+        print("✓ (skip) 레지스트리 미생성 — item3 shellfish 스킵")
+        return
+    for en, ko in [("Shrimp", "새우"), ("Crab", "게"), ("Lobster", "랍스터"),
+                   ("Clam", "조개"), ("Oyster", "굴"), ("Squid", "오징어"),
+                   ("Abalone", "전복"), ("Snail", "달팽이")]:
+        assert ks.is_shellfish(en, ko), f"{en} 은(는) shellfish 여야"
+    for en, ko in [("Cod", "대구"), ("Salmon", "연어"), ("Tuna", "참치"),
+                   ("House dust mite", "집먼지진드기"), ("Cockroach", "바퀴"),
+                   ("Milk", "우유"), ("Peanut", "땅콩"), ("Birch pollen", "자작나무")]:
+        assert not ks.is_shellfish(en, ko), f"{en} 은(는) shellfish 가 아니어야"
+    print("✓ item3 is_shellfish 레지스트리 기반(어류·진드기·바퀴 제외)")
+
+
 def test_category_resolver_p4():
     """P4: 카테고리 resolve 파이프라인 — 이름변형(Dog hair·Horse dander)도 강건 분류 +
     동물 문진 누락 버그(원 보고 버그) 해결."""

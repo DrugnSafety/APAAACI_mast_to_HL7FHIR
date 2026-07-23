@@ -23,6 +23,9 @@ logger = logging.getLogger(__name__)
 KB_PATH = BASE_DIR / "data" / "allergen_knowledge_base.json"
 PFAS_PATH = BASE_DIR / "data" / "pollen_food_cross_reactivity.json"
 
+# shellfish(조개·갑각) 판별용 무척추 근육 범알레르겐 성분 — 어류(parvalbumin)와 구분
+_SHELLFISH_MARKER_COMPONENTS = {"tropomyosin"}
+
 # 알레르겐 면역치료(SCIT/SLIT) 적용 가능성 (카테고리 기준)
 IMMUNOTHERAPY_BY_CATEGORY: Dict[str, Dict[str, Any]] = {
     "mite": {"eligible": True,
@@ -359,7 +362,25 @@ class KnowledgeService:
         return {"group_ko": entry.get("group_ko", ""), "foods": entry.get("foods", [])}
 
     def is_shellfish(self, name: str, korean_name: str = "") -> bool:
-        """알러젠 이름이 갑각류(새우·게 등)인지 판별."""
+        """알러젠이 조개·갑각류(무척추 수산물)인지 판별 — 레지스트리(성분) 기반.
+
+        규칙: 항원 레지스트리에서 category=food 이면서 무척추 근육 범알레르겐
+        tropomyosin 을 보유하면 shellfish(새우·게·조개·오징어 등).
+        어류(Cod·Salmon 등)는 parvalbumin 을 가지므로 제외, 진드기·바퀴는
+        tropomyosin 을 갖지만 food 가 아니므로 제외된다.
+        레지스트리 미로드 시 기존 이름 리스트(shellfish_food_names)로 폴백한다.
+        """
+        try:
+            from services.crossreactivity_service import get_crossreactivity_service
+            svc = get_crossreactivity_service()
+            if svc.has_data():
+                a = svc.find(name, korean_name or "")
+                if a:
+                    comps = set(a.get("components", []))
+                    return a.get("category") == "food" and bool(comps & _SHELLFISH_MARKER_COMPONENTS)
+        except Exception:
+            pass
+        # 폴백: 레지스트리에 없는 항원 → 이름 기반 리스트
         data = self._load_pfas()
         needles = [s.lower() for s in data.get("shellfish_food_names", [])]
         hay = f"{name or ''} {korean_name or ''}".lower()
