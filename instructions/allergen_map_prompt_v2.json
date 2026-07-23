@@ -1955,6 +1955,160 @@
       "category": "Food",
       "subcategory": null,
       "snomed": "4103602"
+    },
+    {
+      "canonical_name": "Prawn",
+      "korean_name": "대하",
+      "aliases": [
+        "왕새우",
+        "Pen m"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Krill",
+      "korean_name": "크릴",
+      "aliases": [
+        "크릴새우",
+        "Euphausia"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Clam",
+      "korean_name": "조개",
+      "aliases": [
+        "바지락",
+        "백합",
+        "Rud p"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Abalone",
+      "korean_name": "전복",
+      "aliases": [
+        "Haliotis"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Snail",
+      "korean_name": "달팽이",
+      "aliases": [
+        "에스카르고",
+        "Helix"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Anisakis",
+      "korean_name": "아니사키스",
+      "aliases": [
+        "고래회충",
+        "Ani s"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Carp",
+      "korean_name": "잉어",
+      "aliases": [
+        "Cyp c"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Herring",
+      "korean_name": "청어",
+      "aliases": [
+        "Clu h"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Pollock",
+      "korean_name": "명태",
+      "aliases": [
+        "동태",
+        "황태",
+        "Gad c"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Cow dander",
+      "korean_name": "소 비듬",
+      "aliases": [
+        "Bos d 2",
+        "소 상피"
+      ],
+      "ocr_aliases": [],
+      "category": "Animal",
+      "subcategory": "Indoor",
+      "snomed": null
+    },
+    {
+      "canonical_name": "Horse dander",
+      "korean_name": "말 비듬",
+      "aliases": [
+        "Equ c",
+        "말 상피"
+      ],
+      "ocr_aliases": [],
+      "category": "Animal",
+      "subcategory": "Indoor",
+      "snomed": null
+    },
+    {
+      "canonical_name": "Cherry",
+      "korean_name": "체리",
+      "aliases": [
+        "버찌",
+        "Pru av"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Plum",
+      "korean_name": "자두",
+      "aliases": [
+        "Pru d"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
     }
   ]
 }

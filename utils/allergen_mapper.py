@@ -32,6 +32,23 @@ class AllergenMapper:
         self.database = self._load_database()
         self._build_lookup_tables()
         self._load_cdm_map()
+        self._load_snomed_ct_map()
+
+    def _load_snomed_ct_map(self):
+        """실제 SNOMED CT SCTID 매핑(사용자 제공) — get_coding 최우선 소스."""
+        self.snomed_ct_map = {}
+        try:
+            path = Path(__file__).resolve().parent.parent / "data" / "snomed_ct_map.json"
+            if not path.exists():
+                return
+            data = json.load(open(path, encoding="utf-8"))
+            for name, v in (data.get("map") or {}).items():
+                self.snomed_ct_map[self._cdm_norm(name)] = {
+                    "system": data.get("system", "http://snomed.info/sct"),
+                    "code": str(v["code"]), "display": v.get("display") or name}
+            logger.info(f"SNOMED CT SCTID 매핑 로드: {len(self.snomed_ct_map)}개")
+        except Exception as e:
+            logger.warning(f"SNOMED CT 매핑 로드 실패(무시): {e}")
 
     # ------------------------------------------------------------------
     # CDM(OMOP) SNOMED 기매핑 — 병원 제공 엑셀(255a467b CDM_SPT_Mapping.xlsx) 기반
@@ -81,8 +98,13 @@ class AllergenMapper:
         return None
 
     def get_coding(self, name: str, korean: str = "") -> Optional[Dict[str, str]]:
-        """FHIR code.coding 1건 생성 — CDM 기매핑 우선, 없으면 기존 snomed 필드로 폴백.
+        """FHIR code.coding 1건 생성. 우선순위:
+        (1) 실제 SNOMED CT SCTID 매핑(사용자 검토) → (2) CDM(OMOP concept) → (3) 기존 snomed 필드.
         vocabulary 에 따라 SNOMED/LOINC system URI 를 구분한다."""
+        for cand in (name, korean):
+            k = self._cdm_norm(cand)
+            if k and k in getattr(self, "snomed_ct_map", {}):
+                return dict(self.snomed_ct_map[k])
         cdm = self.cdm_find(name, korean)
         if cdm and cdm.get("concept_id"):
             voc = (cdm.get("vocabulary") or "SNOMED").upper()

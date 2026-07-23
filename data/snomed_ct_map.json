@@ -1,0 +1,29 @@
+{
+  "version": "1.0",
+  "system": "http://snomed.info/sct",
+  "note_ko": "실제 SNOMED CT SCTID (사용자 제공·검토, 2026-07). get_coding 이 CDM(OMOP concept_id) 보다 우선 사용한다. 키는 항원 canonical_name/별칭(대소문자·공백 무시 매칭).",
+  "map": {
+    "Sesame": {"code": "260167008", "display": "Sesame seed (substance)"},
+    "Prawn": {"code": "227151004", "display": "Prawns (substance)"},
+    "Krill": {"code": "468151000124104", "display": "Krill (substance)", "note": "US extension"},
+    "Clam": {"code": "736030007", "display": "Clam (substance)"},
+    "Abalone": {"code": "765098000", "display": "Abalone (substance)"},
+    "Snail": {"code": "457131000124102", "display": "Snail (substance)"},
+    "Anisakis": {"code": "35458008", "display": "Anisakis (organism)", "note": "substance-level term 없음 — organism-level 사용"},
+    "Carp": {"code": "726763003", "display": "Carp (substance)"},
+    "Herring": {"code": "735035006", "display": "Herring (substance)"},
+    "Pollock": {"code": "468171000124109", "display": "Pollock (substance)", "note": "US extension"},
+    "Beef": {"code": "1208812005", "display": "Bos taurus protein (substance)"},
+    "Cattle": {"code": "1208812005", "display": "Bos taurus protein (substance)"},
+    "Cow dander": {"code": "260153004", "display": "Cow dander (substance)"},
+    "Horse dander": {"code": "256417003", "display": "Horse dander (substance)"},
+    "Cherry": {"code": "735248001", "display": "Cherry (substance)"},
+    "Plum": {"code": "735051003", "display": "Plum (substance)"},
+    "Cashew": {"code": "227493005", "display": "Cashew nut (substance)"},
+    "Pistachio": {"code": "227512001", "display": "Pistachio nut (substance)"},
+    "Pecan": {"code": "260189007", "display": "Pecan nut (substance)"},
+    "Apricot": {"code": "735214002", "display": "Apricot (substance)"},
+    "Watermelon": {"code": "419420009", "display": "Citrullus lanatus (substance)"},
+    "Olive": {"code": "227436000", "display": "Olives (substance)"}
+  }
+}

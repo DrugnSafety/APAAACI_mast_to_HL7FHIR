@@ -70,6 +70,21 @@ def main():
     cdm_lookup = cdm.get("lookup", {})
     cdm_entries = cdm.get("entries", [])
 
+    # 실제 SNOMED CT SCTID 매핑(최우선)
+    _sct = {}
+    _sct_path = ROOT / "data" / "snomed_ct_map.json"
+    if _sct_path.exists():
+        _sd = json.loads(_sct_path.read_text(encoding="utf-8"))
+        for nm, v in (_sd.get("map") or {}).items():
+            _sct[norm(nm)] = {"code": str(v["code"]), "display": v.get("display") or nm}
+
+    def sct_coding(*names):
+        for n in names:
+            k = norm(n)
+            if k and k in _sct:
+                return _sct[k]
+        return None
+
     def cdm_coding(*names):
         for n in names:
             k = norm(n)
@@ -95,7 +110,8 @@ def main():
             continue
         aliases = e.get("aliases", []) or []
         korean = e.get("korean_name")
-        coding = cdm_coding(cn, korean, *aliases)
+        sct = sct_coding(cn, korean, *aliases)      # 실제 SNOMED CT SCTID(최우선)
+        coding = cdm_coding(cn, korean, *aliases)   # CDM(OMOP)
         rec = {
             "id": slugify(cn),
             "canonical_name": cn,
@@ -105,11 +121,12 @@ def main():
             "category": unify_category(e.get("category"), e.get("subcategory")),
             "subcategory": e.get("subcategory"),
             "coding": {
+                "snomed_ct": (sct or {}).get("code"),
                 "omop_concept_id": (coding or {}).get("omop_concept_id"),
                 "snomed": e.get("snomed"),
                 "vocabulary": (coding or {}).get("vocabulary", "SNOMED"),
-                "coding_source": "cdm" if coding else ("snomed" if e.get("snomed") else "none"),
-                "concept_name": (coding or {}).get("concept_name"),
+                "coding_source": "snomed_ct" if sct else ("cdm" if coding else ("snomed" if e.get("snomed") else "none")),
+                "concept_name": (sct or {}).get("display") or (coding or {}).get("concept_name"),
             },
             "kb_ref": None,
             "components": [],
