@@ -281,6 +281,38 @@ def test_shellfish_and_mite_tropomyosin():
     print("✓ shellfish bidirectional + 진드기→갑각류 성분기반 교차반응(P3)")
 
 
+def test_category_resolver_p4():
+    """P4: 카테고리 resolve 파이프라인 — 이름변형(Dog hair·Horse dander)도 강건 분류 +
+    동물 문진 누락 버그(원 보고 버그) 해결."""
+    from services.category_resolver import resolve_category
+    cases = {
+        ("Dog hair", "개털"): "animal", ("Horse dander", "말 비듬"): "animal",
+        ("Cat epithelium", "고양이 상피"): "animal", ("Feline", "고양이"): "animal",
+        ("Alternaria alternata", "알터나리아"): "mold", ("Timothy grass", "티모시"): "pollen_grass",
+        ("Ragweed", "돼지풀"): "pollen_weed", ("Birch", "자작나무"): "pollen_tree",
+        ("Celery", "샐러리"): "food", ("Latex", "라텍스"): "latex",
+        ("Blatella germanica", "독일바퀴"): "insect",
+    }
+    for (n, k), exp in cases.items():
+        got = resolve_category(n, k)
+        assert got == exp, f"{n}({k}) → {got}, 기대 {exp}"
+    assert resolve_category("완전신종물질ZZZ", "") == "other"
+
+    # 원 버그 재현·해결: Dog hair 양성 → 동물 감별 문진 섹션이 생성되어야
+    rs = get_relevance_service()
+    ocr = OCRResult(test_type=TestType.MAST, patient=PatientInfo(name="개"),
+                    results=[
+                        _mast("Dermatophagoides farinae", "집먼지진드기", 20.0, 4, AllergenCategory.MITE, idx=1),
+                        _mast("Dog hair", "개털", 3.0, 3, None, idx=2)])
+    res = rs.build_assessments(ocr, None)
+    from services.questionnaire_service import get_questionnaire_engine, _cat
+    q = get_questionnaire_engine().build(res, None)
+    dog = next(a for a in res.assessments if a.allergen_name == "Dog hair")
+    assert _cat(dog) == "animal", f"Dog hair 카테고리 오류: {_cat(dog)}"
+    assert "animal" in [s["id"] for s in q["sections"]], "Dog hair 양성인데 동물 문진 섹션 누락(원 버그)"
+    print("✓ P4 카테고리 resolve(Dog hair·Horse dander→animal, 꽃가루 세분) + 동물 문진 누락 버그 해결")
+
+
 def test_component_crossreactivity_p2():
     """P2: 성분(component) 기반 교차반응 문진 자동생성 + 선택 → confirmed FHIR 교차반응 항원."""
     from services.crossreactivity_service import get_crossreactivity_service

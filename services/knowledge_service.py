@@ -237,20 +237,11 @@ class KnowledgeService:
             result["category"] = normalize_category(result.get("category") or category)
             return result
 
-        cat = normalize_category(category)
-        # KB 미수록·미분류(other) 항원은 allergen_mapper(base map)의 카테고리로 보정.
-        # (Celery·Apple 등 음식 항원이 KB 18종에 없어 'other' 로 떨어져 문진에서 누락되던 문제 해결)
-        if cat == "other":
-            try:
-                from utils.allergen_mapper import get_allergen_mapper
-                mp = get_allergen_mapper().find_allergen(name) or (
-                    get_allergen_mapper().find_allergen(korean_name) if korean_name else None)
-                if mp and mp.category:
-                    mapped = normalize_category(mp.category)
-                    if mapped != "other":
-                        cat = mapped
-            except Exception:
-                pass
+        # 카테고리 결정 파이프라인(P4): 명시값 → base map → alias → regex → 미분류 로그.
+        # (Celery·Apple 등 음식이 KB 18종에 없어 'other' 로 떨어지던 문제 + Dog hair·Horse dander
+        #  같은 이름변형이 접미사 regex 로 흡수되어 동물 문진 누락 버그도 해결)
+        from services.category_resolver import resolve_category
+        cat = resolve_category(name, korean_name or "", category)
 
         # 외부검색 (Wikipedia) 보강
         web = None
