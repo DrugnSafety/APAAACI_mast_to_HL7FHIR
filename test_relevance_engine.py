@@ -301,6 +301,38 @@ def test_is_shellfish_registry_based_item3():
     print("✓ item3 is_shellfish 레지스트리 기반(어류·진드기·바퀴 제외)")
 
 
+def test_spt_observation_components_item5():
+    """item5: SPT 측정을 CDM qualifier concept 기반 Observation.component 로 세분화 —
+    장축·단축·평균·A/H비. size_text/히스타민 대조로 파생값도 계산."""
+    from models.schemas import OCRResult, PatientInfo, TestType, AllergenResult, InterpretationType
+    from services.fhir_service import FHIRService
+    ocr = OCRResult(
+        test_type=TestType.SPT,
+        patient=PatientInfo(name="SPT", test_date="2026-07-23", histamine_mean_mm=3.0),
+        results=[
+            AllergenResult(index=1, raw_text="Df 3x5", allergen_name="Dermatophagoides farinae",
+                           korean_name="집먼지진드기", size_text="3x5",
+                           interpretation=InterpretationType.POSITIVE, category="mite"),
+        ],
+    )
+    b = FHIRService().create_observation_bundle(ocr, patient_id="SPT")
+    obs = b["entry"][0]["resource"]
+    # 방법(method) = 히스타민 양성대조 concept
+    assert obs.get("method", {}).get("coding"), "SPT method(히스타민 대조) 코딩 누락"
+    # 대표값 valueQuantity = 파생 평균((3+5)/2=4)
+    assert obs["valueQuantity"]["value"] == 4.0, f"SPT 대표 평균 파생 실패: {obs.get('valueQuantity')}"
+    comps = {c["code"]["coding"][0]["code"]: c for c in obs.get("component", [])}
+    # CDM qualifier concept_id (major 4037344, minor 4038107, average 45880776, A/H 4187346)
+    assert comps.get("4037344", {}).get("valueQuantity", {}).get("value") == 5.0, "장축(major) 파생 실패"
+    assert comps.get("4038107", {}).get("valueQuantity", {}).get("value") == 3.0, "단축(minor) 파생 실패"
+    assert comps.get("45880776", {}).get("valueQuantity", {}).get("value") == 4.0, "평균(average) 파생 실패"
+    # A/H = 평균4 / 히스타민3 = 1.33
+    assert comps.get("4187346", {}).get("valueQuantity", {}).get("value") == 1.33, "A/H비 파생 실패"
+    # 알러젠 코딩 component 도 유지(component[0])
+    assert obs["component"][0]["code"]["coding"][0]["code"] == "46273588", "SPT 알러젠 코딩 component 누락"
+    print("✓ item5 SPT Observation.component 세분화(장축·단축·평균·A/H, CDM qualifier concept)")
+
+
 def test_oas_component_engine_integration_item4():
     """item4: OAS(꽃가루-음식)를 성분 엔진으로 통합 —
     (a) find()가 'Birch pollen'→'Birch' 수식어 흡수, (b) OAS 옵션이 큐레이션 PFAS +

@@ -62,6 +62,7 @@ class AllergenMapper:
         self.cdm_entries: List[Dict[str, Any]] = []
         self.cdm_lookup: Dict[str, int] = {}
         self.cdm_qualifiers: Dict[str, Any] = {}
+        self.cdm_spt_method: Dict[str, Any] = {}
         try:
             path = Path(__file__).resolve().parent.parent / "data" / "cdm_snomed_mapping.json"
             if not path.exists():
@@ -70,11 +71,32 @@ class AllergenMapper:
                 data = json.load(f)
             self.cdm_entries = data.get("entries", [])
             self.cdm_qualifiers = data.get("qualifiers", {})
+            self.cdm_spt_method = data.get("spt_method", {})
             # 저장된 lookup(정규화 키 → 인덱스) 재사용
             self.cdm_lookup = {k: v for k, v in (data.get("lookup") or {}).items()}
             logger.info(f"CDM SNOMED 기매핑 로드: {len(self.cdm_entries)}개 항원, {len(self.cdm_lookup)} 키")
         except Exception as e:  # 데이터 파일 문제로 전체 매핑이 죽지 않도록 방어
             logger.warning(f"CDM SNOMED 기매핑 로드 실패(무시): {e}")
+
+    def get_qualifier_coding(self, key: str) -> Optional[Dict[str, str]]:
+        """SPT 측정 성분(장축·단축·평균·A/H비)의 CDM qualifier concept 코딩 생성.
+        data/cdm_snomed_mapping.json 의 qualifiers[key] 에서 concept_id·display 를 읽는다.
+        vocabulary 미지정 시 OMOP 표준개념으로 간주(system=OMOP)."""
+        q = (getattr(self, "cdm_qualifiers", {}) or {}).get(key)
+        if not q or not q.get("concept_id"):
+            return None
+        voc = (q.get("vocabulary") or "OMOP").upper()
+        system = {"LOINC": "http://loinc.org", "SNOMED": "http://snomed.info/sct"}.get(
+            voc, "https://athena.ohdsi.org/search-terms/terms")
+        return {"system": system, "code": str(q["concept_id"]), "display": q.get("display") or key}
+
+    def get_spt_method_coding(self) -> Optional[Dict[str, str]]:
+        """SPT 방법(히스타민 양성대조) CDM concept 코딩."""
+        m = getattr(self, "cdm_spt_method", {}) or {}
+        if not m.get("concept_id"):
+            return None
+        return {"system": "https://athena.ohdsi.org/search-terms/terms",
+                "code": str(m["concept_id"]), "display": m.get("display") or "Skin prick test method"}
 
     def cdm_find(self, name: str, korean: str = "") -> Optional[Dict[str, Any]]:
         """CDM 기매핑에서 항원 concept 를 조회. 실패 시 접미사 제거·부분일치로 재시도."""

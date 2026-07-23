@@ -100,7 +100,10 @@ class AllergenResult(BaseModel):
     
     # SPT 관련 필드
     size_text: Optional[str] = Field(None, description="SPT 크기 (예: '3x4')")
-    mean_mm: Optional[float] = Field(None, description="SPT 평균 직경 (mm)")
+    mean_mm: Optional[float] = Field(None, description="SPT 평균 직경 (mm, 팽진 평균)")
+    wheal_major_mm: Optional[float] = Field(None, description="SPT 팽진 장축(major axis, mm)")
+    wheal_minor_mm: Optional[float] = Field(None, description="SPT 팽진 단축(minor axis, mm)")
+    ah_ratio: Optional[float] = Field(None, description="SPT A/H 비(알러젠팽진/히스타민팽진)")
     
     # MAST 관련 필드
     value: Optional[float] = Field(None, description="MAST/UniCAP 수치")

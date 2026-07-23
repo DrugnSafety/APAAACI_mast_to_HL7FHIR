@@ -24,13 +24,72 @@ class FHIRService:
     
     def __init__(self):
         self.allergen_mapper = get_allergen_mapper()
-    
+
+    @staticmethod
+    def _parse_size_text(size_text: Optional[str]):
+        """'3x4'·'3 x 4'·'3*4' → (major, minor) mm. 실패 시 (None, None)."""
+        if not size_text:
+            return None, None
+        import re as _re
+        nums = _re.findall(r"\d+(?:\.\d+)?", str(size_text))
+        if len(nums) >= 2:
+            a, b = float(nums[0]), float(nums[1])
+            return max(a, b), min(a, b)
+        if len(nums) == 1:
+            return float(nums[0]), None
+        return None, None
+
+    def _spt_measurement_components(self, ar: AllergenResult,
+                                    histamine_mean_mm: Optional[float] = None) -> List[Dict[str, Any]]:
+        """SPT 측정을 CDM qualifier concept 기반 Observation.component 로 세분화(item5).
+        장축(major)·단축(minor)·평균(average)·A/H비(ah_ratio). 명시값이 없으면
+        size_text/평균/히스타민 대조로 파생한다."""
+        p_major, p_minor = self._parse_size_text(ar.size_text)
+        major = ar.wheal_major_mm if ar.wheal_major_mm is not None else p_major
+        minor = ar.wheal_minor_mm if ar.wheal_minor_mm is not None else p_minor
+        mean = ar.mean_mm
+        if mean is None and major is not None and minor is not None:
+            mean = round((major + minor) / 2, 2)
+        ah = ar.ah_ratio
+        if ah is None and mean is not None and histamine_mean_mm:
+            try:
+                if histamine_mean_mm > 0:
+                    ah = round(mean / histamine_mean_mm, 2)
+            except (TypeError, ZeroDivisionError):
+                ah = None
+
+        def _mm(qkey, value):
+            coding = self.allergen_mapper.get_qualifier_coding(qkey)
+            if value is None or coding is None:
+                return None
+            return {
+                "code": {"coding": [coding], "text": coding.get("display", qkey)},
+                "valueQuantity": {"value": value, "unit": "mm",
+                                  "system": "http://unitsofmeasure.org", "code": "mm"},
+            }
+
+        comps: List[Dict[str, Any]] = []
+        for qkey, val in (("major_axis", major), ("minor_axis", minor), ("average", mean)):
+            c = _mm(qkey, val)
+            if c:
+                comps.append(c)
+        # A/H 비는 무차원(비율)
+        ah_coding = self.allergen_mapper.get_qualifier_coding("ah_ratio")
+        if ah is not None and ah_coding is not None:
+            comps.append({
+                "code": {"coding": [ah_coding], "text": ah_coding.get("display", "A/H Ratio")},
+                "valueQuantity": {"value": ah, "unit": "ratio",
+                                  "system": "http://unitsofmeasure.org", "code": "1"},
+            })
+        return comps
+
     def create_observation(
         self,
         allergen_result: AllergenResult,
         patient_id: str,
         test_date: Optional[str] = None,
-        test_type: TestType = TestType.SPT
+        test_type: TestType = TestType.SPT,
+        histamine_mean_mm: Optional[float] = None
     ) -> Dict[str, Any]:
         """
         알레르겐 검사 결과를 FHIR Observation으로 변환
@@ -81,15 +140,21 @@ class FHIRService:
                 observation["effectiveDateTime"] = test_date
             
             # 검사 결과 값
-            if test_type == TestType.SPT and allergen_result.mean_mm is not None:
-                # SPT 결과: wheal size in mm
-                observation["valueQuantity"] = {
-                    "value": allergen_result.mean_mm,
-                    "unit": "mm",
-                    "system": "http://unitsofmeasure.org",
-                    "code": "mm"
-                }
-                
+            if test_type == TestType.SPT:
+                # SPT 대표값 = 팽진 평균(mean). 명시값이 없으면 size_text(장×단)에서 파생
+                spt_mean = allergen_result.mean_mm
+                if spt_mean is None:
+                    mj, mn = self._parse_size_text(allergen_result.size_text)
+                    if mj is not None and mn is not None:
+                        spt_mean = round((mj + mn) / 2, 2)
+                if spt_mean is not None:
+                    observation["valueQuantity"] = {
+                        "value": spt_mean,
+                        "unit": "mm",
+                        "system": "http://unitsofmeasure.org",
+                        "code": "mm"
+                    }
+
             elif test_type in (TestType.MAST, TestType.UNICAP) and allergen_result.value is not None:
                 # MAST/UniCAP 결과: IgE value in kU/L
                 observation["valueQuantity"] = {
@@ -119,16 +184,25 @@ class FHIRService:
             # 알레르겐 정보를 component로 추가 (CDM 기매핑 우선 → concept_name 을 display 로)
             coding = self.allergen_mapper.get_coding(
                 allergen_result.allergen_name, allergen_result.korean_name or "")
+            components: List[Dict[str, Any]] = []
             if coding:
-                observation["component"] = [
-                    {
-                        "code": {
-                            "coding": [coding],
-                            "text": f"{allergen_result.allergen_name} ({allergen_result.korean_name})"
-                        }
+                components.append({
+                    "code": {
+                        "coding": [coding],
+                        "text": f"{allergen_result.allergen_name} ({allergen_result.korean_name})"
                     }
-                ]
-            
+                })
+            # SPT: 측정을 CDM qualifier concept 기반 component 로 세분화(장축·단축·평균·A/H비) — item5
+            if test_type == TestType.SPT:
+                method_coding = self.allergen_mapper.get_spt_method_coding()
+                if method_coding:
+                    observation["method"] = {"coding": [method_coding],
+                                             "text": method_coding.get("display")}
+                components.extend(
+                    self._spt_measurement_components(allergen_result, histamine_mean_mm))
+            if components:
+                observation["component"] = components
+
             # 메모 추가
             if allergen_result.note:
                 observation["note"] = [{"text": allergen_result.note}]
@@ -168,12 +242,14 @@ class FHIRService:
             }
             
             # 각 알레르겐 결과를 Observation으로 변환
+            hist = getattr(ocr_result.patient, "histamine_mean_mm", None)
             for allergen_result in ocr_result.results:
                 observation = self.create_observation(
                     allergen_result=allergen_result,
                     patient_id=patient_id,
                     test_date=ocr_result.patient.test_date,
-                    test_type=ocr_result.test_type
+                    test_type=ocr_result.test_type,
+                    histamine_mean_mm=hist
                 )
                 
                 # Bundle entry로 추가
