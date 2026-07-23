@@ -355,6 +355,53 @@ def test_component_crossreactivity_p2():
     print("✓ P2 성분기반 교차반응 문진(셀러리→당근·사과, 새우→게) + confirmed FHIR 교차반응 항원")
 
 
+def test_crossreact_risk_vs_confirmed_item1():
+    """item1: 교차반응을 confirmed(증상보고)/risk(가능성)로 분리 + 리포트/카드뉴스/FHIR 반영."""
+    from services.crossreactivity_service import get_crossreactivity_service
+    if not get_crossreactivity_service().has_data():
+        print("✓ (skip) 레지스트리 미생성 — item1 교차반응 스킵")
+        return
+    from services.questionnaire_service import get_questionnaire_engine, QP_CROSSREACT, _key
+    from services.fhir_service import FHIRService
+    from services.report_service import get_report_service
+    from services.cardnews_service import get_cardnews_service
+    rs = get_relevance_service()
+    ocr = OCRResult(
+        test_type=TestType.MAST, patient=PatientInfo(name="교차", test_date="2026-07-13"),
+        results=[_mast("Celery", "샐러리", 5.0, 3, AllergenCategory.FOOD, idx=1)],
+    )
+    res = rs.build_assessments(ocr, None)
+    eng = get_questionnaire_engine()
+    eng.build(res, None)
+    # 당근만 증상보고(confirmed) → 나머지 후보(사과 등)는 risk 로 분류돼야 함
+    ans = {QP_CROSSREACT + _key(0): ["Carrot"]}
+    eng.classify(res, ans, None)
+    celery = res.assessments[0]
+    assert "당근" in celery.crossreact_confirmed, f"confirmed 에 당근 없음: {celery.crossreact_confirmed}"
+    assert "당근" not in celery.crossreact_risk, "당근이 risk 에 중복"
+    assert celery.crossreact_risk, f"risk 후보가 비어있음: {celery.crossreact_risk}"
+    assert "사과" in celery.crossreact_risk, f"미선택 후보(사과)가 risk 에 없음: {celery.crossreact_risk}"
+
+    # FHIR note: confirmed/risk 각각 문구 반영
+    bundles = FHIRService().build_bundles_from_relevance(
+        ocr, res, None, eng.crossreactive_food_items(res.assessments, ans))
+    ai = [e["resource"] for e in bundles["allergy_intolerance_bundle"]["entry"]]
+    celery_ai = next(r for r in ai if "샐러리" in r["code"]["text"] and r["code"]["text"] != "당근")
+    note = " ".join(n["text"] for n in celery_ai.get("note", []))
+    assert "교차반응(확인됨)" in note and "당근" in note, f"FHIR confirmed 노트 누락: {note}"
+    assert "교차반응 가능(미확인)" in note and "사과" in note, f"FHIR risk 노트 누락: {note}"
+    # 확인된 교차반응(당근)은 별도 AllergyIntolerance 로 존재
+    assert any(r["code"]["text"] == "당근" for r in ai), "확인된 교차반응(당근) 별도 항목 누락"
+
+    # 리포트: confirmed 요약(item1.2 — 확인된 성분 교차반응을 리포트에 반영)
+    md = get_report_service().build_patient_report_markdown(res, {}, None)
+    assert "교차반응 확인" in md and "당근" in md, "리포트 confirmed 교차반응 문구 누락"
+    # 카드뉴스: confirmed 카드 생성
+    html = get_cardnews_service().generate_html(res, {}, None)
+    assert "교차반응 확인" in html and "당근" in html, "카드뉴스 confirmed 교차반응 카드 누락"
+    print("✓ item1 교차반응 risk/confirmed 분리 + FHIR·리포트·카드뉴스 반영")
+
+
 def test_questionnaire_food_systemic_and_oas():
     """전신 음식반응/OAS 로직: 전신반응 yes → 음식 알러젠 relevant, OAS 교차반응 노트"""
     from services.questionnaire_service import get_questionnaire_engine, Q_FOOD_SYSTEMIC, Q_OAS, QP_POLLEN

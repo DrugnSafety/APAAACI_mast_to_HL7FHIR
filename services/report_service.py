@@ -588,6 +588,13 @@ class ReportService:
             md.append(
                 "**🍎 구강알레르기증후군(OAS) 주의** — 아래 꽃가루 감작과 교차반응으로 특정 음식 섭취 시 "
                 "입·목 증상이 나타납니다(생것 주의, 익히면 대개 완화): " + " · ".join(parts))
+        # 성분(component) 교차반응 확인 요약 — 증상이 보고된 항목만
+        cr_items = [a for a in relevance_result.assessments if getattr(a, "crossreact_confirmed", None)]
+        if cr_items:
+            parts = [f"{(a.korean_name or a.allergen_name)} ↔ {', '.join(a.crossreact_confirmed)}" for a in cr_items]
+            md.append(
+                "**⚠️ 교차반응 확인** — 아래 감작과 성분을 공유하는 음식에서 실제 증상이 보고되었습니다"
+                "(함께 주의): " + " · ".join(parts))
 
         # 스크리닝 요약
         if screening is not None:
@@ -737,6 +744,14 @@ class ReportService:
                 f"주의하고(대개 익히면 완화), 증상이 심하거나 목·호흡기까지 번지면 즉시 진료를 받으세요.")
         elif kb.get("oral_allergy_syndrome_ko"):
             lines.append(f"- **구강알레르기증후군:** {kb['oral_allergy_syndrome_ko']}")
+        if getattr(a, "crossreact_confirmed", None):
+            lines.append(
+                f"- **⚠️ 교차반응 확인:** {', '.join(a.crossreact_confirmed)} 섭취 시 실제 증상이 있다고 하셨습니다. "
+                f"이 음식들도 함께 주의하고, 증상이 심하면 즉시 진료를 받으세요.")
+        if getattr(a, "crossreact_risk", None):
+            lines.append(
+                f"- **교차반응 가능(미확인):** {', '.join(a.crossreact_risk)} 등과 성분을 공유해 교차반응이 나타날 "
+                f"**가능성**이 있습니다. 아직 증상이 확인되지는 않았으니, 섭취 시 입·목 가려움 등이 생기는지 살펴보세요.")
         if a.rationale_ko:
             lines.append(f"- **판정 근거:** {a.rationale_ko}")
         avoid = kb.get("avoidance_control_ko", [])

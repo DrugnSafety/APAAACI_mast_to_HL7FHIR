@@ -685,7 +685,42 @@ class QuestionnaireEngine:
                     self._classify_food_symptoms(a, _key(i), answers, food_systemic)
             else:
                 self._classify_generic(a, pattern)
+        # 성분 교차반응을 confirmed(증상 확인) / risk(가능성)로 나눠 각 유발 항원에 전파
+        self._populate_crossreact(result.assessments, answers)
         return result
+
+    def _populate_crossreact(self, assessments, answers):
+        """양성 항원별로 교차반응 후보를 confirmed/risk 로 분류해 assessment 에 기록.
+        confirmed = QP_CROSSREACT 에서 증상 보고한 음식, risk = 나머지 후보(가능성만)."""
+        try:
+            from services.crossreactivity_service import get_crossreactivity_service
+            svc = get_crossreactivity_service()
+        except Exception:
+            return
+        if not svc.has_data():
+            return
+        answers = answers or {}
+        pos_names = set()
+        for x in assessments:
+            pos_names.add(x.allergen_name)
+            if x.korean_name:
+                pos_names.add(x.korean_name)
+        for i, a in enumerate(assessments):
+            cands = svc.candidate_foods(a.allergen_name, a.korean_name or "",
+                                        exclude_names=pos_names, limit=8)
+            if not cands:
+                continue
+            sel = set(v for v in (answers.get(QP_CROSSREACT + _key(i), []) or []) if v and v != "none")
+            # OAS(꽃가루-음식)로 이미 기록된 음식은 중복 표기하지 않음
+            oas_ko = set(a.oas_foods or [])
+            confirmed, risk = [], []
+            for c in cands:
+                ko = c["korean"] or c["name"]
+                if ko in oas_ko:
+                    continue
+                (confirmed if c["name"] in sel else risk).append(ko)
+            a.crossreact_confirmed = confirmed
+            a.crossreact_risk = risk
 
     # ---- 중증도/증상 보조 ----
     _SEV_RANK = {"mild": 1, "moderate": 2, "severe": 3, "anaphylaxis": 4}

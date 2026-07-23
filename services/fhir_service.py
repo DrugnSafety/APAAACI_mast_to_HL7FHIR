@@ -458,6 +458,16 @@ class FHIRService:
             notes.append(
                 f"구강알레르기증후군(OAS): {name} 감작으로 인해 {', '.join(a.oas_foods)} 섭취 시 "
                 f"입·목 교차반응이 나타납니다(생것 주의, 익히면 대개 완화). 해당 음식은 별도 AllergyIntolerance 로 함께 기록됩니다.")
+        # 성분(component) 교차반응 — 증상이 확인된 항목: 별도 AllergyIntolerance 로 기록됨을 명시
+        if getattr(a, "crossreact_confirmed", None):
+            notes.append(
+                f"성분 교차반응(확인됨): {', '.join(a.crossreact_confirmed)} — 실제 섭취 시 증상이 보고되어 "
+                f"별도 AllergyIntolerance 로 함께 기록됩니다.")
+        # 성분(component) 교차반응 — 가능성만(미확인): FHIR text 에 간단히 언급(별도 항목 생성하지 않음)
+        if getattr(a, "crossreact_risk", None):
+            notes.append(
+                f"성분 교차반응 가능(미확인): {', '.join(a.crossreact_risk)} 등과 성분을 공유해 교차반응 가능성이 있으나 "
+                f"증상은 확인되지 않았습니다. 섭취 시 증상 발현 여부에 주의하세요.")
         if kb.get("season_label_ko"):
             notes.append(f"주요 시기: {kb['season_label_ko']}.")
         if kb.get("exposure_environment_ko"):

@@ -69,6 +69,10 @@ class CardNewsService:
         oas_items = [a for a in result.assessments if getattr(a, "oas_foods", None)]
         if oas_items:
             cards.append(self._oas_card(oas_items))
+        # 성분(component) 교차반응 확인 카드 — 증상이 보고된 항목만
+        cr_items = [a for a in result.assessments if getattr(a, "crossreact_confirmed", None)]
+        if cr_items:
+            cards.append(self._crossreact_card(cr_items))
         cards.append(self._sensitized_card(sensitized, indeterminate))
         cards.append(self._prevention_card(relevant))
         cards.append(self._treatment_card(relevant, screening))
@@ -207,6 +211,23 @@ class CardNewsService:
           <div class="chips">{rows}</div>
           <p class="desc" style="margin-top:12px">💡 대부분 <b>익히면 증상이 줄어듭니다.</b> 목·호흡기까지
           번지거나 심하면 즉시 진료를 받으세요.</p>
+        </div>
+        """
+
+    def _crossreact_card(self, cr_items: List[AllergenAssessment]) -> str:
+        rows = "".join(
+            f'<div class="chip">🔗 <b>{_esc(a.korean_name or a.allergen_name)}</b> '
+            f'<span class="chip-season">↔ {_esc(", ".join(a.crossreact_confirmed))}</span></div>'
+            for a in cr_items)
+        return f"""
+        <div class="section oas">
+          <div class="tag">⚠️ 교차반응 확인</div>
+          <h2>성분을 공유하는<br/>음식 주의</h2>
+          <p class="desc">아래 알러젠과 <b>같은 성분(component)</b>을 공유하는 음식에서
+          <b>실제 증상</b>이 있다고 하셨습니다. 이 음식들도 함께 주의하세요.</p>
+          <div class="chips">{rows}</div>
+          <p class="desc" style="margin-top:12px">💡 증상이 심하거나 목·호흡기까지 번지면
+          즉시 진료를 받으세요.</p>
         </div>
         """
 
