@@ -654,6 +654,9 @@ class ReportService:
                 probe = f" (확인 포인트: {probes[0]})" if probes else ""
                 md.append(f"- **{nm}** — {a.rationale_ko or '노출-증상 관계 관찰이 필요합니다.'}{probe}")
 
+        # 교차반응 관찰 음식(원인 항원별 그룹 + 확대 경고)
+        md += self._crossreact_watchlist_md(relevance_result)
+
         md.append("\n---\n")
 
         # 3. 예방·관리 플랜
@@ -744,14 +747,7 @@ class ReportService:
                 f"주의하고(대개 익히면 완화), 증상이 심하거나 목·호흡기까지 번지면 즉시 진료를 받으세요.")
         elif kb.get("oral_allergy_syndrome_ko"):
             lines.append(f"- **구강알레르기증후군:** {kb['oral_allergy_syndrome_ko']}")
-        if getattr(a, "crossreact_confirmed", None):
-            lines.append(
-                f"- **⚠️ 교차반응 확인:** {', '.join(a.crossreact_confirmed)} 섭취 시 실제 증상이 있다고 하셨습니다. "
-                f"이 음식들도 함께 주의하고, 증상이 심하면 즉시 진료를 받으세요.")
-        if getattr(a, "crossreact_risk", None):
-            lines.append(
-                f"- **교차반응 가능(미확인):** {', '.join(a.crossreact_risk)} 등과 성분을 공유해 교차반응이 나타날 "
-                f"**가능성**이 있습니다. 아직 증상이 확인되지는 않았으니, 섭취 시 입·목 가려움 등이 생기는지 살펴보세요.")
+        # 교차반응 음식은 원인 항원별로 묶어 별도 '관찰할 음식' 섹션에서 안내(R-1) — 여기선 생략
         if a.rationale_ko:
             lines.append(f"- **판정 근거:** {a.rationale_ko}")
         avoid = kb.get("avoidance_control_ko", [])
@@ -767,6 +763,44 @@ class ReportService:
         except Exception:
             pass
         return "\n".join(lines)
+
+    def _crossreact_watchlist_md(self, relevance_result) -> List[str]:
+        """R-1/R-2: 교차반응 가능 음식을 '원인 항원(카테고리)별'로 그룹화 + 확대 가능성 경고.
+        개별 음식을 흩어 나열하지 않고, 어떤 항원과 엮여 있는지를 중심으로 배치한다."""
+        groups = []
+        for a in relevance_result.assessments:
+            confirmed = list(dict.fromkeys(
+                (getattr(a, "oas_foods", None) or []) + (getattr(a, "crossreact_confirmed", None) or [])))
+            risk = getattr(a, "crossreact_risk", None) or []
+            if confirmed or risk:
+                groups.append((a, confirmed, risk))
+        if not groups:
+            return []
+        md = ["\n---\n", "## 🍽️ 앞으로 주의해서 관찰할 음식 (교차반응)"]
+        md.append(
+            "아래는 **감작된 항원과 성분(단백질)을 공유해 교차반응이 나타날 수 있는 음식**을 "
+            "원인 항원별로 정리한 것입니다. 개별 음식을 하나씩 외우기보다 **‘어떤 항원과 엮여 있는지’**로 "
+            "기억하면 관리가 쉽습니다. (성분 공유는 *가능성*이며, 실제 반응은 증상으로 확인됩니다.)")
+        for a, confirmed, risk in groups:
+            nm = a.korean_name or a.allergen_name
+            md.append(f"**🔗 「{nm}」과(와) 교차반응 가능**")
+            if confirmed:
+                md.append(f"- ✅ **현재 반응 확인:** {', '.join(confirmed)} — 함께 주의하세요.")
+            if risk:
+                shown = ", ".join(risk[:8]) + (" 등" if len(risk) > 8 else "")
+                md.append(f"- 👀 **같은 계열(관찰 대상):** {shown} — 아직 증상은 없지만 같은 성분을 공유합니다.")
+            # R-2: 확대 가능성 경고(최우선 서술) — 지금 반응 음식은 일부일 뿐, 같은 계열로 확대될 수 있음
+            if confirmed:
+                if risk:
+                    md.append(
+                        f"  - ⏳ **확대 가능성(중요):** 지금은 {', '.join(confirmed[:3])} 등에 반응하지만, "
+                        f"같은 성분을 공유하는 **{', '.join(risk[:3])} 등 같은 계열 음식**에서도 시간이 지나며 "
+                        f"교차반응이 **새로 생길 수 있습니다.** 새 음식을 처음 먹을 때 입·목 증상을 관찰하세요.")
+                else:
+                    md.append(
+                        "  - ⏳ **확대 가능성(중요):** 같은 성분을 공유하는 다른 과일·채소·견과에서도 향후 "
+                        "교차반응이 새로 생길 수 있으니, 새 음식을 처음 먹을 때 입·목 증상을 관찰하세요.")
+        return md
 
     def _prevention_plan_md(
         self, relevant: List["AllergenAssessment"], screening: Optional["ScreeningProfile"]

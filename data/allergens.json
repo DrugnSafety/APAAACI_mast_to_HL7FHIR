@@ -2,7 +2,7 @@
  "version": "1.0",
  "generated_by": "scripts/build_allergen_registry.py (P0 read-only merge)",
  "note_ko": "4개 사일로 병합 단일 항원 레지스트리. 아직 앱에 연결되지 않음(P2+에서 위임). 성분 태깅은 data/component_membership.json 에서 관리.",
- "count": 147,
+ "count": 148,
  "antigens": [
   {
    "id": "2_spotted_spider_mite",
@@ -2156,6 +2156,31 @@
    "components": [
     "pr10"
    ]
+  },
+  {
+   "id": "mushroom",
+   "canonical_name": "Mushroom",
+   "korean_name": "버섯",
+   "aliases": [
+    "Mushroom",
+    "Edible mushroom",
+    "버섯",
+    "표고버섯",
+    "느타리버섯"
+   ],
+   "ocr_aliases": [],
+   "category": "food",
+   "subcategory": null,
+   "coding": {
+    "snomed_ct": null,
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": []
   },
   {
    "id": "mussel",

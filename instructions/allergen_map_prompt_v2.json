@@ -2119,6 +2119,21 @@
       "category": "Food",
       "subcategory": null,
       "snomed": null
+    },
+    {
+      "canonical_name": "Mushroom",
+      "korean_name": "버섯",
+      "aliases": [
+        "Mushroom",
+        "Edible mushroom",
+        "버섯",
+        "표고버섯",
+        "느타리버섯"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
     }
   ]
 }

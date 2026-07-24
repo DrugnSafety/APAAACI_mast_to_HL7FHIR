@@ -437,6 +437,56 @@ def test_component_crossreactivity_p2():
     print("✓ P2 성분기반 교차반응 문진(셀러리→당근·사과, 새우→게) + confirmed FHIR 교차반응 항원")
 
 
+def test_crossreact_gating_reactivation_and_other_fallthrough():
+    """고도화: 교차반응 증상 게이트(Q-3)+catch-all 재활성(Q-5), 동물 교차반응,
+    미분류(other) 양성 항원 질문 누락 차단(Q-1), 리포트 그룹화+확대경고(R-1/R-2)."""
+    from services.crossreactivity_service import get_crossreactivity_service
+    if not get_crossreactivity_service().has_data():
+        print("✓ (skip) 레지스트리 미생성 — 고도화 문진/리포트 스킵")
+        return
+    from services.questionnaire_service import (
+        get_questionnaire_engine, QP_CROSSREACT, Q_FOOD_GENERAL, QP_OTHER_SYMPTOM,
+        QP_ANIMAL_WORSE, _key)
+    from services.report_service import get_report_service
+    rs = get_relevance_service()
+    eng = get_questionnaire_engine()
+    ocr = OCRResult(test_type=TestType.MAST, patient=PatientInfo(name="복합"),
+                    results=[_mast("Cat dander", "고양이 비듬", 5, 3, AllergenCategory.ANIMAL, idx=1)])
+    res = rs.build_assessments(ocr, None)
+    q = eng.build(res, None)
+    allq = {qq["id"]: qq for s in q["sections"] for qq in s["questions"]}
+    # 동물도 교차반응 질문을 받고, 게이트(reveal_if_any)가 걸려 있음
+    cq = [qq for qid, qq in allq.items() if qid.startswith(QP_CROSSREACT)]
+    assert cq, "동물(고양이) 교차반응 질문 누락"
+    assert all(qq.get("reveal_if_any") for qq in cq), "교차반응 질문에 증상 게이트(reveal) 없음"
+    assert Q_FOOD_GENERAL in allq, "종합 음식반응 catch-all 누락"
+
+    # 재활성(Q-5): 무증상이라 숨겨졌어도 catch-all 에서 후보 음식 지목 → confirmed
+    from services.crossreactivity_service import get_crossreactivity_service as _svc
+    cat_cands = [c["name"] for c in _svc().candidate_foods("Cat dander", "고양이 비듬", limit=8)]
+    pick = cat_cands[0]
+    eng.classify(res, {Q_FOOD_GENERAL: [pick]}, None)
+    assert res.assessments[0].crossreact_confirmed, "catch-all 재활성 confirmed 실패"
+
+    # 리포트: 원인 항원별 그룹 + 확대 가능성 경고(R-1/R-2)
+    md = get_report_service().build_patient_report_markdown(res, {"name": "복합"}, None)
+    assert "앞으로 주의해서 관찰할 음식" in md, "교차반응 관찰 섹션 누락"
+    assert "「고양이 비듬」과" in md, "원인 항원별 그룹 헤더 누락"
+    assert "확대 가능성" in md, "OAS/교차반응 확대 경고(R-2) 누락"
+
+    # Q-1: 미분류(other) 양성 항원도 증상 질문을 받고 판정됨
+    ocr2 = OCRResult(test_type=TestType.MAST, patient=PatientInfo(name="신종"),
+                     results=[_mast("완전신종물질ZZZ", "완전신종물질ZZZ", 5, 3, AllergenCategory.OTHER, idx=1)])
+    res2 = rs.build_assessments(ocr2, None)
+    q2 = eng.build(res2, None)
+    oq = [qid for s in q2["sections"] for qq in s["questions"]
+          for qid in [qq["id"]] if qid.startswith(QP_OTHER_SYMPTOM)]
+    assert oq, "미분류 양성 항원 증상 질문 누락(fallthrough)"
+    eng.classify(res2, {QP_OTHER_SYMPTOM + _key(0): ["skin"]}, None)
+    assert res2.assessments[0].relevance == ClinicalRelevance.CLINICALLY_RELEVANT, "미분류 항원 증상 판정 실패"
+    print("✓ 교차반응 게이트/재활성 + 동물 교차반응 + other 누락차단 + 리포트 그룹화·확대경고")
+
+
 def test_crossreact_risk_vs_confirmed_item1():
     """item1: 교차반응을 confirmed(증상보고)/risk(가능성)로 분리 + 리포트/카드뉴스/FHIR 반영."""
     from services.crossreactivity_service import get_crossreactivity_service
