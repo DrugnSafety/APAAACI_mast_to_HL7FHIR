@@ -437,6 +437,76 @@ def test_component_crossreactivity_p2():
     print("✓ P2 성분기반 교차반응 문진(셀러리→당근·사과, 새우→게) + confirmed FHIR 교차반응 항원")
 
 
+def test_questionnaire_report_restructure():
+    """고도화 2차: 임상그룹(Df/Dp 통합, Q-0) · 항원별 구체 OAS 문항(A2) · 교차반응 중증도(A3)
+    · catch-all 재배치(A4) · severity 전파(B) · 실내/실외 + 음식 동급 경고(C) · 음식중심 카드(D)."""
+    from services.crossreactivity_service import get_crossreactivity_service
+    if not get_crossreactivity_service().has_data():
+        print("✓ (skip) 레지스트리 미생성 — 재구성 테스트 스킵")
+        return
+    from services.questionnaire_service import (
+        get_questionnaire_engine, Q_OAS, QP_POLLEN, QP_ANIMAL_WORSE, QP_CROSSREACT,
+        QP_CROSSREACT_SEV, Q_FOOD_GENERAL, Q_FOOD_SYSTEMIC, QP_SEVERITY, Q_MITE_DUST, _key)
+    from services.report_service import get_report_service
+    from services.cardnews_service import get_cardnews_service
+    rs = get_relevance_service()
+    eng = get_questionnaire_engine()
+    ocr = OCRResult(test_type=TestType.MAST, patient=PatientInfo(name="홍길동"), results=[
+        _mast("Dermatophagoides farinae", "집먼지진드기(D.farinae)", 20, 4, AllergenCategory.MITE, idx=1),
+        _mast("Dermatophagoides pteronyssinus", "집먼지진드기(D.pteronyssinus)", 18, 4, AllergenCategory.MITE, idx=2),
+        _mast("Cat dander", "고양이 비듬", 5, 3, AllergenCategory.ANIMAL, idx=3),
+        _mast("Birch pollen", "자작나무 꽃가루", 8, 3, AllergenCategory.POLLEN, idx=4),
+    ])
+    res = rs.build_assessments(ocr, None)
+    q = eng.build(res, None)
+    food = [s for s in q["sections"] if s["id"] == "food"][0]["questions"]
+    ids = [x["id"] for x in food]
+
+    # Q-0: Df/Dp 는 교차반응 문항 1개로 통합(agn0만, agn1 없음)
+    cr_ids = [x for x in ids if x.startswith(QP_CROSSREACT)]
+    assert QP_CROSSREACT + _key(0) in cr_ids and QP_CROSSREACT + _key(1) not in cr_ids, \
+        f"Df/Dp 교차반응 문항이 통합되지 않음: {cr_ids}"
+    mite_q = next(x for x in food if x["id"] == QP_CROSSREACT + _key(0))
+    assert "집먼지진드기" in mite_q["title"] and _key(1) in mite_q["applies_to"], "그룹 라벨/적용대상 오류"
+
+    # A2: 꽃가루 문항이 그 꽃가루의 '구체적인' PFAS 음식을 나열
+    birch_q = next(x for x in food if x["id"] == QP_CROSSREACT + _key(3))
+    labels = [o["label"] for o in birch_q["options"]]
+    assert "자작나무" in birch_q["title"] and {"사과", "체리"} <= set(labels), f"자작 OAS 구체 목록 누락: {labels}"
+
+    # A3: 교차반응 증상 범위 문항 존재
+    assert QP_CROSSREACT_SEV + _key(3) in ids, "교차반응 중증도 문항 누락"
+    # A4: catch-all 이 전신 문항 바로 앞(마무리)에 위치
+    assert ids.index(Q_FOOD_GENERAL) < ids.index(Q_FOOD_SYSTEMIC), "catch-all 이 마무리 위치가 아님"
+    assert ids.index(Q_FOOD_GENERAL) > ids.index(QP_CROSSREACT + _key(0)), "catch-all 이 교차반응보다 앞"
+
+    # 답변: 진드기→새우(전신), 자작→체리(국소), 고양이 접촉 증상 중증
+    ans = {Q_MITE_DUST: "yes", QP_SEVERITY + "indoor": "moderate",
+           QP_ANIMAL_WORSE + _key(2): "yes", QP_SEVERITY + _key(2): "severe",
+           QP_POLLEN + "spring_tree": "yes", Q_OAS: "yes",
+           QP_CROSSREACT + _key(3): ["cherry"], QP_CROSSREACT_SEV + _key(3): "oral",
+           QP_CROSSREACT + _key(0): ["Shrimp"], QP_CROSSREACT_SEV + _key(0): "systemic"}
+    eng.classify(res, ans, None)
+    assert res.assessments[0].crossreact_severity == "systemic", "교차반응 중증도 전파 실패"
+
+    md = get_report_service().build_patient_report_markdown(res, {"name": "홍길동"}, None)
+    # A1/C: Df/Dp 통합 서술 + 실내/실외 구분
+    assert "집먼지진드기(유럽·미국 두 종)" in md, "Df/Dp 통합 서술 누락"
+    assert md.count("### 집먼지진드기(유럽·미국 두 종)") == 1, "집먼지진드기가 중복 서술됨"
+    assert "🏠 실내 항원" in md and "🌳 실외(계절성) 항원" in md, "실내/실외 구분 누락"
+    # B: 중증도 배지 + 중증 경고
+    assert "🔴 **중증**" in md and "중증 반응 병력" in md, "severity 리포트 반영 누락"
+    # C/R-4: 음식 동급 경고 + 교차반응 범위 배지
+    assert "반드시 함께 주의할 음식" in md and "**새우**" in md, "음식 동급 경고 누락"
+    assert "🔴 **전신 반응**" in md, "교차반응 전신 배지 누락"
+
+    # D: 카드뉴스는 음식 중심 + Df/Dp 통합
+    html = get_cardnews_service().generate_html(res, {"name": "홍길동"}, None)
+    assert "이 음식들을" in html and "새우" in html, "카드뉴스 음식중심 카드 누락"
+    assert html.count("집먼지진드기(유럽·미국 두 종)") <= 1, "카드뉴스 Df/Dp 중복"
+    print("✓ 임상그룹 통합 + 항원별 구체 OAS + 교차반응 중증도 + 재배치 + 실내외/음식 동급 경고")
+
+
 def test_crossreact_gating_reactivation_and_other_fallthrough():
     """고도화: 교차반응 증상 게이트(Q-3)+catch-all 재활성(Q-5), 동물 교차반응,
     미분류(other) 양성 항원 질문 누락 차단(Q-1), 리포트 그룹화+확대경고(R-1/R-2)."""
@@ -527,10 +597,10 @@ def test_crossreact_risk_vs_confirmed_item1():
 
     # 리포트: confirmed 요약(item1.2 — 확인된 성분 교차반응을 리포트에 반영)
     md = get_report_service().build_patient_report_markdown(res, {}, None)
-    assert "교차반응 확인" in md and "당근" in md, "리포트 confirmed 교차반응 문구 누락"
+    assert "반드시 함께 주의할 음식" in md and "당근" in md, "리포트 confirmed 교차반응(음식 동급 경고) 누락"
     # 카드뉴스: confirmed 카드 생성
     html = get_cardnews_service().generate_html(res, {}, None)
-    assert "교차반응 확인" in html and "당근" in html, "카드뉴스 confirmed 교차반응 카드 누락"
+    assert "반드시 주의할 음식" in html and "당근" in html, "카드뉴스 음식 중심 경고 카드 누락"
     print("✓ item1 교차반응 risk/confirmed 분리 + FHIR·리포트·카드뉴스 반영")
 
 
@@ -573,7 +643,8 @@ def test_fhir_v2_bundles():
     """FHIR v2: 전체 Observation(음성 포함) + AllergyIntolerance(confirmed/unconfirmed/criticality) + OAS 음식"""
     from services.fhir_service import FHIRService
     from services.questionnaire_service import (
-        get_questionnaire_engine, Q_PATTERN, QP_POLLEN, Q_INDOOR_TIMING, Q_MITE_DUST, Q_OAS, Q_OAS_FOODS,
+        get_questionnaire_engine, Q_PATTERN, QP_POLLEN, Q_INDOOR_TIMING, Q_MITE_DUST, Q_OAS,
+        QP_CROSSREACT, _key,
     )
     rs = get_relevance_service()
     ocr = OCRResult(
@@ -588,8 +659,11 @@ def test_fhir_v2_bundles():
     )
     res = rs.build_assessments(ocr, None)
     eng = get_questionnaire_engine()
+    eng.build(res, None)
+    # A2 이후 OAS 음식은 꽃가루(자작, idx1) 항원별 교차반응 문항에서 구체적으로 받는다
     answers = {Q_PATTERN: "both", QP_POLLEN + "spring_tree": "yes",
-               Q_INDOOR_TIMING: "yes", Q_MITE_DUST: "yes", Q_OAS: "yes", Q_OAS_FOODS: ["apple"]}
+               Q_INDOOR_TIMING: "yes", Q_MITE_DUST: "yes", Q_OAS: "yes",
+               QP_CROSSREACT + _key(1): ["apple"]}
     eng.classify(res, answers, None)
     oas_foods = eng.oas_selected_foods(res.assessments, answers)
     bundles = FHIRService().build_bundles_from_relevance(ocr, res, None, oas_foods)

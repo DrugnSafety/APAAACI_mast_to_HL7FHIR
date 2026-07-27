@@ -383,6 +383,8 @@ class AllergenAssessment(BaseModel):
     crossreact_confirmed: List[str] = Field(default_factory=list)
     # 성분(component) 교차반응 — 가능성(risk-only): 공유 성분 후보이나 증상 미확인(한글명)
     crossreact_risk: List[str] = Field(default_factory=list)
+    # 교차반응 증상 범위: oral(입·목 국소)/systemic(전신)/anaphylaxis — 문진에서 직접 확인
+    crossreact_severity: Optional[str] = None
     # 문진에서 보고된 실제 증상(노출 시 발현) — FHIR reaction.manifestation.text 로 사용
     reported_symptoms: List[str] = Field(default_factory=list)
     # 증상 중증도: none/mild/moderate/severe/anaphylaxis — FHIR reaction.severity·criticality 로 사용

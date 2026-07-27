@@ -62,17 +62,13 @@ class CardNewsService:
         cards: List[str] = []
         cards.append(self._cover_card(name, test_date, relevant, sensitized, indeterminate))
         cards.append(self._relevant_card(relevant))
-        # 실제 주의 알러젠별 상세 카드 (생활사·노출·환경관리·면역치료)
-        for a in relevant[:4]:
+        # 실제 주의 알러젠별 상세 카드 (Df/Dp 등은 그룹으로 1회만 — A1)
+        for a in self._collapse(relevant)[:4]:
             cards.append(self._allergen_detail_card(a))
-        # 구강알레르기증후군(OAS) 카드 (환자가 보고한 교차반응 음식이 있을 때)
-        oas_items = [a for a in result.assessments if getattr(a, "oas_foods", None)]
-        if oas_items:
-            cards.append(self._oas_card(oas_items))
-        # 성분(component) 교차반응 확인 카드 — 증상이 보고된 항목만
-        cr_items = [a for a in result.assessments if getattr(a, "crossreact_confirmed", None)]
-        if cr_items:
-            cards.append(self._crossreact_card(cr_items))
+        # 🍽️ 주의할 음식 카드 — OAS·교차반응을 '음식 중심'으로 통합(D, 주객전도 수정)
+        food_card = self._food_alert_card(result.assessments)
+        if food_card:
+            cards.append(food_card)
         cards.append(self._sensitized_card(sensitized, indeterminate))
         cards.append(self._prevention_card(relevant))
         cards.append(self._treatment_card(relevant, screening))
@@ -102,12 +98,34 @@ class CardNewsService:
         </div>
         """
 
+    # 중증도 배지(B) — 중증 이상은 카드에서 강조
+    _SEV_BADGE = {"mild": "", "moderate": "",
+                  "severe": "🔴 중증", "anaphylaxis": "🚨 아나필락시스"}
+
+    def _label(self, a: AllergenAssessment, detail: bool = False) -> str:
+        """임상 그룹(Df/Dp 등)은 통합 라벨(A1)."""
+        try:
+            from services.clinical_group_service import get_clinical_group_service
+            return get_clinical_group_service().label_of(a, detail=detail)
+        except Exception:
+            return a.korean_name or a.allergen_name
+
+    def _collapse(self, items):
+        """임상 그룹 단위로 접어 중복 표기 제거(A1)."""
+        try:
+            from services.clinical_group_service import get_clinical_group_service
+            return [g["members"][0][1] for g in get_clinical_group_service().collapse(items)]
+        except Exception:
+            return list(items)
+
     def _chip(self, a: AllergenAssessment) -> str:
         emoji = _CATEGORY_EMOJI.get(a.category, "•")
-        nm = _esc(a.korean_name or a.allergen_name)
+        nm = _esc(self._label(a))
         season = _esc((a.kb or {}).get("season_label_ko", ""))
         season_html = f'<span class="chip-season">{season}</span>' if season else ""
-        return f'<div class="chip">{emoji} <b>{nm}</b>{season_html}</div>'
+        sev = self._SEV_BADGE.get(getattr(a, "severity", None) or "", "")
+        sev_html = f'<span class="chip-season"><b>{_esc(sev)}</b></span>' if sev else ""
+        return f'<div class="chip">{emoji} <b>{nm}</b>{season_html}{sev_html}</div>'
 
     def _relevant_card(self, relevant: List[AllergenAssessment]) -> str:
         if not relevant:
@@ -175,7 +193,7 @@ class CardNewsService:
     def _allergen_detail_card(self, a: AllergenAssessment) -> str:
         kb = a.kb or {}
         emoji = _CATEGORY_EMOJI.get(a.category, "•")
-        nm = _esc(a.korean_name or a.allergen_name)
+        nm = _esc(self._label(a, detail=True))
         bio = _esc(self._short(kb.get("biology_ko", ""), 90))
         expo = _esc(self._short(kb.get("exposure_environment_ko", ""), 80))
         tips = [t for t in (kb.get("avoidance_control_ko") or [])[:3]]
@@ -197,37 +215,45 @@ class CardNewsService:
         </div>
         """
 
-    def _oas_card(self, oas_items: List[AllergenAssessment]) -> str:
+    def _food_alert_card(self, assessments: List[AllergenAssessment]) -> str:
+        """🍽️ 주의할 음식 카드(D) — 주인공은 '음식'. 원인 항원은 괄호로 부연.
+        OAS·성분 교차반응을 하나로 통합하고, 검사 양성 알러젠과 동급으로 경고한다."""
+        by_food = {}
+        worst = None
+        rank = {"oral": 1, "systemic": 2, "anaphylaxis": 3}
+        for a in assessments:
+            src = self._label(a)
+            # 음식 경고는 교차반응 자체의 증상 범위를 사용
+            sev = getattr(a, "crossreact_severity", None)
+            if sev and rank.get(sev, 0) > rank.get(worst or "", 0):
+                worst = sev
+            for f in (getattr(a, "oas_foods", None) or []) + (getattr(a, "crossreact_confirmed", None) or []):
+                e = by_food.setdefault(f, [])
+                if src not in e:
+                    e.append(src)
+        if not by_food:
+            return ""
         rows = "".join(
-            f'<div class="chip">🌳 <b>{_esc(a.korean_name or a.allergen_name)}</b> '
-            f'<span class="chip-season">↔ {_esc(", ".join(a.oas_foods))}</span></div>'
-            for a in oas_items)
+            f'<div class="chip">🚫 <b>{_esc(food)}</b>'
+            f'<span class="chip-season">{_esc(" · ".join(trigs))} 교차반응</span></div>'
+            for food, trigs in by_food.items())
+        sev_html = ""
+        if worst in ("systemic", "anaphylaxis"):
+            sev_html = ('<p class="desc" style="margin-top:12px">🚨 <b>전신 반응 병력이 있습니다.</b> '
+                        '반드시 피하시고, 응급약·응급 대처 계획을 담당 의료진과 상의하세요.</p>')
         return f"""
         <div class="section oas">
-          <div class="tag">🍎 구강알레르기증후군</div>
-          <h2>꽃가루와 엮인<br/>음식 주의</h2>
-          <p class="desc">아래 꽃가루에 감작되어 있어, <b>교차반응</b>으로 특정 생과일·채소를 먹으면
-          <b>입·입술·목이 가렵거나 붓는</b> 구강알레르기증후군(OAS)이 생길 수 있습니다.</p>
+          <div class="tag">🍽️ 반드시 주의할 음식</div>
+          <h2>이 음식들을<br/>조심하세요</h2>
+          <p class="desc">아래 음식은 드셨을 때 <b>실제로 증상이 확인된</b> 음식입니다.
+          검사에서 직접 양성으로 나온 알러젠과 <b>똑같은 수준으로 주의</b>해야 합니다.</p>
           <div class="chips">{rows}</div>
-          <p class="desc" style="margin-top:12px">💡 대부분 <b>익히면 증상이 줄어듭니다.</b> 목·호흡기까지
-          번지거나 심하면 즉시 진료를 받으세요.</p>
-        </div>
-        """
-
-    def _crossreact_card(self, cr_items: List[AllergenAssessment]) -> str:
-        rows = "".join(
-            f'<div class="chip">🔗 <b>{_esc(a.korean_name or a.allergen_name)}</b> '
-            f'<span class="chip-season">↔ {_esc(", ".join(a.crossreact_confirmed))}</span></div>'
-            for a in cr_items)
-        return f"""
-        <div class="section oas">
-          <div class="tag">⚠️ 교차반응 확인</div>
-          <h2>성분을 공유하는<br/>음식 주의</h2>
-          <p class="desc">아래 알러젠과 <b>같은 성분(component)</b>을 공유하는 음식에서
-          <b>실제 증상</b>이 있다고 하셨습니다. 이 음식들도 함께 주의하세요.</p>
-          <div class="chips">{rows}</div>
-          <p class="desc" style="margin-top:12px">💡 증상이 심하거나 목·호흡기까지 번지면
-          즉시 진료를 받으세요.</p>
+          <p class="desc" style="margin-top:12px">⚠️ 음식은 꽃가루·진드기와 달리 <b>한 번에 많은 양</b>이
+          몸에 들어가고, <b>외식·가공식품에서 모르는 사이에</b> 먹게 되기 쉽습니다.
+          <b>원재료 표시를 꼭 확인</b>하세요.</p>
+          <p class="desc" style="margin-top:8px">💡 생과일·생채소는 <b>익히면 증상이 줄어드는</b> 경우가 많지만,
+          견과·콩류는 익혀도 남을 수 있습니다.</p>
+          {sev_html}
         </div>
         """
 
@@ -237,7 +263,7 @@ class CardNewsService:
         for a in relevant:
             try:
                 if ks.immunotherapy_info(a.category, a.allergen_name).get("eligible"):
-                    eligible.append(a.korean_name or a.allergen_name)
+                    eligible.append(self._label(a))
             except Exception:
                 pass
         imt_line = (

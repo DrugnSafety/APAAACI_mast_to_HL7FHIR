@@ -23,6 +23,9 @@ from services.knowledge_service import normalize_category, get_knowledge_service
 # 로거 설정
 logger = logging.getLogger(__name__)
 
+# 교차반응 증상 범위 순위(강한 것 우선 표기)
+_CR_SEV_RANK = {"oral": 1, "systemic": 2, "anaphylaxis": 3}
+
 
 class ReportService:
     """맞춤형 알레르기 관리 리포트 생성 서비스"""
@@ -524,14 +527,77 @@ class ReportService:
         "food": "해당 음식 섭취 주의(전신 반응 시 응급)",
     }
 
+    # 교차반응 증상 범위 배지 — 항원 노출 중증도와 구분해서 표기
+    _CR_SEVERITY_BADGE = {
+        "oral": "🟢 입·목 국소", "systemic": "🔴 **전신 반응**",
+        "anaphylaxis": "🚨 **아나필락시스(응급)**",
+    }
+
+    # 증상 중증도 배지(B) — 중증 이상은 눈에 띄게
+    _SEVERITY_BADGE = {
+        "mild": "🟢 경증", "moderate": "🟠 중등증",
+        "severe": "🔴 **중증**", "anaphylaxis": "🚨 **아나필락시스(응급)**",
+    }
+    # 실내/실외 구분(C) — 노출 관리 방식이 근본적으로 다르다
+    _ENV_GROUP = {
+        "mite": "indoor", "insect": "indoor", "mold": "indoor", "animal": "indoor",
+        "pollen_tree": "outdoor", "pollen_grass": "outdoor", "pollen_weed": "outdoor",
+    }
+    _ENV_LABEL = {"indoor": "🏠 실내 항원", "outdoor": "🌳 실외(계절성) 항원",
+                  "food": "🍽️ 음식 항원", "other": "기타 항원"}
+
+    def _severity_badge(self, a) -> str:
+        return self._SEVERITY_BADGE.get(getattr(a, "severity", None) or "", "")
+
+    def _env_group_of(self, a) -> str:
+        cat = normalize_category(a.category)
+        if cat == "food":
+            return "food"
+        return self._ENV_GROUP.get(cat, "other")
+
+    def _display_name(self, a, detail: bool = False) -> str:
+        """임상 그룹(Df/Dp 등)은 통합 라벨로 표시(A1)."""
+        try:
+            from services.clinical_group_service import get_clinical_group_service
+            return get_clinical_group_service().label_of(a, detail=detail)
+        except Exception:
+            return a.korean_name or a.allergen_name
+
+    def _collapse(self, items):
+        """임상 그룹 단위로 접어 중복 서술 제거(A1). 반환: [(대표 assessment, 그룹정보)]"""
+        try:
+            from services.clinical_group_service import get_clinical_group_service
+            cg = get_clinical_group_service()
+            return [(g["members"][0][1], g) for g in cg.collapse(items)]
+        except Exception:
+            return [(a, None) for a in items]
+
     def _one_line_relevant(self, a) -> str:
         """실제 주의 알러젠 한 줄 요약 (한눈에 보기용)."""
-        nm = a.korean_name or a.allergen_name
+        nm = self._display_name(a)
         cat = normalize_category(a.category)
         action = self._ONE_LINE_ACTION.get(cat, "노출 상황 관리 필요")
         season = (a.kb or {}).get("season_label_ko", "")
         seg = f" · {season}" if season and cat.startswith("pollen") else ""
-        return f"**{nm}**{seg} — {action}"
+        sev = self._severity_badge(a)
+        sev_seg = f" · {sev}" if sev else ""
+        return f"**{nm}**{seg}{sev_seg} — {action}"
+
+    def _confirmed_food_alerts(self, relevance_result):
+        """확인된 OAS·교차반응 음식을 '검사 양성 알러젠과 동급'으로 경고(C).
+        음식은 우발적으로 다량 노출되기 쉬워 별도 강조가 필요하다."""
+        by_food: Dict[str, Dict[str, Any]] = {}
+        for a in relevance_result.assessments:
+            src = self._display_name(a)
+            # 음식 경고는 '교차반응 자체의 증상 범위'를 쓴다(항원 노출 증상과 별개)
+            sev = getattr(a, "crossreact_severity", None)
+            for f in (getattr(a, "oas_foods", None) or []) + (getattr(a, "crossreact_confirmed", None) or []):
+                e = by_food.setdefault(f, {"triggers": [], "severity": sev})
+                if src not in e["triggers"]:
+                    e["triggers"].append(src)
+                if _CR_SEV_RANK.get(sev, 0) > _CR_SEV_RANK.get(e.get("severity"), 0):
+                    e["severity"] = sev
+        return by_food
 
     def build_patient_report_markdown(
         self,
@@ -581,20 +647,20 @@ class ReportService:
             md.append("**🔴 지금 우선 관리할 알러젠 요약**")
             for a in relevant:
                 md.append(f"- {self._one_line_relevant(a)}")
-        # 구강알레르기증후군(OAS) 요약
-        oas_items = [a for a in relevance_result.assessments if getattr(a, "oas_foods", None)]
-        if oas_items:
-            parts = [f"{(a.korean_name or a.allergen_name)} ↔ {', '.join(a.oas_foods)}" for a in oas_items]
+        # 🍽️ 확인된 교차반응·OAS 음식 — 검사 양성 알러젠과 '동급'으로 경고(C)
+        alerts = self._confirmed_food_alerts(relevance_result)
+        if alerts:
             md.append(
-                "**🍎 구강알레르기증후군(OAS) 주의** — 아래 꽃가루 감작과 교차반응으로 특정 음식 섭취 시 "
-                "입·목 증상이 나타납니다(생것 주의, 익히면 대개 완화): " + " · ".join(parts))
-        # 성분(component) 교차반응 확인 요약 — 증상이 보고된 항목만
-        cr_items = [a for a in relevance_result.assessments if getattr(a, "crossreact_confirmed", None)]
-        if cr_items:
-            parts = [f"{(a.korean_name or a.allergen_name)} ↔ {', '.join(a.crossreact_confirmed)}" for a in cr_items]
+                "**🍽️ 반드시 함께 주의할 음식 (교차반응·OAS로 증상이 확인됨)** — 아래 음식은 검사에서 "
+                "직접 양성으로 나온 알러젠과 **똑같은 수준으로 주의**해야 합니다. 음식은 꽃가루·진드기와 달리 "
+                "**한 번에 많은 양이 몸에 들어가고, 외식·가공식품에서 모르는 사이 섭취되기 쉬워** 위험이 큽니다.")
+            for food, info in alerts.items():
+                sev = self._CR_SEVERITY_BADGE.get(info.get("severity") or "", "")
+                sev_seg = f" · {sev}" if sev else ""
+                md.append(f"- 🚫 **{food}** — {', '.join(info['triggers'])} 교차반응{sev_seg}")
             md.append(
-                "**⚠️ 교차반응 확인** — 아래 감작과 성분을 공유하는 음식에서 실제 증상이 보고되었습니다"
-                "(함께 주의): " + " · ".join(parts))
+                "  - 외식·가공식품에서는 **원재료 표시를 반드시 확인**하고, 조리 과정에서 섞여 들어갈 수 있음을 "
+                "알려주세요. 전신 증상(호흡곤란·어지럼) 병력이 있으면 응급약 처방을 상의하세요.")
 
         # 스크리닝 요약
         if screening is not None:
@@ -627,8 +693,14 @@ class ReportService:
             md.append("이번 문진에서는 노출 시 실제 증상과 뚜렷이 연관된 알러젠이 확인되지 않았습니다. "
                       "증상이 있을 때 어떤 상황이었는지 기록해 두면 다음 평가에 도움이 됩니다.")
         else:
-            for a in relevant:
-                md.append(self._allergen_detail_md(a, detailed=True))
+            # 실내/실외/음식으로 묶어 노출 관리 방식이 같은 것끼리 설명(C)
+            for env in ("indoor", "outdoor", "food", "other"):
+                bucket = [a for a in relevant if self._env_group_of(a) == env]
+                if not bucket:
+                    continue
+                md.append(f"### {self._ENV_LABEL[env]}")
+                for a, _g in self._collapse(bucket):   # Df/Dp 등은 한 번만 설명(A1)
+                    md.append(self._allergen_detail_md(a, detailed=True))
 
         md.append("\n---\n")
 
@@ -639,8 +711,8 @@ class ReportService:
         else:
             md.append("아래 항목은 검사에서 양성이지만 **노출에도 증상이 없어** 현재는 임상적 의미가 낮습니다. "
                       "지나친 회피나 식이 제한은 필요하지 않으며, 새로운 증상이 생기면 재평가하세요.")
-            for a in sensitized:
-                nm = a.korean_name or a.allergen_name
+            for a, _g in self._collapse(sensitized):
+                nm = self._display_name(a, detail=True)
                 md.append(f"- **{nm}** — {a.rationale_ko or '노출에도 증상이 없어 감작만 된 상태로 판단됩니다.'}")
 
         # 3. 관찰 필요
@@ -648,8 +720,8 @@ class ReportService:
             md.append("\n---\n")
             md.append("## 🟡 관찰이 필요한 알러젠")
             md.append("노출 경험이 없거나 정보가 부족해 판정을 보류한 항목입니다. 노출 시 증상 발생 여부를 관찰하세요.")
-            for a in indeterminate:
-                nm = a.korean_name or a.allergen_name
+            for a, _g in self._collapse(indeterminate):
+                nm = self._display_name(a, detail=True)
                 probes = (a.kb or {}).get("relevance_probes_ko", [])
                 probe = f" (확인 포인트: {probes[0]})" if probes else ""
                 md.append(f"- **{nm}** — {a.rationale_ko or '노출-증상 관계 관찰이 필요합니다.'}{probe}")
@@ -718,13 +790,19 @@ class ReportService:
 
     def _allergen_detail_md(self, a: "AllergenAssessment", detailed: bool = True) -> str:
         kb = a.kb or {}
+        # 임상 그룹(Df/Dp 등)은 통합 라벨로 한 번만 설명(A1)
+        grp_label = self._display_name(a, detail=True)
         nm = a.korean_name or a.allergen_name
-        en = a.allergen_name if a.allergen_name != nm else ""
-        head = f"### {nm}" + (f" ({en})" if en else "")
+        grouped = grp_label != nm
+        en = "" if grouped else (a.allergen_name if a.allergen_name != nm else "")
+        head = f"### {grp_label}" + (f" ({en})" if en else "")
         strength = self._STRENGTH_KO.get(a.strength or "", "")
         meta = []
         if strength:
             meta.append(f"감작 강도: **{strength}**")
+        sev = self._severity_badge(a)
+        if sev:
+            meta.append(f"증상 정도: {sev}")
         if kb.get("season_label_ko"):
             meta.append(f"주요 시기: {kb['season_label_ko']}")
         if kb.get("indoor_outdoor"):
@@ -734,6 +812,17 @@ class ReportService:
         lines = [head]
         if meta:
             lines.append(" · ".join(meta))
+        if grouped:
+            try:
+                from services.clinical_group_service import get_clinical_group_service
+                note = get_clinical_group_service().note_of(a)
+                if note:
+                    lines.append(f"*{note}*")
+            except Exception:
+                pass
+        if getattr(a, "severity", None) in ("severe", "anaphylaxis"):
+            lines.append("- 🚨 **중증 반응 병력:** 노출을 적극적으로 피하고, 응급 상황 대비 계획(응급약·병원 동선)을 "
+                         "담당 의료진과 반드시 상의하세요.")
         if kb.get("biology_ko"):
             lines.append(f"- **특성·생활사:** {kb['biology_ko']}")
         if kb.get("exposure_environment_ko"):

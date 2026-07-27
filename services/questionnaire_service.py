@@ -88,6 +88,14 @@ QP_FOOD_SYSTEMIC_SEV = "food_systemic_sev__"   # + key : 전신반응 음식별 
 QP_CROSSREACT = "crossreact__"          # + key : 성분기반 교차반응 음식(다중) — 데이터 파생
 QP_OTHER_SYMPTOM = "other_symptom__"    # + key : 미분류(other) 양성 항원 노출·섭취 시 증상(다중)
 Q_FOOD_GENERAL = "food_general_react"   # 종합 음식반응 catch-all(다중) — 교차반응 재활성 트리거
+QP_CROSSREACT_SEV = "crossreact_sev__"  # + key : 교차반응 증상 범위(구강만/전신/아나필락시스)
+
+# 교차반응(OAS 포함) 증상 범위 — 같은 교차반응도 목 가려움만 vs 전신으로 갈린다
+CROSSREACT_SEVERITY_OPTIONS = [
+    {"value": "oral", "label": "입·입술·목만 가렵거나 부었어요 (국소)"},
+    {"value": "systemic", "label": "전신 두드러기·복통 등 전신 증상이 있었어요"},
+    {"value": "anaphylaxis", "label": "호흡곤란·어지럼 등 아나필락시스가 있었어요"},
+]
 
 # 증상 중증도 (단일)
 SEVERITY_OPTIONS = [
@@ -369,36 +377,15 @@ class QuestionnaireEngine:
         # (예: 고양이만 양성이어도 소고기·돼지고기 교차반응 문진이 필요)
         if foods or pollen_oas or has_mite or has_insect or has_mold or animals:
             food_qs = []
-            # (1) 꽃가루 OAS 게이트
+            # (1) OAS 스크리닝 게이트 — 구체적인 음식은 아래 항원별 문항에서 직접 확인
             if pollen_oas or foods:
                 food_qs.append({
                     "id": Q_OAS, "type": "single",
                     "title": "생과일·생채소·견과를 먹으면 입·입술·혀·목이 가렵거나 붓나요?",
-                    "help": "구강알레르기증후군(OAS)일 수 있습니다. 꽃가루 알레르기와 관련이 깊습니다.",
+                    "help": "구강알레르기증후군(OAS)일 수 있습니다. ‘예/잘 모르겠어요’면 아래에서 "
+                            "어떤 음식인지 항원별로 구체적으로 여쭤봅니다.",
                     "options": YNU, "applies_to": [],
                 })
-                pfas_opts, _ = self._pfas_options(assessments)
-                if pfas_opts:
-                    food_qs.append({
-                        "id": Q_OAS_FOODS, "type": "multi",
-                        "title": "그렇다면, 아래 음식 중 먹었을 때 입·목 증상이 생기는 것을 모두 선택하세요.",
-                        "help": "양성으로 나온 꽃가루와 교차반응이 알려진 음식들입니다. 실제로 증상이 있었던 것만 고르세요. "
-                                "(대부분 익히면 괜찮아지지만, 견과·콩·셀러리 등은 전신 반응 가능성도 있어 주의)",
-                        "options": pfas_opts + [{"value": "none", "label": "해당 없음 / 문제된 음식 없음"}],
-                        "applies_to": [], "reveal_if": {"question": Q_OAS, "equals": YES},
-                    })
-                    # OAS 에서 아나필락시스/전신 두드러기 발생 여부 — 대개 국소지만 견과·콩·셀러리 등은 전신 가능
-                    food_qs.append({
-                        "id": Q_OAS_SYSTEMIC, "type": "single",
-                        "title": "위 음식으로 입·목을 넘어 전신 두드러기·호흡곤란·어지럼(아나필락시스)이 있었던 적이 있나요?",
-                        "help": "대부분의 구강알레르기증후군은 입·목에 국한되지만, 일부(견과·콩·셀러리 등)는 전신 반응이 올 수 있어 확인합니다.",
-                        "options": [
-                            {"value": "no", "label": "아니오 — 입·입술·목 증상만 있었어요"},
-                            {"value": "systemic", "label": "예 — 전신 두드러기가 있었어요"},
-                            {"value": "anaphylaxis", "label": "예 — 호흡곤란·어지럼 등 아나필락시스가 있었어요"},
-                        ],
-                        "applies_to": [], "reveal_if": {"question": Q_OAS, "equals": YES},
-                    })
             # (3) 갑각류 양성 → 실제 섭취 반응(양방향 감별) + 증상 있으면 중증도
             for i, a in shellfish_foods:
                 nm = _name(a)
@@ -427,13 +414,15 @@ class QuestionnaireEngine:
                     {"reveal_if": {"question": QP_FOOD_SYMPTOMS + _key(i),
                                    "includes_any": ["oral", "skin", "gi", "breathing", "anaphylaxis"]}},
                     title=f"{nm} 섭취 시 증상이 있을 때, 가장 심했던 정도는?"))
-            # (4.5) 통합 교차반응 블록 — 종합 catch-all + 항원별(증상 게이트 Q-3, 재활성 Q-5)
-            self._append_crossreact_block(food_qs, assessments)
-            # (5) 전신 반응 게이트 → 유발 음식(다중) + 음식별 중증도
+            # (4.5) 항원(임상그룹)별 교차반응·OAS 문항 — 증상 게이트(Q-3) + 구체 음식 목록(A2)
+            self._append_crossreact_questions(food_qs, assessments)
+            # (5) 마무리 확인 — 그 밖의 음식 catch-all(재활성 트리거) → 전신 반응(A4)
+            self._append_food_wrapup_catchall(food_qs, assessments)
             food_qs.append({
                 "id": Q_FOOD_SYSTEMIC, "type": "single",
-                "title": "특정 음식을 먹은 뒤 두드러기·호흡곤란·복통 등 전신 증상이 있었나요?",
-                "help": "전신 반응(아나필락시스 포함)은 응급 상황일 수 있어 반드시 확인합니다.",
+                "title": "마지막으로, 특정 음식을 먹은 뒤 두드러기·호흡곤란·복통 등 **전신** 증상이 있었나요?",
+                "help": "위에서 고른 교차반응 음식이든 그 밖의 음식이든, 입·목을 넘어선 전신 반응은 "
+                        "응급 상황일 수 있어 반드시 확인합니다.",
                 "options": YNU, "applies_to": [],
             })
             sys_food_opts = [{"value": _key(i), "label": _name(a)} for i, a in foods]
@@ -559,16 +548,19 @@ class QuestionnaireEngine:
         return options, link
 
     def oas_selected_foods(self, assessments, answers):
-        """OAS='예'이고 사용자가 고른 교차반응 음식 목록을 반환.
-        반환: [{"en","ko","pollens":[...]}]"""
-        if (answers or {}).get(Q_OAS) != YES:
-            return []
-        selected = [v for v in (answers.get(Q_OAS_FOODS, []) or []) if v and v != "none"]
-        if not selected:
-            return []
-        opts, link = self._pfas_options(assessments)
-        label = {o["value"]: o["label"] for o in opts}
-        return [{"en": v, "ko": label.get(v, v), "pollens": link.get(v, [])} for v in selected]
+        """꽃가루(OAS) 교차반응으로 '증상 있음' 선택된 음식 목록.
+        A2 이후 꽃가루도 항원별 교차반응 문항(QP_CROSSREACT)에서 구체적으로 받는다.
+        반환: [{"en","ko","pollens":[...],"severity":...}]"""
+        out = []
+        for g in self._group_selected(assessments, answers):
+            sp = g["spec"]
+            if not sp["is_pollen"]:
+                continue
+            label = {c["name"]: (c["korean"] or c["name"]) for c in sp["cands"]}
+            for en in g["selected"]:
+                out.append({"en": en, "ko": label.get(en, en),
+                            "pollens": [sp["label"]], "severity": g["severity"]})
+        return out
 
     def _symptom_reveal_conds(self, a, key, assessments):
         """항원 X 가 '증상 있음/불명'일 때의 reveal 조건 목록(교차반응 게이트 Q-3).
@@ -599,120 +591,172 @@ class QuestionnaireEngine:
                      "includes_any": ["oral", "skin", "gi", "breathing", "anaphylaxis"]}]
         return []
 
-    def _append_crossreact_block(self, food_qs, assessments):
-        """통합 교차반응 블록(Q-4/Q-5). 종합 catch-all(Q_FOOD_GENERAL) + 항원별 교차반응 질문.
-        - 항원별 질문은 그 항원이 '증상 있음/불명'일 때만(Q-3) proactive 로 노출.
-        - catch-all 에서 해당 항원의 후보 음식을 지목하면 그 질문이 재활성(Q-5)된다.
-        꽃가루는 OAS(Q_OAS) 플로우로 별도 처리하므로 여기서 제외한다."""
+    def _crossreact_specs(self, assessments):
+        """임상 그룹 단위 교차반응 문항 스펙을 만든다(A1/A2).
+        - Df/Dp 처럼 동일 임상 그룹은 하나로 합쳐 질문 1회만(중복 질의 제거).
+        - 꽃가루는 큐레이션 PFAS(자작→사과·복숭아…) + 성분 엔진을 합쳐 '구체적인' 목록 제공.
+        반환: [{lead_i, lead, label, keys[], cands[], is_pollen}]"""
         try:
             from services.crossreactivity_service import get_crossreactivity_service
             svc = get_crossreactivity_service()
         except Exception:
-            return
+            return []
         if not svc.has_data():
-            return
+            return []
+        from services.clinical_group_service import get_clinical_group_service
+        cg = get_clinical_group_service()
+        ks = get_knowledge_service()
+
         positive_names = set()
         for x in assessments:
             positive_names.add(x.allergen_name)
             if x.korean_name:
                 positive_names.add(x.korean_name)
-        specs = []          # (i, a, cands)
-        union: Dict[str, str] = {}   # en -> ko
-        for i, a in enumerate(assessments):
-            if _cat(a) in POLLEN_GROUPS:
+
+        specs = []
+        for grp in cg.collapse(assessments):
+            lead_i, lead = grp["members"][0]
+            keys = [_key(i) for i, _ in grp["members"]]
+            is_pollen = _cat(lead) in POLLEN_GROUPS
+            merged: Dict[str, str] = {}
+            for _, a in grp["members"]:
+                # 꽃가루: 큐레이션 PFAS 를 먼저(임상 특이 증후군 보존)
+                if _cat(a) in POLLEN_GROUPS:
+                    for f in (ks.pfas_foods_for(a.allergen_name, _cat(a)) or {}).get("foods", []):
+                        if f.get("en"):
+                            merged.setdefault(f["en"], f.get("ko") or f["en"])
+                for c in svc.candidate_foods(a.allergen_name, a.korean_name or "",
+                                             exclude_names=positive_names, limit=8):
+                    merged.setdefault(c["name"], c["korean"] or c["name"])
+            if not merged:
                 continue
-            cands = svc.candidate_foods(a.allergen_name, a.korean_name or "",
-                                        exclude_names=positive_names, limit=8)
-            if not cands:
-                continue
-            specs.append((i, a, cands))
-            for c in cands:
-                union.setdefault(c["name"], c["korean"] or c["name"])
+            cands = [{"name": en, "korean": ko} for en, ko in list(merged.items())[:12]]
+            label = grp["label"] if grp["grouped"] else _name(lead)
+            specs.append({"lead_i": lead_i, "lead": lead, "label": label,
+                          "keys": keys, "cands": cands, "is_pollen": is_pollen,
+                          "group_note": grp["note"]})
+        return specs
+
+    def _append_crossreact_questions(self, food_qs, assessments):
+        """항원(임상그룹)별 교차반응·OAS 문항 + 증상 범위(중증도) 후속 질문.
+        - Q-3 게이트: 원인 항원이 '증상 있음/불명'일 때만 proactive 노출
+        - Q-5 재활성: 마무리 catch-all 에서 후보 음식을 지목하면 다시 노출
+        - A3: 교차반응도 국소(입·목)~전신으로 갈리므로 선택 시 증상 범위를 묻는다"""
+        from services.crossreactivity_service import get_crossreactivity_service
+        svc = get_crossreactivity_service()
+        for sp in self._crossreact_specs(assessments):
+            lead, label, keys, cands = sp["lead"], sp["label"], sp["keys"], sp["cands"]
+            risk = svc.worst_risk(lead.allergen_name, lead.korean_name or "")
+            warn = ("이 중 일부는 전신 반응(두드러기·호흡곤란) 위험이 있어 특히 주의가 필요합니다. "
+                    if risk in ("systemic", "raw_systemic") else "대개 입·목 증상이지만 개인차가 있습니다. ")
+            grp_note = f"{sp['group_note']} " if sp.get("group_note") else ""
+            opts = [{"value": c["name"], "label": c["korean"] or c["name"]} for c in cands]
+            opts.append({"value": "none", "label": "해당 없음 / 문제된 것 없음"})
+            qid = QP_CROSSREACT + _key(sp["lead_i"])
+            reveal = self._symptom_reveal_conds(lead, _key(sp["lead_i"]), assessments)
+            if sp["is_pollen"]:
+                reveal.append({"question": Q_OAS, "any": [YES, UNSURE]})
+            reveal.append({"question": Q_FOOD_GENERAL, "includes_any": [c["name"] for c in cands]})
+            kind = "구강알레르기증후군(OAS)" if sp["is_pollen"] else "교차반응"
+            food_qs.append({
+                "id": qid, "type": "multi",
+                "title": f"「{label}」에 감작되어 있습니다. 아래 음식 중 **드셨을 때 입·목이 가렵거나 붓는 등 "
+                         f"증상이 있었던 것**을 모두 고르세요.",
+                "help": f"{grp_note}{label}와(과) 같은 단백질(성분)을 공유해 {kind}이 나타날 수 있는 음식입니다. "
+                        f"{warn}실제로 증상이 있었던 것만 고르세요(감작만이면 불필요한 제한은 피합니다).",
+                "options": opts, "applies_to": keys,
+                "reveal_if_any": reveal,
+            })
+            # A3: 교차반응 증상 범위(국소/전신/아나필락시스)
+            food_qs.append({
+                "id": QP_CROSSREACT_SEV + _key(sp["lead_i"]), "type": "single",
+                "title": f"위에서 고른 「{label}」 교차반응 음식의 증상은 어디까지였나요?",
+                "help": "같은 교차반응이어도 입·목에만 그치는 분이 있고 전신 반응이 오는 분이 있어 확인합니다.",
+                "options": CROSSREACT_SEVERITY_OPTIONS, "applies_to": keys,
+                "reveal_if": {"question": qid,
+                              "includes_any": [c["name"] for c in cands]},
+            })
+
+    def _append_food_wrapup_catchall(self, food_qs, assessments):
+        """마무리 catch-all(A4) — 항원별로 물어본 음식을 제외한 '그 밖의' 후보만 제시.
+        여기서 지목하면 해당 항원의 교차반응 문항이 재활성된다(Q-5)."""
+        specs = self._crossreact_specs(assessments)
         if not specs:
             return
-        # 종합 음식반응 catch-all (재활성 트리거)
+        union: Dict[str, str] = {}
+        for sp in specs:
+            for c in sp["cands"]:
+                union.setdefault(c["name"], c["korean"] or c["name"])
+        if not union:
+            return
         food_qs.append({
             "id": Q_FOOD_GENERAL, "type": "multi",
-            "title": "지금까지 여쭤본 것 외에, 아래 음식 중 드셨을 때 이상반응(입·목 가려움·두드러기 등)이 있었던 것을 모두 고르세요.",
-            "help": "감작된 항원과 성분을 공유해 교차반응할 수 있는 음식들입니다. 실제로 증상이 있었던 것만 고르세요.",
+            "title": "위에서 다루지 못한 음식 중, 드셨을 때 이상반응(입·목 가려움·두드러기 등)이 "
+                     "있었던 것이 더 있나요?",
+            "help": "감작된 항원과 성분을 공유해 교차반응할 수 있는 음식 목록입니다. 여기서 고르시면 "
+                    "관련 항원의 교차반응 항목을 다시 확인합니다. 없으면 ‘해당 없음’.",
             "options": [{"value": en, "label": ko} for en, ko in union.items()]
                        + [{"value": "none", "label": "해당 없음"}],
             "applies_to": [],
         })
-        # 항원별 교차반응(증상 게이트 + catch-all 재활성)
-        for i, a, cands in specs:
-            nm = _name(a)
-            risk = svc.worst_risk(a.allergen_name, a.korean_name or "")
-            warn = ("이 중 일부는 전신 반응(두드러기·호흡곤란) 위험이 있어 특히 주의가 필요합니다. "
-                    if risk in ("systemic", "raw_systemic") else "대개 입·목 증상이지만 개인차가 있습니다. ")
-            opts = [{"value": c["name"], "label": c["korean"] or c["name"]} for c in cands]
-            opts.append({"value": "none", "label": "해당 없음 / 문제된 것 없음"})
-            reveal = self._symptom_reveal_conds(a, _key(i), assessments)
-            reveal.append({"question": Q_FOOD_GENERAL, "includes_any": [c["name"] for c in cands]})
-            food_qs.append({
-                "id": QP_CROSSREACT + _key(i), "type": "multi",
-                "title": f"{nm}와(과) 교차반응이 알려진 아래 음식 중, 드셨을 때 증상이 있었던 것을 모두 고르세요.",
-                "help": f"{nm}와 같은 단백질(성분)을 공유해 교차반응할 수 있는 음식들입니다. {warn}"
-                        f"실제로 증상이 있었던 것만 고르세요(감작만이면 불필요한 제한은 피합니다).",
-                "options": opts, "applies_to": [_key(i)],
-                "reveal_if_any": reveal,
-            })
+
+    def _group_selected(self, assessments, answers):
+        """임상그룹별 교차반응 선택 결과를 모은다(문항이 그룹 대표 key 로 생성되므로).
+        반환: [{spec, selected:[en], severity}] — catch-all 재활성(Q-5) 병합 포함."""
+        answers = answers or {}
+        general = [v for v in (answers.get(Q_FOOD_GENERAL, []) or []) if v and v != "none"]
+        out = []
+        for sp in self._crossreact_specs(assessments):
+            qid = QP_CROSSREACT + _key(sp["lead_i"])
+            sel = [v for v in (answers.get(qid, []) or []) if v and v != "none"]
+            cand_names = {c["name"] for c in sp["cands"]}
+            if general:  # 마무리 catch-all 에서 이 그룹 후보를 지목 → 재활성/병합
+                sel = list(dict.fromkeys(sel + [g for g in general if g in cand_names]))
+            if not sel:
+                continue
+            sev = answers.get(QP_CROSSREACT_SEV + _key(sp["lead_i"]))
+            # 전신 음식반응 게이트에서 전신/아나필락시스로 답했으면 승격
+            if sev not in ("oral", "systemic", "anaphylaxis"):
+                sev = "oral"
+            out.append({"spec": sp, "selected": sel, "severity": sev})
+        return out
 
     def component_crossreact_items(self, assessments, answers):
-        """성분기반 교차반응 문항에서 '증상 있음'으로 선택된 음식을 FHIR 매핑용 항목으로 반환.
+        """교차반응 문항에서 '증상 있음'으로 선택된 음식을 FHIR 매핑용 항목으로 반환(비-꽃가루).
         반환: [{en, ko, source, severity, trigger}]"""
-        answers = answers or {}
         try:
             from services.crossreactivity_service import get_crossreactivity_service
             svc = get_crossreactivity_service()
         except Exception:
             return []
         items, seen = [], set()
-        oas_sys = answers.get(Q_OAS_SYSTEMIC)
-        positive_names = set()
-        for x in assessments:
-            positive_names.add(x.allergen_name)
-            if x.korean_name:
-                positive_names.add(x.korean_name)
-        general = [v for v in (answers.get(Q_FOOD_GENERAL, []) or []) if v and v != "none"]
-        for i, a in enumerate(assessments):
-            sel = [v for v in (answers.get(QP_CROSSREACT + _key(i), []) or []) if v and v != "none"]
-            # 종합 catch-all(Q_FOOD_GENERAL)에서 이 항원의 후보로 지목된 음식도 병합(재활성 Q-5)
-            if general:
-                cand_names = {c["name"] for c in svc.candidate_foods(
-                    a.allergen_name, a.korean_name or "", exclude_names=positive_names, limit=8)}
-                sel = list(dict.fromkeys(sel + [g for g in general if g in cand_names]))
-            if not sel:
-                continue
-            trig = _name(a)
-            risk = svc.worst_risk(a.allergen_name, a.korean_name or "")
-            sev = "systemic" if risk in ("systemic", "raw_systemic") else "oral"
-            if oas_sys == "anaphylaxis":
-                sev = "anaphylaxis"
-            for en in sel:
-                rec = svc.find(en)
-                ko = (rec.get("korean_name") if rec else None) or en
+        for g in self._group_selected(assessments, answers):
+            sp = g["spec"]
+            if sp["is_pollen"]:
+                continue  # 꽃가루는 OAS(source=pollen)로 별도 처리
+            label = {c["name"]: (c["korean"] or c["name"]) for c in sp["cands"]}
+            for en in g["selected"]:
                 key = en.lower()
                 if key in seen:
                     continue
                 seen.add(key)
+                rec = svc.find(en)
+                ko = label.get(en) or (rec.get("korean_name") if rec else None) or en
                 items.append({"en": en, "ko": ko, "source": "component",
-                              "severity": sev, "pollens": [], "trigger": trig})
+                              "severity": g["severity"], "pollens": [], "trigger": sp["label"]})
         return items
 
     def crossreactive_food_items(self, assessments, answers):
-        """FHIR 매핑용 교차반응 음식 통합 목록 (꽃가루 OAS + 진드기↔갑각류).
-        반환: [{"en","ko","source","severity","pollens"?}]
-        severity: oral(국소)/systemic(전신 두드러기)/anaphylaxis — OAS 전신 게이트 반영"""
+        """FHIR 매핑용 교차반응 음식 통합 목록 (꽃가루 OAS + 성분 교차반응).
+        severity 는 항원(그룹)별 교차반응 증상범위 문항(A3)에서 직접 받는다."""
         items = []
-        answers = answers or {}
-        oas_sys = answers.get(Q_OAS_SYSTEMIC)  # no / systemic / anaphylaxis
-        oas_sev = "anaphylaxis" if oas_sys == "anaphylaxis" else ("systemic" if oas_sys == "systemic" else "oral")
+        seen = set()
         for f in self.oas_selected_foods(assessments, answers):
-            items.append({**f, "source": "pollen", "severity": oas_sev})
-        # 진드기↔갑각류 등 환경↔음식 교차반응은 이제 성분(component) 엔진이 처리(아래 통합)
-        # 성분(component) 기반 교차반응(데이터 파생) — 셀러리↔당근, 새우↔게, 진드기↔갑각류, 우유↔소고기 등
-        seen = {(_norm_key(it.get("en")), _norm_key(it.get("ko"))) for it in items}
+            k = (_norm_key(f.get("en")), _norm_key(f.get("ko")))
+            if k in seen:
+                continue
+            seen.add(k)
+            items.append({**f, "source": "pollen"})
         for it in self.component_crossreact_items(assessments, answers):
             k = (_norm_key(it.get("en")), _norm_key(it.get("ko")))
             if k in seen:
@@ -823,30 +867,26 @@ class QuestionnaireEngine:
         if not svc.has_data():
             return
         answers = answers or {}
-        pos_names = set()
-        for x in assessments:
-            pos_names.add(x.allergen_name)
-            if x.korean_name:
-                pos_names.add(x.korean_name)
         general = set(v for v in (answers.get(Q_FOOD_GENERAL, []) or []) if v and v != "none")
-        for i, a in enumerate(assessments):
-            cands = svc.candidate_foods(a.allergen_name, a.korean_name or "",
-                                        exclude_names=pos_names, limit=8)
-            if not cands:
-                continue
-            sel = set(v for v in (answers.get(QP_CROSSREACT + _key(i), []) or []) if v and v != "none")
-            # 종합 catch-all 에서 이 항원의 후보로 지목된 음식도 confirmed 로 병합(재활성 Q-5)
-            sel |= (general & {c["name"] for c in cands})
-            # OAS(꽃가루-음식)로 이미 기록된 음식은 중복 표기하지 않음
-            oas_ko = set(a.oas_foods or [])
+        for sp in self._crossreact_specs(assessments):
+            qid = QP_CROSSREACT + _key(sp["lead_i"])
+            cr_sev = answers.get(QP_CROSSREACT_SEV + _key(sp["lead_i"]))
+            sel = set(v for v in (answers.get(qid, []) or []) if v and v != "none")
+            # 마무리 catch-all 에서 이 그룹의 후보로 지목된 음식도 confirmed 로 병합(재활성 Q-5)
+            sel |= (general & {c["name"] for c in sp["cands"]})
             confirmed, risk = [], []
-            for c in cands:
+            for c in sp["cands"]:
                 ko = c["korean"] or c["name"]
-                if ko in oas_ko:
-                    continue
                 (confirmed if c["name"] in sel else risk).append(ko)
-            a.crossreact_confirmed = confirmed
-            a.crossreact_risk = risk
+            # 그룹의 모든 멤버 항원에 동일하게 기록(Df/Dp 중복 서술 방지는 리포트 단계에서 처리)
+            for idx, a in enumerate(assessments):
+                if _key(idx) in sp["keys"]:
+                    oas_ko = set(a.oas_foods or [])
+                    a.crossreact_confirmed = [x for x in confirmed if x not in oas_ko]
+                    a.crossreact_risk = [x for x in risk if x not in oas_ko]
+                    if confirmed or oas_ko:
+                        a.crossreact_severity = cr_sev if cr_sev in (
+                            "oral", "systemic", "anaphylaxis") else "oral"
 
     # ---- 중증도/증상 보조 ----
     _SEV_RANK = {"mild": 1, "moderate": 2, "severe": 3, "anaphylaxis": 4}
