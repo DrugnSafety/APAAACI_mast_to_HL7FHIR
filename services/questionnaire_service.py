@@ -50,7 +50,6 @@ YNU = [
 Q_PATTERN = "symptom_pattern"           # perennial / seasonal / both / none
 Q_SEASONS = "worse_seasons"             # multi: spring/summer/fall/winter
 Q_OAS = "oral_allergy_syndrome"         # 구강알레르기증후군
-Q_OAS_FOODS = "oas_foods"               # 교차반응으로 증상 유발하는 음식(다중) - 양성 꽃가루 기반
 Q_FOOD_SYSTEMIC = "food_systemic"       # 음식 전신 반응
 QP_SHELLFISH = "shellfish_react__"      # + key : 갑각류 섭취 시 반응(양방향 감별)
 QP_FOOD_SYMPTOMS = "food_symptoms__"    # + key : 일반 음식 섭취 시 증상 유형(다중)
@@ -76,7 +75,6 @@ Q_INDOOR_AWAY = "indoor_away"           # 집 비우면 호전
 Q_MITE_DUST = "mite_dust"               # 먼지·이불 정리 시 악화
 Q_MOLD_DAMP = "mold_damp"               # 습한 곳 악화
 Q_ROACH_ENV = "roach_env"               # 오래된 건물·주방
-Q_OAS_SYSTEMIC = "oas_systemic"         # OAS에서 아나필락시스/전신 두드러기 발생 여부
 Q_FOOD_SYSTEMIC_FOODS = "food_systemic_foods"  # 전신반응 유발 음식(다중)
 # 동적 id 접두사
 QP_POLLEN = "pollen_season__"           # + group(spring/summer_grass/fall)

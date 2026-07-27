@@ -89,6 +89,36 @@ def _assessment_public(a) -> Dict[str, Any]:
 # ============================================================
 # 엔드포인트
 # ============================================================
+def _build_info() -> Dict[str, Any]:
+    """실행 중인 코드 버전 표식 — '업데이트했는데 반영이 안 된다' 를 즉시 판별하기 위한 진단용.
+    git 커밋 + 문진 엔진 기능 플래그를 함께 노출한다."""
+    commit = None
+    try:
+        import subprocess
+        commit = subprocess.check_output(
+            ["git", "rev-parse", "--short", "HEAD"], cwd=str(BASE_DIR),
+            stderr=subprocess.DEVNULL, timeout=3).decode().strip()
+    except Exception:
+        pass
+    feats = {}
+    try:
+        import services.questionnaire_service as qs
+        eng_cls = qs.QuestionnaireEngine
+        feats = {
+            # 2차 고도화 반영 여부(항원별 구체 OAS·교차반응 중증도·임상그룹 통합)
+            "crossreact_severity_q": hasattr(qs, "QP_CROSSREACT_SEV"),
+            "food_catchall_q": hasattr(qs, "Q_FOOD_GENERAL"),
+            "per_antigen_oas_q": hasattr(eng_cls, "_append_crossreact_questions"),
+            # 아래가 True 면 구버전(모호한 통합 OAS 문항이 남아 있음)
+            "legacy_merged_oas_q": hasattr(qs, "Q_OAS_FOODS"),
+        }
+        from services.clinical_group_service import get_clinical_group_service
+        feats["clinical_groups"] = len(get_clinical_group_service().groups)
+    except Exception as e:
+        feats["error"] = str(e)
+    return {"commit": commit, "features": feats}
+
+
 @app.get("/api/health")
 def health():
     ks = get_knowledge_service()
@@ -96,6 +126,7 @@ def health():
     return {
         "ok": True,
         "has_api_key": _api_key_ok(),
+        "build": _build_info(),
         "kb": ks.stats(),
         "screening_options": {
             "diseases": sc.disease_options(),
