@@ -504,6 +504,11 @@ def test_questionnaire_report_restructure():
     html = get_cardnews_service().generate_html(res, {"name": "홍길동"}, None)
     assert "이 음식들을" in html and "새우" in html, "카드뉴스 음식중심 카드 누락"
     assert html.count("집먼지진드기(유럽·미국 두 종)") <= 1, "카드뉴스 Df/Dp 중복"
+
+    # 버그 재발 방지: 요약 불릿·카드뉴스 chip 도 Df/Dp 를 한 번만 표기해야 한다
+    # ('지금 우선 관리할 알러젠 요약'에서 같은 줄이 두 번 출력되던 버그)
+    assert md.count("- **집먼지진드기**") == 1, f"요약 불릿에서 집먼지진드기 중복 표기: {md.count('- **집먼지진드기**')}회"
+    assert html.count("<b>집먼지진드기</b>") == 1, f"카드뉴스 chip에서 집먼지진드기 중복 표기: {html.count('<b>집먼지진드기</b>')}회"
     print("✓ 임상그룹 통합 + 항원별 구체 OAS + 교차반응 중증도 + 재배치 + 실내외/음식 동급 경고")
 
 

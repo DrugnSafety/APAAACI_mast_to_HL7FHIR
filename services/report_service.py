@@ -617,7 +617,8 @@ class ReportService:
         indeterminate = relevance_result.by_relevance(ClinicalRelevance.INDETERMINATE)
 
         def names(items):
-            return ", ".join(a.korean_name or a.allergen_name for a in items) or "없음"
+            # Df/Dp 등 임상 그룹은 한 번만 표기(A1)
+            return ", ".join(self._display_name(a) for a, _g in self._collapse(items)) or "없음"
 
         md: List[str] = []
         md.append(f"# 🌿 {name}님 맞춤 알레르기 검사 결과 리포트")
@@ -645,7 +646,7 @@ class ReportService:
         )
         if relevant:
             md.append("**🔴 지금 우선 관리할 알러젠 요약**")
-            for a in relevant:
+            for a, _g in self._collapse(relevant):   # Df/Dp 등은 한 번만(A1)
                 md.append(f"- {self._one_line_relevant(a)}")
         # 🍽️ 확인된 교차반응·OAS 음식 — 검사 양성 알러젠과 '동급'으로 경고(C)
         alerts = self._confirmed_food_alerts(relevance_result)
@@ -857,7 +858,7 @@ class ReportService:
         """R-1/R-2: 교차반응 가능 음식을 '원인 항원(카테고리)별'로 그룹화 + 확대 가능성 경고.
         개별 음식을 흩어 나열하지 않고, 어떤 항원과 엮여 있는지를 중심으로 배치한다."""
         groups = []
-        for a in relevance_result.assessments:
+        for a, _g in self._collapse(relevance_result.assessments):   # Df/Dp 등은 한 번만(A1)
             confirmed = list(dict.fromkeys(
                 (getattr(a, "oas_foods", None) or []) + (getattr(a, "crossreact_confirmed", None) or [])))
             risk = getattr(a, "crossreact_risk", None) or []
@@ -871,7 +872,7 @@ class ReportService:
             "원인 항원별로 정리한 것입니다. 개별 음식을 하나씩 외우기보다 **‘어떤 항원과 엮여 있는지’**로 "
             "기억하면 관리가 쉽습니다. (성분 공유는 *가능성*이며, 실제 반응은 증상으로 확인됩니다.)")
         for a, confirmed, risk in groups:
-            nm = a.korean_name or a.allergen_name
+            nm = self._display_name(a)
             md.append(f"**🔗 「{nm}」과(와) 교차반응 가능**")
             if confirmed:
                 md.append(f"- ✅ **현재 반응 확인:** {', '.join(confirmed)} — 함께 주의하세요.")
@@ -933,7 +934,7 @@ class ReportService:
             and (a.strength in ("moderate", "strong"))
         ]
         if strong_inhalant:
-            names = ", ".join(a.korean_name or a.allergen_name for a in strong_inhalant)
+            names = ", ".join(self._display_name(a) for a, _g in self._collapse(strong_inhalant))
             blocks.append(
                 "### 💉 면역치료(알레르기 주사/설하) 고려\n"
                 f"증상을 유발하는 흡입 알러젠({names})에 대해, 회피와 약물로 조절이 어렵다면 "

@@ -131,7 +131,7 @@ class CardNewsService:
         if not relevant:
             body = '<p class="empty">이번 문진에서는 실제 증상과 뚜렷이 연관된 알러젠이 확인되지 않았습니다. 증상이 있을 때 노출 상황을 기록해 두면 도움이 됩니다.</p>'
         else:
-            chips = "\n".join(self._chip(a) for a in relevant)
+            chips = "\n".join(self._chip(a) for a in self._collapse(relevant))  # Df/Dp 등은 한 번만(A1)
             body = f'<div class="chips">{chips}</div>'
         return f"""
         <div class="section relevant">
@@ -145,13 +145,13 @@ class CardNewsService:
     def _sensitized_card(self, sensitized, indeterminate) -> str:
         parts = []
         if sensitized:
-            chips = "\n".join(self._chip(a) for a in sensitized)
+            chips = "\n".join(self._chip(a) for a in self._collapse(sensitized))  # Df/Dp 등은 한 번만(A1)
             parts.append(f'<div class="chips">{chips}</div>')
         else:
             parts.append('<p class="empty">감작만 된 항목은 없습니다.</p>')
         ind_html = ""
         if indeterminate:
-            chips = "\n".join(self._chip(a) for a in indeterminate)
+            chips = "\n".join(self._chip(a) for a in self._collapse(indeterminate))
             ind_html = f'<div class="mini-title">🟡 관찰 필요 (노출 시 확인)</div><div class="chips">{chips}</div>'
         return f"""
         <div class="section sensitized">
@@ -334,10 +334,12 @@ class CardNewsService:
   .oas .chip {{ background:#fff8ee; border-color:#f3dcae; }}
   .detail .desc b, .treatment .tips b {{ color:#2a3350; }}
   .imt {{ margin-top:12px; font-size:12.5px; background:#f0edff; color:#5a34c9; border-radius:10px; padding:10px 12px; line-height:1.5; }}
-  .section.detail, .section.treatment {{ overflow-y:auto; }}
+  .section.detail, .section.treatment, .section.oas {{ overflow-y:auto; }}
   .section h2 {{ font-size:24px; line-height:1.3; margin:14px 0 10px; font-weight:800; }}
   .desc {{ font-size:13px; line-height:1.6; color:#4a5060; }}
-  .chips {{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; overflow:auto; }}
+  .chips {{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; overflow:visible; }}
+  /* 음식 경고 카드: 항목이 많아도 한눈에 보이도록 2열 그리드로 표기 */
+  .oas .chips {{ display:grid; grid-template-columns:1fr 1fr; gap:8px; overflow:visible; }}
   .chip {{ font-size:13px; background:#f4f6fb; border:1px solid #e5e9f2; border-radius:12px; padding:8px 12px; }}
   .chip-season {{ display:inline-block; margin-left:6px; font-size:11px; color:#6b7280; }}
   .relevant .chip {{ background:#fff5f5; border-color:#ffd4d4; }}

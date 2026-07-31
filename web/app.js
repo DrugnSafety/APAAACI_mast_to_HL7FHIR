@@ -565,6 +565,33 @@ function renderQuestionnaire() {
     b.classList.toggle('hidden', !condMet(c));
   });
 
+  // 마무리 catch-all(food_general_react)에서, 이미 항원별 교차반응 문항으로 판정된
+  // 음식(있다/없다 답변 완료)은 옵션에서 제거한다 — 중복 질문 방지.
+  const CROSSREACT_PREFIX = 'crossreact__';
+  const FOOD_GENERAL_ID = 'food_general_react';
+  const refreshFoodGeneralOptions = () => {
+    const block = view().querySelector(`[data-multi="${FOOD_GENERAL_ID}"]`);
+    if (!block) return;
+    const judged = new Set();
+    for (const sec of q.sections) {
+      for (const qq of sec.questions) {
+        if (qq.type === 'multi' && qq.id.startsWith(CROSSREACT_PREFIX)) {
+          const ans = S.answers[qq.id];
+          if (ans && ans.length) qq.options.forEach(o => { if (o.value !== 'none') judged.add(o.value); });
+        }
+      }
+    }
+    block.querySelectorAll('.chip-opt').forEach(btn => {
+      const v = btn.dataset.v;
+      const isJudged = v !== 'none' && judged.has(v);
+      btn.classList.toggle('hidden', isJudged);
+      if (isJudged && (S.answers[FOOD_GENERAL_ID] || []).includes(v)) {
+        S.answers[FOOD_GENERAL_ID] = S.answers[FOOD_GENERAL_ID].filter(x => x !== v);
+        btn.classList.remove('sel');
+      }
+    });
+  };
+
   const sections = q.sections.map(sec => `
     <div class="q-section">
       <div class="q-shead"><h2>${esc(sec.title)}</h2></div>
@@ -591,7 +618,7 @@ function renderQuestionnaire() {
     const b = e.target.closest('.choice'); if (!b) return;
     S.answers[g.dataset.single] = b.dataset.v;
     g.querySelectorAll('.choice').forEach(c => c.classList.toggle('sel', c === b));
-    applyReveals();
+    applyReveals(); refreshFoodGeneralOptions();
   }));
   view().querySelectorAll('[data-multi]').forEach(g => g.addEventListener('click', e => {
     const b = e.target.closest('.chip-opt'); if (!b) return;
@@ -600,8 +627,9 @@ function renderQuestionnaire() {
     else { arr = arr.filter(x => x !== 'none' && x !== 'no'); arr = arr.includes(v) ? arr.filter(x => x !== v) : [...arr, v]; }
     S.answers[id] = arr;
     g.querySelectorAll('.chip-opt').forEach(c => c.classList.toggle('sel', arr.includes(c.dataset.v)));
-    applyReveals();
+    applyReveals(); refreshFoodGeneralOptions();
   }));
+  refreshFoodGeneralOptions();
   $('#back').addEventListener('click', () => goto(2));
   $('#next').addEventListener('click', submitClassify);
 }
