@@ -116,7 +116,7 @@
   <p class="eyebrow">PACEN Decision Support · Prediction 파트 데모</p>
   <h1>약제 선택 지원 — 순위 없는 병렬 카드 데모</h1>
   <p class="lede">환자 지표를 입력하면 적격성 필터가 후보를 가리고, 각 카드가 <b>환자 기저치 기준 절대 기대효과(95% CI)</b>를 주 표시로 보여줍니다. 효과 축 점수는 'MCID 배수 × 환자 설문 지표 가중치'로 합성되며, 선호도 가중치에 따라 우선 검토 후보가 바뀝니다.</p>
-  <div class="demo-note"><b>데모 고지</b> — 6개 약제 카드의 효과 수치는 모두 KQ1~KQ6 근거 프로파일 실측치입니다. 비용·이상반응·편의성 축 점수는 아직 가상 점수입니다(실제 산정식: 하단). 본 데모는 지침의 공식 알고리즘이 아니며 진료 판단을 대체하지 않습니다.</div>
+  <div class="demo-note"><b>데모 고지</b> — 6개 약제 카드의 효과 수치는 KQ1~KQ6 근거 프로파일 실측치이며, 비용 축은 급여 상한금액(2026-08 제공분)과 허가 용법 기반 실제 계산입니다(tezepelumab 비급여 → 최저 점수). 이상반응·편의성 축 점수만 아직 가상입니다. 본 데모는 지침의 공식 알고리즘이 아니며 진료 판단을 대체하지 않습니다.</div>
 
   <div class="controls">
     <div class="panel">
@@ -129,6 +129,8 @@
         <div class="field"><label for="exac">최근 12개월 악화 (회)</label><input type="number" id="exac" value="3" min="0" step="1"></div>
         <div class="field"><label for="ocs">유지 OCS (mg/day)</label><input type="number" id="ocs" value="7.5" min="0" step="0.5"></div>
         <div class="field"><label for="wt">체중 (kg) — 용량 계산용</label><input type="number" id="wt" value="65" min="20" step="1"></div>
+        <div class="field"><label for="evalwk">반응 평가 시점</label><select id="evalwk"><option value="12">12주 (3개월)</option><option value="16" selected>16주 (4개월)</option><option value="24">24주 (6개월)</option></select></div>
+        <div class="field"><label for="copay">본인부담률 (%) — 급여 전제</label><input type="number" id="copay" value="30" min="0" max="100" step="5"></div>
       </div>
     </div>
     <div class="panel">
@@ -180,7 +182,8 @@
     KQ5 Dupilumab — AAER 0.54 (0.43–0.68), OCS −28.2%, ACQ −0.28, FEV1 +0.23 L, AQLQ +0.31 ·
     KQ6 Tezepelumab — AAER 0.37 (0.24–0.51), OCS ns, ACQ −0.34, FEV1 +0.18 L, AQLQ +0.34. MCID 판정·근거수준(⊕)은 각 KQ 문서 기준.
     절대 수치는 평균 상대효과와 그 신뢰구간을 환자 기저치에 적용한 값으로 개인 결과의 예측 범위가 아니며, omalizumab 악화 지표는 발생률비(event RR)라 횟수 환산 대신 위험 감소율로 표기합니다.
-    비용 축(가상)의 실제 산정 예정식: 기간 창(첫 12개월/유지 12개월) 고정 × 고시 표시가 × 연간 투여 횟수 × 본인부담률, 실손보험은 환자 입력 파라미터(회당 한도·공제·정률)로 반영 — 환자 본인부담 관점·표시가 기준(RSA 환급은 공단-제약사 간 비공개 계약으로 환자 부담에 영향 없음).
+    비용 계산 기준(2026-08 제공 급여 상한가): 졸레어 150mg 216,755·75mg 114,440원 / 누칼라 1,280,000원 / 싱케어 100mg 399,552원(바이알 규격 가정·잔량 폐기 반영 — 확인 필요) / 파센라 2,842,543원 / 듀피젠트 200mg 571,862·300mg 675,753원(OCS 의존 시 초회 600mg 후 300mg, 일반 초회 400mg 후 200mg — 초회 부하 2배 반영) / 테즈파이어 비급여.
+    비용 축 점수 = 첫해 약제비(표시가) 역비례, 비급여 = 0점. 표시 비용은 약제비만 포함(투여 행위료·진찰료 제외) · 환자 본인부담 관점·표시가 기준(RSA 환급은 공단-제약사 간 사안) · 실손보험 반영은 별도 모듈 예정.
   </footer>
 </div>
 
@@ -308,33 +311,66 @@
     return null;
   }
 
-  // 확인된 등재 약가 (검색 확인분만 — 이후 인하 고시 존재 가능, 최신 고시 확인 필수)
-  var PRICE = { omal150:271700, omal75:143000 };
+  // 급여 상한금액 (팀 제공, 2026-08 기준 — 고시 변동 시 갱신)
+  var PRICE = { omal150:216755, omal75:114440, mepo:1280000, resli100:399552, benra:2842543, dupi200:571862, dupi300:675753 };
   function won(n){ return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+
+  // 회당 약제비 (표시가). teze는 비급여 → null
+  function perDoseCost(d, p) {
+    if (d.id==="omal") {
+      var od = omalDose(p.ige, p.wt); if (!od) return null;
+      var n150 = Math.floor(od.mg/150), rem = od.mg%150;
+      return n150*PRICE.omal150 + (rem>0?PRICE.omal75:0);
+    }
+    if (d.id==="mepo")  return PRICE.mepo;
+    if (d.id==="benra") return PRICE.benra;
+    if (d.id==="resli") return PRICE.resli100 * Math.ceil(3*p.wt/100); // 100mg 바이알 가정 — 확인 필요
+    if (d.id==="dupi")  return p.ocs>0 ? PRICE.dupi300 : PRICE.dupi200; // OCS 의존 → 600/300 요법
+    return null; // tezepelumab 비급여
+  }
+  // 평가 시점(W주)까지 투여 횟수 (0주 투여 포함, W주 당일 투여 제외)
+  function dosesUntil(d, p, W) {
+    if (d.id==="benra") { var n = W<=4?1:(W<=8?2:3); return n + Math.max(0, Math.floor((W-8-0.001)/8)); }
+    if (d.id==="dupi")  return Math.floor(W/2);
+    if (d.id==="omal") { var od=omalDose(p.ige,p.wt); return od ? Math.floor(W/(od.wk===4?4:2)) : 0; }
+    return Math.floor(W/4); // mepo·resli·teze
+  }
+  function dosesYear1(d, p) {
+    if (d.id==="benra") return 8;
+    if (d.id==="dupi")  return 26;
+    if (d.id==="omal") { var od=omalDose(p.ige,p.wt); return od ? (od.wk===4?13:26) : 0; }
+    return 13;
+  }
+  // 비용 요약: 평가 시점까지 / 첫해 (dupi는 초회 부하 1회분 추가)
+  function costInfo(d, p, W) {
+    var per = perDoseCost(d, p);
+    if (per===null) return null;
+    var extra = (d.id==="dupi") ? per : 0; // 부하용량 2배 → 1회분 추가
+    return { per:per, evalCost: per*dosesUntil(d,p,W)+extra, y1: per*dosesYear1(d,p)+extra };
+  }
 
   // 허가 용법 기반 연간 투여 횟수 (체중·IgE 반영)
   function dosingText(d, p) {
     if (d.id==="omal") {
       var od = omalDose(p.ige, p.wt);
       if (!od) return "용량표 권장 범위 밖 (IgE "+p.ige+", 체중 "+p.wt+"kg) — 허가사항 확인";
-      return "회당 "+od.mg+" mg, "+od.wk+"주 간격 → 연 "+(od.wk===4?13:26)+"회 (첨부 용량표 기준·허가사항 대조 필요)";
+      return "회당 "+od.mg+" mg, "+od.wk+"주 간격 → 연 "+(od.wk===4?13:26)+"회 (IgE×체중 용량표 — 확인 완료)";
     }
     if (d.id==="mepo")  return "연 13회 (4주 간격 SC)";
     if (d.id==="resli") return "연 13회 (4주 IV) · 회당 약 "+Math.round(3*p.wt)+" mg (3 mg/kg)";
     if (d.id==="benra") return "첫해 8회 / 유지 연 약 6.5회 (8주 간격)";
-    if (d.id==="dupi")  return "연 26회 (2주 간격 SC) · 초회 부하용량 2배(2 vial) — 스케줄 확정 필요";
+    if (d.id==="dupi")  return p.ocs>0 ? "연 26회 (2주 SC) · 초회 600mg(300mg×2) 후 300mg — OCS 의존 요법"
+                                        : "연 26회 (2주 SC) · 초회 400mg(200mg×2) 후 200mg — 일반 요법";
     return "연 13회 (4주 간격 SC)";
   }
-  function costText(d, p) {
-    if (d.id==="omal") {
-      var od = omalDose(p.ige, p.wt);
-      if (!od) return "용량 미확정으로 계산 불가";
-      var n150 = Math.floor(od.mg/150), rem = od.mg%150;
-      var per = n150*PRICE.omal150 + (rem>0?PRICE.omal75:0);
-      var ny = od.wk===4?13:26;
-      return "회당 약 "+won(per)+"원 × 연 "+ny+"회 ≈ 연 "+won(per*ny)+"원 (표시가 기준 — 졸레어 150mg 271,700·75mg 143,000원 등재가, 이후 인하 고시 존재 → 최신 고시 확인 필수)";
-    }
-    return "약가 미확정 — 고시 상한금액 확인 후 계산 (뉴스 검색으로 미확보)";
+  function costText(d, p, W, copay) {
+    if (d.id==="teze") return "비급여 — 전액 본인부담·병원별 상이 (비용 축 최저 점수 처리)";
+    var ci = costInfo(d, p, W);
+    if (!ci) return "용량 미확정으로 계산 불가";
+    var t = "평가 시점("+W+"주)까지 약제비 "+won(ci.evalCost)+"원 · 본인부담("+copay+"%) 약 "+won(ci.evalCost*copay/100)+"원 · 첫해 "+won(ci.y1)+"원";
+    if (d.id==="resli") t += " (100mg 바이알 "+won(PRICE.resli100)+"원 가정·잔량 폐기 반영 — 규격 확인 필요)";
+    if (d.id==="dupi") t += " (초회 부하 2배 반영·"+(p.ocs>0?"OCS 의존 300mg":"일반 200mg")+" 요법)";
+    return t + " · 2026-08 상한가 기준";
   }
 
   function eligibility(d, p) {
@@ -477,6 +513,10 @@
 
   function render() {
     var p = { eos:num("eos"), feno:num("feno"), ige:num("ige"), sens:$("sens").value, exac:num("exac"), ocs:num("ocs"), wt:num("wt") };
+    var W = parseInt($("evalwk").value, 10), copay = num("copay");
+    var costs = {}, minY1 = Infinity;
+    DRUGS.forEach(function(d){ var ci = costInfo(d, p, W); costs[d.id]=ci; if (ci && ci.y1<minY1) minY1=ci.y1; });
+    function costScore(d){ var ci = costs[d.id]; return (ci && isFinite(minY1)) ? Math.round(minY1/ci.y1*100) : 0; }
     var wRaw = { eff:num("w-eff"), cost:num("w-cost"), ae:num("w-ae"), conv:num("w-conv") };
     var wSum = wRaw.eff+wRaw.cost+wRaw.ae+wRaw.conv;
     $("wsum").textContent = "배분 합계: "+wSum+"점" + (wSum===100 ? "" : " (100점이 아니면 비율로 자동 정규화)");
@@ -486,8 +526,9 @@
     var items = DRUGS.map(function(d){
       var e = eligibility(d,p);
       var ef = effectScore(d, uw.U);
-      return { d:d, e:e, sEff:ef.s, effMissing:ef.missing,
-               score: e.ok ? Math.round(w.eff*ef.s + w.cost*d.scores.cost + w.ae*d.scores.ae + w.conv*d.scores.conv) : -1 };
+      var cs = costScore(d);
+      return { d:d, e:e, sEff:ef.s, effMissing:ef.missing, sCost:cs,
+               score: e.ok ? Math.round(w.eff*ef.s + w.cost*cs + w.ae*d.scores.ae + w.conv*d.scores.conv) : -1 };
     });
     var eligible = items.filter(function(i){return i.e.ok;}).sort(function(a,b){return b.score-a.score;});
     var inelig = items.filter(function(i){return !i.e.ok;});
@@ -498,7 +539,7 @@
       DRUGS.forEach(function(d){
         var e=eligibility(d,p); if(!e.ok) return;
         var ef=effectScore(d, effUW(p, usrc).U);
-        var sc=w.eff*ef.s + w.cost*d.scores.cost + w.ae*d.scores.ae + w.conv*d.scores.conv;
+        var sc=w.eff*ef.s + w.cost*costScore(d) + w.ae*d.scores.ae + w.conv*d.scores.conv;
         if (sc>bs){bs=sc;best=d.name;}
       });
       return best;
@@ -554,15 +595,15 @@
         } else { h += '<span class="oval">—</span>'; }
         h += '</div>';
       });
-      h += '<p class="practical">안전성: '+esc(d.safety)+'<br>투여: '+esc(d.interval)+' · '+esc(d.practical)+'<br>연간 투여: '+esc(dosingText(d, p))+'<br>비용(베타): '+esc(costText(d, p))+'</p>';
+      h += '<p class="practical">안전성: '+esc(d.safety)+'<br>투여: '+esc(d.interval)+' · '+esc(d.practical)+'<br>연간 투여: '+esc(dosingText(d, p))+'<br>비용: '+esc(costText(d, p, W, copay))+'</p>';
 
       h += '<div class="mcda"><div class="mcda-head"><span>선호도 반영 점수 (데모)</span><span class="score">'+it.score+'</span></div>';
-      [["효과", w.eff*it.sEff],["비용", w.cost*d.scores.cost],["이상반응", w.ae*d.scores.ae],["편의성", w.conv*d.scores.conv]]
+      [["효과", w.eff*it.sEff],["비용", w.cost*it.sCost],["이상반응", w.ae*d.scores.ae],["편의성", w.conv*d.scores.conv]]
       .forEach(function(r){
         h += '<div class="crow"><span>'+r[0]+'</span><div><div class="bar" style="width:'+Math.max(2,r[1])+'%"></div></div><span class="cv">'+Math.round(r[1])+'</span></div>';
       });
       var uName = USRC==='pt' ? '환자 설문' : USRC==='med' ? '의료진 근사' : '균등';
-      h += '<div class="mcda-note">효과 축 '+it.sEff+'점 — 가중: '+uName+' · 점수화: '+SCALE_LABEL[SCALE]+(it.effMissing.length? ' · 근거 없는 지표 제외: '+esc(it.effMissing.join(', ')) : '')+'. 비용·이상반응·편의성 축은 데모용 가상 점수.</div>';
+      h += '<div class="mcda-note">효과 축 '+it.sEff+'점 — 가중: '+uName+' · 점수화: '+SCALE_LABEL[SCALE]+(it.effMissing.length? ' · 근거 없는 지표 제외: '+esc(it.effMissing.join(', ')) : '')+'. 비용 축 '+it.sCost+'점 = 첫해 약제비(상한가) 역비례(최저가=100·비급여=0). 이상반응·편의성 축은 데모용 가상 점수.</div>';
 
       // 계산 상세: 지표별 점수화값과 기여값 전체 공개
       var U = uw.U;
@@ -582,7 +623,7 @@
         cb += '· '+spec.label+': 효과 '+effTxt+' · MCID '+spec.mcid+extra+' · s '+s.toFixed(3)+' · u '+U[spec.key].toFixed(3)+' → 기여 '+contrib.toFixed(3)+'<br>';
       });
       cb += '합계 '+acc.toFixed(3)+' ÷ 유효 가중치 '+sumU.toFixed(3)+' × 100 = <b>'+it.sEff+'점</b><br>';
-      cb += '<b>총점</b> = 효과 '+w.eff.toFixed(2)+'×'+it.sEff+' + 비용 '+w.cost.toFixed(2)+'×'+d.scores.cost+'(가상) + 이상반응 '+w.ae.toFixed(2)+'×'+d.scores.ae+'(가상) + 편의성 '+w.conv.toFixed(2)+'×'+d.scores.conv+'(가상) = <b>'+it.score+'</b>';
+      cb += '<b>총점</b> = 효과 '+w.eff.toFixed(2)+'×'+it.sEff+' + 비용 '+w.cost.toFixed(2)+'×'+it.sCost+'(첫해 약제비 역비례·비급여=0) + 이상반응 '+w.ae.toFixed(2)+'×'+d.scores.ae+'(가상) + 편의성 '+w.conv.toFixed(2)+'×'+d.scores.conv+'(가상) = <b>'+it.score+'</b>';
       h += '<details class="calc"><summary>계산 상세 보기</summary><div class="calc-body">'+cb+'</div></details></div>';
       card.innerHTML = h; host.appendChild(card);
     });
