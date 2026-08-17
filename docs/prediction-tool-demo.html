@@ -96,7 +96,7 @@
   <p class="eyebrow">PACEN Decision Support · Prediction 파트 데모</p>
   <h1>약제 선택 지원 — 순위 없는 병렬 카드 데모</h1>
   <p class="lede">환자 지표를 입력하면 ① 적격성 필터가 후보 약제를 가리고, ② 각 약제 카드가 위약 대비 효과·MCID·근거수준을 병렬로 보여주며, ③ 선호도 가중치를 조정하면 '우선 검토 후보' 그룹핑이 산출 내역과 함께 표시됩니다.</p>
-  <div class="demo-note"><b>데모 고지</b> — Benralizumab 카드만 KQ4 근거 프로파일 실제 수치이며, 다른 약제 카드의 효과·비용·이상반응·편의성 수치는 <b>UI 시연용 가상 예시값</b>입니다(카드에 표기). 본 데모는 지침의 공식 알고리즘이 아니며 진료 판단을 대체하지 않습니다.</div>
+  <div class="demo-note"><b>데모 고지</b> — Benralizumab·Dupilumab·Tezepelumab 카드의 효과 수치는 KQ4·KQ5·KQ6 근거 프로파일 실측치이며, Omalizumab·Mepolizumab·Reslizumab 카드의 효과 수치는 <b>UI 시연용 가상 예시값</b>입니다(카드에 표기). 비용·이상반응·편의성 축 점수는 전 약제 공통으로 아직 가상 점수입니다(실제 산정식은 하단 참조). 본 데모는 지침의 공식 알고리즘이 아니며 진료 판단을 대체하지 않습니다.</div>
 
   <div class="controls">
     <div class="panel">
@@ -133,7 +133,8 @@
   <div class="cards" id="cards"></div>
 
   <footer>
-    실측 데이터 출처: KQ4 Benralizumab 근거 프로파일(2026.08) — AAER RAR 0.45 (95% CI 0.29–0.60), OCS MD −50% (−64.1~−35.9, 단일연구), ACQ MD −0.32, FEV1 MD +0.14 L · 6 RCT (SIROCCO·CALIMA·ZONDA·SOLANA·ANDHI·MIRACLE).
+    실측 데이터 출처 — KQ4 Benralizumab: AAER RAR 0.45 (0.29–0.60), OCS −50% (−64.1~−35.9, 단일연구), ACQ −0.32, FEV1 +0.14 L (6 RCT). KQ5 Dupilumab: AAER RAR 0.54 (0.43–0.68), OCS −28.2% (−36.9~−19.5, 단일연구), ACQ −0.28, FEV1 +0.23 L (MCID 판정은 문서 기준). KQ6 Tezepelumab: AAER RAR 0.37 (0.24–0.51, 근거수준 높음), OCS ≤5mg 도달 RR 1.06 (ns·단일연구), ACQ −0.34, FEV1 +0.18 L.
+    비용 축의 실제 산정(추후): 연간 본인부담 추정액 = 투여당 약가(심평원 고시 상한금액) × 연간 투여 횟수(용법 기반) × 본인부담률 + 투여 행위료 — 현재 데모는 가상 점수.
     적격성 규칙·부합 강도는 권고문(조건부·호산구성)과 KQ4 하위군 분석(호산구 ≥300 vs &lt;300)·연구 등록기준(Table 4-3)을 단순화한 데모 규칙입니다.
     ⊕ 표기는 GRADE 근거수준. 채워진 원 = MCID 충족 + 유의, 빈 원 = 유의하나 MCID 미달/경계, 회색 = 통계적 유의성 없음. 약제 간 직접 비교(head-to-head) 근거는 없으며, 카드 정렬은 선호도 가중 점수에 따른 '우선 검토 후보' 그룹핑일 뿐 약제 간 우열 판정이 아닙니다.
   </footer>
@@ -163,20 +164,23 @@
       out:{ aaer:{v:0.46,lo:0.33,hi:0.64,g:3,st:"met"}, ocs:null,
             acq:{v:-0.25,lo:-0.38,hi:-0.12,g:2,st:"notmet"}, fev:{v:0.09,lo:0.03,hi:0.15,g:2,st:"notmet"} },
       scores:{cost:55, ae:84, conv:40} },
-    { id:"benra", name:"Benralizumab", target:"anti-IL-5Rα", real:true, interval:"8주 SC (초기 3회 4주)",
+    { id:"benra", name:"Benralizumab", target:"anti-IL-5Rα", real:true, srcLabel:"KQ4 실측치",
+      srcNote:"출처: KQ4 근거 프로파일 (6 RCT) · 조건부 권고 (*호산구성)", interval:"8주 SC (초기 3회 4주)",
       safety:"전체 AE RR 0.99 · SAE RR 0.73 — 위약과 유의차 없음 (KQ4)", practical:"급여 등재 · 8주 유지 간격 · 자가투여 가능",
       out:{ aaer:{v:0.45,lo:0.29,hi:0.60,g:3,st:"met"}, ocs:{v:-50,lo:-64.1,hi:-35.9,g:3,st:"border"},
             acq:{v:-0.32,lo:-0.45,hi:-0.19,g:2,st:"notmet"}, fev:{v:0.14,lo:0.09,hi:0.19,g:2,st:"notmet"} },
       scores:{cost:72, ae:87, conv:95} },
-    { id:"dupi", name:"Dupilumab", target:"anti-IL-4Rα", real:false, interval:"2주 SC",
-      safety:"일시적 호산구 상승 보고 (가상 예시)", practical:"급여 등재 · 비용종·아토피피부염 동반 시 이득 고려",
-      out:{ aaer:{v:0.44,lo:0.32,hi:0.59,g:3,st:"met"}, ocs:{v:-55,lo:-70,hi:-40,g:3,st:"met"},
-            acq:{v:-0.39,lo:-0.53,hi:-0.25,g:2,st:"notmet"}, fev:{v:0.13,lo:0.08,hi:0.18,g:3,st:"notmet"} },
+    { id:"dupi", name:"Dupilumab", target:"anti-IL-4Rα", real:true, srcLabel:"KQ5 실측치",
+      srcNote:"출처: KQ5 근거 프로파일 (5 RCT) · 조건부 권고 (*제2형 염증성)", interval:"2주 SC",
+      safety:"전체 AE 위약 유사 · 주사부위 반응·일시적 호산구 상승 보고 (KQ5)", practical:"급여 등재 · 비용종·아토피피부염 동반 시 이득 고려",
+      out:{ aaer:{v:0.54,lo:0.43,hi:0.68,g:2,st:"met"}, ocs:{v:-28.2,lo:-36.9,hi:-19.5,g:3,st:"notmet"},
+            acq:{v:-0.28,lo:-0.43,hi:-0.13,g:2,st:"notmet"}, fev:{v:0.23,lo:0.12,hi:0.35,g:2,st:"notmet"} },
       scores:{cost:62, ae:82, conv:60} },
-    { id:"teze", name:"Tezepelumab", target:"anti-TSLP", real:false, interval:"4주 SC",
-      safety:"전체 AE 위약 유사 (가상 예시)", practical:"표현형 무관 사용 가능 · 급여 기준 확인 필요",
-      out:{ aaer:{v:0.44,lo:0.33,hi:0.58,g:3,st:"met"}, ocs:{v:-15,lo:-38,hi:8,g:2,st:"ns"},
-            acq:{v:-0.33,lo:-0.46,hi:-0.20,g:2,st:"notmet"}, fev:{v:0.13,lo:0.08,hi:0.18,g:2,st:"notmet"} },
+    { id:"teze", name:"Tezepelumab", target:"anti-TSLP", real:true, srcLabel:"KQ6 실측치",
+      srcNote:"출처: KQ6 근거 프로파일 (4 RCT) · 조건부 권고", interval:"4주 SC",
+      safety:"전체 AE 위약 유사 (KQ6)", practical:"표현형 무관 사용 가능 · 급여 기준 확인 필요",
+      out:{ aaer:{v:0.37,lo:0.24,hi:0.51,g:4,st:"met"}, ocs:{txt:"OCS ≤5mg 도달 RR 1.06 (0.87–1.30) · 단일연구", g:3, st:"ns"},
+            acq:{v:-0.34,lo:-0.42,hi:-0.25,g:3,st:"notmet"}, fev:{v:0.18,lo:0.11,hi:0.25,g:3,st:"notmet"} },
       scores:{cost:58, ae:85, conv:75} }
   ];
 
@@ -250,9 +254,9 @@
       var h = '<div class="card-head"><h3>'+esc(d.name)+'<small>'+esc(d.target)+'</small></h3><div class="badges">';
       if (e.ok && idx===0) h += '<span class="badge pick">우선 검토 후보 · 데모</span>';
       h += e.ok ? '<span class="badge ok">'+esc(e.strength)+'</span>' : '<span class="badge na">비적격</span>';
-      h += d.real ? '<span class="badge real">KQ4 실측치</span>' : '<span class="badge mock">예시값 · 가상</span>';
+      h += d.real ? '<span class="badge real">'+esc(d.srcLabel)+'</span>' : '<span class="badge mock">예시값 · 가상</span>';
       h += '</div></div>';
-      h += '<p class="src-line">'+ (d.real ? "출처: KQ4 근거 프로파일 (6 RCT) · 조건부 권고 (*호산구성)" : "데모용 가상 수치 — 실제 KQ 근거 프로파일로 교체 예정") +'</p>';
+      h += '<p class="src-line">'+ (d.real ? esc(d.srcNote) : "데모용 가상 수치 — 실제 KQ 근거 프로파일로 교체 예정") +'</p>';
 
       if (!e.ok) {
         h += '<div class="reason">사유: '+esc(e.reason)+'</div>';
@@ -262,13 +266,15 @@
         var o = d.out[spec.key];
         h += '<div class="orow"><span class="oname">'+spec.label;
         h += o ? '<span class="mstat '+o.st+'">'+MLABEL[o.st]+'</span></span>' : '<span class="mstat ns">근거 없음</span></span>';
-        if (o) {
+        if (o && o.txt) {
+          h += '<span></span><span class="oval">'+esc(o.txt)+'<br><span class="grade">'+GRADE[o.g]+'</span></span>';
+        } else if (o) {
           h += svgBar(spec,o);
           h += '<span class="oval">'+spec.fmt(o)+'<br><span class="grade">'+GRADE[o.g]+'</span></span>';
         } else { h += '<span></span><span class="oval">—</span>'; }
         h += '</div>';
       });
-      h += '<div class="abs">이 환자 기준 기대 악화: 연 '+p.exac.toFixed(1)+'회 → 약 <b>'+(p.exac*d.out.aaer.v).toFixed(1)+'회</b> (−'+it.absRed.toFixed(1)+'회) · 상대효과×기저치 환산'+(d.real?"":" · 가상값")+'</div>';
+      h += '<div class="abs">이 환자 기준 기대 악화: 연 '+p.exac.toFixed(1)+'회 → 약 <b>'+(p.exac*d.out.aaer.v).toFixed(1)+'회</b> (95% CI '+(p.exac*d.out.aaer.lo).toFixed(1)+'–'+(p.exac*d.out.aaer.hi).toFixed(1)+') · 평균 상대효과×기저치 환산'+(d.real?"":" · 가상값")+'<br><span style="font-size:11px;color:var(--ink-faint)">평균 효과의 신뢰구간을 기저치에 적용한 값으로, 개인 결과의 예측 범위가 아닙니다</span></div>';
       h += '<p class="practical">안전성: '+esc(d.safety)+'<br>투여: '+esc(d.interval)+' · '+esc(d.practical)+'</p>';
 
       h += '<div class="mcda"><div class="mcda-head"><span>선호도 반영 점수 (데모)</span><span class="score">'+it.score+'</span></div>';
