@@ -37,6 +37,9 @@
   .panel { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:20px 22px; }
   .panel h2 { font-size:12.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 14px; }
   .fgrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px 12px; }
+  fieldset { border:none; margin:0 0 16px; padding:0; }
+  fieldset:last-child { margin-bottom:0; }
+  legend { font-size:12.5px; font-weight:700; color:var(--accent); margin-bottom:8px; padding:0; }
   .field { display:flex; flex-direction:column; gap:3px; }
   .field label { font-size:12.5px; font-weight:600; color:var(--ink-soft); }
   input[type="number"], select { font:inherit; font-variant-numeric:tabular-nums; color:var(--ink);
@@ -75,8 +78,10 @@
   .orow { display:grid; grid-template-columns:104px minmax(60px,1fr) minmax(158px,auto); gap:8px; align-items:center; padding:6px 0; border-top:1px solid var(--line); }
   .orow:first-of-type { border-top:none; }
   .oname { font-size:12.5px; font-weight:600; }
-  .oname .mstat { display:block; font-size:10.5px; font-weight:700; letter-spacing:.03em; }
-  .mstat.met { color:var(--accent); } .mstat.border { color:var(--warn); } .mstat.notmet, .mstat.ns { color:var(--ink-faint); }
+  .oname .mstat { display:inline-block; margin-top:3px; font-size:10.5px; font-weight:800; letter-spacing:.02em; padding:1.5px 7px; border-radius:4px; }
+  .mstat.met { background:var(--accent); color:var(--surface); }
+  .mstat.border { background:var(--warn-soft); color:var(--warn); }
+  .mstat.notmet, .mstat.ns { background:var(--chip); color:var(--ink-faint); }
   .oval { font-size:13px; text-align:right; font-variant-numeric:tabular-nums; }
   .oval .anchored { font-weight:700; }
   .oval .orig { display:block; font-size:11px; color:var(--ink-faint); }
@@ -120,25 +125,38 @@
 
   <div class="controls">
     <div class="panel">
-      <h2>환자 지표 입력 (Tier 1·2)</h2>
-      <div class="fgrid">
-        <div class="field"><label for="eos">혈중 호산구 (/µL)</label><input type="number" id="eos" value="450" min="0" step="10"></div>
-        <div class="field"><label for="feno">FeNO (ppb)</label><input type="number" id="feno" value="30" min="0" step="1"></div>
-        <div class="field"><label for="ige">총 IgE (IU/mL)</label><input type="number" id="ige" value="120" min="0" step="1"></div>
-        <div class="field"><label for="sens">통년성 알레르겐 감작</label><select id="sens"><option value="no">아니오/미확인</option><option value="yes">예</option></select></div>
-        <div class="field"><label for="exac">최근 12개월 악화 (회)</label><input type="number" id="exac" value="3" min="0" step="1"></div>
-        <div class="field"><label for="ocs">유지 OCS (mg/day)</label><input type="number" id="ocs" value="7.5" min="0" step="0.5"></div>
-        <div class="field"><label for="wt">체중 (kg) — 용량 계산용</label><input type="number" id="wt" value="65" min="20" step="1"></div>
-        <div class="field"><label for="evalwk">반응 평가 시점</label><select id="evalwk"><option value="12">12주 (3개월)</option><option value="16" selected>16주 (4개월)</option><option value="24">24주 (6개월)</option></select></div>
-        <div class="field"><label for="copay">본인부담률 (%) — 급여 전제</label><input type="number" id="copay" value="30" min="0" max="100" step="5"></div>
-        <div class="field"><label for="env">투여 환경</label><select id="env"><option value="out" selected>외래 (원내 주사)</option><option value="in">입원</option></select></div>
-        <div class="field"><label for="ins">실손보험</label><select id="ins"><option value="no">없음/미가입</option><option value="yes">있음</option></select></div>
-        <div class="field"><label for="ded">실손 정액공제 (원/회)</label><input type="number" id="ded" value="10000" min="0" step="1000"></div>
-        <div class="field"><label for="coins">실손 자기부담률 (%)</label><input type="number" id="coins" value="20" min="0" max="100" step="5"></div>
-        <div class="field"><label for="cap">실손 회당 보장한도 (원)</label><input type="number" id="cap" value="250000" min="0" step="10000"></div>
-        <div class="field"><label for="tezep">테즈파이어 비급여 예상가 (원/회)</label><input type="number" id="tezep" value="" min="0" step="10000" placeholder="미입력 시 비용 축 제외"></div>
-      </div>
-      <div class="wnote">실손 3개 항목은 본인 증권 기준으로 입력하세요(세대·특약별 상이 — 대표값은 예시). 입원 투여+실손 가입 시 비용 축은 자동 제외됩니다(실손 입원의료비 보장 전제 · 입원 적정성 및 세대별 보장률 확인 필요).</div>
+      <h2>환자 지표 입력</h2>
+      <fieldset>
+        <legend>① 임상 지표 — 적격성·기대효과 계산</legend>
+        <div class="fgrid">
+          <div class="field"><label for="eos">혈중 호산구 (/µL)</label><input type="number" id="eos" value="450" min="0" step="10"></div>
+          <div class="field"><label for="feno">FeNO (ppb)</label><input type="number" id="feno" value="30" min="0" step="1"></div>
+          <div class="field"><label for="ige">총 IgE (IU/mL)</label><input type="number" id="ige" value="120" min="0" step="1"></div>
+          <div class="field"><label for="sens">통년성 알레르겐 감작</label><select id="sens"><option value="no">아니오/미확인</option><option value="yes">예</option></select></div>
+          <div class="field"><label for="exac">최근 12개월 악화 (회)</label><input type="number" id="exac" value="3" min="0" step="1"></div>
+          <div class="field"><label for="ocs">유지 OCS (mg/day)</label><input type="number" id="ocs" value="7.5" min="0" step="0.5"></div>
+          <div class="field"><label for="wt">체중 (kg) — 용량 계산</label><input type="number" id="wt" value="65" min="20" step="1"></div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>② 평가·투여 설정</legend>
+        <div class="fgrid">
+          <div class="field"><label for="evalwk">반응 평가 시점</label><select id="evalwk"><option value="12">12주 (3개월)</option><option value="16" selected>16주 (4개월)</option><option value="24">24주 (6개월)</option></select></div>
+          <div class="field"><label for="env">투여 환경</label><select id="env"><option value="out" selected>외래 (원내 주사)</option><option value="in">입원</option></select></div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>③ 비용·보험</legend>
+        <div class="fgrid">
+          <div class="field"><label for="copay">본인부담률 — 외래 기관 종별</label><select id="copay"><option value="60" selected>상급종합병원 60%</option><option value="50">종합병원 50%</option><option value="40">병원 40%</option><option value="30">의원 30%</option></select></div>
+          <div class="field"><label for="ins">실손보험</label><select id="ins"><option value="no">없음/미가입</option><option value="yes">있음</option></select></div>
+          <div class="field"><label for="ded">실손 정액공제 (원/회)</label><input type="number" id="ded" value="10000" min="0" step="1000"></div>
+          <div class="field"><label for="coins">실손 자기부담률 (%)</label><input type="number" id="coins" value="20" min="0" max="100" step="5"></div>
+          <div class="field"><label for="cap">실손 <b>외래 통원</b> 회당 보장한도 (원)</label><input type="number" id="cap" value="250000" min="0" step="10000"></div>
+          <div class="field"><label for="tezep">테즈파이어 비급여 예상가 (원/회)</label><input type="number" id="tezep" value="" min="0" step="10000" placeholder="미입력 시 비용 축 제외"></div>
+        </div>
+        <div class="wnote">본인부담률은 국민건강보험 외래 기관 종별 차등(상급종합 60% 등)을 따르며 산정특례 미적용 전제입니다. 실손 3개 항목은 본인 증권의 <b>외래 통원</b> 기준으로 입력하세요(세대·특약별 상이 — 대표값은 예시). 입원 투여+실손 가입 시 비용 축은 자동 제외됩니다(입원 적정성·세대별 보장률 확인 필요).</div>
+      </fieldset>
     </div>
     <div class="panel">
       <h2>선호도 가중치 — 100점 배분 (I-7 설문 문항 형식)</h2>
@@ -160,12 +178,20 @@
         <button type="button" class="usrc on" data-u="pt">환자 설문</button>
         <button type="button" class="usrc" data-u="med">의료진 근사 (핵심 2:중요 1)</button>
         <button type="button" class="usrc" data-u="eq">균등</button>
+        <button type="button" class="usrc" data-u="custom">직접 입력</button>
+      </div>
+      <div class="fgrid" id="ucustom" style="display:none;margin-top:8px">
+        <div class="field"><label for="uc-aaer">악화</label><input type="number" id="uc-aaer" value="15" min="0" max="100"></div>
+        <div class="field"><label for="uc-ocs">OCS</label><input type="number" id="uc-ocs" value="21" min="0" max="100"></div>
+        <div class="field"><label for="uc-acq">조절도</label><input type="number" id="uc-acq" value="34" min="0" max="100"></div>
+        <div class="field"><label for="uc-fev">폐기능</label><input type="number" id="uc-fev" value="16" min="0" max="100"></div>
+        <div class="field"><label for="uc-aqlq">삶의 질</label><input type="number" id="uc-aqlq" value="14" min="0" max="100"></div>
       </div>
       <div class="presets" style="margin-top:6px" role="group" aria-label="지표 점수화 방식">
         <span style="font-size:11.5px;font-weight:700;color:var(--ink-faint);align-self:center">지표 점수화:</span>
-        <button type="button" class="scl on" data-s="cap">MCID 배수 · 상한 1.5</button>
+        <button type="button" class="scl on" data-s="prob">MCID 초과확률 (기본)</button>
+        <button type="button" class="scl" data-s="cap">MCID 배수 · 상한 1.5</button>
         <button type="button" class="scl" data-s="log">로그 감쇠</button>
-        <button type="button" class="scl" data-s="prob">MCID 초과확률</button>
       </div>
       <label style="display:flex;gap:7px;align-items:center;font-size:12.5px;margin-top:10px;color:var(--ink-soft)"><input type="checkbox" id="autow" checked> 환자 문제별 자동 재가중 — 악화 ≥3회 → 악화 가중 ×2 · OCS 사용 → OCS 가중 ×2 (채택됨)</label>
       <div class="wnote">환자 설문 가중은 표7.2(환자 108명), 의료진 근사는 I-5 전문가 조사의 핵심적:중요한 분류를 2:1로 환산한 값입니다. 'MCID 초과확률'은 평균 효과와 신뢰구간에서 P(참효과가 MCID를 넘음)을 계산해 점추정치 편중을 보정합니다.</div>
@@ -200,10 +226,10 @@
   var $ = function (id) { return document.getElementById(id); };
   var GRADE = { 4:"⊕⊕⊕⊕", 3:"⊕⊕⊕◯", 2:"⊕⊕◯◯", 1:"⊕◯◯◯" };
   var GWORD = { 4:"높음", 3:"중간", 2:"낮음", 1:"매우 낮음" };
-  var MLABEL = { met:"MCID 충족", border:"MCID 경계", notmet:"MCID 미달", ns:"유의차 없음" };
+  var MLABEL = { met:"✓ MCID 충족", border:"≈ MCID 경계", notmet:"MCID 미달", ns:"× 유의차 없음" };
   var MODE = "pro";     // 보기: pro | pt
   var USRC = "pt";      // 효과 축 가중 출처: pt(환자 설문) | med(의료진 근사) | eq(균등)
-  var SCALE = "cap";    // 지표 점수화: cap(배수·상한1.5) | log(로그 감쇠) | prob(MCID 초과확률)
+  var SCALE = "prob";   // 지표 점수화 기본값: MCID 초과확률 (확정) | cap | log
 
   var U_SETS = {
     pt:  { aaer:0.147, ocs:0.214, acq:0.335, fev:0.158, aqlq:0.146 },  // 표7.2 환자 108명
@@ -230,7 +256,7 @@
             acq:{v:-0.51,lo:-0.85,hi:-0.17,g:2,st:"notmet"},
             fev:{v:0.22,lo:0.13,hi:0.31,g:2,st:"notmet"},
             aqlq:{v:0.64,lo:0.13,hi:1.16,g:2,st:"notmet"} },
-      scores:{cost:65, ae:85, conv:70} },
+      scores:{cost:65, ae:90, conv:70} },
     { id:"mepo", name:"Mepolizumab", target:"anti-IL-5", srcLabel:"KQ2 실측치",
       srcNote:"출처: KQ2 근거 프로파일 · 조건부 권고 (*호산구성)", interval:"4주 SC",
       safety:"전체 AE 위약 유사 (KQ2)", practical:"급여 등재 · 자가투여 가능",
@@ -239,7 +265,7 @@
             acq:{v:-0.42,lo:-0.55,hi:-0.29,g:3,st:"notmet"},
             fev:{v:0.12,lo:0.07,hi:0.17,g:2,st:"notmet"},
             aqlq:{v:0.22,lo:-0.03,hi:0.46,g:3,st:"ns"} },
-      scores:{cost:70, ae:86, conv:75} },
+      scores:{cost:70, ae:90, conv:75} },
     { id:"resli", name:"Reslizumab", target:"anti-IL-5", srcLabel:"KQ3 실측치",
       srcNote:"출처: KQ3 근거 프로파일 · 조건부 권고 (*호산구성)", interval:"4주 IV",
       safety:"전체 AE 위약 유사 (KQ3)", practical:"급여 등재 · 체중 기반 용량 · 의료기관 정맥 투여",
@@ -248,7 +274,7 @@
             acq:{v:-0.25,lo:-0.33,hi:-0.17,g:3,st:"notmet"},
             fev:{v:0.13,lo:0.08,hi:0.17,g:3,st:"notmet"},
             aqlq:{v:0.24,lo:0.12,hi:0.36,g:3,st:"notmet"} },
-      scores:{cost:55, ae:84, conv:40} },
+      scores:{cost:55, ae:90, conv:40} },
     { id:"benra", name:"Benralizumab", target:"anti-IL-5Rα", srcLabel:"KQ4 실측치",
       srcNote:"출처: KQ4 근거 프로파일 (6 RCT) · 조건부 권고 (*호산구성)", interval:"8주 SC (초기 3회 4주)",
       safety:"전체 AE RR 0.99 · SAE RR 0.73 — 위약과 유의차 없음 (KQ4)", practical:"급여 등재 · 8주 유지 간격 · 자가투여 가능",
@@ -257,7 +283,7 @@
             acq:{v:-0.32,lo:-0.45,hi:-0.19,g:2,st:"notmet"},
             fev:{v:0.14,lo:0.09,hi:0.19,g:2,st:"notmet"},
             aqlq:{v:0.27,lo:0.12,hi:0.42,g:2,st:"notmet"} },
-      scores:{cost:72, ae:87, conv:95} },
+      scores:{cost:72, ae:90, conv:95} },
     { id:"dupi", name:"Dupilumab", target:"anti-IL-4Rα", srcLabel:"KQ5 실측치",
       srcNote:"출처: KQ5 근거 프로파일 (5 RCT) · 조건부 권고 (*제2형 염증성)", interval:"2주 SC",
       safety:"전체 AE 위약 유사 · 주사부위 반응·일시적 호산구 상승 보고 (KQ5)", practical:"급여 여부·기준 최신 고시 확인 · 비용종·아토피피부염 동반 시 이득 고려",
@@ -266,7 +292,7 @@
             acq:{v:-0.28,lo:-0.43,hi:-0.13,g:2,st:"notmet"},
             fev:{v:0.23,lo:0.12,hi:0.35,g:2,st:"notmet"},
             aqlq:{v:0.31,lo:0.18,hi:0.43,g:2,st:"notmet"} },
-      scores:{cost:62, ae:82, conv:60} },
+      scores:{cost:62, ae:90, conv:60} },
     { id:"teze", name:"Tezepelumab", target:"anti-TSLP", srcLabel:"KQ6 실측치",
       srcNote:"출처: KQ6 근거 프로파일 (4 RCT) · 조건부 권고", interval:"4주 SC",
       safety:"전체 AE 위약 유사 (KQ6)", practical:"표현형 무관 사용 가능 · 급여 기준 확인 필요",
@@ -275,7 +301,7 @@
             acq:{v:-0.34,lo:-0.42,hi:-0.25,g:3,st:"notmet"},
             fev:{v:0.18,lo:0.11,hi:0.25,g:3,st:"notmet"},
             aqlq:{v:0.34,lo:0.24,hi:0.44,g:3,st:"notmet"} },
-      scores:{cost:58, ae:85, conv:75} }
+      scores:{cost:58, ae:90, conv:75} }
   ];
 
   // 지표 정의: dom=막대 축 범위, nul=무효과, mcid=역치, u=효과 축 내 가중치(표7.2 환자 설문)
@@ -455,7 +481,12 @@
 
   // 효과 축 내부 가중치: 출처 선택 + 환자 문제별 자동 재가중(채택) 적용
   function effUW(p, usrc) {
-    var base = U_SETS[usrc || USRC], U = {}, boosts = [];
+    var src = usrc || USRC, base, U = {}, boosts = [];
+    if (src === "custom") {
+      var raw = { aaer:num("uc-aaer"), ocs:num("uc-ocs"), acq:num("uc-acq"), fev:num("uc-fev"), aqlq:num("uc-aqlq") };
+      var t0 = raw.aaer+raw.ocs+raw.acq+raw.fev+raw.aqlq;
+      base = {}; OUTS.forEach(function(s){ base[s.key] = t0>0 ? raw[s.key]/t0 : 0.2; });
+    } else base = U_SETS[src];
     OUTS.forEach(function(s){ U[s.key] = base[s.key]; });
     if ($("autow").checked) {
       if (p.exac >= 3) { U.aaer *= 2; boosts.push("악화×2 (잦은 악화형)"); }
@@ -653,11 +684,11 @@
       .forEach(function(r){
         h += '<div class="crow"><span>'+r[0]+'</span><div><div class="bar" style="width:'+Math.max(2,r[1])+'%"></div></div><span class="cv">'+Math.round(r[1])+'</span></div>';
       });
-      var uName = USRC==='pt' ? '환자 설문' : USRC==='med' ? '의료진 근사' : '균등';
+      var uName = USRC==='pt' ? '환자 설문' : USRC==='med' ? '의료진 근사' : USRC==='custom' ? '직접 입력' : '균등';
       var costNote = (it.sCost===null)
         ? '비용 축 제외(입원+실손 또는 가격 미상) — 남은 축으로 재정규화.'
         : '비용 축 '+it.sCost+'점 = 첫해 실부담(본인부담률·실손 반영) 역비례, 적격군 내 최저=100.';
-      h += '<div class="mcda-note">효과 축 '+it.sEff+'점 — 가중: '+uName+' · 점수화: '+SCALE_LABEL[SCALE]+(it.effMissing.length? ' · 근거 없는 지표 제외: '+esc(it.effMissing.join(', ')) : '')+'. '+costNote+' 이상반응·편의성 축은 데모용 가상 점수.</div>';
+      h += '<div class="mcda-note">효과 축 '+it.sEff+'점 — 가중: '+uName+' · 점수화: '+SCALE_LABEL[SCALE]+(it.effMissing.length? ' · 근거 없는 지표 제외: '+esc(it.effMissing.join(', ')) : '')+'. '+costNote+' 이상반응 축은 전 약제 동일 90점(KQ 근거상 위약 유사·유의 초과 없음 — 차등 근거 없음), 편의성 축은 데모용 가상 점수.</div>';
 
       // 계산 상세: 지표별 점수화값과 기여값 전체 공개
       var U = uw.U;
@@ -678,9 +709,9 @@
       });
       cb += '합계 '+acc.toFixed(3)+' ÷ 유효 가중치 '+sumU.toFixed(3)+' × 100 = <b>'+it.sEff+'점</b><br>';
       if (it.sCost===null) {
-        cb += '<b>총점</b> = [효과 '+w.eff.toFixed(2)+'×'+it.sEff+' + 이상반응 '+w.ae.toFixed(2)+'×'+d.scores.ae+'(가상) + 편의성 '+w.conv.toFixed(2)+'×'+d.scores.conv+'(가상)] ÷ '+(1-w.cost).toFixed(2)+' (비용 축 제외·재정규화) = <b>'+it.score+'</b>';
+        cb += '<b>총점</b> = [효과 '+w.eff.toFixed(2)+'×'+it.sEff+' + 이상반응 '+w.ae.toFixed(2)+'×'+d.scores.ae+'(전 약제 동일) + 편의성 '+w.conv.toFixed(2)+'×'+d.scores.conv+'(가상)] ÷ '+(1-w.cost).toFixed(2)+' (비용 축 제외·재정규화) = <b>'+it.score+'</b>';
       } else {
-        cb += '<b>총점</b> = 효과 '+w.eff.toFixed(2)+'×'+it.sEff+' + 비용 '+w.cost.toFixed(2)+'×'+it.sCost+'(첫해 실부담 역비례) + 이상반응 '+w.ae.toFixed(2)+'×'+d.scores.ae+'(가상) + 편의성 '+w.conv.toFixed(2)+'×'+d.scores.conv+'(가상) = <b>'+it.score+'</b>';
+        cb += '<b>총점</b> = 효과 '+w.eff.toFixed(2)+'×'+it.sEff+' + 비용 '+w.cost.toFixed(2)+'×'+it.sCost+'(첫해 실부담 역비례) + 이상반응 '+w.ae.toFixed(2)+'×'+d.scores.ae+'(전 약제 동일) + 편의성 '+w.conv.toFixed(2)+'×'+d.scores.conv+'(가상) = <b>'+it.score+'</b>';
       }
       h += '<details class="calc"><summary>계산 상세 보기</summary><div class="calc-body">'+cb+'</div></details></div>';
       card.innerHTML = h; host.appendChild(card);
@@ -701,6 +732,7 @@
     b.addEventListener("click", function(){
       USRC = b.getAttribute("data-u");
       document.querySelectorAll(".usrc").forEach(function(x){ x.classList.toggle("on", x===b); });
+      $("ucustom").style.display = (USRC==="custom") ? "" : "none";
       render();
     });
   });
