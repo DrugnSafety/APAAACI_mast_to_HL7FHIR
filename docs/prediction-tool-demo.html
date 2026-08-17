@@ -91,6 +91,18 @@
   .crow .cv { text-align:right; font-variant-numeric:tabular-nums; color:var(--ink-faint); }
   .mcda-note { font-size:11px; color:var(--ink-faint); margin-top:6px; }
 
+  details.calc { margin-top:8px; }
+  details.calc summary { font-size:12px; font-weight:600; color:var(--accent); cursor:pointer; }
+  .calc-body { font-size:11.5px; color:var(--ink-soft); background:var(--ground); border:1px solid var(--line);
+    border-radius:8px; padding:10px 12px; margin-top:6px; line-height:1.7; font-variant-numeric:tabular-nums; overflow-x:auto; }
+  .calc-body b { color:var(--ink); }
+
+  .ba { display:grid; grid-template-columns:52px 1fr 44px; gap:6px; align-items:center; font-size:12px; color:var(--ink-soft); margin:2px 0; }
+  .ba .bar { height:10px; border-radius:0 4px 4px 0; min-width:2px; }
+  .ba .bar.now { background:var(--chip); border:1px solid var(--line); }
+  .ba .bar.after { background:var(--accent); }
+  .ba .bv { text-align:right; font-variant-numeric:tabular-nums; color:var(--ink-faint); }
+
   .pt-list { list-style:none; margin:8px 0 0; padding:0; display:grid; gap:8px; }
   .pt-list li { display:grid; grid-template-columns:74px 1fr; gap:10px; font-size:14px; }
   .pt-list .k { font-size:12px; font-weight:700; color:var(--accent); padding-top:2px; }
@@ -377,6 +389,14 @@
         h += '<ul class="pt-list">';
         pt.forEach(function(r){ h += '<li><span class="k">'+esc(r[0])+'</span><span>'+esc(r[1])+'</span></li>'; });
         h += '</ul>';
+        var pa = d.out.aaer;
+        if (pa.kind!=="event" && p.exac>0) {
+          var mx = Math.max(p.exac, 0.001);
+          h += '<div style="margin-top:10px">'
+             + '<div class="ba"><span>지금</span><div><div class="bar now" style="width:100%"></div></div><span class="bv">연 '+p.exac.toFixed(1)+'회</span></div>'
+             + '<div class="ba"><span>치료 후</span><div><div class="bar after" style="width:'+Math.max(2,(p.exac*pa.v/mx*100))+'%"></div></div><span class="bv">약 '+(p.exac*pa.v).toFixed(1)+'회</span></div>'
+             + '<div style="font-size:11px;color:var(--ink-faint);margin-top:2px">이 약을 썼을 때 기대되는 나의 발작 횟수 변화 (다른 약과의 비교 그림이 아닙니다)</div></div>';
+        }
         h += '<div class="pt-note">여기 나온 숫자는 비슷한 환자들의 연구 평균값이에요. 실제 효과는 사람마다 다를 수 있으니, 약 선택은 꼭 담당 의사와 상의해 결정하세요.</div>';
         card.innerHTML = h; host.appendChild(card); return;
       }
@@ -400,7 +420,22 @@
       .forEach(function(r){
         h += '<div class="crow"><span>'+r[0]+'</span><div><div class="bar" style="width:'+Math.max(2,r[1])+'%"></div></div><span class="cv">'+Math.round(r[1])+'</span></div>';
       });
-      h += '<div class="mcda-note">효과 축 '+it.sEff+'점 = Σ(환자 설문 지표 가중치 × MCID 배수, 1.5배 상한)'+(it.effMissing.length? ' · 근거 없는 지표 제외: '+esc(it.effMissing.join(', ')) : '')+'. 비용·이상반응·편의성 축은 데모용 가상 점수.</div></div>';
+      h += '<div class="mcda-note">효과 축 '+it.sEff+'점 = Σ(환자 설문 지표 가중치 × MCID 배수, 1.5배 상한)'+(it.effMissing.length? ' · 근거 없는 지표 제외: '+esc(it.effMissing.join(', ')) : '')+'. 비용·이상반응·편의성 축은 데모용 가상 점수.</div>';
+
+      // 계산 상세: 지표별 MCID 배수와 기여값 전체 공개
+      var cb = '<b>효과 축</b> = Σ [지표 가중치 u × min(효과÷MCID, 1.5)÷1.5], 유효 가중치 합으로 나눔<br>';
+      var sumU=0, acc=0;
+      OUTS.forEach(function(spec){
+        var o=d.out[spec.key], r=mcidRatio(spec.key,o);
+        if (r===null) { cb += '· '+spec.label+': 근거 없음 → 제외 (가중치 재정규화)<br>'; return; }
+        var capped=Math.min(Math.max(r,0),1.5), contrib=spec.u*capped/1.5;
+        sumU+=spec.u; acc+=contrib;
+        var effTxt = o.txt ? "ns" : (spec.key==="aaer" ? (o.kind==="event"?"RR ":"RAR ")+o.v.toFixed(2) : o.v.toFixed(2));
+        cb += '· '+spec.label+': 효과 '+effTxt+(o.st==="ns"?" (유의차 없음→배수 0)":"")+' · MCID '+spec.mcid+' · 배수 '+r.toFixed(2)+' → 상한 '+capped.toFixed(2)+' · u '+spec.u.toFixed(3)+' → 기여 '+contrib.toFixed(3)+'<br>';
+      });
+      cb += '합계 '+acc.toFixed(3)+' ÷ 유효 가중치 '+sumU.toFixed(3)+' × 100 = <b>'+it.sEff+'점</b><br>';
+      cb += '<b>총점</b> = 효과 '+w.eff.toFixed(2)+'×'+it.sEff+' + 비용 '+w.cost.toFixed(2)+'×'+d.scores.cost+'(가상) + 이상반응 '+w.ae.toFixed(2)+'×'+d.scores.ae+'(가상) + 편의성 '+w.conv.toFixed(2)+'×'+d.scores.conv+'(가상) = <b>'+it.score+'</b>';
+      h += '<details class="calc"><summary>계산 상세 보기</summary><div class="calc-body">'+cb+'</div></details></div>';
       card.innerHTML = h; host.appendChild(card);
     });
   }
