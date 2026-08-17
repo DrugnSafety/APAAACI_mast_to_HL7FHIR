@@ -46,6 +46,7 @@
   .presets button, .modes button { font:inherit; font-size:12.5px; font-weight:600; cursor:pointer; color:var(--ink-soft);
     background:var(--surface-2); border:1px solid var(--line); border-radius:999px; padding:5px 13px; }
   .presets button:hover { color:var(--accent); border-color:var(--accent); }
+  .presets button.on { background:var(--accent); border-color:var(--accent); color:var(--surface); }
   .wsum { font-size:12.5px; color:var(--ink-faint); margin-top:10px; font-variant-numeric:tabular-nums; }
   .wnote { font-size:12px; color:var(--ink-faint); margin-top:6px; }
 
@@ -127,6 +128,7 @@
         <div class="field"><label for="sens">통년성 알레르겐 감작</label><select id="sens"><option value="no">아니오/미확인</option><option value="yes">예</option></select></div>
         <div class="field"><label for="exac">최근 12개월 악화 (회)</label><input type="number" id="exac" value="3" min="0" step="1"></div>
         <div class="field"><label for="ocs">유지 OCS (mg/day)</label><input type="number" id="ocs" value="7.5" min="0" step="0.5"></div>
+        <div class="field"><label for="wt">체중 (kg) — 용량 계산용</label><input type="number" id="wt" value="65" min="20" step="1"></div>
       </div>
     </div>
     <div class="panel">
@@ -144,7 +146,19 @@
         <button type="button" data-w="30,20,15,35">편의 중시형</button>
       </div>
       <div class="wsum" id="wsum"></div>
-      <div class="wnote">효과 축 내부의 지표 가중치(증상 33.5 · 스테로이드 21.4 · 폐기능 15.8 · 악화 14.7 · 삶의 질 14.6)는 환자 108명 설문(표7.2)에서 가져온 값입니다.</div>
+      <div class="presets" style="margin-top:10px" role="group" aria-label="효과 축 가중 출처">
+        <span style="font-size:11.5px;font-weight:700;color:var(--ink-faint);align-self:center">효과 축 가중:</span>
+        <button type="button" class="usrc on" data-u="pt">환자 설문</button>
+        <button type="button" class="usrc" data-u="med">의료진 근사 (핵심 2:중요 1)</button>
+        <button type="button" class="usrc" data-u="eq">균등</button>
+      </div>
+      <div class="presets" style="margin-top:6px" role="group" aria-label="지표 점수화 방식">
+        <span style="font-size:11.5px;font-weight:700;color:var(--ink-faint);align-self:center">지표 점수화:</span>
+        <button type="button" class="scl on" data-s="cap">MCID 배수 · 상한 1.5</button>
+        <button type="button" class="scl" data-s="log">로그 감쇠</button>
+        <button type="button" class="scl" data-s="prob">MCID 초과확률</button>
+      </div>
+      <div class="wnote">환자 설문 가중은 표7.2(환자 108명), 의료진 근사는 I-5 전문가 조사의 핵심적:중요한 분류를 2:1로 환산한 값입니다. 'MCID 초과확률'은 평균 효과와 신뢰구간에서 P(참효과가 MCID를 넘음)을 계산해 점추정치 편중을 보정합니다.</div>
     </div>
   </div>
 
@@ -176,7 +190,24 @@
   var GRADE = { 4:"⊕⊕⊕⊕", 3:"⊕⊕⊕◯", 2:"⊕⊕◯◯", 1:"⊕◯◯◯" };
   var GWORD = { 4:"높음", 3:"중간", 2:"낮음", 1:"매우 낮음" };
   var MLABEL = { met:"MCID 충족", border:"MCID 경계", notmet:"MCID 미달", ns:"유의차 없음" };
-  var MODE = "pro";
+  var MODE = "pro";     // 보기: pro | pt
+  var USRC = "pt";      // 효과 축 가중 출처: pt(환자 설문) | med(의료진 근사) | eq(균등)
+  var SCALE = "cap";    // 지표 점수화: cap(배수·상한1.5) | log(로그 감쇠) | prob(MCID 초과확률)
+
+  var U_SETS = {
+    pt:  { aaer:0.147, ocs:0.214, acq:0.335, fev:0.158, aqlq:0.146 },  // 표7.2 환자 108명
+    med: { aaer:2/7,   ocs:2/7,   acq:1/7,   fev:1/7,   aqlq:1/7   },  // I-5 핵심적:중요한 = 2:1 근사
+    eq:  { aaer:0.2,   ocs:0.2,   acq:0.2,   fev:0.2,   aqlq:0.2   }
+  };
+  var SCALE_LABEL = { cap:"MCID 배수(상한 1.5)", log:"로그 감쇠", prob:"MCID 초과확률" };
+
+  // 표준정규 CDF (Abramowitz-Stegun 근사)
+  function phi(z) {
+    var t = 1/(1+0.2316419*Math.abs(z));
+    var d = 0.3989423*Math.exp(-z*z/2);
+    var p = d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));
+    return z>0 ? 1-p : p;
+  }
 
   // 효과 데이터: 전부 KQ1~6 근거 프로파일 실측치
   var DRUGS = [
@@ -248,6 +279,16 @@
   function num(id){ var v=parseFloat($(id).value); return isNaN(v)?0:v; }
   function esc(t){ return String(t).replace(/[&<>"]/g, function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
 
+  // 허가 용법 기반 연간 투여 횟수 (체중 반영)
+  function dosingText(d, wt) {
+    if (d.id==="omal")  return "연 13~26회 (2~4주) · 용량은 IgE×체중 용량표 기반 — 허가사항 표 등재 예정";
+    if (d.id==="mepo")  return "연 13회 (4주 간격 SC)";
+    if (d.id==="resli") return "연 13회 (4주 IV) · 회당 약 "+Math.round(3*wt)+" mg (3 mg/kg)";
+    if (d.id==="benra") return "첫해 8회 / 유지 연 약 6.5회 (8주 간격)";
+    if (d.id==="dupi")  return "연 26회 (2주 간격 SC)";
+    return "연 13회 (4주 간격 SC)";
+  }
+
   function eligibility(d, p) {
     if (d.id==="omal") return (p.sens==="yes" && p.ige>=30)
       ? {ok:true, strength:"부합 확인 (알레르기성)"} : {ok:false, reason:"통년성 알레르겐 감작 미확인 — 알레르기성 천식 기준 미충족"};
@@ -276,13 +317,36 @@
     if (key==="aqlq") return o.v/0.5;
     return null;
   }
+  // 지표별 점수화값 s (0~1). null = 근거 없음(제외·재정규화)
+  function scoreOutcome(key, o) {
+    if (!o) return null;
+    if (o.txt) return 0; // 이질적 측정지표(예: teze OCS RR) — 합산 제외 대신 0 처리, 각주 표기
+    if (SCALE === "prob") {
+      // P(참효과가 MCID를 넘음) — 평균 효과와 CI에서 계산 (ns도 수식으로 자연 처리)
+      if (key === "aaer") {
+        var seln = (Math.log(o.hi) - Math.log(o.lo)) / 3.92;
+        return phi((Math.log(0.8) - Math.log(o.v)) / seln);
+      }
+      var se = (o.hi - o.lo) / 3.92;
+      if (key === "ocs")  return phi((-50  - o.v) / se);
+      if (key === "acq")  return phi((-0.5 - o.v) / se);
+      if (key === "fev")  return phi((o.v - 0.2) / se);
+      if (key === "aqlq") return phi((o.v - 0.5) / se);
+      return 0;
+    }
+    if (o.st === "ns") return 0;
+    var r = Math.max(mcidRatio(key, o), 0);
+    if (SCALE === "log") return Math.min(Math.log(1 + r) / Math.log(4), 1); // 배수 3에서 만점
+    return Math.min(r, 1.5) / 1.5;
+  }
+
   function effectScore(d) {
-    var sumU=0, acc=0, missing=[];
+    var U = U_SETS[USRC], sumU=0, acc=0, missing=[];
     OUTS.forEach(function(spec){
-      var r = mcidRatio(spec.key, d.out[spec.key]);
-      if (r===null) { missing.push(spec.label); return; }
-      sumU += spec.u;
-      acc += spec.u * Math.min(Math.max(r,0),1.5)/1.5;
+      var s = scoreOutcome(spec.key, d.out[spec.key]);
+      if (s===null) { missing.push(spec.label); return; }
+      sumU += U[spec.key];
+      acc += U[spec.key] * s;
     });
     return { s: sumU>0 ? Math.round(acc/sumU*100) : 0, missing:missing };
   }
@@ -351,7 +415,7 @@
   }
 
   function render() {
-    var p = { eos:num("eos"), feno:num("feno"), ige:num("ige"), sens:$("sens").value, exac:num("exac"), ocs:num("ocs") };
+    var p = { eos:num("eos"), feno:num("feno"), ige:num("ige"), sens:$("sens").value, exac:num("exac"), ocs:num("ocs"), wt:num("wt") };
     var wRaw = { eff:num("w-eff"), cost:num("w-cost"), ae:num("w-ae"), conv:num("w-conv") };
     var wSum = wRaw.eff+wRaw.cost+wRaw.ae+wRaw.conv;
     $("wsum").textContent = "배분 합계: "+wSum+"점" + (wSum===100 ? "" : " (100점이 아니면 비율로 자동 정규화)");
@@ -413,25 +477,32 @@
         } else { h += '<span class="oval">—</span>'; }
         h += '</div>';
       });
-      h += '<p class="practical">안전성: '+esc(d.safety)+'<br>투여: '+esc(d.interval)+' · '+esc(d.practical)+'</p>';
+      h += '<p class="practical">안전성: '+esc(d.safety)+'<br>투여: '+esc(d.interval)+' · '+esc(d.practical)+'<br>연간 투여: '+esc(dosingText(d, p.wt))+'</p>';
 
       h += '<div class="mcda"><div class="mcda-head"><span>선호도 반영 점수 (데모)</span><span class="score">'+it.score+'</span></div>';
       [["효과", w.eff*it.sEff],["비용", w.cost*d.scores.cost],["이상반응", w.ae*d.scores.ae],["편의성", w.conv*d.scores.conv]]
       .forEach(function(r){
         h += '<div class="crow"><span>'+r[0]+'</span><div><div class="bar" style="width:'+Math.max(2,r[1])+'%"></div></div><span class="cv">'+Math.round(r[1])+'</span></div>';
       });
-      h += '<div class="mcda-note">효과 축 '+it.sEff+'점 = Σ(환자 설문 지표 가중치 × MCID 배수, 1.5배 상한)'+(it.effMissing.length? ' · 근거 없는 지표 제외: '+esc(it.effMissing.join(', ')) : '')+'. 비용·이상반응·편의성 축은 데모용 가상 점수.</div>';
+      var uName = USRC==='pt' ? '환자 설문' : USRC==='med' ? '의료진 근사' : '균등';
+      h += '<div class="mcda-note">효과 축 '+it.sEff+'점 — 가중: '+uName+' · 점수화: '+SCALE_LABEL[SCALE]+(it.effMissing.length? ' · 근거 없는 지표 제외: '+esc(it.effMissing.join(', ')) : '')+'. 비용·이상반응·편의성 축은 데모용 가상 점수.</div>';
 
-      // 계산 상세: 지표별 MCID 배수와 기여값 전체 공개
-      var cb = '<b>효과 축</b> = Σ [지표 가중치 u × min(효과÷MCID, 1.5)÷1.5], 유효 가중치 합으로 나눔<br>';
+      // 계산 상세: 지표별 점수화값과 기여값 전체 공개
+      var U = U_SETS[USRC];
+      var cb = '<b>효과 축</b> = Σ [지표 가중치 u × 점수화값 s('+SCALE_LABEL[SCALE]+')], 유효 가중치 합으로 나눔<br>';
       var sumU=0, acc=0;
       OUTS.forEach(function(spec){
-        var o=d.out[spec.key], r=mcidRatio(spec.key,o);
-        if (r===null) { cb += '· '+spec.label+': 근거 없음 → 제외 (가중치 재정규화)<br>'; return; }
-        var capped=Math.min(Math.max(r,0),1.5), contrib=spec.u*capped/1.5;
-        sumU+=spec.u; acc+=contrib;
-        var effTxt = o.txt ? "ns" : (spec.key==="aaer" ? (o.kind==="event"?"RR ":"RAR ")+o.v.toFixed(2) : o.v.toFixed(2));
-        cb += '· '+spec.label+': 효과 '+effTxt+(o.st==="ns"?" (유의차 없음→배수 0)":"")+' · MCID '+spec.mcid+' · 배수 '+r.toFixed(2)+' → 상한 '+capped.toFixed(2)+' · u '+spec.u.toFixed(3)+' → 기여 '+contrib.toFixed(3)+'<br>';
+        var o=d.out[spec.key], s=scoreOutcome(spec.key,o);
+        if (s===null) { cb += '· '+spec.label+': 근거 없음 → 제외 (가중치 재정규화)<br>'; return; }
+        var contrib=U[spec.key]*s;
+        sumU+=U[spec.key]; acc+=contrib;
+        var effTxt = o.txt ? "측정지표 상이(RR)→0" : (spec.key==="aaer" ? (o.kind==="event"?"RR ":"RAR ")+o.v.toFixed(2) : o.v.toFixed(2));
+        var extra = "";
+        if (!o.txt) {
+          if (SCALE==="prob") extra = ' · P(MCID 초과) '+(s*100).toFixed(0)+'%';
+          else extra = ' · 배수 '+mcidRatio(spec.key,o).toFixed(2)+(o.st==="ns"?" (유의차 없음→0)":"");
+        }
+        cb += '· '+spec.label+': 효과 '+effTxt+' · MCID '+spec.mcid+extra+' · s '+s.toFixed(3)+' · u '+U[spec.key].toFixed(3)+' → 기여 '+contrib.toFixed(3)+'<br>';
       });
       cb += '합계 '+acc.toFixed(3)+' ÷ 유효 가중치 '+sumU.toFixed(3)+' × 100 = <b>'+it.sEff+'점</b><br>';
       cb += '<b>총점</b> = 효과 '+w.eff.toFixed(2)+'×'+it.sEff+' + 비용 '+w.cost.toFixed(2)+'×'+d.scores.cost+'(가상) + 이상반응 '+w.ae.toFixed(2)+'×'+d.scores.ae+'(가상) + 편의성 '+w.conv.toFixed(2)+'×'+d.scores.conv+'(가상) = <b>'+it.score+'</b>';
@@ -450,6 +521,20 @@
   });
   $("mode-pro").addEventListener("click", function(){ MODE="pro"; $("mode-pro").classList.add("on"); $("mode-pt").classList.remove("on"); render(); });
   $("mode-pt").addEventListener("click", function(){ MODE="pt"; $("mode-pt").classList.add("on"); $("mode-pro").classList.remove("on"); render(); });
+  document.querySelectorAll(".usrc").forEach(function(b){
+    b.addEventListener("click", function(){
+      USRC = b.getAttribute("data-u");
+      document.querySelectorAll(".usrc").forEach(function(x){ x.classList.toggle("on", x===b); });
+      render();
+    });
+  });
+  document.querySelectorAll(".scl").forEach(function(b){
+    b.addEventListener("click", function(){
+      SCALE = b.getAttribute("data-s");
+      document.querySelectorAll(".scl").forEach(function(x){ x.classList.toggle("on", x===b); });
+      render();
+    });
+  });
   render();
 })();
 </script>
