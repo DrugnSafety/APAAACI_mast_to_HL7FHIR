@@ -1,0 +1,443 @@
+<title>MCID 반응평가 도구</title>
+<style>
+  :root {
+    --ground: #F7FAF9;
+    --surface: #FFFFFF;
+    --surface-2: #EEF4F3;
+    --ink: #182A2D;
+    --ink-soft: #47595C;
+    --ink-faint: #6E7F82;
+    --line: #D5E0DE;
+    --accent: #0F6E73;
+    --accent-soft: #E1EEED;
+    --ok: #2C7A4B;
+    --ok-soft: #E2F0E7;
+    --warn: #9A6B15;
+    --warn-soft: #F4EBD8;
+    --bad: #A93E36;
+    --bad-soft: #F6E4E2;
+    --chip: #E6ECEB;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0F1719;
+      --surface: #162124;
+      --surface-2: #1C292C;
+      --ink: #D8E4E4;
+      --ink-soft: #A8BBBC;
+      --ink-faint: #7E9294;
+      --line: #2A3B3E;
+      --accent: #58B7B4;
+      --accent-soft: #143A3C;
+      --ok: #6FBF8E;
+      --ok-soft: #17301F;
+      --warn: #D9A84E;
+      --warn-soft: #3A2F16;
+      --bad: #E08379;
+      --bad-soft: #3C1F1C;
+      --chip: #243336;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0F1719;
+    --surface: #162124;
+    --surface-2: #1C292C;
+    --ink: #D8E4E4;
+    --ink-soft: #A8BBBC;
+    --ink-faint: #7E9294;
+    --line: #2A3B3E;
+    --accent: #58B7B4;
+    --accent-soft: #143A3C;
+    --ok: #6FBF8E;
+    --ok-soft: #17301F;
+    --warn: #D9A84E;
+    --warn-soft: #3A2F16;
+    --bad: #E08379;
+    --bad-soft: #3C1F1C;
+    --chip: #243336;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--ground); color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", Pretendard, "Noto Sans KR", "Segoe UI", "Malgun Gothic", sans-serif;
+    font-size: 15.5px; line-height: 1.65; -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 1060px; margin: 0 auto; padding: 44px 20px 90px; }
+  .eyebrow {
+    font-size: 12px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 12px;
+  }
+  h1 { font-size: clamp(24px, 4vw, 32px); font-weight: 800; letter-spacing: -0.015em; margin: 0 0 10px; text-wrap: balance; }
+  .lede { color: var(--ink-soft); max-width: 720px; margin: 0 0 18px; }
+  .disclaimer {
+    background: var(--warn-soft); border: 1px solid var(--line); border-left: 3px solid var(--warn);
+    border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13.5px; color: var(--ink-soft);
+    max-width: 780px; margin-bottom: 36px;
+  }
+  .disclaimer b { color: var(--warn); }
+
+  .layout { display: grid; gap: 24px; align-items: start; }
+  @media (min-width: 920px) { .layout { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); } }
+
+  .panel {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 24px;
+  }
+  .panel h2 {
+    font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--ink-faint); margin: 0 0 16px;
+  }
+  fieldset { border: none; margin: 0 0 22px; padding: 0; }
+  fieldset:last-child { margin-bottom: 0; }
+  legend {
+    font-size: 14.5px; font-weight: 700; padding: 0; margin-bottom: 10px; color: var(--ink);
+  }
+  .field-row { display: flex; flex-wrap: wrap; gap: 12px; }
+  .field { display: flex; flex-direction: column; gap: 4px; flex: 1 1 150px; }
+  .field label { font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+  input[type="number"], select {
+    font: inherit; font-variant-numeric: tabular-nums;
+    color: var(--ink); background: var(--ground);
+    border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; width: 100%;
+  }
+  input[type="number"]:focus-visible, select:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 1px;
+  }
+  .metric-grid { display: grid; grid-template-columns: minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr); gap: 8px 10px; align-items: center; }
+  .metric-grid .head { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint); }
+  .metric-grid .mname { font-size: 13.5px; font-weight: 600; }
+  .metric-grid .mname small { display: block; font-weight: 400; color: var(--ink-faint); font-size: 12px; line-height: 1.4; }
+  .reset-row { margin-top: 18px; }
+  button.reset {
+    font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer;
+    color: var(--ink-soft); background: var(--surface-2);
+    border: 1px solid var(--line); border-radius: 8px; padding: 8px 16px;
+  }
+  button.reset:hover { color: var(--ink); }
+
+  .banner { border-radius: 10px; padding: 14px 18px; font-size: 14px; margin-bottom: 16px; border: 1px solid var(--line); }
+  .banner.bad { background: var(--bad-soft); border-left: 3px solid var(--bad); }
+  .banner.bad b { color: var(--bad); }
+  .banner.warn { background: var(--warn-soft); border-left: 3px solid var(--warn); }
+  .banner.warn b { color: var(--warn); }
+  .banner.hidden { display: none; }
+
+  .group-label {
+    display: flex; align-items: baseline; gap: 8px;
+    font-size: 13.5px; font-weight: 700; margin: 22px 0 10px;
+  }
+  .group-label:first-of-type { margin-top: 0; }
+  .group-label .tag {
+    font-size: 11px; font-weight: 700; letter-spacing: .05em; padding: 1px 8px; border-radius: 4px;
+  }
+  .tag.critical { background: var(--accent-soft); color: var(--accent); }
+  .tag.important { background: var(--chip); color: var(--ink-soft); }
+
+  .crit-list { display: grid; gap: 8px; }
+  .crit {
+    display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 4px 14px; align-items: center;
+    background: var(--ground); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px;
+  }
+  .crit .cname { font-size: 13.5px; font-weight: 600; }
+  .crit .cthreshold { font-size: 12px; color: var(--ink-faint); grid-column: 1; }
+  .crit .cvalue { font-size: 12.5px; color: var(--ink-soft); font-variant-numeric: tabular-nums; grid-column: 1; }
+  .pill {
+    grid-column: 2; grid-row: 1 / span 3; align-self: center; justify-self: end;
+    font-size: 12px; font-weight: 700; padding: 3px 11px; border-radius: 999px; white-space: nowrap;
+  }
+  .pill.met { background: var(--ok-soft); color: var(--ok); }
+  .pill.unmet { background: var(--bad-soft); color: var(--bad); }
+  .pill.na { background: var(--chip); color: var(--ink-faint); }
+  .pill.info { background: var(--accent-soft); color: var(--accent); }
+
+  .summary {
+    margin-top: 22px; background: var(--surface-2); border: 1px solid var(--line);
+    border-radius: 10px; padding: 16px 18px; font-size: 14px;
+  }
+  .summary h3 { margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); }
+  .summary .counts { font-variant-numeric: tabular-nums; font-weight: 600; margin-bottom: 8px; }
+  .summary p { margin: 0 0 8px; color: var(--ink-soft); }
+  .summary p:last-child { margin-bottom: 0; }
+  .summary .route { color: var(--ink); }
+  .summary .route b { color: var(--accent); }
+
+  footer { margin-top: 40px; font-size: 12.5px; color: var(--ink-faint); max-width: 780px; border-top: 1px solid var(--line); padding-top: 16px; }
+</style>
+
+<div class="page">
+  <p class="eyebrow">PACEN 성인 중증천식 진료지침 기반 · 프로토타입</p>
+  <h1>생물학적 치료제 반응 평가 도구</h1>
+  <p class="lede">치료 전(기저)과 평가 시점의 값을 입력하면, 델파이 전문가 합의로 확정된 건강결과별 MCID 기준(지침 I-6)에 따라 지표별 달성 여부를 정리해 줍니다.</p>
+  <div class="disclaimer">
+    <b>시연용 프로토타입</b> — 본 도구는 MCID 기준의 이해를 돕는 참고 자료로, 지침의 공식 알고리즘이 아니며 개별 환자에 대한 의료진의 임상적 판단과 최신 급여 고시를 대체하지 않습니다.
+  </div>
+
+  <div class="layout">
+    <div class="panel">
+      <h2>입력</h2>
+      <fieldset>
+        <legend>치료 정보</legend>
+        <div class="field-row">
+          <div class="field">
+            <label for="duration">생물학적 치료 기간 (개월)</label>
+            <input type="number" id="duration" min="0" step="1" inputmode="numeric">
+          </div>
+          <div class="field">
+            <label for="ae">치료 중 이상반응 (최고 수준)</label>
+            <select id="ae">
+              <option value="none">없음 / 미평가</option>
+              <option value="g1">경증 (CTCAE Grade 1 이하)</option>
+              <option value="g2">중등도 (CTCAE Grade 2)</option>
+              <option value="sae">중증 (SAE)</option>
+              <option value="malig">신규 악성종양</option>
+            </select>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>건강결과 지표</legend>
+        <div class="metric-grid">
+          <span class="head">지표</span><span class="head">기저</span><span class="head">평가 시점</span>
+
+          <span class="mname">연간 악화 횟수 <small>지난 12개월 기준 (회)</small></span>
+          <input type="number" id="exac-b" min="0" step="1" inputmode="numeric" aria-label="연간 악화 횟수 기저">
+          <input type="number" id="exac-c" min="0" step="1" inputmode="numeric" aria-label="연간 악화 횟수 평가 시점">
+
+          <span class="mname">OCS 용량 <small>prednisone 등가 mg/day·평균 유지용량 기준<br>(지침 원문은 12개월 누적 용량 대비 감량률)</small></span>
+          <input type="number" id="ocs-b" min="0" step="0.5" inputmode="decimal" aria-label="OCS 용량 기저">
+          <input type="number" id="ocs-c" min="0" step="0.5" inputmode="decimal" aria-label="OCS 용량 평가 시점">
+
+          <span class="mname">ACT <small>5–25점</small></span>
+          <input type="number" id="act-b" min="5" max="25" step="1" inputmode="numeric" aria-label="ACT 기저">
+          <input type="number" id="act-c" min="5" max="25" step="1" inputmode="numeric" aria-label="ACT 평가 시점">
+
+          <span class="mname">ACQ <small>0–6점</small></span>
+          <input type="number" id="acq-b" min="0" max="6" step="0.1" inputmode="decimal" aria-label="ACQ 기저">
+          <input type="number" id="acq-c" min="0" max="6" step="0.1" inputmode="decimal" aria-label="ACQ 평가 시점">
+
+          <span class="mname">AQLQ <small>1–7점</small></span>
+          <input type="number" id="aqlq-b" min="1" max="7" step="0.1" inputmode="decimal" aria-label="AQLQ 기저">
+          <input type="number" id="aqlq-c" min="1" max="7" step="0.1" inputmode="decimal" aria-label="AQLQ 평가 시점">
+
+          <span class="mname">pre-BD FEV1 (L)</span>
+          <input type="number" id="fevl-b" min="0" step="0.01" inputmode="decimal" aria-label="FEV1 리터 기저">
+          <input type="number" id="fevl-c" min="0" step="0.01" inputmode="decimal" aria-label="FEV1 리터 평가 시점">
+
+          <span class="mname">pre-BD FEV1 (% pred.)</span>
+          <input type="number" id="fevp-b" min="0" step="1" inputmode="decimal" aria-label="FEV1 퍼센트 기저">
+          <input type="number" id="fevp-c" min="0" step="1" inputmode="decimal" aria-label="FEV1 퍼센트 평가 시점">
+        </div>
+      </fieldset>
+      <div class="reset-row"><button type="button" class="reset" id="reset">입력 초기화</button></div>
+    </div>
+
+    <div class="panel">
+      <h2>평가 결과</h2>
+      <div class="banner bad hidden" id="banner-sae"><b>중증 이상반응(SAE)</b> — 델파이 합의(81.2%)에 따라 단 1건이라도 발생 시 해당 약제의 중단, 변경 또는 위험 대비 이득 재평가가 필요한 중요한 지표로 간주합니다.</div>
+      <div class="banner warn hidden" id="banner-malig"><b>신규 악성종양</b> — 전문가 합의에는 도달하지 못한 항목이나, 약제의 치료 유용성과 투약 지속 여부에 대한 신중한 재평가가 필요한 안전성 신호로 검토되었습니다. 지침 근거 프로파일을 참조하십시오.</div>
+      <div class="banner warn hidden" id="banner-g2"><b>중등도 이상반응(Grade 2)</b> — 델파이 합의(71.0%)에 따라 치료 지속 여부·용량 조절·약제 변경 등 치료 결정에 영향을 주는 유의미한 이상반응으로 간주합니다.</div>
+
+      <div class="group-label"><span class="tag critical">핵심적 지표</span>천식 악화 · 경구 스테로이드</div>
+      <div class="crit-list" id="list-critical"></div>
+
+      <div class="group-label"><span class="tag important">중요한 지표</span>조절도 · 삶의 질 · 폐기능</div>
+      <div class="crit-list" id="list-important"></div>
+
+      <div class="summary" id="summary">
+        <h3>종합 (참고용)</h3>
+        <div class="counts" id="sum-counts"></div>
+        <div id="sum-text"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    기준 출처: 『성인 중증 천식 생물학적 치료제 임상진료지침』 I-5 중요한 건강결과, I-6 MCID (델파이 3라운드 전문가 합의 · 근거 검색일 2025-12-31).
+    경증 이상반응(Grade 1 이하)은 합의(89.9%)에 따라 허용 가능한 위험으로 간주되어 치료 중단·변경의 근거가 되지 않습니다.
+    종합 문구는 핵심질문 7·8 권고안(각 조건부 권고, 근거수준 매우 낮음)으로의 안내이며 공식 판정 알고리즘이 아닙니다.
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+
+  function num(id) {
+    var el = $(id);
+    if (el.value === "") return null;
+    var v = parseFloat(el.value);
+    return isNaN(v) ? null : v;
+  }
+  function fmt(v, d) { return v === null ? "—" : v.toFixed(d === undefined ? 1 : d); }
+
+  // 각 판정: {status: "met"|"unmet"|"na", detail: 문자열}
+  function evalCriteria() {
+    var exB = num("exac-b"), exC = num("exac-c");
+    var ocB = num("ocs-b"), ocC = num("ocs-c");
+    var actB = num("act-b"), actC = num("act-c");
+    var acqB = num("acq-b"), acqC = num("acq-c");
+    var aqB = num("aqlq-b"), aqC = num("aqlq-c");
+    var flB = num("fevl-b"), flC = num("fevl-c");
+    var fpB = num("fevp-b"), fpC = num("fevp-c");
+
+    var critical = [];
+    var important = [];
+
+    // 악화율 ≥20% 감소 (상대값)
+    if (exB === null || exC === null) {
+      critical.push(c("악화율 감소", "기저 대비 ≥20% 감소", "기저·평가 시점 값을 입력하세요", "na"));
+    } else if (exB === 0) {
+      critical.push(c("악화율 감소", "기저 대비 ≥20% 감소", "기저 악화가 없어 감소율 평가 대상이 아닙니다", "na"));
+    } else {
+      var red = (exB - exC) / exB * 100;
+      critical.push(c("악화율 감소", "기저 대비 ≥20% 감소",
+        exB + "회 → " + exC + "회 (" + (red >= 0 ? "감소 " : "증가 ") + fmt(Math.abs(red), 0) + "%)",
+        red >= 20 ? "met" : "unmet"));
+    }
+    // 연간 악화 <1회 (치료 성공)
+    if (exC === null) {
+      critical.push(c("연간 악화 횟수", "연간 1회 미만 (치료 성공 기준)", "평가 시점 값을 입력하세요", "na"));
+    } else {
+      critical.push(c("연간 악화 횟수", "연간 1회 미만 (치료 성공 기준)", "현재 연간 " + exC + "회", exC < 1 ? "met" : "unmet"));
+    }
+    // OCS ≥50% 감량
+    if (ocB === null || ocC === null) {
+      critical.push(c("OCS 감량", "기저 대비 ≥50% 감량", "기저·평가 시점 값을 입력하세요", "na"));
+    } else if (ocB === 0) {
+      critical.push(c("OCS 감량", "기저 대비 ≥50% 감량", "기저 OCS 미사용 — 감량률 평가 대상이 아닙니다", "na"));
+    } else {
+      var ocsRed = (ocB - ocC) / ocB * 100;
+      critical.push(c("OCS 감량", "기저 대비 ≥50% 감량",
+        fmt(ocB) + " → " + fmt(ocC) + " mg/day (" + (ocsRed >= 0 ? "감량 " : "증량 ") + fmt(Math.abs(ocsRed), 0) + "%)",
+        ocsRed >= 50 ? "met" : "unmet"));
+    }
+    // OCS 유지용량 <5 mg/day (치료 성공)
+    if (ocC === null) {
+      critical.push(c("OCS 유지용량", "prednisone 등가 5 mg/day 미만 (치료 성공 기준)", "평가 시점 값을 입력하세요", "na"));
+    } else {
+      critical.push(c("OCS 유지용량", "prednisone 등가 5 mg/day 미만 (치료 성공 기준)", "현재 " + fmt(ocC) + " mg/day", ocC < 5 ? "met" : "unmet"));
+    }
+
+    // ACT +3
+    important.push(delta("ACT", "3점 이상 증가", actB, actC, function (b, cv) { return cv - b >= 3; }, "점", 0, true));
+    // ACQ -0.5
+    important.push(delta("ACQ", "0.5점 이상 감소", acqB, acqC, function (b, cv) { return b - cv >= 0.5; }, "점", 1, false));
+    // AQLQ +0.5
+    important.push(delta("AQLQ", "0.5점 이상 증가", aqB, aqC, function (b, cv) { return cv - b >= 0.5; }, "점", 1, true));
+    // FEV1 L +0.2
+    important.push(delta("FEV1 (L)", "기저치 대비 0.2 L 이상 증가", flB, flC, function (b, cv) { return cv - b >= 0.2; }, "L", 2, true));
+    // FEV1 % 상대 10%
+    if (fpB === null || fpC === null) {
+      important.push(c("FEV1 (%)", "기저치 대비 ≥10% 증가 (상대값)", "기저·평가 시점 값을 입력하세요", "na"));
+    } else if (fpB === 0) {
+      important.push(c("FEV1 (%)", "기저치 대비 ≥10% 증가 (상대값)", "기저값이 0이어서 평가할 수 없습니다", "na"));
+    } else {
+      var inc = (fpC - fpB) / fpB * 100;
+      important.push(c("FEV1 (%)", "기저치 대비 ≥10% 증가 (상대값)",
+        fmt(fpB, 0) + "% → " + fmt(fpC, 0) + "% (" + (inc >= 0 ? "증가 " : "감소 ") + fmt(Math.abs(inc), 0) + "%)",
+        inc >= 10 ? "met" : "unmet"));
+    }
+
+    return { critical: critical, important: important };
+  }
+
+  function c(name, threshold, detail, status) {
+    return { name: name, threshold: threshold, detail: detail, status: status };
+  }
+  function delta(name, threshold, b, cv, test, unit, digits, upGood) {
+    if (b === null || cv === null) return c(name, threshold, "기저·평가 시점 값을 입력하세요", "na");
+    var d = cv - b;
+    var dir = d >= 0 ? "+" : "−";
+    return c(name, threshold,
+      fmt(b, digits) + " → " + fmt(cv, digits) + " " + unit + " (" + dir + fmt(Math.abs(d), digits) + ")",
+      test(b, cv) ? "met" : "unmet");
+  }
+
+  var STATUS_LABEL = { met: "달성", unmet: "미달성", na: "평가 불가" };
+
+  function renderList(el, items) {
+    el.textContent = "";
+    items.forEach(function (it) {
+      var card = document.createElement("div");
+      card.className = "crit";
+      var n = document.createElement("div"); n.className = "cname"; n.textContent = it.name;
+      var t = document.createElement("div"); t.className = "cthreshold"; t.textContent = "기준: " + it.threshold;
+      var v = document.createElement("div"); v.className = "cvalue"; v.textContent = it.detail;
+      var p = document.createElement("span"); p.className = "pill " + it.status; p.textContent = STATUS_LABEL[it.status];
+      card.appendChild(n); card.appendChild(t); card.appendChild(v); card.appendChild(p);
+      el.appendChild(card);
+    });
+  }
+
+  function render() {
+    var r = evalCriteria();
+    renderList($("list-critical"), r.critical);
+    renderList($("list-important"), r.important);
+
+    var ae = $("ae").value;
+    $("banner-sae").classList.toggle("hidden", ae !== "sae");
+    $("banner-malig").classList.toggle("hidden", ae !== "malig");
+    $("banner-g2").classList.toggle("hidden", ae !== "g2");
+
+    var all = r.critical.concat(r.important);
+    var assessed = all.filter(function (x) { return x.status !== "na"; });
+    var met = assessed.filter(function (x) { return x.status === "met"; });
+    var critAssessed = r.critical.filter(function (x) { return x.status !== "na"; });
+    var critMet = critAssessed.filter(function (x) { return x.status === "met"; });
+    var duration = num("duration");
+
+    var counts = $("sum-counts"), text = $("sum-text");
+    if (assessed.length === 0) {
+      counts.textContent = "값을 입력하면 지표별 판정과 종합 안내가 표시됩니다.";
+      text.textContent = "";
+      return;
+    }
+    counts.textContent = "평가 가능한 지표 " + assessed.length + "개 중 " + met.length + "개 달성 · 핵심적 지표는 " +
+      critAssessed.length + "개 중 " + critMet.length + "개 달성";
+
+    text.textContent = "";
+    function para(html, cls) {
+      var p = document.createElement("p");
+      if (cls) p.className = cls;
+      p.innerHTML = html;
+      text.appendChild(p);
+    }
+
+    if (ae === "sae") {
+      para("<span class='route'>안전성 우선 — <b>약제 중단·변경 또는 위험 대비 이득 재평가</b>를 검토하십시오. 효과 지표 달성 여부와 별개로 적용되는 기준입니다.</span>");
+      return;
+    }
+    if (critAssessed.length === 0) {
+      para("핵심적 지표(악화·OCS)가 입력되지 않아 종합 안내를 제공하지 않습니다. 악화 횟수와 OCS 용량은 권고안 도출에서 '핵심적' 건강결과로 분류된 지표입니다.");
+      return;
+    }
+    var critAllMet = critMet.length === critAssessed.length;
+    var critNoneMet = critMet.length === 0;
+    if (critAllMet && met.length >= assessed.length * 0.5) {
+      if (duration !== null && duration >= 6) {
+        para("<span class='route'>반응 양호 신호 — 6개월 이상 안정적으로 조절되는 경우 <b>핵심질문 7: 생물학적 제제의 단계적 감량 전략</b>을 고려할 수 있습니다 (조건부 권고, 근거수준 매우 낮음).</span>");
+      } else {
+        para("<span class='route'>반응 양호 신호 — 현재 치료 유지를 고려할 수 있습니다. 6개월 이상 안정적 조절이 확인되면 <b>핵심질문 7(단계적 감량)</b> 권고안을 참조하십시오.</span>");
+      }
+    } else if (critNoneMet) {
+      para("<span class='route'>반응 불충분 신호 — 적절한 치료 기간에도 임상적 반응이 불충분한 경우 <b>핵심질문 8: 다른 생물학적 제제로의 교체</b>를 고려할 수 있습니다 (조건부 권고, 근거수준 매우 낮음).</span>");
+    } else {
+      para("<span class='route'>혼합된 결과 — 일부 지표만 MCID를 달성했습니다. 환자의 가치와 선호, 치료 기간, 이상반응을 함께 고려한 개별화된 판단이 필요합니다. <b>핵심질문 7·8</b> 권고안을 참조하십시오.</span>");
+    }
+    if (ae === "g2") {
+      para("중등도 이상반응이 보고되어 있으므로, 위 안내와 함께 치료 지속 여부·용량 조절·약제 변경을 검토하십시오.");
+    }
+    para("본 종합 문구는 MCID 기준을 정리한 참고용 안내이며, 지침의 공식 판정 알고리즘이 아닙니다.");
+  }
+
+  document.querySelectorAll("input, select").forEach(function (el) {
+    el.addEventListener("input", render);
+  });
+  $("reset").addEventListener("click", function () {
+    document.querySelectorAll("input").forEach(function (el) { el.value = ""; });
+    $("ae").value = "none";
+    render();
+  });
+  render();
+})();
+</script>
