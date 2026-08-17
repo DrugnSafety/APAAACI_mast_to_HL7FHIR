@@ -32,7 +32,7 @@
     border-radius:0 8px 8px 0; padding:12px 16px; font-size:13.5px; color:var(--ink-soft); max-width:860px; margin-bottom:30px; }
   .demo-note b { color:var(--warn); }
 
-  .controls { display:grid; gap:18px; margin-bottom:28px; }
+  .controls { display:grid; gap:18px; margin-bottom:24px; }
   @media (min-width:900px) { .controls { grid-template-columns:minmax(0,3fr) minmax(0,2fr); } }
   .panel { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:20px 22px; }
   .panel h2 { font-size:12.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 14px; }
@@ -43,11 +43,16 @@
     background:var(--ground); border:1px solid var(--line); border-radius:8px; padding:7px 9px; width:100%; }
   input:focus-visible, select:focus-visible, button:focus-visible { outline:2px solid var(--accent); outline-offset:1px; }
   .presets { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
-  .presets button { font:inherit; font-size:12.5px; font-weight:600; cursor:pointer; color:var(--ink-soft);
+  .presets button, .modes button { font:inherit; font-size:12.5px; font-weight:600; cursor:pointer; color:var(--ink-soft);
     background:var(--surface-2); border:1px solid var(--line); border-radius:999px; padding:5px 13px; }
   .presets button:hover { color:var(--accent); border-color:var(--accent); }
   .wsum { font-size:12.5px; color:var(--ink-faint); margin-top:10px; font-variant-numeric:tabular-nums; }
   .wnote { font-size:12px; color:var(--ink-faint); margin-top:6px; }
+
+  .listbar { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin:26px 0 12px; }
+  .sec-label { font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint); }
+  .modes { display:flex; gap:6px; }
+  .modes button.on { background:var(--accent); border-color:var(--accent); color:var(--surface); }
 
   .cards { display:grid; gap:16px; }
   @media (min-width:860px) { .cards { grid-template-columns:1fr 1fr; } }
@@ -60,24 +65,22 @@
   .badges { display:flex; flex-wrap:wrap; gap:6px; justify-content:flex-end; }
   .badge { font-size:11px; font-weight:700; padding:2px 9px; border-radius:4px; letter-spacing:.03em; white-space:nowrap; }
   .badge.ok { background:var(--accent-soft); color:var(--accent); }
-  .badge.mock { background:var(--warn-soft); color:var(--warn); border:1px dashed var(--warn); }
   .badge.real { background:var(--accent); color:var(--surface); }
   .badge.na { background:var(--chip); color:var(--ink-faint); }
   .badge.pick { background:var(--accent); color:var(--surface); }
   .src-line { font-size:12px; color:var(--ink-faint); margin:0 0 12px; }
   .reason { font-size:13px; color:var(--ink-soft); background:var(--surface-2); border-radius:8px; padding:10px 12px; margin-top:10px; }
 
-  .orow { display:grid; grid-template-columns:112px minmax(80px,1fr) auto; gap:8px; align-items:center; padding:5px 0; border-top:1px solid var(--line); }
+  .orow { display:grid; grid-template-columns:104px minmax(60px,1fr) minmax(158px,auto); gap:8px; align-items:center; padding:6px 0; border-top:1px solid var(--line); }
   .orow:first-of-type { border-top:none; }
   .oname { font-size:12.5px; font-weight:600; }
   .oname .mstat { display:block; font-size:10.5px; font-weight:700; letter-spacing:.03em; }
   .mstat.met { color:var(--accent); } .mstat.border { color:var(--warn); } .mstat.notmet, .mstat.ns { color:var(--ink-faint); }
-  .oval { font-size:12px; color:var(--ink-soft); text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap; }
-  .oval .grade { color:var(--ink-faint); letter-spacing:-.5px; }
+  .oval { font-size:13px; text-align:right; font-variant-numeric:tabular-nums; }
+  .oval .anchored { font-weight:700; }
+  .oval .orig { display:block; font-size:11px; color:var(--ink-faint); }
   .osvg { width:100%; height:20px; display:block; }
 
-  .abs { margin-top:12px; background:var(--accent-soft); border-radius:8px; padding:9px 12px; font-size:13px; }
-  .abs b { color:var(--accent); }
   .practical { font-size:12.5px; color:var(--ink-soft); margin-top:10px; line-height:1.55; }
 
   .mcda { margin-top:14px; border-top:1px solid var(--line); padding-top:12px; }
@@ -88,15 +91,19 @@
   .crow .cv { text-align:right; font-variant-numeric:tabular-nums; color:var(--ink-faint); }
   .mcda-note { font-size:11px; color:var(--ink-faint); margin-top:6px; }
 
-  .sec-label { font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint); margin:26px 0 12px; }
-  footer { margin-top:40px; font-size:12.5px; color:var(--ink-faint); max-width:860px; border-top:1px solid var(--line); padding-top:16px; }
+  .pt-list { list-style:none; margin:8px 0 0; padding:0; display:grid; gap:8px; }
+  .pt-list li { display:grid; grid-template-columns:74px 1fr; gap:10px; font-size:14px; }
+  .pt-list .k { font-size:12px; font-weight:700; color:var(--accent); padding-top:2px; }
+  .pt-note { font-size:12px; color:var(--ink-faint); margin-top:12px; border-top:1px solid var(--line); padding-top:8px; }
+
+  footer { margin-top:40px; font-size:12.5px; color:var(--ink-faint); max-width:900px; border-top:1px solid var(--line); padding-top:16px; }
 </style>
 
 <div class="page">
   <p class="eyebrow">PACEN Decision Support · Prediction 파트 데모</p>
   <h1>약제 선택 지원 — 순위 없는 병렬 카드 데모</h1>
-  <p class="lede">환자 지표를 입력하면 ① 적격성 필터가 후보 약제를 가리고, ② 각 약제 카드가 위약 대비 효과·MCID·근거수준을 병렬로 보여주며, ③ 선호도 가중치를 조정하면 '우선 검토 후보' 그룹핑이 산출 내역과 함께 표시됩니다.</p>
-  <div class="demo-note"><b>데모 고지</b> — Benralizumab·Dupilumab·Tezepelumab 카드의 효과 수치는 KQ4·KQ5·KQ6 근거 프로파일 실측치이며, Omalizumab·Mepolizumab·Reslizumab 카드의 효과 수치는 <b>UI 시연용 가상 예시값</b>입니다(카드에 표기). 비용·이상반응·편의성 축 점수는 전 약제 공통으로 아직 가상 점수입니다(실제 산정식은 하단 참조). 본 데모는 지침의 공식 알고리즘이 아니며 진료 판단을 대체하지 않습니다.</div>
+  <p class="lede">환자 지표를 입력하면 적격성 필터가 후보를 가리고, 각 카드가 <b>환자 기저치 기준 절대 기대효과(95% CI)</b>를 주 표시로 보여줍니다. 효과 축 점수는 'MCID 배수 × 환자 설문 지표 가중치'로 합성되며, 선호도 가중치에 따라 우선 검토 후보가 바뀝니다.</p>
+  <div class="demo-note"><b>데모 고지</b> — 6개 약제 카드의 효과 수치는 모두 KQ1~KQ6 근거 프로파일 실측치입니다. 비용·이상반응·편의성 축 점수는 아직 가상 점수입니다(실제 산정식: 하단). 본 데모는 지침의 공식 알고리즘이 아니며 진료 판단을 대체하지 않습니다.</div>
 
   <div class="controls">
     <div class="panel">
@@ -125,18 +132,28 @@
         <button type="button" data-w="30,20,15,35">편의 중시형</button>
       </div>
       <div class="wsum" id="wsum"></div>
-      <div class="wnote">기본값은 환자 108명 가치·선호도 조사의 평균 우선순위를 근사 환산한 것입니다(공식 환산 방식은 운영위 확정 예정).</div>
+      <div class="wnote">효과 축 내부의 지표 가중치(증상 33.5 · 스테로이드 21.4 · 폐기능 15.8 · 악화 14.7 · 삶의 질 14.6)는 환자 108명 설문(표7.2)에서 가져온 값입니다.</div>
     </div>
   </div>
 
-  <p class="sec-label" id="elig-label"></p>
+  <div class="listbar">
+    <span class="sec-label" id="elig-label"></span>
+    <div class="modes" role="group" aria-label="보기 모드">
+      <button type="button" id="mode-pro" class="on">의료진 보기</button>
+      <button type="button" id="mode-pt">환자 보기</button>
+    </div>
+  </div>
   <div class="cards" id="cards"></div>
 
   <footer>
-    실측 데이터 출처 — KQ4 Benralizumab: AAER RAR 0.45 (0.29–0.60), OCS −50% (−64.1~−35.9, 단일연구), ACQ −0.32, FEV1 +0.14 L (6 RCT). KQ5 Dupilumab: AAER RAR 0.54 (0.43–0.68), OCS −28.2% (−36.9~−19.5, 단일연구), ACQ −0.28, FEV1 +0.23 L (MCID 판정은 문서 기준). KQ6 Tezepelumab: AAER RAR 0.37 (0.24–0.51, 근거수준 높음), OCS ≤5mg 도달 RR 1.06 (ns·단일연구), ACQ −0.34, FEV1 +0.18 L.
-    비용 축의 실제 산정(추후): 연간 본인부담 추정액 = 투여당 약가(심평원 고시 상한금액) × 연간 투여 횟수(용법 기반) × 본인부담률 + 투여 행위료 — 현재 데모는 가상 점수.
-    적격성 규칙·부합 강도는 권고문(조건부·호산구성)과 KQ4 하위군 분석(호산구 ≥300 vs &lt;300)·연구 등록기준(Table 4-3)을 단순화한 데모 규칙입니다.
-    ⊕ 표기는 GRADE 근거수준. 채워진 원 = MCID 충족 + 유의, 빈 원 = 유의하나 MCID 미달/경계, 회색 = 통계적 유의성 없음. 약제 간 직접 비교(head-to-head) 근거는 없으며, 카드 정렬은 선호도 가중 점수에 따른 '우선 검토 후보' 그룹핑일 뿐 약제 간 우열 판정이 아닙니다.
+    효과 수치 출처(전부 실측): KQ1 Omalizumab — 악화 발생 RR 0.68 (0.60–0.77), OCS −85.2% (−153.0~−14.3), ACQ −0.51, FEV1 +0.22 L, AQLQ +0.64 ·
+    KQ2 Mepolizumab — AAER 0.48 (0.40–0.57), OCS −50.0% (−81.5~−18.5), ACQ −0.42, FEV1 +0.12 L, AQLQ ns ·
+    KQ3 Reslizumab — AAER 0.45 (0.35–0.56), ACQ −0.25, FEV1 +0.13 L, AQLQ +0.24 (OCS 근거 없음) ·
+    KQ4 Benralizumab — AAER 0.45 (0.29–0.60), OCS −50% (경계), ACQ −0.32, FEV1 +0.14 L, AQLQ +0.27 ·
+    KQ5 Dupilumab — AAER 0.54 (0.43–0.68), OCS −28.2%, ACQ −0.28, FEV1 +0.23 L, AQLQ +0.31 ·
+    KQ6 Tezepelumab — AAER 0.37 (0.24–0.51), OCS ns, ACQ −0.34, FEV1 +0.18 L, AQLQ +0.34. MCID 판정·근거수준(⊕)은 각 KQ 문서 기준.
+    절대 수치는 평균 상대효과와 그 신뢰구간을 환자 기저치에 적용한 값으로 개인 결과의 예측 범위가 아니며, omalizumab 악화 지표는 발생률비(event RR)라 횟수 환산 대신 위험 감소율로 표기합니다.
+    비용 축(가상)의 실제 산정 예정식: 기간 창(첫 12개월/유지 12개월) 고정 × 고시 표시가 × 연간 투여 횟수 × 본인부담률, 실손보험은 환자 입력 파라미터(회당 한도·공제·정률)로 반영 — 환자 본인부담 관점·표시가 기준(RSA 환급은 공단-제약사 간 비공개 계약으로 환자 부담에 영향 없음).
   </footer>
 </div>
 
@@ -145,60 +162,86 @@
   "use strict";
   var $ = function (id) { return document.getElementById(id); };
   var GRADE = { 4:"⊕⊕⊕⊕", 3:"⊕⊕⊕◯", 2:"⊕⊕◯◯", 1:"⊕◯◯◯" };
+  var GWORD = { 4:"높음", 3:"중간", 2:"낮음", 1:"매우 낮음" };
   var MLABEL = { met:"MCID 충족", border:"MCID 경계", notmet:"MCID 미달", ns:"유의차 없음" };
+  var MODE = "pro";
 
-  // 효과 데이터. benralizumab만 실측(KQ4), 나머지는 데모용 가상값(mock:true)
+  // 효과 데이터: 전부 KQ1~6 근거 프로파일 실측치
   var DRUGS = [
-    { id:"omal", name:"Omalizumab", target:"anti-IgE", real:false, interval:"2~4주 SC",
-      safety:"전체 AE 위약 유사 (가상 예시)", practical:"급여 등재 · 용량은 IgE·체중 기반",
-      out:{ aaer:{v:0.75,lo:0.60,hi:0.94,g:2,st:"notmet"}, ocs:null,
-            acq:{v:-0.25,lo:-0.40,hi:-0.10,g:2,st:"notmet"}, fev:{v:0.07,lo:0.01,hi:0.13,g:2,st:"notmet"} },
+    { id:"omal", name:"Omalizumab", target:"anti-IgE", srcLabel:"KQ1 실측치",
+      srcNote:"출처: KQ1 근거 프로파일 · 조건부 권고 (*알레르기성)", interval:"2~4주 SC (IgE·체중 기반 용량)",
+      safety:"전체 AE 위약 유사 (KQ1)", practical:"급여 등재 · 용량 개인차 큼",
+      out:{ aaer:{v:0.68,lo:0.60,hi:0.77,g:4,st:"met",kind:"event"},
+            ocs:{v:-85.16,lo:-153.02,hi:-14.30,g:2,st:"notmet"},
+            acq:{v:-0.51,lo:-0.85,hi:-0.17,g:2,st:"notmet"},
+            fev:{v:0.22,lo:0.13,hi:0.31,g:2,st:"notmet"},
+            aqlq:{v:0.64,lo:0.13,hi:1.16,g:2,st:"notmet"} },
       scores:{cost:65, ae:85, conv:70} },
-    { id:"mepo", name:"Mepolizumab", target:"anti-IL-5", real:false, interval:"4주 SC",
-      safety:"전체 AE 위약 유사 (가상 예시)", practical:"급여 등재 · 자가투여 가능",
-      out:{ aaer:{v:0.47,lo:0.35,hi:0.62,g:3,st:"met"}, ocs:{v:-50,lo:-66,hi:-34,g:3,st:"border"},
-            acq:{v:-0.42,lo:-0.56,hi:-0.28,g:2,st:"notmet"}, fev:{v:0.10,lo:0.04,hi:0.16,g:2,st:"notmet"} },
+    { id:"mepo", name:"Mepolizumab", target:"anti-IL-5", srcLabel:"KQ2 실측치",
+      srcNote:"출처: KQ2 근거 프로파일 · 조건부 권고 (*호산구성)", interval:"4주 SC",
+      safety:"전체 AE 위약 유사 (KQ2)", practical:"급여 등재 · 자가투여 가능",
+      out:{ aaer:{v:0.48,lo:0.40,hi:0.57,g:4,st:"met"},
+            ocs:{v:-50.0,lo:-81.5,hi:-18.5,g:3,st:"notmet"},
+            acq:{v:-0.42,lo:-0.55,hi:-0.29,g:3,st:"notmet"},
+            fev:{v:0.12,lo:0.07,hi:0.17,g:2,st:"notmet"},
+            aqlq:{v:0.22,lo:-0.03,hi:0.46,g:3,st:"ns"} },
       scores:{cost:70, ae:86, conv:75} },
-    { id:"resli", name:"Reslizumab", target:"anti-IL-5", real:false, interval:"4주 IV",
-      safety:"전체 AE 위약 유사 (가상 예시)", practical:"급여 등재 · 체중 기반 용량 · 의료기관 정맥 투여",
-      out:{ aaer:{v:0.46,lo:0.33,hi:0.64,g:3,st:"met"}, ocs:null,
-            acq:{v:-0.25,lo:-0.38,hi:-0.12,g:2,st:"notmet"}, fev:{v:0.09,lo:0.03,hi:0.15,g:2,st:"notmet"} },
+    { id:"resli", name:"Reslizumab", target:"anti-IL-5", srcLabel:"KQ3 실측치",
+      srcNote:"출처: KQ3 근거 프로파일 · 조건부 권고 (*호산구성)", interval:"4주 IV",
+      safety:"전체 AE 위약 유사 (KQ3)", practical:"급여 등재 · 체중 기반 용량 · 의료기관 정맥 투여",
+      out:{ aaer:{v:0.45,lo:0.35,hi:0.56,g:3,st:"met"},
+            ocs:null,
+            acq:{v:-0.25,lo:-0.33,hi:-0.17,g:3,st:"notmet"},
+            fev:{v:0.13,lo:0.08,hi:0.17,g:3,st:"notmet"},
+            aqlq:{v:0.24,lo:0.12,hi:0.36,g:3,st:"notmet"} },
       scores:{cost:55, ae:84, conv:40} },
-    { id:"benra", name:"Benralizumab", target:"anti-IL-5Rα", real:true, srcLabel:"KQ4 실측치",
+    { id:"benra", name:"Benralizumab", target:"anti-IL-5Rα", srcLabel:"KQ4 실측치",
       srcNote:"출처: KQ4 근거 프로파일 (6 RCT) · 조건부 권고 (*호산구성)", interval:"8주 SC (초기 3회 4주)",
       safety:"전체 AE RR 0.99 · SAE RR 0.73 — 위약과 유의차 없음 (KQ4)", practical:"급여 등재 · 8주 유지 간격 · 자가투여 가능",
-      out:{ aaer:{v:0.45,lo:0.29,hi:0.60,g:3,st:"met"}, ocs:{v:-50,lo:-64.1,hi:-35.9,g:3,st:"border"},
-            acq:{v:-0.32,lo:-0.45,hi:-0.19,g:2,st:"notmet"}, fev:{v:0.14,lo:0.09,hi:0.19,g:2,st:"notmet"} },
+      out:{ aaer:{v:0.45,lo:0.29,hi:0.60,g:3,st:"met"},
+            ocs:{v:-50,lo:-64.1,hi:-35.9,g:3,st:"border"},
+            acq:{v:-0.32,lo:-0.45,hi:-0.19,g:2,st:"notmet"},
+            fev:{v:0.14,lo:0.09,hi:0.19,g:2,st:"notmet"},
+            aqlq:{v:0.27,lo:0.12,hi:0.42,g:2,st:"notmet"} },
       scores:{cost:72, ae:87, conv:95} },
-    { id:"dupi", name:"Dupilumab", target:"anti-IL-4Rα", real:true, srcLabel:"KQ5 실측치",
+    { id:"dupi", name:"Dupilumab", target:"anti-IL-4Rα", srcLabel:"KQ5 실측치",
       srcNote:"출처: KQ5 근거 프로파일 (5 RCT) · 조건부 권고 (*제2형 염증성)", interval:"2주 SC",
       safety:"전체 AE 위약 유사 · 주사부위 반응·일시적 호산구 상승 보고 (KQ5)", practical:"급여 등재 · 비용종·아토피피부염 동반 시 이득 고려",
-      out:{ aaer:{v:0.54,lo:0.43,hi:0.68,g:2,st:"met"}, ocs:{v:-28.2,lo:-36.9,hi:-19.5,g:3,st:"notmet"},
-            acq:{v:-0.28,lo:-0.43,hi:-0.13,g:2,st:"notmet"}, fev:{v:0.23,lo:0.12,hi:0.35,g:2,st:"notmet"} },
+      out:{ aaer:{v:0.54,lo:0.43,hi:0.68,g:2,st:"met"},
+            ocs:{v:-28.2,lo:-36.9,hi:-19.5,g:3,st:"notmet"},
+            acq:{v:-0.28,lo:-0.43,hi:-0.13,g:2,st:"notmet"},
+            fev:{v:0.23,lo:0.12,hi:0.35,g:2,st:"notmet"},
+            aqlq:{v:0.31,lo:0.18,hi:0.43,g:2,st:"notmet"} },
       scores:{cost:62, ae:82, conv:60} },
-    { id:"teze", name:"Tezepelumab", target:"anti-TSLP", real:true, srcLabel:"KQ6 실측치",
+    { id:"teze", name:"Tezepelumab", target:"anti-TSLP", srcLabel:"KQ6 실측치",
       srcNote:"출처: KQ6 근거 프로파일 (4 RCT) · 조건부 권고", interval:"4주 SC",
       safety:"전체 AE 위약 유사 (KQ6)", practical:"표현형 무관 사용 가능 · 급여 기준 확인 필요",
-      out:{ aaer:{v:0.37,lo:0.24,hi:0.51,g:4,st:"met"}, ocs:{txt:"OCS ≤5mg 도달 RR 1.06 (0.87–1.30) · 단일연구", g:3, st:"ns"},
-            acq:{v:-0.34,lo:-0.42,hi:-0.25,g:3,st:"notmet"}, fev:{v:0.18,lo:0.11,hi:0.25,g:3,st:"notmet"} },
+      out:{ aaer:{v:0.37,lo:0.24,hi:0.51,g:4,st:"met"},
+            ocs:{txt:"OCS ≤5mg 도달 RR 1.06 (0.87–1.30) · 단일연구", g:3, st:"ns"},
+            acq:{v:-0.34,lo:-0.42,hi:-0.25,g:3,st:"notmet"},
+            fev:{v:0.18,lo:0.11,hi:0.25,g:3,st:"notmet"},
+            aqlq:{v:0.34,lo:0.24,hi:0.44,g:3,st:"notmet"} },
       scores:{cost:58, ae:85, conv:75} }
   ];
 
+  // 지표 정의: dom=막대 축 범위, nul=무효과, mcid=역치, u=효과 축 내 가중치(표7.2 환자 설문)
   var OUTS = [
-    { key:"aaer", label:"악화율 (RAR)", dom:[0.2,1.12], nul:1, mcid:0.8, fmt:function(o){return o.v.toFixed(2)+" ("+o.lo.toFixed(2)+"–"+o.hi.toFixed(2)+")";} },
-    { key:"ocs",  label:"OCS 감량 (%)", dom:[-75,12], nul:0, mcid:-50, fmt:function(o){return o.v.toFixed(0)+"% ("+o.lo.toFixed(0)+"~"+o.hi.toFixed(0)+")";} },
-    { key:"acq",  label:"ACQ (MD)", dom:[-0.62,0.12], nul:0, mcid:-0.5, fmt:function(o){return o.v.toFixed(2)+" ("+o.lo.toFixed(2)+"~"+o.hi.toFixed(2)+")";} },
-    { key:"fev",  label:"FEV1 (MD L)", dom:[-0.05,0.26], nul:0, mcid:0.2, fmt:function(o){return "+"+o.v.toFixed(2)+" ("+o.lo.toFixed(2)+"–"+o.hi.toFixed(2)+")";} }
+    { key:"aaer", label:"악화", dom:[0.2,1.12], nul:1, mcid:0.8, u:0.147 },
+    { key:"ocs",  label:"OCS 감량", dom:[-90,12], nul:0, mcid:-50, u:0.214 },
+    { key:"acq",  label:"조절도 ACQ", dom:[-0.62,0.12], nul:0, mcid:-0.5, u:0.335 },
+    { key:"fev",  label:"폐기능 FEV1", dom:[-0.05,0.30], nul:0, mcid:0.2, u:0.158 },
+    { key:"aqlq", label:"삶의 질 AQLQ", dom:[-0.1,0.75], nul:0, mcid:0.5, u:0.146 }
   ];
 
   function num(id){ var v=parseFloat($(id).value); return isNaN(v)?0:v; }
+  function esc(t){ return String(t).replace(/[&<>"]/g, function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
 
   function eligibility(d, p) {
     if (d.id==="omal") return (p.sens==="yes" && p.ige>=30)
-      ? {ok:true, strength:"부합 확인"} : {ok:false, reason:"통년성 알레르겐 감작 미확인 — 알레르기성 천식 기준 미충족"};
+      ? {ok:true, strength:"부합 확인 (알레르기성)"} : {ok:false, reason:"통년성 알레르겐 감작 미확인 — 알레르기성 천식 기준 미충족"};
     if (d.id==="mepo") return p.eos>=150 ? {ok:true, strength:p.eos>=300?"부합 높음 (호산구 ≥300)":"부합 중간 (호산구 150–299)"} : {ok:false, reason:"혈중 호산구 150/µL 미만"};
     if (d.id==="resli") return p.eos>=400 ? {ok:true, strength:"부합 확인 (호산구 ≥400)"} : {ok:false, reason:"혈중 호산구 400/µL 미만"};
-    if (d.id==="benra") return p.eos>=150 ? {ok:true, strength:p.eos>=300?"부합 높음 (≥300 하위군 근거 일관)":"부합 중간 (<300군 효과 불확실 — KQ4 하위군)"} : {ok:false, reason:"혈중 호산구 150/µL 미만"};
+    if (d.id==="benra") return p.eos>=150 ? {ok:true, strength:p.eos>=300?"부합 높음 (≥300 하위군 근거 일관)":"부합 중간 (<300군 효과 불확실)"} : {ok:false, reason:"혈중 호산구 150/µL 미만"};
     if (d.id==="dupi") {
       if (p.eos>=150 || p.feno>=25 || p.ocs>0) {
         var s = (p.ocs>0) ? "부합 높음 (OCS 의존)" : (p.eos>=150 && p.feno>=25) ? "부합 높음 (제2형 지표 2개)" : "부합 중간 (제2형 지표 1개)";
@@ -209,9 +252,35 @@
     return {ok:true, strength:"표현형 무관 (부합 판정 불필요)"};
   }
 
+  // MCID 배수 r_j (0~1.5 상한). ns=0, 근거 없음=null(제외 후 재정규화)
+  function mcidRatio(key, o) {
+    if (!o) return null;
+    if (o.st==="ns") return 0;
+    if (o.txt) return 0;
+    if (key==="aaer") return (1-o.v)/0.2;
+    if (key==="ocs")  return Math.abs(o.v)/50;
+    if (key==="acq")  return Math.abs(o.v)/0.5;
+    if (key==="fev")  return o.v/0.2;
+    if (key==="aqlq") return o.v/0.5;
+    return null;
+  }
+  function effectScore(d) {
+    var sumU=0, acc=0, missing=[];
+    OUTS.forEach(function(spec){
+      var r = mcidRatio(spec.key, d.out[spec.key]);
+      if (r===null) { missing.push(spec.label); return; }
+      sumU += spec.u;
+      acc += spec.u * Math.min(Math.max(r,0),1.5)/1.5;
+    });
+    return { s: sumU>0 ? Math.round(acc/sumU*100) : 0, missing:missing };
+  }
+
   function svgBar(spec, o) {
-    var W=170, H=20, y=10;
-    function x(v){ return ( (v-spec.dom[0]) / (spec.dom[1]-spec.dom[0]) ) * (W-8) + 4; }
+    var W=150, H=20, y=10;
+    function x(v){
+      var t=(v-spec.dom[0])/(spec.dom[1]-spec.dom[0]);
+      return Math.min(Math.max(t,0),1)*(W-8)+4;
+    }
     var ns = o.st==="ns";
     var color = ns ? "var(--ink-faint)" : "var(--accent)";
     var fill = (o.st==="met") ? color : "var(--surface)";
@@ -223,7 +292,51 @@
     return s + '</svg>';
   }
 
-  function esc(t){ return String(t).replace(/[&<>"]/g, function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+  // 환자 기저치 결합 절대효과 문장 (주 표시) + 원 지표 문자열 (부 표시)
+  function anchored(key, o, p) {
+    var f1=function(x){return x.toFixed(1);}, f2=function(x){return x.toFixed(2);};
+    if (key==="aaer") {
+      if (o.kind==="event")
+        return { main:"악화 위험 약 "+Math.round((1-o.v)*100)+"% 감소 (CI "+Math.round((1-o.hi)*100)+"–"+Math.round((1-o.lo)*100)+"%)",
+                 orig:"RR(발생) "+f2(o.v)+" ("+f2(o.lo)+"–"+f2(o.hi)+") · "+GRADE[o.g] };
+      if (p.exac<=0) return { main:"기저 악화 0회 — 환산 대상 아님", orig:"RAR "+f2(o.v)+" ("+f2(o.lo)+"–"+f2(o.hi)+") · "+GRADE[o.g] };
+      return { main:"연 "+f1(p.exac)+"회 → 약 "+f1(p.exac*o.v)+"회 (CI "+f1(p.exac*o.lo)+"–"+f1(p.exac*o.hi)+")",
+               orig:"RAR "+f2(o.v)+" ("+f2(o.lo)+"–"+f2(o.hi)+") · "+GRADE[o.g] };
+    }
+    if (key==="ocs") {
+      if (o.txt) return { main:"감량 효과 확인되지 않음", orig:o.txt+" · "+GRADE[o.g] };
+      if (p.ocs<=0) return { main:"기저 OCS 없음 — 해당 없음", orig:"MD "+o.v.toFixed(1)+"% ("+o.lo.toFixed(1)+"~"+o.hi.toFixed(1)+") · "+GRADE[o.g] };
+      var nv=Math.max(p.ocs*(1+o.v/100),0), nlo=Math.max(p.ocs*(1+o.lo/100),0), nhi=Math.max(p.ocs*(1+o.hi/100),0);
+      return { main:f1(p.ocs)+" → 약 "+f1(nv)+" mg/day (CI "+f1(nlo)+"–"+f1(nhi)+")"+(o.lo<-100?" · 중단 가능성 포함":""),
+               orig:"MD "+o.v.toFixed(1)+"% ("+o.lo.toFixed(1)+"~"+o.hi.toFixed(1)+") · "+GRADE[o.g] };
+    }
+    if (key==="acq") return { main:"ACQ 약 "+f2(Math.abs(o.v))+"점 개선 (CI "+f2(Math.abs(o.hi))+"–"+f2(Math.abs(o.lo))+")",
+                              orig:"MD "+f2(o.v)+" ("+f2(o.lo)+"~"+f2(o.hi)+") · "+GRADE[o.g] };
+    if (key==="fev") return { main:"FEV1 약 "+f2(o.v)+" L 증가 (CI "+f2(o.lo)+"–"+f2(o.hi)+")",
+                              orig:"MD +"+f2(o.v)+" L · "+GRADE[o.g] };
+    if (key==="aqlq") {
+      if (o.st==="ns") return { main:"유의한 차이 없음", orig:"MD "+f2(o.v)+" ("+f2(o.lo)+"~"+f2(o.hi)+") · "+GRADE[o.g] };
+      return { main:"AQLQ 약 "+f2(o.v)+"점 개선 (CI "+f2(o.lo)+"–"+f2(o.hi)+")",
+               orig:"MD +"+f2(o.v)+" · "+GRADE[o.g] };
+    }
+    return { main:"", orig:"" };
+  }
+
+  function ptSentences(d, p) {
+    var L=[], a=d.out.aaer;
+    if (a.kind==="event") L.push(["발작","천식 발작 위험이 약 "+Math.round((1-a.v)*100)+"% 낮아질 것으로 기대돼요."]);
+    else if (p.exac>0) L.push(["발작","1년에 약 "+p.exac+"번 겪던 발작이 약 "+ (p.exac*a.v).toFixed(1) +"번 수준으로 줄어들 것으로 기대돼요."]);
+    else L.push(["발작","최근 1년간 발작이 없어 발작 감소 효과를 숫자로 보여드리기 어려워요."]);
+    var o=d.out.ocs;
+    if (!o) L.push(["스테로이드","먹는 스테로이드를 줄이는 효과는 이 약에서 따로 연구되지 않았어요."]);
+    else if (o.st==="ns") L.push(["스테로이드","먹는 스테로이드를 줄이는 효과는 확인되지 않았어요."]);
+    else if (p.ocs>0) L.push(["스테로이드","먹는 스테로이드를 "+Math.round(Math.abs(o.v))+"% 정도 줄일 가능성이 있어요."]);
+    else L.push(["스테로이드","현재 먹는 스테로이드를 쓰지 않아 해당되지 않아요."]);
+    L.push(["증상·검사","숨 기능과 증상 점수도 좋아지지만, 뚜렷이 체감될 정도는 아닐 수 있어요."]);
+    L.push(["주사",""+d.interval+" · "+d.practical]);
+    L.push(["근거","이 약 효과에 대한 연구 근거의 확실성: "+GWORD[a.g]]);
+    return L;
+  }
 
   function render() {
     var p = { eos:num("eos"), feno:num("feno"), ige:num("ige"), sens:$("sens").value, exac:num("exac"), ocs:num("ocs") };
@@ -234,13 +347,9 @@
 
     var items = DRUGS.map(function(d){
       var e = eligibility(d,p);
-      var absRed = (e.ok && d.out.aaer) ? p.exac*(1-d.out.aaer.v) : 0;
-      return { d:d, e:e, absRed:absRed };
-    });
-    var maxRed = Math.max.apply(null, items.filter(function(i){return i.e.ok;}).map(function(i){return i.absRed;}).concat([0.0001]));
-    items.forEach(function(i){
-      i.sEff = i.e.ok ? Math.round(i.absRed/maxRed*100) : 0;
-      i.score = i.e.ok ? Math.round(w.eff*i.sEff + w.cost*i.d.scores.cost + w.ae*i.d.scores.ae + w.conv*i.d.scores.conv) : -1;
+      var ef = effectScore(d);
+      return { d:d, e:e, sEff:ef.s, effMissing:ef.missing,
+               score: e.ok ? Math.round(w.eff*ef.s + w.cost*d.scores.cost + w.ae*d.scores.ae + w.conv*d.scores.conv) : -1 };
     });
     var eligible = items.filter(function(i){return i.e.ok;}).sort(function(a,b){return b.score-a.score;});
     var inelig = items.filter(function(i){return !i.e.ok;});
@@ -254,36 +363,44 @@
       var h = '<div class="card-head"><h3>'+esc(d.name)+'<small>'+esc(d.target)+'</small></h3><div class="badges">';
       if (e.ok && idx===0) h += '<span class="badge pick">우선 검토 후보 · 데모</span>';
       h += e.ok ? '<span class="badge ok">'+esc(e.strength)+'</span>' : '<span class="badge na">비적격</span>';
-      h += d.real ? '<span class="badge real">'+esc(d.srcLabel)+'</span>' : '<span class="badge mock">예시값 · 가상</span>';
+      h += '<span class="badge real">'+esc(d.srcLabel)+'</span>';
       h += '</div></div>';
-      h += '<p class="src-line">'+ (d.real ? esc(d.srcNote) : "데모용 가상 수치 — 실제 KQ 근거 프로파일로 교체 예정") +'</p>';
 
       if (!e.ok) {
+        h += '<p class="src-line">'+esc(d.srcNote)+'</p>';
         h += '<div class="reason">사유: '+esc(e.reason)+'</div>';
         card.innerHTML = h; host.appendChild(card); return;
       }
+
+      if (MODE==="pt") {
+        var pt = ptSentences(d,p);
+        h += '<ul class="pt-list">';
+        pt.forEach(function(r){ h += '<li><span class="k">'+esc(r[0])+'</span><span>'+esc(r[1])+'</span></li>'; });
+        h += '</ul>';
+        h += '<div class="pt-note">여기 나온 숫자는 비슷한 환자들의 연구 평균값이에요. 실제 효과는 사람마다 다를 수 있으니, 약 선택은 꼭 담당 의사와 상의해 결정하세요.</div>';
+        card.innerHTML = h; host.appendChild(card); return;
+      }
+
+      h += '<p class="src-line">'+esc(d.srcNote)+'</p>';
       OUTS.forEach(function(spec){
         var o = d.out[spec.key];
         h += '<div class="orow"><span class="oname">'+spec.label;
         h += o ? '<span class="mstat '+o.st+'">'+MLABEL[o.st]+'</span></span>' : '<span class="mstat ns">근거 없음</span></span>';
-        if (o && o.txt) {
-          h += '<span></span><span class="oval">'+esc(o.txt)+'<br><span class="grade">'+GRADE[o.g]+'</span></span>';
-        } else if (o) {
-          h += svgBar(spec,o);
-          h += '<span class="oval">'+spec.fmt(o)+'<br><span class="grade">'+GRADE[o.g]+'</span></span>';
-        } else { h += '<span></span><span class="oval">—</span>'; }
+        if (o && !o.txt && o.v!==undefined) h += svgBar(spec,o); else h += '<span></span>';
+        if (o) {
+          var an = anchored(spec.key,o,p);
+          h += '<span class="oval"><span class="anchored">'+esc(an.main)+'</span><span class="orig">'+esc(an.orig)+'</span></span>';
+        } else { h += '<span class="oval">—</span>'; }
         h += '</div>';
       });
-      h += '<div class="abs">이 환자 기준 기대 악화: 연 '+p.exac.toFixed(1)+'회 → 약 <b>'+(p.exac*d.out.aaer.v).toFixed(1)+'회</b> (95% CI '+(p.exac*d.out.aaer.lo).toFixed(1)+'–'+(p.exac*d.out.aaer.hi).toFixed(1)+') · 평균 상대효과×기저치 환산'+(d.real?"":" · 가상값")+'<br><span style="font-size:11px;color:var(--ink-faint)">평균 효과의 신뢰구간을 기저치에 적용한 값으로, 개인 결과의 예측 범위가 아닙니다</span></div>';
       h += '<p class="practical">안전성: '+esc(d.safety)+'<br>투여: '+esc(d.interval)+' · '+esc(d.practical)+'</p>';
 
       h += '<div class="mcda"><div class="mcda-head"><span>선호도 반영 점수 (데모)</span><span class="score">'+it.score+'</span></div>';
-      [["효과", w.eff*it.sEff, it.sEff],["비용", w.cost*d.scores.cost, d.scores.cost],
-       ["이상반응", w.ae*d.scores.ae, d.scores.ae],["편의성", w.conv*d.scores.conv, d.scores.conv]]
+      [["효과", w.eff*it.sEff],["비용", w.cost*d.scores.cost],["이상반응", w.ae*d.scores.ae],["편의성", w.conv*d.scores.conv]]
       .forEach(function(r){
         h += '<div class="crow"><span>'+r[0]+'</span><div><div class="bar" style="width:'+Math.max(2,r[1])+'%"></div></div><span class="cv">'+Math.round(r[1])+'</span></div>';
       });
-      h += '<div class="mcda-note">점수 = Σ 가중치 × 축별 점수. 효과 축은 기저치 결합 절대 악화 감소의 정규화값, 비용·이상반응·편의성 축은 데모용 가상 점수.</div></div>';
+      h += '<div class="mcda-note">효과 축 '+it.sEff+'점 = Σ(환자 설문 지표 가중치 × MCID 배수, 1.5배 상한)'+(it.effMissing.length? ' · 근거 없는 지표 제외: '+esc(it.effMissing.join(', ')) : '')+'. 비용·이상반응·편의성 축은 데모용 가상 점수.</div></div>';
       card.innerHTML = h; host.appendChild(card);
     });
   }
@@ -296,6 +413,8 @@
       render();
     });
   });
+  $("mode-pro").addEventListener("click", function(){ MODE="pro"; $("mode-pro").classList.add("on"); $("mode-pt").classList.remove("on"); render(); });
+  $("mode-pt").addEventListener("click", function(){ MODE="pt"; $("mode-pt").classList.add("on"); $("mode-pro").classList.remove("on"); render(); });
   render();
 })();
 </script>
