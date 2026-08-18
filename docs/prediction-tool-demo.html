@@ -52,6 +52,9 @@
   .panel h2 { font-size:12.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 14px; }
   .fgrid { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px 12px; }
   fieldset { border:none; margin:0 0 16px; padding:0; }
+  details.secfold { margin:0 0 16px; }
+  details.secfold summary { font-size:12.5px; font-weight:700; color:var(--accent); cursor:pointer; }
+  details.secfold summary:hover { text-decoration:underline; }
   fieldset:last-child { margin-bottom:0; }
   legend { font-size:12.5px; font-weight:700; color:var(--accent); margin-bottom:8px; padding:0; }
   .field { display:flex; flex-direction:column; gap:3px; }
@@ -139,7 +142,7 @@
   <p class="eyebrow">PACEN Decision Support · Prediction 파트 데모</p>
   <h1>약제 선택 지원 — 순위 없는 병렬 카드 데모</h1>
   <p class="lede">환자 지표를 입력하면 적격성 필터가 후보를 가리고, 각 카드가 <b>환자 기저치 기준 절대 기대효과(95% CI)</b>를 주 표시로 보여줍니다. 효과 축 점수는 'MCID 배수 × 환자 설문 지표 가중치'로 합성되며, 선호도 가중치에 따라 우선 검토 후보가 바뀝니다.</p>
-  <div class="demo-note"><b>데모 고지</b> — 6개 약제 카드의 효과 수치는 KQ1~KQ6 근거 프로파일 실측치이며, 비용 축은 급여 상한금액(2026-08 제공분)과 허가 용법 기반 실제 계산입니다(tezepelumab 비급여 → 최저 점수). 이상반응·편의성 축 점수만 아직 가상입니다. 본 데모는 지침의 공식 알고리즘이 아니며 진료 판단을 대체하지 않습니다.</div>
+  <div class="demo-note"><b>v2 데모 고지</b> — 효과 수치는 KQ1~KQ6 근거 프로파일 실측치, 의료진 가중은 I-5 설문 원자료(52명) 정밀값, 비용 축은 급여 상한금액(2026-08)·허가 용법 기반 실제 계산입니다. 확정 규칙(MCID 초과확률·자동 재가중)의 토글은 제거했고 비용·보험 입력은 접힘 처리했습니다. 편의성 축 점수만 아직 가상입니다(이상반응 축은 전 약제 동일 — 유의 초과 근거 없음). 본 데모는 지침의 공식 알고리즘이 아니며 진료 판단을 대체하지 않습니다.</div>
 
   <div class="controls">
     <div class="panel">
@@ -162,8 +165,9 @@
           <div class="field"><label for="evalwk">반응 평가 시점</label><select id="evalwk"><option value="12">12주 (3개월)</option><option value="16" selected>16주 (4개월)</option><option value="24">24주 (6개월)</option></select></div>
         </div>
       </fieldset>
-      <fieldset>
-        <legend>③ 비용·보험</legend>
+      <details class="secfold">
+        <summary>③ 비용·보험 — 펼쳐서 입력 (기본값으로도 계산됩니다)</summary>
+      <fieldset style="margin-top:8px">
         <div class="fgrid">
           <div class="field"><label for="copay">본인부담률 — 외래 기관 종별</label><select id="copay"><option value="60" selected>상급종합병원 60%</option><option value="50">종합병원 50%</option><option value="40">병원 40%</option><option value="30">의원 30%</option></select></div>
           <div class="field"><label for="ins">실손보험 가입</label><select id="ins"><option value="no">없음/미가입</option><option value="yes">있음</option></select></div>
@@ -179,6 +183,7 @@
         </div>
         <div class="wnote">본인부담률은 국민건강보험 외래 기관 종별 차등(상급종합 60% 등)·산정특례 미적용 전제. 실손 '있음' 선택 시 투여 환경을 묻고, <b>외래</b>면 증권의 외래 통원 기준 3개 항목을 입력합니다(세대·특약별 상이). <b>입원</b>이면 공제·한도 입력이 불필요하며 비용 축이 자동 제외됩니다(실손 입원의료비 보장 전제 — 입원 적정성·세대별 보장률 확인 필요).</div>
       </fieldset>
+      </details>
     </div>
     <div class="panel">
       <h2>선호도 가중치</h2>
@@ -203,7 +208,7 @@
       <div class="presets" style="margin-top:0" role="group" aria-label="효과 축 가중 출처">
         <span style="font-size:11.5px;font-weight:700;color:var(--ink-faint);align-self:center">효과 축 가중:</span>
         <button type="button" class="usrc on" data-u="pt">환자 설문</button>
-        <button type="button" class="usrc" data-u="med">의료진 근사 (핵심 2:중요 1)</button>
+        <button type="button" class="usrc" data-u="med">의료진 설문 (N=52)</button>
         <button type="button" class="usrc" data-u="eq">균등</button>
         <button type="button" class="usrc" data-u="custom">직접 입력</button>
       </div>
@@ -214,14 +219,8 @@
         <div class="field"><label for="uc-fev">폐기능</label><input type="number" id="uc-fev" value="16" min="0" max="100"></div>
         <div class="field"><label for="uc-aqlq">삶의 질</label><input type="number" id="uc-aqlq" value="14" min="0" max="100"></div>
       </div>
-      <div class="presets" style="margin-top:6px" role="group" aria-label="지표 점수화 방식">
-        <span style="font-size:11.5px;font-weight:700;color:var(--ink-faint);align-self:center">지표 점수화:</span>
-        <button type="button" class="scl on" data-s="prob">MCID 초과확률 (기본)</button>
-        <button type="button" class="scl" data-s="cap">MCID 배수 · 상한 1.5</button>
-        <button type="button" class="scl" data-s="log">로그 감쇠</button>
-      </div>
-      <label style="display:flex;gap:7px;align-items:center;font-size:12.5px;margin-top:10px;color:var(--ink-soft)"><input type="checkbox" id="autow" checked> 환자 문제별 자동 재가중 — 악화 ≥3회 → 악화 가중 ×2 · OCS 사용 → OCS 가중 ×2 (채택됨)</label>
-      <div class="wnote">환자 설문 가중은 표7.2(환자 108명), 의료진 근사는 I-5 전문가 조사의 핵심적:중요한 분류를 2:1로 환산한 값입니다. '직접 입력'은 진료 의사 개인의 가중치입니다. 'MCID 초과확률'은 평균 효과와 신뢰구간에서 P(참효과가 MCID를 넘음)을 계산해 점추정치 편중을 보정합니다.</div>
+      <div class="wnote">환자 설문 가중은 표7.2(환자 108명 100점 배분), 의료진 설문 가중은 I-5 원자료(52명, 9점 척도 평균 정규화: 악화 0.228·OCS 0.220·조절도 0.194·폐기능 0.188·AQLQ 0.171)입니다. '직접 입력'은 진료 의사 개인의 가중치입니다.
+      확정 규칙(토글 제거됨): 지표 점수화 = MCID 초과확률 · 환자 문제별 자동 재가중 적용(악화 ≥3회 → 악화 ×2, OCS 사용 → OCS ×2).</div>
       </fieldset>
     </div>
   </div>
@@ -260,8 +259,9 @@
   var SCALE = "prob";   // 지표 점수화 기본값: MCID 초과확률 (확정) | cap | log
 
   var U_SETS = {
-    pt:  { aaer:0.147, ocs:0.214, acq:0.335, fev:0.158, aqlq:0.146 },  // 표7.2 환자 108명
-    med: { aaer:2/7,   ocs:2/7,   acq:1/7,   fev:1/7,   aqlq:1/7   },  // I-5 핵심적:중요한 = 2:1 근사
+    pt:  { aaer:0.147, ocs:0.214, acq:0.335, fev:0.158, aqlq:0.146 },  // 표7.2 환자 108명 100점 배분
+    // I-5 전문가 설문 원자료(N=52, 9점 척도 평균: 악화 8.73·OCS 8.42·조절도 7.44·폐기능 7.21·AQLQ 6.56)를 정규화
+    med: { aaer:0.2276, ocs:0.2195, acq:0.1940, fev:0.1880, aqlq:0.1709 },
     eq:  { aaer:0.2,   ocs:0.2,   acq:0.2,   fev:0.2,   aqlq:0.2   }
   };
   var SCALE_LABEL = { cap:"MCID 배수(상한 1.5)", log:"로그 감쇠", prob:"MCID 초과확률" };
@@ -516,7 +516,7 @@
       base = {}; OUTS.forEach(function(s){ base[s.key] = t0>0 ? raw[s.key]/t0 : 0.2; });
     } else base = U_SETS[src];
     OUTS.forEach(function(s){ U[s.key] = base[s.key]; });
-    if ($("autow").checked) {
+    if (true) { // 자동 재가중: 채택 확정 (v2에서 토글 제거)
       if (p.exac >= 3) { U.aaer *= 2; boosts.push("악화×2 (잦은 악화형)"); }
       if (p.ocs > 0)   { U.ocs  *= 2; boosts.push("OCS×2 (OCS 의존형)"); }
       var t = 0; OUTS.forEach(function(s){ t += U[s.key]; });

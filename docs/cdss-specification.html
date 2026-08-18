@@ -1,0 +1,179 @@
+<title>PACEN CDSS 사양서</title>
+<style>
+  :root {
+    --ground:#F7FAF9; --surface:#FFFFFF; --surface-2:#EEF4F3;
+    --ink:#182A2D; --ink-soft:#47595C; --ink-faint:#6E7F82;
+    --line:#D5E0DE; --accent:#0F6E73; --accent-soft:#E1EEED;
+    --warn:#9A6B15; --warn-soft:#F4EBD8; --chip:#E6ECEB;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:#0F1719; --surface:#162124; --surface-2:#1C292C;
+      --ink:#D8E4E4; --ink-soft:#A8BBBC; --ink-faint:#7E9294;
+      --line:#2A3B3E; --accent:#58B7B4; --accent-soft:#143A3C;
+      --warn:#D9A84E; --warn-soft:#3A2F16; --chip:#243336;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:#0F1719; --surface:#162124; --surface-2:#1C292C;
+    --ink:#D8E4E4; --ink-soft:#A8BBBC; --ink-faint:#7E9294;
+    --line:#2A3B3E; --accent:#58B7B4; --accent-soft:#143A3C;
+    --warn:#D9A84E; --warn-soft:#3A2F16; --chip:#243336;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--ground); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",Pretendard,"Noto Sans KR","Segoe UI","Malgun Gothic",sans-serif;
+    font-size:16px; line-height:1.72; -webkit-font-smoothing:antialiased; }
+  .page { max-width:860px; margin:0 auto; padding:56px 24px 96px; }
+  .eyebrow { font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); margin:0 0 14px; }
+  h1 { font-size:clamp(28px,4.5vw,36px); line-height:1.28; font-weight:800; letter-spacing:-.015em; margin:0 0 14px; text-wrap:balance; }
+  .meta { border-top:1px solid var(--line); margin:24px 0 0; padding-top:14px; font-size:13.5px; color:var(--ink-soft); display:grid; gap:5px; max-width:720px; }
+  .meta b { color:var(--ink); }
+  section { margin-top:56px; }
+  .sec-label { font-size:12px; font-weight:700; letter-spacing:.14em; color:var(--ink-faint); text-transform:uppercase;
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; margin:0 0 8px; }
+  h2 { font-size:23px; font-weight:800; letter-spacing:-.01em; margin:0 0 16px; text-wrap:balance; max-width:720px; }
+  h3 { font-size:16.5px; font-weight:700; margin:30px 0 10px; max-width:720px; }
+  p, ul, ol { margin:0 0 14px; max-width:720px; }
+  ul, ol { padding-left:22px; }
+  li { margin-bottom:6px; }
+  li::marker { color:var(--accent); }
+  .thesis { background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--accent);
+    border-radius:0 8px 8px 0; padding:16px 20px; font-size:17px; font-weight:700; max-width:720px; margin:0 0 18px; }
+  .table-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:10px; background:var(--surface); margin:18px 0 8px; }
+  table { border-collapse:collapse; width:100%; min-width:620px; font-size:14px; line-height:1.55; }
+  th { text-align:left; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); font-weight:700;
+    padding:11px 14px; border-bottom:1px solid var(--line); background:var(--surface-2); }
+  td { padding:10px 14px; border-bottom:1px solid var(--line); vertical-align:top; }
+  tr:last-child td { border-bottom:none; }
+  td b.hi { color:var(--accent); }
+  pre { background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px 18px;
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:13px; line-height:1.6; overflow-x:auto; max-width:720px; }
+  .callout { background:var(--warn-soft); border:1px solid var(--line); border-left:3px solid var(--warn);
+    border-radius:0 8px 8px 0; padding:12px 16px; font-size:14px; color:var(--ink-soft); max-width:720px; margin:14px 0; }
+  footer { margin-top:72px; padding-top:18px; border-top:1px solid var(--line); font-size:13px; color:var(--ink-faint); max-width:720px; }
+</style>
+
+<div class="page">
+<header>
+  <p class="eyebrow">PACEN · 성인 중증천식 생물학적 치료제 진료지침</p>
+  <h1>CDSS 사양서 — 메인 아이디어 · 알고리즘 · 가정</h1>
+  <div class="meta">
+    <span><b>버전</b> v2 (2026-08-18) · 데모 docs/prediction-tool-demo.html · 상세 md docs/cdss-specification.md</span>
+    <span><b>근거</b> KQ1~KQ8 근거 프로파일 · 프로젝트 설명서 I-5~I-7 · 연구개발계획서(RS-2025-02303166)</span>
+    <span><b>위상</b> pacen.myadr.care › Decision Support 허브 › '약제 선택 지원(Prediction)' 모듈</span>
+  </div>
+</header>
+
+<section>
+  <p class="sec-label">1 · Main Idea</p>
+  <h2>메인 아이디어</h2>
+  <div class="thesis">"진료지침의 근거를, 개별 환자의 맥락에서, 순위 단정 없이, 투명하게."</div>
+  <ul>
+    <li><b>순위가 아니라 병렬 카드</b> — 약제 간 head-to-head 근거가 없으므로 우열을 단정하지 않는다. 적격 약제의 근거를 동일 형식 카드로 병렬 표시하고, 선호도 점수는 '우선 검토 후보' 그룹핑까지만, 산출 내역은 전부 공개.</li>
+    <li><b>3계층 구조</b> — ① 사실(위약 대비 효과·확실성·MCID 판정) ② 매칭(환자 표현형·기저치와 근거의 부합) ③ 결정(선호 가중·공유 의사결정). 위로 갈수록 가치 판단이 개입하고, 계층별 규칙이 분리된다.</li>
+    <li><b>결측·불확실성의 정직한 표시</b> — '근거 없음'(제외·재정규화), '효과 없음의 근거'(0점), '비급여'(실부담 계산 또는 축 제외)를 구분하고 사유를 화면에 노출.</li>
+    <li><b>이중 모드</b> — 의료진 보기(전 지표·CI·GRADE·계산 상세) / 환자 보기(쉬운 문장·자기 기준 전후 비교·점수 숨김·"의사와 상의" 프레임).</li>
+    <li><b>성격</b> — 진료 판단 보조·교육 도구. 치료를 지시하지 않음(SaMD 비해당 설계 원칙), 입력 미저장.</li>
+  </ul>
+</section>
+
+<section>
+  <p class="sec-label">2 · Inputs</p>
+  <h2>입력 모델</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>계층</th><th>항목</th><th>소비처</th></tr></thead>
+    <tbody>
+      <tr><td>① 임상 지표</td><td>호산구 · FeNO · 총 IgE · 통년성 감작 · 12개월 악화 횟수 · 유지 OCS · 체중</td><td>적격성 · 절대효과 환산 · 자동 재가중 · 용량 계산</td></tr>
+      <tr><td>② 평가 설정</td><td>반응 평가 시점 (12/16/24주, 기본 16주)</td><td>비용 주 표시 창 · Response evaluation 연계</td></tr>
+      <tr><td>③ 비용·보험 <i>(접힘)</i></td><td>본인부담률(기관 종별, 기본 상급종합 60%) · 실손 → [투여 환경 → 외래 시 공제·자기부담률·회당 한도] · 테즈파이어 예상가</td><td>비용 모델</td></tr>
+      <tr><td>④ 선호</td><td>환자 4축 100점 배분 (효과/비용/이상반응/편의)</td><td>MCDA 가중</td></tr>
+    </tbody>
+  </table></div>
+  <p>원칙: 모든 입력은 규칙·계산에 소비된다. 나이는 성인 확인만, 성별은 미수집(데이터 최소화). 클라이언트 계산·미저장.</p>
+</section>
+
+<section>
+  <p class="sec-label">3 · Algorithms</p>
+  <h2>주요 알고리즘</h2>
+
+  <h3>A. 적격성 필터 (결정적 규칙)</h3>
+  <p>표현형·허가 기준의 단순화 규칙(원문 대조 필요): omalizumab = 감작+IgE≥30 · mepolizumab = 호산구≥150 · reslizumab = ≥400 · benralizumab = ≥150(≥300 부합 높음) · dupilumab = 호산구≥150 or FeNO≥25 or OCS 의존 · tezepelumab = 표현형 무관. 비적격은 회색 카드+사유로 표시(숨기지 않음).</p>
+
+  <h3>B. 환자 기저치 결합 절대효과 (표시 계층)</h3>
+  <p>상대효과와 95% CI를 기저치에 적용: "연 3.0회 → 약 1.4회 (CI 0.9–1.8)", OCS "7.5 → 약 3.8 mg/day". GRADE SoF 절대효과와 동일 기법. <b>라벨 3원칙</b>: 평균 효과의 CI(개인 예측구간 아님) · 상대효과 일정 가정 명시 · 기저값 측정 오차 주의. omalizumab 악화는 event RR이라 위험 감소율로 표기.</p>
+
+  <h3>C. 지표 점수화 — MCID 초과확률 (확정)</h3>
+  <pre>비율(악화):        SE=(ln hi − ln lo)/3.92,  s = Φ((ln 0.8 − ln v)/SE)
+음수-우호 MD(OCS·ACQ): SE=(hi−lo)/3.92,     s = Φ((MCID − v)/SE)
+양수-우호 MD(FEV1·AQLQ):                    s = Φ((v − MCID)/SE)</pre>
+  <p>극단값 지배(0~1 유계)와 점추정치 편중(CI 통합)을 동시에 해결. 결측 구분: 측정지표 이질(teze OCS) = 0점+사유 / 적격 RCT 부재(resli OCS) = <b>가중치 제외·재정규화</b>.</p>
+
+  <h3>D. 효과 축 합성 — 가중 출처와 자동 재가중</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>지표</th><th>환자 설문 (표7.2 · N=108)</th><th>의료진 설문 (I-5 원자료 · N=52)</th><th>균등</th></tr></thead>
+    <tbody>
+      <tr><td>악화</td><td>0.147</td><td><b class="hi">0.228</b> (평균 8.73 · 1순위 37/52)</td><td>0.2</td></tr>
+      <tr><td>OCS</td><td>0.214</td><td><b class="hi">0.220</b> (8.42)</td><td>0.2</td></tr>
+      <tr><td>조절도 ACQ</td><td><b class="hi">0.335</b></td><td>0.194 (7.44)</td><td>0.2</td></tr>
+      <tr><td>폐기능 FEV1</td><td>0.158</td><td>0.188 (7.21)</td><td>0.2</td></tr>
+      <tr><td>삶의 질 AQLQ</td><td>0.146</td><td>0.171 (6.56)</td><td>0.2</td></tr>
+    </tbody>
+  </table></div>
+  <p>환자는 증상(조절도) 최우선, 의료진은 악화·OCS 최우선 — I-7의 인식 차이가 가중치로 정량화된다. 설문의 부작용(6.62)·접근성(7.10)은 이상반응·비용 축의 축 수준 참고값, 일반 QoL(5.23)은 미사용. '직접 입력' = 진료 의사 개인 배분. <b>자동 재가중(확정)</b>: 악화 ≥3회 → 악화 ×2, OCS 사용 → OCS ×2 후 재정규화(내역 노출).</p>
+
+  <h3>E. 비용 모델</h3>
+  <ul>
+    <li><b>약가(2026-08 상한가)</b>: 졸레어 150/75mg 216,755/114,440 · 누칼라 1,280,000 · 싱케어 100mg 399,552 · 파센라 2,842,543 · 듀피젠트 200/300mg 571,862/675,753 · 테즈파이어 비급여.</li>
+    <li><b>용량·스케줄</b>: omalizumab IgE×체중 용량표(확인 완료) · reslizumab 4mg/kg, 100mg 바이알 내림(잔량 미발생) · benralizumab 첫해 8회/유지 6.5회 · dupilumab 요법 자동 분기(OCS 의존 600→300mg q2w / 일반 400→200mg q2w, 초회 부하 2배) · mepo·teze 13회/년.</li>
+    <li><b>기간 창</b>: 주 표시 = 반응 평가 시점까지 · 부 표시 = 첫 12개월.</li>
+    <li><b>실부담</b>: 급여 = 표시가 × 기관 종별 본인부담률(상급종합 60% 기본, 산정특례 미적용 전제) · 비급여 = 예상가 100%.</li>
+    <li><b>실손</b>: 외래+가입 시 회당 실부담 = 본인부담금 − min(max(본인부담금 − max(정액공제, 정률자기부담), 0), 외래 통원 회당 한도). <b>입원+가입 시 비용 축 자동 제외</b>(재정규화).</li>
+    <li><b>비용 축 점수</b> = 100 × min(적격군 내 첫해 실부담) ÷ 첫해 실부담. 비급여 예상가 미입력 시 축 제외·재정규화.</li>
+  </ul>
+
+  <h3>F. MCDA 총점</h3>
+  <pre>총점(d) = w효과×s효과 + w비용×s비용 + wAE×s_AE + w편의×s편의
+비용 축 제외 시: 남은 축 가중합 ÷ (1 − w비용)</pre>
+  <p>s_AE = 전 약제 동일 90점(전 KQ에서 위약 대비 유의 초과 없음 — 차등 근거 없음). s_편의 = 투여 간격·경로 기반(마지막 가상 축).</p>
+
+  <h3>G. 관점 병기 (합성 금지)</h3>
+  <p>환자·의료진 가중을 평균하지 않고 각각의 1순위를 비교해 <b>관점 일치/상이</b>를 표시 — 불일치는 공유 의사결정의 대화 재료. 환자 보기에서는 의료진·고급 설정 전체 숨김.</p>
+
+  <h3>H. NMA 비교 모듈 (예정)</h3>
+  <p>공통 하위군(호산구 ≥300 주 분석 · OCS 의존 시험군 부 분석) 제한 네트워크의 비교 참고치를 <b>부합 환자에게만</b> 활성화. 별 모양 네트워크(일치성 검정 불가)·이행성 한계 명시. KQ7·KQ8은 네트워크 비대상 — Response evaluation의 후속 경로.</p>
+</section>
+
+<section>
+  <p class="sec-label">4 · Assumptions</p>
+  <h2>가정 목록</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>#</th><th>가정</th><th>성격</th></tr></thead>
+    <tbody>
+      <tr><td>A1</td><td>상대효과의 기저 위험 무관 일정성(portability)</td><td>표준적 · 명시</td></tr>
+      <tr><td>A2</td><td>요약 효과의 정규(로그정규) 근사</td><td>표준적</td></tr>
+      <tr><td>A3</td><td>MCID의 기저 상태 무관 적용(FEV1 %/L 병용이 헤지)</td><td>지침 합의</td></tr>
+      <tr><td>A4</td><td>급여 기준 충족(급여 약제)</td><td>사용자 결정</td></tr>
+      <tr><td>A5</td><td>환자 부담 = 표시가 기준(RSA 환급은 공단-제약사 간)</td><td>제도 구조</td></tr>
+      <tr><td>A6</td><td>본인부담률 = 외래 기관 종별 · 산정특례 미적용</td><td>현행 제도</td></tr>
+      <tr><td>A7</td><td>실손 파라미터 자가 입력의 정확성</td><td>사용자 책임 · 고지</td></tr>
+      <tr><td>A8</td><td>입원+실손 시 약제비 부담 차이 무시</td><td>운영 결정 · 예외 고지</td></tr>
+      <tr><td>A9</td><td>이상반응 축 전 약제 동등(유의 초과 근거 없음)</td><td>근거 상태 · 추후 정밀화</td></tr>
+      <tr><td>A10</td><td>reslizumab 4mg/kg · 바이알 내림</td><td>운영 결정 · 타당성 확인 중</td></tr>
+      <tr><td>A11</td><td>효과값 = 검색일 2025-12-31 기준</td><td>갱신 정책 연동</td></tr>
+      <tr><td>A12</td><td>약가·급여 = 2026-08 기준(수시 변동)</td><td>데이터 기준일 관리</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <p class="sec-label">5 · Decisions & Open Items</p>
+  <h2>확정 결정 · 미결 사항</h2>
+  <p><b>확정</b>: Decision Support 허브 · 절대효과 주 표시 · MCID 초과확률 · 자동 재가중 · 의료진 정밀 가중(N=52) · 적격군 내 실부담 역비례 비용 축 · 비급여 = 예상가 입력 또는 축 제외 · 실손 외래/입원 분기 · 관점 병기(합성 금지) · 기저치 조건부 도달 확률 제외(사후 판정은 Response evaluation) · 환자 보기 별도 모드.</p>
+  <div class="callout"><b>미결</b> — ① SOURCE(teze) OCS 감량률 데이터 확인(지표 동일화) ② reslizumab 내림 타당성·25mg 규격 ③ 테즈파이어 비급여 예상가 대표값 ④ 실손 세대 프리셋 ⑤ 투여 행위료 포함 여부 ⑥ 편의성 축 점수화 근거 ⑦ NMA 수행·출판 ⑧ 약제별 반응 평가 시점 기본값.</div>
+</section>
+
+<footer>
+  한계·면책(전 화면 공통): 평균 효과 ≠ 개인 예측 · 약제 간 직접 비교 근거 없음 · 급여·약가·용량표는 최신 고시 확인 · 진료 판단을 대체하지 않음 · 입력 미저장. 본 문서는 docs/cdss-specification.md와 동일 내용의 HTML 판이다.
+</footer>
+</div>
