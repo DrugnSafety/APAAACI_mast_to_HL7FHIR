@@ -20,6 +20,20 @@
     --line: #2A3B3E; --accent: #58B7B4; --accent-soft: #143A3C;
     --warn: #D9A84E; --warn-soft: #3A2F16; --chip: #243336;
   }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .dc-omal{--dc:#3987e5}
+    :root:not([data-theme="light"]) .dc-mepo{--dc:#d95926}
+    :root:not([data-theme="light"]) .dc-resli{--dc:#199e70}
+    :root:not([data-theme="light"]) .dc-benra{--dc:#c98500}
+    :root:not([data-theme="light"]) .dc-dupi{--dc:#d55181}
+    :root:not([data-theme="light"]) .dc-teze{--dc:#008300}
+  }
+  :root[data-theme="dark"] .dc-omal{--dc:#3987e5}
+  :root[data-theme="dark"] .dc-mepo{--dc:#d95926}
+  :root[data-theme="dark"] .dc-resli{--dc:#199e70}
+  :root[data-theme="dark"] .dc-benra{--dc:#c98500}
+  :root[data-theme="dark"] .dc-dupi{--dc:#d55181}
+  :root[data-theme="dark"] .dc-teze{--dc:#008300}
   * { box-sizing: border-box; }
   body { margin:0; background:var(--ground); color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",Pretendard,"Noto Sans KR","Segoe UI","Malgun Gothic",sans-serif;
@@ -60,8 +74,12 @@
 
   .cards { display:grid; gap:16px; }
   @media (min-width:860px) { .cards { grid-template-columns:1fr 1fr; } }
-  .card { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:20px 22px; }
-  .card.top { border-color:var(--accent); box-shadow:0 0 0 1px var(--accent) inset; }
+  .card { background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--dc, var(--line)); border-radius:12px; padding:20px 22px; }
+  .card.top { box-shadow:0 0 0 1.5px var(--accent); }
+  /* 약제별 고정 색 (dataviz 검증 팔레트 슬롯 1~6 · 이름 라벨 동반이라 색 단독 식별 아님) */
+  .dc-omal{--dc:#2a78d6} .dc-mepo{--dc:#eb6834} .dc-resli{--dc:#1baf7a}
+  .dc-benra{--dc:#eda100} .dc-dupi{--dc:#e87ba4} .dc-teze{--dc:#008300}
+  .card-head h3 .dot { display:inline-block; width:10px; height:10px; border-radius:50%; background:var(--dc, var(--ink-faint)); margin-right:8px; vertical-align:1px; }
   .card.ineligible { opacity:.62; }
   .card-head { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:4px; }
   .card-head h3 { margin:0; font-size:17px; font-weight:800; }
@@ -75,17 +93,17 @@
   .src-line { font-size:12px; color:var(--ink-faint); margin:0 0 12px; }
   .reason { font-size:13px; color:var(--ink-soft); background:var(--surface-2); border-radius:8px; padding:10px 12px; margin-top:10px; }
 
-  .orow { display:grid; grid-template-columns:104px minmax(60px,1fr) minmax(158px,auto); gap:8px; align-items:center; padding:6px 0; border-top:1px solid var(--line); }
+  .orow { display:grid; grid-template-columns:104px 150px minmax(158px,1fr); gap:8px; align-items:center; padding:6px 0; border-top:1px solid var(--line); }
   .orow:first-of-type { border-top:none; }
   .oname { font-size:12.5px; font-weight:600; }
-  .oname .mstat { display:inline-block; margin-top:3px; font-size:10.5px; font-weight:800; letter-spacing:.02em; padding:1.5px 7px; border-radius:4px; }
+  .oname .mstat { display:block; width:fit-content; margin-top:3px; font-size:10.5px; font-weight:800; letter-spacing:.02em; padding:1.5px 7px; border-radius:4px; white-space:nowrap; }
   .mstat.met { background:var(--accent); color:var(--surface); }
   .mstat.border { background:var(--warn-soft); color:var(--warn); }
   .mstat.notmet, .mstat.ns { background:var(--chip); color:var(--ink-faint); }
   .oval { font-size:13px; text-align:right; font-variant-numeric:tabular-nums; }
   .oval .anchored { font-weight:700; }
   .oval .orig { display:block; font-size:11px; color:var(--ink-faint); }
-  .osvg { width:100%; height:20px; display:block; }
+  .osvg { width:150px; height:20px; display:block; }
 
   .practical { font-size:12.5px; color:var(--ink-soft); margin-top:10px; line-height:1.55; }
 
@@ -139,27 +157,33 @@
         </div>
       </fieldset>
       <fieldset>
-        <legend>② 평가·투여 설정</legend>
+        <legend>② 평가 설정</legend>
         <div class="fgrid">
           <div class="field"><label for="evalwk">반응 평가 시점</label><select id="evalwk"><option value="12">12주 (3개월)</option><option value="16" selected>16주 (4개월)</option><option value="24">24주 (6개월)</option></select></div>
-          <div class="field"><label for="env">투여 환경</label><select id="env"><option value="out" selected>외래 (원내 주사)</option><option value="in">입원</option></select></div>
         </div>
       </fieldset>
       <fieldset>
         <legend>③ 비용·보험</legend>
         <div class="fgrid">
           <div class="field"><label for="copay">본인부담률 — 외래 기관 종별</label><select id="copay"><option value="60" selected>상급종합병원 60%</option><option value="50">종합병원 50%</option><option value="40">병원 40%</option><option value="30">의원 30%</option></select></div>
-          <div class="field"><label for="ins">실손보험</label><select id="ins"><option value="no">없음/미가입</option><option value="yes">있음</option></select></div>
+          <div class="field"><label for="ins">실손보험 가입</label><select id="ins"><option value="no">없음/미가입</option><option value="yes">있음</option></select></div>
+          <div class="field"><label for="tezep">테즈파이어 비급여 예상가 (원/회)</label><input type="number" id="tezep" value="" min="0" step="10000" placeholder="미입력 시 비용 축 제외"></div>
+        </div>
+        <div class="fgrid" id="ins-env" style="display:none;margin-top:10px">
+          <div class="field"><label for="env">투여 환경 — 실손 적용 방식 결정</label><select id="env"><option value="out" selected>외래 (원내 주사)</option><option value="in">입원</option></select></div>
+        </div>
+        <div class="fgrid" id="ins-params" style="display:none;margin-top:10px">
           <div class="field"><label for="ded">실손 정액공제 (원/회)</label><input type="number" id="ded" value="10000" min="0" step="1000"></div>
           <div class="field"><label for="coins">실손 자기부담률 (%)</label><input type="number" id="coins" value="20" min="0" max="100" step="5"></div>
           <div class="field"><label for="cap">실손 <b>외래 통원</b> 회당 보장한도 (원)</label><input type="number" id="cap" value="250000" min="0" step="10000"></div>
-          <div class="field"><label for="tezep">테즈파이어 비급여 예상가 (원/회)</label><input type="number" id="tezep" value="" min="0" step="10000" placeholder="미입력 시 비용 축 제외"></div>
         </div>
-        <div class="wnote">본인부담률은 국민건강보험 외래 기관 종별 차등(상급종합 60% 등)을 따르며 산정특례 미적용 전제입니다. 실손 3개 항목은 본인 증권의 <b>외래 통원</b> 기준으로 입력하세요(세대·특약별 상이 — 대표값은 예시). 입원 투여+실손 가입 시 비용 축은 자동 제외됩니다(입원 적정성·세대별 보장률 확인 필요).</div>
+        <div class="wnote">본인부담률은 국민건강보험 외래 기관 종별 차등(상급종합 60% 등)·산정특례 미적용 전제. 실손 '있음' 선택 시 투여 환경을 묻고, <b>외래</b>면 증권의 외래 통원 기준 3개 항목을 입력합니다(세대·특약별 상이). <b>입원</b>이면 공제·한도 입력이 불필요하며 비용 축이 자동 제외됩니다(실손 입원의료비 보장 전제 — 입원 적정성·세대별 보장률 확인 필요).</div>
       </fieldset>
     </div>
     <div class="panel">
-      <h2>선호도 가중치 — 100점 배분 (I-7 설문 문항 형식)</h2>
+      <h2>선호도 가중치</h2>
+      <fieldset>
+        <legend>① 환자 선호 — 4축 100점 배분 (환자 본인 입력 · I-7 설문 형식)</legend>
       <div class="fgrid">
         <div class="field"><label for="w-eff">천식 개선 효과</label><input type="number" id="w-eff" value="35" min="0" max="100"></div>
         <div class="field"><label for="w-cost">경제적 부담</label><input type="number" id="w-cost" value="25" min="0" max="100"></div>
@@ -173,7 +197,10 @@
         <button type="button" data-w="30,20,15,35">편의 중시형</button>
       </div>
       <div class="wsum" id="wsum"></div>
-      <div class="presets" style="margin-top:10px" role="group" aria-label="효과 축 가중 출처">
+      </fieldset>
+      <fieldset id="pro-settings">
+        <legend>② 의료진·고급 설정 — 의료진 보기 전용 (운영위 기본값 확정 후 일반 사용자에게는 숨김 예정)</legend>
+      <div class="presets" style="margin-top:0" role="group" aria-label="효과 축 가중 출처">
         <span style="font-size:11.5px;font-weight:700;color:var(--ink-faint);align-self:center">효과 축 가중:</span>
         <button type="button" class="usrc on" data-u="pt">환자 설문</button>
         <button type="button" class="usrc" data-u="med">의료진 근사 (핵심 2:중요 1)</button>
@@ -194,7 +221,8 @@
         <button type="button" class="scl" data-s="log">로그 감쇠</button>
       </div>
       <label style="display:flex;gap:7px;align-items:center;font-size:12.5px;margin-top:10px;color:var(--ink-soft)"><input type="checkbox" id="autow" checked> 환자 문제별 자동 재가중 — 악화 ≥3회 → 악화 가중 ×2 · OCS 사용 → OCS 가중 ×2 (채택됨)</label>
-      <div class="wnote">환자 설문 가중은 표7.2(환자 108명), 의료진 근사는 I-5 전문가 조사의 핵심적:중요한 분류를 2:1로 환산한 값입니다. 'MCID 초과확률'은 평균 효과와 신뢰구간에서 P(참효과가 MCID를 넘음)을 계산해 점추정치 편중을 보정합니다.</div>
+      <div class="wnote">환자 설문 가중은 표7.2(환자 108명), 의료진 근사는 I-5 전문가 조사의 핵심적:중요한 분류를 2:1로 환산한 값입니다. '직접 입력'은 진료 의사 개인의 가중치입니다. 'MCID 초과확률'은 평균 효과와 신뢰구간에서 P(참효과가 MCID를 넘음)을 계산해 점추정치 편중을 보정합니다.</div>
+      </fieldset>
     </div>
   </div>
 
@@ -508,6 +536,9 @@
     return { s: sumU>0 ? Math.round(acc/sumU*100) : 0, missing:missing };
   }
 
+  function svgTrack(label) {
+    return '<svg class="osvg" viewBox="0 0 150 20" role="img" aria-label="'+esc(label||"근거 없음")+'"><rect x="0" y="0" width="150" height="20" rx="5" fill="var(--surface-2)"/></svg>';
+  }
   function svgBar(spec, o) {
     var W=150, H=20, y=10;
     function x(v){
@@ -518,6 +549,7 @@
     var color = ns ? "var(--ink-faint)" : "var(--accent)";
     var fill = (o.st==="met") ? color : "var(--surface)";
     var s = '<svg class="osvg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+MLABEL[o.st]+'">';
+    s += '<rect x="0" y="0" width="'+W+'" height="'+H+'" rx="5" fill="var(--surface-2)"/>';
     s += '<line x1="'+x(spec.nul)+'" y1="2" x2="'+x(spec.nul)+'" y2="'+(H-2)+'" stroke="var(--line)" stroke-width="1.5"/>';
     s += '<line x1="'+x(spec.mcid)+'" y1="2" x2="'+x(spec.mcid)+'" y2="'+(H-2)+'" stroke="var(--warn)" stroke-width="1.5" stroke-dasharray="3 2.5"/>';
     s += '<line x1="'+x(o.lo)+'" y1="'+y+'" x2="'+x(o.hi)+'" y2="'+y+'" stroke="'+color+'" stroke-width="2"/>';
@@ -574,6 +606,10 @@
   function render() {
     var p = { eos:num("eos"), feno:num("feno"), ige:num("ige"), sens:$("sens").value, exac:num("exac"), ocs:num("ocs"), wt:num("wt"),
               env:$("env").value, ins:$("ins").value, ded:num("ded"), coins:num("coins"), cap:num("cap"), tezeP:num("tezep") };
+    // 반응형 표시: 실손 있음 → 투여 환경 질문, 외래일 때만 증권 파라미터 입력
+    $("ins-env").style.display = (p.ins==="yes") ? "" : "none";
+    $("ins-params").style.display = (p.ins==="yes" && p.env==="out") ? "" : "none";
+    $("pro-settings").style.display = (MODE==="pt") ? "none" : "";
     var W = parseInt($("evalwk").value, 10), copay = num("copay");
     var costDisabled = (p.env==="in" && p.ins==="yes"); // 입원+실손: 비용 축 제외 (결정 사항)
     var eligMap = {}; DRUGS.forEach(function(d){ eligMap[d.id] = eligibility(d,p); });
@@ -633,8 +669,8 @@
     eligible.concat(inelig).forEach(function(it, idx){
       var d=it.d, e=it.e;
       var card = document.createElement("div");
-      card.className = "card" + (e.ok ? (idx===0 ? " top":"") : " ineligible");
-      var h = '<div class="card-head"><h3>'+esc(d.name)+'<small>'+esc(d.target)+'</small></h3><div class="badges">';
+      card.className = "card dc-"+d.id + (e.ok ? (idx===0 ? " top":"") : " ineligible");
+      var h = '<div class="card-head"><h3><span class="dot" aria-hidden="true"></span>'+esc(d.name)+'<small>'+esc(d.target)+'</small></h3><div class="badges">';
       if (e.ok && idx===0) h += '<span class="badge pick">우선 검토 후보 · 데모</span>';
       h += e.ok ? '<span class="badge ok">'+esc(e.strength)+'</span>' : '<span class="badge na">비적격</span>';
       h += '<span class="badge real">'+esc(d.srcLabel)+'</span>';
@@ -668,7 +704,7 @@
         var o = d.out[spec.key];
         h += '<div class="orow"><span class="oname">'+spec.label;
         h += o ? '<span class="mstat '+o.st+'">'+MLABEL[o.st]+'</span></span>' : '<span class="mstat ns">근거 없음</span></span>';
-        if (o && !o.txt && o.v!==undefined) h += svgBar(spec,o); else h += '<span></span>';
+        if (o && !o.txt && o.v!==undefined) h += svgBar(spec,o); else h += svgTrack(o ? MLABEL[o.st] : "근거 없음");
         if (o) {
           var an = anchored(spec.key,o,p);
           h += '<span class="oval"><span class="anchored">'+esc(an.main)+'</span><span class="orig">'+esc(an.orig)+'</span></span>';
@@ -719,7 +755,7 @@
   }
 
   document.querySelectorAll("input, select").forEach(function(el){ el.addEventListener("input", render); });
-  document.querySelectorAll(".presets button").forEach(function(b){
+  document.querySelectorAll(".presets button[data-w]").forEach(function(b){
     b.addEventListener("click", function(){
       var v = b.getAttribute("data-w").split(",");
       $("w-eff").value=v[0]; $("w-cost").value=v[1]; $("w-ae").value=v[2]; $("w-conv").value=v[3];
