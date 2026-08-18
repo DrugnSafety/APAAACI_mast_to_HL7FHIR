@@ -142,7 +142,7 @@
   <p class="eyebrow">PACEN Decision Support · Prediction 파트 데모</p>
   <h1>약제 선택 지원 — 순위 없는 병렬 카드 데모</h1>
   <p class="lede">환자 지표를 입력하면 적격성 필터가 후보를 가리고, 각 카드가 <b>환자 기저치 기준 절대 기대효과(95% CI)</b>를 주 표시로 보여줍니다. 효과 축 점수는 'MCID 배수 × 환자 설문 지표 가중치'로 합성되며, 선호도 가중치에 따라 우선 검토 후보가 바뀝니다.</p>
-  <div class="demo-note"><b>v2 데모 고지</b> — 효과 수치는 KQ1~KQ6 근거 프로파일 실측치, 의료진 가중은 I-5 설문 원자료(52명) 정밀값, 비용 축은 급여 상한금액(2026-08)·허가 용법 기반 실제 계산입니다. 확정 규칙(MCID 초과확률·자동 재가중)의 토글은 제거했고 비용·보험 입력은 접힘 처리했습니다. 편의성 축 점수만 아직 가상입니다(이상반응 축은 전 약제 동일 — 유의 초과 근거 없음). 본 데모는 지침의 공식 알고리즘이 아니며 진료 판단을 대체하지 않습니다.</div>
+  <div class="demo-note"><b>v2 데모 고지</b> — 효과 수치는 KQ1~KQ6 근거 프로파일 실측치, 의료진 가중은 I-5 설문 원자료(52명) 정밀값, 비용 축은 급여 상한금액(2026-08)·허가 용법 기반 실제 계산입니다. 확정 규칙(MCID 초과확률·자동 재가중)의 토글은 제거했고 비용·보험 입력은 접힘 처리했습니다. v2.1: MCID 초과확률에 GRADE 확실성 계수를 곱해 넓은 신뢰구간이 보상받는 편향을 보정했고, 편의성 축을 가상 점수에서 규칙 기반(유지기 연간 투여 횟수 역비례 · 원내 정맥투여 감점)으로 교체했습니다(이상반응 축은 전 약제 동일 — 유의 초과 근거 없음). 본 데모는 지침의 공식 알고리즘이 아니며 진료 판단을 대체하지 않습니다.</div>
 
   <div class="controls">
     <div class="panel">
@@ -284,7 +284,7 @@
             acq:{v:-0.51,lo:-0.85,hi:-0.17,g:2,st:"notmet"},
             fev:{v:0.22,lo:0.13,hi:0.31,g:2,st:"notmet"},
             aqlq:{v:0.64,lo:0.13,hi:1.16,g:2,st:"notmet"} },
-      scores:{cost:65, ae:90, conv:70} },
+      scores:{ae:90} },
     { id:"mepo", name:"Mepolizumab", target:"anti-IL-5", srcLabel:"KQ2 실측치",
       srcNote:"출처: KQ2 근거 프로파일 · 조건부 권고 (*호산구성)", interval:"4주 SC",
       safety:"전체 AE 위약 유사 (KQ2)", practical:"급여 등재 · 자가투여 가능",
@@ -293,7 +293,7 @@
             acq:{v:-0.42,lo:-0.55,hi:-0.29,g:3,st:"notmet"},
             fev:{v:0.12,lo:0.07,hi:0.17,g:2,st:"notmet"},
             aqlq:{v:0.22,lo:-0.03,hi:0.46,g:3,st:"ns"} },
-      scores:{cost:70, ae:90, conv:75} },
+      scores:{ae:90} },
     { id:"resli", name:"Reslizumab", target:"anti-IL-5", srcLabel:"KQ3 실측치",
       srcNote:"출처: KQ3 근거 프로파일 · 조건부 권고 (*호산구성)", interval:"4주 IV",
       safety:"전체 AE 위약 유사 (KQ3)", practical:"급여 등재 · 체중 기반 용량 · 의료기관 정맥 투여",
@@ -302,7 +302,7 @@
             acq:{v:-0.25,lo:-0.33,hi:-0.17,g:3,st:"notmet"},
             fev:{v:0.13,lo:0.08,hi:0.17,g:3,st:"notmet"},
             aqlq:{v:0.24,lo:0.12,hi:0.36,g:3,st:"notmet"} },
-      scores:{cost:55, ae:90, conv:40} },
+      scores:{ae:90} },
     { id:"benra", name:"Benralizumab", target:"anti-IL-5Rα", srcLabel:"KQ4 실측치",
       srcNote:"출처: KQ4 근거 프로파일 (6 RCT) · 조건부 권고 (*호산구성)", interval:"8주 SC (초기 3회 4주)",
       safety:"전체 AE RR 0.99 · SAE RR 0.73 — 위약과 유의차 없음 (KQ4)", practical:"급여 등재 · 8주 유지 간격 · 자가투여 가능",
@@ -311,7 +311,7 @@
             acq:{v:-0.32,lo:-0.45,hi:-0.19,g:2,st:"notmet"},
             fev:{v:0.14,lo:0.09,hi:0.19,g:2,st:"notmet"},
             aqlq:{v:0.27,lo:0.12,hi:0.42,g:2,st:"notmet"} },
-      scores:{cost:72, ae:90, conv:95} },
+      scores:{ae:90} },
     { id:"dupi", name:"Dupilumab", target:"anti-IL-4Rα", srcLabel:"KQ5 실측치",
       srcNote:"출처: KQ5 근거 프로파일 (5 RCT) · 조건부 권고 (*제2형 염증성)", interval:"2주 SC",
       safety:"전체 AE 위약 유사 · 주사부위 반응·일시적 호산구 상승 보고 (KQ5)", practical:"급여 여부·기준 최신 고시 확인 · 비용종·아토피피부염 동반 시 이득 고려",
@@ -320,16 +320,16 @@
             acq:{v:-0.28,lo:-0.43,hi:-0.13,g:2,st:"notmet"},
             fev:{v:0.23,lo:0.12,hi:0.35,g:2,st:"notmet"},
             aqlq:{v:0.31,lo:0.18,hi:0.43,g:2,st:"notmet"} },
-      scores:{cost:62, ae:90, conv:60} },
+      scores:{ae:90} },
     { id:"teze", name:"Tezepelumab", target:"anti-TSLP", srcLabel:"KQ6 실측치",
       srcNote:"출처: KQ6 근거 프로파일 (4 RCT) · 조건부 권고", interval:"4주 SC",
-      safety:"전체 AE 위약 유사 (KQ6)", practical:"표현형 무관 사용 가능 · 급여 기준 확인 필요",
+      safety:"전체 AE RR 0.95 · SAE RR 0.67 — SAE는 위약보다 낮음(효과 중첩 가능성) (KQ6 SoF)", practical:"표현형 무관 사용 가능 · 급여 기준 확인 필요",
       out:{ aaer:{v:0.37,lo:0.24,hi:0.51,g:4,st:"met"},
-            ocs:{txt:"OCS ≤5mg 도달 RR 1.06 (0.87–1.30) · 단일연구", g:3, st:"ns"},
+            ocs:{txt:"≤5mg 도달 RR 1.06 (0.87–1.30) · SOURCE 단일연구 · 위약 697→738/1000", g:3, st:"ns"},
             acq:{v:-0.34,lo:-0.42,hi:-0.25,g:3,st:"notmet"},
             fev:{v:0.18,lo:0.11,hi:0.25,g:3,st:"notmet"},
             aqlq:{v:0.34,lo:0.24,hi:0.44,g:3,st:"notmet"} },
-      scores:{cost:58, ae:90, conv:75} }
+      scores:{ae:90} }
   ];
 
   // 지표 정의: dom=막대 축 범위, nul=무효과, mcid=역치, u=효과 축 내 가중치(표7.2 환자 설문)
@@ -443,6 +443,17 @@
                                         : "연 26회 (2주 SC) · 초회 400mg(200mg×2) 후 200mg — 일반 요법";
     return "연 13회 (4주 간격 SC)";
   }
+  // 편의성 축: 유지기 연간 투여 횟수 역비례 (최소 빈도=100) × 원내 정맥투여 계수 0.8 — 규칙 기반(v2.1)
+  function convScore(d, p) {
+    var visits = 13;
+    if (d.id==="benra") visits = 6.5;
+    else if (d.id==="dupi") visits = 26;
+    else if (d.id==="omal") { var od = omalDose(p.ige, p.wt); visits = (od && od.wk===2) ? 26 : 13; }
+    var s = 100 * 6.5 / visits;
+    if (d.id==="resli") s *= 0.8; // 원내 정맥투여(자가투여 불가·투여 시간)
+    return Math.round(s);
+  }
+
   function costText(d, p, W, copay) {
     var ci = costInfo(d, p, W, copay);
     if (d.id==="teze" && !ci) return "비급여 — 예상가 미입력: 비용 축 제외(재정규화). 예상가 입력 시 전액 본인부담 기준으로 계산";
@@ -484,22 +495,27 @@
     if (key==="aqlq") return o.v/0.5;
     return null;
   }
+  // GRADE 확실성 보정 계수 (v2.1 — 넓은 CI가 초과확률에서 보상받는 편향 완화, 운영위 조정 가능)
+  var CERT = { 4:1.0, 3:0.9, 2:0.75, 1:0.55 };
   // 지표별 점수화값 s (0~1). null = 근거 없음(제외·재정규화)
   function scoreOutcome(key, o) {
     if (!o) return null;
-    if (o.txt) return 0; // 이질적 측정지표(예: teze OCS RR) — 합산 제외 대신 0 처리, 각주 표기
+    if (o.txt) return 0; // teze OCS: 전용 시험(SOURCE)에서 유의차 없음 → 0 (효과 없음의 근거)
     if (SCALE === "prob") {
-      // P(참효과가 MCID를 넘음) — 평균 효과와 CI에서 계산 (ns도 수식으로 자연 처리)
+      // P(참효과가 MCID를 넘음) × GRADE 확실성 계수 — 넓은 CI의 '불확실성 보상' 편향을 보정
+      var c = CERT[o.g] || 1, pv;
       if (key === "aaer") {
         var seln = (Math.log(o.hi) - Math.log(o.lo)) / 3.92;
-        return phi((Math.log(0.8) - Math.log(o.v)) / seln);
+        pv = phi((Math.log(0.8) - Math.log(o.v)) / seln);
+      } else {
+        var se = (o.hi - o.lo) / 3.92;
+        if (key === "ocs")       pv = phi((-50  - o.v) / se);
+        else if (key === "acq")  pv = phi((-0.5 - o.v) / se);
+        else if (key === "fev")  pv = phi((o.v - 0.2) / se);
+        else if (key === "aqlq") pv = phi((o.v - 0.5) / se);
+        else pv = 0;
       }
-      var se = (o.hi - o.lo) / 3.92;
-      if (key === "ocs")  return phi((-50  - o.v) / se);
-      if (key === "acq")  return phi((-0.5 - o.v) / se);
-      if (key === "fev")  return phi((o.v - 0.2) / se);
-      if (key === "aqlq") return phi((o.v - 0.5) / se);
-      return 0;
+      return pv * c;
     }
     if (o.st === "ns") return 0;
     var r = Math.max(mcidRatio(key, o), 0);
@@ -632,12 +648,12 @@
 
     var uw = effUW(p);
     function totalScore(d, effS){
-      var cs = costScore(d);
+      var cs = costScore(d), cv = convScore(d, p);
       if (cs===null) {
         var den = 1 - w.cost;
-        return den>0 ? Math.round((w.eff*effS + w.ae*d.scores.ae + w.conv*d.scores.conv)/den) : 0;
+        return den>0 ? Math.round((w.eff*effS + w.ae*d.scores.ae + w.conv*cv)/den) : 0;
       }
-      return Math.round(w.eff*effS + w.cost*cs + w.ae*d.scores.ae + w.conv*d.scores.conv);
+      return Math.round(w.eff*effS + w.cost*cs + w.ae*d.scores.ae + w.conv*cv);
     }
     var items = DRUGS.map(function(d){
       var e = eligMap[d.id];
@@ -713,10 +729,11 @@
       });
       h += '<p class="practical">안전성: '+esc(d.safety)+'<br>투여: '+esc(d.interval)+' · '+esc(d.practical)+'<br>연간 투여: '+esc(dosingText(d, p))+'<br>비용: '+esc(costText(d, p, W, copay))+'</p>';
 
+      var cvS = convScore(d, p);
       h += '<div class="mcda"><div class="mcda-head"><span>선호도 반영 점수 (데모)</span><span class="score">'+it.score+'</span></div>';
       ((it.sCost===null)
-        ? [["효과", w.eff*it.sEff],["비용 제외", 0],["이상반응", w.ae*d.scores.ae],["편의성", w.conv*d.scores.conv]]
-        : [["효과", w.eff*it.sEff],["비용", w.cost*it.sCost],["이상반응", w.ae*d.scores.ae],["편의성", w.conv*d.scores.conv]])
+        ? [["효과", w.eff*it.sEff],["비용 제외", 0],["이상반응", w.ae*d.scores.ae],["편의성", w.conv*cvS]]
+        : [["효과", w.eff*it.sEff],["비용", w.cost*it.sCost],["이상반응", w.ae*d.scores.ae],["편의성", w.conv*cvS]])
       .forEach(function(r){
         h += '<div class="crow"><span>'+r[0]+'</span><div><div class="bar" style="width:'+Math.max(2,r[1])+'%"></div></div><span class="cv">'+Math.round(r[1])+'</span></div>';
       });
@@ -724,7 +741,7 @@
       var costNote = (it.sCost===null)
         ? '비용 축 제외(입원+실손 또는 가격 미상) — 남은 축으로 재정규화.'
         : '비용 축 '+it.sCost+'점 = 첫해 실부담(본인부담률·실손 반영) 역비례, 적격군 내 최저=100.';
-      h += '<div class="mcda-note">효과 축 '+it.sEff+'점 — 가중: '+uName+' · 점수화: '+SCALE_LABEL[SCALE]+(it.effMissing.length? ' · 근거 없는 지표 제외: '+esc(it.effMissing.join(', ')) : '')+'. '+costNote+' 이상반응 축은 전 약제 동일 90점(KQ 근거상 위약 유사·유의 초과 없음 — 차등 근거 없음), 편의성 축은 데모용 가상 점수.</div>';
+      h += '<div class="mcda-note">효과 축 '+it.sEff+'점 — 가중: '+uName+' · 점수화: '+SCALE_LABEL[SCALE]+(it.effMissing.length? ' · 근거 없는 지표 제외: '+esc(it.effMissing.join(', ')) : '')+'. '+costNote+' 이상반응 축은 전 약제 동일 90점(KQ 근거상 위약 유사·유의 초과 없음 — 차등 근거 없음), 편의성 축 '+cvS+'점 = 유지기 연간 투여 횟수 역비례(최소 빈도=100'+(d.id==="resli"?" · 원내 정맥투여 ×0.8":"")+').</div>';
 
       // 계산 상세: 지표별 점수화값과 기여값 전체 공개
       var U = uw.U;
@@ -745,9 +762,9 @@
       });
       cb += '합계 '+acc.toFixed(3)+' ÷ 유효 가중치 '+sumU.toFixed(3)+' × 100 = <b>'+it.sEff+'점</b><br>';
       if (it.sCost===null) {
-        cb += '<b>총점</b> = [효과 '+w.eff.toFixed(2)+'×'+it.sEff+' + 이상반응 '+w.ae.toFixed(2)+'×'+d.scores.ae+'(전 약제 동일) + 편의성 '+w.conv.toFixed(2)+'×'+d.scores.conv+'(가상)] ÷ '+(1-w.cost).toFixed(2)+' (비용 축 제외·재정규화) = <b>'+it.score+'</b>';
+        cb += '<b>총점</b> = [효과 '+w.eff.toFixed(2)+'×'+it.sEff+' + 이상반응 '+w.ae.toFixed(2)+'×'+d.scores.ae+'(전 약제 동일) + 편의성 '+w.conv.toFixed(2)+'×'+cvS+'(투여 횟수 역비례)] ÷ '+(1-w.cost).toFixed(2)+' (비용 축 제외·재정규화) = <b>'+it.score+'</b>';
       } else {
-        cb += '<b>총점</b> = 효과 '+w.eff.toFixed(2)+'×'+it.sEff+' + 비용 '+w.cost.toFixed(2)+'×'+it.sCost+'(첫해 실부담 역비례) + 이상반응 '+w.ae.toFixed(2)+'×'+d.scores.ae+'(전 약제 동일) + 편의성 '+w.conv.toFixed(2)+'×'+d.scores.conv+'(가상) = <b>'+it.score+'</b>';
+        cb += '<b>총점</b> = 효과 '+w.eff.toFixed(2)+'×'+it.sEff+' + 비용 '+w.cost.toFixed(2)+'×'+it.sCost+'(첫해 실부담 역비례) + 이상반응 '+w.ae.toFixed(2)+'×'+d.scores.ae+'(전 약제 동일) + 편의성 '+w.conv.toFixed(2)+'×'+cvS+'(투여 횟수 역비례) = <b>'+it.score+'</b>';
       }
       h += '<details class="calc"><summary>계산 상세 보기</summary><div class="calc-body">'+cb+'</div></details></div>';
       card.innerHTML = h; host.appendChild(card);

@@ -34,6 +34,7 @@
     font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; margin:0 0 8px; }
   h2 { font-size:23px; font-weight:800; letter-spacing:-.01em; margin:0 0 16px; text-wrap:balance; max-width:720px; }
   h3 { font-size:16.5px; font-weight:700; margin:30px 0 10px; max-width:720px; }
+  h4 { font-size:15px; font-weight:700; margin:22px 0 8px; max-width:720px; color:var(--ink-soft); }
   p, ul, ol { margin:0 0 14px; max-width:720px; }
   ul, ol { padding-left:22px; }
   li { margin-bottom:6px; }
@@ -49,8 +50,16 @@
   td b.hi { color:var(--accent); }
   pre { background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px 18px;
     font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:13px; line-height:1.6; overflow-x:auto; max-width:720px; }
+  code { font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace; font-size:.92em; background:var(--chip); border-radius:4px; padding:1px 5px; }
+  pre code { background:none; padding:0; }
   .callout { background:var(--warn-soft); border:1px solid var(--line); border-left:3px solid var(--warn);
     border-radius:0 8px 8px 0; padding:12px 16px; font-size:14px; color:var(--ink-soft); max-width:720px; margin:14px 0; }
+  .callout b { color:var(--warn); }
+  .qa { background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--accent);
+    border-radius:0 8px 8px 0; padding:14px 18px; max-width:720px; margin:16px 0; }
+  .qa .q { font-weight:700; margin-bottom:8px; }
+  .ex { background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px 18px; max-width:720px; margin:12px 0; font-size:14.5px; }
+  .ex b.t { color:var(--accent); }
   footer { margin-top:72px; padding-top:18px; border-top:1px solid var(--line); font-size:13px; color:var(--ink-faint); max-width:720px; }
 </style>
 
@@ -59,9 +68,10 @@
   <p class="eyebrow">PACEN · 성인 중증천식 생물학적 치료제 진료지침</p>
   <h1>CDSS 사양서 — 메인 아이디어 · 알고리즘 · 가정</h1>
   <div class="meta">
-    <span><b>버전</b> v2 (2026-08-18) · 데모 docs/prediction-tool-demo.html · 상세 md docs/cdss-specification.md</span>
+    <span><b>버전</b> v2.1 (2026-08-18) · 데모 doc/prediction-tool-demo.html · 상세 md doc/cdss-specification.md</span>
     <span><b>근거</b> KQ1~KQ8 근거 프로파일 · 프로젝트 설명서 I-5~I-7 · 연구개발계획서(RS-2025-02303166)</span>
     <span><b>위상</b> pacen.myadr.care › Decision Support 허브 › '약제 선택 지원(Prediction)' 모듈</span>
+    <span><b>v2.1</b> MCID 초과확률 × GRADE 확실성 계수 · 편의성 축 규칙화 · KQ6 OCS 원문 확인 · reslizumab 내림/약제비 범위 확정</span>
   </div>
 </header>
 
@@ -82,98 +92,240 @@
   <p class="sec-label">2 · Inputs</p>
   <h2>입력 모델</h2>
   <div class="table-wrap"><table>
-    <thead><tr><th>계층</th><th>항목</th><th>소비처</th></tr></thead>
-    <tbody>
-      <tr><td>① 임상 지표</td><td>호산구 · FeNO · 총 IgE · 통년성 감작 · 12개월 악화 횟수 · 유지 OCS · 체중</td><td>적격성 · 절대효과 환산 · 자동 재가중 · 용량 계산</td></tr>
-      <tr><td>② 평가 설정</td><td>반응 평가 시점 (12/16/24주, 기본 16주)</td><td>비용 주 표시 창 · Response evaluation 연계</td></tr>
-      <tr><td>③ 비용·보험 <i>(접힘)</i></td><td>본인부담률(기관 종별, 기본 상급종합 60%) · 실손 → [투여 환경 → 외래 시 공제·자기부담률·회당 한도] · 테즈파이어 예상가</td><td>비용 모델</td></tr>
-      <tr><td>④ 선호</td><td>환자 4축 100점 배분 (효과/비용/이상반응/편의)</td><td>MCDA 가중</td></tr>
-    </tbody>
+    <tr><th>계층</th><th>항목</th><th>소비처</th></tr>
+    <tr><td>① 임상 지표</td><td>혈중 호산구 · FeNO · 총 IgE · 통년성 감작 · 최근 12개월 악화 횟수 · 유지 OCS(mg/day) · 체중</td><td>적격성 · 절대효과 환산 · 자동 재가중 · 용량 계산</td></tr>
+    <tr><td>② 평가 설정</td><td>반응 평가 시점(12/16/24주, 기본 16주)</td><td>비용 주 표시 창 · Response evaluation 연계</td></tr>
+    <tr><td>③ 비용·보험 (접힘)</td><td>본인부담률(기관 종별, 기본 상급종합 60%) · 실손 → [투여 환경 → 외래 시 정액공제·자기부담률·회당 한도] · 테즈파이어 예상가</td><td>비용 모델</td></tr>
+    <tr><td>④ 선호</td><td>환자 4축 100점 배분(효과/비용/이상반응/편의)</td><td>MCDA 가중</td></tr>
   </table></div>
-  <p>원칙: 모든 입력은 규칙·계산에 소비된다. 나이는 성인 확인만, 성별은 미수집(데이터 최소화). 클라이언트 계산·미저장.</p>
+  <p>원칙: 모든 입력은 특정 계산에 소비된다(장식 입력 금지). 나이는 성인 확인만, 성별은 받지 않음(데이터 최소화). 입력은 클라이언트에서만 계산, 미저장.</p>
 </section>
 
 <section>
-  <p class="sec-label">3 · Algorithms</p>
-  <h2>주요 알고리즘</h2>
-
-  <h3>A. 적격성 필터 (결정적 규칙)</h3>
-  <p>표현형·허가 기준의 단순화 규칙(원문 대조 필요): omalizumab = 감작+IgE≥30 · mepolizumab = 호산구≥150 · reslizumab = ≥400 · benralizumab = ≥150(≥300 부합 높음) · dupilumab = 호산구≥150 or FeNO≥25 or OCS 의존 · tezepelumab = 표현형 무관. 비적격은 회색 카드+사유로 표시(숨기지 않음).</p>
-
-  <h3>B. 환자 기저치 결합 절대효과 (표시 계층)</h3>
-  <p>상대효과와 95% CI를 기저치에 적용: "연 3.0회 → 약 1.4회 (CI 0.9–1.8)", OCS "7.5 → 약 3.8 mg/day". GRADE SoF 절대효과와 동일 기법. <b>라벨 3원칙</b>: 평균 효과의 CI(개인 예측구간 아님) · 상대효과 일정 가정 명시 · 기저값 측정 오차 주의. omalizumab 악화는 event RR이라 위험 감소율로 표기.</p>
-
-  <h3>C. 지표 점수화 — MCID 초과확률 (확정)</h3>
-  <pre>비율(악화):        SE=(ln hi − ln lo)/3.92,  s = Φ((ln 0.8 − ln v)/SE)
-음수-우호 MD(OCS·ACQ): SE=(hi−lo)/3.92,     s = Φ((MCID − v)/SE)
-양수-우호 MD(FEV1·AQLQ):                    s = Φ((v − MCID)/SE)</pre>
-  <p>극단값 지배(0~1 유계)와 점추정치 편중(CI 통합)을 동시에 해결. 결측 구분: 측정지표 이질(teze OCS) = 0점+사유 / 적격 RCT 부재(resli OCS) = <b>가중치 제외·재정규화</b>.</p>
-
-  <h3>D. 효과 축 합성 — 가중 출처와 자동 재가중</h3>
-  <div class="table-wrap"><table>
-    <thead><tr><th>지표</th><th>환자 설문 (표7.2 · N=108)</th><th>의료진 설문 (I-5 원자료 · N=52)</th><th>균등</th></tr></thead>
-    <tbody>
-      <tr><td>악화</td><td>0.147</td><td><b class="hi">0.228</b> (평균 8.73 · 1순위 37/52)</td><td>0.2</td></tr>
-      <tr><td>OCS</td><td>0.214</td><td><b class="hi">0.220</b> (8.42)</td><td>0.2</td></tr>
-      <tr><td>조절도 ACQ</td><td><b class="hi">0.335</b></td><td>0.194 (7.44)</td><td>0.2</td></tr>
-      <tr><td>폐기능 FEV1</td><td>0.158</td><td>0.188 (7.21)</td><td>0.2</td></tr>
-      <tr><td>삶의 질 AQLQ</td><td>0.146</td><td>0.171 (6.56)</td><td>0.2</td></tr>
-    </tbody>
-  </table></div>
-  <p>환자는 증상(조절도) 최우선, 의료진은 악화·OCS 최우선 — I-7의 인식 차이가 가중치로 정량화된다. 설문의 부작용(6.62)·접근성(7.10)은 이상반응·비용 축의 축 수준 참고값, 일반 QoL(5.23)은 미사용. '직접 입력' = 진료 의사 개인 배분. <b>자동 재가중(확정)</b>: 악화 ≥3회 → 악화 ×2, OCS 사용 → OCS ×2 후 재정규화(내역 노출).</p>
-
-  <h3>E. 비용 모델</h3>
+  <p class="sec-label">3-A · Eligibility</p>
+  <h2>적격성 필터 (결정적 규칙)</h2>
+  <p>각 약제의 작용 기전상 표적 표현형과 급여·허가 조건을 단순화한 <b>통과/탈락 게이트</b>다.</p>
   <ul>
-    <li><b>약가(2026-08 상한가)</b>: 졸레어 150/75mg 216,755/114,440 · 누칼라 1,280,000 · 싱케어 100mg 399,552 · 파센라 2,842,543 · 듀피젠트 200/300mg 571,862/675,753 · 테즈파이어 비급여.</li>
-    <li><b>용량·스케줄</b>: omalizumab IgE×체중 용량표(확인 완료) · reslizumab 4mg/kg, 100mg 바이알 내림(잔량 미발생) · benralizumab 첫해 8회/유지 6.5회 · dupilumab 요법 자동 분기(OCS 의존 600→300mg q2w / 일반 400→200mg q2w, 초회 부하 2배) · mepo·teze 13회/년.</li>
-    <li><b>기간 창</b>: 주 표시 = 반응 평가 시점까지 · 부 표시 = 첫 12개월.</li>
-    <li><b>실부담</b>: 급여 = 표시가 × 기관 종별 본인부담률(상급종합 60% 기본, 산정특례 미적용 전제) · 비급여 = 예상가 100%.</li>
-    <li><b>실손</b>: 외래+가입 시 회당 실부담 = 본인부담금 − min(max(본인부담금 − max(정액공제, 정률자기부담), 0), 외래 통원 회당 한도). <b>입원+가입 시 비용 축 자동 제외</b>(재정규화).</li>
-    <li><b>비용 축 점수</b> = 100 × min(적격군 내 첫해 실부담) ÷ 첫해 실부담. 비급여 예상가 미입력 시 축 제외·재정규화.</li>
+    <li><b>Omalizumab</b> — 통년성 알레르겐 감작 = 예 <b>AND</b> 총 IgE ≥ 30 IU/mL (용량표 범위 IgE 30~1300 · 체중 20~150kg 밖이면 "용량표 범위 밖" 별도 표시)</li>
+    <li><b>Mepolizumab</b> — 혈중 호산구 ≥ 150/µL (≥300이면 '부합 높음' 배지)</li>
+    <li><b>Reslizumab</b> — 혈중 호산구 ≥ 400/µL</li>
+    <li><b>Benralizumab</b> — 혈중 호산구 ≥ 150/µL (≥300은 하위군 근거 일관 '부합 높음' · 150–299는 불확실 표기)</li>
+    <li><b>Dupilumab</b> — 호산구 ≥ 150/µL <b>or</b> FeNO ≥ 25 ppb <b>or</b> OCS 의존</li>
+    <li><b>Tezepelumab</b> — 표현형 무관 (부합 판정 불필요)</li>
   </ul>
+  <p>운영 원칙:</p>
+  <ul>
+    <li>규칙은 데모 단순화판 — 게시 전 <b>허가사항·급여 고시 원문 대조</b> 필요.</li>
+    <li>비적격 약제는 숨기지 않고 <b>회색 카드 + 탈락 사유</b>로 표시(필터 투명성).</li>
+    <li>문턱값(150/300/400 등)은 KQ 하위군 분석·급여 기준 출처와 함께 관리.</li>
+  </ul>
+  <div class="qa">
+    <p class="q">Q. "IgE·통년성 감작 항목 때문에 omalizumab이 무조건 점수가 높다?"</p>
+    <ul>
+      <li>적격성 필터는 <b>점수에 전혀 기여하지 않는다</b> — 통과/탈락뿐이다. 해당 항목 때문에 점수가 오르는 구조가 아니다.</li>
+      <li>실제 원인은 효과 데이터: KQ1의 omalizumab 점추정치는 5개 지표 중 4개(OCS −85.2% · ACQ −0.51 · FEV1 +0.22L · AQLQ +0.64)에서 <b>MCID를 넘는 유일한 약제</b>다. 초과확률 방식은 역치를 넘는 점추정치에 0.5 이상을 주므로 효과 축이 앞선다.</li>
+      <li>문제는 이 4개 지표의 확실성이 모두 <b>낮음(⊕⊕◯◯)</b>인데 무보정 초과확률은 이를 벌점하지 않았다는 것 — "크지만 불확실한 추정치"가 "정밀하지만 작은 추정치"를 항상 이겼다. 지적의 정당한 핵심.</li>
+      <li><b>v2.1 보정</b>: GRADE 확실성 계수(3-C) 도입으로 omalizumab 효과 축 76 → <b>62</b>점. 여전히 높지만 '점추정치 크기'와 '낮은 확실성 벌점'이 모두 수식에 명시된다.</li>
+      <li>1단계 알고리즘의 omalizumab 1순위 관행과 충돌하지 않으며, 도구는 어차피 순위 단정이 아닌 '우선 검토 후보' 그룹핑만 제공한다. 계수 값은 캘리브레이션 대상(§6).</li>
+    </ul>
+  </div>
+</section>
 
-  <h3>F. MCDA 총점</h3>
-  <pre>총점(d) = w효과×s효과 + w비용×s비용 + wAE×s_AE + w편의×s편의
-비용 축 제외 시: 남은 축 가중합 ÷ (1 − w비용)</pre>
-  <p>s_AE = 전 약제 동일 90점(전 KQ에서 위약 대비 유의 초과 없음 — 차등 근거 없음). s_편의 = 투여 간격·경로 기반(마지막 가상 축).</p>
+<section>
+  <p class="sec-label">3-B · Absolute Effects</p>
+  <h2>환자 기저치 결합 절대효과 (표시 계층)</h2>
+  <p>상대효과와 95% CI를 환자 기저치에 적용해 "그 환자의 숫자"로 보여준다 — GRADE SoF의 절대효과 산출과 동일 기법.</p>
+  <ul>
+    <li><b>악화 (RAR형)</b> — <code>기저 악화 × [RAR, CI]</code> → "연 3.0회 → 약 1.4회 (CI 0.9–1.8)". omalizumab 악화는 발생률비(event RR)라 횟수 환산 불성립 → 위험 감소율 표기.</li>
+    <li><b>OCS 감량 (%MD형)</b> — <code>기저 용량 × (1 + MD/100)</code>, 하한 0 절단 → "7.5 → 약 3.8 mg/day".</li>
+    <li><b>ACQ · FEV1 · AQLQ (MD형)</b> — MD 자체가 절대량 → 그대로 표시(기저치는 도달값 문장에만 사용).</li>
+    <li><b>라벨 3원칙</b> — ① 이 CI는 평균 효과의 신뢰구간(개인 예측구간 아님) ② 상대효과 일정(portability) 가정 명시 ③ 기저값 측정 오차·평균 회귀 주의.</li>
+  </ul>
+  <div class="qa">
+    <p class="q">Q. "시험 평균과 다른 환자에게 시험의 상대효과를 적용하는 것은 논리적 모순인가?"</p>
+    <ul>
+      <li><b>모순이 아니라 공개된 가정이다.</b> 시험이 추정한 것은 "기저 2.2회 집단에서 55% 감소"가 아니라 "<b>상대적으로 55% 감소</b>"라는 비율이며, 상대효과는 기저 위험이 달라도 비교적 안정적이라는 것이 메타역학의 반복된 관찰이다. GRADE SoF가 "여러 기저 위험 × 동일 상대효과"로 절대효과를 제시하는 근거와 같다.</li>
+      <li>절대효과(횟수 차이)야말로 기저치에 따라 크게 달라지므로, 시험의 절대효과를 그대로 옮기는 쪽이 오히려 논리적으로 취약하다.</li>
+      <li>가정이 약해지는 구간: 환자 기저치가 <b>시험 모집단 범위를 크게 벗어나는 경우</b>(예: 연 10회 악화). 보완책 — 시험 모집단 기저치 범위 표기 + 범위 밖 입력 외삽 경고(구현 예정, §6).</li>
+      <li>MD형 지표는 반대 주의: "ACQ −0.42"는 고정 절대량 가정이므로 기저 ACQ가 낮은 환자에겐 과대 표시 가능(천장/바닥 효과) — 라벨 3원칙과 함께 안내.</li>
+    </ul>
+  </div>
+</section>
 
-  <h3>G. 관점 병기 (합성 금지)</h3>
-  <p>환자·의료진 가중을 평균하지 않고 각각의 1순위를 비교해 <b>관점 일치/상이</b>를 표시 — 불일치는 공유 의사결정의 대화 재료. 환자 보기에서는 의료진·고급 설정 전체 숨김.</p>
+<section>
+  <p class="sec-label">3-C · Scoring</p>
+  <h2>지표 점수화 — MCID 초과확률 × GRADE 확실성 계수</h2>
+  <p><b>직관.</b> 각 지표에 "참효과가 델파이 합의 MCID를 넘을 확률"을 점수로 준다. 점추정치만 쓰면 CI가 버려지고, 배수(효과÷MCID)를 쓰면 극단값이 지배한다. 초과확률은 CI의 폭과 위치를 한 번에 반영하며 자연히 0~1로 유계다.</p>
+  <pre><code>SE 복원:   SE = (CI상한 − CI하한) / 3.92          (비율 지표는 ln 스케일)
+비율 지표(악화):         s₀ = Φ( (ln 0.8 − ln v) / SE_ln )
+음수-우호 MD(OCS·ACQ):   s₀ = Φ( (MCID − v) / SE )      MCID: OCS −50% · ACQ −0.5
+양수-우호 MD(FEV1·AQLQ): s₀ = Φ( (v − MCID) / SE )      MCID: FEV1 +0.2L · AQLQ +0.5
+확실성 보정: s = s₀ × CERT(GRADE)
+CERT = 높음 1.00 · 중등도 0.90 · 낮음 0.75 · 매우낮음 0.55</code></pre>
+  <p><b>확실성 계수를 도입한 이유 (v2.1).</b> 무보정 초과확률의 두 편향 — ① 점추정치가 MCID 미달인 약제는 CI가 넓을수록 s₀가 0.5로 끌려 올라간다(불확실성 보상). ② 점추정치가 MCID를 넘으면 확실성이 낮아도 벌점이 없다(omalizumab 사례). CERT는 두 경우 모두 낮은 확실성을 일괄 감점해 "정밀한 근거 &gt; 부정확한 근거" 순서를 복원한다. 계수 값은 운영 결정·캘리브레이션 대상.</p>
+  <h4>계산 예시 4건 (KQ 실측치)</h4>
+  <div class="ex"><b class="t">① 전형 — benralizumab 악화</b> RAR 0.45 (0.29–0.60) · ⊕⊕⊕◯<br>
+    SE<sub>ln</sub> = (ln0.60−ln0.29)/3.92 = 0.186 → z = (ln0.8−ln0.45)/0.186 = <b>+3.10</b> → s₀ = Φ(3.10) = 0.999 → s = 0.999×0.90 = <b>0.899</b>. 점추정치가 MCID를 여유 있게 넘고 CI도 좁아 만점에 근접.</div>
+  <div class="ex"><b class="t">② 경계 — benralizumab OCS</b> −50% (−64.1~−35.9) · ⊕⊕⊕◯<br>
+    SE = 28.2/3.92 = 7.19 → z = (−50−(−50))/7.19 = <b>0</b> → s₀ = 0.500 → s = <b>0.45</b>. 점추정치가 정확히 MCID 위 — "넘을 확률 반반"이라는 직관과 일치.</div>
+  <div class="ex"><b class="t">③ 크지만 불확실 — omalizumab OCS</b> −85.2% (−153.0~−14.3) · ⊕⊕◯◯<br>
+    SE = 138.7/3.92 = 35.4 → z = (−50+85.2)/35.4 = <b>+0.99</b> → s₀ = 0.840 → s = 0.840×0.75 = <b>0.630</b>. 점추정치는 MCID의 1.7배지만 CI가 매우 넓다. v2까지 0.84를 그대로 받던 것이 v2.1에서 감점.</div>
+  <div class="ex"><b class="t">④ 명확한 미달 — dupilumab OCS</b> −28.2% (−36.9~−19.5) · ⊕⊕⊕◯<br>
+    SE = 4.44 → z = (−50+28.2)/4.44 = <b>−4.91</b> → s₀ ≈ 0 → s = <b>0</b>. CI가 좁아 "MCID 미달"이 거의 확실 — 0점이 정당.</div>
+  <h3>결측 구분 규칙 — 효과 없음의 근거 ≠ 근거의 부재</h3>
+  <ul>
+    <li><b>tezepelumab OCS = 0점 (효과 없음의 근거)</b> — KQ6 원문 재확인 결과 OCS 관련 유일 지표는 "<b>OCS ≤5mg/day 도달 비율 RR 1.06 (0.87–1.30)</b>" (SOURCE 단일연구 · ⊕⊕⊕◯ · 위약 1000명당 697→738). 타 약제의 %감량 MD와 측정지표가 다르고 <b>유의하지 않다</b> — OCS-감량 전용 시험에서 효과 미확인이므로 0점 정당. 카드에 수치·출처 그대로 표기. ※ SOURCE = tezepelumab OCS-감량 전용 3상 RCT(OCS 의존 환자, N≈150). 근거 프로파일 범위에 %감량 MD 없음 확인 → 미결 해소.</li>
+    <li><b>reslizumab OCS = 축 제외 + 재정규화 (근거의 부재)</b> — OCS-sparing 시험 자체가 없음. 0점을 주면 "효과 없음"으로 오독되므로 지표를 빼고 남은 가중치 합으로 나눈다.</li>
+  </ul>
+</section>
 
-  <h3>H. NMA 비교 모듈 (예정)</h3>
-  <p>공통 하위군(호산구 ≥300 주 분석 · OCS 의존 시험군 부 분석) 제한 네트워크의 비교 참고치를 <b>부합 환자에게만</b> 활성화. 별 모양 네트워크(일치성 검정 불가)·이행성 한계 명시. KQ7·KQ8은 네트워크 비대상 — Response evaluation의 후속 경로.</p>
+<section>
+  <p class="sec-label">3-D · Effect Axis</p>
+  <h2>효과 축 합성 — 선호도 가중의 전 과정</h2>
+  <pre><code>s_효과(d) = Σ_j u_j × s_j(d) ÷ Σ_j (근거 있는 j의 u_j) × 100
+j ∈ { 악화, OCS 감량, 조절도 ACQ, 폐기능 FEV1, 삶의 질 AQLQ }</code></pre>
+  <h4>① 지표 가중치 u의 출처와 도출</h4>
+  <div class="table-wrap"><table>
+    <tr><th>지표</th><th>환자 설문 (표7.2 · N=108)</th><th>의료진 설문 (I-5 원자료 · N=52)</th><th>균등</th><th>직접 입력</th></tr>
+    <tr><td>악화</td><td>0.147</td><td><b class="hi">0.228</b></td><td>0.2</td><td rowspan="5">진료 의사 개인의<br>5지표 100점 배분</td></tr>
+    <tr><td>OCS 감량</td><td>0.214</td><td><b class="hi">0.220</b></td><td>0.2</td></tr>
+    <tr><td>조절도 ACQ</td><td>0.335</td><td><b class="hi">0.194</b></td><td>0.2</td></tr>
+    <tr><td>폐기능 FEV1</td><td>0.158</td><td><b class="hi">0.188</b></td><td>0.2</td></tr>
+    <tr><td>삶의 질 AQLQ</td><td>0.146</td><td><b class="hi">0.171</b></td><td>0.2</td></tr>
+  </table></div>
+  <ul>
+    <li><b>환자 설문</b> — 표7.2: 환자 108명이 5개 지표에 100점을 배분한 평균. 배분형이므로 그대로 정규화 가중치.</li>
+    <li><b>의료진 설문 도출 공식</b> — I-5 원자료(52명) 9점 척도 문항 평균의 정규화: 평균 악화 8.73 · OCS 8.42 · ACQ 7.44 · FEV1 7.21 · AQLQ 6.56, 합 38.36 → <code>u_악화 = 8.73/38.36 = 0.228</code>, … 보조 확인: 우선순위 문항의 가중 순위점수(3-2-1점)도 같은 서열 — 악화 134(1순위 37/52) &gt; OCS 78 &gt; ACQ 41 &gt; FEV1 16 &gt; AQLQ 15. 나머지 문항은 축 배치가 다름: 부작용 6.62 → 이상반응 축 · 접근성 7.10 → 비용 축 참고 · 일반 QoL 5.23 → 미사용.</li>
+    <li>환자는 증상 조절(0.335) 최우선, 의료진은 악화·OCS 최우선 — I-7 인식 차이의 정량화이자 관점 병기(3-H)의 근거.</li>
+  </ul>
+  <h4>② 환자 문제별 자동 재가중 (채택 확정)</h4>
+  <pre><code>악화 ≥ 3회/년 → u_악화 × 2      유지 OCS &gt; 0 → u_OCS × 2      이후 재정규화(합=1)</code></pre>
+  <p>예시(환자 설문 가중 · 악화 3회 · OCS 7.5mg): (0.147, 0.214, 0.335, 0.158, 0.146) → 부스트 (0.294, 0.428, …), 합 1.361 → 정규화 <b>(0.216, 0.315, 0.246, 0.116, 0.107)</b>. 적용 내역은 결과 헤더·계산 상세에 노출.</p>
+  <h4>③ 합성 예시</h4>
+  <p>위 환자, benralizumab: s = (0.899, 0.45, 0.002, 0.007, 0.001) → Σu·s = 0.337 → <b>효과 축 34점</b>. reslizumab은 OCS 근거 부재로 분모 0.685 → 0.194/0.685 = <b>28점</b>.</p>
+</section>
+
+<section>
+  <p class="sec-label">3-E · Cost</p>
+  <h2>비용 모델 (약제비 범위 확정)</h2>
+  <ul>
+    <li><b>범위 (확정)</b> — <b>약제비만</b> 계산. 행위료·진찰료·검사비는 기관·청구 편차가 크고 약제 간 차이가 작아 제외. "약제비 기준" 상시 표기.</li>
+    <li><b>약가</b> (급여 상한금액 2026-08) — 졸레어 150mg 216,755 / 75mg 114,440 · 누칼라 1,280,000 · 싱케어 100mg 399,552 · 파센라 2,842,543 · 듀피젠트 200mg 571,862 / 300mg 675,753 · 테즈파이어 비급여.</li>
+    <li><b>omalizumab</b> — IgE×체중 용량표(전사 확인 완료 · 75~375mg · q2/4주) → 150/75mg 조합 단가.</li>
+    <li><b>reslizumab (내림 확정)</b> — 회당 4mg/kg → 100mg 바이알 수 <b>내림</b>(잔량 미발생). 체중 결합 예: <b>65kg → 260mg 처방량 → 2바이알 = 200mg 투여</b>(77%) · 799,104원/회. 50kg → 200mg(정확) · 75kg → 300mg(정확). 급여 등재 규격이 100mg 단일이라 생기는 구간이며 미달 구간은 카드에 그대로 표기.</li>
+    <li><b>benralizumab</b> 첫해 8회(초기 3회 4주) / 유지 연 6.5회 · <b>dupilumab</b> 요법 자동 분기(OCS 의존 600→300mg q2w, 일반 400→200mg q2w · 초회 부하 1회분 반영) · <b>mepolizumab·tezepelumab</b> 13회/년.</li>
+    <li><b>기간 창</b> — 주 표시: 치료 시작→반응 평가 시점 · 부 표시: 첫 12개월.</li>
+    <li><b>실부담</b> — 급여: 표시가 × 본인부담률(기관 종별 · 상급종합 60% 기본 · 산정특례 미적용 전제) · 비급여(teze): 예상가 입력 시 100%.</li>
+    <li><b>실손</b> — 외래: <code>실부담 = 본인부담금 − min(max(본인부담금 − max(정액공제, 본인부담금×자기부담률), 0), 회당 한도)</code> · <b>입원+실손: 비용 축 자동 제외</b>(재정규화) · 증권 파라미터 자가 입력.</li>
+    <li><b>비용 축 점수</b> — <code>s_비용 = 100 × min(적격군 첫해 실부담) ÷ 첫해 실부담(d)</code> · 비급여 예상가 미입력 시 축 제외·재정규화.</li>
+  </ul>
+</section>
+
+<section>
+  <p class="sec-label">3-F · AE & Convenience</p>
+  <h2>이상반응·편의성 축</h2>
+  <ul>
+    <li><b>이상반응 s_AE = 전 약제 90점</b> — 전 KQ에서 위약 대비 유의 초과 없음(차등 근거 없음 · 세부 RR 추출 후 정밀화 예정). 관찰 노트: tezepelumab SAE RR 0.67(위약보다 유의하게 낮음 · KQ6 SoF) — 악화·입원 감소가 SAE 집계에 반영된 효과 중첩 가능성 → 보너스 미부여, 안전성 행에 사실만 표기.</li>
+    <li><b>편의성 s_편의 = 규칙 기반 (v2.1 · 가상 점수 폐기)</b>:</li>
+  </ul>
+  <pre><code>s_편의(d) = 100 × 6.5 ÷ 연간 유지기 투여 횟수(d)     (최소 빈도 = 100점 앵커)
+reslizumab × 0.8                                     (원내 정맥투여: 자가투여 불가·투여 시간)</code></pre>
+  <p>결과: benralizumab 100(연 6.5회) · mepolizumab/tezepelumab 50(13회) · omalizumab 50 또는 25(q4주/q2주) · reslizumab 40(13회 IV) · dupilumab 25(26회). 산출 근거가 전부 관찰 가능한 속성(허가 용법 투여 빈도·경로)이므로 '가상'이 아닌 <b>규칙</b>. 정밀화: 자가투여 허가·투여 시간 속성표 확장, ×0.8 계수 운영위 확정(§6).</p>
+</section>
+
+<section>
+  <p class="sec-label">3-G · MCDA</p>
+  <h2>MCDA 총점 — 전체 파이프라인과 계산 예시</h2>
+  <pre><code>총점(d) = w_효과×s_효과 + w_비용×s_비용 + w_이상반응×s_AE + w_편의×s_편의
+w = 환자 4축 100점 배분 ÷ 100 — 기본값 (35, 25, 25, 15) = 환자 조사 평균 근사
+축 제외 시(비급여 가격 미상 · 입원+실손): 총점 = 남은 축 가중합 ÷ (1 − 제외 축 w)</code></pre>
+  <p>네 축은 EtD 프레임의 기준 축약(효과 desirable effects · 비용 resource use · 이상반응 undesirable effects · 편의 acceptability/feasibility). 축 내부 점수가 전부 0~100으로 정규화되어 있으므로 가중합이 곧 총점.</p>
+  <h4>끝까지 계산한 예시 — 기본 환자</h4>
+  <p>호산구 450 · FeNO 30 · IgE 120 · 통년성 감작 미확인 · 악화 3회 · OCS 7.5mg · 65kg · 평가 16주 · 상급종합 외래 60% · 실손 없음 · 가중 (0.35, 0.25, 0.25, 0.15) · 환자 설문 가중+자동 재가중:</p>
+  <div class="table-wrap"><table>
+    <tr><th>약제</th><th>s_효과</th><th>s_비용 (첫해 실부담)</th><th>s_AE</th><th>s_편의</th><th>총점 계산</th><th>총점</th></tr>
+    <tr><td>Reslizumab</td><td>28</td><td>100 (623.3만원 — 적격군 최저)</td><td>90</td><td>40</td><td>.35×28+.25×100+.25×90+.15×40</td><td><b class="hi">63</b></td></tr>
+    <tr><td>Benralizumab</td><td>34</td><td>46 (1,364.4만원)</td><td>90</td><td>100</td><td>.35×34+.25×46+.25×90+.15×100</td><td><b class="hi">61</b></td></tr>
+    <tr><td>Mepolizumab</td><td>38</td><td>62 (998.4만원)</td><td>90</td><td>50</td><td>.35×38+.25×62+.25×90+.15×50</td><td><b class="hi">59</b></td></tr>
+    <tr><td>Dupilumab</td><td>22</td><td>57 (1,094.7만원 · 300mg 요법)</td><td>90</td><td>25</td><td>.35×22+.25×57+.25×90+.15×25</td><td><b class="hi">48</b></td></tr>
+    <tr><td>Tezepelumab</td><td>25</td><td>— 예상가 미입력 → 축 제외</td><td>90</td><td>50</td><td>(.35×25+.25×90+.15×50) ÷ 0.75</td><td><b class="hi">52</b></td></tr>
+    <tr><td>Omalizumab</td><td>62</td><td>—</td><td>90</td><td>50</td><td>비적격(통년성 감작 미확인) — 점수 미부여</td><td>—</td></tr>
+  </table></div>
+  <p>읽는 법 — 이 표가 곧 도구의 논점이다:</p>
+  <ul>
+    <li>효과 축 1위(mepolizumab 38)와 총점 1위(reslizumab 63)가 다르다. reslizumab은 효과 축이 낮지만(OCS 근거 부재·ACQ/FEV1/AQLQ 미달) <b>첫해 실부담 최저(65kg 내림 2바이알 효과)</b>가 비용 축 100점을 만든다. 가중치를 효과 쪽으로 옮기면 순위가 뒤집힌다 — 이 민감성을 보여주는 것이 목적이지 63점이 "정답"이 아니다.</li>
+    <li>tezepelumab 축 제외: 남은 3축 가중합 38.75 ÷ 0.75 = 52점. 0점 처리했다면 29점 — "가격 정보 없음"이 "매우 비쌈"으로 둔갑하는 것을 재정규화가 막는다.</li>
+    <li>모든 행의 산식은 카드 '계산 상세 보기'에서 지표 단위까지 펼쳐진다(중간값 은닉 없음).</li>
+  </ul>
+</section>
+
+<section>
+  <p class="sec-label">3-H · Dual Perspective</p>
+  <h2>관점 병기 (합성 금지)</h2>
+  <p>환자 가중과 의료진 가중을 평균하지 않는다. 각각의 1순위를 계산해 <b>일치/상이("환자 A vs 의료진 B — 상담 포인트")</b>를 표시한다. 가치 판단의 기본 주인은 환자(EtD 원칙), 불일치는 공유 의사결정의 대화 재료. 환자 보기에서는 의료진·고급 설정 전체가 숨겨진다.</p>
+</section>
+
+<section>
+  <p class="sec-label">3-I · NMA (planned)</p>
+  <h2>NMA 비교 모듈 (예정)</h2>
+  <p>공통 하위군(호산구 ≥300 주 분석 · OCS 의존 시험군 부 분석) 제한 네트워크로 비교 참고치(MCID 초과 확률 + CINeMA)를 산출하되, <b>환자가 하위군에 부합할 때만 활성화</b>, 비부합 시 사유 고지. 별 모양 네트워크(일치성 검정 불가)·이행성 한계 명시. KQ7(감량)·KQ8(교체)은 비대상 — Response evaluation 후속 경로.</p>
 </section>
 
 <section>
   <p class="sec-label">4 · Assumptions</p>
   <h2>가정 목록</h2>
   <div class="table-wrap"><table>
-    <thead><tr><th>#</th><th>가정</th><th>성격</th></tr></thead>
-    <tbody>
-      <tr><td>A1</td><td>상대효과의 기저 위험 무관 일정성(portability)</td><td>표준적 · 명시</td></tr>
-      <tr><td>A2</td><td>요약 효과의 정규(로그정규) 근사</td><td>표준적</td></tr>
-      <tr><td>A3</td><td>MCID의 기저 상태 무관 적용(FEV1 %/L 병용이 헤지)</td><td>지침 합의</td></tr>
-      <tr><td>A4</td><td>급여 기준 충족(급여 약제)</td><td>사용자 결정</td></tr>
-      <tr><td>A5</td><td>환자 부담 = 표시가 기준(RSA 환급은 공단-제약사 간)</td><td>제도 구조</td></tr>
-      <tr><td>A6</td><td>본인부담률 = 외래 기관 종별 · 산정특례 미적용</td><td>현행 제도</td></tr>
-      <tr><td>A7</td><td>실손 파라미터 자가 입력의 정확성</td><td>사용자 책임 · 고지</td></tr>
-      <tr><td>A8</td><td>입원+실손 시 약제비 부담 차이 무시</td><td>운영 결정 · 예외 고지</td></tr>
-      <tr><td>A9</td><td>이상반응 축 전 약제 동등(유의 초과 근거 없음)</td><td>근거 상태 · 추후 정밀화</td></tr>
-      <tr><td>A10</td><td>reslizumab 4mg/kg · 바이알 내림</td><td>운영 결정 · 타당성 확인 중</td></tr>
-      <tr><td>A11</td><td>효과값 = 검색일 2025-12-31 기준</td><td>갱신 정책 연동</td></tr>
-      <tr><td>A12</td><td>약가·급여 = 2026-08 기준(수시 변동)</td><td>데이터 기준일 관리</td></tr>
-    </tbody>
+    <tr><th>#</th><th>가정</th><th>성격</th></tr>
+    <tr><td>A1</td><td>상대효과는 기저 위험과 무관하게 일정(portability)</td><td>표준적 · 3-B 라벨로 노출</td></tr>
+    <tr><td>A2</td><td>메타분석 요약 효과의 정규(로그정규) 근사</td><td>표준적</td></tr>
+    <tr><td>A3</td><td>MCID는 기저 상태와 무관하게 적용 가능</td><td>지침 합의 — FEV1 %/L 병용이 헤지</td></tr>
+    <tr><td>A4</td><td>환자는 급여 기준 충족(급여 약제)</td><td>사용자 결정</td></tr>
+    <tr><td>A5</td><td>본인부담은 고시 표시가 기준(RSA 환급은 공단-제약사 사안)</td><td>제도 구조상 타당</td></tr>
+    <tr><td>A6</td><td>본인부담률 = 외래 기관 종별 차등 · 산정특례 미적용</td><td>현행 제도</td></tr>
+    <tr><td>A7</td><td>실손 파라미터는 증권 자가 입력값이 정확</td><td>사용자 책임 · 고지</td></tr>
+    <tr><td>A8</td><td>입원+실손 시 약제비 부담 차이 무시 가능</td><td>운영 결정 — 예외 고지</td></tr>
+    <tr><td>A9</td><td>이상반응 축 전 약제 동등 — teze SAE 감소는 보너스 미부여</td><td>근거 상태 반영 — 추후 정밀화</td></tr>
+    <tr><td>A10</td><td>reslizumab 4mg/kg · 100mg 바이알 내림(잔량 미발생)</td><td><b class="hi">확정</b> — 미달 구간 카드 표기</td></tr>
+    <tr><td>A11</td><td>효과값은 각 KQ 메타분석 시점(검색일 2025-12-31) 기준</td><td>갱신 정책 연동</td></tr>
+    <tr><td>A12</td><td>약가·급여 상태는 2026-08 기준 — 수시 고시 변동</td><td>데이터 기준일 관리</td></tr>
+    <tr><td>A13</td><td>GRADE 확실성 계수 CERT = 1.0/0.9/0.75/0.55</td><td>운영 결정 — 캘리브레이션 대상</td></tr>
+    <tr><td>A14</td><td>편의성 = 투여 빈도 역비례 + 원내 IV ×0.8</td><td>운영 결정 — 속성표 확장 예정</td></tr>
   </table></div>
 </section>
 
 <section>
-  <p class="sec-label">5 · Decisions & Open Items</p>
-  <h2>확정 결정 · 미결 사항</h2>
-  <p><b>확정</b>: Decision Support 허브 · 절대효과 주 표시 · MCID 초과확률 · 자동 재가중 · 의료진 정밀 가중(N=52) · 적격군 내 실부담 역비례 비용 축 · 비급여 = 예상가 입력 또는 축 제외 · 실손 외래/입원 분기 · 관점 병기(합성 금지) · 기저치 조건부 도달 확률 제외(사후 판정은 Response evaluation) · 환자 보기 별도 모드.</p>
-  <div class="callout"><b>미결</b> — ① SOURCE(teze) OCS 감량률 데이터 확인(지표 동일화) ② reslizumab 내림 타당성·25mg 규격 ③ 테즈파이어 비급여 예상가 대표값 ④ 실손 세대 프리셋 ⑤ 투여 행위료 포함 여부 ⑥ 편의성 축 점수화 근거 ⑦ NMA 수행·출판 ⑧ 약제별 반응 평가 시점 기본값.</div>
+  <p class="sec-label">5 · Decisions</p>
+  <h2>확정 결정 로그</h2>
+  <p>1. Decision Support 허브(사이트맵) · 2. 절대효과 주 표시 · 3. 점수화 = MCID 초과확률 · 4. 자동 재가중 채택 · 5. 의료진 가중 = 설문 원자료 정밀값 · 6. 비용 축 = 적격군 내 실부담 역비례 · 7. 비급여 = 예상가 입력 or 축 제외(0점 폐기) · 8. 실손 외래/입원 분기 · 9. 관점 병기(합성 금지) · 10. 기저치 조건부 도달 확률 로드맵 제외 · 11. 환자 보기 별도 모드 · <b>12. (v2.1) 초과확률 × GRADE 확실성 계수</b> · <b>13. (v2.1) tezepelumab OCS 0점 확정(KQ6 원문: ≤5mg 도달 RR 1.06 ns가 유일 지표)</b> · <b>14. (v2.1) reslizumab 내림 확정</b> · <b>15. (v2.1) 비용 = 약제비만</b> · <b>16. (v2.1) 편의성 축 규칙 기반 전환</b></p>
+</section>
+
+<section>
+  <p class="sec-label">6 · Open Items</p>
+  <h2>미결·확인 사항</h2>
+  <ol>
+    <li>GRADE 확실성 계수 값의 운영위 캘리브레이션 — 민감도 분석 포함</li>
+    <li>편의성 축 속성표 확장(자가투여 허가·투여 시간·보관)과 IV 계수(×0.8) 확정</li>
+    <li>테즈파이어 비급여 예상가 대표값 · 급여 등재 시 갱신</li>
+    <li>실손 세대별 프리셋 대표값 (보험 실무)</li>
+    <li>NMA 수행·출판 (프로토콜 별도 문서)</li>
+    <li>반응 평가 시점의 약제별 기본값 (지침 본문·급여 고시 확정 시)</li>
+    <li>시험 모집단 기저치 범위 표기·범위 밖 입력 경고 (3-B 보완책) 구현</li>
+    <li>(참고) SOURCE 원논문 부록의 OCS %감량 원자료 재추출 — 근거 프로파일에는 없음 확인, 선택 사항</li>
+  </ol>
+  <p>해소된 항목(v2.1): KQ6 OCS 지표 확인(→결정 13) · reslizumab 내림·규격(→결정 14) · 행위료 포함 여부(→결정 15) · 편의성 축 근거(→결정 16).</p>
+</section>
+
+<section>
+  <p class="sec-label">7 · Glossary</p>
+  <h2>부록 — 용어</h2>
+  <ul>
+    <li><b>SOURCE 시험</b> — tezepelumab의 경구스테로이드(OCS) 감량 전용 3상 RCT(OCS 의존 중증 천식 · N≈150). KQ6의 OCS 지표("≤5mg/day 도달 비율")가 이 단일 시험에서 나오며, NAVIGATOR와 달리 OCS 감량 우월성을 보이지 못했다.</li>
+    <li><b>reslizumab 규격</b> — 제품이 유통되는 바이알 단위 용량. 국내 급여 등재는 100mg/10mL 단일 규격(제공 상한가 기준)이므로 4mg/kg 처방량을 100mg 단위로 맞추는 내림 규칙이 필요하다. 해외 일부 시장의 25mg 소용량이 도입되면 내림 오차가 줄어든다.</li>
+    <li><b>MCID</b> — 최소 임상적 중요 차이. 본 지침 델파이 3라운드 합의값: 악화 RAR 0.8 · OCS −50% · ACQ −0.5 · FEV1 +0.2L · AQLQ +0.5.</li>
+  </ul>
 </section>
 
 <footer>
-  한계·면책(전 화면 공통): 평균 효과 ≠ 개인 예측 · 약제 간 직접 비교 근거 없음 · 급여·약가·용량표는 최신 고시 확인 · 진료 판단을 대체하지 않음 · 입력 미저장. 본 문서는 docs/cdss-specification.md와 동일 내용의 HTML 판이다.
+  한계·면책(전 화면 공통): 평균 효과 ≠ 개인 예측 · 약제 간 직접 비교 근거 없음 · 급여·약가·용량표는 최신 고시 확인 · 진료 판단을 대체하지 않음 · 입력 미저장(클라이언트 계산).
 </footer>
 </div>
