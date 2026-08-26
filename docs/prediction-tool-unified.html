@@ -1062,12 +1062,22 @@
         <button type=&quot;button&quot; class=&quot;chipbtn know on&quot; data-k=&quot;fev1&quot; data-v=&quot;no&quot;>몰라요</button>
         <input type=&quot;number&quot; id=&quot;fev1&quot; value=&quot;2.1&quot; min=&quot;0.3&quot; max=&quot;6&quot; step=&quot;0.05&quot; style=&quot;display:none&quot; aria-label=&quot;FEV1 수치(리터)&quot;>
       </div>
+      <div class=&quot;labrow&quot;><span class=&quot;lab&quot;>조절 설문 ACQ<br>(0~6점)</span>
+        <button type=&quot;button&quot; class=&quot;chipbtn know&quot; data-k=&quot;acqv&quot; data-v=&quot;yes&quot;>알아요</button>
+        <button type=&quot;button&quot; class=&quot;chipbtn know on&quot; data-k=&quot;acqv&quot; data-v=&quot;no&quot;>몰라요</button>
+        <input type=&quot;number&quot; id=&quot;acqv&quot; value=&quot;2.5&quot; min=&quot;0&quot; max=&quot;6&quot; step=&quot;0.1&quot; style=&quot;display:none&quot; aria-label=&quot;ACQ 점수&quot;>
+      </div>
+      <div class=&quot;labrow&quot;><span class=&quot;lab&quot;>삶의 질 AQLQ<br>(1~7점)</span>
+        <button type=&quot;button&quot; class=&quot;chipbtn know&quot; data-k=&quot;aqlqv&quot; data-v=&quot;yes&quot;>알아요</button>
+        <button type=&quot;button&quot; class=&quot;chipbtn know on&quot; data-k=&quot;aqlqv&quot; data-v=&quot;no&quot;>몰라요</button>
+        <input type=&quot;number&quot; id=&quot;aqlqv&quot; value=&quot;4.5&quot; min=&quot;1&quot; max=&quot;7&quot; step=&quot;0.1&quot; style=&quot;display:none&quot; aria-label=&quot;AQLQ 점수&quot;>
+      </div>
       <div class=&quot;labrow&quot; id=&quot;sens-row&quot; style=&quot;display:none&quot;><span class=&quot;lab&quot;>사계절 알레르기<br>(집먼지진드기 등)</span>
         <button type=&quot;button&quot; class=&quot;chipbtn sens&quot; data-v=&quot;yes&quot;>있어요</button>
         <button type=&quot;button&quot; class=&quot;chipbtn sens&quot; data-v=&quot;no&quot;>없어요</button>
         <button type=&quot;button&quot; class=&quot;chipbtn sens on&quot; data-v=&quot;unknown&quot;>몰라요</button>
       </div>
-      <p class=&quot;hint&quot;>몰라도 괜찮아요. 검사 결과가 필요한 주사는 &quot;검사 후 판단&quot;으로 따로 알려드리고, 폐기능(FEV1)은 입력하시면 나의 예상 변화를 그림으로 보여드려요.</p>
+      <p class=&quot;hint&quot;>몰라도 괜찮아요. 검사 결과가 필요한 주사는 &quot;검사 후 판단&quot;으로 따로 알려드리고, 폐기능(FEV1)·조절 설문(ACQ)·삶의 질(AQLQ)은 입력하시면 나의 예상 변화를 그림으로 보여드려요. ACQ·AQLQ는 진료에서 작성한 설문 점수예요.</p>
     </div>
 
     <div class=&quot;card&quot;>
@@ -1234,7 +1244,7 @@
 
   // ── 상태 ──
   var S = {
-    exac:3, ocsYes:true, sens:&quot;unknown&quot;, know:{eos:false,feno:false,ige:false,fev1:false},
+    exac:3, ocsYes:true, sens:&quot;unknown&quot;, know:{eos:false,feno:false,ige:false,fev1:false,acqv:false,aqlqv:false},
     co:{rhin:false,polyp:false,atopy:false,none:true},
     ins:&quot;no&quot;, env:&quot;out&quot;, persona:null
   };
@@ -1242,7 +1252,8 @@
     return {
       exac:S.exac, ocs:S.ocsYes?num(&quot;ocs-mg&quot;,0):0, wt:num(&quot;wt&quot;,65),
       eos:S.know.eos?num(&quot;eos&quot;,0):null, feno:S.know.feno?num(&quot;feno&quot;,0):null,
-      ige:S.know.ige?num(&quot;ige&quot;,0):null, fev1:S.know.fev1?num(&quot;fev1&quot;,0):null, sens:S.sens, co:S.co,
+      ige:S.know.ige?num(&quot;ige&quot;,0):null, fev1:S.know.fev1?num(&quot;fev1&quot;,0):null,
+      acq:S.know.acqv?num(&quot;acqv&quot;,0):null, aqlq:S.know.aqlqv?num(&quot;aqlqv&quot;,0):null, sens:S.sens, co:S.co,
       copay:parseInt($(&quot;copay&quot;).value,10), ins:S.ins, env:S.env,
       ded:num(&quot;ded&quot;,0), coins:num(&quot;coins&quot;,0), cap:num(&quot;cap&quot;,0)
     };
@@ -1520,8 +1531,34 @@
           '숨을 내쉬는 힘이 평균 +'+fv.v+'L 좋아졌어요. '+fvNote+' 1단계에서 내 FEV1 수치를 입력하면 예상 변화를 그림으로 보여드려요.');
       }
     }
-    // ④ 일상·삶의 질
-    cards+=ccard(&quot;일상·삶의 질&quot;, &quot;&quot;, &quot;&quot;, dailyText(d));
+    // ④ 일상·삶의 질 — 설문 점수 입력 시 전후 표시 (ACQ 낮을수록·AQLQ 높을수록 좋음)
+    var av=d.out.acq, qv=d.out.aqlq;
+    if (p.acq===null &amp;&amp; p.aqlq===null) {
+      cards+=ccard(&quot;일상·삶의 질&quot;, &quot;&quot;, &quot;&quot;, dailyText(d)+&quot; 1단계에서 설문 점수(ACQ·AQLQ)를 입력하면 나의 전후 변화를 그림으로 보여드려요.&quot;);
+    } else {
+      if (av &amp;&amp; !av.ns) {
+        if (p.acq!==null) {
+          var aA=Math.max(0, Math.min(6, p.acq+av.v));
+          cards+=ccard(&quot;증상 조절(ACQ)&quot;, p.acq+'점 <span class=&quot;to&quot;>→ 약 '+fmt2(aA)+'점</span>',
+            miniBars(p.acq+'점','약 '+fmt2(aA)+'점', p.acq>0?aA/p.acq:1, c, false),
+            '점수가 낮을수록 조절이 잘 되는 설문(0~6점)이에요. 평균 '+Math.abs(av.v)+'점 좋아졌지만(넉넉히 '+Math.abs(av.hi)+'~'+Math.abs(av.lo)+'점), 확 체감되는 기준(0.5점)에는 평균적으로 못 미쳤어요.');
+        } else {
+          cards+=ccard(&quot;증상 조절(ACQ)&quot;, &quot;&quot;, &quot;&quot;, '설문 점수가 평균 '+Math.abs(av.v)+'점 좋아졌어요(낮을수록 좋은 0~6점 설문). 1단계에서 내 점수를 입력하면 전후로 보여드려요.');
+        }
+      }
+      if (qv) {
+        if (qv.ns) {
+          cards+=ccard(&quot;삶의 질(AQLQ)&quot;, &quot;&quot;, &quot;&quot;, '삶의 질 설문에서는 뚜렷한 차이가 확인되지 않았어요.');
+        } else if (p.aqlq!==null) {
+          var aQ=Math.max(1, Math.min(7, p.aqlq+qv.v));
+          cards+=ccard(&quot;삶의 질(AQLQ)&quot;, p.aqlq+'점 <span class=&quot;to&quot;>→ 약 '+fmt2(aQ)+'점</span>',
+            miniBars(p.aqlq+'점','약 '+fmt2(aQ)+'점', aQ>0?p.aqlq/aQ:1, c, true),
+            '점수가 높을수록 좋은 설문(1~7점)이에요. 평균 +'+qv.v+'점(넉넉히 +'+qv.lo+'~+'+qv.hi+'점) — 확 체감되는 기준(0.5점)에는 평균적으로 못 미쳤어요. 사람마다 달라요.');
+        } else {
+          cards+=ccard(&quot;삶의 질(AQLQ)&quot;, &quot;&quot;, &quot;&quot;, '설문 점수가 평균 +'+qv.v+'점 좋아졌어요(높을수록 좋은 1~7점 설문). 1단계에서 내 점수를 입력하면 전후로 보여드려요.');
+        }
+      }
+    }
     // ⑤ 비용
     cards+=ccard(&quot;비용&quot;, &quot;&quot;, &quot;&quot;, costText(d,p));
     // ⑥ 투여·안전
@@ -1625,6 +1662,8 @@
     chips.push(p.feno!==null?'FeNO '+p.feno:'FeNO 모름');
     chips.push(p.ige!==null?'IgE '+p.ige:'IgE 모름');
     if (p.fev1!==null) chips.push('FEV1 '+p.fev1+'L');
+    if (p.acq!==null) chips.push('ACQ '+p.acq+'점');
+    if (p.aqlq!==null) chips.push('AQLQ '+p.aqlq+'점');
     if (p.co.rhin) chips.push('알레르기 비염');
     if (p.co.polyp) chips.push('코 물혹');
     if (p.co.atopy) chips.push('아토피 피부염');
