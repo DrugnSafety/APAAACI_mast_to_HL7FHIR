@@ -1,0 +1,758 @@
+<title>나에게 맞는 치료 알아보기</title>
+<style>
+  :root {
+    --ground:#F7FAF9; --surface:#FFFFFF; --surface-2:#EEF4F3;
+    --ink:#182A2D; --ink-soft:#47595C; --ink-faint:#6E7F82;
+    --line:#D5E0DE; --accent:#0F6E73; --accent-soft:#E1EEED;
+    --warn:#9A6B15; --warn-soft:#F4EBD8; --chip:#E6ECEB;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:#0F1719; --surface:#162124; --surface-2:#1C292C;
+      --ink:#D8E4E4; --ink-soft:#A8BBBC; --ink-faint:#7E9294;
+      --line:#2A3B3E; --accent:#58B7B4; --accent-soft:#143A3C;
+      --warn:#D9A84E; --warn-soft:#3A2F16; --chip:#243336;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:#0F1719; --surface:#162124; --surface-2:#1C292C;
+    --ink:#D8E4E4; --ink-soft:#A8BBBC; --ink-faint:#7E9294;
+    --line:#2A3B3E; --accent:#58B7B4; --accent-soft:#143A3C;
+    --warn:#D9A84E; --warn-soft:#3A2F16; --chip:#243336;
+  }
+  /* 약제별 고정 색 (dataviz 검증 팔레트 — 이름 라벨 동반) */
+  :root { --dc-omal:#2a78d6; --dc-mepo:#eb6834; --dc-resli:#1baf7a; --dc-benra:#eda100; --dc-dupi:#e87ba4; --dc-teze:#008300; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --dc-omal:#3987e5; --dc-mepo:#d95926; --dc-resli:#199e70; --dc-benra:#c98500; --dc-dupi:#d55181; --dc-teze:#008300; }
+  }
+  :root[data-theme="dark"] { --dc-omal:#3987e5; --dc-mepo:#d95926; --dc-resli:#199e70; --dc-benra:#c98500; --dc-dupi:#d55181; --dc-teze:#008300; }
+
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--ground); color:var(--ink);
+    font-family:"Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",Pretendard,"Malgun Gothic",sans-serif;
+    font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .page { max-width:480px; margin:0 auto; padding:26px 20px 60px; }
+  .eyebrow { font-size:11px; font-weight:800; letter-spacing:.12em; color:var(--accent); margin:0 0 4px; text-transform:uppercase; }
+  h1 { font-size:23px; font-weight:800; letter-spacing:-.01em; line-height:1.3; margin:0 0 10px; }
+  .steps { display:flex; align-items:center; gap:6px; margin-bottom:20px; }
+  .steps .seg { width:28px; height:5px; border-radius:3px; background:var(--line); }
+  .steps .seg.on { background:var(--accent); }
+  .steps .lbl { font-size:12px; color:var(--ink-faint); margin-left:6px; }
+
+  .card { background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:14px; }
+  .card h2 { font-size:15px; font-weight:700; margin:0 0 12px; line-height:1.45; }
+  .card h2.tight { margin-bottom:6px; }
+  .hint { font-size:12.5px; color:var(--ink-faint); line-height:1.55; margin:10px 0 0; }
+  .lede { font-size:13.5px; color:var(--ink-soft); line-height:1.55; margin:0 0 14px; }
+
+  .stepper { display:flex; align-items:center; gap:14px; }
+  .stepper button { width:48px; height:48px; border:1px solid var(--line); border-radius:12px; background:var(--surface);
+    color:var(--ink-soft); font-size:22px; font-weight:700; cursor:pointer; }
+  .stepper .val { font-size:24px; font-weight:800; min-width:64px; text-align:center; }
+  .seg2 { display:flex; gap:8px; }
+  .seg2 button { flex:1; min-height:46px; border-radius:12px; border:1px solid var(--line); background:var(--surface);
+    color:var(--ink-soft); font:inherit; font-size:15px; cursor:pointer; }
+  .seg2 button.on { background:var(--accent); border-color:var(--accent); color:var(--surface); font-weight:700; }
+  .inline-num { display:flex; align-items:center; gap:10px; margin-top:12px; }
+  .inline-num input { width:90px; min-height:44px; border:1px solid var(--line); border-radius:10px; background:var(--ground);
+    color:var(--ink); font:inherit; font-size:17px; font-weight:700; text-align:center; }
+  .inline-num span { font-size:13.5px; color:var(--ink-soft); }
+  .labrow { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:8px; }
+  .labrow .lab { font-size:13.5px; color:var(--ink-soft); width:96px; flex-shrink:0; }
+  .chipbtn { min-height:40px; padding:0 14px; border-radius:999px; border:1px solid var(--line); background:var(--surface);
+    color:var(--ink-faint); font:inherit; font-size:14px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
+  .chipbtn.on { background:var(--accent-soft); border-color:var(--accent-soft); color:var(--accent); font-weight:700; }
+  .labrow input { width:76px; min-height:40px; border:1px solid var(--line); border-radius:10px; background:var(--ground);
+    color:var(--ink); font:inherit; font-size:15px; font-weight:700; text-align:center; }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; }
+
+  details.fold { margin-bottom:14px; }
+  details.fold summary { font-size:13px; font-weight:700; color:var(--accent); cursor:pointer; padding:4px 2px; }
+  details.fold .card { margin-top:10px; }
+  select { min-height:44px; border:1px solid var(--line); border-radius:10px; background:var(--ground); color:var(--ink);
+    font:inherit; padding:0 10px; width:100%; }
+  .frow { display:flex; flex-direction:column; gap:4px; margin-bottom:10px; }
+  .frow label { font-size:12.5px; font-weight:600; color:var(--ink-soft); }
+  .frow input { min-height:44px; border:1px solid var(--line); border-radius:10px; background:var(--ground); color:var(--ink);
+    font:inherit; padding:0 10px; }
+
+  .cta { width:100%; min-height:52px; border:none; border-radius:14px; background:var(--accent); color:var(--surface);
+    font:inherit; font-size:16px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; }
+  .cta.sub { background:var(--surface); border:1px solid var(--line); color:var(--ink); font-weight:700; }
+  .ctarow { display:flex; gap:10px; margin-top:6px; }
+  .ctarow .cta { flex:1; }
+  .foot { font-size:12px; color:var(--ink-faint); text-align:center; margin-top:10px; line-height:1.5; }
+  .backlink { display:inline-flex; align-items:center; gap:6px; font-size:13px; color:var(--ink-soft); background:none;
+    border:none; cursor:pointer; font-family:inherit; padding:4px 0; margin-bottom:12px; }
+
+  .pcard { width:100%; text-align:left; background:var(--surface); border:1px solid var(--line); border-radius:14px;
+    padding:14px 16px; margin-bottom:10px; cursor:pointer; font-family:inherit; color:var(--ink); }
+  .pcard.rec { border:2px solid var(--accent); }
+  .pcard.sel { background:var(--accent-soft); border:2px solid var(--accent); }
+  .pcard .t { font-size:15.5px; font-weight:800; display:flex; align-items:center; gap:8px; margin-bottom:4px; }
+  .pcard .badge { font-size:11px; font-weight:800; color:var(--surface); background:var(--accent); border-radius:5px; padding:2px 8px; }
+  .pcard .q { font-size:13.5px; color:var(--ink-soft); line-height:1.5; }
+
+  .ba { display:flex; align-items:center; gap:10px; margin:4px 0; }
+  .ba .who { font-size:12px; color:var(--ink-faint); width:52px; flex-shrink:0; }
+  .ba .track { flex:1; height:14px; position:relative; }
+  .ba .bar { height:100%; border-radius:0 6px 6px 0; }
+  .ba .bar.now { background:var(--chip); border:1px solid var(--line); }
+  .ba .bv { font-size:13px; font-weight:700; flex-shrink:0; min-width:64px; }
+
+  .dlist { display:flex; flex-direction:column; gap:8px; }
+  .drow { display:flex; align-items:center; gap:10px; min-height:46px; border:1px solid var(--line); border-radius:12px; padding:6px 12px; }
+  .drow.test { border-style:dashed; background:var(--ground); }
+  .drow .dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .drow .nm { font-size:14.5px; font-weight:700; flex:1; }
+  .drow .nm small { font-weight:400; color:var(--ink-faint); }
+  .drow .tag { font-size:12px; font-weight:700; color:var(--accent); text-align:right; }
+  .drow .tag.warn { color:var(--warn); }
+  .grouplab { font-size:13px; font-weight:700; color:var(--warn); margin:12px 0 8px; }
+  .grouplab.no { color:var(--ink-faint); }
+
+  .callout { background:var(--accent-soft); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-bottom:14px; }
+  .callout .t { font-size:13px; font-weight:800; color:var(--accent); margin-bottom:4px; }
+  .callout .b { font-size:13.5px; line-height:1.55; }
+  .note-warn { background:var(--warn-soft); border:1px solid var(--line); border-radius:14px; padding:13px 16px; margin-bottom:14px;
+    font-size:12.5px; color:var(--ink-soft); line-height:1.6; }
+  .note-warn b { color:var(--warn); }
+
+  details.drug { background:var(--surface); border:1px solid var(--line); border-left:5px solid var(--dc,var(--line));
+    border-radius:14px; margin-bottom:10px; overflow:hidden; }
+  details.drug summary { list-style:none; cursor:pointer; padding:14px 16px; display:flex; align-items:center; gap:10px; }
+  details.drug summary::-webkit-details-marker { display:none; }
+  details.drug summary .nm { font-size:16px; font-weight:800; flex:1; }
+  details.drug summary .nm small { font-weight:500; font-size:13px; color:var(--ink-faint); margin-left:4px; }
+  details.drug summary .pick { font-size:11px; font-weight:800; color:var(--surface); background:var(--accent); border-radius:5px; padding:2px 8px; white-space:nowrap; }
+  details.drug summary .chev { color:var(--ink-faint); transition:transform .15s; }
+  details.drug[open] summary .chev { transform:rotate(90deg); }
+  details.drug .body { padding:0 16px 16px; display:flex; flex-direction:column; gap:12px; }
+  .qa { border-top:1px solid var(--line); padding-top:10px; }
+  .qa .q { font-size:14px; font-weight:800; margin-bottom:5px; }
+  .qa .a { font-size:13.5px; color:var(--ink-soft); line-height:1.6; }
+  .qa .a b { color:var(--ink); }
+
+  .sumchips { display:flex; flex-wrap:wrap; gap:6px; }
+  .sumchips span { font-size:12.5px; background:var(--chip); border-radius:6px; padding:4px 10px; color:var(--ink-soft); }
+  .cklist { display:flex; flex-direction:column; gap:11px; }
+  .ck { display:flex; align-items:flex-start; gap:10px; cursor:pointer; }
+  .ck input { width:22px; height:22px; margin:1px 0 0; accent-color:var(--accent); flex-shrink:0; }
+  .ck span { font-size:14px; line-height:1.5; }
+
+  .stepview { display:none; }
+  .stepview.on { display:block; }
+  footer { margin-top:28px; padding-top:14px; border-top:1px solid var(--line); font-size:12px; color:var(--ink-faint); line-height:1.6; }
+
+  @media print {
+    body { background:#fff; color:#000; }
+    .steps, .cta, .ctarow, .backlink, footer, .no-print { display:none !important; }
+    .card, .note-warn { border-color:#bbb; break-inside:avoid; }
+    .page { max-width:none; padding:0; }
+  }
+</style>
+
+<div class="page">
+  <p class="eyebrow">PACEN 환자용</p>
+
+  <!-- STEP 1 -->
+  <section class="stepview on" id="step-1">
+    <h1>나에게 맞는 치료 알아보기</h1>
+    <div class="steps"><div class="seg on"></div><div class="seg"></div><div class="seg"></div><div class="seg"></div><span class="lbl">1 / 4 · 내 상황</span></div>
+    <p class="lede">중증 천식에 쓰는 주사 치료(생물학적 치료제)가 나에게 맞을지, 담당 의사와 상의할 준비를 도와드려요. 몇 가지만 알려주세요 — <b>모르는 항목은 "몰라요"를 눌러도 괜찮아요.</b></p>
+
+    <div class="card">
+      <h2>지난 1년 동안, 천식이 갑자기 나빠져 응급실·입원 또는 스테로이드 며칠 복용이 필요했던 적이 몇 번인가요?</h2>
+      <div class="stepper">
+        <button type="button" id="ex-minus" aria-label="줄이기">−</button>
+        <div class="val"><span id="ex-val">3</span>번</div>
+        <button type="button" id="ex-plus" aria-label="늘리기">＋</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>매일 먹는 스테로이드 알약(프레드니솔론 등)이 있나요?</h2>
+      <div class="seg2" id="ocs-seg">
+        <button type="button" data-v="yes" class="on">예</button>
+        <button type="button" data-v="no">아니오</button>
+      </div>
+      <div class="inline-num" id="ocs-amt"><span>하루에</span><input type="number" id="ocs-mg" value="7.5" min="0" step="0.5" aria-label="하루 스테로이드 용량"><span>mg</span></div>
+    </div>
+
+    <div class="card">
+      <h2 class="tight">체중</h2>
+      <div class="inline-num" style="margin-top:8px"><input type="number" id="wt" value="65" min="20" max="150" aria-label="체중"><span>kg — 일부 주사는 체중으로 용량을 정해요</span></div>
+    </div>
+
+    <div class="card">
+      <h2>혈액검사 수치를 알고 계신가요?</h2>
+      <div class="labrow"><span class="lab">호산구 수치</span>
+        <button type="button" class="chipbtn know" data-k="eos" data-v="yes">알아요</button>
+        <button type="button" class="chipbtn know on" data-k="eos" data-v="no">몰라요</button>
+        <input type="number" id="eos" value="450" min="0" step="10" style="display:none" aria-label="호산구 수치">
+      </div>
+      <div class="labrow"><span class="lab">FeNO(호기산화질소)</span>
+        <button type="button" class="chipbtn know" data-k="feno" data-v="yes">알아요</button>
+        <button type="button" class="chipbtn know on" data-k="feno" data-v="no">몰라요</button>
+        <input type="number" id="feno" value="30" min="0" step="1" style="display:none" aria-label="FeNO 수치">
+      </div>
+      <div class="labrow"><span class="lab">알레르기(IgE)</span>
+        <button type="button" class="chipbtn know" data-k="ige" data-v="yes">알아요</button>
+        <button type="button" class="chipbtn know on" data-k="ige" data-v="no">몰라요</button>
+        <input type="number" id="ige" value="120" min="0" step="1" style="display:none" aria-label="총 IgE 수치">
+      </div>
+      <div class="labrow" id="sens-row" style="display:none"><span class="lab">사계절 알레르기<br>(집먼지진드기 등)</span>
+        <button type="button" class="chipbtn sens" data-v="yes">있어요</button>
+        <button type="button" class="chipbtn sens" data-v="no">없어요</button>
+        <button type="button" class="chipbtn sens on" data-v="unknown">몰라요</button>
+      </div>
+      <p class="hint">몰라도 괜찮아요. 검사 결과가 필요한 주사는 "검사 후 판단"으로 따로 알려드려요.</p>
+    </div>
+
+    <div class="card">
+      <h2>함께 갖고 있는 질환이 있나요?</h2>
+      <div class="chips">
+        <button type="button" class="chipbtn co" data-k="rhin">알레르기 비염</button>
+        <button type="button" class="chipbtn co" data-k="polyp">코 물혹(비용종)</button>
+        <button type="button" class="chipbtn co" data-k="atopy">아토피 피부염</button>
+        <button type="button" class="chipbtn co on" data-k="none">없음</button>
+      </div>
+    </div>
+
+    <details class="fold">
+      <summary>비용 계산 설정 — 펼쳐서 입력 (기본값으로도 계산돼요)</summary>
+      <div class="card">
+        <div class="frow"><label for="copay">주로 다니는 병원</label>
+          <select id="copay">
+            <option value="60" selected>상급종합병원 (본인부담 60%)</option>
+            <option value="50">종합병원 (50%)</option>
+            <option value="40">병원 (40%)</option>
+            <option value="30">의원 (30%)</option>
+          </select>
+        </div>
+        <div class="frow"><label>실손의료보험이 있나요?</label>
+          <div class="seg2" id="ins-seg">
+            <button type="button" data-v="no" class="on">없어요 / 몰라요</button>
+            <button type="button" data-v="yes">있어요</button>
+          </div>
+        </div>
+        <div id="ins-more" style="display:none">
+          <div class="frow"><label>주사는 어디서 맞을 예정인가요?</label>
+            <div class="seg2" id="env-seg">
+              <button type="button" data-v="out" class="on">외래 (통원)</button>
+              <button type="button" data-v="in">입원</button>
+            </div>
+          </div>
+          <div id="ins-params">
+            <div class="frow"><label for="ded">실손 공제금액 (원/회) — 증권 기준</label><input type="number" id="ded" value="10000" min="0" step="1000"></div>
+            <div class="frow"><label for="coins">실손 자기부담률 (%)</label><input type="number" id="coins" value="20" min="0" max="100" step="5"></div>
+            <div class="frow"><label for="cap">외래 통원 회당 보장한도 (원)</label><input type="number" id="cap" value="250000" min="0" step="10000"></div>
+          </div>
+          <p class="hint" id="ins-in-note" style="display:none">입원 투여 + 실손이면 약값 부담 차이가 작아져, 비용 비교 대신 다른 정보를 중심으로 보여드려요.</p>
+        </div>
+      </div>
+    </details>
+
+    <button type="button" class="cta" id="go-2">다음</button>
+    <p class="foot">입력한 내용은 이 화면에서만 계산되고 저장되지 않아요.</p>
+  </section>
+
+  <!-- STEP 2 -->
+  <section class="stepview" id="step-2">
+    <h1>어떤 점이 가장 중요하세요?</h1>
+    <div class="steps"><div class="seg on"></div><div class="seg on"></div><div class="seg"></div><div class="seg"></div><span class="lbl">2 / 4 · 나의 우선순위</span></div>
+    <p class="lede" id="persona-lede">입력하신 내용을 보고 추천을 표시했어요. 그래도 <b>선택은 자유</b> — 나와 가장 비슷한 이야기를 골라 주세요.</p>
+    <div id="persona-list"></div>
+    <button type="button" class="cta" id="go-3">결과 보기</button>
+    <p class="foot">선택은 정보의 순서만 바꿔요. 나에게 가능한 주사의 종류는 바뀌지 않아요.</p>
+    <button type="button" class="backlink" id="back-1">← 내 상황 고치기</button>
+  </section>
+
+  <!-- STEP 3 -->
+  <section class="stepview" id="step-3">
+    <h1>나의 결과</h1>
+    <div class="steps"><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg"></div><span class="lbl">3 / 4 · 결과</span></div>
+    <div id="results"></div>
+    <button type="button" class="cta" id="go-4">상담 준비하기</button>
+    <p class="foot">이 화면은 순위가 아니에요. 어떤 주사를 쓸지는 담당 의사와 함께 정해요.</p>
+    <button type="button" class="backlink" id="back-2">← 우선순위 다시 고르기</button>
+  </section>
+
+  <!-- STEP 4 -->
+  <section class="stepview" id="step-4">
+    <h1>진료실에 가져가세요</h1>
+    <div class="steps"><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><span class="lbl">4 / 4 · 상담 준비</span></div>
+    <div id="consult"></div>
+    <div class="ctarow no-print">
+      <button type="button" class="cta" id="btn-print">인쇄하기</button>
+      <button type="button" class="cta sub" id="restart">처음부터 다시</button>
+    </div>
+    <button type="button" class="backlink" id="back-3">← 결과로 돌아가기</button>
+  </section>
+
+  <footer>
+    이 도구는 『성인 중증 천식 생물학적 치료제 임상진료지침』(PACEN)의 근거를 환자용으로 풀어 쓴 참고 자료입니다.
+    진단·처방이 아니며 진료를 대체하지 않습니다. 표시 금액은 2026-08 급여 상한가·허가 용법 기준 약제비이며 실제와 다를 수 있습니다.
+    효과 수치는 임상연구 참여자들의 평균으로, 개인의 결과는 다를 수 있습니다. 입력은 저장되지 않습니다.
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  function num(id, fb) { var v = parseFloat($(id).value); return isNaN(v) ? (fb||0) : v; }
+  function esc(t){ return String(t).replace(/[&<>"]/g, function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
+  function phi(z){ var t=1/(1+0.2316419*Math.abs(z)), d=0.3989423*Math.exp(-z*z/2);
+    var p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274)))); return z>0?1-p:p; }
+
+  // ── 근거 데이터 (KQ1~6 실측치 — 의료인용 데모와 동일 원본) ──
+  var DRUGS = [
+    { id:"omal", name:"오말리주맙", brand:"졸레어", color:"var(--dc-omal)", how:"2~4주에 한 번 · 병원 피하주사 (용량은 IgE·체중으로 결정)", selfInj:false,
+      out:{ aaer:{v:0.68,lo:0.60,hi:0.77,g:4,kind:"event"}, ocs:{v:-85.16,lo:-153.02,hi:-14.30,g:2},
+            acq:{v:-0.51,lo:-0.85,hi:-0.17,g:2}, fev:{v:0.22,lo:0.13,hi:0.31,g:2}, aqlq:{v:0.64,lo:0.13,hi:1.16,g:2} } },
+    { id:"mepo", name:"메폴리주맙", brand:"누칼라", color:"var(--dc-mepo)", how:"4주에 한 번 · 배우면 집에서 스스로 주사 가능", selfInj:true,
+      out:{ aaer:{v:0.48,lo:0.40,hi:0.57,g:4}, ocs:{v:-50.0,lo:-81.5,hi:-18.5,g:3},
+            acq:{v:-0.42,lo:-0.55,hi:-0.29,g:3}, fev:{v:0.12,lo:0.07,hi:0.17,g:2}, aqlq:{v:0.22,lo:-0.03,hi:0.46,g:3,ns:true} } },
+    { id:"resli", name:"레슬리주맙", brand:"싱케어", color:"var(--dc-resli)", how:"4주에 한 번 · 병원에서 정맥(혈관) 주사", selfInj:false,
+      out:{ aaer:{v:0.45,lo:0.35,hi:0.56,g:3}, ocs:null,
+            acq:{v:-0.25,lo:-0.33,hi:-0.17,g:3}, fev:{v:0.13,lo:0.08,hi:0.17,g:3}, aqlq:{v:0.24,lo:0.12,hi:0.36,g:3} } },
+    { id:"benra", name:"벤라리주맙", brand:"파센라", color:"var(--dc-benra)", how:"처음 3번은 4주, 그 뒤 8주에 한 번 · 자가주사 가능", selfInj:true,
+      out:{ aaer:{v:0.45,lo:0.29,hi:0.60,g:3}, ocs:{v:-50,lo:-64.1,hi:-35.9,g:3},
+            acq:{v:-0.32,lo:-0.45,hi:-0.19,g:2}, fev:{v:0.14,lo:0.09,hi:0.19,g:2}, aqlq:{v:0.27,lo:0.12,hi:0.42,g:2} } },
+    { id:"dupi", name:"두필루맙", brand:"듀피젠트", color:"var(--dc-dupi)", how:"2주에 한 번 · 자가주사 가능", selfInj:true,
+      out:{ aaer:{v:0.54,lo:0.43,hi:0.68,g:2}, ocs:{v:-28.2,lo:-36.9,hi:-19.5,g:3},
+            acq:{v:-0.28,lo:-0.43,hi:-0.13,g:2}, fev:{v:0.23,lo:0.12,hi:0.35,g:2}, aqlq:{v:0.31,lo:0.18,hi:0.43,g:2} } },
+    { id:"teze", name:"테제펠루맙", brand:"테즈파이어", color:"var(--dc-teze)", how:"4주에 한 번 · 피하주사 (검사 결과와 무관하게 사용 가능)", selfInj:true,
+      out:{ aaer:{v:0.37,lo:0.24,hi:0.51,g:4}, ocs:{txt:true,g:3},
+            acq:{v:-0.34,lo:-0.42,hi:-0.25,g:3}, fev:{v:0.18,lo:0.11,hi:0.25,g:3}, aqlq:{v:0.34,lo:0.24,hi:0.44,g:3} } }
+  ];
+  var CERT = { 4:1.0, 3:0.9, 2:0.75, 1:0.55 };
+  var U_PT = { aaer:0.147, ocs:0.214, acq:0.335, fev:0.158, aqlq:0.146 }; // 환자 설문 표7.2
+  var PRICE = { omal150:216755, omal75:114440, mepo:1280000, resli100:399552, benra:2842543, dupi200:571862, dupi300:675753 };
+
+  var OMAL_WT = [25,30,40,50,60,70,80,90,125,150];
+  var OMAL_ROWS = [
+    {max:100,d:[[75,4],[75,4],[75,4],[150,4],[150,4],[150,4],[150,4],[150,4],[300,4],[300,4]]},
+    {max:200,d:[[150,4],[150,4],[150,4],[300,4],[300,4],[300,4],[300,4],[300,4],[225,2],[300,2]]},
+    {max:300,d:[[150,4],[150,4],[225,4],[300,4],[300,4],[225,2],[225,2],[225,2],[300,2],[375,2]]},
+    {max:400,d:[[225,4],[225,4],[300,4],[225,2],[225,2],[225,2],[300,2],[300,2],null,null]},
+    {max:500,d:[[225,4],[300,4],[225,2],[225,2],[300,2],[300,2],[375,2],[375,2],null,null]},
+    {max:600,d:[[300,4],[300,4],[225,2],[300,2],[300,2],[375,2],null,null,null,null]},
+    {max:700,d:[[300,4],[225,2],[225,2],[300,2],[375,2],null,null,null,null,null]},
+    {max:800,d:[[225,2],[225,2],[300,2],[375,2],null,null,null,null,null,null]},
+    {max:900,d:[[225,2],[225,2],[300,2],[375,2],null,null,null,null,null,null]},
+    {max:1000,d:[[225,2],[300,2],[375,2],null,null,null,null,null,null,null]},
+    {max:1100,d:[[225,2],[300,2],[375,2],null,null,null,null,null,null,null]},
+    {max:1200,d:[[300,2],[300,2],null,null,null,null,null,null,null,null]},
+    {max:1300,d:[[300,2],[375,2],null,null,null,null,null,null,null,null]}
+  ];
+  function omalDose(ige, wt) {
+    if (ige<30 || ige>1300 || wt<20 || wt>150) return null;
+    var col=0; while (col<10 && wt>OMAL_WT[col]) col++;
+    if (col>=10) return null;
+    for (var i=0;i<OMAL_ROWS.length;i++) if (ige<=OMAL_ROWS[i].max) { var c=OMAL_ROWS[i].d[col]; return c?{mg:c[0],wk:c[1]}:null; }
+    return null;
+  }
+
+  // ── 페르소나 ──
+  var PERSONAS = [
+    { id:"p1", t:"응급실이 무서워요", q:"\"또 새벽에 응급실 갈까 봐 늘 불안해요.\" — 발작(악화)을 줄이는 것이 최우선.",
+      w:{eff:.50,cost:.15,ae:.20,conv:.15}, match:function(p){return p.exac>=3;} },
+    { id:"p2", t:"스테로이드를 줄이고 싶어요", q:"\"먹는 스테로이드 부작용이 무서워요.\" — 알약을 줄이거나 끊는 것이 목표.",
+      w:{eff:.45,cost:.15,ae:.25,conv:.15}, match:function(p){return p.ocs>0;} },
+    { id:"p3", t:"바쁜 일상이 우선이에요", q:"\"병원 갈 시간이 없어요. 집에서 맞고 싶어요.\" — 주사 간격과 자가주사가 중요.",
+      w:{eff:.30,cost:.15,ae:.15,conv:.40}, match:function(p){return p.exac<3 && p.ocs===0;} },
+    { id:"p4", t:"비용이 제일 걱정이에요", q:"\"효과가 좋아도 못 버티면 소용없잖아요.\" — 실제 부담 금액과 보험이 중요.",
+      w:{eff:.25,cost:.45,ae:.15,conv:.15}, match:function(p){return p.ins==="yes";} },
+    { id:"p5", t:"다른 병도 같이 있어요", q:"\"비염·코 물혹·피부까지 다 힘들어요.\" — 함께 좋아질 수 있는지가 중요.",
+      w:{eff:.40,cost:.15,ae:.25,conv:.20}, match:function(p){return p.co.rhin||p.co.polyp||p.co.atopy;} },
+    { id:"p6", t:"예전처럼 움직이고 싶어요", q:"\"계단, 등산, 아이와 뛰어노는 게 소원이에요.\" — 일상 활동 회복이 목표.",
+      w:{eff:.40,cost:.20,ae:.20,conv:.20}, match:function(){return false;} }
+  ];
+
+  // ── 상태 ──
+  var S = {
+    exac:3, ocsYes:true, sens:"unknown", know:{eos:false,feno:false,ige:false},
+    co:{rhin:false,polyp:false,atopy:false,none:true},
+    ins:"no", env:"out", persona:null
+  };
+  function patient() {
+    return {
+      exac:S.exac, ocs:S.ocsYes?num("ocs-mg",0):0, wt:num("wt",65),
+      eos:S.know.eos?num("eos",0):null, feno:S.know.feno?num("feno",0):null,
+      ige:S.know.ige?num("ige",0):null, sens:S.sens, co:S.co,
+      copay:parseInt($("copay").value,10), ins:S.ins, env:S.env,
+      ded:num("ded",0), coins:num("coins",0), cap:num("cap",0)
+    };
+  }
+
+  // ── 적격성 (환자판: ok | test | no) ──
+  function elig(d, p) {
+    if (d.id==="omal") {
+      if (p.ige===null || p.sens==="unknown") return {st:"test", why:"알레르기 검사(IgE)와 사계절 알레르기 확인이 필요해요"};
+      if (p.sens==="yes" && p.ige>=30) return {st:"ok", why:"알레르기성 천식 기준에 맞아요"};
+      return {st:"no", why: p.sens!=="yes" ? "사계절 알레르기(통년성 감작)가 확인되지 않았어요" : "IgE 수치가 기준(30 이상)에 못 미쳐요"};
+    }
+    if (d.id==="mepo" || d.id==="benra") {
+      if (p.eos===null) return {st:"test", why:"호산구 수치 검사가 필요해요"};
+      return p.eos>=150 ? {st:"ok", why:"호산구 수치 기준에 맞아요"} : {st:"no", why:"호산구 수치가 기준(150 이상)에 못 미쳐요"};
+    }
+    if (d.id==="resli") {
+      if (p.eos===null) return {st:"test", why:"호산구 수치 검사가 필요해요"};
+      return p.eos>=400 ? {st:"ok", why:"호산구 수치 기준에 맞아요"} : {st:"no", why:"호산구 수치가 더 높아야 해요(400 이상)"};
+    }
+    if (d.id==="dupi") {
+      if (p.ocs>0) return {st:"ok", why:"매일 스테로이드를 드시고 있어 검토 대상이에요"};
+      if ((p.eos!==null && p.eos>=150) || (p.feno!==null && p.feno>=25)) return {st:"ok", why:"염증 수치 기준에 맞아요"};
+      if (p.eos===null && p.feno===null) return {st:"test", why:"호산구 또는 FeNO 검사가 필요해요"};
+      return {st:"no", why:"염증 수치(호산구·FeNO) 기준에 못 미쳐요"};
+    }
+    return {st:"ok", why:"검사 결과와 무관하게 사용할 수 있어요"};
+  }
+
+  // ── 비용 (의료인용과 동일 엔진: 약제비만·첫해 실부담) ──
+  function perDose(d, p) {
+    if (d.id==="omal") { var od=(p.ige!==null)?omalDose(p.ige,p.wt):null; if(!od) return null;
+      var n=Math.floor(od.mg/150), r=od.mg%150; return n*PRICE.omal150+(r>0?PRICE.omal75:0); }
+    if (d.id==="mepo") return PRICE.mepo;
+    if (d.id==="benra") return PRICE.benra;
+    if (d.id==="resli") return PRICE.resli100*Math.max(1,Math.floor(4*p.wt/100));
+    if (d.id==="dupi") return p.ocs>0?PRICE.dupi300:PRICE.dupi200;
+    return null; // teze 비급여
+  }
+  function dosesY1(d, p) {
+    if (d.id==="benra") return 8;
+    if (d.id==="dupi") return 26;
+    if (d.id==="omal") { var od=(p.ige!==null)?omalDose(p.ige,p.wt):null; return od?(od.wk===4?13:26):0; }
+    return 13;
+  }
+  function netVisit(oop, p) {
+    if (p.env!=="out" || p.ins!=="yes") return oop;
+    var self=Math.max(p.ded, oop*p.coins/100);
+    return oop - Math.max(0, Math.min(oop-self, p.cap));
+  }
+  function y1Net(d, p) {
+    var per=perDose(d,p); if (per===null) return null;
+    var n=dosesY1(d,p), tot=0;
+    for (var i=0;i<n;i++) tot += netVisit(per*((d.id==="dupi"&&i===0)?2:1)*(p.copay/100), p);
+    return tot;
+  }
+  function manwon(v){ return Math.round(v/10000); }
+
+  function convScore(d, p) {
+    var visits=13;
+    if (d.id==="benra") visits=6.5;
+    else if (d.id==="dupi") visits=26;
+    else if (d.id==="omal") { var od=(p.ige!==null)?omalDose(p.ige,p.wt):null; visits=(od&&od.wk===2)?26:13; }
+    var s=100*6.5/visits;
+    if (d.id==="resli") s*=0.8;
+    return s;
+  }
+
+  // ── 효과 축 (확정 규칙: MCID 초과확률 × 확실성 계수, 자동 재가중) ──
+  function scoreOut(key, o) {
+    if (!o) return null;
+    if (o.txt) return 0;
+    var c=CERT[o.g]||1, pv;
+    if (key==="aaer") { var seln=(Math.log(o.hi)-Math.log(o.lo))/3.92; pv=phi((Math.log(0.8)-Math.log(o.v))/seln); }
+    else { var se=(o.hi-o.lo)/3.92;
+      if (key==="ocs") pv=phi((-50-o.v)/se);
+      else if (key==="acq") pv=phi((-0.5-o.v)/se);
+      else if (key==="fev") pv=phi((o.v-0.2)/se);
+      else pv=phi((o.v-0.5)/se); }
+    return pv*c;
+  }
+  function effScore(d, p) {
+    var U={}, k, t=0;
+    for (k in U_PT) U[k]=U_PT[k];
+    if (p.exac>=3) U.aaer*=2;
+    if (p.ocs>0) U.ocs*=2;
+    for (k in U) t+=U[k];
+    for (k in U) U[k]/=t;
+    var acc=0, su=0;
+    for (k in U) { var s=scoreOut(k, d.out[k]); if (s===null) continue; acc+=U[k]*s; su+=U[k]; }
+    return su>0 ? acc/su*100 : 0;
+  }
+  function totalScore(d, p, w, minCost) {
+    var eff=effScore(d,p), ae=90, cv=convScore(d,p), cn=y1Net(d,p);
+    var costDisabled=(p.env==="in"&&p.ins==="yes");
+    var cs=(costDisabled||cn===null||!isFinite(minCost))?null:Math.min(100, minCost/cn*100);
+    if (cs===null) { var den=1-w.cost; return den>0?(w.eff*eff+w.ae*ae+w.conv*cv)/den:0; }
+    return w.eff*eff+w.cost*cs+w.ae*ae+w.conv*cv;
+  }
+
+  // ── 환자 문장 변환 ──
+  function fmt1(x){ return (Math.round(x*10)/10).toString(); }
+  function aaerText(d, p) {
+    var o=d.out.aaer;
+    if (o.kind==="event") return {main:"발작 위험이 약 "+Math.round((1-o.v)*100)+"% 줄었어요", sub:"넉넉히 보면 "+Math.round((1-o.hi)*100)+"~"+Math.round((1-o.lo)*100)+"% 사이"};
+    if (p.exac>0) {
+      var a=p.exac*o.v, lo=p.exac*o.lo, hi=p.exac*o.hi;
+      return {main:"연 "+p.exac+"번 → 약 "+fmt1(a)+"번", sub:"넉넉히 보면 "+fmt1(lo)+"~"+fmt1(hi)+"번 사이", now:p.exac, after:a};
+    }
+    return {main:"발작이 절반 정도로 줄었어요", sub:"연구 평균 기준"};
+  }
+  function ocsText(d, p) {
+    var o=d.out.ocs;
+    if (o===null) return {main:"이 주사는 스테로이드 줄이기를 확인한 연구가 아직 없어요", none:true};
+    if (o.txt) return {main:"스테로이드를 줄이는 효과는 전용 연구에서 확인되지 않았어요", none:true};
+    if (p.ocs>0) { var a=Math.max(0, p.ocs*(1+o.v/100));
+      return {main:"하루 "+p.ocs+"mg → 약 "+fmt1(a)+"mg", sub:"연구에서 "+Math.round(-o.v)+"% 정도 줄었어요. 갑자기 끊지 않고 의사와 함께 천천히 줄여요"}; }
+    return {main:"연구에서 먹는 스테로이드가 "+Math.round(-o.v)+"% 정도 줄었어요", sub:"지금 드시는 알약이 없다면 해당되지 않는 항목이에요"};
+  }
+  function dailyText(d) {
+    var acq=d.out.acq, aqlq=d.out.aqlq;
+    var acqOk=acq && !acq.ns, aqOk=aqlq && !aqlq.ns;
+    if (acqOk||aqOk) return "증상 조절과 삶의 질 설문 점수가 좋아졌어요. 다만 평균으로는 '확 체감되는 기준선'에는 못 미쳤어요 — 사람마다 달라요.";
+    return "증상·삶의 질 설문에서는 뚜렷한 차이가 확인되지 않았어요.";
+  }
+  function costText(d, p) {
+    if (d.id==="teze") return "건강보험이 아직 적용되지 않아 병원마다 가격이 달라요. 병원에 예상 비용을 문의해 보세요.";
+    var cn=y1Net(d,p);
+    if (cn===null) return "용량 계산에 검사 수치가 필요해 아직 계산할 수 없어요.";
+    if (p.env==="in"&&p.ins==="yes") return "입원 투여 + 실손보험이면 약값 부담 차이가 작아요. 입원 보장 범위는 보험사에 확인하세요.";
+    var m=manwon(cn/12), y=manwon(cn);
+    var t="한 달 약 "+m+"만원 수준 (1년 약 "+y+"만원 · 본인부담 "+p.copay+"%"+(p.ins==="yes"&&p.env==="out"?" · 실손 반영":"")+" 기준, 약값만 계산)";
+    if (d.id==="resli") { var v=Math.max(1,Math.floor(4*p.wt/100)); t+=". 체중 "+p.wt+"kg 기준 1회 "+(v*100)+"mg("+v+"병) 투여"; }
+    return t;
+  }
+  function gradeWord(g) {
+    if (g>=4) return "여러 연구에서 일관되게 확인된, 매우 탄탄한 근거예요.";
+    if (g===3) return "근거가 탄탄한 편이에요.";
+    return "근거가 아직 제한적이에요 — 효과 크기는 더 지켜볼 부분이 있어요.";
+  }
+
+  // ── 단계 이동 ──
+  var STEP=1;
+  function goto(n) {
+    STEP=n;
+    [1,2,3,4].forEach(function(i){ $("step-"+i).classList.toggle("on", i===n); });
+    if (n===2) renderPersonas();
+    if (n===3) renderResults();
+    if (n===4) renderConsult();
+    window.scrollTo(0,0);
+  }
+
+  // ── STEP 1 배선 ──
+  $("ex-minus").addEventListener("click", function(){ S.exac=Math.max(0,S.exac-1); $("ex-val").textContent=S.exac; });
+  $("ex-plus").addEventListener("click", function(){ S.exac=Math.min(20,S.exac+1); $("ex-val").textContent=S.exac; });
+  $("ocs-seg").querySelectorAll("button").forEach(function(b){
+    b.addEventListener("click", function(){
+      S.ocsYes=(b.dataset.v==="yes");
+      $("ocs-seg").querySelectorAll("button").forEach(function(x){ x.classList.toggle("on", x===b); });
+      $("ocs-amt").style.display=S.ocsYes?"flex":"none";
+    });
+  });
+  document.querySelectorAll(".chipbtn.know").forEach(function(b){
+    b.addEventListener("click", function(){
+      var k=b.dataset.k, yes=(b.dataset.v==="yes");
+      S.know[k]=yes;
+      document.querySelectorAll('.chipbtn.know[data-k="'+k+'"]').forEach(function(x){ x.classList.toggle("on", x===b); });
+      $(k).style.display=yes?"inline-block":"none";
+      if (k==="ige") $("sens-row").style.display=yes?"flex":"none";
+    });
+  });
+  document.querySelectorAll(".chipbtn.sens").forEach(function(b){
+    b.addEventListener("click", function(){
+      S.sens=b.dataset.v;
+      document.querySelectorAll(".chipbtn.sens").forEach(function(x){ x.classList.toggle("on", x===b); });
+    });
+  });
+  document.querySelectorAll(".chipbtn.co").forEach(function(b){
+    b.addEventListener("click", function(){
+      var k=b.dataset.k;
+      if (k==="none") { S.co={rhin:false,polyp:false,atopy:false,none:true}; }
+      else { S.co[k]=!S.co[k]; S.co.none=false;
+        if (!S.co.rhin&&!S.co.polyp&&!S.co.atopy) S.co.none=true; }
+      document.querySelectorAll(".chipbtn.co").forEach(function(x){
+        var kk=x.dataset.k; x.classList.toggle("on", kk==="none"?S.co.none:S.co[kk]);
+      });
+    });
+  });
+  $("ins-seg").querySelectorAll("button").forEach(function(b){
+    b.addEventListener("click", function(){
+      S.ins=b.dataset.v;
+      $("ins-seg").querySelectorAll("button").forEach(function(x){ x.classList.toggle("on", x===b); });
+      $("ins-more").style.display=(S.ins==="yes")?"block":"none";
+    });
+  });
+  $("env-seg").querySelectorAll("button").forEach(function(b){
+    b.addEventListener("click", function(){
+      S.env=b.dataset.v;
+      $("env-seg").querySelectorAll("button").forEach(function(x){ x.classList.toggle("on", x===b); });
+      $("ins-params").style.display=(S.env==="out")?"block":"none";
+      $("ins-in-note").style.display=(S.env==="in")?"block":"none";
+    });
+  });
+
+  // ── STEP 2: 페르소나 ──
+  function recommended(p) {
+    return PERSONAS.filter(function(ps){ return ps.match(p); }).map(function(ps){ return ps.id; });
+  }
+  function renderPersonas() {
+    var p=patient(), recs=recommended(p), host=$("persona-list");
+    if (!S.persona) S.persona = recs[0] || "p6";
+    $("persona-lede").innerHTML = recs.length
+      ? "입력하신 내용을 보고 <b>"+recs.length+"가지</b>를 추천해 드려요. 그래도 <b>선택은 자유</b> — 나와 가장 비슷한 이야기를 골라 주세요."
+      : "나와 가장 비슷한 이야기를 골라 주세요. 선택에 따라 정보의 순서가 바뀌어요.";
+    host.textContent="";
+    PERSONAS.forEach(function(ps){
+      var isRec=recs.indexOf(ps.id)>=0, isSel=(S.persona===ps.id);
+      var b=document.createElement("button");
+      b.type="button";
+      b.className="pcard"+(isRec?" rec":"")+(isSel?" sel":"");
+      b.innerHTML='<span class="t">'+esc(ps.t)+(isRec?'<span class="badge">추천</span>':"")+"</span>"
+        +'<span class="q">'+esc(ps.q)+"</span>";
+      b.addEventListener("click", function(){ S.persona=ps.id; renderPersonas(); });
+      host.appendChild(b);
+    });
+  }
+
+  // ── STEP 3: 결과 ──
+  function renderResults() {
+    var p=patient(), host=$("results");
+    if (!S.persona) S.persona = recommended(p)[0] || "p6";
+    var ps=PERSONAS.find(function(x){return x.id===S.persona;})||PERSONAS[5];
+    var st={}, oks=[], tests=[], nos=[];
+    DRUGS.forEach(function(d){ var e=elig(d,p); st[d.id]=e;
+      (e.st==="ok"?oks:e.st==="test"?tests:nos).push(d); });
+
+    var minCost=Infinity;
+    oks.forEach(function(d){ var c=y1Net(d,p); if (c!==null&&c<minCost) minCost=c; });
+    oks.sort(function(a,b){ return totalScore(b,p,ps.w,minCost)-totalScore(a,p,ps.w,minCost); });
+
+    var h="";
+
+    // 요약: 발작 전후 (적격 약제 전체 범위)
+    if (p.exac>0 && oks.length) {
+      var lo=Infinity, hi=0;
+      oks.forEach(function(d){ var o=d.out.aaer; if (o.kind==="event") return;
+        lo=Math.min(lo, p.exac*o.v); hi=Math.max(hi, p.exac*o.v); });
+      if (isFinite(lo) && hi>0) {
+        var wNow=216, wAfter=Math.max(24, Math.round(wNow*(hi/p.exac)));
+        h+='<div class="card"><h2 class="tight">발작이 얼마나 줄 수 있나요?</h2>'
+          +'<div class="ba"><span class="who">지금</span><div class="track"><div class="bar now" style="width:'+wNow+'px;max-width:100%"></div></div><span class="bv">연 '+p.exac+'번</span></div>'
+          +'<div class="ba"><span class="who">치료 후</span><div class="track"><div class="bar" style="width:'+wAfter+'px;max-width:100%;background:var(--accent)"></div></div><span class="bv" style="color:var(--accent)">약 '+fmt1(lo)+'~'+fmt1(hi)+'번</span></div>'
+          +'<p class="hint">아래 주사들의 연구 평균을 나의 발작 횟수에 적용한 값이에요. 사람마다 다를 수 있고, 정확한 예측은 아니에요.</p></div>';
+      }
+    }
+
+    // 페르소나 콜아웃
+    var co="";
+    if (ps.id==="p2" && p.ocs>0) co="일부 주사는 연구에서 먹는 스테로이드를 절반 정도로 줄였어요. 하루 "+p.ocs+"mg → 약 "+fmt1(Math.max(0,p.ocs*0.5))+"mg 수준. 아래 약별 카드에서 확인하세요.";
+    else if (ps.id==="p1") co="아래 주사들은 모두 발작(악화)을 절반 가까이 줄이는 효과가 연구로 확인됐어요. 발작 감소 근거가 가장 탄탄한 항목부터 카드에 배치했어요.";
+    else if (ps.id==="p3") co="자가주사 가능 여부와 주사 간격을 각 카드 머리글에 표시했어요. 가장 간격이 긴 주사는 8주에 한 번이에요.";
+    else if (ps.id==="p4") co="각 카드의 비용 항목은 표시가가 아니라 '내가 실제로 내는 금액' 기준이에요. 보험 정보를 바꾸면 즉시 다시 계산돼요.";
+    else if (ps.id==="p5") co="비염·코 물혹·아토피가 함께 있다면 일부 주사는 그 질환에도 허가·연구가 있어요 — 해당 여부는 진료에서 꼭 확인하세요.";
+    else co="증상 조절·삶의 질 변화는 각 카드의 '일상은 어떻게 달라져요?' 항목에 정직하게 적었어요 — 좋아졌지만 체감 기준에 못 미친 항목도 그대로 보여드려요.";
+    h+='<div class="callout"><div class="t">'+esc(ps.t)+' — 나의 우선순위</div><div class="b">'+esc(co)+'</div></div>';
+
+    // 약제 리스트
+    h+='<div class="card"><h2 class="tight">지금 검토할 수 있는 주사</h2><div class="dlist">';
+    oks.forEach(function(d, i){
+      var tag = d.id==="teze" ? '<span class="tag warn">건강보험 미적용</span>'
+        : '<span class="tag">'+(d.id==="benra"?"8주":d.id==="dupi"?"2주":d.id==="omal"?"2~4주":"4주")+(d.selfInj?" · 자가주사":" · 병원")+'</span>';
+      h+='<div class="drow"><span class="dot" style="background:'+d.color+'"></span><span class="nm">'+esc(d.name)+' <small>('+esc(d.brand)+')</small>'
+        +(i===0?' <span style="font-size:11px;font-weight:800;color:var(--surface);background:var(--accent);border-radius:5px;padding:2px 8px;">먼저 상의해볼 후보</span>':"")
+        +'</span>'+tag+'</div>';
+    });
+    h+='</div>';
+    if (tests.length) {
+      h+='<div class="grouplab">검사 결과를 보고 판단해요</div><div class="dlist">';
+      tests.forEach(function(d){ h+='<div class="drow test"><span class="dot" style="background:'+d.color+'"></span><span class="nm" style="font-weight:400;color:var(--ink-soft)">'+esc(d.name)+' <small>— '+esc(st[d.id].why)+'</small></span></div>'; });
+      h+='</div>';
+    }
+    if (nos.length) {
+      h+='<div class="grouplab no">지금 조건으로는 해당되지 않아요</div><div class="dlist">';
+      nos.forEach(function(d){ h+='<div class="drow test" style="opacity:.7"><span class="dot" style="background:'+d.color+'"></span><span class="nm" style="font-weight:400;color:var(--ink-faint)">'+esc(d.name)+' <small>— '+esc(st[d.id].why)+'</small></span></div>'; });
+      h+='</div>';
+    }
+    h+='<p class="hint">"먼저 상의해볼 후보"는 선택하신 우선순위를 반영한 제안일 뿐, 순위나 정답이 아니에요.</p></div>';
+
+    // 약제 상세 아코디언
+    h+='<div class="grouplab" style="color:var(--ink-soft)">주사별로 자세히 보기 — 눌러서 펼치세요</div>';
+    oks.forEach(function(d, i){
+      var at=aaerText(d,p), ot=ocsText(d,p);
+      var barBlock="";
+      if (at.now!==undefined) {
+        var wN=200, wA=Math.max(18, Math.round(wN*(at.after/at.now)));
+        barBlock='<div class="ba"><span class="who">지금</span><div class="track"><div class="bar now" style="width:'+wN+'px;max-width:100%"></div></div><span class="bv">연 '+at.now+'번</span></div>'
+          +'<div class="ba"><span class="who">치료 후</span><div class="track"><div class="bar" style="width:'+wA+'px;max-width:100%;background:'+d.color+'"></div></div><span class="bv" style="color:'+d.color+'">'+esc(at.main.split("→ ")[1]||"")+'</span></div>';
+      }
+      h+='<details class="drug" style="--dc:'+d.color+'">'
+        +'<summary><span class="dot" style="width:10px;height:10px;border-radius:50%;background:'+d.color+';flex-shrink:0"></span>'
+        +'<span class="nm">'+esc(d.name)+'<small>'+esc(d.brand)+'</small></span>'
+        +(i===0?'<span class="pick">먼저 상의해볼 후보</span>':"")
+        +'<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></summary>'
+        +'<div class="body">'
+        +'<div style="font-size:13px;color:var(--ink-soft)">'+esc(d.how)+'</div>'
+        +'<div class="qa"><div class="q">발작이 얼마나 줄어요?</div>'
+        +(barBlock||'<div class="a"><b>'+esc(at.main)+'</b>'+(at.sub?' — '+esc(at.sub):"")+'</div>')
+        +(barBlock&&at.sub?'<div class="a" style="margin-top:4px">'+esc(at.sub)+'</div>':"")
+        +'</div>'
+        +'<div class="qa"><div class="q">먹는 스테로이드는 줄 수 있나요?</div><div class="a">'+(ot.none?esc(ot.main):'<b>'+esc(ot.main)+'</b>'+(ot.sub?' — '+esc(ot.sub):""))+'</div></div>'
+        +'<div class="qa"><div class="q">일상은 어떻게 달라져요?</div><div class="a">'+esc(dailyText(d))+'</div></div>'
+        +'<div class="qa"><div class="q">비용은 얼마나 들어요?</div><div class="a">'+esc(costText(d,p))+'</div></div>'
+        +'<div class="qa"><div class="q">안전한가요?</div><div class="a">연구에서 부작용 발생이 가짜약(위약)을 맞은 사람들과 비슷했어요. 주사 부위 통증·붉어짐이 흔한 편이에요. 개인 병력에 따른 주의사항은 진료에서 확인하세요.</div></div>'
+        +'<div class="qa"><div class="q">근거는 얼마나 튼튼해요?</div><div class="a">'+esc(gradeWord(d.out.aaer.g))+'</div></div>'
+        +'</div></details>';
+    });
+
+    if (p.exac===0) h+='<p class="hint" style="margin-top:8px">최근 1년 발작이 없다고 입력하셨어요. 이 도구는 발작·스테로이드 감량 효과를 중심으로 만들어져 있어, 지금 상황에서는 담당 의사와의 상담이 더 중요해요.</p>';
+
+    host.innerHTML=h;
+  }
+
+  // ── STEP 4: 상담 준비 ──
+  function renderConsult() {
+    var p=patient(), host=$("consult");
+    if (!S.persona) S.persona = recommended(p)[0] || "p6";
+    var ps=PERSONAS.find(function(x){return x.id===S.persona;})||PERSONAS[5];
+    var chips=['1년간 발작 '+p.exac+'번'];
+    chips.push(p.ocs>0 ? '스테로이드 '+p.ocs+'mg/일' : '매일 스테로이드 없음');
+    chips.push('체중 '+p.wt+'kg');
+    chips.push(p.eos!==null?'호산구 '+p.eos:'호산구 모름');
+    chips.push(p.feno!==null?'FeNO '+p.feno:'FeNO 모름');
+    chips.push(p.ige!==null?'IgE '+p.ige:'IgE 모름');
+    if (p.co.rhin) chips.push('알레르기 비염');
+    if (p.co.polyp) chips.push('코 물혹');
+    if (p.co.atopy) chips.push('아토피 피부염');
+
+    var qs=[];
+    if (ps.id==="p2"||p.ocs>0) qs.push([true,"먹는 스테로이드는 언제부터, 어떻게 줄일 수 있나요?"]);
+    qs.push([true,"저에게는 어떤 주사부터 검토하는 게 좋을까요?"]);
+    qs.push([true,"효과가 있는지 몇 달 뒤에, 무엇으로 확인하나요?"]);
+    if (p.eos===null||p.feno===null) qs.push([false,"호산구·FeNO 검사를 받아볼 필요가 있나요?"]);
+    if (p.ige===null||p.sens==="unknown") qs.push([false,"알레르기 검사(IgE·감작)를 받아볼 필요가 있나요?"]);
+    if (ps.id==="p4"||p.ins==="yes") qs.push([false,"보험 서류나 산정특례 등 비용을 줄일 방법이 있나요?"]);
+    if (ps.id==="p3") qs.push([false,"자가주사를 배우면 병원 방문을 얼마나 줄일 수 있나요?"]);
+    if (ps.id==="p5") qs.push([false,"비염·코 물혹·아토피에도 함께 효과가 있는 주사가 있나요?"]);
+    qs.push([false,"임신 계획·다른 약과의 관계도 상담이 필요해요."]);
+
+    var h='<div class="card"><h2 class="tight">내가 입력한 정보</h2><div class="sumchips">'
+      +chips.map(function(c){return "<span>"+esc(c)+"</span>";}).join("")+'</div>'
+      +'<p class="hint">나의 우선순위: <b>'+esc(ps.t)+'</b></p></div>';
+    h+='<div class="card"><h2>의사 선생님께 물어볼 것</h2><div class="cklist">';
+    qs.forEach(function(q,i){
+      h+='<label class="ck"><input type="checkbox"'+(q[0]?" checked":"")+' aria-label="질문 '+(i+1)+'"><span>'+esc(q[1])+'</span></label>';
+    });
+    h+='</div><p class="hint no-print">체크를 바꿔서 나만의 질문 목록을 만든 뒤 인쇄하세요.</p></div>';
+    h+='<div class="note-warn"><b>기억해 주세요</b> — 이 결과는 참고 자료예요. 진단이나 처방이 아니며, 치료 결정은 담당 의사와 함께 내려요.</div>';
+    host.innerHTML=h;
+  }
+
+  // ── 네비게이션 ──
+  $("go-2").addEventListener("click", function(){ goto(2); });
+  $("go-3").addEventListener("click", function(){ goto(3); });
+  $("go-4").addEventListener("click", function(){ goto(4); });
+  $("back-1").addEventListener("click", function(){ goto(1); });
+  $("back-2").addEventListener("click", function(){ goto(2); });
+  $("back-3").addEventListener("click", function(){ goto(3); });
+  $("btn-print").addEventListener("click", function(){ window.print(); });
+  $("restart").addEventListener("click", function(){ location.hash=""; location.reload(); });
+
+  var mh=location.hash.match(/^#(\d)$/);
+  if (mh) { var n=parseInt(mh[1],10); if (n>=1&&n<=4) { if(n>=2&&!S.persona){S.persona=null;} goto(n); } }
+})();
+</script>

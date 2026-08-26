@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
+  <style>
+    body { margin: 0; font-family: "Noto Sans KR", "Apple SD Gothic Neo", Pretendard, "Malgun Gothic", sans-serif; }
+    a { color: #0F6E73; } a:hover { color: #0A5459; }
+  </style>
+</helmet>
+<div style="width: 390px; min-height: 844px; background: #F7FAF9; color: #182A2D; display: flex; flex-direction: column; box-sizing: border-box; padding: 24px 20px 28px;">
+
+  <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px;">
+    <div style="font-size: 11px; font-weight: 800; letter-spacing: 0.12em; color: #0F6E73;">PACEN 환자용</div>
+    <div style="font-size: 22px; font-weight: 800; line-height: 1.3; letter-spacing: -0.01em;">어떤 점이 가장 중요하세요?</div>
+    <div style="display: flex; align-items: center; gap: 6px; margin-top: 8px;">
+      <div style="width: 28px; height: 5px; border-radius: 3px; background: #0F6E73;"></div>
+      <div style="width: 28px; height: 5px; border-radius: 3px; background: #0F6E73;"></div>
+      <div style="width: 28px; height: 5px; border-radius: 3px; background: #D5E0DE;"></div>
+      <div style="width: 28px; height: 5px; border-radius: 3px; background: #D5E0DE;"></div>
+      <div style="font-size: 12px; color: #6E7F82; margin-left: 6px;">2 / 4 · 나의 우선순위</div>
+    </div>
+  </div>
+
+  <div style="font-size: 13.5px; color: #47595C; line-height: 1.55; margin-bottom: 14px;">입력하신 내용을 보고 두 가지를 추천해 드려요. 그래도 <b>선택은 자유</b> — 나와 가장 비슷한 이야기를 골라 주세요.</div>
+
+  <div style="display: flex; flex-direction: column; gap: 10px; flex-grow: 1;">
+
+    <div style="background: #FFFFFF; border: 2px solid #0F6E73; border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 5px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <div style="font-size: 15.5px; font-weight: 800;">응급실이 무서워요</div>
+        <div style="font-size: 11px; font-weight: 800; color: #FFFFFF; background: #0F6E73; border-radius: 5px; padding: 2px 8px;">추천</div>
+      </div>
+      <div style="font-size: 13.5px; color: #47595C; line-height: 1.5;">"또 새벽에 응급실 갈까 봐 늘 불안해요." — 발작(악화)을 줄이는 것이 최우선.</div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 2px solid #0F6E73; border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 5px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <div style="font-size: 15.5px; font-weight: 800;">스테로이드를 줄이고 싶어요</div>
+        <div style="font-size: 11px; font-weight: 800; color: #FFFFFF; background: #0F6E73; border-radius: 5px; padding: 2px 8px;">추천</div>
+      </div>
+      <div style="font-size: 13.5px; color: #47595C; line-height: 1.5;">"먹는 스테로이드 부작용이 무서워요." — 알약을 줄이거나 끊는 것이 목표.</div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #D5E0DE; border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 5px;">
+      <div style="font-size: 15.5px; font-weight: 700;">바쁜 일상이 우선이에요</div>
+      <div style="font-size: 13.5px; color: #47595C; line-height: 1.5;">"병원 갈 시간이 없어요. 집에서 맞고 싶어요." — 주사 간격과 자가주사가 중요.</div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #D5E0DE; border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 5px;">
+      <div style="font-size: 15.5px; font-weight: 700;">비용이 제일 걱정이에요</div>
+      <div style="font-size: 13.5px; color: #47595C; line-height: 1.5;">"효과가 좋아도 못 버티면 소용없잖아요." — 실제 부담 금액과 보험이 중요.</div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #D5E0DE; border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 5px;">
+      <div style="font-size: 15.5px; font-weight: 700;">다른 병도 같이 있어요</div>
+      <div style="font-size: 13.5px; color: #47595C; line-height: 1.5;">"비염·코 물혹·피부까지 다 힘들어요." — 함께 좋아질 수 있는지가 중요.</div>
+    </div>
+
+    <div style="background: #FFFFFF; border: 1px solid #D5E0DE; border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 5px;">
+      <div style="font-size: 15.5px; font-weight: 700;">예전처럼 움직이고 싶어요</div>
+      <div style="font-size: 13.5px; color: #47595C; line-height: 1.5;">"계단, 등산, 아이와 뛰어노는 게 소원이에요." — 일상 활동 회복이 목표.</div>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 18px;">
+    <div style="height: 52px; border-radius: 14px; background: #0F6E73; color: #FFFFFF; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 16px; font-weight: 800;">
+      결과 보기
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg>
+    </div>
+    <div style="font-size: 12px; color: #6E7F82; text-align: center; line-height: 1.5;">선택은 정보의 순서만 바꿔요. 나에게 가능한 주사의 종류는 바뀌지 않아요.</div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

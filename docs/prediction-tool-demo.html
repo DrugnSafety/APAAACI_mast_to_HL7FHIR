@@ -227,9 +227,10 @@
 
   <div class="listbar">
     <span class="sec-label" id="elig-label"></span>
-    <div class="modes" role="group" aria-label="보기 모드">
-      <button type="button" id="mode-pro" class="on">의료진 보기</button>
-      <button type="button" id="mode-pt">환자 보기</button>
+    <div class="modes">
+      <span style="font-size:12px;color:var(--ink-faint);align-self:center">의료인 전용 화면 · 환자용은 별도 페이지로 분리 —</span>
+      <a href="https://claude.ai/code/artifact/1775faf3-c2b3-496a-9a09-83ac722d4bf7" target="_blank" rel="noopener"
+         style="font-size:12.5px;font-weight:600;color:var(--ink-soft);background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:5px 13px;text-decoration:none">환자용 열기 ↗</a>
     </div>
   </div>
   <div class="cards" id="cards"></div>
@@ -779,8 +780,7 @@
       render();
     });
   });
-  $("mode-pro").addEventListener("click", function(){ MODE="pro"; $("mode-pro").classList.add("on"); $("mode-pt").classList.remove("on"); render(); });
-  $("mode-pt").addEventListener("click", function(){ MODE="pt"; $("mode-pt").classList.add("on"); $("mode-pro").classList.remove("on"); render(); });
+  // v3: 환자 보기는 별도 페이지(prediction-tool-patient.html)로 분리 — 본 화면은 의료인 전용(MODE 고정 "pro")
   document.querySelectorAll(".usrc").forEach(function(b){
     b.addEventListener("click", function(){
       USRC = b.getAttribute("data-u");
