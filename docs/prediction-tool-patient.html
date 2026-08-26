@@ -133,6 +133,20 @@
   .qa .a { font-size:13.5px; color:var(--ink-soft); line-height:1.6; }
   .qa .a b { color:var(--ink); }
 
+  /* 카드뉴스: outcome별 스냅 카드 */
+  .swipehint { font-size:12px; font-weight:700; color:var(--accent); }
+  .cnews { display:flex; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory; padding:2px 2px 10px;
+    -webkit-overflow-scrolling:touch; scrollbar-width:thin; }
+  .ccard { flex:0 0 256px; scroll-snap-align:start; background:var(--ground); border:1px solid var(--line);
+    border-top:4px solid var(--dc,var(--accent)); border-radius:14px; padding:12px 14px 14px;
+    display:flex; flex-direction:column; gap:7px; }
+  .ccard .chead { font-size:12.5px; font-weight:800; color:var(--ink-faint); letter-spacing:.02em; }
+  .ccard .cbig { font-size:17px; font-weight:800; line-height:1.35; }
+  .ccard .cbig .to { color:var(--dc,var(--accent)); }
+  .ccard .csub { font-size:12.5px; color:var(--ink-soft); line-height:1.55; }
+  .ccard .ba .who { width:44px; font-size:11.5px; }
+  .ccard .ba .bv { font-size:12px; min-width:52px; }
+
   .sumchips { display:flex; flex-wrap:wrap; gap:6px; }
   .sumchips span { font-size:12.5px; background:var(--chip); border-radius:6px; padding:4px 10px; color:var(--ink-soft); }
   .cklist { display:flex; flex-direction:column; gap:11px; }
@@ -149,6 +163,10 @@
     .steps, .cta, .ctarow, .backlink, footer, .no-print { display:none !important; }
     .card, .note-warn { border-color:#bbb; break-inside:avoid; }
     .page { max-width:none; padding:0; }
+    .cnews { display:block; overflow:visible; }
+    .ccard { width:100%; margin-bottom:8px; break-inside:avoid; }
+    .swipehint { display:none; }
+    details.drug { break-inside:avoid; }
   }
 </style>
 
@@ -201,12 +219,17 @@
         <button type="button" class="chipbtn know on" data-k="ige" data-v="no">몰라요</button>
         <input type="number" id="ige" value="120" min="0" step="1" style="display:none" aria-label="총 IgE 수치">
       </div>
+      <div class="labrow"><span class="lab">폐기능 FEV1 (L)</span>
+        <button type="button" class="chipbtn know" data-k="fev1" data-v="yes">알아요</button>
+        <button type="button" class="chipbtn know on" data-k="fev1" data-v="no">몰라요</button>
+        <input type="number" id="fev1" value="2.1" min="0.3" max="6" step="0.05" style="display:none" aria-label="FEV1 수치(리터)">
+      </div>
       <div class="labrow" id="sens-row" style="display:none"><span class="lab">사계절 알레르기<br>(집먼지진드기 등)</span>
         <button type="button" class="chipbtn sens" data-v="yes">있어요</button>
         <button type="button" class="chipbtn sens" data-v="no">없어요</button>
         <button type="button" class="chipbtn sens on" data-v="unknown">몰라요</button>
       </div>
-      <p class="hint">몰라도 괜찮아요. 검사 결과가 필요한 주사는 "검사 후 판단"으로 따로 알려드려요.</p>
+      <p class="hint">몰라도 괜찮아요. 검사 결과가 필요한 주사는 "검사 후 판단"으로 따로 알려드리고, 폐기능(FEV1)은 입력하시면 나의 예상 변화를 그림으로 보여드려요.</p>
     </div>
 
     <div class="card">
@@ -373,7 +396,7 @@
 
   // ── 상태 ──
   var S = {
-    exac:3, ocsYes:true, sens:"unknown", know:{eos:false,feno:false,ige:false},
+    exac:3, ocsYes:true, sens:"unknown", know:{eos:false,feno:false,ige:false,fev1:false},
     co:{rhin:false,polyp:false,atopy:false,none:true},
     ins:"no", env:"out", persona:null
   };
@@ -381,7 +404,7 @@
     return {
       exac:S.exac, ocs:S.ocsYes?num("ocs-mg",0):0, wt:num("wt",65),
       eos:S.know.eos?num("eos",0):null, feno:S.know.feno?num("feno",0):null,
-      ige:S.know.ige?num("ige",0):null, sens:S.sens, co:S.co,
+      ige:S.know.ige?num("ige",0):null, fev1:S.know.fev1?num("fev1",0):null, sens:S.sens, co:S.co,
       copay:parseInt($("copay").value,10), ins:S.ins, env:S.env,
       ded:num("ded",0), coins:num("coins",0), cap:num("cap",0)
     };
@@ -609,6 +632,67 @@
     });
   }
 
+  // ── 카드뉴스: outcome별 예측 카드 ──
+  function fmt2(x){ return (Math.round(x*100)/100).toString(); }
+  function miniBars(nLabel, aLabel, ratio, color, invert) {
+    var r=Math.max(0.08, Math.min(1, ratio));
+    var wNow=invert?Math.round(92*r):92, wAft=invert?92:Math.round(92*r);
+    return '<div class="ba"><span class="who">지금</span><div class="track"><div class="bar now" style="width:'+wNow+'%"></div></div><span class="bv">'+esc(nLabel)+'</span></div>'
+      +'<div class="ba"><span class="who">치료 후</span><div class="track"><div class="bar" style="width:'+wAft+'%;background:'+color+'"></div></div><span class="bv" style="color:'+color+'">'+esc(aLabel)+'</span></div>';
+  }
+  function ccard(title, bigHtml, barsHtml, subText) {
+    return '<div class="ccard"><div class="chead">'+esc(title)+'</div>'
+      +(bigHtml?'<div class="cbig">'+bigHtml+'</div>':"")
+      +(barsHtml||"")
+      +(subText?'<div class="csub">'+esc(subText)+'</div>':"")+'</div>';
+  }
+  function buildCards(d, p) {
+    var c=d.color, cards="";
+    // ① 발작
+    var at=aaerText(d,p), o=d.out.aaer;
+    if (at.now!==undefined) {
+      cards+=ccard("발작(악화)", '연 '+at.now+'번 <span class="to">→ 약 '+fmt1(at.after)+'번</span>',
+        miniBars('연 '+at.now+'번','약 '+fmt1(at.after)+'번', at.after/at.now, c, false),
+        at.sub+' · 연구 평균이에요');
+    } else {
+      cards+=ccard("발작(악화)", esc(at.main), "", at.sub||"");
+    }
+    // ② 먹는 스테로이드
+    var oc=d.out.ocs;
+    if (p.ocs>0 && oc && !oc.txt) {
+      var aOcs=Math.max(0, p.ocs*(1+oc.v/100));
+      cards+=ccard("먹는 스테로이드", '하루 '+p.ocs+'mg <span class="to">→ 약 '+fmt1(aOcs)+'mg</span>',
+        miniBars('하루 '+p.ocs+'mg','약 '+fmt1(aOcs)+'mg', p.ocs>0?aOcs/p.ocs:1, c, false),
+        '연구에서 '+Math.round(-oc.v)+'% 정도 줄었어요. 갑자기 끊지 않고 의사와 함께 천천히 줄여요.');
+    } else {
+      var ot=ocsText(d,p);
+      cards+=ccard("먹는 스테로이드", "", "", ot.main+(ot.sub?' — '+ot.sub:''));
+    }
+    // ③ 폐기능
+    var fv=d.out.fev;
+    if (fv) {
+      var fvNote=(fv.v>=0.2?'확 체감되는 기준(+0.2L)을 평균적으로 넘었어요.':'확 체감되는 기준(+0.2L)에는 평균적으로 조금 못 미쳐요.')+' 사람마다 달라요.';
+      if (p.fev1!==null) {
+        var aF=p.fev1+fv.v;
+        cards+=ccard("폐기능(FEV1)", p.fev1+'L <span class="to">→ 약 '+fmt2(aF)+'L</span>',
+          miniBars(p.fev1+'L','약 '+fmt2(aF)+'L', aF>0?p.fev1/aF:1, c, true),
+          '+'+fv.v+'L 정도 좋아졌어요(넉넉히 +'+fv.lo+'~+'+fv.hi+'L). '+fvNote);
+      } else {
+        cards+=ccard("폐기능(FEV1)", "", "",
+          '숨을 내쉬는 힘이 평균 +'+fv.v+'L 좋아졌어요. '+fvNote+' 1단계에서 내 FEV1 수치를 입력하면 예상 변화를 그림으로 보여드려요.');
+      }
+    }
+    // ④ 일상·삶의 질
+    cards+=ccard("일상·삶의 질", "", "", dailyText(d));
+    // ⑤ 비용
+    cards+=ccard("비용", "", "", costText(d,p));
+    // ⑥ 투여·안전
+    cards+=ccard("투여·안전", "", "", d.how+' · 부작용은 가짜약(위약)과 비슷했어요 — 주사 부위 통증·붉어짐이 흔한 편이에요.');
+    // ⑦ 근거
+    cards+=ccard("근거 수준", "", "", gradeWord(d.out.aaer.g));
+    return cards;
+  }
+
   // ── STEP 3: 결과 ──
   function renderResults() {
     var p=patient(), host=$("results");
@@ -674,29 +758,15 @@
     // 약제 상세 아코디언
     h+='<div class="grouplab" style="color:var(--ink-soft)">주사별로 자세히 보기 — 눌러서 펼치세요</div>';
     oks.forEach(function(d, i){
-      var at=aaerText(d,p), ot=ocsText(d,p);
-      var barBlock="";
-      if (at.now!==undefined) {
-        var wAPct=Math.max(8, Math.round(92*(at.after/at.now)));
-        barBlock='<div class="ba"><span class="who">지금</span><div class="track"><div class="bar now" style="width:92%"></div></div><span class="bv">연 '+at.now+'번</span></div>'
-          +'<div class="ba"><span class="who">치료 후</span><div class="track"><div class="bar" style="width:'+wAPct+'%;background:'+d.color+'"></div></div><span class="bv" style="color:'+d.color+'">'+esc(at.main.split("→ ")[1]||"")+'</span></div>';
-      }
-      h+='<details class="drug" style="--dc:'+d.color+'">'
+      h+='<details class="drug"'+(i===0?" open":"")+' style="--dc:'+d.color+'">'
         +'<summary><span class="dot" style="width:10px;height:10px;border-radius:50%;background:'+d.color+';flex-shrink:0"></span>'
         +'<span class="nm">'+esc(d.name)+'<small>'+esc(d.brand)+'</small></span>'
         +(i===0?'<span class="pick">먼저 상의해볼 후보</span>':"")
         +'<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></summary>'
         +'<div class="body">'
         +'<div style="font-size:13px;color:var(--ink-soft)">'+esc(d.how)+'</div>'
-        +'<div class="qa"><div class="q">발작이 얼마나 줄어요?</div>'
-        +(barBlock||'<div class="a"><b>'+esc(at.main)+'</b>'+(at.sub?' — '+esc(at.sub):"")+'</div>')
-        +(barBlock&&at.sub?'<div class="a" style="margin-top:4px">'+esc(at.sub)+'</div>':"")
-        +'</div>'
-        +'<div class="qa"><div class="q">먹는 스테로이드는 줄 수 있나요?</div><div class="a">'+(ot.none?esc(ot.main):'<b>'+esc(ot.main)+'</b>'+(ot.sub?' — '+esc(ot.sub):""))+'</div></div>'
-        +'<div class="qa"><div class="q">일상은 어떻게 달라져요?</div><div class="a">'+esc(dailyText(d))+'</div></div>'
-        +'<div class="qa"><div class="q">비용은 얼마나 들어요?</div><div class="a">'+esc(costText(d,p))+'</div></div>'
-        +'<div class="qa"><div class="q">안전한가요?</div><div class="a">연구에서 부작용 발생이 가짜약(위약)을 맞은 사람들과 비슷했어요. 주사 부위 통증·붉어짐이 흔한 편이에요. 개인 병력에 따른 주의사항은 진료에서 확인하세요.</div></div>'
-        +'<div class="qa"><div class="q">근거는 얼마나 튼튼해요?</div><div class="a">'+esc(gradeWord(d.out.aaer.g))+'</div></div>'
+        +'<div class="swipehint">나의 예측 카드 — 옆으로 넘겨 보세요 →</div>'
+        +'<div class="cnews" style="--dc:'+d.color+'">'+buildCards(d,p)+'</div>'
         +'</div></details>';
     });
 
@@ -716,6 +786,7 @@
     chips.push(p.eos!==null?'호산구 '+p.eos:'호산구 모름');
     chips.push(p.feno!==null?'FeNO '+p.feno:'FeNO 모름');
     chips.push(p.ige!==null?'IgE '+p.ige:'IgE 모름');
+    if (p.fev1!==null) chips.push('FEV1 '+p.fev1+'L');
     if (p.co.rhin) chips.push('알레르기 비염');
     if (p.co.polyp) chips.push('코 물혹');
     if (p.co.atopy) chips.push('아토피 피부염');
