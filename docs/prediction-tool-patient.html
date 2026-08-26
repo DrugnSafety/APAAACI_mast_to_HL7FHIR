@@ -81,7 +81,7 @@
   .cta.sub { background:var(--surface); border:1px solid var(--line); color:var(--ink); font-weight:700; }
   .ctarow { display:flex; gap:10px; margin-top:6px; }
   .ctarow .cta { flex:1; }
-  .foot { font-size:12px; color:var(--ink-faint); text-align:center; margin-top:10px; line-height:1.5; }
+  .foot { font-size:12px; color:var(--ink-soft); text-align:center; margin-top:10px; line-height:1.5; }
   .backlink { display:inline-flex; align-items:center; gap:6px; font-size:13px; color:var(--ink-soft); background:none;
     border:none; cursor:pointer; font-family:inherit; padding:4px 0; margin-bottom:12px; }
 
@@ -142,7 +142,7 @@
 
   .stepview { display:none; }
   .stepview.on { display:block; }
-  footer { margin-top:28px; padding-top:14px; border-top:1px solid var(--line); font-size:12px; color:var(--ink-faint); line-height:1.6; }
+  footer { margin-top:28px; padding-top:14px; border-top:1px solid var(--line); font-size:12px; color:var(--ink-soft); line-height:1.6; }
 
   @media print {
     body { background:#fff; color:#000; }
@@ -164,7 +164,7 @@
     <div class="card">
       <h2>지난 1년 동안, 천식이 갑자기 나빠져 응급실·입원 또는 스테로이드 며칠 복용이 필요했던 적이 몇 번인가요?</h2>
       <div class="stepper">
-        <button type="button" id="ex-minus" aria-label="줄이기">−</button>
+        <button type="button" id="ex-minus" aria-label="줄이기">－</button>
         <div class="val"><span id="ex-val">3</span>번</div>
         <button type="button" id="ex-plus" aria-label="늘리기">＋</button>
       </div>
@@ -271,7 +271,7 @@
   <!-- STEP 3 -->
   <section class="stepview" id="step-3">
     <h1>나의 결과</h1>
-    <div class="steps"><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg"></div><span class="lbl">3 / 4 · 결과</span></div>
+    <div class="steps"><div class="seg on"></div><div class="seg on"></div><div class="seg on"></div><div class="seg"></div><span class="lbl">3 / 4 · 나의 결과</span></div>
     <div id="results"></div>
     <button type="button" class="cta" id="go-4">상담 준비하기</button>
     <p class="foot">이 화면은 순위가 아니에요. 어떤 주사를 쓸지는 담당 의사와 함께 정해요.</p>
@@ -630,10 +630,10 @@
       oks.forEach(function(d){ var o=d.out.aaer; if (o.kind==="event") return;
         lo=Math.min(lo, p.exac*o.v); hi=Math.max(hi, p.exac*o.v); });
       if (isFinite(lo) && hi>0) {
-        var wNow=216, wAfter=Math.max(24, Math.round(wNow*(hi/p.exac)));
+        var wAfterPct=Math.max(8, Math.round(92*(hi/p.exac)));
         h+='<div class="card"><h2 class="tight">발작이 얼마나 줄 수 있나요?</h2>'
-          +'<div class="ba"><span class="who">지금</span><div class="track"><div class="bar now" style="width:'+wNow+'px;max-width:100%"></div></div><span class="bv">연 '+p.exac+'번</span></div>'
-          +'<div class="ba"><span class="who">치료 후</span><div class="track"><div class="bar" style="width:'+wAfter+'px;max-width:100%;background:var(--accent)"></div></div><span class="bv" style="color:var(--accent)">약 '+fmt1(lo)+'~'+fmt1(hi)+'번</span></div>'
+          +'<div class="ba"><span class="who">지금</span><div class="track"><div class="bar now" style="width:92%"></div></div><span class="bv">연 '+p.exac+'번</span></div>'
+          +'<div class="ba"><span class="who">치료 후</span><div class="track"><div class="bar" style="width:'+wAfterPct+'%;background:var(--accent)"></div></div><span class="bv" style="color:var(--accent)">약 '+fmt1(lo)+'~'+fmt1(hi)+'번</span></div>'
           +'<p class="hint">아래 주사들의 연구 평균을 나의 발작 횟수에 적용한 값이에요. 사람마다 다를 수 있고, 정확한 예측은 아니에요.</p></div>';
       }
     }
@@ -653,6 +653,7 @@
     oks.forEach(function(d, i){
       var tag = d.id==="teze" ? '<span class="tag warn">건강보험 미적용</span>'
         : '<span class="tag">'+(d.id==="benra"?"8주":d.id==="dupi"?"2주":d.id==="omal"?"2~4주":"4주")+(d.selfInj?" · 자가주사":" · 병원")+'</span>';
+      if (ps.id==="p4" && d.id!=="teze") { var cn0=y1Net(d,p); if (cn0!==null && !(p.env==="in"&&p.ins==="yes")) tag='<span class="tag">월 약 '+manwon(cn0/12)+'만원</span>'; }
       h+='<div class="drow"><span class="dot" style="background:'+d.color+'"></span><span class="nm">'+esc(d.name)+' <small>('+esc(d.brand)+')</small>'
         +(i===0?' <span style="font-size:11px;font-weight:800;color:var(--surface);background:var(--accent);border-radius:5px;padding:2px 8px;">먼저 상의해볼 후보</span>':"")
         +'</span>'+tag+'</div>';
@@ -676,9 +677,9 @@
       var at=aaerText(d,p), ot=ocsText(d,p);
       var barBlock="";
       if (at.now!==undefined) {
-        var wN=200, wA=Math.max(18, Math.round(wN*(at.after/at.now)));
-        barBlock='<div class="ba"><span class="who">지금</span><div class="track"><div class="bar now" style="width:'+wN+'px;max-width:100%"></div></div><span class="bv">연 '+at.now+'번</span></div>'
-          +'<div class="ba"><span class="who">치료 후</span><div class="track"><div class="bar" style="width:'+wA+'px;max-width:100%;background:'+d.color+'"></div></div><span class="bv" style="color:'+d.color+'">'+esc(at.main.split("→ ")[1]||"")+'</span></div>';
+        var wAPct=Math.max(8, Math.round(92*(at.after/at.now)));
+        barBlock='<div class="ba"><span class="who">지금</span><div class="track"><div class="bar now" style="width:92%"></div></div><span class="bv">연 '+at.now+'번</span></div>'
+          +'<div class="ba"><span class="who">치료 후</span><div class="track"><div class="bar" style="width:'+wAPct+'%;background:'+d.color+'"></div></div><span class="bv" style="color:'+d.color+'">'+esc(at.main.split("→ ")[1]||"")+'</span></div>';
       }
       h+='<details class="drug" style="--dc:'+d.color+'">'
         +'<summary><span class="dot" style="width:10px;height:10px;border-radius:50%;background:'+d.color+';flex-shrink:0"></span>'
