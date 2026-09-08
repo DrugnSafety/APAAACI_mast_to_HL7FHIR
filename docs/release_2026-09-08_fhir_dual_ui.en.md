@@ -142,7 +142,25 @@ Correct, and that is how it is implemented. ① `Observation.valueQuantity` carr
 | Report narrative (optional) | OpenAI `gpt-4o` via `OPENAI_REPORT_MODEL`; default report is deterministic | same |
 | Questionnaire, assessment, cross-reactivity, FHIR, card news | no LLM | — |
 
-## 7. Follow-ups
+## 7. Language selection (한국어 · English · 中文)
+A language selector in the header switches the Quest UI **chrome** (header, trail, HUD, step copy, buttons, table headers, badges, verdict stamps, result tabs, FHIR help) between Korean, English and Simplified Chinese. The choice is stored in `localStorage.lang`; first visits auto-detect from `navigator.language` (and `<html lang>` is updated).
+
+| Piece | Location |
+|---|---|
+| Dictionaries, 3 languages × ~190 keys | `web/i18n.js` (UMD) |
+| Key-parity and placeholder tests (4) | `web/i18n.test.js` (`node --test web/i18n.test.js`) |
+| String substitution | `t()` calls in `web/app.js`, `tr` hook in `web/game.js` |
+| Selector | `web/index.html` `#langSel`, `data-i18n` attributes |
+
+**Scope limit**: questionnaire items, knowledge-base text, the report and card news are generated in Korean by the server (`/api`) and remain Korean; a notice banner says so on the profile and questionnaire steps when a non-Korean UI language is active. The Classic UI (`/classic/`) stays Korean-only as the comparison baseline.
+
+| English | 中文 |
+|---|---|
+| ![](screenshots/2026-09-08/i18n-en-04-dex.png) | ![](screenshots/2026-09-08/i18n-zh-04-dex.png) |
+
+## 8. Follow-ups
+- Localize server-generated content (questionnaire, KB, report, card news): needs a `lang` parameter on `/api/*` and string tables in questionnaire_service (sizeable).
+- Decide whether the Classic UI gets i18n.
 - (optional) per-allergen LOINC test codes if a receiving EMR requires them.
 - Extend real SCTID coverage beyond the 22 confirmed allergens.
 - Decide the default UI from patient feedback.

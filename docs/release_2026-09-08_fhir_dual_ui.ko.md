@@ -142,7 +142,25 @@ node --test web/game.test.js        # 9종
 | 리포트 내러티브(선택) | OpenAI `gpt-4o` — `OPENAI_REPORT_MODEL`; 기본은 결정론적 리포트 | 동일 |
 | 문진·판정·교차반응·FHIR·카드뉴스 | LLM 미사용 | — |
 
-## 7. 남은 과제
+## 7. 언어 선택 (한국어 · English · 中文)
+헤더의 언어 선택기로 탐험 퀘스트 UI 의 **화면 문구**(헤더·트레일·HUD·단계 안내·버튼·표 헤더·배지·판정 도장·결과 탭·FHIR 안내)를 한국어/영어/중국어(간체) 로 바꿀 수 있다. 선택은 `localStorage.lang` 에 저장되며, 최초 방문 시 브라우저 언어(`navigator.language`)로 자동 감지한다(`<html lang>` 도 함께 갱신).
+
+| 구성 | 위치 |
+|---|---|
+| 사전 3개 언어 × 190여 키 | `web/i18n.js` (UMD) |
+| 키 정합성·플레이스홀더 테스트 4종 | `web/i18n.test.js` (`node --test web/i18n.test.js`) |
+| 문구 치환 | `web/app.js` `t()` 호출, `web/game.js` 번역 훅(`tr`) |
+| 선택기 | `web/index.html` `#langSel`, `data-i18n` 속성 |
+
+**범위 제한**: 문진 문항·지식베이스 본문·리포트·카드뉴스는 서버(`/api`)가 한국어로 생성하므로 그대로 한국어다. 비한국어 UI 에서는 이를 안내하는 배너를 프로필/문진 단계에 표시한다. 클래식 UI(`/classic/`)는 비교 기준선이므로 한국어만 제공한다.
+
+| English | 中文 |
+|---|---|
+| ![](screenshots/2026-09-08/i18n-en-04-dex.png) | ![](screenshots/2026-09-08/i18n-zh-04-dex.png) |
+
+## 8. 남은 과제
+- 서버 생성 콘텐츠(문진·KB·리포트·카드뉴스) 다국어화 — `/api/*?lang=` 파라미터와 questionnaire_service 문구 사전 필요(규모 큼).
+- 클래식 UI 다국어 여부 결정.
 - (선택) 수신 EMR 요구 시 LOINC 항원별 검사코드 병기.
 - CDM 기매핑 155종 중 실제 SCTID 확정은 22종 — 나머지 SCTID 확장.
 - 환자 피드백으로 기본 UI 결정.
