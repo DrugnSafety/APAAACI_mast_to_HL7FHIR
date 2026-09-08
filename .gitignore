@@ -66,3 +66,4 @@ output/
 .agents/
 .claude/
 .gstack/
+.omc/
