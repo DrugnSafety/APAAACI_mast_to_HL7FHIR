@@ -107,7 +107,8 @@ button { font-family: inherit; cursor: pointer; }
 h1, h2, h3 { font-family: var(--font-display); font-weight: 400; letter-spacing: .2px; margin: 0; text-wrap: balance; }
 .hidden { display: none !important; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-main { max-width: var(--maxw); margin: 0 auto; padding: 18px 20px 96px; }
+main { max-width: var(--maxw); margin: 0 auto; padding: 18px 20px 40px; }
+body[data-appstep="3"] main { padding-bottom: 96px; }  /* 문진 단계에만 하단 퀘스트바 여백 */
 
 /* ---------- header + HUD ---------- */
 .app-header { position: sticky; top: 0; z-index: 30; backdrop-filter: blur(10px);
@@ -233,7 +234,7 @@ table.grid input:focus { background: var(--bg-elev); border-color: var(--brand);
 .q-block.answered { border-color: var(--brand); box-shadow: inset 3px 0 0 var(--brand); }
 .q-block.clue-new { animation: clue-in .5s var(--ease) both; border-color: var(--accent); }
 .clue-tag { position: absolute; top: -10px; right: 12px; font-size: 11px; font-weight: 800; background: var(--accent); color: var(--ink-on-accent); padding: 2px 10px; border-radius: var(--r-pill); animation: pop .4s var(--ease) both; }
-.q-title { font-weight: 800; font-size: 15px; color: var(--text); }
+.q-title { font-family: var(--font); font-weight: 800; font-size: 15px; color: var(--text); text-wrap: pretty; }
 .q-help { color: var(--text-2); font-size: 13px; margin-top: 4px; line-height: 1.55; }
 .q-applies { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 .q-applies .tag { font-size: 11px; font-weight: 700; background: var(--bg-elev); color: var(--text-2); border: 1px solid var(--border); border-radius: var(--r-pill); padding: 3px 9px; }
@@ -359,7 +360,8 @@ table.grid input:focus { background: var(--bg-elev); border-color: var(--brand);
 
 /* ---------- 모바일 ---------- */
 @media (max-width: 720px) {
-  main { padding: 12px 14px 120px; }
+  main { padding: 12px 14px 40px; }
+  body[data-appstep="2"] main, body[data-appstep="3"] main { padding-bottom: 120px; }
   .logo small, .tlabel small { display: none; }
   .logo { font-size: 17px; }
   .hud { width: 130px; }

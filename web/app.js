@@ -574,7 +574,7 @@ function renderQuestionnaire() {
     let revealAttr = '', hiddenCls = '';
     if (cond) { revealAttr = ` data-reveal='${esc(JSON.stringify(cond))}'`; if (!condMet(cond)) hiddenCls = ' hidden'; }
     return `<div class="q-block${hiddenCls}${Game.hasAnswer(val) ? ' answered' : ''}" data-qid="${qq.id}"${revealAttr}>
-      <div class="q-title">${esc(qq.title)}</div>
+      <h3 class="q-title">${esc(qq.title)}</h3>
       ${qq.help ? `<div class="q-help">${esc(qq.help)}</div>` : ''}
       ${applyTags(qq.applies_to)}
       ${control}</div>`;
@@ -635,7 +635,7 @@ function renderQuestionnaire() {
 
   const sections = q.sections.map((sec, si) => `
     <div class="chapter" data-si="${si}">
-      <div class="ch-head"><div class="ring" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-label="0/0" style="--p:0"></div><div class="ch-title">${esc(sec.title)}</div></div>
+      <div class="ch-head"><div class="ring" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-label="0/0" style="--p:0"></div><h2 class="ch-title">${esc(sec.title)}</h2></div>
       ${sec.subtitle ? `<div class="q-sub">${esc(sec.subtitle)}</div>` : ''}
       ${sec.questions.map(questionHtml).join('')}
     </div>`).join('');
@@ -812,7 +812,7 @@ function dexCard(a, i) {
     <div class="dex-inner">
       <div class="face front">
         <div class="stamp tone-${v.tone}">${Game.stampSvg(a.category)}</div>
-        <div class="dex-name">${esc(a.korean_name || a.allergen_name)}</div>
+        <h3 class="dex-name">${esc(a.korean_name || a.allergen_name)}</h3>
         <div class="dex-meta">${CAT_LABEL[a.category] || a.category} · ${a.test_value ?? '-'}${a.test_unit ? ' ' + esc(a.test_unit) : ''}${a.class_value != null ? ` · class ${esc(a.class_value)}` : ''}${sev}</div>
         ${Game.starsHtml(stars)}${hasOas ? `<div class="dex-meta">🍎 OAS 교차반응 있음</div>` : ''}
         <div class="verdict-stamp tone-${v.tone}">${esc(v.stamp)}</div>
