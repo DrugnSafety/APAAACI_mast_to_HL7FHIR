@@ -43,10 +43,13 @@ const S = {
   questionnaire: null,
   answers: {},
   classify: null,
+  game: Game.createState(),   // 게임 레이어 상태(XP·도감·배지) — 판정 로직과 무관
 };
 
 let REVIEW_TAB = 'measured';  // OCR 검토 표 탭: 'measured'(수치>0) / 'zero'(수치 0·미측정)
-const STEPS = ['검사지 업로드', 'OCR 검토', '문진·스크리닝', '증상 감별 문진', '결과 리포트'];
+let DEX_FILTER = 'all';       // 결과 도감 필터: all | clinically_relevant | indeterminate | sensitized_only
+const STEPS = ['흔적 수집', '증거 확인', '탐험가 프로필', '진범 감별', '도감 완성'];
+const STEP_SUB = ['검사지 업로드', 'OCR 검토', '스크리닝', '증상 감별 문진', '결과 리포트'];
 const CAT_EMOJI = { mite: '🛏️', animal: '🐾', pollen_tree: '🌳', pollen_grass: '🌾', pollen_weed: '🍂', mold: '🍄', insect: '🪳', food: '🍽️', other: '•' };
 const REL_LABEL = { clinically_relevant: '실제 주의', sensitized_only: '감작만', indeterminate: '관찰 필요', not_assessed: '미평가' };
 const CAT_LABEL = { mite: '집먼지진드기', animal: '동물', pollen_tree: '나무 꽃가루', pollen_grass: '잔디 꽃가루', pollen_weed: '잡초 꽃가루', mold: '곰팡이', insect: '곤충', food: '음식', other: '기타' };
@@ -96,24 +99,19 @@ function rowIsZero(r) {
 
 /* ---------------- navigation ---------------- */
 function goto(step) {
+  // 앞으로 전진할 때 현재 단계 완료 XP(행동 기반, 1회)
+  if (step > S.step) { const g = Game.completeStep(S.game, S.step); if (g) Game.ui.floatXp(null, g); }
   S.step = step; S.maxReached = Math.max(S.maxReached, step);
   window.scrollTo({ top: 0, behavior: 'smooth' });
   render();
 }
 function renderStepper() {
-  const el = $('#stepper');
-  el.innerHTML = STEPS.map((label, i) => {
-    const cls = i === S.step ? 'active' : (i < S.step ? 'done' : '');
-    const clickable = i <= S.maxReached && i !== S.step ? 'clickable' : '';
-    return `<div class="step ${cls} ${clickable}" data-step="${i}">
-      <div class="dot-row"><span class="num">${i < S.step ? '✓' : i + 1}</span><span class="line"></span></div>
-      <span class="label">${esc(label)}</span></div>`;
-  }).join('');
-  el.querySelectorAll('.step.clickable').forEach(s =>
-    s.addEventListener('click', () => goto(parseInt(s.dataset.step))));
+  Game.ui.renderTrail($('#stepper'), STEPS, STEP_SUB, S.step, S.maxReached, goto);
 }
 function render() {
   renderStepper();
+  Game.ui.renderHud($('#hud'), S.game);
+  $('#questBar').classList.toggle('hidden', S.step !== 3);
   document.body.setAttribute('data-appstep', S.step);  // 모바일 전용 UI(스크리닝=2/문진=3) 스코프용
   [renderUpload, renderReview, renderScreening, renderQuestionnaire, renderResults][S.step]();
 }
@@ -126,12 +124,12 @@ function renderUpload() {
   view().innerHTML = `
     <div class="panel">
       <div class="panel-head">
-        <div class="eyebrow">STEP 1 · 검사지 업로드</div>
-        <h1>알레르기 검사 결과지를 올려주세요</h1>
-        <p>피부반응검사(SPT), MAST, UniCAP(ImmunoCAP) 결과지를 지원합니다. 사진이나 스캔 이미지를 올리면 자동으로 항목을 읽어냅니다.</p>
+        <div class="eyebrow">QUEST 1 · 흔적 수집</div>
+        <h1>검사 결과지를 가져오면 탐험이 시작됩니다</h1>
+        <p>피부반응검사(SPT), MAST, UniCAP(ImmunoCAP) 결과지를 지원합니다. 사진이나 스캔 이미지를 올리면 양성 항목을 자동으로 읽어 <b>흔적</b>으로 등록합니다.</p>
       </div>
       <div class="dropzone" id="dz">
-        <div class="icon">📄</div>
+        <div class="icon">🗂️</div>
         <h3>여기로 이미지를 끌어다 놓거나 클릭해서 선택</h3>
         <p>JPG · PNG · 10MB 이하 ${hasKey ? '' : '· (OCR을 쓰려면 서버에 OpenAI API 키가 필요합니다)'}</p>
         <input type="file" id="file" accept="image/*" class="hidden" />
@@ -139,7 +137,7 @@ function renderUpload() {
       <img id="preview" class="preview-img hidden" alt="업로드 미리보기" />
       <div id="uploadMsg"></div>
       <div class="upload-alt">
-        <button class="btn secondary" id="btnDemo">✨ 데모 데이터로 체험하기</button>
+        <button class="btn secondary" id="btnDemo">✨ 연습 탐험 시작 (데모 데이터)</button>
         <button class="btn secondary" id="btnManual">⌨️ 결과를 직접 입력하기</button>
       </div>
     </div>`;
@@ -229,7 +227,7 @@ function refreshReviewSummary() {
   const n = posCount();
   const pn = $('#posN'); if (pn) pn.textContent = n;
   const ps = $('#posSummary');
-  if (ps) ps.innerHTML = n ? `<div class="pos-summary">🔴 양성 알러젠 ${n}개 — 다음 단계에서 이 항목들의 실제 임상적 의미를 감별합니다.</div>` : '';
+  if (ps) ps.innerHTML = n ? `<div class="pos-summary">🧭 양성 흔적 ${n}개 발견 — 다음 퀘스트에서 이 항목들의 진범 여부를 가려냅니다.</div>` : '';
   const nx = $('#next'); if (nx) nx.disabled = !n;
 }
 function renderReview() {
@@ -264,9 +262,9 @@ function renderReview() {
   view().innerHTML = `
     <div class="panel">
       <div class="panel-head">
-        <div class="eyebrow">STEP 2 · OCR 검토</div>
-        <h1>읽어온 결과를 확인·수정하세요</h1>
-        <p>잘못 읽힌 값은 표에서 직접 고치고, <b>누락된 알러젠은 아래 ‘＋ 항목 추가’</b>로 넣을 수 있습니다. 수치를 고치면 Class·판정이 자동으로 바뀝니다.</p>
+        <div class="eyebrow">QUEST 2 · 증거 확인</div>
+        <h1>읽어온 흔적을 확인·수정하세요</h1>
+        <p>잘못 읽힌 값은 표에서 직접 고치고, <b>누락된 알러젠은 ‘＋ 항목 추가’</b>로 넣을 수 있습니다. 수치를 고치면 Class·판정이 자동으로 바뀝니다. 양성 항목이 <b>도감에 등록</b>됩니다.</p>
       </div>
 
       ${renderExtractedMeta(S.ocr.patient)}
@@ -300,12 +298,12 @@ function renderReview() {
         <span class="hint">양성 <span class="badge-count" id="posN">${posCount()}</span></span>
       </div>
 
-      <div id="posSummary">${posCount() ? `<div class="pos-summary">🔴 양성 알러젠 ${posCount()}개 — 다음 단계에서 이 항목들의 실제 임상적 의미를 감별합니다.</div>` : ''}</div>
+      <div id="posSummary">${posCount() ? `<div class="pos-summary">🧭 양성 흔적 ${posCount()}개 발견 — 다음 퀘스트에서 이 항목들의 진범 여부를 가려냅니다.</div>` : ''}</div>
 
       <div class="actions">
         <button class="btn secondary" id="back">← 이전</button>
         <span class="spacer"></span>
-        <button class="btn primary" id="next" ${posCount() ? '' : 'disabled'}>양성 항목 감별 시작 →</button>
+        <button class="btn primary" id="next" ${posCount() ? '' : 'disabled'}>발견 등록 →</button>
       </div>
     </div>`;
 
@@ -326,6 +324,7 @@ function renderReview() {
   $('#tbody').addEventListener('input', e => {
     const tr = e.target.closest('tr'); if (!tr) return;
     const i = +tr.dataset.i, f = e.target.dataset.f; if (f == null) return;
+    Game.noteEdit(S.game);   // '꼼꼼한 검토자' 배지 — 직접 수정 행동만 기록
     let v = e.target.value;
     if (f === 'value') v = v === '' ? null : parseFloat(v);
     if (f === 'class_value') v = v === '' ? null : v;
@@ -367,7 +366,27 @@ function renderReview() {
     REVIEW_TAB = b.dataset.rvtab; renderReview();
   }));
   $('#back').addEventListener('click', () => goto(0));
-  $('#next').addEventListener('click', () => goto(2));
+  $('#next').addEventListener('click', confirmDiscovery);
+}
+
+// 양성 흔적을 도감에 등록(발견 연출) 후 다음 퀘스트로
+function confirmDiscovery() {
+  const tt = S.ocr.test_type;
+  const rows = S.ocr.results.filter(r => isPositive(r, tt));
+  const gained = Game.discover(S.game, rows, tt);
+  Game.ui.renderHud($('#hud'), S.game);
+  if (gained) Game.ui.floatXp($('#next'), gained);
+  const cards = rows.map(r => ({ name: r.korean_name || r.allergen_name, category: r.category || guessDexCategory(r), stars: Game.starsFor(r, tt) }));
+  Game.ui.showDiscovery($('#overlay'), cards, () => goto(2));
+}
+// OCR 행에 category 가 없을 때 스탬프용 대략 분류 (guessCategory 는 screening 용 분류이므로 별도 세분화)
+function guessDexCategory(r) {
+  const s = `${r.allergen_name || ''} ${r.korean_name || ''}`;
+  const c = guessCategory(r.allergen_name, r.korean_name);
+  if (c === 'pollen') return /(tree|birch|oak|alder|자작|참나무|오리나무|나무)/i.test(s) ? 'pollen_tree'
+    : /(weed|ragweed|mugwort|hop|돼지풀|쑥|환삼|잡초)/i.test(s) ? 'pollen_weed' : 'pollen_grass';
+  if (c === 'shellfish') return 'food';
+  return ['mite', 'animal', 'mold', 'food', 'insect'].includes(c) ? c : 'other';
 }
 
 /* =========================================================================
@@ -413,7 +432,7 @@ function renderScreening() {
   const catKeys = Object.keys(ctx.cats).filter(c => c !== 'other');
   const banner = ctx.pos.length ? `
     <div class="card soft" style="margin-bottom:18px;border-left:4px solid var(--brand)">
-      <div style="font-weight:800;font-size:14px;margin-bottom:6px">🔬 검사에서 양성으로 확인된 알러젠 ${ctx.pos.length}개</div>
+      <div style="font-weight:800;font-size:14px;margin-bottom:6px">🧭 도감에 등록된 양성 흔적 ${ctx.pos.length}개</div>
       <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
         ${catKeys.map(c => `<span class="chip-opt sel" style="cursor:default">${SCREEN_CAT_LABEL[c]} ${ctx.cats[c].length}</span>`).join('')}
       </div>
@@ -427,9 +446,9 @@ function renderScreening() {
   view().innerHTML = `
     <div class="panel">
       <div class="panel-head">
-        <div class="eyebrow">STEP 3 · 문진·스크리닝</div>
-        <h1>몇 가지만 알려주세요</h1>
-        <p>기저 알레르기 질환과 복용 약제, 증상이 나타나는 부위를 확인합니다. 이 정보로 감별 정확도가 올라갑니다.</p>
+        <div class="eyebrow">QUEST 3 · 탐험가 프로필</div>
+        <h1>탐험가 프로필을 작성해 주세요</h1>
+        <p>기저 알레르기 질환과 복용 약제, 증상이 나타나는 부위를 확인합니다. 이 정보로 다음 퀘스트의 감별 정확도가 올라갑니다.</p>
       </div>
 
       ${banner}
@@ -468,7 +487,7 @@ function renderScreening() {
       <div class="actions">
         <button class="btn secondary" id="back">← 이전</button>
         <span class="spacer"></span>
-        <button class="btn primary" id="next">감별 문진으로 →</button>
+        <button class="btn primary" id="next">진범 감별 퀘스트로 →</button>
       </div>
     </div>`;
 
@@ -514,7 +533,7 @@ async function submitScreening() {
     S.questionnaire = res.questionnaire; S.assessments = res.assessments;
     S.answers = Object.assign({}, res.questionnaire.answer_prefill || {});
     goto(3);
-  } catch (e) { toast('문진 생성 실패: ' + e.message); btn.disabled = false; btn.textContent = '감별 문진으로 →'; }
+  } catch (e) { toast('문진 생성 실패: ' + e.message); btn.disabled = false; btn.textContent = '진범 감별 퀘스트로 →'; }
 }
 
 /* =========================================================================
@@ -534,6 +553,8 @@ function renderQuestionnaire() {
   const q = S.questionnaire; const idx = q.allergen_index;
   const applyTags = (arr) => (arr && arr.length)
     ? `<div class="q-applies">${arr.map(k => `<span class="tag">${CAT_EMOJI[idx[k].category] || '•'} ${esc(idx[k].korean_name || idx[k].name)}</span>`).join('')}</div>` : '';
+  const qCond = (qq) => qq.reveal_if_any ? { any_of: qq.reveal_if_any } : (qq.reveal_if || null);
+  const isVisible = (qq) => condMet(qCond(qq));
 
   const questionHtml = (qq) => {
     const val = S.answers[qq.id];
@@ -548,21 +569,26 @@ function renderQuestionnaire() {
           <span class="radio"></span><span class="body"><span class="t">${esc(o.label)}</span>${o.hint ? `<span class="h">${esc(o.hint)}</span>` : ''}</span></button>`).join('') + `</div>`;
     }
     // reveal 조건: reveal_if({question, equals|any|includes_any}) 또는 reveal_if_any([...])
-    const cond = qq.reveal_if_any ? { any_of: qq.reveal_if_any } : (qq.reveal_if || null);
+    const cond = qCond(qq);
     let revealAttr = '', hiddenCls = '';
-    if (cond) {
-      revealAttr = ` data-reveal='${esc(JSON.stringify(cond))}'`;
-      if (!condMet(cond)) hiddenCls = ' hidden';
-    }
-    return `<div class="q-block${hiddenCls}"${revealAttr}>
+    if (cond) { revealAttr = ` data-reveal='${esc(JSON.stringify(cond))}'`; if (!condMet(cond)) hiddenCls = ' hidden'; }
+    return `<div class="q-block${hiddenCls}${Game.hasAnswer(val) ? ' answered' : ''}" data-qid="${qq.id}"${revealAttr}>
       <div class="q-title">${esc(qq.title)}</div>
       ${qq.help ? `<div class="q-help">${esc(qq.help)}</div>` : ''}
       ${applyTags(qq.applies_to)}
       ${control}</div>`;
   };
+
+  // reveal 재평가 + 새로 열린 문항에 '새 단서' 연출
   const applyReveals = () => view().querySelectorAll('[data-reveal]').forEach(b => {
     let c; try { c = JSON.parse(b.dataset.reveal); } catch (_) { return; }
-    b.classList.toggle('hidden', !condMet(c));
+    const wasHidden = b.classList.contains('hidden'); const show = condMet(c);
+    b.classList.toggle('hidden', !show);
+    if (wasHidden && show && !b.dataset.seen) {
+      b.dataset.seen = '1'; b.classList.add('clue-new');
+      const t = document.createElement('span'); t.className = 'clue-tag'; t.textContent = '🔎 새 단서'; b.appendChild(t);
+      setTimeout(() => { t.remove(); b.classList.remove('clue-new'); }, 3000);
+    }
   });
 
   // 마무리 catch-all(food_general_react)에서, 이미 항원별 교차반응 문항으로 판정된
@@ -592,9 +618,23 @@ function renderQuestionnaire() {
     });
   };
 
-  const sections = q.sections.map(sec => `
-    <div class="q-section">
-      <div class="q-shead"><h2>${esc(sec.title)}</h2></div>
+  // 챕터 링·하단 진행바 갱신 + 챕터 완료 XP(1회)
+  const refreshProgress = () => {
+    let totA = 0, totV = 0;
+    q.sections.forEach((sec, si) => {
+      const p = Game.chapterProgress(sec, S.answers, isVisible);
+      totA += p.answered; totV += p.visible;
+      const ring = view().querySelector(`.chapter[data-si="${si}"] .ring`);
+      if (ring) { ring.style.setProperty('--p', p.visible ? Math.round(p.answered / p.visible * 100) : 0); ring.dataset.label = `${p.answered}/${p.visible}`; }
+      if (p.done) { const g = Game.completeChapter(S.game, sec.id || `sec${si}`); if (g) { Game.ui.floatXp(ring, g); Game.ui.sparkle(ring && ring.closest('.chapter')); } }
+    });
+    Game.ui.renderQuestBar($('#questBar'), totA, totV);
+    Game.ui.renderHud($('#hud'), S.game);
+  };
+
+  const sections = q.sections.map((sec, si) => `
+    <div class="chapter" data-si="${si}">
+      <div class="ch-head"><div class="ring" data-label="0/0" style="--p:0"></div><div class="ch-title">${esc(sec.title)}</div></div>
       ${sec.subtitle ? `<div class="q-sub">${esc(sec.subtitle)}</div>` : ''}
       ${sec.questions.map(questionHtml).join('')}
     </div>`).join('');
@@ -602,23 +642,29 @@ function renderQuestionnaire() {
   view().innerHTML = `
     <div class="panel">
       <div class="panel-head">
-        <div class="eyebrow">STEP 4 · 증상 감별 문진</div>
-        <h1>증상과 알러젠을 연결해볼게요</h1>
-        <p>검사 양성이 <b>실제 알레르기</b>인지 <b>감작(양성이지만 증상 없음)</b>인지 가리는 핵심 단계입니다. 아는 만큼만 답하시고, 모르면 ‘잘 모르겠어요’를 선택하세요.</p>
+        <div class="eyebrow">QUEST 4 · 진범 감별</div>
+        <h1>흔적 중 진짜 범인을 가려냅니다</h1>
+        <p>검사 양성이 <b>실제 알레르기</b>인지 <b>감작(양성이지만 증상 없음)</b>인지 가리는 핵심 퀘스트입니다. 아는 만큼만 답하시고, 모르면 ‘잘 모르겠어요’를 선택하세요 — 그것도 소중한 단서입니다.</p>
       </div>
       ${sections}
       <div class="actions">
         <button class="btn secondary" id="back">← 이전</button>
         <span class="spacer"></span>
-        <button class="btn primary" id="next">결과 리포트 생성 →</button>
+        <button class="btn primary" id="next">도감 완성하기 →</button>
       </div>
     </div>`;
 
+  const onAnswered = (block, btn, id) => {
+    const g = Game.answer(S.game, id, S.answers[id]);
+    if (g) Game.ui.floatXp(btn, g);
+    block.classList.toggle('answered', Game.hasAnswer(S.answers[id]));
+    applyReveals(); refreshFoodGeneralOptions(); refreshProgress();
+  };
   view().querySelectorAll('[data-single]').forEach(g => g.addEventListener('click', e => {
     const b = e.target.closest('.choice'); if (!b) return;
     S.answers[g.dataset.single] = b.dataset.v;
     g.querySelectorAll('.choice').forEach(c => c.classList.toggle('sel', c === b));
-    applyReveals(); refreshFoodGeneralOptions();
+    onAnswered(g.closest('.q-block'), b, g.dataset.single);
   }));
   view().querySelectorAll('[data-multi]').forEach(g => g.addEventListener('click', e => {
     const b = e.target.closest('.chip-opt'); if (!b) return;
@@ -627,18 +673,21 @@ function renderQuestionnaire() {
     else { arr = arr.filter(x => x !== 'none' && x !== 'no'); arr = arr.includes(v) ? arr.filter(x => x !== v) : [...arr, v]; }
     S.answers[id] = arr;
     g.querySelectorAll('.chip-opt').forEach(c => c.classList.toggle('sel', arr.includes(c.dataset.v)));
-    applyReveals(); refreshFoodGeneralOptions();
+    onAnswered(g.closest('.q-block'), b, id);
   }));
-  refreshFoodGeneralOptions();
+  // 초기 상태: 이미 보이는 문항은 '새 단서' 연출 대상에서 제외
+  view().querySelectorAll('[data-reveal]:not(.hidden)').forEach(b => { b.dataset.seen = '1'; });
+  refreshFoodGeneralOptions(); refreshProgress();
   $('#back').addEventListener('click', () => goto(2));
   $('#next').addEventListener('click', submitClassify);
 }
 async function submitClassify() {
-  const btn = $('#next'); btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> 분석 중…';
+  const btn = $('#next'); btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> 도감 정리 중…';
   try {
     S.classify = await API.post('/api/classify', { ocr: S.ocr, screening: S.screening, answers: S.answers });
+    Game.applyResults(S.game, S.classify, S.answers);   // 판정→도감·배지·severeFlag (프레젠테이션 상태)
     goto(4);
-  } catch (e) { toast('분석 실패: ' + e.message); btn.disabled = false; btn.textContent = '결과 리포트 생성 →'; }
+  } catch (e) { toast('분석 실패: ' + e.message); btn.disabled = false; btn.textContent = '도감 완성하기 →'; }
 }
 
 /* =========================================================================
@@ -646,20 +695,27 @@ async function submitClassify() {
    ========================================================================= */
 let RESULT_TAB = 'allergens';
 function renderResults() {
-  const c = S.classify; const cnt = c.summary.counts; const p = S.ocr.patient;
+  const c = S.classify; const cnt = c.summary.counts; const p = S.ocr.patient; const g = S.game;
+  const lvl = Game.levelFor(g.xp);
+  const severe = g.severeFlag;
   view().innerHTML = `
-    <div class="result-hero">
-      <h1>${esc(p.name || '환자')}님의 알레르기 결과 요약</h1>
-      <p>검사일 ${esc(p.test_date || '-')} · 양성 ${c.summary.total_positive}개 항목을 증상과 대조해 감별했습니다.</p>
-      <div class="stat-row">
-        <div class="stat"><div class="n">${cnt.clinically_relevant}</div><div class="l">🔴 실제 주의</div></div>
-        <div class="stat"><div class="n">${cnt.sensitized_only}</div><div class="l">⚪ 감작만</div></div>
-        <div class="stat"><div class="n">${cnt.indeterminate}</div><div class="l">🟡 관찰 필요</div></div>
+    <div class="scoreboard ${severe ? 'calm' : ''}" id="scoreboard">
+      <div class="sb-eyebrow">QUEST 5 · 도감 완성</div>
+      <h1>${esc(p.name || '탐험가')}님의 알러젠 도감${severe ? '' : '이 완성되었습니다'}</h1>
+      <p>검사일 ${esc(p.test_date || '-')} · 양성 흔적 ${c.summary.total_positive}개를 증상과 대조해 진범을 가렸습니다 · Lv.${lvl.index + 1} ${esc(lvl.title)} · ${g.xp} XP</p>
+      <div class="trophies">
+        <div class="trophy relevant"><div class="n">${cnt.clinically_relevant}</div><div class="l">🔴 진범 확정</div></div>
+        <div class="trophy sensitized"><div class="n">${cnt.sensitized_only}</div><div class="l">⚪ 무혐의 · 감작만</div></div>
+        <div class="trophy indet"><div class="n">${cnt.indeterminate}</div><div class="l">🟡 관찰 대상</div></div>
       </div>
+      ${severe ? `<div class="alert-severe">🚨 중증(전신·아나필락시스) 반응 이력이 확인되었습니다. 이 결과는 참고용이며, 응급 대처 계획과 치료는 반드시 담당 의료진과 상의하세요.</div>` : ''}
     </div>
 
+    <div class="badges">${Game.BADGES.map((b, i) => `<div class="badge-item ${g.badges.includes(b.id) ? 'earned' : ''}" style="--i:${i}" title="${esc(b.desc)}">
+        <span class="b-icon">${b.icon}</span><span><div class="b-name">${esc(b.name)}</div><div class="b-desc">${esc(b.desc)}</div></span></div>`).join('')}</div>
+
     <div class="result-tabs">
-      <button data-tab="allergens" class="${RESULT_TAB === 'allergens' ? 'active' : ''}">알러젠별 감별</button>
+      <button data-tab="allergens" class="${RESULT_TAB === 'allergens' ? 'active' : ''}">📖 알러젠 도감</button>
       <button data-tab="report" class="${RESULT_TAB === 'report' ? 'active' : ''}">맞춤 리포트</button>
       <button data-tab="cardnews" class="${RESULT_TAB === 'cardnews' ? 'active' : ''}">카드뉴스</button>
       <button data-tab="fhir" class="${RESULT_TAB === 'fhir' ? 'active' : ''}">FHIR 내보내기</button>
@@ -669,12 +725,13 @@ function renderResults() {
     <div class="actions">
       <button class="btn secondary" id="back">← 문진 수정</button>
       <span class="spacer"></span>
-      <button class="btn secondary" id="restart">처음부터 다시</button>
+      <button class="btn secondary" id="restart">새 탐험 시작</button>
     </div>`;
 
+  if (!severe) Game.ui.sparkle($('#scoreboard'));   // 중증 시 축하 연출 억제
   view().querySelectorAll('.result-tabs button').forEach(b => b.addEventListener('click', () => { RESULT_TAB = b.dataset.tab; renderResults(); }));
   $('#back').addEventListener('click', () => goto(3));
-  $('#restart').addEventListener('click', () => { S.ocr = null; S.screening = null; S.questionnaire = null; S.answers = {}; S.classify = null; S.maxReached = 0; goto(0); });
+  $('#restart').addEventListener('click', () => { S.ocr = null; S.screening = null; S.questionnaire = null; S.answers = {}; S.classify = null; S.maxReached = 0; S.game = Game.createState(); DEX_FILTER = 'all'; goto(0); });
   renderResultTab();
 }
 
@@ -683,8 +740,19 @@ function renderResultTab() {
   const body = $('#tabBody'); const c = S.classify;
   if (RESULT_TAB === 'allergens') {
     const sorted = [...c.assessments].sort((a, b) => ORDER[a.relevance] - ORDER[b.relevance]);
-    body.innerHTML = sorted.map(cardForAllergen).join('') || '<p class="q-help">양성 알러젠이 없습니다.</p>';
-    body.querySelectorAll('.ac-head').forEach(h => h.addEventListener('click', () => h.closest('.allergen-card').classList.toggle('open')));
+    const filtered = DEX_FILTER === 'all' ? sorted : sorted.filter(a => a.relevance === DEX_FILTER);
+    const cntOf = (k) => sorted.filter(a => a.relevance === k).length;
+    body.innerHTML = `<div class="filter-chips">
+        ${[['all', `전체 ${sorted.length}`], ['clinically_relevant', `🔴 진범 확정 ${cntOf('clinically_relevant')}`], ['indeterminate', `🟡 관찰 대상 ${cntOf('indeterminate')}`], ['sensitized_only', `⚪ 무혐의 ${cntOf('sensitized_only')}`]]
+          .map(([k, l]) => `<button type="button" class="chip-opt ${DEX_FILTER === k ? 'sel' : ''}" data-f="${k}">${l}</button>`).join('')}
+      </div>
+      <div class="dex-grid">${filtered.map(dexCard).join('') || '<p class="q-help">해당 판정의 알러젠이 없습니다.</p>'}</div>`;
+    body.querySelectorAll('.filter-chips .chip-opt').forEach(b => b.addEventListener('click', () => { DEX_FILTER = b.dataset.f; renderResultTab(); }));
+    body.querySelectorAll('.dex-card').forEach(card => {
+      const flip = () => card.classList.toggle('flip');
+      card.addEventListener('click', flip);
+      card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
+    });
   } else if (RESULT_TAB === 'report') {
     const doc = c.report_document_html || `<div class="report-render">${c.report_html}</div>`;
     body.innerHTML = `<iframe class="report-frame" id="rpt"></iframe>
@@ -721,34 +789,39 @@ function renderResultTab() {
     loadFhir();
   }
 }
-function cardForAllergen(a) {
+// 도감 카드: 앞면(스탬프·이름·별·판정 도장) / 뒷면(판정 근거·지식베이스). 클릭·Enter 로 뒤집기.
+function dexCard(a, i) {
+  const v = Game.VERDICT[a.relevance] || Game.VERDICT.not_assessed;
+  const d = S.game.discovered[a.allergen_name];
+  const stars = d ? d.stars : ({ weak: 1, moderate: 2, strong: 3 }[a.strength] || 1);
   const hasOas = (a.oas_foods && a.oas_foods.length);
   const kb = [];
   if (a.season_label_ko) kb.push(['시즌', esc(a.season_label_ko)]);
   if (hasOas) kb.push(['🍎 구강알레르기증후군(OAS) 유발 음식', esc(a.oas_foods.join(', ')) + ' — 생것 섭취 시 입·목 증상 주의, 대개 익히면 완화']);
+  if (a.crossreact_confirmed && a.crossreact_confirmed.length) kb.push(['🕵️ 증상으로 확인된 교차반응 음식', esc(a.crossreact_confirmed.join(', '))]);
   if (a.biology_ko) kb.push(['특성·생활사', esc(a.biology_ko)]);
   if (a.exposure_environment_ko) kb.push(['주요 노출 환경', esc(a.exposure_environment_ko)]);
   if (a.cross_reactivity_ko) kb.push(['교차반응', esc(a.cross_reactivity_ko)]);
-  if (a.oral_allergy_syndrome_ko) kb.push(['구강알레르기증후군(일반)', esc(a.oral_allergy_syndrome_ko)]);
   const av = (a.avoidance_control_ko || []).slice(0, 5);
-  const kbHtml = kb.map(([k, v]) => `<div class="kb-item"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('') +
+  const kbHtml = kb.map(([k, val]) => `<div class="kb-item"><div class="k">${k}</div><div class="v">${val}</div></div>`).join('') +
     (av.length ? `<div class="kb-item"><div class="k">회피·관리 수칙</div><ul>${av.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>` : '');
   const srcTag = a.source && a.source !== 'knowledge_base' ? `<span class="src-tag"> · 출처: ${a.source === 'wikipedia' ? 'Wikipedia' : '기본값'}</span>` : '';
-  const oasBadge = hasOas ? `<span class="rel-badge" style="background:var(--indet-soft);color:var(--indet);border:1px solid var(--indet-border)">🍎 OAS</span>` : '';
-  return `<div class="allergen-card">
-    <div class="ac-head">
-      <span class="emoji">${CAT_EMOJI[a.category] || '•'}</span>
-      <div class="ac-title">
-        <div class="nm">${esc(a.korean_name || a.allergen_name)}</div>
-        <div class="meta">${CAT_LABEL[a.category] || a.category} · ${a.test_value ?? '-'}${a.test_unit ? ' ' + esc(a.test_unit) : ''}${a.class_value != null ? ` · class ${esc(a.class_value)}` : ''}${a.strength ? ` · 감작 ${({weak:'약',moderate:'중',strong:'강'})[a.strength] || a.strength}` : ''}${srcTag}</div>
+  const sev = a.severity && a.severity !== 'none' && a.severity !== 'mild' ? ` · 중증도 ${({ moderate: '중등증', severe: '중증', anaphylaxis: '아나필락시스' })[a.severity] || esc(a.severity)}` : '';
+  return `<div class="dex-card" style="--i:${i}" tabindex="0" role="button" aria-label="${esc(a.korean_name || a.allergen_name)} 도감 카드, 클릭하면 뒤집기">
+    <div class="dex-inner">
+      <div class="face front">
+        <div class="stamp tone-${v.tone}">${Game.stampSvg(a.category)}</div>
+        <div class="dex-name">${esc(a.korean_name || a.allergen_name)}</div>
+        <div class="dex-meta">${CAT_LABEL[a.category] || a.category} · ${a.test_value ?? '-'}${a.test_unit ? ' ' + esc(a.test_unit) : ''}${a.class_value != null ? ` · class ${esc(a.class_value)}` : ''}${sev}</div>
+        ${Game.starsHtml(stars)}${hasOas ? `<div class="dex-meta">🍎 OAS 교차반응 있음</div>` : ''}
+        <div class="verdict-stamp tone-${v.tone}">${esc(v.stamp)}</div>
+        ${v.note ? `<div class="dex-note">${esc(v.note)}</div>` : ''}
+        <span class="dex-flip-hint">↻ 근거 보기</span>
       </div>
-      ${oasBadge}
-      <span class="rel-badge ${a.relevance}">${REL_LABEL[a.relevance]}</span>
-      <span class="chevron">▾</span>
-    </div>
-    <div class="ac-body">
-      <div class="rationale">${esc(a.rationale_ko || '')}</div>
-      <div class="kb-grid">${kbHtml}</div>
+      <div class="face back">
+        <div class="rationale">${esc(a.rationale_ko || '')}${srcTag}</div>
+        <div class="kb-grid">${kbHtml}</div>
+      </div>
     </div>
   </div>`;
 }
