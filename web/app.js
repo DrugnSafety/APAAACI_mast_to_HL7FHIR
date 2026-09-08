@@ -102,7 +102,7 @@ function goto(step) {
   // 앞으로 전진할 때 현재 단계 완료 XP(행동 기반, 1회)
   if (step > S.step) { const g = Game.completeStep(S.game, S.step); if (g) Game.ui.floatXp(null, g); }
   S.step = step; S.maxReached = Math.max(S.maxReached, step);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   render();
 }
 function renderStepper() {

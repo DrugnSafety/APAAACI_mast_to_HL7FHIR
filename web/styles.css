@@ -122,8 +122,8 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 18px 20px 96px; }
 .hud-title { color: var(--brand-strong); }
 .hud-xp small { color: var(--text-3); font-weight: 600; }
 .hud-bar { height: 8px; border-radius: var(--r-pill); background: var(--bg-subtle); border: 1px solid var(--border); overflow: hidden; margin-top: 4px; }
-.hud-fill { height: 100%; width: 0; border-radius: inherit; transition: width .6s var(--ease);
-  background: linear-gradient(90deg, var(--brand), var(--accent), var(--brand)); background-size: 200% 100%; animation: shimmer 2.4s linear infinite; }
+.hud-fill { height: 100%; width: 100%; border-radius: inherit; transform-origin: left center; transform: scaleX(var(--p, 0)); transition: transform .6s var(--ease);
+  background: linear-gradient(90deg, var(--brand), var(--accent)); }
 .theme-toggle { width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-2); font-size: 16px; flex: none; }
 .theme-toggle:hover { background: var(--bg-subtle); }
 
@@ -132,7 +132,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 18px 20px 96px; }
 .tpath { position: absolute; left: 0; right: 0; top: 6px; width: 100%; height: 48px; overflow: visible; pointer-events: none; }
 .tpath path { fill: none; stroke-width: 4; stroke-linecap: round; }
 .tpath-bg { stroke: var(--border-strong); stroke-dasharray: 8 10; }
-.tpath-fg { stroke: var(--brand); stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--prog, 0)); transition: stroke-dashoffset .8s var(--ease); }
+.tpath-fg { stroke: var(--brand); stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--prog, 0)); transition: stroke-dashoffset .6s var(--ease); }
 .tnodes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); position: relative; }
 .tnode { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; color: var(--text-3); position: relative; }
 .tnum { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; font-family: var(--font-display); font-size: 18px;
@@ -140,7 +140,8 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 18px 20px 96px; }
 .tlabel { font-size: 13px; font-weight: 800; color: var(--text-2); line-height: 1.25; }
 .tlabel small { display: block; font-size: 11px; font-weight: 500; color: var(--text-3); margin-top: 2px; }
 .tnode.done .tnum { background: var(--brand-strong); border-color: var(--brand-strong); color: var(--brand-contrast); }
-.tnode.active .tnum { background: var(--accent); border-color: var(--accent); color: var(--ink-on-accent); transform: scale(1.12); animation: pulse 1.8s ease-out infinite; }
+.tnode.active .tnum { background: var(--accent); border-color: var(--accent); color: var(--ink-on-accent); transform: scale(1.12); position: relative; }
+.tnode.active .tnum::after { content: ''; position: absolute; inset: -3px; border-radius: 50%; border: 3px solid var(--accent); animation: ring 1.8s ease-out infinite; }
 .tnode.active .tlabel { color: var(--text); }
 .tnode.locked { opacity: .55; }
 .tnode[role="button"] { cursor: pointer; }
@@ -224,7 +225,7 @@ table.grid input:focus { background: var(--bg-elev); border-color: var(--brand);
 .chapter { border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px; margin-bottom: 16px; background: var(--bg-elev); position: relative; overflow: hidden; }
 .ch-head { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
 .ring { --p: 0; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-size: 10.5px; font-weight: 800; color: var(--text-2); flex: none;
-  background: conic-gradient(var(--brand) calc(var(--p) * 1%), var(--bg-subtle) 0); transition: background .4s; }
+  background: conic-gradient(var(--brand) calc(var(--p) * 1%), var(--bg-subtle) 0); }
 .ring::before { content: attr(data-label); width: 30px; height: 30px; border-radius: 50%; background: var(--bg-elev); display: grid; place-items: center; }
 .ch-title { font-family: var(--font-display); font-size: 20px; color: var(--text); }
 .q-sub { color: var(--text-2); font-size: 13.5px; margin: 0 0 10px 52px; }
@@ -251,7 +252,7 @@ table.grid input:focus { background: var(--bg-elev); border-color: var(--brand);
 .quest-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 25; padding: 10px 20px 14px; background: color-mix(in srgb, var(--bg-elev) 92%, transparent); backdrop-filter: blur(10px); border-top: 1px solid var(--border); }
 .qb-text { max-width: var(--maxw); margin: 0 auto 6px; font-size: 12.5px; color: var(--text-2); }
 .qb-track { max-width: var(--maxw); margin: 0 auto; height: 8px; border-radius: var(--r-pill); background: var(--bg-subtle); overflow: hidden; }
-.qb-fill { height: 100%; background: linear-gradient(90deg, var(--brand), var(--accent)); transition: width .5s var(--ease); }
+.qb-fill { height: 100%; width: 100%; transform-origin: left center; transform: scaleX(var(--p, 0)); background: linear-gradient(90deg, var(--brand), var(--accent)); transition: transform .5s var(--ease); }
 
 /* ---------- 결과: 스코어보드·배지·도감 ---------- */
 .scoreboard { border-radius: var(--r-xl); padding: 26px; color: #fff; position: relative; overflow: hidden;
@@ -331,7 +332,7 @@ table.grid input:focus { background: var(--bg-elev); border-color: var(--brand);
 
 /* ---------- 연출 요소 ---------- */
 .xp-float { position: fixed; z-index: 60; transform: translate(-50%, 0); pointer-events: none; font-weight: 900; font-size: 14px; color: var(--accent-ink);
-  background: var(--accent-soft); border: 1px solid var(--accent); padding: 2px 10px; border-radius: var(--r-pill); animation: float-up 1s var(--ease) both; }
+  background: var(--accent-soft); border: 1px solid var(--accent); padding: 2px 10px; border-radius: var(--r-pill); animation: float-up .7s var(--ease) both; }
 .sparkle { position: absolute; bottom: 30%; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); pointer-events: none; animation: sparkle .9s var(--ease) both; }
 .toast { position: fixed; left: 50%; bottom: 84px; transform: translate(-50%, 20px); opacity: 0; background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: var(--r-pill); font-size: 13.5px; font-weight: 600; z-index: 70; transition: opacity .25s, transform .25s; pointer-events: none; box-shadow: var(--shadow-lg); }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
@@ -345,9 +346,8 @@ table.grid input:focus { background: var(--bg-elev); border-color: var(--brand);
 @keyframes clue-in { from { transform: translateX(-12px); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes float-up { 0% { opacity: 0; transform: translate(-50%, 6px); } 20% { opacity: 1; } 100% { opacity: 0; transform: translate(-50%, -36px); } }
 @keyframes sparkle { 0% { transform: translate(0,0) scale(1); opacity: 1; } 100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; } }
-@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(242,163,58,.55); } 100% { box-shadow: 0 0 0 14px rgba(242,163,58,0); } }
+@keyframes ring { 0% { transform: scale(1); opacity: .7; } 100% { transform: scale(1.7); opacity: 0; } }
 @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-@keyframes shimmer { from { background-position: 0 0; } to { background-position: 200% 0; } }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 @media (prefers-reduced-motion: reduce) {

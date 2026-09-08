@@ -139,7 +139,7 @@
       if (!el) return;
       const l = levelFor(g.xp), pct = progressPct(g.xp);
       el.innerHTML = `<div class="hud-top"><span class="hud-title">Lv.${l.index + 1} ${esc(l.title)}</span><span class="hud-xp">${g.xp} XP${l.next != null ? ` <small>/ ${l.next}</small>` : ''}</span></div>
-        <div class="hud-bar" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><div class="hud-fill" style="width:${pct}%"></div></div>`;
+        <div class="hud-bar" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><div class="hud-fill" style="--p:${pct / 100}"></div></div>`;
     },
     renderTrail(el, steps, subs, step, maxReached, onGoto) {
       if (!el) return;
@@ -170,7 +170,7 @@
       const y = r ? r.top : (hr ? hr.bottom + 6 : 80);
       f.style.left = `${x}px`; f.style.top = `${y}px`;
       document.body.appendChild(f);
-      setTimeout(() => f.remove(), reduced() ? 50 : 1100);
+      setTimeout(() => f.remove(), reduced() ? 50 : 800);
     },
     sparkle(el) {
       if (!el || reduced()) return;
@@ -186,7 +186,7 @@
       if (!el) return;
       const pct = visible ? Math.round(answered / visible * 100) : 0;
       el.innerHTML = `<div class="qb-text"><b>진범 감별 진행</b> ${answered} / ${visible} 단서</div>
-        <div class="qb-track" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><div class="qb-fill" style="width:${pct}%"></div></div>`;
+        <div class="qb-track" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><div class="qb-fill" style="--p:${pct / 100}"></div></div>`;
     },
     // 발견 오버레이: cards = [{name, category, stars}], 순차 뒤집기 후 onDone
     showDiscovery(overlay, cards, onDone) {
@@ -197,7 +197,7 @@
           <h2>양성 흔적 ${cards.length}종을 도감에 등록했어요</h2>
           <p>아직 판정은 <b>미확인</b>입니다. 다음 퀘스트에서 진범을 가려냅니다.</p>
           <div class="discover-deck">${shown.map((c, i) => `<div class="dcard" style="--i:${i}">
-              <div class="dstamp tone-${esc(c.category)}">${stampSvg(c.category)}</div>
+              <div class="dstamp">${stampSvg(c.category)}</div>
               <div class="dname">${esc(c.name)}</div>${starsHtml(c.stars)}
               <div class="dq">?</div></div>`).join('')}
             ${extra > 0 ? `<div class="dcard more" style="--i:${shown.length}">+${extra}종</div>` : ''}</div>
