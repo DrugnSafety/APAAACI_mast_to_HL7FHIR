@@ -1070,6 +1070,52 @@ def test_result_chat_grounding_and_guardrails():
     print("✓ 결과 상담 챗봇(근거 고정·응급 우선·키 없이 결정론적 답변)")
 
 
+def test_server_content_translation():
+    """서버 생성 콘텐츠 다국어화: ko 는 무변경, 캐시 적중 시 LLM 없이 번역,
+    키가 없으면 원문 유지(조용한 실패 금지), HTML 마크업은 보존."""
+    from services.translation_service import TranslationService
+    svc = TranslationService(api_key="")          # 키 없음 = 네트워크 호출 없음
+    assert svc.client is None
+    svc._cache = {}                               # 디스크 캐시와 분리해 결정론적으로 검증
+    svc.save = lambda: None                       # 테스트가 캐시 파일을 건드리지 않도록
+
+    ko_src = "침구는 55~60℃ 이상 뜨거운 물로 주 1회 세탁"
+    # 1) ko 요청은 번역 경로를 타지 않는다
+    assert svc.translate_batch([ko_src], "ko") == [ko_src]
+    assert svc.translate_markdown("## 제목\n\n본문", "ko") == "## 제목\n\n본문"
+    # 2) 키가 없고 캐시에도 없으면 원문을 그대로 돌려준다
+    assert svc.translate_batch([ko_src], "en") == [ko_src]
+
+    # 3) 캐시에 있으면 키 없이도 번역된다
+    svc._cache[svc._key(ko_src, "en")] = "Wash bedding weekly in water above 55~60℃"
+    assert svc.translate_batch([ko_src], "en")[0].startswith("Wash bedding")
+
+    # 4) 구조 번역은 지정한 키만 건드린다(식별자·코드는 불변)
+    q = {"id": "mite_dust", "type": "single", "title": ko_src,
+         "options": [{"value": "yes", "label": ko_src}]}
+    svc._cache[svc._key(ko_src, "en")] = "WASHED"
+    svc.translate_obj(q, "en", {"title", "label"})
+    assert q["title"] == "WASHED" and q["options"][0]["label"] == "WASHED"
+    assert q["id"] == "mite_dust" and q["options"][0]["value"] == "yes", "식별자가 번역됨"
+
+    # 5) HTML: 태그·스타일은 그대로, 텍스트만. <b> 는 마크다운으로 오갔다가 복원된다
+    src_sentence = "검사 양성이면서 **노출 시 증상이 나타나는** 항목입니다."
+    svc._cache[svc._key(src_sentence, "en")] = "Positive test with **symptoms on exposure**."
+    html = ('<style>.a{color:#fff} /* 표지 */</style>'
+            '<p class="desc">검사 양성이면서 <b>노출 시 증상이 나타나는</b> 항목입니다.</p>')
+    out = svc.translate_html(html, "en")
+    assert "<style>.a{color:#fff} /* 표지 */</style>" in out, "style 블록이 번역되어 CSS 가 훼손됨"
+    assert "<b>symptoms on exposure</b>" in out, f"굵게 마크업 복원 실패: {out}"
+    assert 'class="desc"' in out and "**" not in out
+
+    # 6) 자리표시자(줄바꿈)가 유실된 번역은 채택하지 않는다
+    src_br = "증상을 유발하는⟦0⟧알러젠"
+    svc._cache[svc._key(src_br, "en")] = "Allergen causing symptoms"   # ⟦0⟧ 누락
+    kept = svc.translate_html("<h2>증상을 유발하는<br/>알러젠</h2>", "en")
+    assert "<br/>" in kept and "증상을 유발하는" in kept, f"마크업 파손 방지 실패: {kept}"
+    print("✓ 서버 생성 콘텐츠 번역(ko 무변경·캐시 적중·키 없음 폴백·마크업 보존)")
+
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0

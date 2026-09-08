@@ -527,7 +527,7 @@ async function submitScreening() {
   const po = $('#petsOther'); sc.pets_other = (po && sc.pets.includes('other')) ? po.value.trim() : null;
   const btn = $('#next'); btn.disabled = true; btn.innerHTML = `<span class="spinner"></span> ${t('s2.preparing')}`;
   try {
-    const res = await API.post('/api/questionnaire', { ocr: S.ocr, screening: sc });
+    const res = await API.post('/api/questionnaire', { ocr: S.ocr, screening: sc, lang: I18N.getLang() });
     S.questionnaire = res.questionnaire; S.assessments = res.assessments;
     S.answers = Object.assign({}, res.questionnaire.answer_prefill || {});
     goto(3);

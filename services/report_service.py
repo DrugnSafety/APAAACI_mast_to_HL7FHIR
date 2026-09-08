@@ -617,8 +617,10 @@ class ReportService:
         relevance_result: "RelevanceAssessmentResult",
         patient_info: Dict[str, Any],
         screening: Optional["ScreeningProfile"] = None,
+        lang: str = "ko",
     ) -> str:
-        """지식베이스+감별결과로 환자용 리포트 Markdown을 결정론적으로 구성(API 불필요)."""
+        """지식베이스+감별결과로 환자용 리포트 Markdown을 결정론적으로 구성(API 불필요).
+        lang 이 ko 가 아니면 마지막에 블록 단위로 번역한다(캐시 사용)."""
         name = patient_info.get("name") or relevance_result.patient_name or "환자"
         age = patient_info.get("age")
         gender = self._format_gender(patient_info.get("gender"))
@@ -765,20 +767,25 @@ class ReportService:
             "정말 중요한 알러젠부터 하나씩 실천해 보세요.\n\n"
             "*본 리포트는 교육용 참고 자료이며, 정확한 진단과 치료는 담당 의료진과 상담하시기 바랍니다.*"
         )
-        return "\n\n".join(md)
+        out = "\n\n".join(md)
+        if (lang or "ko") != "ko":
+            from services.translation_service import get_translation_service
+            out = get_translation_service().translate_markdown(out, lang)
+        return out
 
     def build_patient_report_html_document(
         self,
         relevance_result: "RelevanceAssessmentResult",
         patient_info: Dict[str, Any],
         screening: Optional["ScreeningProfile"] = None,
+        lang: str = "ko",
     ) -> str:
         """맞춤 리포트를 인쇄(PDF)·화면 겸용의 자체 완결형 HTML 문서로 생성.
         report_design 스킬(단일 디자인 소스)로 감싸 HTML/PDF 두 버전의 일관성을 보장한다."""
         from services.report_design import render_report_document
         from services.relevance_service import RelevanceService
 
-        md = self.build_patient_report_markdown(relevance_result, patient_info, screening)
+        md = self.build_patient_report_markdown(relevance_result, patient_info, screening, lang)
         # 본문 마크다운 → HTML (표지·요약 타일은 문서 템플릿이 별도로 그림)
         try:
             import markdown as md_lib
@@ -799,7 +806,12 @@ class ReportService:
             "report_date": patient_info.get("report_date"),
         }
         summary = RelevanceService.summarize(relevance_result)
-        return render_report_document(f"{name}님 맞춤 알레르기 리포트", meta, summary, body_html)
+        doc = render_report_document(f"{name}님 맞춤 알레르기 리포트", meta, summary, body_html)
+        if (lang or "ko") != "ko":
+            # 본문은 이미 번역됐고, 표지·타일·안내문 등 문서 템플릿의 고정 문구만 남는다(캐시 적중률 높음)
+            from services.translation_service import get_translation_service
+            doc = get_translation_service().translate_html(doc, lang)
+        return doc
 
     @staticmethod
     def _first_sentences(text: str, n: int = 2, max_len: int = 110) -> str:

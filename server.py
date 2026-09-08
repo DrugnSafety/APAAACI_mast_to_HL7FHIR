@@ -43,6 +43,8 @@ app = FastAPI(title="알레르기 검사 환자 리포트 플랫폼", version="2
 class AssessRequest(BaseModel):
     ocr: OCRResult
     screening: Optional[ScreeningProfile] = None
+    # 화면 표시 언어(ko/en/zh). 서버 생성 콘텐츠(문진 문항 등) 번역에 쓴다.
+    lang: str = "ko"
 
 
 class ClassifyRequest(BaseModel):
@@ -59,6 +61,25 @@ class ClassifyRequest(BaseModel):
 # ============================================================
 # 공통 헬퍼
 # ============================================================
+# 서버가 만든 한국어 콘텐츠 중 번역 대상 키 (식별자·코드·수치는 제외)
+QUESTION_TEXT_KEYS = {"title", "subtitle", "help", "label", "hint"}
+ASSESSMENT_TEXT_KEYS = {
+    "rationale_ko", "season_label_ko", "biology_ko", "exposure_environment_ko",
+    "cross_reactivity_ko", "oral_allergy_syndrome_ko", "korean_name",
+}
+
+
+def _localize(payload, lang: Optional[str], keys):
+    """응답의 한국어 텍스트만 요청 언어로 번역한다(ko 면 그대로, 키 없으면 원문 유지)."""
+    lang = (lang or "ko").lower()
+    if lang == "ko":
+        return payload
+    try:
+        from services.translation_service import get_translation_service
+        return get_translation_service().translate_obj(payload, lang, keys)
+    except Exception as e:  # noqa: BLE001
+        logger.warning(f"응답 번역 실패({lang}): {e}")
+        return payload
 def _api_key_ok() -> bool:
     key = getattr(settings, "openai_api_key", None)
     return bool(key and key != "your_openai_api_key_here")
@@ -225,11 +246,12 @@ def questionnaire(req: AssessRequest):
     result = rs.build_assessments(req.ocr, req.screening)
     engine = get_questionnaire_engine()
     q = engine.build(result, req.screening)
-    return {
+    out = {
         "assessments": [_assessment_public(a) for a in result.assessments],
         "questionnaire": q,
         "positive_count": len(result.assessments),
     }
+    return _localize(out, req.lang, ASSESSMENT_TEXT_KEYS | QUESTION_TEXT_KEYS)
 
 
 @app.post("/api/classify")
@@ -249,23 +271,28 @@ def classify(req: ClassifyRequest):
         "report_date": getattr(req.ocr.patient, "report_date", None),
     }
 
+    lang = (req.lang or "ko").lower()
     rsvc = get_report_service()
-    report_md = rsvc.build_patient_report_markdown(result, patient_info, req.screening)
+    report_md = rsvc.build_patient_report_markdown(result, patient_info, req.screening, lang)
     try:
         import markdown as md_lib
         report_html = md_lib.markdown(report_md, extensions=["extra", "sane_lists"])
     except Exception:
         report_html = "<pre>" + report_md + "</pre>"
     # PDF/HTML 겸용 인쇄형 문서(단일 디자인 소스) — 화면 표시 + 다운로드 + 인쇄(PDF)
-    report_document_html = rsvc.build_patient_report_html_document(result, patient_info, req.screening)
+    report_document_html = rsvc.build_patient_report_html_document(
+        result, patient_info, req.screening, lang)
 
     if (req.ui or "quest").lower() == "classic":
         from services.cardnews_classic import get_classic_cardnews_service
         cardnews_html = get_classic_cardnews_service().generate_html(result, patient_info, req.screening)
     else:
         cardnews_html = get_cardnews_service().generate_html(result, patient_info, req.screening)
+    if lang != "ko":
+        from services.translation_service import get_translation_service
+        cardnews_html = get_translation_service().translate_html(cardnews_html, lang)
 
-    return {
+    out = {
         "assessments": [_assessment_public(a) for a in result.assessments],
         "summary": RelevanceService.summarize(result),
         "report_markdown": report_md,
@@ -273,7 +300,11 @@ def classify(req: ClassifyRequest):
         "report_document_html": report_document_html,
         "cardnews_html": cardnews_html,
         "ui": (req.ui or "quest").lower(),
+        "lang": lang,
     }
+    # 리포트·카드뉴스는 이미 번역됐고, 도감 카드가 쓰는 assessment 텍스트만 남는다
+    out["assessments"] = _localize(out["assessments"], lang, ASSESSMENT_TEXT_KEYS)
+    return out
 
 
 class ChatRequest(ClassifyRequest):
