@@ -158,9 +158,28 @@ A language selector in the header switches the Quest UI **chrome** (header, trai
 |---|---|
 | ![](screenshots/2026-09-08/i18n-en-04-dex.png) | ![](screenshots/2026-09-08/i18n-zh-04-dex.png) |
 
-## 8. Follow-ups
+## 8. Personal report readability (commit `71f401d`)
+Per-allergen blocks read as one dense wall (user feedback). They now enforce a reading order with short sentences.
+
+| Order | Content | Form |
+|---|---|---|
+| ① Name + badges | sensitization strength · symptom severity · season · indoor/outdoor | one line of chips (`code`) |
+| ② Conclusion | "Symptoms really occur on exposure. Start with bedding and indoor humidity." | two bold sentences |
+| ③ Do this now | first 3 avoidance rules | numbered list |
+| ④ Learn more | rationale · why grouped · what it is (first 2 sentences) · exposure · cross-reactivity · remaining rules · immunotherapy | grey secondary block (`.detail-more`) |
+
+Writing rules (from the installed `humanizer` Korean writing skill): one idea per sentence, minimal commas, end with verbs instead of noun stacks, drop translation-ese. The education paragraph, follow-up section and closing were rewritten the same way. Regression markers (single group heading, `중증 반응 병력`, indoor/outdoor grouping, food warnings) are unchanged.
+
+![Report allergen block (after)](screenshots/2026-09-08/report-readable-sample.png)
+
+## 9. Language selection in the Classic UI (commit `71f401d`)
+The Classic UI (`/classic/`) now has the same language selector. Classic-only strings live under `c.*` keys in `web/i18n.js`; shared strings reuse the Quest UI keys. Server-generated content stays Korean with the same notice banner.
+
+![Classic UI · English](screenshots/2026-09-08/i18n-classic-en-04.png)
+
+## 10. Follow-ups
 - Localize server-generated content (questionnaire, KB, report, card news): needs a `lang` parameter on `/api/*` and string tables in questionnaire_service (sizeable).
-- Decide whether the Classic UI gets i18n.
+- ~~Decide whether the Classic UI gets i18n~~ → done (section 9).
 - (optional) per-allergen LOINC test codes if a receiving EMR requires them.
 - Extend real SCTID coverage beyond the 22 confirmed allergens.
 - Decide the default UI from patient feedback.
