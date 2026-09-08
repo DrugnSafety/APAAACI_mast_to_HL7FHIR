@@ -29,11 +29,16 @@
 | 2 | 탐험가 프로필 (환자정보 & 스크리닝) | 기본정보 + 알레르기 질환력·약제·증상 패턴·침범 장기 |
 | 3 | 진범 감별 (양성 알러젠 감별 문진) | 알러젠별 backdata 확인 + 노출/시즌/재현성 질문 → 임상적 의미 판정 (챕터별 진행 링·XP) |
 | 4 | 도감 완성 (리포트 & 카드뉴스) | 판정 도장(진범 확정/무혐의·감작만/관찰 대상) 도감 카드 + 맞춤 리포트(MD/PDF) + 카드뉴스(HTML) |
-| 5 | FHIR | Observation / AllergyIntolerance 번들 생성/다운로드 |
+| 5 | FHIR | Observation(전체 결과: 양성·음성·0·<LoD·N/A) / AllergyIntolerance 번들 생성/다운로드 |
 
 > 웹앱 UI는 **"알러젠 탐험 퀘스트 + 도감"** 메타포로 구성됩니다. XP·레벨·배지는 진행 행동에만 부여되며 판정 결과로 점수를 매기지 않습니다.
 > 중증·아나필락시스 이력이 있으면 축하 연출을 억제하고 의료진 상담 안내를 우선합니다.
 > 설계: `docs/superpowers/specs/2026-09-08-gamified-quest-ui-design.md` · UI 스모크: `scripts/ui_smoke.sh`(gstack browse) · 게임 로직 테스트: `node --test web/game.test.js`
+
+### 🔀 듀얼 UI · 🏥 FHIR Observation 정밀화 (2026-09-08)
+- **두 UI 동시 운영**: `/` = 알러젠 탐험 퀘스트 UI, `/classic/` = 재설계 이전 클래식 UI. 헤더 링크로 전환, 같은 `/api` 를 쓰므로 결과는 동일. (`/api/health` → `ui_modes`)
+- **FHIR Observation**: 0·검출한계 미만(`<0.35` → `comparator "<"`)·N/A(`dataAbsentReason`) 결과도 모두 포함, MAST/UniCAP class 를 component 로 보존. `code`/`method` 는 tx.fhir.org(SNOMED CT 2025-02)로 검증한 SCTID 만 사용 — SPT 37968009 Prick test, MAST 399788006 + method 703446000 Immunoblot assay, UniCAP 397691009 + method 703447009 Enzyme immunoassay technique(+703444002).
+- 상세(스크린샷·검증표·샘플 JSON): [`docs/release_2026-09-08_fhir_dual_ui.ko.md`](docs/release_2026-09-08_fhir_dual_ui.ko.md) · [English](docs/release_2026-09-08_fhir_dual_ui.en.md)
 
 ---
 
