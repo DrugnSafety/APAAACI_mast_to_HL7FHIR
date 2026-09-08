@@ -114,6 +114,8 @@ def _build_info() -> Dict[str, Any]:
         }
         from services.clinical_group_service import get_clinical_group_service
         feats["clinical_groups"] = len(get_clinical_group_service().groups)
+        feats["ui_modes"] = ["quest", "classic"] if (BASE_DIR / "web" / "classic" / "index.html").exists() else ["quest"]
+        feats["fhir_observation_v3"] = True   # 검증된 SCTID code/method + 0·<LoD·N/A 값 표현
     except Exception as e:
         feats["error"] = str(e)
     return {"commit": commit, "features": feats}
@@ -285,6 +287,11 @@ def fhir(req: ClassifyRequest):
 # 정적 프론트엔드 서빙 (맨 마지막에 마운트)
 # ============================================================
 WEB_DIR = BASE_DIR / "web"
+CLASSIC_DIR = WEB_DIR / "classic"
+# 두 UI 동시 운영: /classic (재설계 이전 클래식 UI) 를 먼저 마운트하고, / (알러젠 탐험 퀘스트 UI) 를 마지막에.
+# 두 UI 는 같은 /api 를 사용하므로 판정·FHIR 결과는 동일하다.
+if CLASSIC_DIR.exists():
+    app.mount("/classic", StaticFiles(directory=str(CLASSIC_DIR), html=True), name="web-classic")
 if WEB_DIR.exists():
     app.mount("/", StaticFiles(directory=str(WEB_DIR), html=True), name="web")
 

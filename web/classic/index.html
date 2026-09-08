@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>알레르기 검사 결과 리포트 (클래식 UI)</title>
+  <meta name="description" content="알레르기 검사(SPT·MAST·UniCAP) 결과를 감작 vs 실제 알레르기로 감별해 환자 맞춤 리포트를 만들어 드립니다." />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+  <link rel="stylesheet" href="/classic/styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="bar">
+      <div class="logo">
+        <span class="mark">🩺</span>
+        <span>알레르기 리포트
+          <small>검사 결과를 쉽게 · 감작 vs 실제 알레르기 감별</small>
+        </span>
+      </div>
+      <div class="header-spacer"></div>
+      <a class="ui-switch" href="/" title="게임화(알러젠 탐험 퀘스트) UI 로 전환 (같은 데이터·같은 API)">🧭 탐험 퀘스트 UI</a>
+      <button class="theme-toggle" id="themeToggle" title="라이트/다크 전환" aria-label="테마 전환">🌙</button>
+    </div>
+  </header>
+
+  <main>
+    <nav class="stepper" id="stepper" aria-label="진행 단계"></nav>
+    <div id="view"><!-- 단계별 화면 렌더링 --></div>
+    <p class="disclaimer">
+      본 서비스는 교육용 참고 자료이며 의학적 진단·치료를 대체하지 않습니다. 정확한 판단은 담당 의료진과 상담하세요.
+    </p>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <script src="/classic/app.js"></script>
+</body>
+</html>
