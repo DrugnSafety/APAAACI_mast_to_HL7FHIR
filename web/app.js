@@ -128,7 +128,7 @@ function renderUpload() {
         <h1>검사 결과지를 가져오면 탐험이 시작됩니다</h1>
         <p>피부반응검사(SPT), MAST, UniCAP(ImmunoCAP) 결과지를 지원합니다. 사진이나 스캔 이미지를 올리면 양성 항목을 자동으로 읽어 <b>흔적</b>으로 등록합니다.</p>
       </div>
-      <div class="dropzone" id="dz">
+      <div class="dropzone" id="dz" role="button" tabindex="0" aria-label="검사 결과지 이미지 선택">
         <div class="icon">🗂️</div>
         <h2>여기로 이미지를 끌어다 놓거나 클릭해서 선택</h2>
         <p>JPG · PNG · 10MB 이하 ${hasKey ? '' : '· (OCR을 쓰려면 서버에 OpenAI API 키가 필요합니다)'}</p>
@@ -144,6 +144,7 @@ function renderUpload() {
 
   const dz = $('#dz'), file = $('#file');
   dz.addEventListener('click', () => file.click());
+  dz.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); file.click(); } });
   dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag'); });
   dz.addEventListener('dragleave', () => dz.classList.remove('drag'));
   dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag'); if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); });
@@ -278,8 +279,8 @@ function renderReview() {
       </div>
 
       <div class="rv-tabs" role="tablist">
-        <button class="rv-tab ${REVIEW_TAB === 'measured' ? 'active' : ''}" data-rvtab="measured">측정값 <span class="rv-count">${measuredN}</span></button>
-        <button class="rv-tab ${REVIEW_TAB === 'zero' ? 'active' : ''}" data-rvtab="zero">수치 0 항목 <span class="rv-count">${zeroN}</span></button>
+        <button role="tab" aria-selected="${REVIEW_TAB === 'measured'}" class="rv-tab ${REVIEW_TAB === 'measured' ? 'active' : ''}" data-rvtab="measured">측정값 <span class="rv-count">${measuredN}</span></button>
+        <button role="tab" aria-selected="${REVIEW_TAB === 'zero'}" class="rv-tab ${REVIEW_TAB === 'zero' ? 'active' : ''}" data-rvtab="zero">수치 0 항목 <span class="rv-count">${zeroN}</span></button>
         <span class="hint" style="margin-left:auto">${REVIEW_TAB === 'zero' ? '수치가 0이거나 미측정된 항목입니다. 필요 시 수치를 입력하세요.' : '수치가 측정된 항목입니다.'}</span>
       </div>
 
@@ -441,7 +442,7 @@ function renderScreening() {
     </div>` : '';
 
   const chipList = (items, selected, key) => `<div class="chips" data-chipgroup="${key}">` +
-    items.map(it => `<button type="button" class="chip-opt ${selected.includes(it.code) ? 'sel' : ''}" data-code="${it.code}">${esc(it.label)}</button>`).join('') + `</div>`;
+    items.map(it => `<button type="button" aria-pressed="${selected.includes(it.code)}" class="chip-opt ${selected.includes(it.code) ? 'sel' : ''}" data-code="${it.code}">${esc(it.label)}</button>`).join('') + `</div>`;
 
   view().innerHTML = `
     <div class="panel">
@@ -479,7 +480,7 @@ function renderScreening() {
       <div class="field"><label>반려동물을 키우거나 자주 접촉하나요? <span class="hint">(복수 선택)</span></label>
         <div class="chips" data-chipgroup="pets">
           ${[['cat','🐱 고양이'],['dog','🐶 강아지'],['other','기타'],['none','키우지 않음']].map(([code,label]) =>
-            `<button type="button" class="chip-opt ${(sc.pets||[]).includes(code) ? 'sel' : ''}" data-code="${code}">${label}</button>`).join('')}
+            `<button type="button" aria-pressed="${(sc.pets||[]).includes(code)}" class="chip-opt ${(sc.pets||[]).includes(code) ? 'sel' : ''}" data-code="${code}">${label}</button>`).join('')}
         </div>
         <input class="input ${(sc.pets||[]).includes('other') ? '' : 'hidden'}" id="petsOther" style="margin-top:8px" placeholder="기타 동물을 입력하세요 (예: 햄스터, 토끼, 새)" value="${esc(sc.pets_other||'')}" />
       </div>
@@ -518,7 +519,7 @@ function renderScreening() {
 function renderScreeningChips(sc) {
   view().querySelectorAll('[data-chipgroup]').forEach(group => {
     const key = group.dataset.chipgroup;
-    group.querySelectorAll('.chip-opt').forEach(c => c.classList.toggle('sel', sc[key].includes(c.dataset.code)));
+    group.querySelectorAll('.chip-opt').forEach(c => { const on = sc[key].includes(c.dataset.code); c.classList.toggle('sel', on); c.setAttribute('aria-pressed', on); });
   });
 }
 async function submitScreening() {
@@ -561,11 +562,11 @@ function renderQuestionnaire() {
     let control;
     if (qq.type === 'multi') {
       control = `<div class="chips" data-multi="${qq.id}">` +
-        qq.options.map(o => `<button type="button" class="chip-opt ${(val || []).includes(o.value) ? 'sel' : ''}" data-v="${o.value}">${esc(o.label)}</button>`).join('') + `</div>`;
+        qq.options.map(o => `<button type="button" aria-pressed="${(val || []).includes(o.value)}" class="chip-opt ${(val || []).includes(o.value) ? 'sel' : ''}" data-v="${o.value}">${esc(o.label)}</button>`).join('') + `</div>`;
     } else {
       const rowClass = qq.options.length <= 3 && qq.options.every(o => o.label.length <= 12) ? 'choice-row' : 'choice-list';
-      control = `<div class="${rowClass}" data-single="${qq.id}">` +
-        qq.options.map(o => `<button type="button" class="choice ${val === o.value ? 'sel' : ''}" data-v="${o.value}">
+      control = `<div class="${rowClass}" role="radiogroup" aria-label="${esc(qq.title)}" data-single="${qq.id}">` +
+        qq.options.map(o => `<button type="button" role="radio" aria-checked="${val === o.value}" class="choice ${val === o.value ? 'sel' : ''}" data-v="${o.value}">
           <span class="radio"></span><span class="body"><span class="t">${esc(o.label)}</span>${o.hint ? `<span class="h">${esc(o.hint)}</span>` : ''}</span></button>`).join('') + `</div>`;
     }
     // reveal 조건: reveal_if({question, equals|any|includes_any}) 또는 reveal_if_any([...])
@@ -625,7 +626,7 @@ function renderQuestionnaire() {
       const p = Game.chapterProgress(sec, S.answers, isVisible);
       totA += p.answered; totV += p.visible;
       const ring = view().querySelector(`.chapter[data-si="${si}"] .ring`);
-      if (ring) { ring.style.setProperty('--p', p.visible ? Math.round(p.answered / p.visible * 100) : 0); ring.dataset.label = `${p.answered}/${p.visible}`; }
+      if (ring) { const pct = p.visible ? Math.round(p.answered / p.visible * 100) : 0; ring.style.setProperty('--p', pct); ring.dataset.label = `${p.answered}/${p.visible}`; ring.setAttribute('aria-valuenow', pct); ring.setAttribute('aria-valuetext', `${p.answered} / ${p.visible} 문항 응답`); }
       if (p.done) { const g = Game.completeChapter(S.game, sec.id || `sec${si}`); if (g) { Game.ui.floatXp(ring, g); Game.ui.sparkle(ring && ring.closest('.chapter')); } }
     });
     Game.ui.renderQuestBar($('#questBar'), totA, totV);
@@ -634,7 +635,7 @@ function renderQuestionnaire() {
 
   const sections = q.sections.map((sec, si) => `
     <div class="chapter" data-si="${si}">
-      <div class="ch-head"><div class="ring" data-label="0/0" style="--p:0"></div><div class="ch-title">${esc(sec.title)}</div></div>
+      <div class="ch-head"><div class="ring" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-label="0/0" style="--p:0"></div><div class="ch-title">${esc(sec.title)}</div></div>
       ${sec.subtitle ? `<div class="q-sub">${esc(sec.subtitle)}</div>` : ''}
       ${sec.questions.map(questionHtml).join('')}
     </div>`).join('');
@@ -663,7 +664,7 @@ function renderQuestionnaire() {
   view().querySelectorAll('[data-single]').forEach(g => g.addEventListener('click', e => {
     const b = e.target.closest('.choice'); if (!b) return;
     S.answers[g.dataset.single] = b.dataset.v;
-    g.querySelectorAll('.choice').forEach(c => c.classList.toggle('sel', c === b));
+    g.querySelectorAll('.choice').forEach(c => { c.classList.toggle('sel', c === b); c.setAttribute('aria-checked', c === b); });
     onAnswered(g.closest('.q-block'), b, g.dataset.single);
   }));
   view().querySelectorAll('[data-multi]').forEach(g => g.addEventListener('click', e => {
@@ -672,7 +673,7 @@ function renderQuestionnaire() {
     if (v === 'none' || v === 'no') arr = arr.includes(v) ? [] : [v];
     else { arr = arr.filter(x => x !== 'none' && x !== 'no'); arr = arr.includes(v) ? arr.filter(x => x !== v) : [...arr, v]; }
     S.answers[id] = arr;
-    g.querySelectorAll('.chip-opt').forEach(c => c.classList.toggle('sel', arr.includes(c.dataset.v)));
+    g.querySelectorAll('.chip-opt').forEach(c => { const on = arr.includes(c.dataset.v); c.classList.toggle('sel', on); c.setAttribute('aria-pressed', on); });
     onAnswered(g.closest('.q-block'), b, id);
   }));
   // 초기 상태: 이미 보이는 문항은 '새 단서' 연출 대상에서 제외
@@ -744,12 +745,12 @@ function renderResultTab() {
     const cntOf = (k) => sorted.filter(a => a.relevance === k).length;
     body.innerHTML = `<div class="filter-chips">
         ${[['all', `전체 ${sorted.length}`], ['clinically_relevant', `🔴 진범 확정 ${cntOf('clinically_relevant')}`], ['indeterminate', `🟡 관찰 대상 ${cntOf('indeterminate')}`], ['sensitized_only', `⚪ 무혐의 ${cntOf('sensitized_only')}`]]
-          .map(([k, l]) => `<button type="button" class="chip-opt ${DEX_FILTER === k ? 'sel' : ''}" data-f="${k}">${l}</button>`).join('')}
+          .map(([k, l]) => `<button type="button" aria-pressed="${DEX_FILTER === k}" class="chip-opt ${DEX_FILTER === k ? 'sel' : ''}" data-f="${k}">${l}</button>`).join('')}
       </div>
       <div class="dex-grid">${filtered.map(dexCard).join('') || '<p class="q-help">해당 판정의 알러젠이 없습니다.</p>'}</div>`;
     body.querySelectorAll('.filter-chips .chip-opt').forEach(b => b.addEventListener('click', () => { DEX_FILTER = b.dataset.f; renderResultTab(); }));
     body.querySelectorAll('.dex-card').forEach(card => {
-      const flip = () => card.classList.toggle('flip');
+      const flip = () => { const on = card.classList.toggle('flip'); card.setAttribute('aria-expanded', on); };
       card.addEventListener('click', flip);
       card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); flip(); } });
     });
@@ -807,7 +808,7 @@ function dexCard(a, i) {
     (av.length ? `<div class="kb-item"><div class="k">회피·관리 수칙</div><ul>${av.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>` : '');
   const srcTag = a.source && a.source !== 'knowledge_base' ? `<span class="src-tag"> · 출처: ${a.source === 'wikipedia' ? 'Wikipedia' : '기본값'}</span>` : '';
   const sev = a.severity && a.severity !== 'none' && a.severity !== 'mild' ? ` · 중증도 ${({ moderate: '중등증', severe: '중증', anaphylaxis: '아나필락시스' })[a.severity] || esc(a.severity)}` : '';
-  return `<div class="dex-card" style="--i:${i}" tabindex="0" role="button" aria-label="${esc(a.korean_name || a.allergen_name)} 도감 카드, 클릭하면 뒤집기">
+  return `<div class="dex-card" style="--i:${i}" tabindex="0" role="button" aria-expanded="false" aria-label="${esc(a.korean_name || a.allergen_name)} 도감 카드, 판정 ${esc(v.stamp)}. 근거 보기">
     <div class="dex-inner">
       <div class="face front">
         <div class="stamp tone-${v.tone}">${Game.stampSvg(a.category)}</div>

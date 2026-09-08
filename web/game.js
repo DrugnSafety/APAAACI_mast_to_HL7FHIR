@@ -149,7 +149,7 @@
         </svg>
         <ol class="tnodes">${steps.map((label, i) => {
           const cls = i === step ? 'active' : (i < step ? 'done' : (i <= maxReached ? 'reach' : 'locked'));
-          return `<li class="tnode ${cls}" data-step="${i}" ${i <= maxReached && i !== step ? 'tabindex="0" role="button"' : ''}>
+          return `<li class="tnode ${cls}" data-step="${i}" ${i === step ? 'aria-current="step"' : ''} ${i <= maxReached && i !== step ? 'tabindex="0" role="button"' : ''}>
             <span class="tnum">${i < step ? '✓' : i + 1}</span>
             <span class="tlabel">${esc(label)}<small>${esc(subs[i] || '')}</small></span></li>`;
         }).join('')}</ol>`;
@@ -192,7 +192,10 @@
     showDiscovery(overlay, cards, onDone) {
       if (!overlay) { onDone(); return; }
       const shown = cards.slice(0, 12), extra = cards.length - shown.length;
-      overlay.innerHTML = `<div class="discover" role="dialog" aria-label="발견한 알러젠">
+      const prevFocus = document.activeElement;
+      const bg = [document.querySelector('header'), document.querySelector('main')].filter(Boolean);
+      bg.forEach(el => { el.inert = true; });
+      overlay.innerHTML = `<div class="discover" role="dialog" aria-modal="true" aria-label="발견한 알러젠">
           <div class="d-eyebrow">발견!</div>
           <h2>양성 흔적 ${cards.length}종을 도감에 등록했어요</h2>
           <p>아직 판정은 <b>미확인</b>입니다. 다음 퀘스트에서 진범을 가려냅니다.</p>
@@ -203,7 +206,8 @@
             ${extra > 0 ? `<div class="dcard more" style="--i:${shown.length}">+${extra}종</div>` : ''}</div>
           <button class="btn primary" id="dGo">진범 감별 퀘스트로 →</button></div>`;
       overlay.classList.remove('hidden');
-      const done = () => { overlay.classList.add('hidden'); overlay.innerHTML = ''; onDone(); };
+      const done = () => { overlay.classList.add('hidden'); overlay.innerHTML = ''; bg.forEach(el => { el.inert = false; }); onDone(); if (prevFocus && prevFocus.focus) { try { prevFocus.focus(); } catch (_) {} } };
+      overlay.addEventListener('keydown', e => { if (e.key === 'Escape') done(); }, { once: true });
       overlay.querySelector('#dGo').addEventListener('click', done);
       overlay.querySelector('#dGo').focus();
     },
