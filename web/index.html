@@ -17,27 +17,27 @@
     <div class="bar">
       <div class="logo">
         <span class="mark">🧭</span>
-        <span>알러젠 탐험 퀘스트
-          <small>검사 양성은 흔적일 뿐 · 진범은 증상으로 확정</small>
+        <span><span data-i18n="app.title">알러젠 탐험 퀘스트</span>
+          <small data-i18n="app.tagline">검사 양성은 흔적일 뿐 · 진범은 증상으로 확정</small>
         </span>
       </div>
       <div class="hud" id="hud" aria-live="polite"></div>
-      <a class="ui-switch" href="/classic/" title="재설계 이전의 클래식 UI 로 전환 (같은 데이터·같은 API)">클래식 UI</a>
-      <button class="theme-toggle" id="themeToggle" title="라이트/다크 전환" aria-label="테마 전환">🌙</button>
+      <select class="lang-sel" id="langSel" data-i18n-aria="app.lang" aria-label="언어"></select>
+      <a class="ui-switch" href="/classic/" data-i18n="app.classic" data-i18n-title="app.classic_title" title="재설계 이전의 클래식 UI 로 전환 (같은 데이터·같은 API)">클래식 UI</a>
+      <button class="theme-toggle" id="themeToggle" data-i18n-title="app.theme" title="라이트/다크 전환" aria-label="테마 전환">🌙</button>
     </div>
   </header>
 
   <main>
-    <nav class="trail" id="stepper" aria-label="퀘스트 진행"></nav>
+    <nav class="trail" id="stepper" data-i18n-aria="trail.aria" aria-label="퀘스트 진행"></nav>
     <div id="view"><!-- 단계별 화면 렌더링 --></div>
-    <p class="disclaimer">
-      본 서비스는 교육용 참고 자료이며 의학적 진단·치료를 대체하지 않습니다. 정확한 판단은 담당 의료진과 상담하세요.
-    </p>
+    <p class="disclaimer" data-i18n="app.disclaimer">본 서비스는 교육용 참고 자료이며 의학적 진단·치료를 대체하지 않습니다. 정확한 판단은 담당 의료진과 상담하세요.</p>
   </main>
 
   <div class="quest-bar hidden" id="questBar" aria-live="polite"></div>
   <div class="toast" id="toast"></div>
   <div class="overlay hidden" id="overlay"></div>
+  <script src="/i18n.js"></script>
   <script src="/game.js"></script>
   <script src="/app.js"></script>
 </body>

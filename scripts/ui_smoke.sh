@@ -11,7 +11,9 @@ js() { $B js "$1" | tail -1; }
 
 # browse 데몬이 정적 파일을 캐시하므로 최신 app.js/game.js/styles.css 를 강제 재수신 후 재로드
 $B goto "$URL/" >/dev/null
-js "Promise.all(['/app.js','/game.js','/styles.css'].map(u=>fetch(u,{cache:'reload'}))).then(()=>'refetched')" >/dev/null
+js "Promise.all(['/app.js','/game.js','/i18n.js','/styles.css'].map(u=>fetch(u,{cache:'reload'}))).then(()=>'refetched')" >/dev/null
+# 스모크 단언은 한국어 문구 기준 — 헤드리스 브라우저의 navigator.language(en-US) 자동감지를 무효화
+js "localStorage.setItem('lang','ko'); 'ko'" >/dev/null
 $B reload >/dev/null; $B wait '#stepper .tnode.active' >/dev/null
 [ "$(js "document.querySelectorAll('#stepper .tnode').length")" = "5" ] || fail "트레일 노드 5개"
 [ "$(js "document.querySelector('#hud .hud-title').textContent")" = "Lv.1 새싹 탐험가" ] || fail "HUD 초기 레벨"

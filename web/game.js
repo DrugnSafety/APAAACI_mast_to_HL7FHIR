@@ -128,17 +128,24 @@
   function stampSvg(category) { return STAMPS[category] || STAMPS.other; }
   function starsHtml(n) {
     n = Math.max(1, Math.min(3, n | 0));
-    return `<span class="stars" aria-label="감작 강도 ${n}/3">${'★'.repeat(n)}${n < 3 ? `<i>${'★'.repeat(3 - n)}</i>` : ''}</span>`;
+    return `<span class="stars" aria-label="${tr('stars.aria', { n }, `감작 강도 ${n}/3`)}">${'★'.repeat(n)}${n < 3 ? `<i>${'★'.repeat(3 - n)}</i>` : ''}</span>`;
   }
 
   /* ---------------- DOM 연출 (브라우저 전용) ---------------- */
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const reduced = () => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // 번역 훅: 브라우저에 I18N(web/i18n.js) 이 있으면 사용, 없으면(Node 테스트) 한국어 기본값
+  const tr = (key, vars, fallback) => {
+    const i = (typeof I18N !== 'undefined') ? I18N : null;
+    if (!i) return fallback;
+    const v = i.t(key, vars); return v === key ? fallback : v;
+  };
   const ui = {
     renderHud(el, g) {
       if (!el) return;
       const l = levelFor(g.xp), pct = progressPct(g.xp);
-      el.innerHTML = `<div class="hud-top"><span class="hud-title">Lv.${l.index + 1} ${esc(l.title)}</span><span class="hud-xp">${g.xp} XP${l.next != null ? ` <small>/ ${l.next}</small>` : ''}</span></div>
+      const title = tr(`level.${l.index}`, null, l.title);
+      el.innerHTML = `<div class="hud-top"><span class="hud-title">${esc(tr('hud.level', { n: l.index + 1, title }, `Lv.${l.index + 1} ${title}`))}</span><span class="hud-xp">${esc(tr('hud.xp', { xp: g.xp }, `${g.xp} XP`))}${l.next != null ? ` <small>/ ${l.next}</small>` : ''}</span></div>
         <div class="hud-bar" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><div class="hud-fill" style="--p:${pct / 100}"></div></div>`;
     },
     renderTrail(el, steps, subs, step, maxReached, onGoto) {
@@ -162,7 +169,7 @@
     floatXp(anchor, n) {
       if (!n || typeof document === 'undefined') return;
       const f = document.createElement('span');
-      f.className = 'xp-float'; f.textContent = `+${n} XP`;
+      f.className = 'xp-float'; f.textContent = tr('xp.float', { n }, `+${n} XP`);
       const r = anchor && anchor.getBoundingClientRect ? anchor.getBoundingClientRect() : null;
       const hud = document.getElementById('hud');
       const hr = (!r && hud) ? hud.getBoundingClientRect() : null;
@@ -185,7 +192,7 @@
     renderQuestBar(el, answered, visible) {
       if (!el) return;
       const pct = visible ? Math.round(answered / visible * 100) : 0;
-      el.innerHTML = `<div class="qb-text"><b>진범 감별 진행</b> ${answered} / ${visible} 단서</div>
+      el.innerHTML = `<div class="qb-text">${tr('questbar.text', { a: answered, v: visible }, `<b>진범 감별 진행</b> ${answered} / ${visible} 단서`)}</div>
         <div class="qb-track" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><div class="qb-fill" style="--p:${pct / 100}"></div></div>`;
     },
     // 발견 오버레이: cards = [{name, category, stars}], 순차 뒤집기 후 onDone
@@ -195,16 +202,16 @@
       const prevFocus = document.activeElement;
       const bg = [document.querySelector('header'), document.querySelector('main')].filter(Boolean);
       bg.forEach(el => { el.inert = true; });
-      overlay.innerHTML = `<div class="discover" role="dialog" aria-modal="true" aria-label="발견한 알러젠">
-          <div class="d-eyebrow">발견!</div>
-          <h2>양성 흔적 ${cards.length}종을 도감에 등록했어요</h2>
-          <p>아직 판정은 <b>미확인</b>입니다. 다음 퀘스트에서 진범을 가려냅니다.</p>
+      overlay.innerHTML = `<div class="discover" role="dialog" aria-modal="true" aria-label="${esc(tr('discover.aria', null, '발견한 알러젠'))}">
+          <div class="d-eyebrow">${esc(tr('discover.eyebrow', null, '발견!'))}</div>
+          <h2>${tr('discover.h2', { n: cards.length }, `양성 흔적 ${cards.length}종을 도감에 등록했어요`)}</h2>
+          <p>${tr('discover.p', null, '아직 판정은 <b>미확인</b>입니다. 다음 퀘스트에서 진범을 가려냅니다.')}</p>
           <div class="discover-deck">${shown.map((c, i) => `<div class="dcard" style="--i:${i}">
               <div class="dstamp">${stampSvg(c.category)}</div>
               <div class="dname">${esc(c.name)}</div>${starsHtml(c.stars)}
               <div class="dq">?</div></div>`).join('')}
-            ${extra > 0 ? `<div class="dcard more" style="--i:${shown.length}">+${extra}종</div>` : ''}</div>
-          <button class="btn primary" id="dGo">진범 감별 퀘스트로 →</button></div>`;
+            ${extra > 0 ? `<div class="dcard more" style="--i:${shown.length}">${tr('discover.more', { n: extra }, `+${extra}종`)}</div>` : ''}</div>
+          <button class="btn primary" id="dGo">${tr('discover.go', null, '진범 감별 퀘스트로 →')}</button></div>`;
       overlay.classList.remove('hidden');
       const done = () => { overlay.classList.add('hidden'); overlay.innerHTML = ''; bg.forEach(el => { el.inert = false; }); onDone(); if (prevFocus && prevFocus.focus) { try { prevFocus.focus(); } catch (_) {} } };
       overlay.addEventListener('keydown', e => { if (e.key === 'Escape') done(); }, { once: true });

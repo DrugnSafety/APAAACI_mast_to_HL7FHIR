@@ -1,0 +1,499 @@
+/* =========================================================================
+   i18n — 화면 문구 사전 (ko / en / zh-CN)
+   범위: 탐험 퀘스트 UI 의 화면 크롬(헤더·트레일·HUD·단계 안내·버튼·표 헤더·배지·판정 도장·결과 탭).
+   서버가 생성하는 문진 문항·지식베이스·리포트·카드뉴스는 한국어(후속 과제) — notice.partial 로 안내.
+   UMD: 브라우저 window.I18N, Node module.exports (키 정합성 테스트용)
+   ========================================================================= */
+(function (root, factory) {
+  if (typeof module === 'object' && module.exports) module.exports = factory();
+  else root.I18N = factory();
+})(typeof self !== 'undefined' ? self : this, function () {
+  'use strict';
+
+  const ko = {
+    'app.title': '알러젠 탐험 퀘스트',
+    'app.tagline': '검사 양성은 흔적일 뿐 · 진범은 증상으로 확정',
+    'app.doc_title': '알러젠 탐험 퀘스트 · 알레르기 검사 결과 리포트',
+    'app.classic': '클래식 UI',
+    'app.classic_title': '재설계 이전의 클래식 UI 로 전환 (같은 데이터·같은 API)',
+    'app.theme': '라이트/다크 전환',
+    'app.lang': '언어',
+    'app.disclaimer': '본 서비스는 교육용 참고 자료이며 의학적 진단·치료를 대체하지 않습니다. 정확한 판단은 담당 의료진과 상담하세요.',
+    'notice.partial': '문진 문항·지식베이스·리포트·카드뉴스 본문은 현재 한국어로 제공됩니다.',
+    'common.back': '← 이전',
+    'common.patient': '탐험가',
+    'common.loading': '불러오는 중…',
+
+    'step.0.name': '흔적 수집', 'step.0.sub': '검사지 업로드',
+    'step.1.name': '증거 확인', 'step.1.sub': 'OCR 검토',
+    'step.2.name': '탐험가 프로필', 'step.2.sub': '스크리닝',
+    'step.3.name': '진범 감별', 'step.3.sub': '증상 감별 문진',
+    'step.4.name': '도감 완성', 'step.4.sub': '결과 리포트',
+    'trail.aria': '퀘스트 진행',
+
+    'hud.level': 'Lv.{n} {title}',
+    'hud.xp': '{xp} XP',
+    'level.0': '새싹 탐험가', 'level.1': '숙련 탐험가', 'level.2': '알러젠 마스터',
+    'xp.float': '+{n} XP',
+
+    's0.eyebrow': 'QUEST 1 · 흔적 수집',
+    's0.h1': '검사 결과지를 가져오면 탐험이 시작됩니다',
+    's0.p': '피부반응검사(SPT), MAST, UniCAP(ImmunoCAP) 결과지를 지원합니다. 사진이나 스캔 이미지를 올리면 양성 항목을 자동으로 읽어 <b>흔적</b>으로 등록합니다.',
+    's0.dz_aria': '검사 결과지 이미지 선택',
+    's0.dz_h': '여기로 이미지를 끌어다 놓거나 클릭해서 선택',
+    's0.dz_p': 'JPG · PNG · 10MB 이하',
+    's0.dz_nokey': '· (OCR을 쓰려면 서버에 OpenAI API 키가 필요합니다)',
+    's0.preview_alt': '업로드 미리보기',
+    's0.btn_demo': '✨ 연습 탐험 시작 (데모 데이터)',
+    's0.btn_manual': '⌨️ 결과를 직접 입력하기',
+    's0.ocr_reading': 'OCR로 검사 항목을 읽는 중입니다…',
+    's0.ocr_fail_hint': '아래 <b>데모 데이터</b>나 <b>직접 입력</b>으로 계속 진행할 수 있어요.',
+    's0.demo_loaded': '데모 데이터를 불러왔어요',
+    's0.demo_fail': '데모 로드 실패: ',
+
+    's1.eyebrow': 'QUEST 2 · 증거 확인',
+    's1.h1': '읽어온 흔적을 확인·수정하세요',
+    's1.p': '잘못 읽힌 값은 표에서 직접 고치고, <b>누락된 알러젠은 ‘＋ 항목 추가’</b>로 넣을 수 있습니다. 수치를 고치면 Class·판정이 자동으로 바뀝니다. 양성 항목이 <b>도감에 등록</b>됩니다.',
+    's1.meta_facility': '🏥 검사기관', 's1.meta_provider': '👨‍⚕️ 의뢰', 's1.meta_date': '🗓️ 검사일',
+    's1.meta_report_date': '📄 보고일', 's1.meta_chart': '🔖 차트번호',
+    's1.meta_note': '↑ 검사지에서 자동 추출된 정보입니다. FHIR 변환 시 함께 매핑됩니다.',
+    's1.pos_summary': '🧭 양성 흔적 {n}개 발견 — 다음 퀘스트에서 이 항목들의 진범 여부를 가려냅니다.',
+    's1.col_value_spt': '팽진(mm)', 's1.col_value_ige': '수치(kU/L)',
+    's1.class_title': '수치 입력 시 자동 계산',
+    's1.ph_allergen': '예: Dermatophagoides farinae', 's1.ph_korean': '한글명(선택)',
+    's1.pos': '양성', 's1.neg': '음성', 's1.del': '삭제',
+    's1.empty_zero': '수치 0(미측정) 항목이 없습니다.',
+    's1.empty_measured': '측정된(수치>0) 항목이 없습니다. ‘＋ 항목 추가’로 넣거나 <b>수치 0 항목</b> 탭을 확인하세요.',
+    's1.test_type': '검사 종류',
+    's1.hint_spt': 'SPT=팽진 크기(mm), 평균 3mm 이상 양성',
+    's1.hint_ige': 'MAST/UniCAP=특이 IgE(kU/L), Class 1↑ 또는 0.35↑ 양성',
+    's1.tab_measured': '측정값', 's1.tab_zero': '수치 0 항목',
+    's1.tab_hint_zero': '수치가 0이거나 미측정된 항목입니다. 필요 시 수치를 입력하세요.',
+    's1.tab_hint_measured': '수치가 측정된 항목입니다.',
+    's1.th_allergen': '알러젠', 's1.th_korean': '한글명', 's1.th_unit': '단위', 's1.th_class': 'Class', 's1.th_interp': '판정',
+    's1.add_row': '＋ 항목 추가', 's1.pos_count': '양성',
+    's1.btn_register': '발견 등록 →',
+
+    'discover.eyebrow': '발견!',
+    'discover.h2': '양성 흔적 {n}종을 도감에 등록했어요',
+    'discover.p': '아직 판정은 <b>미확인</b>입니다. 다음 퀘스트에서 진범을 가려냅니다.',
+    'discover.more': '+{n}종',
+    'discover.go': '진범 감별 퀘스트로 →',
+    'discover.aria': '발견한 알러젠',
+
+    's2.eyebrow': 'QUEST 3 · 탐험가 프로필',
+    's2.h1': '탐험가 프로필을 작성해 주세요',
+    's2.p': '기저 알레르기 질환과 복용 약제, 증상이 나타나는 부위를 확인합니다. 이 정보로 다음 퀘스트의 감별 정확도가 올라갑니다.',
+    's2.banner_title': '🧭 도감에 등록된 양성 흔적 {n}개',
+    's2.banner_note': '아래 문진과 <b>다음 단계 감별 질문</b>이 이 결과에 맞춰 자동 구성됩니다.',
+    's2.name': '이름', 's2.name_ph': '홍길동', 's2.age': '나이', 's2.gender': '성별', 's2.male': '남', 's2.female': '여',
+    's2.test_date': '검사일',
+    's2.diseases': '진단받았거나 앓고 있는 알레르기 질환', 's2.meds': '최근 복용 중인 약',
+    's2.organs': '알레르기 증상이 나타나는 부위', 's2.pets': '반려동물을 키우거나 자주 접촉하나요?',
+    's2.multi': '(복수 선택)',
+    's2.cat': '🐱 고양이', 's2.dog': '🐶 강아지', 's2.other': '기타', 's2.none': '키우지 않음',
+    's2.pets_other_ph': '기타 동물을 입력하세요 (예: 햄스터, 토끼, 새)',
+    's2.ah_warn': '⚠️ 항히스타민제 복용 중이라면 피부반응검사(SPT)에서 <b>위음성</b>이 나올 수 있어, 결과 해석에 주의가 필요합니다.',
+    's2.preparing': '문진 준비 중…', 's2.q_fail': '문진 생성 실패: ',
+    's2.btn_next': '진범 감별 퀘스트로 →',
+    'scat.mite': '집먼지진드기', 'scat.pollen': '꽃가루', 'scat.animal': '동물', 'scat.mold': '곰팡이',
+    'scat.insect': '곤충(바퀴)', 'scat.shellfish': '갑각류', 'scat.food': '음식', 'scat.other': '기타',
+    'shint.pollen': '🌳 꽃가루 양성 — 증상이 <b>특정 계절</b>에 심해지는지가 핵심입니다. 다음 단계에서 시즌별로 확인합니다.',
+    'shint.mite': '🛏️ 집먼지진드기 양성 — <b>연중·아침·먼지 노출</b> 시 증상, 그리고 <b>새우·게 교차반응</b>을 다음 단계에서 확인합니다.',
+    'shint.animal': '🐾 동물 양성 — 해당 동물 <b>접촉 시 증상</b> 여부가 중요합니다.',
+    'shint.shellfish': '🦐 갑각류 양성 — <b>실제로 먹었을 때</b> 반응하는지(강양성이어도 잘 먹으면 감작만)를 확인합니다.',
+    'shint.food': '🍽️ 음식 양성 — 먹었을 때 <b>어떤 증상</b>(입·목/피부/소화기/호흡/전신)이 나오는지 확인합니다.',
+    'shint.mold': '🍄 곰팡이 양성 — <b>습한 환경</b>에서 악화되는지 확인합니다.',
+    'shint.insect': '🪳 바퀴 양성 — 실내 환경과의 연관을 확인합니다.',
+
+    's3.eyebrow': 'QUEST 4 · 진범 감별',
+    's3.h1': '흔적 중 진짜 범인을 가려냅니다',
+    's3.p': '검사 양성이 <b>실제 알레르기</b>인지 <b>감작(양성이지만 증상 없음)</b>인지 가리는 핵심 퀘스트입니다. 아는 만큼만 답하시고, 모르면 ‘잘 모르겠어요’를 선택하세요 — 그것도 소중한 단서입니다.',
+    's3.btn_next': '도감 완성하기 →',
+    's3.analyzing': '도감 정리 중…', 's3.classify_fail': '분석 실패: ',
+    's3.clue_new': '🔎 새 단서',
+    'questbar.text': '<b>진범 감별 진행</b> {a} / {v} 단서',
+    'questbar.ring': '{a} / {v} 문항 응답',
+
+    's4.eyebrow': 'QUEST 5 · 도감 완성',
+    's4.h1_done': '{name}님의 알러젠 도감이 완성되었습니다',
+    's4.h1_calm': '{name}님의 알러젠 도감',
+    's4.p': '검사일 {date} · 양성 흔적 {n}개를 증상과 대조해 진범을 가렸습니다 · Lv.{lv} {title} · {xp} XP',
+    's4.trophy_rel': '🔴 진범 확정', 's4.trophy_sens': '⚪ 무혐의 · 감작만', 's4.trophy_indet': '🟡 관찰 대상',
+    's4.severe': '🚨 중증(전신·아나필락시스) 반응 이력이 확인되었습니다. 이 결과는 참고용이며, 응급 대처 계획과 치료는 반드시 담당 의료진과 상의하세요.',
+    's4.tab_dex': '📖 알러젠 도감', 's4.tab_report': '맞춤 리포트', 's4.tab_cardnews': '카드뉴스', 's4.tab_fhir': 'FHIR 내보내기',
+    's4.back_edit': '← 문진 수정', 's4.restart': '새 탐험 시작',
+    's4.filter_all': '전체 {n}', 's4.filter_rel': '🔴 진범 확정 {n}', 's4.filter_indet': '🟡 관찰 대상 {n}', 's4.filter_sens': '⚪ 무혐의 {n}',
+    's4.dex_empty': '해당 판정의 알러젠이 없습니다.',
+    's4.dl_pdf': '🖨️ PDF로 저장 / 인쇄', 's4.dl_html': '🌐 HTML 저장', 's4.dl_md': '📝 Markdown 저장', 's4.dl_cardnews': '🖼️ 카드뉴스 HTML 저장',
+    's4.fhir_help': '<b>Observation</b> = 전체 검사결과(양성+음성), <b>AllergyIntolerance</b> = 양성/의심 알러젠(교차반응 음식 포함). verificationStatus: 임상적 유발 확인=confirmed, 감작만/미확정=unconfirmed.',
+    's4.fhir_fail': 'FHIR 생성 실패: ',
+    's4.fhir_env': '환경 알러젠 {n}', 's4.fhir_food': '음식 알러젠 {n}',
+
+    'dex.season': '시즌', 'dex.oas_foods': '🍎 구강알레르기증후군(OAS) 유발 음식',
+    'dex.oas_note': ' — 생것 섭취 시 입·목 증상 주의, 대개 익히면 완화',
+    'dex.crossreact_confirmed': '🕵️ 증상으로 확인된 교차반응 음식',
+    'dex.biology': '특성·생활사', 'dex.exposure': '주요 노출 환경', 'dex.crossreact': '교차반응', 'dex.avoidance': '회피·관리 수칙',
+    'dex.source': ' · 출처: ', 'dex.source_default': '기본값',
+    'dex.severity': ' · 중증도 {s}', 'dex.sev_moderate': '중등증', 'dex.sev_severe': '중증', 'dex.sev_ana': '아나필락시스',
+    'dex.aria': '{name} 도감 카드, 판정 {stamp}. 근거 보기',
+    'dex.oas_badge': '🍎 OAS 교차반응 있음', 'dex.flip_hint': '↻ 근거 보기',
+    'dex.strength': '감작 {s}', 'strength.weak': '약', 'strength.moderate': '중', 'strength.strong': '강',
+    'stars.aria': '감작 강도 {n}/3',
+
+    'verdict.clinically_relevant.stamp': '진범 확정', 'verdict.clinically_relevant.note': '노출 시 증상이 재현되는 알러젠',
+    'verdict.sensitized_only.stamp': '무혐의 · 감작만', 'verdict.sensitized_only.note': '감작은 남아 있어 추적 필요',
+    'verdict.indeterminate.stamp': '관찰 대상', 'verdict.indeterminate.note': '노출 시 증상을 기록해 확인',
+    'verdict.not_assessed.stamp': '미확인', 'verdict.not_assessed.note': '',
+
+    'badge.finisher.name': '완주', 'badge.finisher.desc': '다섯 단계를 모두 마쳤어요',
+    'badge.honest.name': '정직한 탐험가', 'badge.honest.desc': "'잘 모르겠어요'도 소중한 단서예요",
+    'badge.crosshunter.name': '교차반응 헌터', 'badge.crosshunter.desc': '증상으로 확인된 교차반응 음식을 찾았어요',
+    'badge.oas.name': 'OAS 탐지', 'badge.oas.desc': '꽃가루-음식 교차반응(OAS)을 확인했어요',
+    'badge.reviewer.name': '꼼꼼한 검토자', 'badge.reviewer.desc': 'OCR 결과를 직접 고쳐 정확도를 높였어요',
+    'badge.dex.name': '도감 완성', 'badge.dex.desc': '모든 양성 알러젠에 판정이 붙었어요',
+
+    'cat.mite': '집먼지진드기', 'cat.animal': '동물', 'cat.pollen_tree': '나무 꽃가루', 'cat.pollen_grass': '잔디 꽃가루',
+    'cat.pollen_weed': '잡초 꽃가루', 'cat.mold': '곰팡이', 'cat.insect': '곤충', 'cat.food': '음식', 'cat.other': '기타',
+  };
+
+  const en = {
+    'app.title': 'Allergen Exploration Quest',
+    'app.tagline': 'A positive test is only a trace · the true culprit is confirmed by symptoms',
+    'app.doc_title': 'Allergen Exploration Quest · Allergy Test Report',
+    'app.classic': 'Classic UI',
+    'app.classic_title': 'Switch to the pre-redesign classic UI (same data, same API)',
+    'app.theme': 'Toggle light/dark',
+    'app.lang': 'Language',
+    'app.disclaimer': 'This service is educational reference material and does not replace medical diagnosis or treatment. Consult your physician for decisions.',
+    'notice.partial': 'Questionnaire items, knowledge-base text, the report and card news are currently provided in Korean.',
+    'common.back': '← Back',
+    'common.patient': 'Explorer',
+    'common.loading': 'Loading…',
+
+    'step.0.name': 'Collect traces', 'step.0.sub': 'Upload report',
+    'step.1.name': 'Check evidence', 'step.1.sub': 'OCR review',
+    'step.2.name': 'Explorer profile', 'step.2.sub': 'Screening',
+    'step.3.name': 'Find the culprit', 'step.3.sub': 'Symptom questionnaire',
+    'step.4.name': 'Complete the dex', 'step.4.sub': 'Results',
+    'trail.aria': 'Quest progress',
+
+    'hud.level': 'Lv.{n} {title}',
+    'hud.xp': '{xp} XP',
+    'level.0': 'Sprout Explorer', 'level.1': 'Seasoned Explorer', 'level.2': 'Allergen Master',
+    'xp.float': '+{n} XP',
+
+    's0.eyebrow': 'QUEST 1 · Collect traces',
+    's0.h1': 'Bring your test report and the expedition begins',
+    's0.p': 'Skin prick test (SPT), MAST and UniCAP (ImmunoCAP) reports are supported. Upload a photo or scan and the positive items are read automatically and registered as <b>traces</b>.',
+    's0.dz_aria': 'Select a test report image',
+    's0.dz_h': 'Drop an image here or click to choose',
+    's0.dz_p': 'JPG · PNG · up to 10 MB',
+    's0.dz_nokey': '· (OCR requires an OpenAI API key on the server)',
+    's0.preview_alt': 'Upload preview',
+    's0.btn_demo': '✨ Start a practice quest (demo data)',
+    's0.btn_manual': '⌨️ Enter results manually',
+    's0.ocr_reading': 'Reading test items with OCR…',
+    's0.ocr_fail_hint': 'You can continue with the <b>demo data</b> or <b>manual entry</b> below.',
+    's0.demo_loaded': 'Demo data loaded',
+    's0.demo_fail': 'Demo load failed: ',
+
+    's1.eyebrow': 'QUEST 2 · Check evidence',
+    's1.h1': 'Review and correct the traces we read',
+    's1.p': 'Fix misread values directly in the table and add missing allergens with <b>“＋ Add item”</b>. Editing a value updates Class and the call automatically. Positive items are <b>registered in the dex</b>.',
+    's1.meta_facility': '🏥 Facility', 's1.meta_provider': '👨‍⚕️ Ordered by', 's1.meta_date': '🗓️ Test date',
+    's1.meta_report_date': '📄 Report date', 's1.meta_chart': '🔖 Chart no.',
+    's1.meta_note': '↑ Extracted automatically from the report. Mapped into FHIR as well.',
+    's1.pos_summary': '🧭 {n} positive trace(s) found — the next quest decides which are true culprits.',
+    's1.col_value_spt': 'Wheal (mm)', 's1.col_value_ige': 'Value (kU/L)',
+    's1.class_title': 'Auto-calculated from the value',
+    's1.ph_allergen': 'e.g. Dermatophagoides farinae', 's1.ph_korean': 'Korean name (optional)',
+    's1.pos': 'Positive', 's1.neg': 'Negative', 's1.del': 'Delete',
+    's1.empty_zero': 'No zero / unmeasured items.',
+    's1.empty_measured': 'No measured (>0) items. Add one with “＋ Add item” or check the <b>Zero-value items</b> tab.',
+    's1.test_type': 'Test type',
+    's1.hint_spt': 'SPT = wheal size (mm); mean ≥ 3 mm is positive',
+    's1.hint_ige': 'MAST/UniCAP = specific IgE (kU/L); Class ≥ 1 or ≥ 0.35 is positive',
+    's1.tab_measured': 'Measured', 's1.tab_zero': 'Zero-value items',
+    's1.tab_hint_zero': 'Items with a value of 0 or not measured. Enter a value if needed.',
+    's1.tab_hint_measured': 'Items with a measured value.',
+    's1.th_allergen': 'Allergen', 's1.th_korean': 'Korean name', 's1.th_unit': 'Unit', 's1.th_class': 'Class', 's1.th_interp': 'Call',
+    's1.add_row': '＋ Add item', 's1.pos_count': 'Positive',
+    's1.btn_register': 'Register discoveries →',
+
+    'discover.eyebrow': 'Discovered!',
+    'discover.h2': '{n} positive trace(s) registered in the dex',
+    'discover.p': 'Their verdict is still <b>unconfirmed</b>. The next quest finds the true culprits.',
+    'discover.more': '+{n} more',
+    'discover.go': 'To the culprit quest →',
+    'discover.aria': 'Discovered allergens',
+
+    's2.eyebrow': 'QUEST 3 · Explorer profile',
+    's2.h1': 'Fill in your explorer profile',
+    's2.p': 'We check your allergic conditions, current medications and where symptoms appear. This sharpens the next quest.',
+    's2.banner_title': '🧭 {n} positive trace(s) registered in the dex',
+    's2.banner_note': 'The screening below and the <b>next quest’s questions</b> adapt to these results.',
+    's2.name': 'Name', 's2.name_ph': 'Jane Doe', 's2.age': 'Age', 's2.gender': 'Sex', 's2.male': 'Male', 's2.female': 'Female',
+    's2.test_date': 'Test date',
+    's2.diseases': 'Diagnosed or current allergic conditions', 's2.meds': 'Medications taken recently',
+    's2.organs': 'Where do allergy symptoms appear?', 's2.pets': 'Do you keep or often contact pets?',
+    's2.multi': '(multiple choice)',
+    's2.cat': '🐱 Cat', 's2.dog': '🐶 Dog', 's2.other': 'Other', 's2.none': 'No pets',
+    's2.pets_other_ph': 'Other animals (e.g. hamster, rabbit, bird)',
+    's2.ah_warn': '⚠️ Antihistamines can cause <b>false negatives</b> on skin prick tests (SPT); interpret results with care.',
+    's2.preparing': 'Preparing the questionnaire…', 's2.q_fail': 'Questionnaire failed: ',
+    's2.btn_next': 'To the culprit quest →',
+    'scat.mite': 'House dust mite', 'scat.pollen': 'Pollen', 'scat.animal': 'Animal', 'scat.mold': 'Mold',
+    'scat.insect': 'Insect (cockroach)', 'scat.shellfish': 'Shellfish', 'scat.food': 'Food', 'scat.other': 'Other',
+    'shint.pollen': '🌳 Pollen positive — the key is whether symptoms worsen in a <b>specific season</b>; checked per season next.',
+    'shint.mite': '🛏️ Dust mite positive — symptoms with <b>year-round, morning or dust exposure</b>, plus <b>shrimp/crab cross-reactivity</b>, are checked next.',
+    'shint.animal': '🐾 Animal positive — whether symptoms occur <b>on contact</b> matters most.',
+    'shint.shellfish': '🦐 Shellfish positive — do you react <b>when you actually eat it</b>? (strong positive but tolerated = sensitized only)',
+    'shint.food': '🍽️ Food positive — <b>which symptoms</b> (mouth/throat, skin, gut, breathing, systemic) occur when eaten.',
+    'shint.mold': '🍄 Mold positive — checked for worsening in <b>damp environments</b>.',
+    'shint.insect': '🪳 Cockroach positive — checked against the indoor environment.',
+
+    's3.eyebrow': 'QUEST 4 · Find the culprit',
+    's3.h1': 'Pick the true culprits among the traces',
+    's3.p': 'This is the core quest: is a positive test a <b>true allergy</b> or <b>sensitization only (positive, no symptoms)</b>? Answer what you know; if unsure choose “I’m not sure” — that is a valuable clue too.',
+    's3.btn_next': 'Complete the dex →',
+    's3.analyzing': 'Compiling the dex…', 's3.classify_fail': 'Analysis failed: ',
+    's3.clue_new': '🔎 New clue',
+    'questbar.text': '<b>Culprit quest progress</b> {a} / {v} clues',
+    'questbar.ring': '{a} / {v} questions answered',
+
+    's4.eyebrow': 'QUEST 5 · Complete the dex',
+    's4.h1_done': '{name}’s allergen dex is complete',
+    's4.h1_calm': '{name}’s allergen dex',
+    's4.p': 'Test date {date} · {n} positive trace(s) checked against symptoms · Lv.{lv} {title} · {xp} XP',
+    's4.trophy_rel': '🔴 Confirmed culprit', 's4.trophy_sens': '⚪ Cleared · sensitized only', 's4.trophy_indet': '🟡 Under watch',
+    's4.severe': '🚨 A history of severe (systemic / anaphylactic) reactions was reported. These results are for reference only; discuss an emergency plan and treatment with your physician.',
+    's4.tab_dex': '📖 Allergen dex', 's4.tab_report': 'Personal report', 's4.tab_cardnews': 'Card news', 's4.tab_fhir': 'FHIR export',
+    's4.back_edit': '← Edit answers', 's4.restart': 'New expedition',
+    's4.filter_all': 'All {n}', 's4.filter_rel': '🔴 Confirmed {n}', 's4.filter_indet': '🟡 Under watch {n}', 's4.filter_sens': '⚪ Cleared {n}',
+    's4.dex_empty': 'No allergens with this verdict.',
+    's4.dl_pdf': '🖨️ Save as PDF / print', 's4.dl_html': '🌐 Save HTML', 's4.dl_md': '📝 Save Markdown', 's4.dl_cardnews': '🖼️ Save card news HTML',
+    's4.fhir_help': '<b>Observation</b> = all test results (positive and negative); <b>AllergyIntolerance</b> = positive/suspected allergens incl. cross-reactive foods. verificationStatus: clinically confirmed = confirmed, sensitized only / undetermined = unconfirmed.',
+    's4.fhir_fail': 'FHIR generation failed: ',
+    's4.fhir_env': 'Environmental {n}', 's4.fhir_food': 'Food {n}',
+
+    'dex.season': 'Season', 'dex.oas_foods': '🍎 Oral allergy syndrome (OAS) foods',
+    'dex.oas_note': ' — mouth/throat symptoms with raw food; usually milder when cooked',
+    'dex.crossreact_confirmed': '🕵️ Cross-reactive foods confirmed by symptoms',
+    'dex.biology': 'Biology', 'dex.exposure': 'Main exposure', 'dex.crossreact': 'Cross-reactivity', 'dex.avoidance': 'Avoidance & management',
+    'dex.source': ' · Source: ', 'dex.source_default': 'default',
+    'dex.severity': ' · severity {s}', 'dex.sev_moderate': 'moderate', 'dex.sev_severe': 'severe', 'dex.sev_ana': 'anaphylaxis',
+    'dex.aria': '{name} dex card, verdict {stamp}. Show evidence',
+    'dex.oas_badge': '🍎 OAS cross-reactivity', 'dex.flip_hint': '↻ Evidence',
+    'dex.strength': 'sensitization {s}', 'strength.weak': 'weak', 'strength.moderate': 'moderate', 'strength.strong': 'strong',
+    'stars.aria': 'Sensitization strength {n}/3',
+
+    'verdict.clinically_relevant.stamp': 'CONFIRMED', 'verdict.clinically_relevant.note': 'Symptoms recur on exposure',
+    'verdict.sensitized_only.stamp': 'CLEARED · sensitized', 'verdict.sensitized_only.note': 'Sensitization remains; keep monitoring',
+    'verdict.indeterminate.stamp': 'UNDER WATCH', 'verdict.indeterminate.note': 'Record symptoms on exposure to confirm',
+    'verdict.not_assessed.stamp': 'UNKNOWN', 'verdict.not_assessed.note': '',
+
+    'badge.finisher.name': 'Finisher', 'badge.finisher.desc': 'Completed all five steps',
+    'badge.honest.name': 'Honest Explorer', 'badge.honest.desc': '“I’m not sure” is a valuable clue too',
+    'badge.crosshunter.name': 'Cross-reaction Hunter', 'badge.crosshunter.desc': 'Found a cross-reactive food confirmed by symptoms',
+    'badge.oas.name': 'OAS Detector', 'badge.oas.desc': 'Confirmed pollen–food cross-reactivity (OAS)',
+    'badge.reviewer.name': 'Careful Reviewer', 'badge.reviewer.desc': 'Corrected OCR results by hand',
+    'badge.dex.name': 'Dex Complete', 'badge.dex.desc': 'Every positive allergen received a verdict',
+
+    'cat.mite': 'House dust mite', 'cat.animal': 'Animal', 'cat.pollen_tree': 'Tree pollen', 'cat.pollen_grass': 'Grass pollen',
+    'cat.pollen_weed': 'Weed pollen', 'cat.mold': 'Mold', 'cat.insect': 'Insect', 'cat.food': 'Food', 'cat.other': 'Other',
+  };
+
+  const zh = {
+    'app.title': '过敏原探险任务',
+    'app.tagline': '检测阳性只是线索 · 真正的元凶由症状确认',
+    'app.doc_title': '过敏原探险任务 · 过敏检测结果报告',
+    'app.classic': '经典界面',
+    'app.classic_title': '切换到改版前的经典界面（同一数据、同一 API）',
+    'app.theme': '切换浅色/深色',
+    'app.lang': '语言',
+    'app.disclaimer': '本服务为教育参考资料，不能替代医学诊断与治疗。请与主治医生商议后做出判断。',
+    'notice.partial': '问卷题目、知识库、报告与卡片新闻正文目前以韩文提供。',
+    'common.back': '← 上一步',
+    'common.patient': '探险者',
+    'common.loading': '加载中…',
+
+    'step.0.name': '收集线索', 'step.0.sub': '上传检测单',
+    'step.1.name': '核对证据', 'step.1.sub': 'OCR 校对',
+    'step.2.name': '探险者档案', 'step.2.sub': '筛查问卷',
+    'step.3.name': '锁定元凶', 'step.3.sub': '症状鉴别问卷',
+    'step.4.name': '完成图鉴', 'step.4.sub': '结果报告',
+    'trail.aria': '任务进度',
+
+    'hud.level': 'Lv.{n} {title}',
+    'hud.xp': '{xp} XP',
+    'level.0': '新芽探险者', 'level.1': '资深探险者', 'level.2': '过敏原大师',
+    'xp.float': '+{n} XP',
+
+    's0.eyebrow': '任务 1 · 收集线索',
+    's0.h1': '上传检测单，探险就此开始',
+    's0.p': '支持皮肤点刺试验（SPT）、MAST 与 UniCAP（ImmunoCAP）检测单。上传照片或扫描件后，系统自动读取阳性项目并登记为<b>线索</b>。',
+    's0.dz_aria': '选择检测单图片',
+    's0.dz_h': '将图片拖到此处或点击选择',
+    's0.dz_p': 'JPG · PNG · 10MB 以内',
+    's0.dz_nokey': '·（使用 OCR 需在服务器配置 OpenAI API 密钥）',
+    's0.preview_alt': '上传预览',
+    's0.btn_demo': '✨ 开始练习探险（演示数据）',
+    's0.btn_manual': '⌨️ 手动输入结果',
+    's0.ocr_reading': '正在用 OCR 读取检测项目…',
+    's0.ocr_fail_hint': '可以使用下方的<b>演示数据</b>或<b>手动输入</b>继续。',
+    's0.demo_loaded': '已载入演示数据',
+    's0.demo_fail': '演示数据载入失败：',
+
+    's1.eyebrow': '任务 2 · 核对证据',
+    's1.h1': '请核对并修正读取到的线索',
+    's1.p': '读错的数值可直接在表格中修改，遗漏的过敏原可用<b>“＋ 添加项目”</b>补充。修改数值后 Class 与判定会自动更新。阳性项目将<b>登记到图鉴</b>。',
+    's1.meta_facility': '🏥 检测机构', 's1.meta_provider': '👨‍⚕️ 开单医师', 's1.meta_date': '🗓️ 检测日期',
+    's1.meta_report_date': '📄 报告日期', 's1.meta_chart': '🔖 病历号',
+    's1.meta_note': '↑ 从检测单自动提取的信息，转换 FHIR 时一并映射。',
+    's1.pos_summary': '🧭 发现 {n} 个阳性线索 — 下一任务将鉴别其中的真正元凶。',
+    's1.col_value_spt': '风团(mm)', 's1.col_value_ige': '数值(kU/L)',
+    's1.class_title': '输入数值后自动计算',
+    's1.ph_allergen': '例：Dermatophagoides farinae', 's1.ph_korean': '韩文名（可选）',
+    's1.pos': '阳性', 's1.neg': '阴性', 's1.del': '删除',
+    's1.empty_zero': '没有数值为 0（未测）的项目。',
+    's1.empty_measured': '没有已测量（数值>0）的项目。请用“＋ 添加项目”补充，或查看<b>数值为 0 的项目</b>标签。',
+    's1.test_type': '检测类型',
+    's1.hint_spt': 'SPT=风团大小(mm)，平均 ≥3mm 为阳性',
+    's1.hint_ige': 'MAST/UniCAP=特异性 IgE(kU/L)，Class ≥1 或 ≥0.35 为阳性',
+    's1.tab_measured': '已测量', 's1.tab_zero': '数值为 0 的项目',
+    's1.tab_hint_zero': '数值为 0 或未测量的项目，如需要请输入数值。',
+    's1.tab_hint_measured': '已测得数值的项目。',
+    's1.th_allergen': '过敏原', 's1.th_korean': '韩文名', 's1.th_unit': '单位', 's1.th_class': 'Class', 's1.th_interp': '判定',
+    's1.add_row': '＋ 添加项目', 's1.pos_count': '阳性',
+    's1.btn_register': '登记发现 →',
+
+    'discover.eyebrow': '发现！',
+    'discover.h2': '已将 {n} 种阳性线索登记到图鉴',
+    'discover.p': '判定仍为<b>未确认</b>。下一任务将锁定真正的元凶。',
+    'discover.more': '+{n} 种',
+    'discover.go': '前往元凶鉴别任务 →',
+    'discover.aria': '发现的过敏原',
+
+    's2.eyebrow': '任务 3 · 探险者档案',
+    's2.h1': '请填写探险者档案',
+    's2.p': '确认基础过敏疾病、正在服用的药物以及出现症状的部位。这些信息可提高下一任务的鉴别准确度。',
+    's2.banner_title': '🧭 图鉴中已登记 {n} 个阳性线索',
+    's2.banner_note': '下方问卷与<b>下一步的鉴别问题</b>将根据这些结果自动生成。',
+    's2.name': '姓名', 's2.name_ph': '张三', 's2.age': '年龄', 's2.gender': '性别', 's2.male': '男', 's2.female': '女',
+    's2.test_date': '检测日期',
+    's2.diseases': '已确诊或正患有的过敏性疾病', 's2.meds': '近期服用的药物',
+    's2.organs': '过敏症状出现的部位', 's2.pets': '是否饲养或经常接触宠物？',
+    's2.multi': '（可多选）',
+    's2.cat': '🐱 猫', 's2.dog': '🐶 狗', 's2.other': '其他', 's2.none': '未饲养',
+    's2.pets_other_ph': '请输入其他动物（例：仓鼠、兔子、鸟）',
+    's2.ah_warn': '⚠️ 服用抗组胺药期间，皮肤点刺试验（SPT）可能出现<b>假阴性</b>，解读结果时需注意。',
+    's2.preparing': '正在准备问卷…', 's2.q_fail': '问卷生成失败：',
+    's2.btn_next': '前往元凶鉴别任务 →',
+    'scat.mite': '屋尘螨', 'scat.pollen': '花粉', 'scat.animal': '动物', 'scat.mold': '霉菌',
+    'scat.insect': '昆虫（蟑螂）', 'scat.shellfish': '甲壳类', 'scat.food': '食物', 'scat.other': '其他',
+    'shint.pollen': '🌳 花粉阳性 — 关键在于症状是否在<b>特定季节</b>加重，下一步按季节确认。',
+    'shint.mite': '🛏️ 屋尘螨阳性 — 下一步确认<b>全年·晨起·接触灰尘</b>时的症状，以及<b>虾蟹交叉反应</b>。',
+    'shint.animal': '🐾 动物阳性 — 重点是<b>接触时是否出现症状</b>。',
+    'shint.shellfish': '🦐 甲壳类阳性 — 确认<b>实际食用时</b>是否有反应（强阳性但能正常食用则仅为致敏）。',
+    'shint.food': '🍽️ 食物阳性 — 确认食用时出现<b>哪些症状</b>（口咽/皮肤/消化道/呼吸/全身）。',
+    'shint.mold': '🍄 霉菌阳性 — 确认在<b>潮湿环境</b>中是否加重。',
+    'shint.insect': '🪳 蟑螂阳性 — 确认与室内环境的关联。',
+
+    's3.eyebrow': '任务 4 · 锁定元凶',
+    's3.h1': '从线索中找出真正的元凶',
+    's3.p': '这是核心任务：判断检测阳性是<b>真正的过敏</b>还是<b>仅为致敏（阳性但无症状）</b>。知道多少答多少，不确定就选“不太清楚” — 这同样是重要线索。',
+    's3.btn_next': '完成图鉴 →',
+    's3.analyzing': '正在整理图鉴…', 's3.classify_fail': '分析失败：',
+    's3.clue_new': '🔎 新线索',
+    'questbar.text': '<b>元凶鉴别进度</b> {a} / {v} 条线索',
+    'questbar.ring': '已回答 {a} / {v} 题',
+
+    's4.eyebrow': '任务 5 · 完成图鉴',
+    's4.h1_done': '{name}的过敏原图鉴已完成',
+    's4.h1_calm': '{name}的过敏原图鉴',
+    's4.p': '检测日期 {date} · 已将 {n} 个阳性线索与症状对照鉴别 · Lv.{lv} {title} · {xp} XP',
+    's4.trophy_rel': '🔴 元凶确认', 's4.trophy_sens': '⚪ 排除 · 仅致敏', 's4.trophy_indet': '🟡 观察对象',
+    's4.severe': '🚨 检出重度（全身/过敏性休克）反应史。本结果仅供参考，急救方案与治疗务必与主治医生商议。',
+    's4.tab_dex': '📖 过敏原图鉴', 's4.tab_report': '个性化报告', 's4.tab_cardnews': '卡片新闻', 's4.tab_fhir': 'FHIR 导出',
+    's4.back_edit': '← 修改问卷', 's4.restart': '开始新探险',
+    's4.filter_all': '全部 {n}', 's4.filter_rel': '🔴 元凶确认 {n}', 's4.filter_indet': '🟡 观察对象 {n}', 's4.filter_sens': '⚪ 排除 {n}',
+    's4.dex_empty': '没有该判定的过敏原。',
+    's4.dl_pdf': '🖨️ 保存为 PDF / 打印', 's4.dl_html': '🌐 保存 HTML', 's4.dl_md': '📝 保存 Markdown', 's4.dl_cardnews': '🖼️ 保存卡片新闻 HTML',
+    's4.fhir_help': '<b>Observation</b> = 全部检测结果（阳性+阴性），<b>AllergyIntolerance</b> = 阳性/疑似过敏原（含交叉反应食物）。verificationStatus：临床确认=confirmed，仅致敏/未定=unconfirmed。',
+    's4.fhir_fail': 'FHIR 生成失败：',
+    's4.fhir_env': '环境过敏原 {n}', 's4.fhir_food': '食物过敏原 {n}',
+
+    'dex.season': '季节', 'dex.oas_foods': '🍎 口腔过敏综合征（OAS）相关食物',
+    'dex.oas_note': ' — 生食时注意口咽症状，煮熟后通常减轻',
+    'dex.crossreact_confirmed': '🕵️ 经症状确认的交叉反应食物',
+    'dex.biology': '特性·生活史', 'dex.exposure': '主要暴露环境', 'dex.crossreact': '交叉反应', 'dex.avoidance': '回避·管理要点',
+    'dex.source': ' · 来源：', 'dex.source_default': '默认',
+    'dex.severity': ' · 严重程度 {s}', 'dex.sev_moderate': '中度', 'dex.sev_severe': '重度', 'dex.sev_ana': '过敏性休克',
+    'dex.aria': '{name} 图鉴卡片，判定 {stamp}。查看依据',
+    'dex.oas_badge': '🍎 存在 OAS 交叉反应', 'dex.flip_hint': '↻ 查看依据',
+    'dex.strength': '致敏 {s}', 'strength.weak': '弱', 'strength.moderate': '中', 'strength.strong': '强',
+    'stars.aria': '致敏强度 {n}/3',
+
+    'verdict.clinically_relevant.stamp': '元凶确认', 'verdict.clinically_relevant.note': '暴露时症状会再现的过敏原',
+    'verdict.sensitized_only.stamp': '排除 · 仅致敏', 'verdict.sensitized_only.note': '致敏仍存在，需继续追踪',
+    'verdict.indeterminate.stamp': '观察对象', 'verdict.indeterminate.note': '暴露时记录症状以便确认',
+    'verdict.not_assessed.stamp': '未确认', 'verdict.not_assessed.note': '',
+
+    'badge.finisher.name': '全程完成', 'badge.finisher.desc': '完成了全部五个步骤',
+    'badge.honest.name': '诚实的探险者', 'badge.honest.desc': '“不太清楚”也是重要线索',
+    'badge.crosshunter.name': '交叉反应猎手', 'badge.crosshunter.desc': '找到了经症状确认的交叉反应食物',
+    'badge.oas.name': 'OAS 探测', 'badge.oas.desc': '确认了花粉-食物交叉反应（OAS）',
+    'badge.reviewer.name': '细心校对者', 'badge.reviewer.desc': '亲手修正了 OCR 结果，提高了准确度',
+    'badge.dex.name': '图鉴完成', 'badge.dex.desc': '所有阳性过敏原都已获得判定',
+
+    'cat.mite': '屋尘螨', 'cat.animal': '动物', 'cat.pollen_tree': '树木花粉', 'cat.pollen_grass': '草类花粉',
+    'cat.pollen_weed': '杂草花粉', 'cat.mold': '霉菌', 'cat.insect': '昆虫', 'cat.food': '食物', 'cat.other': '其他',
+  };
+
+  const DICT = { ko, en, zh };
+  const LANGS = [
+    { code: 'ko', label: '한국어', html: 'ko' },
+    { code: 'en', label: 'English', html: 'en' },
+    { code: 'zh', label: '中文', html: 'zh-CN' },
+  ];
+  let current = 'ko';
+
+  function detect() {
+    try {
+      const saved = typeof localStorage !== 'undefined' && localStorage.getItem('lang');
+      if (saved && DICT[saved]) return saved;
+    } catch (_) {}
+    if (typeof navigator !== 'undefined' && navigator.language) {
+      const l = navigator.language.toLowerCase();
+      if (l.startsWith('zh')) return 'zh';
+      if (l.startsWith('en')) return 'en';
+    }
+    return 'ko';
+  }
+  function setLang(code) {
+    if (!DICT[code]) return current;
+    current = code;
+    try { localStorage.setItem('lang', code); } catch (_) {}
+    if (typeof document !== 'undefined') {
+      const meta = LANGS.find(l => l.code === code);
+      document.documentElement.setAttribute('lang', meta ? meta.html : code);
+      document.title = t('app.doc_title');
+      document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = t(el.dataset.i18n); });
+      document.querySelectorAll('[data-i18n-title]').forEach(el => { el.title = t(el.dataset.i18nTitle); el.setAttribute('aria-label', t(el.dataset.i18nTitle)); });
+      document.querySelectorAll('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', t(el.dataset.i18nAria)); });
+    }
+    return current;
+  }
+  function getLang() { return current; }
+  function t(key, vars) {
+    let s = (DICT[current] && DICT[current][key]);
+    if (s === undefined) s = ko[key];
+    if (s === undefined) return key;
+    if (vars) s = s.replace(/\{(\w+)\}/g, (m, k) => (vars[k] !== undefined && vars[k] !== null) ? String(vars[k]) : m);
+    return s;
+  }
+  function init() { current = detect(); return current; }
+
+  return { DICT, LANGS, t, setLang, getLang, init, detect };
+});

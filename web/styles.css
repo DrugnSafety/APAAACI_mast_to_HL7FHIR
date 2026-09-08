@@ -125,6 +125,8 @@ body[data-appstep="3"] main { padding-bottom: 96px; }  /* 문진 단계에만 �
 .hud-bar { height: 8px; border-radius: var(--r-pill); background: var(--bg-subtle); border: 1px solid var(--border); overflow: hidden; margin-top: 4px; }
 .hud-fill { height: 100%; width: 100%; border-radius: inherit; transform-origin: left center; transform: scaleX(var(--p, 0)); transition: transform .6s var(--ease);
   background: linear-gradient(90deg, var(--brand), var(--accent)); }
+.lang-sel { font-size: 12.5px; font-weight: 700; color: var(--text-2); background: var(--bg-elev); border: 1px solid var(--border-strong); border-radius: var(--r-pill); padding: 6px 28px 6px 10px; font-family: inherit; min-height: 34px; appearance: none; -webkit-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--text-3) 50%), linear-gradient(135deg, var(--text-3) 50%, transparent 50%); background-position: calc(100% - 15px) 55%, calc(100% - 10px) 55%; background-size: 5px 5px; background-repeat: no-repeat; }
 .ui-switch { font-size: 12px; font-weight: 800; color: var(--text-2); border: 1px solid var(--border-strong); border-radius: var(--r-pill); padding: 6px 10px; text-decoration: none; white-space: nowrap; }
 .ui-switch:hover { background: var(--bg-subtle); color: var(--text); }
 .theme-toggle { width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-elev); color: var(--text-2); font-size: 16px; flex: none; }
@@ -366,7 +368,9 @@ table.grid input:focus { background: var(--bg-elev); border-color: var(--brand);
   body[data-appstep="2"] main, body[data-appstep="3"] main { padding-bottom: 120px; }
   .logo small, .tlabel small { display: none; }
   .logo { font-size: 17px; }
-  .hud { width: 130px; min-width: 110px; }
+  .hud { width: 120px; min-width: 100px; }
+  .lang-sel { padding: 6px 22px 6px 6px; font-size: 11.5px; }
+  .ui-switch { display: none; }
   .hud-top { font-size: 11px; }
   .panel { padding: 18px; }
   .panel-head h1 { font-size: 24px; }
