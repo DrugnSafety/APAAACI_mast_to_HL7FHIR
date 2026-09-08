@@ -329,9 +329,9 @@ class CardNewsService:
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap"/>
 <style>
   * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-  :root {{ --cream:#fbf7ee; --elev:#fffdf8; --ink:#1f2a24; --ink2:#4d5a52; --ink3:#83907f; --line:#e6dcc6;
+  :root {{ --cream:#fbf7ee; --elev:#fffdf8; --ink:#1f2a24; --ink2:#4d5a52; --ink3:#5f6d63; --line:#e6dcc6;
            --forest:#2f8f5b; --forest-d:#1f5f3f; --amber:#f2a33a; --amber-soft:#fdeed6; --amber-ink:#8a5a12;
-           --red:#e4572e; --red-soft:#fde9e2; --slate:#6b7a8f; --slate-soft:#eef1f5; --indet:#d9860a; --indet-soft:#fdf3e3;
+           --red:#a83616; --red-soft:#fde9e2; --slate:#4a5768; --slate-soft:#eef1f5; --indet:#8a5405; --indet-soft:#fdf3e3;
            --display:'Do Hyeon','Pretendard','Apple SD Gothic Neo','Noto Sans KR',sans-serif; }}
   body {{ font-family:'Pretendard','Noto Sans KR','Malgun Gothic',-apple-system,sans-serif; color:var(--ink); padding:16px;
          background:var(--cream) radial-gradient(rgba(47,143,91,.07) 1px, transparent 1px); background-size:22px 22px; }}
