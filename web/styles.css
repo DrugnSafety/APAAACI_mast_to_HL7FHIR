@@ -364,7 +364,7 @@ table.grid input:focus { background: var(--bg-elev); border-color: var(--brand);
   body[data-appstep="2"] main, body[data-appstep="3"] main { padding-bottom: 120px; }
   .logo small, .tlabel small { display: none; }
   .logo { font-size: 17px; }
-  .hud { width: 130px; }
+  .hud { width: 130px; min-width: 110px; }
   .hud-top { font-size: 11px; }
   .panel { padding: 18px; }
   .panel-head h1 { font-size: 24px; }
@@ -380,7 +380,7 @@ table.grid input:focus { background: var(--bg-elev); border-color: var(--brand);
   .chip-opt, .rv-tab, .result-tabs button, .btn.sm, .pos-toggle { min-height: 44px; }
   .btn.danger-ghost, .theme-toggle { min-width: 44px; min-height: 44px; }
   table.grid input { min-height: 44px; }
-  .dex-grid { grid-template-columns: 1fr 1fr; }
+  .dex-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
   .dex-name { font-size: 18px; }
   .discover { padding: 20px 16px; }
   .discover h2 { font-size: 22px; }
