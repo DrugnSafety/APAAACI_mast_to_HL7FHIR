@@ -87,6 +87,10 @@ body{ font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',system-ui,-
 .tiles-cap{ font-size:12.5px; color:var(--ink-2); background:var(--soft); border-radius:10px; padding:10px 13px; margin:12px 0 20px; }
 .content h2{ font-size:18.5px; font-weight:800; margin:26px 0 10px; padding-bottom:7px; border-bottom:2px solid var(--line); letter-spacing:-.01em; page-break-after:avoid; }
 .content h3{ font-size:15.5px; font-weight:700; margin:18px 0 8px; color:var(--ink); page-break-after:avoid; }
+.content h3 + p code{ display:inline-block; font-family:inherit; font-size:11.5px; font-weight:700; color:var(--ink-2); background:var(--soft); border:1px solid var(--line); border-radius:999px; padding:2px 9px; margin:0 4px 4px 0; }
+.content ol{ padding-left:22px; } .content ol li{ margin:4px 0; color:var(--ink); }
+.content .detail-more{ margin:10px 0 4px; padding:10px 14px; border-left:3px solid var(--line); background:var(--soft); border-radius:0 8px 8px 0; font-size:12.5px; }
+.content .detail-more p{ margin:2px 0 6px; } .content .detail-more ul{ margin:4px 0; } .content .detail-more li{ margin:3px 0; font-size:12.5px; }
 .content p{ margin:8px 0; color:var(--ink-2); }
 .content ul,.content ol{ margin:8px 0 8px; padding-left:20px; }
 .content li{ margin:5px 0; color:var(--ink-2); }

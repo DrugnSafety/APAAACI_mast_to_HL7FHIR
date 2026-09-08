@@ -9,30 +9,30 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
   <link rel="stylesheet" href="/classic/styles.css" />
 </head>
-<body>
+<body data-doc-title-key="c.doc_title">
   <header class="app-header">
     <div class="bar">
       <div class="logo">
         <span class="mark">🩺</span>
-        <span>알레르기 리포트
-          <small>검사 결과를 쉽게 · 감작 vs 실제 알레르기 감별</small>
+        <span><span data-i18n="c.title">알레르기 리포트</span>
+          <small data-i18n="c.tagline">검사 결과를 쉽게 · 감작 vs 실제 알레르기 감별</small>
         </span>
       </div>
       <div class="header-spacer"></div>
-      <a class="ui-switch" href="/" title="게임화(알러젠 탐험 퀘스트) UI 로 전환 (같은 데이터·같은 API)">🧭 탐험 퀘스트 UI</a>
-      <button class="theme-toggle" id="themeToggle" title="라이트/다크 전환" aria-label="테마 전환">🌙</button>
+      <select class="lang-sel" id="langSel" data-i18n-aria="app.lang" aria-label="언어"></select>
+      <a class="ui-switch" href="/" data-i18n="c.quest" data-i18n-title="c.quest_title" title="게임화(알러젠 탐험 퀘스트) UI 로 전환 (같은 데이터·같은 API)">🧭 탐험 퀘스트 UI</a>
+      <button class="theme-toggle" id="themeToggle" data-i18n-title="app.theme" title="라이트/다크 전환" aria-label="테마 전환">🌙</button>
     </div>
   </header>
 
   <main>
-    <nav class="stepper" id="stepper" aria-label="진행 단계"></nav>
+    <nav class="stepper" id="stepper" data-i18n-aria="trail.aria" aria-label="진행 단계"></nav>
     <div id="view"><!-- 단계별 화면 렌더링 --></div>
-    <p class="disclaimer">
-      본 서비스는 교육용 참고 자료이며 의학적 진단·치료를 대체하지 않습니다. 정확한 판단은 담당 의료진과 상담하세요.
-    </p>
+    <p class="disclaimer" data-i18n="app.disclaimer">본 서비스는 교육용 참고 자료이며 의학적 진단·치료를 대체하지 않습니다. 정확한 판단은 담당 의료진과 상담하세요.</p>
   </main>
 
   <div class="toast" id="toast"></div>
+  <script src="/i18n.js"></script>
   <script src="/classic/app.js"></script>
 </body>
 </html>

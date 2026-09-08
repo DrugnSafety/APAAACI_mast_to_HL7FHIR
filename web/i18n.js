@@ -155,6 +155,29 @@
 
     'cat.mite': '집먼지진드기', 'cat.animal': '동물', 'cat.pollen_tree': '나무 꽃가루', 'cat.pollen_grass': '잔디 꽃가루',
     'cat.pollen_weed': '잡초 꽃가루', 'cat.mold': '곰팡이', 'cat.insect': '곤충', 'cat.food': '음식', 'cat.other': '기타',
+    // ---- 클래식 UI 전용(c.*) — 같은 문구는 s*.* 키 재사용
+    'c.title': '알레르기 리포트', 'c.tagline': '검사 결과를 쉽게 · 감작 vs 실제 알레르기 감별',
+    'c.doc_title': '알레르기 검사 결과 리포트 (클래식 UI)', 'c.quest': '🧭 탐험 퀘스트 UI',
+    'c.quest_title': '게임화(알러젠 탐험 퀘스트) UI 로 전환 (같은 데이터·같은 API)',
+    'c.step.0': '검사지 업로드', 'c.step.1': 'OCR 검토', 'c.step.2': '문진·스크리닝', 'c.step.3': '증상 감별 문진', 'c.step.4': '결과 리포트',
+    'c.s0.eyebrow': 'STEP 1 · 검사지 업로드', 'c.s0.h1': '알레르기 검사 결과지를 올려주세요',
+    'c.s0.p': '피부반응검사(SPT), MAST, UniCAP(ImmunoCAP) 결과지를 지원합니다. 사진이나 스캔 이미지를 올리면 자동으로 항목을 읽어냅니다.',
+    'c.s0.btn_demo': '✨ 데모 데이터로 체험하기',
+    'c.s1.eyebrow': 'STEP 2 · OCR 검토', 'c.s1.h1': '읽어온 결과를 확인·수정하세요',
+    'c.s1.p': '잘못 읽힌 값은 표에서 직접 고치고, <b>누락된 알러젠은 아래 ‘＋ 항목 추가’</b>로 넣을 수 있습니다. 수치를 고치면 Class·판정이 자동으로 바뀝니다.',
+    'c.s1.pos_summary': '🔴 양성 알러젠 {n}개 — 다음 단계에서 이 항목들의 실제 임상적 의미를 감별합니다.',
+    'c.s1.btn_next': '양성 항목 감별 시작 →',
+    'c.s2.eyebrow': 'STEP 3 · 문진·스크리닝', 'c.s2.h1': '몇 가지만 알려주세요',
+    'c.s2.p': '기저 알레르기 질환과 복용 약제, 증상이 나타나는 부위를 확인합니다. 이 정보로 감별 정확도가 올라갑니다.',
+    'c.s2.banner_title': '🔬 검사에서 양성으로 확인된 알러젠 {n}개', 'c.s2.btn_next': '감별 문진으로 →',
+    'c.s3.eyebrow': 'STEP 4 · 증상 감별 문진', 'c.s3.h1': '증상과 알러젠을 연결해볼게요',
+    'c.s3.p': '검사 양성이 <b>실제 알레르기</b>인지 <b>감작(양성이지만 증상 없음)</b>인지 가리는 핵심 단계입니다. 아는 만큼만 답하시고, 모르면 ‘잘 모르겠어요’를 선택하세요.',
+    'c.s3.btn_next': '결과 리포트 생성 →', 'c.s3.analyzing': '분석 중…',
+    'c.s4.h1': '{name}님의 알레르기 결과 요약', 'c.s4.p': '검사일 {date} · 양성 {n}개 항목을 증상과 대조해 감별했습니다.',
+    'c.s4.stat_rel': '🔴 실제 주의', 'c.s4.stat_sens': '⚪ 감작만', 'c.s4.stat_indet': '🟡 관찰 필요',
+    'c.s4.tab_allergens': '알러젠별 감별', 'c.s4.restart': '처음부터 다시', 'c.s4.empty': '양성 알러젠이 없습니다.',
+    'c.rel.clinically_relevant': '실제 주의', 'c.rel.sensitized_only': '감작만', 'c.rel.indeterminate': '관찰 필요', 'c.rel.not_assessed': '미평가',
+    'c.dex.oas_general': '구강알레르기증후군(일반)', 'c.patient': '환자',
   };
 
   const en = {
@@ -302,6 +325,28 @@
 
     'cat.mite': 'House dust mite', 'cat.animal': 'Animal', 'cat.pollen_tree': 'Tree pollen', 'cat.pollen_grass': 'Grass pollen',
     'cat.pollen_weed': 'Weed pollen', 'cat.mold': 'Mold', 'cat.insect': 'Insect', 'cat.food': 'Food', 'cat.other': 'Other',
+    'c.title': 'Allergy Report', 'c.tagline': 'Test results made simple · sensitization vs true allergy',
+    'c.doc_title': 'Allergy Test Report (Classic UI)', 'c.quest': '🧭 Quest UI',
+    'c.quest_title': 'Switch to the gamified Allergen Exploration Quest UI (same data, same API)',
+    'c.step.0': 'Upload report', 'c.step.1': 'OCR review', 'c.step.2': 'Screening', 'c.step.3': 'Symptom questionnaire', 'c.step.4': 'Results',
+    'c.s0.eyebrow': 'STEP 1 · Upload report', 'c.s0.h1': 'Upload your allergy test report',
+    'c.s0.p': 'Skin prick test (SPT), MAST and UniCAP (ImmunoCAP) reports are supported. Upload a photo or scan and the items are read automatically.',
+    'c.s0.btn_demo': '✨ Try with demo data',
+    'c.s1.eyebrow': 'STEP 2 · OCR review', 'c.s1.h1': 'Review and correct what we read',
+    'c.s1.p': 'Fix misread values directly in the table and add missing allergens with <b>“＋ Add item”</b> below. Editing a value updates Class and the call automatically.',
+    'c.s1.pos_summary': '🔴 {n} positive allergen(s) — the next step assesses their real clinical relevance.',
+    'c.s1.btn_next': 'Assess positive items →',
+    'c.s2.eyebrow': 'STEP 3 · Screening', 'c.s2.h1': 'A few quick questions',
+    'c.s2.p': 'We check your allergic conditions, current medications and where symptoms appear. This improves the assessment.',
+    'c.s2.banner_title': '🔬 {n} allergen(s) positive on the test', 'c.s2.btn_next': 'To the questionnaire →',
+    'c.s3.eyebrow': 'STEP 4 · Symptom questionnaire', 'c.s3.h1': 'Let’s connect symptoms to allergens',
+    'c.s3.p': 'This is the key step: is a positive test a <b>true allergy</b> or <b>sensitization only (positive, no symptoms)</b>? Answer what you know; choose “I’m not sure” if unsure.',
+    'c.s3.btn_next': 'Generate report →', 'c.s3.analyzing': 'Analyzing…',
+    'c.s4.h1': '{name}’s allergy summary', 'c.s4.p': 'Test date {date} · {n} positive item(s) checked against symptoms.',
+    'c.s4.stat_rel': '🔴 True allergy', 'c.s4.stat_sens': '⚪ Sensitized only', 'c.s4.stat_indet': '🟡 Under watch',
+    'c.s4.tab_allergens': 'Per-allergen assessment', 'c.s4.restart': 'Start over', 'c.s4.empty': 'No positive allergens.',
+    'c.rel.clinically_relevant': 'True allergy', 'c.rel.sensitized_only': 'Sensitized only', 'c.rel.indeterminate': 'Under watch', 'c.rel.not_assessed': 'Not assessed',
+    'c.dex.oas_general': 'Oral allergy syndrome (general)', 'c.patient': 'Patient',
   };
 
   const zh = {
@@ -449,6 +494,28 @@
 
     'cat.mite': '屋尘螨', 'cat.animal': '动物', 'cat.pollen_tree': '树木花粉', 'cat.pollen_grass': '草类花粉',
     'cat.pollen_weed': '杂草花粉', 'cat.mold': '霉菌', 'cat.insect': '昆虫', 'cat.food': '食物', 'cat.other': '其他',
+    'c.title': '过敏报告', 'c.tagline': '轻松看懂检测结果 · 致敏 vs 真正过敏',
+    'c.doc_title': '过敏检测结果报告（经典界面）', 'c.quest': '🧭 探险任务界面',
+    'c.quest_title': '切换到游戏化的过敏原探险任务界面（同一数据、同一 API）',
+    'c.step.0': '上传检测单', 'c.step.1': 'OCR 校对', 'c.step.2': '筛查问卷', 'c.step.3': '症状鉴别问卷', 'c.step.4': '结果报告',
+    'c.s0.eyebrow': '步骤 1 · 上传检测单', 'c.s0.h1': '请上传过敏检测结果单',
+    'c.s0.p': '支持皮肤点刺试验（SPT）、MAST 与 UniCAP（ImmunoCAP）检测单。上传照片或扫描件后自动读取各项目。',
+    'c.s0.btn_demo': '✨ 用演示数据体验',
+    'c.s1.eyebrow': '步骤 2 · OCR 校对', 'c.s1.h1': '请核对并修正读取结果',
+    'c.s1.p': '读错的数值可直接在表格中修改，遗漏的过敏原可用下方<b>“＋ 添加项目”</b>补充。修改数值后 Class 与判定会自动更新。',
+    'c.s1.pos_summary': '🔴 阳性过敏原 {n} 个 — 下一步鉴别其实际临床意义。',
+    'c.s1.btn_next': '开始鉴别阳性项目 →',
+    'c.s2.eyebrow': '步骤 3 · 筛查问卷', 'c.s2.h1': '请告诉我们几个信息',
+    'c.s2.p': '确认基础过敏疾病、正在服用的药物以及出现症状的部位。这些信息可提高鉴别准确度。',
+    'c.s2.banner_title': '🔬 检测中确认阳性的过敏原 {n} 个', 'c.s2.btn_next': '进入鉴别问卷 →',
+    'c.s3.eyebrow': '步骤 4 · 症状鉴别问卷', 'c.s3.h1': '把症状和过敏原联系起来',
+    'c.s3.p': '这是判断检测阳性是<b>真正的过敏</b>还是<b>仅为致敏（阳性但无症状）</b>的关键步骤。知道多少答多少，不确定就选“不太清楚”。',
+    'c.s3.btn_next': '生成结果报告 →', 'c.s3.analyzing': '分析中…',
+    'c.s4.h1': '{name}的过敏结果摘要', 'c.s4.p': '检测日期 {date} · 已将 {n} 个阳性项目与症状对照鉴别。',
+    'c.s4.stat_rel': '🔴 需实际注意', 'c.s4.stat_sens': '⚪ 仅致敏', 'c.s4.stat_indet': '🟡 需观察',
+    'c.s4.tab_allergens': '按过敏原鉴别', 'c.s4.restart': '重新开始', 'c.s4.empty': '没有阳性过敏原。',
+    'c.rel.clinically_relevant': '需实际注意', 'c.rel.sensitized_only': '仅致敏', 'c.rel.indeterminate': '需观察', 'c.rel.not_assessed': '未评估',
+    'c.dex.oas_general': '口腔过敏综合征（一般）', 'c.patient': '患者',
   };
 
   const DICT = { ko, en, zh };
@@ -478,7 +545,7 @@
     if (typeof document !== 'undefined') {
       const meta = LANGS.find(l => l.code === code);
       document.documentElement.setAttribute('lang', meta ? meta.html : code);
-      document.title = t('app.doc_title');
+      document.title = t(document.body && document.body.dataset.docTitleKey || 'app.doc_title');
       document.querySelectorAll('[data-i18n]').forEach(el => { el.innerHTML = t(el.dataset.i18n); });
       document.querySelectorAll('[data-i18n-title]').forEach(el => { el.title = t(el.dataset.i18nTitle); el.setAttribute('aria-label', t(el.dataset.i18nTitle)); });
       document.querySelectorAll('[data-i18n-aria]').forEach(el => { el.setAttribute('aria-label', t(el.dataset.i18nAria)); });

@@ -5,6 +5,7 @@ GPT 기반 맞춤형 알레르기 관리 리포트 생성 서비스
 
 import json
 import logging
+import re
 from datetime import datetime
 from typing import Optional, Dict, Any, List
 from pathlib import Path
@@ -527,6 +528,18 @@ class ReportService:
         "food": "해당 음식 섭취 주의(전신 반응 시 응급)",
     }
 
+    # 알러젠 블록 '결론' 문장(완결형) — 짧게, 행동을 먼저
+    _ACTION_SENTENCE = {
+        "mite": "침구와 실내 습도부터 관리하세요.",
+        "animal": "그 동물과의 접촉을 줄이고 침실에는 들이지 마세요.",
+        "pollen_tree": "봄철에는 외출과 환기를 줄이세요.",
+        "pollen_grass": "초여름에는 잔디와 풀밭을 피하세요.",
+        "pollen_weed": "가을에는 야외 활동을 줄이세요.",
+        "mold": "실내 습도를 낮추고 곰팡이를 제거하세요.",
+        "insect": "주방과 서식처 위생을 관리하세요.",
+        "food": "그 음식은 피하세요. 온몸 반응이 있었다면 응급 계획이 필요합니다.",
+    }
+
     # 교차반응 증상 범위 배지 — 항원 노출 중증도와 구분해서 표기
     _CR_SEVERITY_BADGE = {
         "oral": "🟢 입·목 국소", "systemic": "🔴 **전신 반응**",
@@ -681,10 +694,9 @@ class ReportService:
         # 교육: 감작 vs 알레르기
         md.append("## 🧭 검사 양성이 곧 알레르기는 아닙니다")
         md.append(
-            "알레르기 검사에서 '양성'은 우리 몸이 그 물질에 **감작(sensitization)** 되어 있다는 뜻입니다. "
-            "하지만 실제 **알레르기 질환**은 그 물질에 **노출될 때(또는 그 계절에) 증상이 반복적으로 나타날 때** 성립합니다. "
-            "그래서 이 리포트는 검사 수치뿐 아니라 **‘노출 시 실제로 증상이 있었는지’**를 함께 반영하여, "
-            "정말로 주의해야 할 알러젠에 집중할 수 있도록 도와드립니다."
+            "검사 '양성'은 몸이 그 물질에 **감작**되었다는 뜻입니다. 알레르기 질환은 다릅니다. "
+            "그 물질에 **노출될 때 증상이 되풀이되어야** 알레르기입니다. "
+            "이 리포트는 검사 수치와 **노출 시 실제 증상**을 함께 봅니다. 그래서 정말 조심할 알러젠만 남깁니다."
         )
         md.append("\n---\n")
 
@@ -710,8 +722,8 @@ class ReportService:
         if not sensitized:
             md.append("감작만 된 항목은 없습니다.")
         else:
-            md.append("아래 항목은 검사에서 양성이지만 **노출에도 증상이 없어** 현재는 임상적 의미가 낮습니다. "
-                      "지나친 회피나 식이 제한은 필요하지 않으며, 새로운 증상이 생기면 재평가하세요.")
+            md.append("검사는 양성이지만 **노출해도 증상이 없는** 항목입니다. 지금은 피하지 않아도 됩니다. "
+                      "새 증상이 생기면 다시 평가하세요.")
             for a, _g in self._collapse(sensitized):
                 nm = self._display_name(a, detail=True)
                 md.append(f"- **{nm}** — {a.rationale_ko or '노출에도 증상이 없어 감작만 된 상태로 판단됩니다.'}")
@@ -742,15 +754,15 @@ class ReportService:
         # 4. 추적 관리
         md.append("## 4️⃣ 📅 추적 관리")
         md.append(
-            "- **증상 일지**: 증상이 있는 날의 날짜·상황(장소/계절/접촉물)·심한 정도(0~10)를 기록하세요.\n"
-            "- **재평가**: 증상이 새로 생기거나 변하면, 또는 6~12개월 후 담당 의료진과 재평가를 권장합니다.\n"
-            "- **응급 상황**: 호흡곤란·전신 두드러기·어지럼 등 아나필락시스 의심 시 즉시 병원에 가세요."
+            "- **증상 일지**: 증상이 있던 날의 날짜, 장소나 계절, 닿았던 것, 심한 정도(0~10)를 적어 두세요.\n"
+            "- **재평가**: 증상이 새로 생기거나 달라지면 담당 의료진을 다시 만나세요. 변화가 없어도 6~12개월마다 점검하면 좋습니다.\n"
+            "- **응급 상황**: 호흡곤란, 온몸 두드러기, 어지럼이 오면 아나필락시스일 수 있습니다. 바로 병원에 가세요."
         )
 
         md.append("\n---\n")
         md.append(
-            f"> 💛 {name}님, 알레르기는 **원인을 정확히 알고 관리하면 충분히 조절**할 수 있습니다. "
-            "정말 중요한 알러젠에 집중해 하나씩 실천해 보세요.\n\n"
+            f"> 💛 {name}님, 원인을 알면 알레르기는 조절할 수 있습니다. "
+            "정말 중요한 알러젠부터 하나씩 실천해 보세요.\n\n"
             "*본 리포트는 교육용 참고 자료이며, 정확한 진단과 치료는 담당 의료진과 상담하시기 바랍니다.*"
         )
         return "\n\n".join(md)
@@ -789,69 +801,96 @@ class ReportService:
         summary = RelevanceService.summarize(relevance_result)
         return render_report_document(f"{name}님 맞춤 알레르기 리포트", meta, summary, body_html)
 
+    @staticmethod
+    def _first_sentences(text: str, n: int = 2, max_len: int = 110) -> str:
+        """설명문을 앞 n문장(최대 max_len자)으로 줄인다 — 리포트 본문은 짧게, 나머지는 '더 알아보기'로."""
+        text = (text or "").strip()
+        if not text:
+            return ""
+        parts = [t.strip() for t in re.split(r"(?<=[.!?。])\s+", text) if t.strip()]
+        out = " ".join(parts[:n])
+        return out if len(out) <= max_len else out[:max_len].rstrip() + "…"
+
     def _allergen_detail_md(self, a: "AllergenAssessment", detailed: bool = True) -> str:
+        """알러젠 1건의 리포트 블록. 읽는 순서를 강제한다:
+        ① 이름 + 배지(칩) → ② 한 줄 결론 → ③ 지금 할 일(최대 3개) → ④ 더 알아보기(근거·특성·교차반응·면역치료).
+        문장은 짧게, 쉼표는 줄이고, 행동을 먼저 쓴다(humanizer 원칙)."""
         kb = a.kb or {}
-        # 임상 그룹(Df/Dp 등)은 통합 라벨로 한 번만 설명(A1)
         grp_label = self._display_name(a, detail=True)
         nm = a.korean_name or a.allergen_name
         grouped = grp_label != nm
         en = "" if grouped else (a.allergen_name if a.allergen_name != nm else "")
         head = f"### {grp_label}" + (f" ({en})" if en else "")
+        cat = normalize_category(a.category)
+
+        # ① 배지 라인 — 코드 스팬으로 칩처럼 보이게(report_design .content code)
+        chips = []
         strength = self._STRENGTH_KO.get(a.strength or "", "")
-        meta = []
         if strength:
-            meta.append(f"감작 강도: **{strength}**")
+            chips.append(f"`{strength}`")
         sev = self._severity_badge(a)
         if sev:
-            meta.append(f"증상 정도: {sev}")
+            chips.append(f"`증상 {sev.replace('**', '')}`")
         if kb.get("season_label_ko"):
-            meta.append(f"주요 시기: {kb['season_label_ko']}")
+            chips.append(f"`{kb['season_label_ko']}`")
         if kb.get("indoor_outdoor"):
-            io = {"indoor": "실내", "outdoor": "실외", "both": "실내·외"}.get(kb["indoor_outdoor"], "")
+            io = {"indoor": "🏠 실내", "outdoor": "🌳 실외", "both": "실내·외"}.get(kb["indoor_outdoor"], "")
             if io:
-                meta.append(f"노출: {io}")
+                chips.append(f"`{io}`")
         lines = [head]
-        if meta:
-            lines.append(" · ".join(meta))
+        if chips:
+            lines.append(" ".join(chips))
+
+        # ② 한 줄 결론 — 무엇이 문제이고 무엇을 하면 되는지 한 문장씩
+        action = self._ACTION_SENTENCE.get(cat, "노출되는 상황을 줄이는 것이 우선입니다.")
+        lines.append(f"**결론.** 노출될 때 증상이 실제로 나타나는 알러젠입니다. {action}")
+        if getattr(a, "severity", None) in ("severe", "anaphylaxis"):
+            lines.append("- 🚨 **중증 반응 병력:** 노출을 적극적으로 피하세요. 응급약과 병원 동선은 담당 의료진과 미리 정해 두세요.")
+
+        # ③ 지금 할 일 — 회피 수칙 중 앞 3개만 번호로
+        avoid = [t.strip() for t in kb.get("avoidance_control_ko", []) if t and t.strip()]
+        if avoid:
+            lines.append("**지금 할 일**")
+            for i, tip in enumerate(avoid[:3], 1):
+                lines.append(f"{i}. {tip}")
+        if getattr(a, "oas_foods", None):
+            lines.append(
+                f"- 🍎 **입·목 증상이 있었던 음식:** {', '.join(a.oas_foods)}. 생으로 먹을 때 주의하세요. "
+                f"익히면 대개 괜찮아지지만 목이나 호흡기까지 번지면 바로 진료를 받으세요.")
+
+        # ④ 더 알아보기 — 근거와 배경. 본문 흐름을 끊지 않도록 보조 블록으로 묶는다
+        more: List[str] = []
+        if a.rationale_ko:
+            more.append(f"- **왜 이렇게 판단했나:** {a.rationale_ko}")
         if grouped:
             try:
                 from services.clinical_group_service import get_clinical_group_service
                 note = get_clinical_group_service().note_of(a)
                 if note:
-                    lines.append(f"*{note}*")
+                    more.append(f"- **왜 하나로 묶었나:** {note}")
             except Exception:
                 pass
-        if getattr(a, "severity", None) in ("severe", "anaphylaxis"):
-            lines.append("- 🚨 **중증 반응 병력:** 노출을 적극적으로 피하고, 응급 상황 대비 계획(응급약·병원 동선)을 "
-                         "담당 의료진과 반드시 상의하세요.")
         if kb.get("biology_ko"):
-            lines.append(f"- **특성·생활사:** {kb['biology_ko']}")
+            more.append(f"- **어떤 알러젠인가:** {self._first_sentences(kb['biology_ko'])}")
         if kb.get("exposure_environment_ko"):
-            lines.append(f"- **주로 노출되는 환경:** {kb['exposure_environment_ko']}")
+            more.append(f"- **어디서 노출되나:** {self._first_sentences(kb['exposure_environment_ko'], 1, 90)}")
         if kb.get("cross_reactivity_ko"):
-            lines.append(f"- **교차반응:** {kb['cross_reactivity_ko']}")
-        if getattr(a, "oas_foods", None):
-            lines.append(
-                f"- **🍎 구강알레르기증후군(OAS) 주의:** {', '.join(a.oas_foods)} 섭취 시 입·목 가려움/부종이 "
-                f"나타난다고 하셨습니다. 이 알러젠은 **구강알레르기증후군에 해당**하므로 해당 음식을 생으로 먹을 때 "
-                f"주의하고(대개 익히면 완화), 증상이 심하거나 목·호흡기까지 번지면 즉시 진료를 받으세요.")
-        elif kb.get("oral_allergy_syndrome_ko"):
-            lines.append(f"- **구강알레르기증후군:** {kb['oral_allergy_syndrome_ko']}")
-        # 교차반응 음식은 원인 항원별로 묶어 별도 '관찰할 음식' 섹션에서 안내(R-1) — 여기선 생략
-        if a.rationale_ko:
-            lines.append(f"- **판정 근거:** {a.rationale_ko}")
-        avoid = kb.get("avoidance_control_ko", [])
-        if avoid:
-            lines.append("- **회피·관리 수칙:**")
-            for tip in avoid[:5]:
-                lines.append(f"    - {tip}")
-        # 면역치료 가능 여부
+            more.append(f"- **교차반응:** {self._first_sentences(kb['cross_reactivity_ko'], 2, 120)}")
+        if not getattr(a, "oas_foods", None) and kb.get("oral_allergy_syndrome_ko"):
+            more.append(f"- **구강알레르기증후군:** {self._first_sentences(kb['oral_allergy_syndrome_ko'], 1, 100)}")
+        if len(avoid) > 3:
+            more.append("- **그 밖의 관리 수칙:** " + " / ".join(avoid[3:6]))
         try:
             imt = get_knowledge_service().immunotherapy_info(a.category, a.allergen_name)
-            if imt.get("eligible") and imt.get("ko"):
-                lines.append(f"- **💉 면역치료(알레르기 근본치료) 가능:** {imt['ko']}")
+            if imt.get("eligible"):
+                more.append("- **💉 면역치료 가능:** 3~5년 꾸준히 받으면 증상과 약 사용이 줄어듭니다. 회피와 약으로 부족하면 담당 의료진과 상의하세요.")
         except Exception:
             pass
+        if more:
+            lines.append('<div class="detail-more" markdown="1">')
+            lines.append("**더 알아보기**\n")
+            lines.extend(more)
+            lines.append("\n</div>")
         return "\n".join(lines)
 
     def _crossreact_watchlist_md(self, relevance_result) -> List[str]:
