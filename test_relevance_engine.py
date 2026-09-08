@@ -793,6 +793,27 @@ def test_cardnews_and_report():
     print("✓ card news + deterministic patient report generated")
 
 
+def test_cardnews_quest_theme():
+    """카드뉴스 도감 테마: 판정 도장·카테고리 스탬프·서사 문구 + 기존 마커 유지"""
+    from services.cardnews_service import get_cardnews_service, _CATEGORY_STAMP_SVG
+    rs = get_relevance_service()
+    res = rs.build_assessments(build_case(), None)
+    for a in res.assessments:
+        a.answers = {Q_EXPOSED: "yes", Q_SYMPTOM: "yes", Q_REPRODUCIBLE: "yes"}
+    rs.classify_all(res)
+    html = get_cardnews_service().generate_html(res, {"name": "테스트", "test_date": "2026-06-01"})
+    assert "알러젠 탐험 리포트" in html, "표지 서사 문구 누락"
+    assert 'class="stamp-verdict' in html and "진범 확정" in html, "진범 확정 도장 누락"
+    assert "무혐의 · 감작만" in html and "감작은 남아 있어 추적 필요" in html, "무혐의 도장/추적 부연 누락"
+    assert 'class="cat-stamp' in html and "<svg" in html, "카테고리 스탬프 SVG 누락"
+    assert "Do+Hyeon" in html, "디스플레이 폰트 링크 누락"
+    for c in ("mite", "animal", "pollen_tree", "pollen_grass", "pollen_weed", "mold", "insect", "food", "other"):
+        assert _CATEGORY_STAMP_SVG[c].startswith("<svg"), c
+    # 기존 마커 유지
+    assert "카드뉴스" in html and "테스트" in html
+    print("✓ 카드뉴스 도감 테마(도장·스탬프·서사) + 기존 마커 유지")
+
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0
