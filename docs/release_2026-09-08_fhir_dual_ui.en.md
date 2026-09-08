@@ -125,7 +125,24 @@ python3 test_relevance_engine.py    # 26 tests
 node --test web/game.test.js        # 9 tests
 ```
 
-## 4. Follow-ups
-- Per-allergen LOINC mapping (e.g., 112129-2) to add LOINC alongside SNOMED in `Observation.code`.
-- Consider adding `<` (Off scale low) to `interpretation` for below-LoD results (currently NEG).
-- Decide default vs. secondary UI from patient feedback.
+## 4. Q&A (settled 2026-09-08)
+**Q1. Aren't allergens already mapped to SNOMED? Why LOINC?**
+Correct. Allergen (substance) identity is already SNOMED-coded in `Observation.component` and `AllergyIntolerance.code`: 22 real SCTIDs (`data/snomed_ct_map.json`, user-reviewed, first priority) plus the hospital CDM pre-mapping of 155 items (`data/cdm_snomed_mapping.json`, 153 SNOMED · 2 LOINC, 393 aliases, second priority). LOINC is a different axis: it codes **the test itself** ("specific IgE for allergen X", e.g., 112129-2), not the substance. Since `Observation.code` uses one SNOMED procedure code per test type, per-allergen LOINC is **optional**, needed only if a receiving EMR requires LOINC test codes. Note: the 155 CDM codes are OMOP concept_ids; only the 22 are strict SCTIDs.
+
+**Q2. Below-LoD results: store the measurement as-is, and let clinical interpretation follow the questionnaire?**
+Correct, and that is how it is implemented. ① `Observation.valueQuantity` carries the laboratory measurement as reported (`<0.35` → `comparator "<"` + 0.35; `undetectable` → below LoD with the original text in a note). ② `Observation.interpretation` carries only the laboratory call (POS/NEG). ③ Clinical relevance follows the questionnaire into `AllergyIntolerance.verificationStatus` and `criticality`. The earlier idea of adding `<` (Off scale low) to `interpretation` is **dropped**.
+
+## 5. Deploying as a web service
+`Dockerfile`, `.dockerignore` and `render.yaml` were added: one container + one `OPENAI_API_KEY`. Steps and operations checklist (Korean): [`deploy.ko.md`](deploy.ko.md) — Render Blueprint recommended; Railway/Fly.io; self-hosted VPS + Caddy.
+
+## 6. Models and APIs in use
+| Stage | Model | API |
+|---|---|---|
+| OCR | OpenAI `gpt-4o` (vision, detail high), overridable via `OPENAI_VISION_MODEL` | OpenAI Chat Completions (`openai` SDK) |
+| Report narrative (optional) | OpenAI `gpt-4o` via `OPENAI_REPORT_MODEL`; default report is deterministic | same |
+| Questionnaire, assessment, cross-reactivity, FHIR, card news | no LLM | — |
+
+## 7. Follow-ups
+- (optional) per-allergen LOINC test codes if a receiving EMR requires them.
+- Extend real SCTID coverage beyond the 22 confirmed allergens.
+- Decide the default UI from patient feedback.

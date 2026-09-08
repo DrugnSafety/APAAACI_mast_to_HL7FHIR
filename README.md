@@ -39,6 +39,7 @@
 - **두 UI 동시 운영**: `/` = 알러젠 탐험 퀘스트 UI, `/classic/` = 재설계 이전 클래식 UI. 헤더 링크로 전환, 같은 `/api` 를 쓰므로 결과는 동일. (`/api/health` → `ui_modes`)
 - **FHIR Observation**: 0·검출한계 미만(`<0.35` → `comparator "<"`)·N/A(`dataAbsentReason`) 결과도 모두 포함, MAST/UniCAP class 를 component 로 보존. `code`/`method` 는 tx.fhir.org(SNOMED CT 2025-02)로 검증한 SCTID 만 사용 — SPT 37968009 Prick test, MAST 399788006 + method 703446000 Immunoblot assay, UniCAP 397691009 + method 703447009 Enzyme immunoassay technique(+703444002).
 - 상세(스크린샷·검증표·샘플 JSON): [`docs/release_2026-09-08_fhir_dual_ui.ko.md`](docs/release_2026-09-08_fhir_dual_ui.ko.md) · [English](docs/release_2026-09-08_fhir_dual_ui.en.md)
+- **웹 서비스 배포**: `Dockerfile`/`render.yaml` 포함. 컨테이너 1개 + `OPENAI_API_KEY` 로 Render·Railway·Fly.io·VPS 어디서나 — [`docs/deploy.ko.md`](docs/deploy.ko.md). 런타임 모델: OCR `gpt-4o`(vision), 리포트(선택) `gpt-4o`, 그 외 단계는 LLM 미사용.
 
 ---
 

@@ -125,7 +125,24 @@ python3 test_relevance_engine.py    # 26종
 node --test web/game.test.js        # 9종
 ```
 
-## 4. 남은 과제
-- LOINC 항원별 코드(예: 112129-2) 매핑 표 → `Observation.code` 에 LOINC 병기.
-- `interpretation` 에 `<`(Off scale low) 추가 여부 검토(현재 NEG 유지).
-- 클래식 UI 의 기본/보조 여부 결정(환자 피드백).
+## 4. 질의응답 (2026-09-08 확정)
+**Q1. 알러젠별 코드가 이미 SNOMED 로 매핑되어 있지 않은가? LOINC 가 왜 필요한가?**
+맞다. 알러젠(물질) 식별은 이미 SNOMED 로 매핑되어 `Observation.component` 와 `AllergyIntolerance.code` 에 들어간다 — 실제 SCTID 22종(`data/snomed_ct_map.json`, 사용자 검토본, 1순위) + 병원 CDM 기매핑 155종(`data/cdm_snomed_mapping.json`, SNOMED 153 · LOINC 2, 별칭 393개, 2순위). LOINC 는 다른 축이다: 물질이 아니라 **"그 알러젠에 대한 특이 IgE 검사"라는 검사 항목(observable)** 을 알러젠별로 코딩한다(예: 112129-2 American house dust mite IgE Ab in Serum by Immunoassay). 현재 `Observation.code` 는 검사 종류별 SNOMED 절차 코드 하나로 통일했으므로 **LOINC 병기는 필수가 아니라 선택**이며, 수신 EMR 이 LOINC 검사코드를 요구할 때만 추가하면 된다. 참고: CDM 155종은 OMOP concept_id 이므로 엄밀한 SCTID 는 22종만이다.
+
+**Q2. 검출한계 미만 결과는 수치를 그대로 넣고, 임상 해석은 문진 프로세스 결과를 따르는 것이 맞나?**
+맞다. 이번 구현이 그 원칙 그대로다. ① `Observation.valueQuantity` 는 **검사실 측정값을 그대로** 담는다(0 은 0, `<0.35` 는 `comparator "<"` + 0.35 — FHIR 에서 "0.35 미만"을 표현하는 표준 방식, `undetectable` 도 검출한계 미만으로 + 원문 note). ② `Observation.interpretation` 은 **검사실 판정(POS/NEG, class·수치 기준)** 만 담는다. ③ **임상적 관련성(감작 vs 실제 알레르기)** 은 문진 프로세스 결과대로 `AllergyIntolerance.verificationStatus`(confirmed / unconfirmed) 와 `criticality` 에 들어간다. 따라서 "interpretation 에 `<`(Off scale low) 추가 검토" 는 **불필요하여 폐기**한다.
+
+## 5. 웹 서비스 배포
+`Dockerfile`·`.dockerignore`·`render.yaml` 추가. 컨테이너 1개 + `OPENAI_API_KEY` 1개로 배포된다. 절차·운영 체크리스트: [`deploy.ko.md`](deploy.ko.md) (Render Blueprint 권장, Railway/Fly.io, VPS+Caddy).
+
+## 6. 현재 사용 모델·API
+| 단계 | 모델 | API |
+|---|---|---|
+| OCR | OpenAI `gpt-4o` (vision, detail high) — `OPENAI_VISION_MODEL` 로 교체 가능 | OpenAI Chat Completions (`openai` SDK) |
+| 리포트 내러티브(선택) | OpenAI `gpt-4o` — `OPENAI_REPORT_MODEL`; 기본은 결정론적 리포트 | 동일 |
+| 문진·판정·교차반응·FHIR·카드뉴스 | LLM 미사용 | — |
+
+## 7. 남은 과제
+- (선택) 수신 EMR 요구 시 LOINC 항원별 검사코드 병기.
+- CDM 기매핑 155종 중 실제 SCTID 확정은 22종 — 나머지 SCTID 확장.
+- 환자 피드백으로 기본 UI 결정.
