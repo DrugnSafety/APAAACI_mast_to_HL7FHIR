@@ -130,7 +130,7 @@ function renderUpload() {
       </div>
       <div class="dropzone" id="dz">
         <div class="icon">🗂️</div>
-        <h3>여기로 이미지를 끌어다 놓거나 클릭해서 선택</h3>
+        <h2>여기로 이미지를 끌어다 놓거나 클릭해서 선택</h2>
         <p>JPG · PNG · 10MB 이하 ${hasKey ? '' : '· (OCR을 쓰려면 서버에 OpenAI API 키가 필요합니다)'}</p>
         <input type="file" id="file" accept="image/*" class="hidden" />
       </div>

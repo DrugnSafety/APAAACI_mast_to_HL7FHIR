@@ -174,7 +174,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 18px 20px 96px; }
 .dropzone { border: 2px dashed var(--border-strong); border-radius: var(--r-lg); padding: 42px 20px; text-align: center; background: var(--surface-2); transition: border-color .2s, background-color .2s; cursor: pointer; position: relative; overflow: hidden; }
 .dropzone:hover, .dropzone.drag { border-color: var(--brand); background: var(--brand-soft); }
 .dropzone .icon { font-size: 40px; display: inline-grid; place-items: center; width: 84px; height: 84px; border-radius: 50%; background: var(--bg-elev); border: 2px solid var(--border); margin-bottom: 8px; animation: bob 3s ease-in-out infinite; }
-.dropzone h3 { font-size: 20px; color: var(--text); }
+.dropzone h2 { font-size: 20px; color: var(--text); }
 .dropzone p { margin: 6px 0 0; color: var(--text-3); font-size: 13px; }
 .preview-img { display: block; max-width: 100%; max-height: 320px; margin: 16px auto 0; border-radius: var(--r-md); border: 1px solid var(--border); }
 .upload-alt { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
