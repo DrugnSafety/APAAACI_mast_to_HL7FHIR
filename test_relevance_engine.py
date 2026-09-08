@@ -1014,6 +1014,62 @@ def test_real_sctid_coverage_expanded():
     print(f"✓ 실제 SNOMED CT SCTID 확장 ({len(covered)}/148 매핑, {len(omop)}종 OMOP 폴백)")
 
 
+def test_result_chat_grounding_and_guardrails():
+    """결과 상담 챗봇: 근거 컨텍스트 구성 + 응급 우선 + 키 없을 때 결정론적 추천 답변."""
+    from services.questionnaire_service import get_questionnaire_engine, Q_INDOOR_TIMING, Q_MITE_DUST
+    from services.result_chat_service import ResultChatService
+    rs = get_relevance_service()
+    ocr = OCRResult(
+        test_type=TestType.MAST, patient=PatientInfo(name="상담", test_date="2026-06-01"),
+        results=[
+            _mast("Dermatophagoides farinae", "집먼지진드기(D.farinae)", 17.6, 4, AllergenCategory.MITE, idx=1),
+            _mast("Dermatophagoides pteronyssinus", "집먼지진드기(D.pteronyssinus)", 8.2, 3, AllergenCategory.MITE, idx=2),
+            _mast("Dog dander", "개 비듬", 0.1, 0, AllergenCategory.ANIMAL,
+                  interp=InterpretationType.NEGATIVE, idx=3),
+        ],
+    )
+    res = rs.build_assessments(ocr, None)
+    eng = get_questionnaire_engine()
+    eng.build(res, None)
+    eng.classify(res, {Q_INDOOR_TIMING: "yes", Q_MITE_DUST: "yes"}, None)
+
+    svc = ResultChatService(api_key="")          # 키 없음 = LLM 미사용 경로
+    assert svc.client is None
+    pinfo = {"name": "상담", "test_date": "2026-06-01", "test_type": TestType.MAST}
+
+    # 근거 컨텍스트에는 판정·근거·회피 수칙이 들어가고, 음성 항원은 결과 밖이다
+    ctx = svc.build_context(res, pinfo, None, {})
+    assert "집먼지진드기" in ctx and "판정 근거:" in ctx and "회피 수칙:" in ctx
+    assert "MAST" in ctx
+
+    # 응급 표현은 다른 설명보다 먼저
+    for q in ["지금 숨쉬기가 힘들어요", "I think I can't breathe", "现在呼吸困难"]:
+        r = svc.answer(res, pinfo, [{"role": "user", "content": q}], None, {}, "ko")
+        assert r["source"] == "emergency", f"응급 우선 실패: {q}"
+        assert "119" in r["reply"] or "emergency" in r["reply"].lower()
+
+    # 키가 없으면 자유 질문은 안내로 대체(조용한 실패 금지)
+    r = svc.answer(res, pinfo, [{"role": "user", "content": "침구 관리 어떻게 하나요?"}], None, {}, "ko")
+    assert r["source"] == "no_api_key"
+
+    # 추천 질문은 키 없이도 판정 데이터에서 바로 답한다
+    sg = svc.suggestions(res, "ko")
+    top = [x for x in sg if x["key"] == "why_relevant"][0]
+    assert top["answer"] and "집먼지진드기" in top["answer"]
+    # Df/Dp 는 한 그룹으로 세고, 같은 뜻의 수칙을 두 번 쓰지 않는다
+    assert "1가지" in top["answer"], top["answer"]
+    tips = [l for l in top["answer"].split("\n") if l[:2] in ("1.", "2.", "3.", "4.")]
+    assert len(tips) == len({t.split(".", 1)[1].strip()[:6] for t in tips}), f"중복 수칙: {tips}"
+    rat = [x for x in sg if x["key"] == "rationale"][0]
+    assert rat["answer"] and "판정 근거" in rat["answer"]
+
+    # 언어별 추천 질문
+    for lang in ("en", "zh"):
+        s2 = svc.suggestions(res, lang)
+        assert s2 and all(x["text"] for x in s2)
+    print("✓ 결과 상담 챗봇(근거 고정·응급 우선·키 없이 결정론적 답변)")
+
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0

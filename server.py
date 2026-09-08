@@ -276,6 +276,37 @@ def classify(req: ClassifyRequest):
     }
 
 
+class ChatRequest(ClassifyRequest):
+    """결과 상담 챗봇 — 판정에 필요한 입력(ocr/screening/answers)에 대화 이력을 더한다.
+    서버는 상태를 두지 않고 매 요청마다 판정을 다시 계산해 답변 근거로 삼는다."""
+    messages: List[Dict[str, Any]] = []
+
+
+@app.post("/api/chat")
+def chat(req: ChatRequest):
+    """검사 결과에 대한 환자 질문 답변.
+    - 답변 근거는 이 환자의 판정 결과·지식베이스로 고정한다(컨텍스트 밖 내용은 답하지 않음).
+    - API 키가 없으면 추천 질문의 결정론적 답변만 제공한다.
+    """
+    from services.result_chat_service import get_result_chat_service
+    rs = get_relevance_service()
+    result = rs.build_assessments(req.ocr, req.screening)
+    get_questionnaire_engine().classify(result, req.answers, req.screening)
+
+    patient_info = {
+        "name": req.ocr.patient.name,
+        "age": req.ocr.patient.age,
+        "test_date": req.ocr.patient.test_date,
+        "test_type": req.ocr.test_type,
+    }
+    svc = get_result_chat_service()
+    lang = (req.lang or "ko").lower()
+    out = svc.answer(result, patient_info, req.messages, req.screening, req.answers, lang)
+    out["suggestions"] = svc.suggestions(result, lang)
+    out["has_api_key"] = bool(svc.client)
+    return out
+
+
 @app.post("/api/fhir")
 def fhir(req: ClassifyRequest):
     """FHIR 매핑.

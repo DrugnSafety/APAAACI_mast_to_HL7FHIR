@@ -44,6 +44,7 @@ const S = {
   answers: {},
   classify: null,
   game: Game.createState(),   // 게임 레이어 상태(XP·도감·배지) — 판정 로직과 무관
+  chat: { messages: [], suggestions: null, busy: false, hasKey: null },  // 결과 상담
 };
 
 let REVIEW_TAB = 'measured';  // OCR 검토 표 탭: 'measured'(수치>0) / 'zero'(수치 0·미측정)
@@ -716,6 +717,7 @@ function renderResults() {
       <button data-tab="allergens" class="${RESULT_TAB === 'allergens' ? 'active' : ''}">${t('s4.tab_dex')}</button>
       <button data-tab="report" class="${RESULT_TAB === 'report' ? 'active' : ''}">${t('s4.tab_report')}</button>
       <button data-tab="cardnews" class="${RESULT_TAB === 'cardnews' ? 'active' : ''}">${t('s4.tab_cardnews')}</button>
+      <button data-tab="chat" class="${RESULT_TAB === 'chat' ? 'active' : ''}">${t('s4.tab_chat')}</button>
       <button data-tab="fhir" class="${RESULT_TAB === 'fhir' ? 'active' : ''}">${t('s4.tab_fhir')}</button>
     </div>
     <div id="tabBody"></div>
@@ -729,7 +731,8 @@ function renderResults() {
   if (!severe) Game.ui.sparkle($('#scoreboard'));   // 중증 시 축하 연출 억제
   view().querySelectorAll('.result-tabs button').forEach(b => b.addEventListener('click', () => { RESULT_TAB = b.dataset.tab; renderResults(); }));
   $('#back').addEventListener('click', () => goto(3));
-  $('#restart').addEventListener('click', () => { S.ocr = null; S.screening = null; S.questionnaire = null; S.answers = {}; S.classify = null; S.maxReached = 0; S.game = Game.createState(); DEX_FILTER = 'all'; goto(0); });
+  $('#restart').addEventListener('click', () => { S.ocr = null; S.screening = null; S.questionnaire = null; S.answers = {}; S.classify = null; S.maxReached = 0; S.game = Game.createState(); DEX_FILTER = 'all';
+    S.chat = { messages: [], suggestions: null, busy: false, hasKey: null }; goto(0); });
   renderResultTab();
 }
 
@@ -772,6 +775,8 @@ function renderResultTab() {
       <div class="download-row"><button class="btn subtle sm" id="dlCn">${t('s4.dl_cardnews')}</button></div>`;
     $('#cn').srcdoc = c.cardnews_html;
     $('#dlCn').addEventListener('click', () => download(`${(S.ocr.patient.name || 'patient')}_cardnews.html`, c.cardnews_html, 'text/html'));
+  } else if (RESULT_TAB === 'chat') {
+    renderChat(body);
   } else if (RESULT_TAB === 'fhir') {
     body.innerHTML = `<div class="card soft">
       <p class="q-help" style="margin-bottom:12px">${t('s4.fhir_help')}</p>
@@ -787,6 +792,83 @@ function renderResultTab() {
     loadFhir();
   }
 }
+/* =========================================================================
+   결과 상담 챗봇 — 답변 근거는 서버가 이 환자의 판정 결과로 고정한다.
+   ========================================================================= */
+function renderChat(body) {
+  const c = S.chat;
+  const bubbles = c.messages.map(m => `
+    <div class="chat-msg ${m.role}">
+      <div class="chat-who">${m.role === 'user' ? t('chat.you') : t('chat.bot')}</div>
+      <div class="chat-bubble">${m.role === 'user' ? esc(m.content) : mdLite(m.content)}</div>
+    </div>`).join('');
+  const sugg = (c.suggestions || []).map((sg, i) =>
+    `<button type="button" class="chip-opt" data-sg="${i}">${esc(sg.text)}</button>`).join('');
+  body.innerHTML = `<div class="card soft chat-panel">
+      <p class="q-help" style="margin-bottom:10px">${t('chat.intro')}</p>
+      ${c.hasKey === false ? `<div class="notice warn" style="margin-bottom:10px">${t('chat.nokey')}</div>` : ''}
+      ${sugg ? `<div class="chat-sugg"><div class="chat-sugg-t">${t('chat.suggested')}</div><div class="chips">${sugg}</div></div>` : ''}
+      <div class="chat-log" id="chatLog" aria-live="polite">${bubbles}
+        ${c.busy ? `<div class="chat-msg assistant"><div class="chat-who">${t('chat.bot')}</div><div class="chat-bubble"><span class="spinner"></span> ${t('chat.thinking')}</div></div>` : ''}
+      </div>
+      <div class="chat-input">
+        <input class="input" id="chatQ" placeholder="${t('chat.placeholder')}" ${c.busy ? 'disabled' : ''} />
+        <button class="btn primary sm" id="chatSend" ${c.busy ? 'disabled' : ''}>${t('chat.send')}</button>
+      </div>
+      <div class="chat-foot">
+        <span>${t('app.disclaimer')}</span>
+        ${c.messages.length ? `<button class="btn subtle sm" id="chatReset">${t('chat.reset')}</button>` : ''}
+      </div>
+    </div>`;
+
+  const log = $('#chatLog'); if (log) log.scrollTop = log.scrollHeight;
+  const send = () => {
+    const inp = $('#chatQ'); const v = (inp.value || '').trim();
+    if (!v || c.busy) return;
+    inp.value = ''; askChat(v);
+  };
+  $('#chatSend').addEventListener('click', send);
+  $('#chatQ').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); send(); } });
+  const rst = $('#chatReset');
+  if (rst) rst.addEventListener('click', () => { c.messages = []; renderChat(body); });
+  body.querySelectorAll('[data-sg]').forEach(b => b.addEventListener('click', () => {
+    const sg = (c.suggestions || [])[parseInt(b.dataset.sg)];
+    if (!sg) return;
+    if (sg.answer) {   // 서버가 판정 데이터에서 바로 만든 답 — API 호출 불필요
+      c.messages.push({ role: 'user', content: sg.text });
+      c.messages.push({ role: 'assistant', content: sg.answer });
+      renderChat(body);
+    } else { askChat(sg.text); }
+  }));
+  if (c.suggestions === null && !c.busy) askChat(null);   // 최초 진입: 추천 질문만 받아온다
+}
+
+// 마크다운 최소 렌더(굵게·줄바꿈·번호목록) — 답변은 서버 생성 텍스트다
+function mdLite(txt) {
+  const lines = esc(txt).split('\n');
+  return lines.map(l => l.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')).join('<br/>');
+}
+
+async function askChat(question) {
+  const c = S.chat; const body = $('#tabBody');
+  if (question) c.messages.push({ role: 'user', content: question });
+  c.busy = true; renderChat(body);
+  try {
+    const r = await API.post('/api/chat', {
+      ocr: S.ocr, screening: S.screening, answers: S.answers, lang: I18N.getLang(),
+      messages: c.messages.filter(m => m.role === 'user' || m.role === 'assistant'),
+    });
+    c.suggestions = r.suggestions || [];
+    c.hasKey = !!r.has_api_key;
+    if (question) c.messages.push({ role: 'assistant', content: r.reply });
+  } catch (e) {
+    if (question) c.messages.push({ role: 'assistant', content: t('chat.fail') + e.message });
+    c.suggestions = c.suggestions || [];
+  } finally {
+    c.busy = false; renderChat($('#tabBody'));
+  }
+}
+
 // 도감 카드: 앞면(스탬프·이름·별·판정 도장) / 뒷면(판정 근거·지식베이스). 클릭·Enter 로 뒤집기.
 function dexCard(a, i) {
   const rel = Game.VERDICT[a.relevance] ? a.relevance : 'not_assessed';

@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     openai_vision_model: str = Field(default="gpt-4o", alias="OPENAI_VISION_MODEL")
     # 리포트 생성용 고급 모델 - 자세한 분석과 추론을 위한 설정
     openai_report_model: str = Field(default="gpt-4o", alias="OPENAI_REPORT_MODEL")  # 리포트 생성용
+    openai_chat_model: str = Field(default="gpt-4o-mini", alias="OPENAI_CHAT_MODEL")  # 결과 상담 챗봇용
     report_temperature: float = Field(default=0.8, alias="REPORT_TEMPERATURE")  # 창의성 설정 (0.7~0.9)
     report_max_tokens: int = Field(default=9600, alias="REPORT_MAX_TOKENS")  # 더 긴 리포트를 위한 토큰
     # GPT-5가 출시되면 아래 주석을 해제하고 사용

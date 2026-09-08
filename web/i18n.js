@@ -178,6 +178,18 @@
     'c.s4.tab_allergens': '알러젠별 감별', 'c.s4.restart': '처음부터 다시', 'c.s4.empty': '양성 알러젠이 없습니다.',
     'c.rel.clinically_relevant': '실제 주의', 'c.rel.sensitized_only': '감작만', 'c.rel.indeterminate': '관찰 필요', 'c.rel.not_assessed': '미평가',
     'c.dex.oas_general': '구강알레르기증후군(일반)', 'c.patient': '환자',
+    // ---- 결과 상담 챗봇 ----
+    's4.tab_chat': '💬 결과 상담',
+    'chat.intro': '검사 결과에 대해 궁금한 점을 물어보세요. 답변은 <b>이 결과와 문진 내용</b>에서만 만들어집니다.',
+    'chat.suggested': '이런 걸 물어볼 수 있어요',
+    'chat.placeholder': '예: 침구는 어떻게 관리하나요?',
+    'chat.send': '보내기',
+    'chat.thinking': '답변을 준비하고 있어요…',
+    'chat.you': '나',
+    'chat.bot': '상담',
+    'chat.fail': '답변을 가져오지 못했습니다: ',
+    'chat.nokey': '자유 질문에는 서버 API 키가 필요합니다. 추천 질문은 키 없이도 답해 드립니다.',
+    'chat.reset': '대화 지우기',
   };
 
   const en = {
@@ -347,6 +359,17 @@
     'c.s4.tab_allergens': 'Per-allergen assessment', 'c.s4.restart': 'Start over', 'c.s4.empty': 'No positive allergens.',
     'c.rel.clinically_relevant': 'True allergy', 'c.rel.sensitized_only': 'Sensitized only', 'c.rel.indeterminate': 'Under watch', 'c.rel.not_assessed': 'Not assessed',
     'c.dex.oas_general': 'Oral allergy syndrome (general)', 'c.patient': 'Patient',
+    's4.tab_chat': '💬 Ask about results',
+    'chat.intro': 'Ask anything about your test results. Answers come only from <b>these results and your questionnaire</b>.',
+    'chat.suggested': 'You could ask',
+    'chat.placeholder': 'e.g. How should I manage my bedding?',
+    'chat.send': 'Send',
+    'chat.thinking': 'Preparing an answer…',
+    'chat.you': 'You',
+    'chat.bot': 'Assistant',
+    'chat.fail': 'Could not get an answer: ',
+    'chat.nokey': 'Free-text questions need a server API key. Suggested questions work without one.',
+    'chat.reset': 'Clear chat',
   };
 
   const zh = {
@@ -516,6 +539,17 @@
     'c.s4.tab_allergens': '按过敏原鉴别', 'c.s4.restart': '重新开始', 'c.s4.empty': '没有阳性过敏原。',
     'c.rel.clinically_relevant': '需实际注意', 'c.rel.sensitized_only': '仅致敏', 'c.rel.indeterminate': '需观察', 'c.rel.not_assessed': '未评估',
     'c.dex.oas_general': '口腔过敏综合征（一般）', 'c.patient': '患者',
+    's4.tab_chat': '💬 结果咨询',
+    'chat.intro': '有关检测结果的问题都可以问。回答只依据<b>本次结果与问卷内容</b>生成。',
+    'chat.suggested': '您可以这样问',
+    'chat.placeholder': '例如：床上用品该怎么打理？',
+    'chat.send': '发送',
+    'chat.thinking': '正在准备回答…',
+    'chat.you': '我',
+    'chat.bot': '咨询',
+    'chat.fail': '未能获取回答：',
+    'chat.nokey': '自由提问需要服务器 API 密钥。推荐问题无需密钥即可作答。',
+    'chat.reset': '清除对话',
   };
 
   const DICT = { ko, en, zh };

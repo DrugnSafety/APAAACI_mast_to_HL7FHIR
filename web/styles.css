@@ -407,3 +407,21 @@ table.grid input:focus { background: var(--bg-elev); border-color: var(--brand);
   body[data-appstep="2"] .actions .spacer, body[data-appstep="3"] .actions .spacer { display: none; }
   body[data-appstep="3"] .quest-bar { bottom: calc(74px + env(safe-area-inset-bottom, 0px)); padding: 8px 16px 8px; }
 }
+
+/* ---------- 결과 상담 챗봇 ---------- */
+.chat-panel { display: flex; flex-direction: column; gap: 10px; }
+.chat-sugg-t { font-size: 12px; font-weight: 800; color: var(--text-3); margin-bottom: 6px; }
+.chat-log { max-height: 46vh; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;
+  padding: 12px; background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--r-md); }
+.chat-log:empty { display: none; }
+.chat-msg { display: flex; flex-direction: column; gap: 3px; max-width: 88%; }
+.chat-msg.user { align-self: flex-end; align-items: flex-end; }
+.chat-who { font-size: 11px; font-weight: 800; color: var(--text-3); }
+.chat-bubble { font-size: 14px; line-height: 1.65; padding: 10px 14px; border-radius: var(--r-md);
+  background: var(--surface-2); border: 1px solid var(--border); color: var(--text); }
+.chat-msg.user .chat-bubble { background: var(--brand-soft); border-color: var(--brand); }
+.chat-input { display: flex; gap: 8px; }
+.chat-input .input { flex: 1; }
+.chat-foot { display: flex; align-items: center; gap: 10px; justify-content: space-between;
+  font-size: 11.5px; color: var(--text-3); }
+@media (max-width: 720px) { .chat-msg { max-width: 96%; } .chat-log { max-height: 52vh; } }
