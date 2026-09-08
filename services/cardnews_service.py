@@ -327,6 +327,7 @@ class CardNewsService:
 <title>{_esc(name)}님 알레르기 카드뉴스</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
 <style>
   * {{ box-sizing: border-box; margin: 0; padding: 0; }}
   :root {{ --cream:#fbf7ee; --elev:#fffdf8; --ink:#1f2a24; --ink2:#4d5a52; --ink3:#5f6d63; --line:#e6dcc6;
@@ -362,13 +363,13 @@ class CardNewsService:
   .cat-stamp {{ display:inline-grid; place-items:center; width:22px; height:22px; border-radius:50%; background:var(--elev); border:1.5px solid var(--line); color:var(--forest-d); vertical-align:middle; margin-right:2px; }}
   .cat-stamp svg {{ width:16px; height:16px; }}
   .detail .tag {{ background:#e3f2e9; color:var(--forest-d); }}
-  .treatment .tag {{ background:#e5f1fb; color:#1f6fb2; }}
+  .treatment .tag {{ background:#e3f2e9; color:var(--forest-d); }}
   .prevention .tag {{ background:#e3f2e9; color:var(--forest-d); }}
   .oas .tag {{ background:var(--red-soft); color:var(--red); }}
   .oas .chip {{ background:#fff5f0; border-color:#f6c3b3; }}
   .detail .desc b, .treatment .tips b {{ color:var(--ink); }}
   .imt {{ margin-top:12px; font-size:12.5px; background:#e3f2e9; color:var(--forest-d); border-radius:10px; padding:10px 12px; line-height:1.5; }}
-  .section.detail, .section.treatment, .section.oas {{ overflow-y:auto; }}
+  .section {{ overflow-y:auto; }}  /* 항목이 늘어도 어떤 카드든 잘리지 않고 스크롤 */
   .section h2 {{ font-size:26px; line-height:1.25; margin:12px 0 10px; }}
   .desc {{ font-size:13px; line-height:1.6; color:var(--ink2); }}
   .chips {{ display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; overflow:visible; }}
