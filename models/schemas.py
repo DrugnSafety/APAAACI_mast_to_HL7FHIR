@@ -107,6 +107,7 @@ class AllergenResult(BaseModel):
     
     # MAST 관련 필드
     value: Optional[float] = Field(None, description="MAST/UniCAP 수치")
+    value_text: Optional[str] = Field(None, description="수치가 숫자가 아닐 때 원문(예: '<0.35', 'N/A', 'undetectable') — FHIR comparator/dataAbsentReason 근거")
     unit: Optional[str] = Field(None, description="단위 (mm, kU/L, IU/mL)")
     class_value: Optional[Union[int, str]] = Field(None, description="Class 값 (0-6, P, N)", alias="class")
 

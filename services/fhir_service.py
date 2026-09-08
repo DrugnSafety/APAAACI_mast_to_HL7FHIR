@@ -25,6 +25,61 @@ class FHIRService:
     def __init__(self):
         self.allergen_mapper = get_allergen_mapper()
 
+    # ---- SNOMED CT(International 20250201, tx.fhir.org $lookup 으로 존재·활성 검증) ----
+    SCT = "http://snomed.info/sct"
+    OBS_CODE = {
+        TestType.SPT: ("37968009", "Prick test"),
+        TestType.MAST: ("399788006", "Allergen specific IgE antibody measurement, MAST type"),
+        TestType.UNICAP: ("397691009", "Allergen specific IgE antibody measurement, quantitative"),
+    }
+    # Observation.method: Technique(272394005) 하위 qualifier value.
+    #  MAST(면역블롯 기반 다중항원 동시검사) → Immunoblot assay 703446000
+    #  UniCAP/ImmunoCAP(FEIA, 형광효소면역측정) → Enzyme immunoassay technique 703447009 (1순위: FEIA 는 EIA 의 한 형태)
+    #                                            + Immunofluorescence technique 703444002 (2순위: 형광 판독 관점)
+    OBS_METHOD = {
+        TestType.MAST: {"coding": [{"system": SCT, "code": "703446000", "display": "Immunoblot assay (qualifier value)"}],
+                        "text": "Immunoblot (MAST)"},
+        TestType.UNICAP: {"coding": [{"system": SCT, "code": "703447009", "display": "Enzyme immunoassay technique (qualifier value)"},
+                                     {"system": SCT, "code": "703444002", "display": "Immunofluorescence technique (qualifier value)"}],
+                          "text": "FEIA — fluorescent enzyme immunoassay (ImmunoCAP/UniCAP)"},
+    }
+    SIGE_LOD_KUL = 0.35          # 특이 IgE 검출한계(class 0/1 경계)
+    _UNDETECTABLE = ("undetectable", "not detected", "nd", "검출안됨", "미검출", "검출되지않음", "negative", "-", "<lod")
+
+    @staticmethod
+    def _parse_less_than(text: Optional[str]) -> Optional[float]:
+        if not text:
+            return None
+        import re
+        m = re.match(r"^\s*<\s*=?\s*([0-9]*\.?[0-9]+)", str(text))
+        return float(m.group(1)) if m else None
+
+    @classmethod
+    def _is_undetectable(cls, text: Optional[str]) -> bool:
+        if not text:
+            return False
+        t = str(text).strip().lower().replace(" ", "")
+        return t in cls._UNDETECTABLE or t.startswith("undetect") or t.startswith("notdetect")
+
+    @staticmethod
+    def _absent_reason(text: Optional[str]) -> Dict[str, Any]:
+        t = (text or "").strip().lower()
+        code, disp = ("not-performed", "Not Performed") if t in ("n/a", "na", "not performed", "미시행", "") else ("unknown", "Unknown")
+        out = {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+                           "code": code, "display": disp}]}
+        if text:
+            out["text"] = f"보고서 표기: {text}"
+        return out
+
+    @staticmethod
+    def _class_int(v) -> Optional[int]:
+        if v is None or v == "":
+            return None
+        try:
+            return int(str(v).strip())
+        except ValueError:
+            return None
+
     @staticmethod
     def _parse_size_text(size_text: Optional[str]):
         """'3x4'·'3 x 4'·'3*4' → (major, minor) mm. 실패 시 (None, None)."""
@@ -111,14 +166,12 @@ class FHIRService:
                 "status": "final"
             }
             
-            # 검사 코드 설정
-            if test_type == TestType.SPT:
-                test_code = "398166005"  # Skin prick test
-                test_display = "Skin prick test"
-            else:
-                test_code = "165967004"  # Specific IgE measurement
-                test_display = "Specific IgE measurement"
-            
+            # 검사 코드(SNOMED CT International, tx.fhir.org 20250201 로 검증)
+            #  - SPT   : 37968009  Prick test (procedure)
+            #  - MAST  : 399788006 Allergen specific IgE antibody measurement, MAST type (procedure)
+            #  - UniCAP: 397691009 Allergen specific IgE antibody measurement, quantitative (procedure)
+            #  (구버전 398166005 는 'Performed', 165967004 는 존재하지 않는 코드였음)
+            test_code, test_display = self.OBS_CODE[test_type]
             observation["code"] = {
                 "coding": [
                     {
@@ -129,6 +182,10 @@ class FHIRService:
                 ],
                 "text": f"{test_display} - {allergen_result.allergen_name}"
             }
+            # 검사 기법(Observation.method) — SNOMED CT Technique(272394005) 하위 qualifier value
+            method = self.OBS_METHOD.get(test_type)
+            if method:
+                observation["method"] = {"coding": [dict(c) for c in method["coding"]], "text": method["text"]}
             
             # 환자 참조
             observation["subject"] = {
@@ -139,7 +196,11 @@ class FHIRService:
             if test_date:
                 observation["effectiveDateTime"] = test_date
             
-            # 검사 결과 값
+            # 검사 결과 값 — 0, 검출한계 미만(<LoD), N/A 도 모두 Observation 으로 남긴다.
+            #  * 숫자(0 포함)      → valueQuantity
+            #  * '<0.35' 같은 원문 → valueQuantity(comparator '<')
+            #  * undetectable/ND   → valueQuantity(comparator '<', 검사 검출한계 0.35 kU/L)
+            #  * N/A·빈값          → dataAbsentReason (value 없이)
             if test_type == TestType.SPT:
                 # SPT 대표값 = 팽진 평균(mean). 명시값이 없으면 size_text(장×단)에서 파생
                 spt_mean = allergen_result.mean_mm
@@ -147,6 +208,8 @@ class FHIRService:
                     mj, mn = self._parse_size_text(allergen_result.size_text)
                     if mj is not None and mn is not None:
                         spt_mean = round((mj + mn) / 2, 2)
+                if spt_mean is None and allergen_result.value is not None:
+                    spt_mean = allergen_result.value
                 if spt_mean is not None:
                     observation["valueQuantity"] = {
                         "value": spt_mean,
@@ -154,15 +217,30 @@ class FHIRService:
                         "system": "http://unitsofmeasure.org",
                         "code": "mm"
                     }
+                else:
+                    observation["dataAbsentReason"] = self._absent_reason(allergen_result.value_text)
 
-            elif test_type in (TestType.MAST, TestType.UNICAP) and allergen_result.value is not None:
-                # MAST/UniCAP 결과: IgE value in kU/L
-                observation["valueQuantity"] = {
-                    "value": allergen_result.value,
-                    "unit": allergen_result.unit or "kU/L",
-                    "system": "http://unitsofmeasure.org",
-                    "code": "kU/L"
-                }
+            elif test_type in (TestType.MAST, TestType.UNICAP):
+                unit = allergen_result.unit or "kU/L"
+                ucum = "kU/L" if unit.lower().startswith("ku") else ("[IU]/mL" if unit.lower().startswith("iu") else unit)
+                if allergen_result.value is not None:
+                    observation["valueQuantity"] = {
+                        "value": allergen_result.value, "unit": unit,
+                        "system": "http://unitsofmeasure.org", "code": ucum}
+                else:
+                    lt = self._parse_less_than(allergen_result.value_text)
+                    if lt is not None:
+                        observation["valueQuantity"] = {
+                            "value": lt, "comparator": "<", "unit": unit,
+                            "system": "http://unitsofmeasure.org", "code": ucum}
+                    elif self._is_undetectable(allergen_result.value_text):
+                        observation["valueQuantity"] = {
+                            "value": self.SIGE_LOD_KUL, "comparator": "<", "unit": "kU/L",
+                            "system": "http://unitsofmeasure.org", "code": "kU/L"}
+                        observation.setdefault("note", []).append(
+                            {"text": f"보고서 표기 '{allergen_result.value_text}': 검출한계(<{self.SIGE_LOD_KUL} kU/L) 미만"})
+                    else:
+                        observation["dataAbsentReason"] = self._absent_reason(allergen_result.value_text)
             
             # 해석 (Positive/Negative)
             if allergen_result.interpretation:
@@ -194,18 +272,26 @@ class FHIRService:
                 })
             # SPT: 측정을 CDM qualifier concept 기반 component 로 세분화(장축·단축·평균·A/H비) — item5
             if test_type == TestType.SPT:
+                # SNOMED 에는 prick 전용 technique 코드가 없어 method 는 OMOP 히스타민 양성대조 concept(+텍스트)로 유지
                 method_coding = self.allergen_mapper.get_spt_method_coding()
                 if method_coding:
                     observation["method"] = {"coding": [method_coding],
-                                             "text": method_coding.get("display")}
+                                             "text": "Skin prick test — wheal mean diameter, histamine positive control"}
                 components.extend(
                     self._spt_measurement_components(allergen_result, histamine_mean_mm))
+            # MAST/UniCAP: 보고서의 IgE class(0-6) 를 component 로 보존(0 포함)
+            if test_type in (TestType.MAST, TestType.UNICAP):
+                cls = self._class_int(allergen_result.class_value)
+                if cls is not None:
+                    components.append({
+                        "code": {"text": "IgE class (0-6, report semi-quantitative class)"},
+                        "valueInteger": cls})
             if components:
                 observation["component"] = components
 
             # 메모 추가
             if allergen_result.note:
-                observation["note"] = [{"text": allergen_result.note}]
+                observation.setdefault("note", []).append({"text": allergen_result.note})
             
             return observation
             

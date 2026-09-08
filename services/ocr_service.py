@@ -6,6 +6,7 @@ OpenAI GPT Vision API를 사용한 알레르기 검사 결과 이미지 OCR
 import base64
 import json
 import logging
+import re
 import os
 from datetime import datetime
 from pathlib import Path
@@ -534,7 +535,13 @@ Be exhaustive and accurate. Return the JSON only."""
                             pass
                     
                     # SPT의 경우 value가 없으면 mean_mm 사용
-                    value = self._safe_float(item.get('value'))
+                    raw_value = item.get('value')
+                    value = self._safe_float(raw_value)
+                    # 숫자가 아닌 값('<0.35', 'N/A', 'undetectable' 등)은 원문을 보존해
+                    # FHIR 에서 comparator / dataAbsentReason 으로 표현한다(결과를 버리지 않음).
+                    value_text = None
+                    if value is None and raw_value not in (None, ""):
+                        value_text = str(raw_value).strip()
                     if test_type == TestType.SPT and not value and mean_mm:
                         value = mean_mm
 
@@ -560,6 +567,7 @@ Be exhaustive and accurate. Return the JSON only."""
                         size_text=size_text,
                         mean_mm=mean_mm,
                         value=value,
+                        value_text=value_text,
                         unit=item.get('unit') or ('mm' if test_type == TestType.SPT else 'kU/L'),
                         class_value=class_value,
                         interpretation=interpretation

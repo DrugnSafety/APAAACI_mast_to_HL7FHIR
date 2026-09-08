@@ -140,7 +140,8 @@ def test_unicap_pipeline():
     # FHIR: 특이 IgE 코드 + kU/L
     obs = FHIRService().create_observation(ocr.results[0], patient_id="p1",
                                            test_type=TestType.UNICAP, test_date="2026-06-10")
-    assert obs["code"]["coding"][0]["display"] == "Specific IgE measurement"
+    # 검증된 SCTID: 397691009 Allergen specific IgE antibody measurement, quantitative (구 165967004 는 미존재 코드)
+    assert obs["code"]["coding"][0]["code"] == "397691009"
     assert obs["valueQuantity"]["unit"] == "kU/L"
     print("✓ UniCAP handled as specific-IgE (parse/positivity/strength/FHIR)")
 
@@ -812,6 +813,80 @@ def test_cardnews_quest_theme():
     # 기존 마커 유지
     assert "카드뉴스" in html and "테스트" in html
     print("✓ 카드뉴스 도감 테마(도장·스탬프·서사) + 기존 마커 유지")
+
+
+def test_fhir_observation_codes_methods_and_absent_values():
+    """FHIR Observation 정밀화: 검증된 SNOMED CT 코드(code/method) + 0·N/A·undetectable 값 표현.
+    코드 검증: tx.fhir.org SNOMED International 20250201 — 37968009 Prick test(procedure),
+    399788006 Allergen specific IgE antibody measurement, MAST type, 397691009 ... quantitative,
+    703446000 Immunoblot assay(technique), 703447009 Enzyme immunoassay technique, 703444002 Immunofluorescence technique."""
+    from services.fhir_service import FHIRService
+    fs = FHIRService()
+    SCT = "http://snomed.info/sct"
+
+    def codes(obs, key):
+        return {c["code"]: c for c in obs.get(key, {}).get("coding", []) if c.get("system") == SCT}
+
+    # --- MAST: 0 값·N/A·undetectable 모두 Observation 으로 표현
+    rows = [
+        _mast("Dermatophagoides farinae", "집먼지진드기", 17.6, 4, AllergenCategory.MITE, idx=1),
+        _mast("Dog dander", "개 비듬", 0.0, 0, AllergenCategory.ANIMAL, interp=InterpretationType.NEGATIVE, idx=2),
+        AllergenResult(index=3, raw_text="Egg white <0.35", allergen_name="Egg white", korean_name="난백",
+                       value=None, value_text="<0.35", unit="kU/L", class_value=0,
+                       interpretation=InterpretationType.NEGATIVE),
+        AllergenResult(index=4, raw_text="Peanut N/A", allergen_name="Peanut", korean_name="땅콩",
+                       value=None, value_text="N/A", unit="kU/L", class_value=None, interpretation=None),
+        AllergenResult(index=5, raw_text="Soybean undetectable", allergen_name="Soybean", korean_name="대두",
+                       value=None, value_text="undetectable", unit="kU/L", class_value=0,
+                       interpretation=InterpretationType.NEGATIVE),
+    ]
+    ocr = OCRResult(test_type=TestType.MAST, patient=PatientInfo(name="코드", test_date="2026-06-01"), results=rows)
+    b = fs.create_observation_bundle(ocr)
+    obs = [e["resource"] for e in b["entry"]]
+    assert len(obs) == 5, "0·N/A·undetectable 행도 Observation 으로 포함되어야 함"
+    o = {x["code"]["text"].split(" - ")[-1]: x for x in obs}
+    # code: MAST type
+    assert "399788006" in codes(obs[0], "code"), f"MAST Observation.code SCTID 누락: {obs[0]['code']}"
+    assert "165967004" not in codes(obs[0], "code"), "존재하지 않는 SCTID 165967004 사용 금지"
+    # method: Immunoblot assay (technique)
+    assert "703446000" in codes(obs[0], "method"), f"MAST method 703446000 누락: {obs[0].get('method')}"
+    # 0 값은 valueQuantity 0
+    assert o["Dog dander"]["valueQuantity"]["value"] == 0.0
+    # class component (0-6)
+    cls = [c for c in o["Dog dander"].get("component", []) if c["code"].get("text", "").startswith("IgE class")]
+    assert cls and cls[0]["valueInteger"] == 0, "IgE class component 누락"
+    # <0.35 → comparator
+    vq = o["Egg white"]["valueQuantity"]
+    assert vq.get("comparator") == "<" and vq["value"] == 0.35, f"comparator 표현 실패: {vq}"
+    # undetectable → 검출한계 미만(comparator <, 0.35 kU/L)
+    vq2 = o["Soybean"]["valueQuantity"]
+    assert vq2.get("comparator") == "<" and vq2["value"] == 0.35, f"undetectable 표현 실패: {vq2}"
+    # N/A → dataAbsentReason, valueQuantity 없음
+    na = o["Peanut"]
+    assert "valueQuantity" not in na and na["dataAbsentReason"]["coding"][0]["code"] in ("not-performed", "unknown"), na
+
+    # --- UniCAP: quantitative + FEIA method (EIA technique 1순위, immunofluorescence 2순위)
+    ocr_u = OCRResult(test_type=TestType.UNICAP, patient=PatientInfo(name="유"), results=[rows[0]])
+    ou = fs.create_observation_bundle(ocr_u)["entry"][0]["resource"]
+    assert "397691009" in codes(ou, "code"), ou["code"]
+    m = codes(ou, "method")
+    assert "703447009" in m and "703444002" in m, f"UniCAP method 누락: {ou.get('method')}"
+
+    # --- SPT: Prick test(procedure) + 값 없으면 dataAbsentReason, 기존 OMOP 히스타민 대조 코딩은 유지
+    spt_rows = [
+        AllergenResult(index=1, raw_text="D.f 5x3", allergen_name="Dermatophagoides farinae", korean_name="집먼지진드기",
+                       size_text="5x3", unit="mm", interpretation=InterpretationType.POSITIVE),
+        AllergenResult(index=2, raw_text="Cat -", allergen_name="Cat dander", korean_name="고양이 비듬",
+                       size_text=None, mean_mm=None, unit="mm", interpretation=None),
+    ]
+    ocr_s = OCRResult(test_type=TestType.SPT, patient=PatientInfo(name="에스", histamine_mean_mm=3.0), results=spt_rows)
+    so = [e["resource"] for e in fs.create_observation_bundle(ocr_s)["entry"]]
+    assert "37968009" in codes(so[0], "code"), so[0]["code"]
+    assert "398166005" not in codes(so[0], "code"), "'Performed'(398166005) 를 SPT 코드로 쓰면 안 됨"
+    assert so[0]["valueQuantity"]["value"] == 4.0
+    assert "valueQuantity" not in so[1] and so[1].get("dataAbsentReason"), so[1]
+    assert any(c.get("system", "").startswith("https://athena") for c in so[0]["method"]["coding"]), "OMOP 히스타민 대조 코딩 유지"
+    print("✓ FHIR Observation 정밀화: 검증된 SCTID code/method + 0·<LoD·N/A 값 표현 + class component")
 
 
 if __name__ == "__main__":
