@@ -1,0 +1,45 @@
+{
+ "note_ko": "SNOMED CT 단일 개념이 없어 CDM(OMOP) 코딩으로 폴백하는 항원",
+ "items": [
+  {
+   "id": "2_spotted_spider_mite",
+   "canonical_name": "2-spotted spider mite",
+   "reason": "대응하는 단일 SNOMED 개념 없음(혼합·대조 항원)"
+  },
+  {
+   "id": "control",
+   "canonical_name": "Control",
+   "reason": "대응하는 단일 SNOMED 개념 없음(혼합·대조 항원)"
+  },
+  {
+   "id": "cornflour",
+   "canonical_name": "Cornflour",
+   "reason": "대응하는 단일 SNOMED 개념 없음(혼합·대조 항원)"
+  },
+  {
+   "id": "histamine",
+   "canonical_name": "Histamine",
+   "reason": "대응하는 단일 SNOMED 개념 없음(혼합·대조 항원)"
+  },
+  {
+   "id": "indoor_mold_mixture",
+   "canonical_name": "Indoor mold mixture",
+   "reason": "대응하는 단일 SNOMED 개념 없음(혼합·대조 항원)"
+  },
+  {
+   "id": "outdoor_mold_mixture",
+   "canonical_name": "Outdoor mold mixture",
+   "reason": "대응하는 단일 SNOMED 개념 없음(혼합·대조 항원)"
+  },
+  {
+   "id": "tree_mixture_1",
+   "canonical_name": "Tree mixture 1",
+   "reason": "대응하는 단일 SNOMED 개념 없음(혼합·대조 항원)"
+  },
+  {
+   "id": "tree_mixture_2",
+   "canonical_name": "Tree mixture 2",
+   "reason": "대응하는 단일 SNOMED 개념 없음(혼합·대조 항원)"
+  }
+ ]
+}

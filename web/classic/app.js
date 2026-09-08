@@ -632,7 +632,7 @@ function renderQuestionnaire() {
 async function submitClassify() {
   const btn = $('#next'); btn.disabled = true; btn.innerHTML = `<span class="spinner"></span> ${t('c.s3.analyzing')}`;
   try {
-    S.classify = await API.post('/api/classify', { ocr: S.ocr, screening: S.screening, answers: S.answers });
+    S.classify = await API.post('/api/classify', { ocr: S.ocr, screening: S.screening, answers: S.answers, ui: 'classic', lang: I18N.getLang() });
     goto(4);
   } catch (e) { toast(t('s3.classify_fail') + e.message); btn.disabled = false; btn.textContent = t('c.s3.btn_next'); }
 }

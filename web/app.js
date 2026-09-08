@@ -682,7 +682,7 @@ function renderQuestionnaire() {
 async function submitClassify() {
   const btn = $('#next'); btn.disabled = true; btn.innerHTML = `<span class="spinner"></span> ${t('s3.analyzing')}`;
   try {
-    S.classify = await API.post('/api/classify', { ocr: S.ocr, screening: S.screening, answers: S.answers });
+    S.classify = await API.post('/api/classify', { ocr: S.ocr, screening: S.screening, answers: S.answers, ui: 'quest', lang: I18N.getLang() });
     Game.applyResults(S.game, S.classify, S.answers);   // 판정→도감·배지·severeFlag (프레젠테이션 상태)
     goto(4);
   } catch (e) { toast(t('s3.classify_fail') + e.message); btn.disabled = false; btn.textContent = t('s3.btn_next'); }

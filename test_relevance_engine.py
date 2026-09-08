@@ -330,7 +330,7 @@ def test_spt_observation_components_item5():
     # A/H = 평균4 / 히스타민3 = 1.33
     assert comps.get("4187346", {}).get("valueQuantity", {}).get("value") == 1.33, "A/H비 파생 실패"
     # 알러젠 코딩 component 도 유지(component[0])
-    assert obs["component"][0]["code"]["coding"][0]["code"] == "46273588", "SPT 알러젠 코딩 component 누락"
+    assert obs["component"][0]["code"]["coding"][0]["code"] == "112476003", "SPT 알러젠 SCTID component 누락"
     print("✓ item5 SPT Observation.component 세분화(장축·단축·평균·A/H, CDM qualifier concept)")
 
 
@@ -691,14 +691,14 @@ def test_fhir_v2_bundles():
         if comp:
             c = comp[0]["code"]["coding"][0]
             obs_codes[c["code"]] = c["display"]
-    assert "46273588" in obs_codes and obs_codes["46273588"] == "Dermatophagoides farinae protein", \
-        f"D.farinae CDM concept_id/display 누락: {obs_codes}"
-    assert "765811" in obs_codes and obs_codes["765811"] == "Birch pollen", \
-        f"Birch CDM concept_id/display 누락: {obs_codes}"
-    # AllergyIntolerance.code 도 CDM concept_id 사용
+    assert "112476003" in obs_codes and obs_codes["112476003"] == "Dermatophagoides farinae", \
+        f"D.farinae SCTID/display 누락: {obs_codes}"
+    assert "256262001" in obs_codes and obs_codes["256262001"] == "European white birch pollen", \
+        f"Birch SCTID/display 누락: {obs_codes}"
+    # AllergyIntolerance.code 도 같은 SCTID 사용
     ai_codes = [e["resource"]["code"]["coding"][0]["code"]
                 for e in ai if e["resource"]["code"].get("coding")]
-    assert "765811" in ai_codes, f"Birch AllergyIntolerance CDM concept_id 누락: {ai_codes}"
+    assert "256262001" in ai_codes, f"Birch AllergyIntolerance SCTID 누락: {ai_codes}"
     print("✓ FHIR v2 bundles (all-obs + performer + AllergyIntolerance status + OAS food + CDM SNOMED coding)")
 
 
@@ -707,18 +707,23 @@ def test_cdm_snomed_mapping():
     from utils.allergen_mapper import get_allergen_mapper
     m = get_allergen_mapper()
     assert len(getattr(m, "cdm_entries", [])) >= 150, "CDM 기매핑 항원 수 부족"
-    # 대표 항원: (조회명, 기대 concept_id, 기대 display)
-    cases = [
+    # CDM 조회 자체는 그대로 동작 (concept_id·concept_name)
+    cdm_cases = [
         ("Birch", "765811", "Birch pollen"),
         ("Dermatophagoides farinae", "46273588", "Dermatophagoides farinae protein"),
         ("Cat", "4125384", "Cat dander"),
         ("Cat hair", "4125384", "Cat dander"),  # 신규 별칭
         ("Squid", "42536271", "Squid"),          # 신규 음식 항원
     ]
-    for name, cid, disp in cases:
-        c = m.get_coding(name, "")
-        assert c and c["code"] == cid and c["display"] == disp, f"{name} 매핑 오류: {c}"
-        assert c["system"] in ("http://snomed.info/sct", "http://loinc.org")
+    for name, cid, disp in cdm_cases:
+        e = m.cdm_find(name, "")
+        assert e and str(e["concept_id"]) == cid and e["concept_name"] == disp, f"{name} CDM 조회 오류: {e}"
+    # get_coding 은 실제 SCTID 를 CDM 보다 우선한다(2026-09 확장)
+    c = m.get_coding("Birch", "")
+    assert c["system"] == "http://snomed.info/sct" and c["code"] == "256262001", c
+    # SCTID 가 없는 혼합 항원은 CDM 으로 폴백하되, OMOP concept_id 를 SNOMED 로 위장하지 않는다
+    c = m.get_coding("Tree mixture 1", "")
+    assert c["system"] == m.OMOP_SYSTEM and c["code"] == "36684363", c
     # 미매핑 항원은 None (예외 없이)
     assert m.get_coding("완전신종알러젠ZZZ", "") is None
     print("✓ CDM(OMOP) SNOMED 기매핑 로드 및 concept 조회(신규 별칭 포함)")
@@ -887,6 +892,126 @@ def test_fhir_observation_codes_methods_and_absent_values():
     assert "valueQuantity" not in so[1] and so[1].get("dataAbsentReason"), so[1]
     assert any(c.get("system", "").startswith("https://athena") for c in so[0]["method"]["coding"]), "OMOP 히스타민 대조 코딩 유지"
     print("✓ FHIR Observation 정밀화: 검증된 SCTID code/method + 0·<LoD·N/A 값 표현 + class component")
+
+
+def test_mold_vs_mite_discrimination():
+    """곰팡이·집먼지진드기 동시 양성: '습할 때 악화' 만으로는 구분 불가 → 보류.
+    곰팡이 특이 단서(늘 젖은 공간·실외 포자·제습 후 호전)가 있어야 원인으로 인정한다."""
+    from services.questionnaire_service import (
+        get_questionnaire_engine, Q_INDOOR_TIMING, Q_MITE_DUST, Q_MOLD_DAMP,
+        Q_MOLD_SPACE, Q_MOLD_OUTDOOR, Q_MOLD_DEHUM_TRIAL, Q_MITE_BEDDING_TRIAL, mold_habitat,
+    )
+    rs = get_relevance_service()
+
+    def build():
+        ocr = OCRResult(
+            test_type=TestType.MAST,
+            patient=PatientInfo(name="곰"),
+            results=[
+                _mast("Dermatophagoides farinae", "집먼지진드기", 20.0, 4, AllergenCategory.MITE, idx=1),
+                _mast("Alternaria alternata", "얼터나리아", 5.0, 3, AllergenCategory.MOLD, idx=2),
+            ],
+        )
+        res = rs.build_assessments(ocr, None)
+        get_questionnaire_engine().build(res, None)
+        return res
+
+    def mold_of(res):
+        return [a for a in res.assessments if "lternaria" in a.allergen_name][0]
+
+    def mite_of(res):
+        return [a for a in res.assessments if "farinae" in a.allergen_name][0]
+
+    eng = get_questionnaire_engine()
+
+    # 문진에 감별 문항이 실제로 생성되는가
+    res0 = build()
+    q = eng.build(res0, None)
+    ids = {qq["id"] for sec in q["sections"] for qq in sec["questions"]}
+    for qid in (Q_MOLD_SPACE, Q_MOLD_OUTDOOR, Q_MITE_BEDDING_TRIAL, Q_MOLD_DEHUM_TRIAL):
+        assert qid in ids, f"감별 문항 누락: {qid}"
+
+    # ① 습할 때 악화만 → 진드기와 구분 불가 → 곰팡이는 보류
+    res = build()
+    eng.classify(res, {Q_INDOOR_TIMING: "yes", Q_MITE_DUST: "yes", Q_MOLD_DAMP: "yes"}, None)
+    assert mold_of(res).relevance == ClinicalRelevance.INDETERMINATE, "구분 불가인데 곰팡이를 단정함"
+    assert "구분할 수 없습니다" in mold_of(res).rationale_ko
+    assert mite_of(res).relevance == ClinicalRelevance.CLINICALLY_RELEVANT
+
+    # ② 실외 포자 단서(낙엽·비 온 뒤) → 곰팡이 원인 확정
+    res = build()
+    eng.classify(res, {Q_INDOOR_TIMING: "yes", Q_MITE_DUST: "yes", Q_MOLD_DAMP: "yes",
+                       Q_MOLD_OUTDOOR: ["leaves", "rain"]}, None)
+    assert mold_of(res).relevance == ClinicalRelevance.CLINICALLY_RELEVANT
+    assert "실외" in mold_of(res).rationale_ko
+
+    # ③ 늘 젖은 공간 단서 → 곰팡이 원인 확정
+    res = build()
+    eng.classify(res, {Q_MOLD_DAMP: "yes", Q_MOLD_SPACE: ["bathroom", "water_damage"]}, None)
+    assert mold_of(res).relevance == ClinicalRelevance.CLINICALLY_RELEVANT
+
+    # ④ 침구 관리로만 호전 + 제습 미시도 → 진드기 쪽으로 기울되 곰팡이는 보류
+    res = build()
+    eng.classify(res, {Q_MOLD_DAMP: "yes", Q_MITE_BEDDING_TRIAL: "better",
+                       Q_MOLD_DEHUM_TRIAL: "never"}, None)
+    assert mold_of(res).relevance == ClinicalRelevance.INDETERMINATE
+    assert "집먼지진드기로 설명될 가능성" in mold_of(res).rationale_ko
+    assert mite_of(res).relevance == ClinicalRelevance.CLINICALLY_RELEVANT, "침구 조치 호전이 진드기 근거로 반영되지 않음"
+
+    # ⑤ 제습 후 호전 → 곰팡이 원인 확정
+    res = build()
+    eng.classify(res, {Q_MOLD_DAMP: "unsure", Q_MOLD_DEHUM_TRIAL: "better"}, None)
+    assert mold_of(res).relevance == ClinicalRelevance.CLINICALLY_RELEVANT
+
+    # ⑥ 명시적 부정 → 감작만 + 진드기로 설명된다는 안내
+    res = build()
+    eng.classify(res, {Q_INDOOR_TIMING: "yes", Q_MOLD_DAMP: "no", Q_MOLD_SPACE: ["none"]}, None)
+    assert mold_of(res).relevance == ClinicalRelevance.SENSITIZED_ONLY
+    assert "집먼지진드기로 설명" in mold_of(res).rationale_ko
+
+    # 서식지 구분(실외/실내)에 따라 회피 조언이 갈린다
+    assert mold_habitat(mold_of(res)) == "outdoor"
+    print("✓ 곰팡이 ↔ 집먼지진드기 감별(공간·실외 포자·환경 조치 반응 기반)")
+
+
+def test_real_sctid_coverage_expanded():
+    """실제 SNOMED CT SCTID 확장(22 → 139종). 코드는 tx.fhir.org(SNOMED International)로
+    존재·활성 확인된 것만 넣는다. 미매핑 항원은 OMOP(CDM) 로 폴백하되 SNOMED 로 위장하지 않는다."""
+    import json
+    from utils.allergen_mapper import get_allergen_mapper
+    root = Path(__file__).resolve().parent
+    reg = json.loads((root / "data" / "allergens.json").read_text())["antigens"]
+    unmapped = {x["canonical_name"] for x in
+                json.loads((root / "data" / "snomed_ct_unmapped.json").read_text())["items"]}
+    m = get_allergen_mapper()
+
+    covered, omop = [], []
+    for a in reg:
+        c = m.get_coding(a["canonical_name"], a.get("korean_name") or "")
+        assert c, f"코딩 없음: {a['canonical_name']}"
+        (covered if c["system"] == "http://snomed.info/sct" else omop).append(a["canonical_name"])
+    assert len(covered) >= 135, f"SCTID 커버리지 부족: {len(covered)}/148"
+    # 폴백 항원은 명시적으로 미매핑 목록에 있어야 한다(조용한 누락 방지)
+    assert set(omop) <= unmapped, f"미매핑 목록에 없는 폴백 항원: {set(omop) - unmapped}"
+
+    # 카테고리별 대표값 — 꽃가루는 식물이 아니라 'pollen' 개념, 동물은 비듬 개념
+    cases = {
+        "Mugwort": ("256293000", "Mugwort pollen"),
+        "Oak": ("256270006", "Oak pollen"),
+        "Birch": ("256262001", "European white birch pollen"),
+        "Cat dander": ("260152009", "Cat dander"),
+        "Chicken": ("260165000", "Chicken feathers"),
+        "Alternaria alternata": ("36703000", "Alternaria alternata"),
+        "Hazelnut": ("256353000", "Hazelnut"),   # 성분(Cor a 8) 아님
+        "Shrimp": ("278840001", "Shrimp"),
+    }
+    for name, (code, disp) in cases.items():
+        c = m.get_coding(name, "")
+        assert c["system"] == "http://snomed.info/sct" and c["code"] == code and c["display"] == disp, \
+            f"{name} SCTID 매핑 오류: {c}"
+    # OCR 수식어 흡수: 'Birch pollen' 도 같은 SCTID 로 해석
+    assert m.get_coding("Birch pollen", "")["code"] == "256262001"
+    print(f"✓ 실제 SNOMED CT SCTID 확장 ({len(covered)}/148 매핑, {len(omop)}종 OMOP 폴백)")
 
 
 if __name__ == "__main__":

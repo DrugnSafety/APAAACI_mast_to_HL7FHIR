@@ -119,24 +119,57 @@ class AllergenMapper:
                     return self.cdm_entries[idx]
         return None
 
+    # OMOP(CDM) concept_id 폴백용 system URI — SCTID 와 혼동하지 않기 위해 분리
+    OMOP_SYSTEM = "https://athena.ohdsi.org/search-terms/terms"
+
+    def sctid_find(self, name: str, korean: str = "") -> Optional[Dict[str, str]]:
+        """실제 SNOMED CT SCTID 매핑 조회. 정확 일치 → 수식어 제거 후 재시도.
+        (예: OCR 의 'Birch pollen' → 레지스트리 canonical 'Birch')"""
+        m = getattr(self, "snomed_ct_map", {}) or {}
+        if not m:
+            return None
+        for cand in (name, korean):
+            k = self._cdm_norm(cand)
+            if k and k in m:
+                return m[k]
+        # 'pollen/dander/protein …' 수식어를 흡수 (CDM 조회와 동일 규칙)
+        for cand in (name, korean):
+            stripped = re.sub(
+                r"\b(pollen|dander|epithelium|protein|mix|mixture|allergen|hair|fur|feathers)\b",
+                "", cand or "", flags=re.I).strip()
+            k = self._cdm_norm(stripped)
+            if k and k in m:
+                return m[k]
+        return None
+
     def get_coding(self, name: str, korean: str = "") -> Optional[Dict[str, str]]:
         """FHIR code.coding 1건 생성. 우선순위:
         (1) 실제 SNOMED CT SCTID 매핑(사용자 검토) → (2) CDM(OMOP concept) → (3) 기존 snomed 필드.
         vocabulary 에 따라 SNOMED/LOINC system URI 를 구분한다."""
-        for cand in (name, korean):
-            k = self._cdm_norm(cand)
-            if k and k in getattr(self, "snomed_ct_map", {}):
-                return dict(self.snomed_ct_map[k])
+        sct = self.sctid_find(name, korean)
+        if sct:
+            return dict(sct)
         cdm = self.cdm_find(name, korean)
         if cdm and cdm.get("concept_id"):
-            voc = (cdm.get("vocabulary") or "SNOMED").upper()
-            system = "http://loinc.org" if voc == "LOINC" else "http://snomed.info/sct"
-            return {"system": system, "code": str(cdm["concept_id"]),
-                    "display": cdm.get("concept_name") or name}
+            # concept_id 는 OMOP 식별자이지 SCTID 가 아니다. SNOMED 로 표기하면 수신 측이
+            # 잘못된 코드로 검증하게 되므로 Athena(OMOP) system URI 로 구분한다.
+            return {"system": self.OMOP_SYSTEM, "code": str(cdm["concept_id"]),
+                    "display": cdm.get("concept_name") or name,
+                    "vocabulary_hint": (cdm.get("vocabulary") or "SNOMED").upper()}
         code = self.get_snomed_code(name if name else korean)
         if code:
-            return {"system": "http://snomed.info/sct", "code": str(code), "display": name or korean}
+            # 레거시 snomed 필드에는 CDM 에서 복사된 OMOP concept_id 가 섞여 있다.
+            # CDM concept_id 집합에 있으면 SNOMED 가 아니라 OMOP 로 표기한다.
+            system = self.OMOP_SYSTEM if str(code) in self._cdm_concept_ids() else "http://snomed.info/sct"
+            return {"system": system, "code": str(code), "display": name or korean}
         return None
+
+    def _cdm_concept_ids(self):
+        ids = getattr(self, "_cdm_id_set", None)
+        if ids is None:
+            ids = {str(e.get("concept_id")) for e in (self.cdm_entries or []) if e.get("concept_id")}
+            self._cdm_id_set = ids
+        return ids
     
     def _load_database(self) -> AllergenDatabase:
         """알레르겐 매핑 데이터베이스 로드"""

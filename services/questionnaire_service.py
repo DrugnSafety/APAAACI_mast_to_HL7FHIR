@@ -75,6 +75,54 @@ Q_INDOOR_AWAY = "indoor_away"           # 집 비우면 호전
 Q_MITE_DUST = "mite_dust"               # 먼지·이불 정리 시 악화
 Q_MOLD_DAMP = "mold_damp"               # 습한 곳 악화
 Q_ROACH_ENV = "roach_env"               # 오래된 건물·주방
+# --- 곰팡이 ↔ 집먼지진드기 감별(둘 다 통년성 실내 항원이라 일반 질문으로는 구분되지 않는다) ---
+Q_MOLD_SPACE = "mold_space"             # 어떤 공간에서 악화되나(욕실·지하실·누수·에어컨 vs 침실)
+Q_MOLD_OUTDOOR = "mold_outdoor"         # 실외 곰팡이 단서(낙엽·퇴비·비 온 뒤·건초)
+Q_MITE_BEDDING_TRIAL = "mite_bedding_trial"   # 침구 관리 후 호전 여부(진드기 특이)
+Q_MOLD_DEHUM_TRIAL = "mold_dehum_trial"       # 제습·곰팡이 제거 후 호전 여부(곰팡이 특이)
+
+# 공간 단서 — 앞의 4개는 곰팡이 특이, bedroom 은 진드기 특이
+MOLD_SPACE_OPTIONS = [
+    {"value": "bathroom", "label": "욕실·샤워실 등 늘 젖어 있는 곳"},
+    {"value": "basement", "label": "지하실·창고·오래된 건물"},
+    {"value": "water_damage", "label": "누수·결로·물에 젖었던 벽지나 가구 근처"},
+    {"value": "aircon", "label": "에어컨·가습기·환기구를 켤 때"},
+    {"value": "bedroom", "label": "침실 잠자리(이불·매트리스) 주변"},
+    {"value": "none", "label": "특별히 그런 공간은 없어요"},
+]
+MOLD_SPACE_SPECIFIC = {"bathroom", "basement", "water_damage", "aircon"}
+
+# 실외 곰팡이(얼터나리아·클라도스포리움) 단서
+MOLD_OUTDOOR_OPTIONS = [
+    {"value": "leaves", "label": "낙엽 더미·풀 깎기·잔디밭"},
+    {"value": "soil", "label": "퇴비·흙·화분을 다룰 때"},
+    {"value": "rain", "label": "비 온 직후·천둥번개가 친 뒤"},
+    {"value": "farm", "label": "농장·창고·건초·곡물 주변"},
+    {"value": "none", "label": "해당 없음"},
+]
+
+# 환경 조치 후 반응 — 무엇을 바꿨을 때 좋아졌는지가 가장 확실한 감별 근거다
+TRIAL_OPTIONS = [
+    {"value": "better", "label": "해봤고, 증상이 좋아졌어요"},
+    {"value": "same", "label": "해봤지만 변화가 없었어요"},
+    {"value": "never", "label": "해본 적 없어요"},
+]
+
+# 곰팡이 속(genus)별 실내/실외 구분 — 회피 조언이 완전히 다르다
+MOLD_OUTDOOR_GENERA = ("alternaria", "cladosporium", "helminthosporium", "fusarium",
+                       "epicoccum", "curvularia", "botrytis", "outdoor")
+MOLD_INDOOR_GENERA = ("aspergillus", "penicillium", "candida", "mucor", "rhizopus",
+                      "neurospora", "indoor")
+
+
+def mold_habitat(a) -> str:
+    """곰팡이 항원이 주로 실외성인지 실내성인지 — 문진 해석과 회피 조언을 가른다."""
+    txt = f"{getattr(a, 'allergen_name', '')} {getattr(a, 'korean_name', '')}".lower()
+    if any(g in txt for g in MOLD_OUTDOOR_GENERA):
+        return "outdoor"
+    if any(g in txt for g in MOLD_INDOOR_GENERA):
+        return "indoor"
+    return "both"
 Q_FOOD_SYSTEMIC_FOODS = "food_systemic_foods"  # 전신반응 유발 음식(다중)
 # 동적 id 접두사
 QP_POLLEN = "pollen_season__"           # + group(spring/summer_grass/fall)
@@ -301,13 +349,62 @@ class QuestionnaireEngine:
                     "applies_to": [_key(i) for i, a in enumerate(assessments) if _cat(a) == "insect"],
                 })
             if has_mold:
+                mold_keys = [_key(i) for i, a in enumerate(assessments) if _cat(a) == "mold"]
+                molds = [a for a in assessments if _cat(a) == "mold"]
+                habitats = {mold_habitat(a) for a in molds}
                 indoor_qs.append({
                     "id": Q_MOLD_DAMP,
                     "type": "single",
                     "title": "장마철·습한 곳·곰팡이가 보이는 공간에서 증상이 심해지나요?",
+                    "help": ("집먼지진드기도 습할 때 늘어나므로, 이 질문만으로는 둘을 가르지 못합니다. "
+                             "아래에서 어떤 공간·상황인지 구체적으로 여쭤봅니다."
+                             if has_mite else None),
                     "options": YNU,
-                    "applies_to": [_key(i) for i, a in enumerate(assessments) if _cat(a) == "mold"],
+                    "applies_to": mold_keys,
                 })
+                # 공간 단서 — 욕실·지하실·누수·에어컨(곰팡이) vs 침실 잠자리(진드기)
+                space_opts = [o for o in MOLD_SPACE_OPTIONS
+                              if o["value"] != "bedroom" or has_mite]
+                indoor_qs.append({
+                    "id": Q_MOLD_SPACE,
+                    "type": "multi",
+                    "title": "증상이 특히 심해지는 공간을 모두 골라주세요.",
+                    "help": ("욕실·지하실·누수 자국·에어컨은 곰팡이 쪽 단서이고, 침실 잠자리는 "
+                             "집먼지진드기 쪽 단서입니다. 어느 쪽인지 갈라내기 위한 질문입니다."
+                             if has_mite else
+                             "곰팡이는 늘 젖어 있는 공간에서 자랍니다."),
+                    "options": space_opts,
+                    "applies_to": mold_keys,
+                })
+                # 실외 곰팡이(얼터나리아·클라도스포리움) 단서 — 실내 진드기와 확실히 갈린다
+                if habitats & {"outdoor", "both"}:
+                    indoor_qs.append({
+                        "id": Q_MOLD_OUTDOOR,
+                        "type": "multi",
+                        "title": "야외에서 다음 상황에 증상이 심해진 적이 있나요?",
+                        "help": ("얼터나리아·클라도스포리움은 실외 곰팡이입니다. 낙엽·퇴비·비 온 뒤에 "
+                                 "포자가 크게 늘어납니다. 집 안에서만 사는 집먼지진드기와는 확실히 구분됩니다."),
+                        "options": MOLD_OUTDOOR_OPTIONS,
+                        "applies_to": mold_keys,
+                    })
+                # 환경 조치 반응 — 둘 다 양성일 때 가장 확실한 감별 근거
+                if has_mite:
+                    indoor_qs.append({
+                        "id": Q_MITE_BEDDING_TRIAL,
+                        "type": "single",
+                        "title": "침구를 뜨거운 물로 세탁하거나 진드기 차단 커버를 써본 뒤 증상이 좋아졌나요?",
+                        "help": "좋아졌다면 집먼지진드기 쪽 근거입니다.",
+                        "options": TRIAL_OPTIONS,
+                        "applies_to": [_key(i) for i, a in enumerate(assessments) if _cat(a) == "mite"],
+                    })
+                    indoor_qs.append({
+                        "id": Q_MOLD_DEHUM_TRIAL,
+                        "type": "single",
+                        "title": "제습기를 쓰거나 곰팡이를 제거한 뒤 증상이 좋아졌나요?",
+                        "help": "좋아졌다면 곰팡이 쪽 근거입니다.",
+                        "options": TRIAL_OPTIONS,
+                        "applies_to": mold_keys,
+                    })
             # 실내 알러젠 증상 있음(어느 항목이든 예) → 증상 중증도 추가 질의
             indoor_reveal = []
             if has_indoor_perennial:
@@ -319,6 +416,10 @@ class QuestionnaireEngine:
                 indoor_reveal.append({"question": Q_ROACH_ENV, "any": [YES]})
             if has_mold:
                 indoor_reveal.append({"question": Q_MOLD_DAMP, "any": [YES]})
+                indoor_reveal.append({"question": Q_MOLD_SPACE,
+                                      "includes_any": sorted(MOLD_SPACE_SPECIFIC)})
+                indoor_reveal.append({"question": Q_MOLD_OUTDOOR,
+                                      "includes_any": ["leaves", "soil", "rain", "farm"]})
             if indoor_reveal:
                 applies_all = [_key(i) for i, a in enumerate(assessments)
                                if _cat(a) in ("mite", "insect", "mold")]
@@ -577,7 +678,9 @@ class QuestionnaireEngine:
                     {"question": Q_INDOOR_TIMING, "any": yn},
                     {"question": Q_INDOOR_AWAY, "any": yn}]
         if cat == "mold":
-            return [{"question": Q_MOLD_DAMP, "any": yn}]
+            return [{"question": Q_MOLD_DAMP, "any": yn},
+                    {"question": Q_MOLD_SPACE, "includes_any": sorted(MOLD_SPACE_SPECIFIC)},
+                    {"question": Q_MOLD_OUTDOOR, "includes_any": ["leaves", "soil", "rain", "farm"]}]
         if cat == "animal":
             return [{"question": QP_ANIMAL_WORSE + key, "any": yn}]
         if cat == "food":
@@ -816,6 +919,8 @@ class QuestionnaireEngine:
 
         oas = answers.get(Q_OAS)
         food_systemic = answers.get(Q_FOOD_SYSTEMIC)
+        # 진드기 동시 양성 여부 — 곰팡이 판정에서 '구분 불가' 를 가려내는 데 쓴다
+        has_mite_pos = any(_cat(x) == "mite" for x in result.assessments)
         indoor_timing = answers.get(Q_INDOOR_TIMING)
         indoor_away = answers.get(Q_INDOOR_AWAY)
         mite_dust = answers.get(Q_MITE_DUST)
@@ -840,7 +945,8 @@ class QuestionnaireEngine:
             elif cat == "insect":
                 self._classify_indoor(a, "insect", indoor_timing, indoor_away, roach_env, pattern, answers)
             elif cat == "mold":
-                self._classify_mold(a, mold_damp, worse_months, pattern, answers)
+                self._classify_mold(a, mold_damp, worse_months, pattern, answers,
+                                    has_mite=has_mite_pos)
             elif cat == "animal":
                 self._classify_animal(a, _key(i), answers)
             elif cat == "food":
@@ -962,7 +1068,12 @@ class QuestionnaireEngine:
 
     def _classify_indoor(self, a, kind, timing, away, specific, pattern, answers=None):
         name = _name(a)
-        strong = any(x == YES for x in (timing, away, specific))
+        ans = answers or {}
+        # 침구 관리 후 호전 = 집먼지진드기 특이 근거(공간·시간대 질문보다 강하다)
+        bedding = ans.get(Q_MITE_BEDDING_TRIAL) if kind == "mite" else None
+        space = ans.get(Q_MOLD_SPACE) or []
+        bedroom_cue = kind == "mite" and "bedroom" in space
+        strong = any(x == YES for x in (timing, away, specific)) or bedding == "better" or bedroom_cue
         all_no = all(x == NO for x in (timing, away, specific) if x is not None) and \
             any(x is not None for x in (timing, away, specific))
         label = "집먼지진드기" if kind == "mite" else "바퀴 등 실내 곤충"
@@ -975,6 +1086,10 @@ class QuestionnaireEngine:
                 trg.append("집을 비우면 호전")
             if specific == YES:
                 trg.append("먼지·해당 환경 노출 시 악화" if kind == "mite" else "해당 환경 노출 시 악화")
+            if bedroom_cue:
+                trg.append("침실 잠자리 주변에서 악화")
+            if bedding == "better":
+                trg.append("침구 관리 후 호전")
             a.rationale_ko = (
                 f"{('·'.join(trg)) or '노출 시 악화'} 패턴이 확인되어, {label} 알레르기가 실제 증상의 "
                 f"원인으로 작용하는 것으로 판단됩니다. 침구·실내 환경 관리가 핵심입니다.")
@@ -991,24 +1106,86 @@ class QuestionnaireEngine:
                 f"{label} 관련 노출·증상 정보가 부족해 판정을 보류합니다. 저녁·아침 증상, 청소·이불 "
                 f"정리 시 변화, 외박 시 호전 여부를 기록해 보세요.")
 
-    def _classify_mold(self, a, damp, worse_months, pattern, answers=None):
+    def _classify_mold(self, a, damp, worse_months, pattern, answers=None, has_mite=False):
+        """곰팡이 판정. 집먼지진드기와 함께 양성이면 '습할 때 악화' 만으로는 구분되지 않는다.
+        곰팡이에만 해당하는 단서(늘 젖은 공간·실외 포자·제습 후 호전)가 있어야 원인으로 인정하고,
+        그런 단서가 없으면 감작만으로 단정하지 않고 '구분 보류'로 남긴다."""
+        ans = answers or {}
+        space = ans.get(Q_MOLD_SPACE) or []
+        outdoor = [x for x in (ans.get(Q_MOLD_OUTDOOR) or []) if x != "none"]
+        dehum = ans.get(Q_MOLD_DEHUM_TRIAL)
+        bedding = ans.get(Q_MITE_BEDDING_TRIAL)
+        habitat = mold_habitat(a)
+
+        space_cues = [x for x in space if x in MOLD_SPACE_SPECIFIC]
+        cues = []
+        if space_cues:
+            labels = {o["value"]: o["label"] for o in MOLD_SPACE_OPTIONS}
+            cues.append("·".join(labels[x] for x in space_cues) + "에서 악화")
+        if outdoor:
+            labels = {o["value"]: o["label"] for o in MOLD_OUTDOOR_OPTIONS}
+            cues.append("실외에서 " + "·".join(labels[x] for x in outdoor) + " 시 악화")
+        if dehum == "better":
+            cues.append("제습·곰팡이 제거 후 호전")
+        mold_specific = bool(cues)
+
         peak = set((a.kb or {}).get("peak_months_korea", []) or [7, 8, 9])
         overlap = bool(peak & worse_months) if worse_months else None
+
+        habitat_tip = {
+            "outdoor": "이 곰팡이는 실외 포자입니다. 낙엽·잔디·퇴비 작업을 피하고, 비 온 뒤와 "
+                       "늦여름~가을에 창문을 닫고 마스크를 쓰세요.",
+            "indoor": "이 곰팡이는 실내에서 자랍니다. 습도를 50% 아래로 낮추고 누수·결로를 고치세요. "
+                      "에어컨·가습기 필터도 정기적으로 청소하세요.",
+        }.get(habitat, "실내는 제습·환기로, 실외는 낙엽·퇴비 노출을 줄여 관리하세요.")
+
+        if mold_specific:
+            a.relevance = ClinicalRelevance.CLINICALLY_RELEVANT
+            a.rationale_ko = (
+                f"{', '.join(cues)} 패턴이 확인되었습니다. 이는 집먼지진드기로는 설명되지 않는 "
+                f"곰팡이 특유의 노출 상황이라, 곰팡이가 실제 증상의 원인으로 판단됩니다. {habitat_tip}")
+            sev = self._pick_severity(ans, QP_SEVERITY + "indoor", default="moderate")
+            self._set_symptoms(a, ["곰팡이 노출 시 코·호흡기 증상 악화(" + ", ".join(cues) + ")"], sev)
+            return
+
+        # 곰팡이 특이 단서가 없는데 진드기도 양성 → 둘을 가를 수 없다. 단정하지 않는다.
+        if has_mite and (damp == YES or overlap is True):
+            a.relevance = ClinicalRelevance.INDETERMINATE
+            extra = ""
+            if bedding == "better" and dehum in (None, "never"):
+                extra = ("침구 관리로는 좋아졌지만 제습·곰팡이 제거는 시도한 적이 없어, "
+                         "현재 증상은 집먼지진드기로 설명될 가능성이 더 큽니다. ")
+            a.rationale_ko = (
+                "습할 때 증상이 심해지지만, 집먼지진드기도 습도가 높으면 함께 늘어나기 때문에 "
+                "이 단서만으로는 둘을 구분할 수 없습니다. " + extra +
+                "욕실·지하실·누수 부위처럼 늘 젖어 있는 공간에서만 심해지는지, 제습기나 곰팡이 제거 "
+                "뒤 좋아지는지를 확인하면 구분됩니다. 판정은 보류합니다.")
+            return
+
         if damp == YES or overlap is True:
             a.relevance = ClinicalRelevance.CLINICALLY_RELEVANT
             a.rationale_ko = (
                 "습한 환경·곰팡이 노출 시 증상이 악화되어, 곰팡이 알레르기가 임상적으로 의미 있는 "
-                "것으로 판단됩니다. 제습·환기·곰팡이 제거가 중요합니다.")
-            sev = self._pick_severity(answers or {}, QP_SEVERITY + "indoor", default="moderate")
+                f"것으로 판단됩니다. {habitat_tip}")
+            sev = self._pick_severity(ans, QP_SEVERITY + "indoor", default="moderate")
             self._set_symptoms(a, ["습한 환경·곰팡이 노출 시 코·호흡기 증상 악화"], sev)
-        elif damp == NO or overlap is False:
+            return
+
+        explicit_no = (damp == NO) or ("none" in space) or (dehum == "same")
+        if explicit_no or overlap is False:
             a.relevance = ClinicalRelevance.SENSITIZED_ONLY
+            note = ""
+            if has_mite:
+                note = "같은 실내 증상은 집먼지진드기로 설명됩니다. "
             a.rationale_ko = (
-                "검사는 양성이지만 습한 환경에서 증상 악화가 뚜렷하지 않습니다. → 현재는 감작 위주로 "
-                "보이며 과도한 회피는 필요하지 않습니다.")
-        else:
-            a.relevance = ClinicalRelevance.INDETERMINATE
-            a.rationale_ko = "습한 환경에서의 증상 변화 정보가 부족해 판정을 보류합니다."
+                "검사는 양성이지만 습한 공간·실외 포자 노출과 증상의 연관이 뚜렷하지 않습니다. "
+                + note + "→ 현재는 감작 위주로 보이며 과도한 회피는 필요하지 않습니다.")
+            return
+
+        a.relevance = ClinicalRelevance.INDETERMINATE
+        a.rationale_ko = (
+            "곰팡이 노출과 증상의 관계를 판단할 정보가 부족합니다. 욕실·지하실·누수 부위에서의 변화, "
+            "비 온 뒤나 낙엽·퇴비 작업 시 변화를 기록해 보세요.")
 
     def _classify_animal(self, a, key, answers):
         name = _name(a)

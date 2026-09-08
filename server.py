@@ -49,6 +49,11 @@ class ClassifyRequest(BaseModel):
     ocr: OCRResult
     screening: Optional[ScreeningProfile] = None
     answers: Dict[str, Any] = {}
+    # 프론트 UI 구분: "quest"(알러젠 탐험 퀘스트, 기본) / "classic"(재설계 이전 UI)
+    # 카드뉴스 디자인·문구를 UI 에 맞춰 고른다. 판정·리포트·FHIR 는 동일하다.
+    ui: str = "quest"
+    # 화면 표시 언어(ko/en/zh). 서버 생성 콘텐츠 번역에 사용한다.
+    lang: str = "ko"
 
 
 # ============================================================
@@ -254,7 +259,11 @@ def classify(req: ClassifyRequest):
     # PDF/HTML 겸용 인쇄형 문서(단일 디자인 소스) — 화면 표시 + 다운로드 + 인쇄(PDF)
     report_document_html = rsvc.build_patient_report_html_document(result, patient_info, req.screening)
 
-    cardnews_html = get_cardnews_service().generate_html(result, patient_info, req.screening)
+    if (req.ui or "quest").lower() == "classic":
+        from services.cardnews_classic import get_classic_cardnews_service
+        cardnews_html = get_classic_cardnews_service().generate_html(result, patient_info, req.screening)
+    else:
+        cardnews_html = get_cardnews_service().generate_html(result, patient_info, req.screening)
 
     return {
         "assessments": [_assessment_public(a) for a in result.assessments],
@@ -263,6 +272,7 @@ def classify(req: ClassifyRequest):
         "report_html": report_html,
         "report_document_html": report_document_html,
         "cardnews_html": cardnews_html,
+        "ui": (req.ui or "quest").lower(),
     }
 
 

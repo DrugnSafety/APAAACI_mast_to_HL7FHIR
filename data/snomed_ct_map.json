@@ -1,29 +1,1442 @@
 {
-  "version": "1.0",
-  "system": "http://snomed.info/sct",
-  "note_ko": "실제 SNOMED CT SCTID (사용자 제공·검토, 2026-07). get_coding 이 CDM(OMOP concept_id) 보다 우선 사용한다. 키는 항원 canonical_name/별칭(대소문자·공백 무시 매칭).",
-  "map": {
-    "Sesame": {"code": "260167008", "display": "Sesame seed (substance)"},
-    "Prawn": {"code": "227151004", "display": "Prawns (substance)"},
-    "Krill": {"code": "468151000124104", "display": "Krill (substance)", "note": "US extension"},
-    "Clam": {"code": "736030007", "display": "Clam (substance)"},
-    "Abalone": {"code": "765098000", "display": "Abalone (substance)"},
-    "Snail": {"code": "457131000124102", "display": "Snail (substance)"},
-    "Anisakis": {"code": "35458008", "display": "Anisakis (organism)", "note": "substance-level term 없음 — organism-level 사용"},
-    "Carp": {"code": "726763003", "display": "Carp (substance)"},
-    "Herring": {"code": "735035006", "display": "Herring (substance)"},
-    "Pollock": {"code": "468171000124109", "display": "Pollock (substance)", "note": "US extension"},
-    "Beef": {"code": "1208812005", "display": "Bos taurus protein (substance)"},
-    "Cattle": {"code": "1208812005", "display": "Bos taurus protein (substance)"},
-    "Cow dander": {"code": "260153004", "display": "Cow dander (substance)"},
-    "Horse dander": {"code": "256417003", "display": "Horse dander (substance)"},
-    "Cherry": {"code": "735248001", "display": "Cherry (substance)"},
-    "Plum": {"code": "735051003", "display": "Plum (substance)"},
-    "Cashew": {"code": "227493005", "display": "Cashew nut (substance)"},
-    "Pistachio": {"code": "227512001", "display": "Pistachio nut (substance)"},
-    "Pecan": {"code": "260189007", "display": "Pecan nut (substance)"},
-    "Apricot": {"code": "735214002", "display": "Apricot (substance)"},
-    "Watermelon": {"code": "419420009", "display": "Citrullus lanatus (substance)"},
-    "Olive": {"code": "227436000", "display": "Olives (substance)"}
+ "version": "2.0",
+ "system": "http://snomed.info/sct",
+ "note_ko": "실제 SNOMED CT SCTID. 22종은 사용자 검토본(2026-07), 나머지는 tx.fhir.org (SNOMED CT International) $expand/$lookup 으로 조회·활성 확인 후 카테고리 규칙으로 정교화(2026-09). 꽃가루는 'X pollen', 동물은 'dander/epithelium' 개념을 우선한다. 혼합·대조 항원은 대응 개념이 없어 매핑하지 않는다(snomed_ct_unmapped.json).",
+ "map": {
+  "Sesame": {
+   "code": "260167008",
+   "display": "Sesame seed (substance)"
+  },
+  "Prawn": {
+   "code": "227151004",
+   "display": "Prawns (substance)"
+  },
+  "Krill": {
+   "code": "468151000124104",
+   "display": "Krill (substance)",
+   "note": "US extension"
+  },
+  "Clam": {
+   "code": "736030007",
+   "display": "Clam (substance)"
+  },
+  "Abalone": {
+   "code": "765098000",
+   "display": "Abalone (substance)"
+  },
+  "Snail": {
+   "code": "457131000124102",
+   "display": "Snail (substance)"
+  },
+  "Anisakis": {
+   "code": "35458008",
+   "display": "Anisakis (organism)",
+   "note": "substance-level term 없음 — organism-level 사용"
+  },
+  "Carp": {
+   "code": "726763003",
+   "display": "Carp (substance)"
+  },
+  "Herring": {
+   "code": "735035006",
+   "display": "Herring (substance)"
+  },
+  "Pollock": {
+   "code": "468171000124109",
+   "display": "Pollock (substance)",
+   "note": "US extension"
+  },
+  "Beef": {
+   "code": "1208812005",
+   "display": "Bos taurus protein (substance)"
+  },
+  "Cattle": {
+   "code": "1208812005",
+   "display": "Bos taurus protein (substance)"
+  },
+  "Cow dander": {
+   "code": "260153004",
+   "display": "Cow dander (substance)"
+  },
+  "Horse dander": {
+   "code": "256417003",
+   "display": "Horse dander (substance)"
+  },
+  "Cherry": {
+   "code": "735248001",
+   "display": "Cherry (substance)"
+  },
+  "Plum": {
+   "code": "735051003",
+   "display": "Plum (substance)"
+  },
+  "Cashew": {
+   "code": "227493005",
+   "display": "Cashew nut (substance)"
+  },
+  "Pistachio": {
+   "code": "227512001",
+   "display": "Pistachio nut (substance)"
+  },
+  "Pecan": {
+   "code": "260189007",
+   "display": "Pecan nut (substance)"
+  },
+  "Apricot": {
+   "code": "735214002",
+   "display": "Apricot (substance)"
+  },
+  "Watermelon": {
+   "code": "419420009",
+   "display": "Citrullus lanatus (substance)"
+  },
+  "Olive": {
+   "code": "227436000",
+   "display": "Olives (substance)"
+  },
+  "Acacia": {
+   "code": "260132008",
+   "display": "Acacia pollen"
+  },
+  "False Acacia": {
+   "code": "260132008",
+   "display": "Acacia pollen"
+  },
+  "False acacia": {
+   "code": "260132008",
+   "display": "Acacia pollen"
+  },
+  "아까시나무": {
+   "code": "260132008",
+   "display": "Acacia pollen"
+  },
+  "Robinia pseudoacacia": {
+   "code": "260132008",
+   "display": "Acacia pollen"
+  },
+  "Alder": {
+   "code": "256261008",
+   "display": "Alder pollen"
+  },
+  "오리나무": {
+   "code": "256261008",
+   "display": "Alder pollen"
+  },
+  "Almond": {
+   "code": "256350002",
+   "display": "Almond"
+  },
+  "아몬드": {
+   "code": "256350002",
+   "display": "Almond"
+  },
+  "Alternaria alternata": {
+   "code": "36703000",
+   "display": "Alternaria alternata"
+  },
+  "Alternaria": {
+   "code": "36703000",
+   "display": "Alternaria alternata"
+  },
+  "얼터나리아": {
+   "code": "36703000",
+   "display": "Alternaria alternata"
+  },
+  "Apple": {
+   "code": "735215001",
+   "display": "Apple"
+  },
+  "사과": {
+   "code": "735215001",
+   "display": "Apple"
+  },
+  "Aspergillus fumigatus": {
+   "code": "32684000",
+   "display": "Aspergillus fumigatus"
+  },
+  "A fumigatus": {
+   "code": "32684000",
+   "display": "Aspergillus fumigatus"
+  },
+  "아스페르길루스 푸미가투스": {
+   "code": "32684000",
+   "display": "Aspergillus fumigatus"
+  },
+  "Aspergillus niger": {
+   "code": "89354002",
+   "display": "Aspergillus niger"
+  },
+  "A. niger": {
+   "code": "89354002",
+   "display": "Aspergillus niger"
+  },
+  "아스페르길루스 니거": {
+   "code": "89354002",
+   "display": "Aspergillus niger"
+  },
+  "Avocado": {
+   "code": "735249009",
+   "display": "Avocado"
+  },
+  "아보카도": {
+   "code": "735249009",
+   "display": "Avocado"
+  },
+  "Banana": {
+   "code": "256307007",
+   "display": "Banana"
+  },
+  "바나나": {
+   "code": "256307007",
+   "display": "Banana"
+  },
+  "Barley": {
+   "code": "735124003",
+   "display": "Barley"
+  },
+  "Barley flour": {
+   "code": "735124003",
+   "display": "Barley"
+  },
+  "보리가루": {
+   "code": "735124003",
+   "display": "Barley"
+  },
+  "Bean": {
+   "code": "256354006",
+   "display": "Bean"
+  },
+  "콩": {
+   "code": "256354006",
+   "display": "Bean"
+  },
+  "Beech": {
+   "code": "256265004",
+   "display": "Beech pollen"
+  },
+  "너도밤나무": {
+   "code": "256265004",
+   "display": "Beech pollen"
+  },
+  "Bermuda grass": {
+   "code": "260089005",
+   "display": "Bermuda grass pollen"
+  },
+  "Bermuda": {
+   "code": "260089005",
+   "display": "Bermuda grass pollen"
+  },
+  "우산잔디": {
+   "code": "260089005",
+   "display": "Bermuda grass pollen"
+  },
+  "Birch": {
+   "code": "256262001",
+   "display": "European white birch pollen"
+  },
+  "자작나무": {
+   "code": "256262001",
+   "display": "European white birch pollen"
+  },
+  "Cabbage": {
+   "code": "735108004",
+   "display": "Cabbage"
+  },
+  "양배추": {
+   "code": "735108004",
+   "display": "Cabbage"
+  },
+  "Candida albicans": {
+   "code": "53326005",
+   "display": "Candida albicans"
+  },
+  "C. albicans": {
+   "code": "53326005",
+   "display": "Candida albicans"
+  },
+  "칸디다 알비칸스": {
+   "code": "53326005",
+   "display": "Candida albicans"
+  },
+  "Carrot": {
+   "code": "256319004",
+   "display": "Carrot"
+  },
+  "당근": {
+   "code": "256319004",
+   "display": "Carrot"
+  },
+  "Casein": {
+   "code": "50593009",
+   "display": "Casein"
+  },
+  "Cow casein": {
+   "code": "50593009",
+   "display": "Casein"
+  },
+  "암소건락소-치즈원료": {
+   "code": "50593009",
+   "display": "Casein"
+  },
+  "Cat dander": {
+   "code": "260152009",
+   "display": "Cat dander"
+  },
+  "Cat": {
+   "code": "260152009",
+   "display": "Cat dander"
+  },
+  "고양이 표피": {
+   "code": "260152009",
+   "display": "Cat dander"
+  },
+  "Celery": {
+   "code": "256326004",
+   "display": "Celery"
+  },
+  "샐러리": {
+   "code": "256326004",
+   "display": "Celery"
+  },
+  "Chicken": {
+   "code": "260165000",
+   "display": "Chicken feathers"
+  },
+  "닭": {
+   "code": "260165000",
+   "display": "Chicken feathers"
+  },
+  "Chrysanthemum": {
+   "code": "256289006",
+   "display": "Chrysanthemum pollen"
+  },
+  "Chrysan": {
+   "code": "256289006",
+   "display": "Chrysanthemum pollen"
+  },
+  "국화": {
+   "code": "256289006",
+   "display": "Chrysanthemum pollen"
+  },
+  "Citrus fruit": {
+   "code": "102259006",
+   "display": "Citrus fruit"
+  },
+  "Citrus": {
+   "code": "102259006",
+   "display": "Citrus fruit"
+  },
+  "귤": {
+   "code": "102259006",
+   "display": "Citrus fruit"
+  },
+  "Cladosporium herbarum": {
+   "code": "3459008",
+   "display": "Cladosporium herbarum"
+  },
+  "Cladosporium": {
+   "code": "3459008",
+   "display": "Cladosporium herbarum"
+  },
+  "클라도스포리움 헤르바룸": {
+   "code": "3459008",
+   "display": "Cladosporium herbarum"
+  },
+  "Cockroach, American": {
+   "code": "710937009",
+   "display": "American cockroach protein"
+  },
+  "American cockroach": {
+   "code": "710937009",
+   "display": "American cockroach protein"
+  },
+  "American cockroach protein": {
+   "code": "710937009",
+   "display": "American cockroach protein"
+  },
+  "미국바퀴": {
+   "code": "710937009",
+   "display": "American cockroach protein"
+  },
+  "Cockroach, German": {
+   "code": "710930006",
+   "display": "German cockroach protein"
+  },
+  "German cockroach": {
+   "code": "710930006",
+   "display": "German cockroach protein"
+  },
+  "German cockroach protein": {
+   "code": "710930006",
+   "display": "German cockroach protein"
+  },
+  "독일바퀴": {
+   "code": "710930006",
+   "display": "German cockroach protein"
+  },
+  "Cockroach, Mix": {
+   "code": "710943006",
+   "display": "Cockroach protein"
+  },
+  "Cockroach": {
+   "code": "710943006",
+   "display": "Cockroach protein"
+  },
+  "Cockroach protein": {
+   "code": "710943006",
+   "display": "Cockroach protein"
+  },
+  "바퀴벌레": {
+   "code": "710943006",
+   "display": "Cockroach protein"
+  },
+  "Cod": {
+   "code": "735245003",
+   "display": "Cod"
+  },
+  "대구": {
+   "code": "735245003",
+   "display": "Cod"
+  },
+  "Cow milk": {
+   "code": "3718001",
+   "display": "Cow's milk"
+  },
+  "Milk": {
+   "code": "3718001",
+   "display": "Cow's milk"
+  },
+  "우유단백": {
+   "code": "3718001",
+   "display": "Cow's milk"
+  },
+  "Bos d": {
+   "code": "3718001",
+   "display": "Cow's milk"
+  },
+  "소젖": {
+   "code": "3718001",
+   "display": "Cow's milk"
+  },
+  "밀크": {
+   "code": "3718001",
+   "display": "Cow's milk"
+  },
+  "Crab": {
+   "code": "736159005",
+   "display": "Crab"
+  },
+  "꽃게": {
+   "code": "736159005",
+   "display": "Crab"
+  },
+  "Blue crab": {
+   "code": "736159005",
+   "display": "Crab"
+  },
+  "Portunus": {
+   "code": "736159005",
+   "display": "Crab"
+  },
+  "대게": {
+   "code": "736159005",
+   "display": "Crab"
+  },
+  "킹크랩": {
+   "code": "736159005",
+   "display": "Crab"
+  },
+  "Cha f": {
+   "code": "736159005",
+   "display": "Crab"
+  },
+  "Crayfish": {
+   "code": "735972003",
+   "display": "Crayfish"
+  },
+  "민물가재": {
+   "code": "735972003",
+   "display": "Crayfish"
+  },
+  "Astacus": {
+   "code": "735972003",
+   "display": "Crayfish"
+  },
+  "크레이피시": {
+   "code": "735972003",
+   "display": "Crayfish"
+  },
+  "Cultivated oat": {
+   "code": "260098008",
+   "display": "Cultivated oat pollen"
+  },
+  "oat": {
+   "code": "260098008",
+   "display": "Cultivated oat pollen"
+  },
+  "귀리": {
+   "code": "260098008",
+   "display": "Cultivated oat pollen"
+  },
+  "Dandelion": {
+   "code": "256297004",
+   "display": "Dandelion pollen"
+  },
+  "서양민들레": {
+   "code": "256297004",
+   "display": "Dandelion pollen"
+  },
+  "Dermatophagoides farinae": {
+   "code": "112476003",
+   "display": "Dermatophagoides farinae"
+  },
+  "D. farinae": {
+   "code": "112476003",
+   "display": "Dermatophagoides farinae"
+  },
+  "D.f.": {
+   "code": "112476003",
+   "display": "Dermatophagoides farinae"
+  },
+  "Der f": {
+   "code": "112476003",
+   "display": "Dermatophagoides farinae"
+  },
+  "Dermatophagoides farina": {
+   "code": "112476003",
+   "display": "Dermatophagoides farinae"
+  },
+  "북아메리카 집먼지진드기": {
+   "code": "112476003",
+   "display": "Dermatophagoides farinae"
+  },
+  "House dust mite": {
+   "code": "112476003",
+   "display": "Dermatophagoides farinae"
+  },
+  "HDM": {
+   "code": "112476003",
+   "display": "Dermatophagoides farinae"
+  },
+  "미국집먼지진드기": {
+   "code": "112476003",
+   "display": "Dermatophagoides farinae"
+  },
+  "Dermatophagoides pteronyssinus": {
+   "code": "711094007",
+   "display": "Dermatophagoides pteronyssinus protein"
+  },
+  "D. pteronyssinus": {
+   "code": "711094007",
+   "display": "Dermatophagoides pteronyssinus protein"
+  },
+  "D.p.": {
+   "code": "711094007",
+   "display": "Dermatophagoides pteronyssinus protein"
+  },
+  "Der p": {
+   "code": "711094007",
+   "display": "Dermatophagoides pteronyssinus protein"
+  },
+  "유럽 집먼지진드기": {
+   "code": "711094007",
+   "display": "Dermatophagoides pteronyssinus protein"
+  },
+  "Dog dander": {
+   "code": "260154005",
+   "display": "Dog dander"
+  },
+  "Dog epithelium": {
+   "code": "260154005",
+   "display": "Dog dander"
+  },
+  "개 표피": {
+   "code": "260154005",
+   "display": "Dog dander"
+  },
+  "Egg white": {
+   "code": "256443002",
+   "display": "Egg white"
+  },
+  "계란흰자": {
+   "code": "256443002",
+   "display": "Egg white"
+  },
+  "Egg yolk": {
+   "code": "256442007",
+   "display": "Egg yolk"
+  },
+  "계란노른자": {
+   "code": "256442007",
+   "display": "Egg yolk"
+  },
+  "Elder": {
+   "code": "289948005",
+   "display": "Elder pollen"
+  },
+  "딱총나무": {
+   "code": "289948005",
+   "display": "Elder pollen"
+  },
+  "Elm": {
+   "code": "256272003",
+   "display": "Elm pollen"
+  },
+  "느릅나무": {
+   "code": "256272003",
+   "display": "Elm pollen"
+  },
+  "English plantain": {
+   "code": "256294006",
+   "display": "English plantain pollen"
+  },
+  "Plantain": {
+   "code": "256294006",
+   "display": "English plantain pollen"
+  },
+  "질경이": {
+   "code": "256294006",
+   "display": "English plantain pollen"
+  },
+  "Fusarium": {
+   "code": "35238009",
+   "display": "Fusarium"
+  },
+  "푸사리움 모닐리포르메": {
+   "code": "35238009",
+   "display": "Fusarium"
+  },
+  "Goldenrod": {
+   "code": "710907000",
+   "display": "Goldenrod pollen"
+  },
+  "Golden Rod": {
+   "code": "710907000",
+   "display": "Goldenrod pollen"
+  },
+  "미역취": {
+   "code": "710907000",
+   "display": "Goldenrod pollen"
+  },
+  "Grape": {
+   "code": "256317002",
+   "display": "Grapes"
+  },
+  "포도": {
+   "code": "256317002",
+   "display": "Grapes"
+  },
+  "Grass": {
+   "code": "256277009",
+   "display": "Grass pollen"
+  },
+  "Grass mixture": {
+   "code": "256277009",
+   "display": "Grass pollen"
+  },
+  "나무 꽃가루 혼합": {
+   "code": "256277009",
+   "display": "Grass pollen"
+  },
+  "Guinea pig": {
+   "code": "703927007",
+   "display": "Guinea pig dander"
+  },
+  "Cavia": {
+   "code": "703927007",
+   "display": "Guinea pig dander"
+  },
+  "기니픽": {
+   "code": "703927007",
+   "display": "Guinea pig dander"
+  },
+  "Cav p": {
+   "code": "703927007",
+   "display": "Guinea pig dander"
+  },
+  "Hamster": {
+   "code": "260164001",
+   "display": "Hamster epithelium"
+  },
+  "Cricetus": {
+   "code": "260164001",
+   "display": "Hamster epithelium"
+  },
+  "Mesocricetus": {
+   "code": "260164001",
+   "display": "Hamster epithelium"
+  },
+  "Pho s": {
+   "code": "260164001",
+   "display": "Hamster epithelium"
+  },
+  "Hazel": {
+   "code": "256263006",
+   "display": "Hazel pollen"
+  },
+  "개암나무": {
+   "code": "256263006",
+   "display": "Hazel pollen"
+  },
+  "Hazelnut": {
+   "code": "256353000",
+   "display": "Hazelnut"
+  },
+  "개암": {
+   "code": "256353000",
+   "display": "Hazelnut"
+  },
+  "Cor a": {
+   "code": "256353000",
+   "display": "Hazelnut"
+  },
+  "Filbert": {
+   "code": "256353000",
+   "display": "Hazelnut"
+  },
+  "헤이즐럿": {
+   "code": "256353000",
+   "display": "Hazelnut"
+  },
+  "헤이즐 넛": {
+   "code": "256353000",
+   "display": "Hazelnut"
+  },
+  "Hen's egg": {
+   "code": "286550009",
+   "display": "Hen's egg"
+  },
+  "달걀 전체": {
+   "code": "286550009",
+   "display": "Hen's egg"
+  },
+  "Hornbeam": {
+   "code": "256302001",
+   "display": "Hornbeam pollen"
+  },
+  "Carpinus": {
+   "code": "256302001",
+   "display": "Hornbeam pollen"
+  },
+  "Car b": {
+   "code": "256302001",
+   "display": "Hornbeam pollen"
+  },
+  "Japanese cedar": {
+   "code": "260130000",
+   "display": "Japanese cedar pollen"
+  },
+  "J ceder": {
+   "code": "260130000",
+   "display": "Japanese cedar pollen"
+  },
+  "삼나무": {
+   "code": "260130000",
+   "display": "Japanese cedar pollen"
+  },
+  "Japanese hop": {
+   "code": "260119003",
+   "display": "Japanese hop pollen"
+  },
+  "Hop j": {
+   "code": "260119003",
+   "display": "Japanese hop pollen"
+  },
+  "환삼덩굴": {
+   "code": "260119003",
+   "display": "Japanese hop pollen"
+  },
+  "Kentucky blue grass": {
+   "code": "256286004",
+   "display": "Kentucky blue grass pollen"
+  },
+  "Kentucky": {
+   "code": "256286004",
+   "display": "Kentucky blue grass pollen"
+  },
+  "왕포아풀": {
+   "code": "256286004",
+   "display": "Kentucky blue grass pollen"
+  },
+  "Kiwi": {
+   "code": "260176001",
+   "display": "Kiwi fruit"
+  },
+  "Kiwi fruit": {
+   "code": "260176001",
+   "display": "Kiwi fruit"
+  },
+  "키위": {
+   "code": "260176001",
+   "display": "Kiwi fruit"
+  },
+  "Lactalbumin": {
+   "code": "102697003",
+   "display": "Lactalbumin"
+  },
+  "락토알부민": {
+   "code": "102697003",
+   "display": "Lactalbumin"
+  },
+  "Lamb's quarters": {
+   "code": "260110004",
+   "display": "Lamb's quarters pollen"
+  },
+  "명아주": {
+   "code": "260110004",
+   "display": "Lamb's quarters pollen"
+  },
+  "Latex": {
+   "code": "111088007",
+   "display": "Latex"
+  },
+  "라텍스": {
+   "code": "111088007",
+   "display": "Latex"
+  },
+  "Lentil": {
+   "code": "227350006",
+   "display": "Lentils"
+  },
+  "Lentils": {
+   "code": "227350006",
+   "display": "Lentils"
+  },
+  "렌즈콩": {
+   "code": "227350006",
+   "display": "Lentils"
+  },
+  "Lobster": {
+   "code": "736162008",
+   "display": "Lobster"
+  },
+  "바닷가재": {
+   "code": "736162008",
+   "display": "Lobster"
+  },
+  "Mackerel": {
+   "code": "735043001",
+   "display": "Mackerel"
+  },
+  "고등어": {
+   "code": "735043001",
+   "display": "Mackerel"
+  },
+  "Maize (corn)": {
+   "code": "2911006",
+   "display": "Zea mays - corn"
+  },
+  "Corn": {
+   "code": "2911006",
+   "display": "Zea mays - corn"
+  },
+  "콘": {
+   "code": "2911006",
+   "display": "Zea mays - corn"
+  },
+  "Zea mays": {
+   "code": "2911006",
+   "display": "Zea mays - corn"
+  },
+  "옥수수가루": {
+   "code": "2911006",
+   "display": "Zea mays - corn"
+  },
+  "Zea m": {
+   "code": "2911006",
+   "display": "Zea mays - corn"
+  },
+  "Maize": {
+   "code": "2911006",
+   "display": "Zea mays - corn"
+  },
+  "Meadow fescue": {
+   "code": "256279007",
+   "display": "Meadow fescue pollen"
+  },
+  "Meadow": {
+   "code": "256279007",
+   "display": "Meadow fescue pollen"
+  },
+  "넓은김의털": {
+   "code": "256279007",
+   "display": "Meadow fescue pollen"
+  },
+  "Melon": {
+   "code": "260177005",
+   "display": "Melon"
+  },
+  "멜론": {
+   "code": "260177005",
+   "display": "Melon"
+  },
+  "Mouse": {
+   "code": "256419000",
+   "display": "Mouse epithelium"
+  },
+  "Mus musculus": {
+   "code": "256419000",
+   "display": "Mouse epithelium"
+  },
+  "마우스": {
+   "code": "256419000",
+   "display": "Mouse epithelium"
+  },
+  "Mus m": {
+   "code": "256419000",
+   "display": "Mouse epithelium"
+  },
+  "Mucor racemosus": {
+   "code": "29589005",
+   "display": "Mucor racemosus"
+  },
+  "Mucor": {
+   "code": "29589005",
+   "display": "Mucor racemosus"
+  },
+  "뮤코르 라세모수스": {
+   "code": "29589005",
+   "display": "Mucor racemosus"
+  },
+  "Mugwort": {
+   "code": "256293000",
+   "display": "Mugwort pollen"
+  },
+  "쑥": {
+   "code": "256293000",
+   "display": "Mugwort pollen"
+  },
+  "Mung bean": {
+   "code": "227355001",
+   "display": "Mung beans"
+  },
+  "Vigna radiata": {
+   "code": "227355001",
+   "display": "Mung beans"
+  },
+  "녹두콩": {
+   "code": "227355001",
+   "display": "Mung beans"
+  },
+  "Mushroom": {
+   "code": "735045008",
+   "display": "Mushroom"
+  },
+  "Edible mushroom": {
+   "code": "735045008",
+   "display": "Mushroom"
+  },
+  "버섯": {
+   "code": "735045008",
+   "display": "Mushroom"
+  },
+  "표고버섯": {
+   "code": "735045008",
+   "display": "Mushroom"
+  },
+  "느타리버섯": {
+   "code": "735045008",
+   "display": "Mushroom"
+  },
+  "Mussel": {
+   "code": "227150003",
+   "display": "Mussel"
+  },
+  "홍합": {
+   "code": "227150003",
+   "display": "Mussel"
+  },
+  "Mustard": {
+   "code": "51905005",
+   "display": "Mustard"
+  },
+  "겨자": {
+   "code": "51905005",
+   "display": "Mustard"
+  },
+  "Nettle": {
+   "code": "256298009",
+   "display": "Nettle pollen"
+  },
+  "쐐기풀": {
+   "code": "256298009",
+   "display": "Nettle pollen"
+  },
+  "Neurospora": {
+   "code": "708254003",
+   "display": "Neurospora"
+  },
+  "뉴로스포라": {
+   "code": "708254003",
+   "display": "Neurospora"
+  },
+  "Oak": {
+   "code": "256270006",
+   "display": "Oak pollen"
+  },
+  "참나무": {
+   "code": "256270006",
+   "display": "Oak pollen"
+  },
+  "Oat": {
+   "code": "418504009",
+   "display": "Oat"
+  },
+  "Oat flour": {
+   "code": "418504009",
+   "display": "Oat"
+  },
+  "귀리가루": {
+   "code": "418504009",
+   "display": "Oat"
+  },
+  "Octopus": {
+   "code": "735979007",
+   "display": "Octopus"
+  },
+  "문어": {
+   "code": "735979007",
+   "display": "Octopus"
+  },
+  "Onion": {
+   "code": "735047000",
+   "display": "Onion"
+  },
+  "양파": {
+   "code": "735047000",
+   "display": "Onion"
+  },
+  "Orange": {
+   "code": "256306003",
+   "display": "Orange - fruit"
+  },
+  "Orange - fruit": {
+   "code": "256306003",
+   "display": "Orange - fruit"
+  },
+  "오렌지": {
+   "code": "256306003",
+   "display": "Orange - fruit"
+  },
+  "Orchard grass": {
+   "code": "256278004",
+   "display": "Dactylis (orchardgrass) pollen"
+  },
+  "Orchard": {
+   "code": "256278004",
+   "display": "Dactylis (orchardgrass) pollen"
+  },
+  "오리새": {
+   "code": "256278004",
+   "display": "Dactylis (orchardgrass) pollen"
+  },
+  "Oyster": {
+   "code": "736031006",
+   "display": "Oyster"
+  },
+  "굴": {
+   "code": "736031006",
+   "display": "Oyster"
+  },
+  "Peach": {
+   "code": "735049002",
+   "display": "Peach"
+  },
+  "복숭아": {
+   "code": "735049002",
+   "display": "Peach"
+  },
+  "Peanut": {
+   "code": "762952008",
+   "display": "Peanut"
+  },
+  "땅콩": {
+   "code": "762952008",
+   "display": "Peanut"
+  },
+  "Pear": {
+   "code": "735050002",
+   "display": "Pear"
+  },
+  "배": {
+   "code": "735050002",
+   "display": "Pear"
+  },
+  "Penicillium": {
+   "code": "42993004",
+   "display": "Penicillium"
+  },
+  "페니실리움": {
+   "code": "42993004",
+   "display": "Penicillium"
+  },
+  "Pepper": {
+   "code": "1137359008",
+   "display": "Bell pepper"
+  },
+  "Sweet pepper": {
+   "code": "1137359008",
+   "display": "Bell pepper"
+  },
+  "피망": {
+   "code": "1137359008",
+   "display": "Bell pepper"
+  },
+  "Pine": {
+   "code": "256267007",
+   "display": "Pine pollen"
+  },
+  "소나무": {
+   "code": "256267007",
+   "display": "Pine pollen"
+  },
+  "Pineapple": {
+   "code": "256313003",
+   "display": "Pineapple"
+  },
+  "파인애플": {
+   "code": "256313003",
+   "display": "Pineapple"
+  },
+  "Plaice": {
+   "code": "227083008",
+   "display": "Plaice"
+  },
+  "넙치, 가자미류": {
+   "code": "227083008",
+   "display": "Plaice"
+  },
+  "Plane": {
+   "code": "256268002",
+   "display": "Plane pollen"
+  },
+  "양버즘나무": {
+   "code": "256268002",
+   "display": "Plane pollen"
+  },
+  "Poplar": {
+   "code": "256269005",
+   "display": "Poplar pollen"
+  },
+  "포플러나무": {
+   "code": "256269005",
+   "display": "Poplar pollen"
+  },
+  "Pork": {
+   "code": "226934003",
+   "display": "Pork"
+  },
+  "돼지고기": {
+   "code": "226934003",
+   "display": "Pork"
+  },
+  "Potato": {
+   "code": "1590002",
+   "display": "Irish potato"
+  },
+  "감자": {
+   "code": "1590002",
+   "display": "Irish potato"
+  },
+  "Rabbit epithelium": {
+   "code": "256421005",
+   "display": "Rabbit epithelium"
+  },
+  "Rabbit": {
+   "code": "256421005",
+   "display": "Rabbit epithelium"
+  },
+  "토끼 상피": {
+   "code": "256421005",
+   "display": "Rabbit epithelium"
+  },
+  "Ragweed": {
+   "code": "256303006",
+   "display": "Ragweed pollen"
+  },
+  "돼지풀": {
+   "code": "256303006",
+   "display": "Ragweed pollen"
+  },
+  "Rat epithelium": {
+   "code": "256422003",
+   "display": "Rat epithelium"
+  },
+  "Rat": {
+   "code": "256422003",
+   "display": "Rat epithelium"
+  },
+  "쥐 상피": {
+   "code": "256422003",
+   "display": "Rat epithelium"
+  },
+  "Rice": {
+   "code": "67324005",
+   "display": "Rice"
+  },
+  "Rice flour": {
+   "code": "67324005",
+   "display": "Rice"
+  },
+  "쌀가루": {
+   "code": "67324005",
+   "display": "Rice"
+  },
+  "Russian thistle": {
+   "code": "260111000",
+   "display": "Russian thistle pollen"
+  },
+  "러시안 엉겅퀴": {
+   "code": "260111000",
+   "display": "Russian thistle pollen"
+  },
+  "Rye flour": {
+   "code": "229940009",
+   "display": "Rye flour"
+  },
+  "호밀가루": {
+   "code": "229940009",
+   "display": "Rye flour"
+  },
+  "Rye grass, perennial": {
+   "code": "1264573001",
+   "display": "Perennial rye grass pollen"
+  },
+  "Rye grass": {
+   "code": "1264573001",
+   "display": "Perennial rye grass pollen"
+  },
+  "호밀풀": {
+   "code": "1264573001",
+   "display": "Perennial rye grass pollen"
+  },
+  "Salmon": {
+   "code": "39947003",
+   "display": "Salmo salar"
+  },
+  "연어": {
+   "code": "39947003",
+   "display": "Salmo salar"
+  },
+  "Sardine": {
+   "code": "227136008",
+   "display": "Sardine"
+  },
+  "Ele": {
+   "code": "227136008",
+   "display": "Sardine"
+  },
+  "Sardine~": {
+   "code": "227136008",
+   "display": "Sardine"
+  },
+  "생선 혼합": {
+   "code": "227136008",
+   "display": "Sardine"
+  },
+  "Sheep": {
+   "code": "226942002",
+   "display": "Lamb"
+  },
+  "양고기": {
+   "code": "226942002",
+   "display": "Lamb"
+  },
+  "Shrimp": {
+   "code": "278840001",
+   "display": "Shrimp"
+  },
+  "새우": {
+   "code": "278840001",
+   "display": "Shrimp"
+  },
+  "Soybean": {
+   "code": "76068006",
+   "display": "Soybean"
+  },
+  "Soy": {
+   "code": "76068006",
+   "display": "Soybean"
+  },
+  "Glycine max": {
+   "code": "76068006",
+   "display": "Soybean"
+  },
+  "메주콩": {
+   "code": "76068006",
+   "display": "Soybean"
+  },
+  "Gly m": {
+   "code": "76068006",
+   "display": "Soybean"
+  },
+  "Spinach": {
+   "code": "256329006",
+   "display": "Spinach"
+  },
+  "시금치": {
+   "code": "256329006",
+   "display": "Spinach"
+  },
+  "Squid": {
+   "code": "735006003",
+   "display": "Squid"
+  },
+  "오징어": {
+   "code": "735006003",
+   "display": "Squid"
+  },
+  "Strawberry": {
+   "code": "102261002",
+   "display": "Strawberry"
+  },
+  "딸기": {
+   "code": "102261002",
+   "display": "Strawberry"
+  },
+  "Timothy": {
+   "code": "256281009",
+   "display": "Timothy grass pollen"
+  },
+  "Timothy grass": {
+   "code": "256281009",
+   "display": "Timothy grass pollen"
+  },
+  "티모시": {
+   "code": "256281009",
+   "display": "Timothy grass pollen"
+  },
+  "Tomato": {
+   "code": "734881000",
+   "display": "Tomato"
+  },
+  "토마토": {
+   "code": "734881000",
+   "display": "Tomato"
+  },
+  "Trout": {
+   "code": "735034005",
+   "display": "Trout"
+  },
+  "송어": {
+   "code": "735034005",
+   "display": "Trout"
+  },
+  "Tuna": {
+   "code": "260175002",
+   "display": "Tuna"
+  },
+  "참치": {
+   "code": "260175002",
+   "display": "Tuna"
+  },
+  "Tyrophagus putrescentiae": {
+   "code": "711098005",
+   "display": "Tyrophagus putrescentiae protein"
+  },
+  "T putres.": {
+   "code": "711098005",
+   "display": "Tyrophagus putrescentiae protein"
+  },
+  "Tyrophagus putrescentiae protein": {
+   "code": "711098005",
+   "display": "Tyrophagus putrescentiae protein"
+  },
+  "긴털가루진드기": {
+   "code": "711098005",
+   "display": "Tyrophagus putrescentiae protein"
+  },
+  "Velvet grass": {
+   "code": "256282002",
+   "display": "Velvet grass pollen"
+  },
+  "Velvet": {
+   "code": "256282002",
+   "display": "Velvet grass pollen"
+  },
+  "잔디": {
+   "code": "256282002",
+   "display": "Velvet grass pollen"
+  },
+  "Walnut": {
+   "code": "256352005",
+   "display": "Walnut - nut"
+  },
+  "호두": {
+   "code": "256352005",
+   "display": "Walnut - nut"
+  },
+  "Wheat": {
+   "code": "412071004",
+   "display": "Wheat"
+  },
+  "소맥": {
+   "code": "412071004",
+   "display": "Wheat"
+  },
+  "밀가루": {
+   "code": "412071004",
+   "display": "Wheat"
+  },
+  "Triticum": {
+   "code": "412071004",
+   "display": "Wheat"
+  },
+  "통밀": {
+   "code": "412071004",
+   "display": "Wheat"
+  },
+  "Tri a": {
+   "code": "412071004",
+   "display": "Wheat"
+  },
+  "White ash": {
+   "code": "260128002",
+   "display": "White ash pollen"
+  },
+  "Ash": {
+   "code": "260128002",
+   "display": "White ash pollen"
+  },
+  "물푸레나무": {
+   "code": "260128002",
+   "display": "White ash pollen"
+  },
+  "Wholemeal flour": {
+   "code": "229954001",
+   "display": "Wholemeal flour"
+  },
+  "Whole wheat flour": {
+   "code": "229954001",
+   "display": "Wholemeal flour"
+  },
+  "통밀가루": {
+   "code": "229954001",
+   "display": "Wholemeal flour"
+  },
+  "Willow": {
+   "code": "256271005",
+   "display": "Willow pollen"
+  },
+  "Willow tree": {
+   "code": "256271005",
+   "display": "Willow pollen"
+  },
+  "버드나무": {
+   "code": "256271005",
+   "display": "Willow pollen"
+  },
+  "Yeast": {
+   "code": "412534006",
+   "display": "Yeast"
+  },
+  "Brewer's yeast": {
+   "code": "412534006",
+   "display": "Yeast"
+  },
+  "맥주용효모": {
+   "code": "412534006",
+   "display": "Yeast"
   }
+ }
 }
