@@ -715,7 +715,7 @@ class ReportService:
                     continue
                 md.append(f"### {self._ENV_LABEL[env]}")
                 for a, _g in self._collapse(bucket):   # Df/Dp 등은 한 번만 설명(A1)
-                    md.append(self._allergen_detail_md(a, detailed=True))
+                    md.append(self._allergen_detail_md(a, detailed=True, lang=lang))
 
         md.append("\n---\n")
 
@@ -823,7 +823,8 @@ class ReportService:
         out = " ".join(parts[:n])
         return out if len(out) <= max_len else out[:max_len].rstrip() + "…"
 
-    def _allergen_detail_md(self, a: "AllergenAssessment", detailed: bool = True) -> str:
+    def _allergen_detail_md(self, a: "AllergenAssessment", detailed: bool = True,
+                            lang: str = "ko") -> str:
         """알러젠 1건의 리포트 블록. 읽는 순서를 강제한다:
         ① 이름 + 배지(칩) → ② 한 줄 결론 → ③ 지금 할 일(최대 3개) → ④ 더 알아보기(근거·특성·교차반응·면역치료).
         문장은 짧게, 쉼표는 줄이고, 행동을 먼저 쓴다(humanizer 원칙)."""
@@ -832,6 +833,10 @@ class ReportService:
         nm = a.korean_name or a.allergen_name
         grouped = grp_label != nm
         en = "" if grouped else (a.allergen_name if a.allergen_name != nm else "")
+        # 비한국어 리포트에서는 제목의 영문 병기를 뺀다. 한글 이름이 번역되면 같은 영문이
+        # 두 번 나와 "Birch pollen (Birch pollen)" 이 된다.
+        if (lang or "ko") != "ko":
+            en = ""
         head = f"### {grp_label}" + (f" ({en})" if en else "")
         cat = normalize_category(a.category)
 

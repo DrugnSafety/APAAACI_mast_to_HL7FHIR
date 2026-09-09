@@ -195,6 +195,20 @@ SEASON_MONTHS = {
 }
 
 
+def _multi(value) -> list:
+    """다중 선택 답변을 항상 리스트로 읽는다.
+
+    브라우저는 배열을 보내지만 `/api` 는 `answers: Dict[str, Any]` 라 스칼라도 들어올 수 있다.
+    문자열을 그대로 순회하면 "apple" 이 ["a","p","p","l","e"] 가 되어, 리포트에
+    존재하지 않는 교차반응 음식이 글자 단위로 찍힌다(실제로 발견된 버그).
+    """
+    if value is None:
+        return []
+    if isinstance(value, (list, tuple, set)):
+        return [v for v in value]
+    return [value]
+
+
 def _key(i: int) -> str:
     return f"agn{i}"
 
@@ -805,11 +819,11 @@ class QuestionnaireEngine:
         """임상그룹별 교차반응 선택 결과를 모은다(문항이 그룹 대표 key 로 생성되므로).
         반환: [{spec, selected:[en], severity}] — catch-all 재활성(Q-5) 병합 포함."""
         answers = answers or {}
-        general = [v for v in (answers.get(Q_FOOD_GENERAL, []) or []) if v and v != "none"]
+        general = [v for v in _multi(answers.get(Q_FOOD_GENERAL)) if v and v != "none"]
         out = []
         for sp in self._crossreact_specs(assessments):
             qid = QP_CROSSREACT + _key(sp["lead_i"])
-            sel = [v for v in (answers.get(qid, []) or []) if v and v != "none"]
+            sel = [v for v in _multi(answers.get(qid)) if v and v != "none"]
             cand_names = {c["name"] for c in sp["cands"]}
             if general:  # 마무리 catch-all 에서 이 그룹 후보를 지목 → 재활성/병합
                 sel = list(dict.fromkeys(sel + [g for g in general if g in cand_names]))
@@ -971,11 +985,11 @@ class QuestionnaireEngine:
         if not svc.has_data():
             return
         answers = answers or {}
-        general = set(v for v in (answers.get(Q_FOOD_GENERAL, []) or []) if v and v != "none")
+        general = set(v for v in _multi(answers.get(Q_FOOD_GENERAL)) if v and v != "none")
         for sp in self._crossreact_specs(assessments):
             qid = QP_CROSSREACT + _key(sp["lead_i"])
             cr_sev = answers.get(QP_CROSSREACT_SEV + _key(sp["lead_i"]))
-            sel = set(v for v in (answers.get(qid, []) or []) if v and v != "none")
+            sel = set(v for v in _multi(answers.get(qid)) if v and v != "none")
             # 마무리 catch-all 에서 이 그룹의 후보로 지목된 음식도 confirmed 로 병합(재활성 Q-5)
             sel |= (general & {c["name"] for c in sp["cands"]})
             confirmed, risk = [], []
@@ -1071,7 +1085,7 @@ class QuestionnaireEngine:
         ans = answers or {}
         # 침구 관리 후 호전 = 집먼지진드기 특이 근거(공간·시간대 질문보다 강하다)
         bedding = ans.get(Q_MITE_BEDDING_TRIAL) if kind == "mite" else None
-        space = ans.get(Q_MOLD_SPACE) or []
+        space = _multi(ans.get(Q_MOLD_SPACE))
         bedroom_cue = kind == "mite" and "bedroom" in space
         strong = any(x == YES for x in (timing, away, specific)) or bedding == "better" or bedroom_cue
         all_no = all(x == NO for x in (timing, away, specific) if x is not None) and \
@@ -1079,22 +1093,27 @@ class QuestionnaireEngine:
         label = "집먼지진드기" if kind == "mite" else "바퀴 등 실내 곤충"
         if strong:
             a.relevance = ClinicalRelevance.CLINICALLY_RELEVANT
+            # 단서마다 방향(악화/호전)이 달라서 '·' 로 이어 붙이면 안 된다.
+            # '저녁 악화·집을 비우면 호전' 을 한 덩어리로 읽으면 호전이 악화로 뒤집힌다
+            # (영어 번역에서 실제로 뒤집혔다). 각 단서를 완결된 절로 쓰고 쉼표로 나눈다.
             trg = []
             if timing == YES:
-                trg.append("저녁·새벽·이른 아침 악화")
+                trg.append("저녁과 새벽, 이른 아침에 증상이 심해집니다")
             if away == YES:
-                trg.append("집을 비우면 호전")
+                trg.append("집을 비우면 증상이 좋아집니다")
             if specific == YES:
-                trg.append("먼지·해당 환경 노출 시 악화" if kind == "mite" else "해당 환경 노출 시 악화")
+                trg.append("먼지를 만지거나 해당 환경에 노출되면 심해집니다" if kind == "mite"
+                           else "해당 환경에 노출되면 심해집니다")
             if bedroom_cue:
-                trg.append("침실 잠자리 주변에서 악화")
+                trg.append("침실 잠자리 주변에서 심해집니다")
             if bedding == "better":
-                trg.append("침구 관리 후 호전")
+                trg.append("침구를 관리한 뒤 좋아졌습니다")
+            cues = ". ".join(trg) if trg else "노출될 때 증상이 심해집니다"
             a.rationale_ko = (
-                f"{('·'.join(trg)) or '노출 시 악화'} 패턴이 확인되어, {label} 알레르기가 실제 증상의 "
-                f"원인으로 작용하는 것으로 판단됩니다. 침구·실내 환경 관리가 핵심입니다.")
+                f"{cues}. 이 패턴이 확인되어 {label} 알레르기가 실제 증상의 원인으로 판단됩니다. "
+                f"침구와 실내 환경 관리가 핵심입니다.")
             sev = self._pick_severity(answers or {}, QP_SEVERITY + "indoor", default="moderate")
-            self._set_symptoms(a, [f"{label} 실내 노출 시 코·눈·호흡기 증상 악화(" + ("·".join(trg) or "노출 시 악화") + ")"], sev)
+            self._set_symptoms(a, [f"{label} 실내 노출 시 코·눈·호흡기 증상 악화({cues})"], sev)
         elif all_no:
             a.relevance = ClinicalRelevance.SENSITIZED_ONLY
             a.rationale_ko = (
@@ -1111,8 +1130,8 @@ class QuestionnaireEngine:
         곰팡이에만 해당하는 단서(늘 젖은 공간·실외 포자·제습 후 호전)가 있어야 원인으로 인정하고,
         그런 단서가 없으면 감작만으로 단정하지 않고 '구분 보류'로 남긴다."""
         ans = answers or {}
-        space = ans.get(Q_MOLD_SPACE) or []
-        outdoor = [x for x in (ans.get(Q_MOLD_OUTDOOR) or []) if x != "none"]
+        space = _multi(ans.get(Q_MOLD_SPACE))
+        outdoor = [x for x in _multi(ans.get(Q_MOLD_OUTDOOR)) if x != "none"]
         dehum = ans.get(Q_MOLD_DEHUM_TRIAL)
         bedding = ans.get(Q_MITE_BEDDING_TRIAL)
         habitat = mold_habitat(a)
@@ -1217,7 +1236,7 @@ class QuestionnaireEngine:
         name = _name(a)
         react = answers.get(QP_SHELLFISH + key)
         # 전신반응 게이트에서 이 음식을 지목했으면 전신으로 승격
-        if key in (answers.get(Q_FOOD_SYSTEMIC_FOODS, []) or []):
+        if key in _multi(answers.get(Q_FOOD_SYSTEMIC_FOODS)):
             react = "systemic"
         trop = " (집먼지진드기와의 트로포마이오신 교차반응 가능성도 함께 고려됩니다.)" if has_mite else ""
         if react == "systemic":
@@ -1251,7 +1270,7 @@ class QuestionnaireEngine:
         syms = set(answers.get(QP_FOOD_SYMPTOMS + key, []) or [])
         systemic_syms = syms & {"skin", "gi", "breathing", "anaphylaxis"}
         # 전신반응 게이트에서 이 음식을 지목했는지
-        picked_systemic = key in (answers.get(Q_FOOD_SYSTEMIC_FOODS, []) or [])
+        picked_systemic = key in _multi(answers.get(Q_FOOD_SYSTEMIC_FOODS))
         manifest = [self._FOOD_SYMPTOM_TEXT[s] for s in
                     ("oral", "skin", "gi", "breathing", "anaphylaxis") if s in syms]
         if "none" in syms and not (syms - {"none"}) and not picked_systemic:

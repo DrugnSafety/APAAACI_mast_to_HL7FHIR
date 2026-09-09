@@ -1,13 +1,16 @@
-# Core dependencies - minimal versions for Python 3.13 compatibility
-openai
-streamlit
-python-dotenv
+# 웹 서비스(FastAPI) 런타임 의존성 — Dockerfile 이 이 파일만 설치한다.
+# 레거시 Streamlit 앱(app.py)을 쓰려면 requirements-legacy.txt 도 함께 설치한다.
+# Python 3.12 검증 완료(3.13 도 호환 목표).
 
-# Web app (FastAPI 기반 신규 프론트엔드)
+# Web app
 fastapi
 uvicorn
 python-multipart
 jinja2
+
+# LLM (OCR·리포트 내러티브·상담 챗봇·번역)
+openai
+python-dotenv
 
 # Image processing
 Pillow

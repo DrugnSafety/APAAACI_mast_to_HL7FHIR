@@ -46,6 +46,8 @@ allergy.example.org {
 ```
 Docker 없이: `python -m venv .venv && pip install -r requirements.txt && uvicorn server:app --host 0.0.0.0 --port 8000 --workers 2` 를 systemd 서비스로 등록.
 
+> `requirements.txt` 는 웹 서비스 런타임만 담습니다. 레거시 Streamlit 앱은 `requirements-legacy.txt` 로 따로 설치하세요. 이 분리로 컨테이너의 site-packages 가 418MB 에서 186MB 로 줄고 빌드도 빨라집니다.
+
 ## 4. 로컬 확인 (배포 전)
 ```bash
 docker build -t allergy-report . && docker run --rm -p 8000:8000 --env-file .env allergy-report

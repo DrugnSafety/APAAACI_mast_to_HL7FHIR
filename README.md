@@ -93,7 +93,8 @@ uvicorn server:app --reload        # http://127.0.0.1:8000
 세련된 반응형 웹앱(라이트/다크)이 열립니다. **API 키가 없어도** 상단의 ‘데모 데이터로 체험’ 또는
 ‘결과를 직접 입력’으로 전체 흐름(문진·감별·리포트·카드뉴스·FHIR)을 확인할 수 있습니다.
 
-> 레거시 Streamlit UI: `streamlit run app.py` (http://localhost:8501)
+> 레거시 Streamlit UI 는 별도 설치가 필요합니다(웹 서비스 이미지에서 분리됨):
+> `pip install -r requirements-legacy.txt && streamlit run app.py` (http://localhost:8501)
 
 ### 엔진 회귀 테스트 (API 불필요)
 

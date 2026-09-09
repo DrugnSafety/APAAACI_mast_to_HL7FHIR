@@ -31,6 +31,7 @@ SUPPORTED = ("ko", "en", "zh")
 LANG_NAME = {"en": "English", "zh": "Simplified Chinese (简体中文)"}
 BATCH_CHARS = 3500          # 한 번에 보낼 최대 문자 수
 BATCH_ITEMS = 40
+MAX_SPLIT_DEPTH = 4         # 길이 불일치 시 묶음을 반으로 나눠 재시도하는 최대 깊이
 
 _SYSTEM = (
     "You translate patient-facing allergy test content from Korean.\n"
@@ -48,7 +49,10 @@ _SYSTEM = (
     "localize a patient's name.\n"
     "4b. Keep markdown tables (| … |) with the same number of columns, and keep raw HTML lines "
     "(e.g. <div class=\"detail-more\" markdown=\"1\">, </div>) byte-identical on their own lines.\n"
-    "5. Return ONLY a JSON array of translated strings, same length and order as the input array."
+    "5. Return ONLY {\"translations\": [ ... ]} — a JSON object whose single key is \"translations\" and "
+    "whose value is an array of translated strings with EXACTLY the same length and order as the input "
+    "array. One input string maps to one output string, even if it contains newlines: never split a "
+    "multi-line string into several array items, and never merge two inputs into one."
 )
 
 
@@ -120,9 +124,8 @@ class TranslationService:
 
         for chunk in self._chunks(misses, texts):
             src = [texts[i] for i in chunk]
-            got = self._call(src, lang)
-            if not got or len(got) != len(src):
-                logger.warning(f"번역 응답 길이 불일치({lang}): {len(got) if got else 0}/{len(src)}")
+            got = self._call_exact(src, lang)
+            if not got:
                 continue
             with self._lock:
                 for idx, translated in zip(chunk, got):
@@ -132,6 +135,35 @@ class TranslationService:
                         self._dirty = True
         self.save()
         return out
+
+    def _call_exact(self, src: List[str], lang: str, depth: int = 0) -> Optional[List[Optional[str]]]:
+        """src 와 길이가 같은 목록을 돌려준다. 번역하지 못한 자리는 None 이다.
+
+        모델이 배열 길이를 어기는 일이 드물게 있다(여러 줄 문자열을 쪼개거나 항목을 합침).
+        예전에는 그 묶음 전체를 버려서 사용자에게 한국어가 그대로 보였다. 이제는 묶음을
+        반씩 나눠 다시 시도하고, 한 항목까지 내려가면 길이 검증이 자명해진다.
+        실패한 자리를 None 으로 남기는 이유는, 원문(한국어)을 번역 결과로 캐시에 굳히면
+        이후 요청에서 영영 한국어가 나오기 때문이다."""
+        got = self._call(src, lang)
+        if got is not None and len(got) == len(src):
+            return list(got)
+
+        n_got = len(got) if got is not None else 0
+        if len(src) == 1:
+            # 한 항목을 여러 줄로 쪼갠 경우만 되붙여 살린다.
+            if got is not None and n_got > 1 and all(isinstance(x, str) for x in got):
+                return ["\n".join(got)]
+            logger.warning(f"번역 실패({lang}): 단일 항목 응답 {n_got}건 — 원문 유지")
+            return [None]
+        if depth >= MAX_SPLIT_DEPTH:
+            logger.warning(f"번역 분할 한도 초과({lang}): {n_got}/{len(src)} — 원문 유지")
+            return [None] * len(src)
+
+        logger.info(f"번역 응답 길이 불일치({lang}): {n_got}/{len(src)} — 절반으로 나눠 재시도")
+        mid = len(src) // 2
+        left = self._call_exact(src[:mid], lang, depth + 1) or [None] * mid
+        right = self._call_exact(src[mid:], lang, depth + 1) or [None] * (len(src) - mid)
+        return left + right
 
     @staticmethod
     def _chunks(indices: List[int], texts: List[str]):
@@ -154,7 +186,9 @@ class TranslationService:
                     {"role": "system", "content": _SYSTEM},
                     {"role": "user",
                      "content": f"Target language: {LANG_NAME[lang]}\n"
-                                f"Translate this JSON array:\n{json.dumps(src, ensure_ascii=False)}"},
+                                f"Translate these {len(src)} strings. Return exactly {len(src)} "
+                                f"translations in the same order.\n"
+                                f"{json.dumps(src, ensure_ascii=False)}"},
                 ],
                 temperature=0,
                 response_format={"type": "json_object"},
@@ -164,10 +198,16 @@ class TranslationService:
             data = json.loads(raw)
             if isinstance(data, list):
                 return data
-            for v in data.values():          # {"translations": [...]} 형태 허용
+            for name in ("translations", "result", "results", "items", "output"):
+                v = data.get(name)
                 if isinstance(v, list):
                     return v
-            return None
+            # 키 이름을 못 맞춘 응답: 길이가 맞는 리스트를 우선 고른다
+            lists = [v for v in data.values() if isinstance(v, list)]
+            for v in lists:
+                if len(v) == len(src):
+                    return v
+            return lists[0] if lists else None
         except Exception as e:  # noqa: BLE001
             logger.warning(f"번역 호출 실패({lang}): {e}")
             return None

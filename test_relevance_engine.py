@@ -1116,6 +1116,88 @@ def test_server_content_translation():
     print("✓ 서버 생성 콘텐츠 번역(ko 무변경·캐시 적중·키 없음 폴백·마크업 보존)")
 
 
+def test_translation_length_mismatch_recovery():
+    """모델이 배열 길이를 어겨도 묶음 전체를 버리지 않는다.
+
+    이전 구현은 길이가 다르면 그 묶음을 통째로 포기해 사용자에게 한국어가 그대로 보였다.
+    이제는 절반으로 나눠 재시도하고, 끝내 실패한 자리만 원문으로 남긴다.
+    실패한 자리를 캐시에 넣지 않는 것이 핵심이다(넣으면 영영 한국어가 나온다)."""
+    from services.translation_service import TranslationService
+    svc = TranslationService(api_key="")
+    svc._cache = {}
+    svc.save = lambda: None
+    svc.client = object()                 # 호출 경로를 열되 실제 네트워크는 쓰지 않는다
+
+    src = ["가", "나", "다", "라"]
+    calls = []
+
+    # 1) 전체 묶음은 길이를 어기고, 절반으로 나누면 정상 응답하는 모델을 흉내낸다
+    def flaky(_src, _lang):
+        calls.append(list(_src))
+        if len(_src) == len(src):
+            return ["X"] * (len(_src) + 3)          # 길이 불일치
+        return [t.upper() + "-" + _lang for t in _src]
+
+    svc._call = flaky
+    out = svc.translate_batch(src, "en")
+    assert out == ["가-en", "나-en", "다-en", "라-en"], f"분할 재시도 실패: {out}"
+    assert len(calls) == 3, f"전체 1회 + 절반 2회여야 함: {len(calls)}"
+    assert svc._cache[svc._key("가", "en")] == "가-en"
+
+    # 2) 끝까지 실패하면 그 자리는 원문을 유지하고 캐시에는 넣지 않는다
+    svc2 = TranslationService(api_key="")
+    svc2._cache = {}
+    svc2.save = lambda: None
+    svc2.client = object()
+    svc2._call = lambda _src, _lang: None            # 항상 실패
+    out2 = svc2.translate_batch(["가", "나"], "en")
+    assert out2 == ["가", "나"], f"실패 시 원문 유지 실패: {out2}"
+    assert svc2._cache == {}, "번역 실패한 원문이 캐시에 굳어짐"
+
+    # 3) 한 항목을 여러 줄로 쪼갠 응답은 되붙여 살린다
+    svc3 = TranslationService(api_key="")
+    svc3._cache = {}
+    svc3.save = lambda: None
+    svc3.client = object()
+    svc3._call = lambda _src, _lang: ["line one", "line two"]
+    out3 = svc3.translate_batch(["첫 줄\n둘째 줄"], "en")
+    assert out3 == ["line one\nline two"], f"여러 줄 재결합 실패: {out3}"
+
+    print("✓ 번역 길이 불일치 복구(분할 재시도·원문 유지·캐시 오염 방지)")
+
+
+def test_multiselect_scalar_answer_is_not_split_into_characters():
+    """다중 선택 답변으로 문자열이 오면 글자 단위로 쪼개지 않는다.
+
+    `/api/*` 의 answers 는 Dict[str, Any] 라 스칼라가 들어올 수 있다. 예전에는 "Apple" 을
+    그대로 순회해 리포트에 '교차반응으로 **A, p, p, l, e** 섭취' 같은 문장이 나왔다.
+    환자용 의료 문서에 존재하지 않는 음식이 찍히면 안 된다."""
+    from services.questionnaire_service import (_multi, QP_CROSSREACT, _key as qkey,
+                                                get_questionnaire_engine)
+    assert _multi("Apple") == ["Apple"], "문자열이 글자 단위로 쪼개짐"
+    assert _multi(["Apple", "Peach"]) == ["Apple", "Peach"]
+    assert _multi(None) == [] and _multi([]) == []
+    assert _multi(("a", "b")) == ["a", "b"]
+
+    rs = get_relevance_service()
+    ocr = OCRResult(test_type=TestType.MAST, patient=PatientInfo(name="꽃"),
+                    results=[_mast("Birch pollen", "자작나무 꽃가루", 5.0, 3,
+                                   AllergenCategory.POLLEN, idx=1)])
+    res = rs.build_assessments(ocr, None)
+    eng = get_questionnaire_engine()
+    specs = eng._crossreact_specs(res.assessments)
+    assert specs, "자작나무 교차반응 문항이 생성되지 않음"
+    qid = QP_CROSSREACT + qkey(specs[0]["lead_i"])
+    food = specs[0]["cands"][0]["name"]
+
+    as_list = eng.oas_selected_foods(res.assessments, {qid: [food]})
+    as_scalar = eng.oas_selected_foods(res.assessments, {qid: food})
+    assert [f["en"] for f in as_scalar] == [food], \
+        f"스칼라 답변이 글자 단위로 분해됨: {[f['en'] for f in as_scalar]}"
+    assert [f["en"] for f in as_scalar] == [f["en"] for f in as_list]
+    print("✓ 다중 선택 스칼라 답변 방어(문자열 글자 분해 방지)")
+
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0
