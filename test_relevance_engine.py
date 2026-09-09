@@ -1198,6 +1198,72 @@ def test_multiselect_scalar_answer_is_not_split_into_characters():
     print("✓ 다중 선택 스칼라 답변 방어(문자열 글자 분해 방지)")
 
 
+def test_translation_cache_save_is_atomic_and_thread_safe():
+    """캐시 저장이 동시 요청에 안전하고, 실패해도 기존 파일을 망가뜨리지 않는다.
+
+    FastAPI 는 sync 엔드포인트를 스레드풀에서 돌리므로 요청 여러 개가 동시에 캐시를 고친다.
+    잠금 없이 직렬화하면 순회 중 dict 가 바뀌어 터지고, 같은 경로에 바로 쓰면 쓰다가
+    죽었을 때 캐시가 잘린 채 남아 배포본이 통째로 한국어가 된다."""
+    import json as _json
+    import tempfile
+    import threading
+    import services.translation_service as tsvc
+
+    with tempfile.TemporaryDirectory() as d:
+        path = Path(d) / "i18n_cache.json"
+        original = tsvc.CACHE_PATH
+        tsvc.CACHE_PATH = path
+        try:
+            svc = tsvc.TranslationService(api_key="")
+            svc._cache = {f"en:seed{i}": f"v{i}" for i in range(300)}
+            svc._dirty = True
+            svc.save()
+            assert _json.loads(path.read_text())["count"] == 300
+
+            # 저장하는 동안 다른 스레드가 캐시를 계속 고쳐도 터지지 않는다
+            stop = threading.Event()
+            errors = []
+
+            def churn():
+                # 키 공간을 고정해 캐시가 무한히 커지지 않게 한다(저장 비용 폭증 방지)
+                i = 0
+                while not stop.is_set():
+                    svc._cache[f"en:x{i % 500}"] = f"v{i}"
+                    i += 1
+
+            def saver():
+                try:
+                    for _ in range(10):
+                        svc._dirty = True
+                        svc.save()
+                except Exception as e:  # noqa: BLE001
+                    errors.append(e)
+
+            t1 = threading.Thread(target=churn, daemon=True)
+            t2 = threading.Thread(target=saver)
+            t1.start(); t2.start(); t2.join(); stop.set(); t1.join(timeout=2)
+            assert not errors, f"동시 저장 중 예외: {errors[0]!r}"
+
+            # 저장이 실패해도 기존 파일은 그대로 남고, 다음에 다시 저장한다
+            good = path.read_text()
+            svc._cache = {"en:new": "v"}
+            svc._dirty = True
+            broken = tsvc.os.replace
+            tsvc.os.replace = lambda *a, **k: (_ for _ in ()).throw(OSError("disk full"))
+            try:
+                svc.save()
+            finally:
+                tsvc.os.replace = broken
+            assert path.read_text() == good, "저장 실패가 기존 캐시를 망가뜨림"
+            assert svc._dirty is True, "저장 실패 후 다시 저장하지 않음"
+            svc.save()
+            assert _json.loads(path.read_text())["map"] == {"en:new": "v"}
+            assert not list(path.parent.glob("*.tmp*")), "임시 파일이 남음"
+        finally:
+            tsvc.CACHE_PATH = original
+    print("✓ 번역 캐시 저장 원자성·동시성(임시파일 교체·실패 시 원본 보존)")
+
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0

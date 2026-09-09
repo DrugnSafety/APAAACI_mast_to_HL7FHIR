@@ -82,17 +82,34 @@ class TranslationService:
             self._cache = {}
 
     def save(self):
+        """캐시를 원자적으로 저장한다.
+
+        FastAPI 는 sync 엔드포인트를 스레드풀에서 돌리므로 요청 여러 개가 동시에 캐시를
+        고칠 수 있다. 잠금 없이 json.dumps 로 넘기면 순회 도중 dict 가 바뀌어 터지고,
+        같은 경로에 곧바로 쓰면 쓰다가 죽었을 때 캐시 파일이 잘린 채 남는다.
+        스냅샷을 잠금 안에서 뜨고, 임시 파일에 쓴 뒤 교체한다."""
         if not self._dirty:
             return
+        with self._lock:
+            if not self._dirty:
+                return
+            snapshot = dict(self._cache)
+            self._dirty = False
+        tmp = CACHE_PATH.with_suffix(CACHE_PATH.suffix + f".tmp{os.getpid()}")
         try:
             CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
-            CACHE_PATH.write_text(json.dumps(
+            tmp.write_text(json.dumps(
                 {"note_ko": "서버 생성 콘텐츠 기계번역 캐시. key = '<lang>:<sha1(원문)>'",
-                 "count": len(self._cache), "map": self._cache},
+                 "count": len(snapshot), "map": snapshot},
                 ensure_ascii=False, indent=0), encoding="utf-8")
-            self._dirty = False
+            os.replace(tmp, CACHE_PATH)
         except Exception as e:  # noqa: BLE001
             logger.warning(f"번역 캐시 저장 실패: {e}")
+            self._dirty = True          # 다음 기회에 다시 저장한다
+            try:
+                tmp.unlink(missing_ok=True)
+            except Exception:           # noqa: BLE001
+                pass
 
     @staticmethod
     def _key(text: str, lang: str) -> str:
