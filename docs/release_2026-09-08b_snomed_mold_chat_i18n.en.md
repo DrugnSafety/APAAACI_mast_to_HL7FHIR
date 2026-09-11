@@ -1,4 +1,4 @@
-# 2026-09-08 (part 2): SNOMED 141 antigens · mold vs mite · classic card news · result chatbot · server-content i18n
+# 2026-09-08 (part 2): SNOMED 147 antigens · mold vs mite · classic card news · result chatbot · server-content i18n
 
 > 한국어: [`release_2026-09-08b_snomed_mold_chat_i18n.ko.md`](release_2026-09-08b_snomed_mold_chat_i18n.ko.md)
 > Part 1 (FHIR Observation, dual UI, UI-string i18n): [`release_2026-09-08_fhir_dual_ui.en.md`](release_2026-09-08_fhir_dual_ui.en.md)
@@ -10,7 +10,7 @@
 
 ---
 
-## 1. Real SNOMED CT SCTIDs: 22 → 141 antigens
+## 1. Real SNOMED CT SCTIDs: 22 → 147 antigens
 
 ### Method
 `scripts/lookup_snomed_sctids.py` queries **tx.fhir.org** (SNOMED CT International) for each of the
@@ -33,11 +33,27 @@ Nine of my first guesses were **wrong and discarded**, including `Hornbeam`
 actual search result.
 
 ### Result
-- **141 of 148 antigens** resolve to a real SCTID, aliases and modifiers included
+- **147 of 148 antigens** resolve to a real SCTID, aliases and modifiers included
   (`Birch pollen` collapses onto `Birch`).
-- The remaining 7 have no matching concept and fall back to OMOP. See `data/snomed_ct_unmapped.json`:
-  mixtures (`Tree mixture 1·2`, `Indoor/Outdoor mold mixture`), controls (`Control`, `Histamine`),
-  `Cornflour`, and `2-spotted spider mite`.
+- Only the negative control falls back to OMOP. See `data/snomed_ct_unmapped.json`.
+
+### How mixtures were handled
+Mixture antigens (`Tree mixture 1·2`, `Indoor/Outdoor mold mixture`) **cannot be decomposed into
+component species**. Which trees or molds each panel blends is stated only in the manufacturer's
+package insert, not in the registry. Mixture 1 and mixture 2 in fact shared a single OMOP concept.
+
+So instead of a single species they use a **broader concept that actually exists** in SNOMED. It is
+less specific, not wrong, and a receiver validating against SNOMED accepts it.
+
+| Antigen | Code | FSN |
+|---|---|---|
+| Tree mixture 1·2 | `782576004` | Tree pollen |
+| Indoor/Outdoor mold mixture | `722071008` | Mold antigen |
+| Histamine (SPT positive control reagent) | `54235008` | Histamine |
+| 2-spotted spider mite | `106854009` | Family Tetranychidae |
+
+Only the negative control gets no substance code. `Sodium chloride solution` (373757009) exists, but
+putting a substance code on a control row invites a receiver to read it as a tested allergen.
 
 ### Side fix: stop disguising OMOP as SNOMED
 The code previously emitted CDM (OMOP) `concept_id` values under
@@ -180,6 +196,6 @@ Chinese flow took about 40 s, and 0 s thereafter.
 
 ## 6. Open items
 - Validate the Dockerfile build on the first Render deploy (no local Docker)
-- Consider decomposing the mixture antigens among the 7 unmapped items so each component gets its own SCTID
+- ~~Decompose the mixture antigens into per-component SCTIDs~~ → **done**: decomposition is impossible because the component species live only in the panel insert. They now carry broader real SNOMED concepts, so 147 of 148 antigens have an SCTID and only the negative control falls back.
 - Decide a retention policy for chat transcripts (the server is stateless today; history lives only in browser memory)
 - Have a clinician review the machine-translated medical terms before freezing the cache

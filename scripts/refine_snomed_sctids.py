@@ -21,10 +21,11 @@ ROOT = Path(__file__).resolve().parent.parent
 # 성분(component) 명명 규칙: 'Cor a 8', 'Bet v 1' — 항원 전체가 아니므로 제외
 COMPONENT_RE = re.compile(r"^[A-Z][a-z]{2} [a-z] \d+", re.I)
 # 대응 개념이 없어 매핑하지 않는 항원(혼합·대조·비알러젠)
-SKIP_IDS = {"control", "tree_mixture_1", "tree_mixture_2",
-            "indoor_mold_mixture", "outdoor_mold_mixture",
-            "cornflour",              # 옥수수가루: Corn starch 와 다른 개념, 대응 코드 없음
-            "2_spotted_spider_mite"}  # 점박이응애: SNOMED 물질/유기체 계층에 개념 없음
+# 대응 개념이 없어 매핑하지 않는 항원.
+# 음성 대조(생리식염수)는 알러젠이 아니므로 물질 코드를 붙이지 않는다. Sodium chloride
+# solution(373757009) 이 존재하지만, 대조 행에 알러젠 물질 코드를 달면 수신 측이
+# 검사 항원으로 오해할 수 있다.
+SKIP_IDS = {"control"}
 
 # 자동 매칭이 어려운 항원의 수동 확정값(검토 후 tx.fhir.org 로 재검증한다)
 MANUAL = {
@@ -48,6 +49,15 @@ MANUAL = {
     # 동물 — 알러젠은 비듬·깃털
     "chicken": "260165000",           # Chicken feathers (닭, animal 카테고리)
     "guinea_pig": "703927007",        # Guinea pig dander (기니피그)
+    # 혼합·대조 — 구성 종을 알 수 없어 성분 분해가 불가능하다(패널 인서트 필요).
+    # 단일 종 개념 대신 **더 넓지만 실재하는** SNOMED 개념을 쓴다. 덜 구체적일 뿐
+    # 틀린 코드가 아니며, SNOMED 로 검증하는 수신 측이 거부하지 않는다.
+    "tree_mixture_1": "782576004",    # Tree pollen (수목 꽃가루 혼합)
+    "tree_mixture_2": "782576004",    # Tree pollen — 혼합 1·2 의 구성 차이는 display 로만 남는다
+    "indoor_mold_mixture": "722071008",   # Mold antigen (실내 곰팡이 혼합)
+    "outdoor_mold_mixture": "722071008",  # Mold antigen (실외 곰팡이 혼합)
+    "histamine": "54235008",          # Histamine — SPT 양성 대조 시약의 실제 물질
+    "2_spotted_spider_mite": "106854009",  # Family Tetranychidae (점박이응애가 속한 과)
 }
 
 

@@ -44,8 +44,8 @@
 - **맞춤 리포트 가독성**: 알러젠 블록을 배지 → 결론 → 지금 할 일 3가지 → 더 알아보기 순서로 재구성, 짧은 문장(humanizer 원칙).
 - **웹 서비스 배포**: `Dockerfile`/`render.yaml` 포함. 컨테이너 1개 + `OPENAI_API_KEY` 로 Render·Railway·Fly.io·VPS 어디서나 — [`docs/deploy.ko.md`](docs/deploy.ko.md). 런타임 모델: OCR `gpt-4o`(vision), 리포트(선택) `gpt-4o`, 그 외 단계는 LLM 미사용.
 
-### 🧬 SNOMED 141종 · 곰팡이 감별 · 결과 챗봇 · 서버 콘텐츠 다국어화 (2026-09-08 2차)
-- **실제 SCTID 22 → 141종**: 항원 148종을 tx.fhir.org `$expand`/`$lookup` 으로 조회·활성 확인 후 카테고리 규칙(꽃가루는 `X pollen`, 동물은 dander/epithelium, 성분코드 `Cor a 8` 배제)으로 정교화. 대응 개념이 없는 7종(혼합·대조 등)은 SNOMED 로 위장하지 않고 OMOP(`https://athena.ohdsi.org/search-terms/terms`)로 폴백.
+### 🧬 SNOMED 147종 · 곰팡이 감별 · 결과 챗봇 · 서버 콘텐츠 다국어화 (2026-09-08 2차)
+- **실제 SCTID 22 → 147종**: 항원 148종을 tx.fhir.org `$expand`/`$lookup` 으로 조회·활성 확인 후 카테고리 규칙(꽃가루는 `X pollen`, 동물은 dander/epithelium, 성분코드 `Cor a 8` 배제)으로 정교화. 혼합 항원은 구성 종이 패널 인서트에만 있어 성분 분해가 불가능하므로 더 넓지만 실재하는 개념(`782576004` Tree pollen, `722071008` Mold antigen)을 쓴다. 코드를 붙이지 않는 것은 음성 대조 1종뿐이며, OMOP 폴백은 `https://athena.ohdsi.org/search-terms/terms` 로 구분해 SNOMED 로 위장하지 않는다.
 - **곰팡이 ↔ 집먼지진드기 감별**: '습할 때 악화'는 진드기도 양성이라 변별력이 없음. 공간 단서(욕실·지하실·누수·에어컨)·실외 포자 단서(낙엽·퇴비·비 온 뒤)·환경 조치 반응(침구 vs 제습) 문항을 추가하고, 구분 불가한 조합은 **판정 보류**로 남깁니다. 실내/실외 곰팡이는 회피법이 달라 `mold_habitat()` 으로 갈라 조언.
 - **카드뉴스 분리**: `/classic/` 은 재설계 이전 카드뉴스, `/` 는 도감 테마. 판정·리포트·FHIR 는 동일.
 - **결과 상담 챗봇**: `POST /api/chat`. 컨텍스트 밖 질문은 "이 결과로는 알 수 없다"로 답하고, 호흡곤란·아나필락시스 표현은 LLM 이전에 응급 안내로 가로챕니다. 추천 질문 5종은 API 키 없이도 판정 데이터로 답변.

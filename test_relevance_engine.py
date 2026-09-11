@@ -721,9 +721,12 @@ def test_cdm_snomed_mapping():
     # get_coding 은 실제 SCTID 를 CDM 보다 우선한다(2026-09 확장)
     c = m.get_coding("Birch", "")
     assert c["system"] == "http://snomed.info/sct" and c["code"] == "256262001", c
-    # SCTID 가 없는 혼합 항원은 CDM 으로 폴백하되, OMOP concept_id 를 SNOMED 로 위장하지 않는다
+    # 혼합 항원은 더 넓지만 실재하는 SNOMED 개념을 쓴다(성분 분해 불가 → Tree pollen)
     c = m.get_coding("Tree mixture 1", "")
-    assert c["system"] == m.OMOP_SYSTEM and c["code"] == "36684363", c
+    assert c["system"] == "http://snomed.info/sct" and c["code"] == "782576004", c
+    # SCTID 를 붙이지 않는 음성 대조는 CDM 으로 폴백하되, OMOP concept_id 를 SNOMED 로 위장하지 않는다
+    c = m.get_coding("Control", "")
+    assert c["system"] == m.OMOP_SYSTEM and c["code"] == "4076975", c
     # 미매핑 항원은 None (예외 없이)
     assert m.get_coding("완전신종알러젠ZZZ", "") is None
     print("✓ CDM(OMOP) SNOMED 기매핑 로드 및 concept 조회(신규 별칭 포함)")
@@ -975,7 +978,7 @@ def test_mold_vs_mite_discrimination():
 
 
 def test_real_sctid_coverage_expanded():
-    """실제 SNOMED CT SCTID 확장(22 → 139종). 코드는 tx.fhir.org(SNOMED International)로
+    """실제 SNOMED CT SCTID 확장(22 → 147종). 코드는 tx.fhir.org(SNOMED International)로
     존재·활성 확인된 것만 넣는다. 미매핑 항원은 OMOP(CDM) 로 폴백하되 SNOMED 로 위장하지 않는다."""
     import json
     from utils.allergen_mapper import get_allergen_mapper
@@ -990,9 +993,13 @@ def test_real_sctid_coverage_expanded():
         c = m.get_coding(a["canonical_name"], a.get("korean_name") or "")
         assert c, f"코딩 없음: {a['canonical_name']}"
         (covered if c["system"] == "http://snomed.info/sct" else omop).append(a["canonical_name"])
-    assert len(covered) >= 135, f"SCTID 커버리지 부족: {len(covered)}/148"
-    # 폴백 항원은 명시적으로 미매핑 목록에 있어야 한다(조용한 누락 방지)
-    assert set(omop) <= unmapped, f"미매핑 목록에 없는 폴백 항원: {set(omop) - unmapped}"
+    assert len(covered) == 147 and len(omop) == 1, \
+        f"SCTID/OMOP 분포가 바뀜: SCTID {len(covered)} · OMOP {len(omop)} (기대 147·1)"
+    # 미매핑 목록은 실제 매퍼 결과와 정확히 일치해야 한다.
+    # 한쪽만 고치면 문서가 코드와 어긋난다(실제로 cornflour 가 유령 항목으로 남아 있었다).
+    assert set(omop) == unmapped, (
+        f"미매핑 목록 불일치 — 목록에만 있음: {unmapped - set(omop)} · "
+        f"목록에 빠짐: {set(omop) - unmapped}")
 
     # 카테고리별 대표값 — 꽃가루는 식물이 아니라 'pollen' 개념, 동물은 비듬 개념
     cases = {
@@ -1004,6 +1011,12 @@ def test_real_sctid_coverage_expanded():
         "Alternaria alternata": ("36703000", "Alternaria alternata"),
         "Hazelnut": ("256353000", "Hazelnut"),   # 성분(Cor a 8) 아님
         "Shrimp": ("278840001", "Shrimp"),
+        # 혼합 항원은 구성 종을 알 수 없어 성분 분해가 불가능하다. 단일 종 대신
+        # 더 넓지만 실재하는 개념을 쓴다 — 덜 구체적일 뿐 틀린 코드가 아니다.
+        "Tree mixture 1": ("782576004", "Tree pollen"),
+        "Indoor mold mixture": ("722071008", "Mold antigen"),
+        "Histamine": ("54235008", "Histamine"),
+        "2-spotted spider mite": ("106854009", "Family Tetranychidae"),
     }
     for name, (code, disp) in cases.items():
         c = m.get_coding(name, "")

@@ -1,7 +1,7 @@
 {
- "version": "2.0",
+ "version": "2.1",
  "system": "http://snomed.info/sct",
- "note_ko": "실제 SNOMED CT SCTID. 22종은 사용자 검토본(2026-07), 나머지는 tx.fhir.org (SNOMED CT International) $expand/$lookup 으로 조회·활성 확인 후 카테고리 규칙으로 정교화(2026-09). 꽃가루는 'X pollen', 동물은 'dander/epithelium' 개념을 우선한다. 혼합·대조 항원은 대응 개념이 없어 매핑하지 않는다(snomed_ct_unmapped.json).",
+ "note_ko": "실제 SNOMED CT SCTID. 22종은 사용자 검토본(2026-07), 나머지는 tx.fhir.org (SNOMED CT International) $expand/$lookup 으로 조회·활성 확인 후 카테고리 규칙으로 정교화(2026-09). 꽃가루는 'X pollen', 동물은 'dander/epithelium' 개념을 우선한다. 혼합 항원은 구성 종을 알 수 없어 성분 분해가 불가능하므로 더 넓지만 실재하는 개념(Tree pollen·Mold antigen)을 쓴다. 음성 대조만 코드를 붙이지 않는다(snomed_ct_unmapped.json).",
  "map": {
   "Sesame": {
    "code": "260167008",
@@ -1437,6 +1437,66 @@
   "맥주용효모": {
    "code": "412534006",
    "display": "Yeast"
+  },
+  "Tree mixture 1": {
+   "code": "782576004",
+   "display": "Tree pollen"
+  },
+  "나무 꽃가루 혼합-1": {
+   "code": "782576004",
+   "display": "Tree pollen"
+  },
+  "Tree mixture 2": {
+   "code": "782576004",
+   "display": "Tree pollen"
+  },
+  "나무 꽃가루 혼합-2": {
+   "code": "782576004",
+   "display": "Tree pollen"
+  },
+  "Indoor mold mixture": {
+   "code": "722071008",
+   "display": "Mold antigen"
+  },
+  "실내 곰팡이 혼합": {
+   "code": "722071008",
+   "display": "Mold antigen"
+  },
+  "Outdoor mold mixture": {
+   "code": "722071008",
+   "display": "Mold antigen"
+  },
+  "실외 곰팡이 홉합": {
+   "code": "722071008",
+   "display": "Mold antigen"
+  },
+  "Histamine": {
+   "code": "54235008",
+   "display": "Histamine"
+  },
+  "Positive control": {
+   "code": "54235008",
+   "display": "Histamine"
+  },
+  "양성 대조용 0.1% 히스타민 용액": {
+   "code": "54235008",
+   "display": "Histamine"
+  },
+  "2-spotted spider mite": {
+   "code": "106854009",
+   "display": "Family Tetranychidae"
+  },
+  "T utricae": {
+   "code": "106854009",
+   "display": "Family Tetranychidae"
+  },
+  "Tetranychus urticae": {
+   "code": "106854009",
+   "display": "Family Tetranychidae"
+  },
+  "점박이응애": {
+   "code": "106854009",
+   "display": "Family Tetranychidae"
   }
  }
 }

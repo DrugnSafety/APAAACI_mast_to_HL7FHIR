@@ -1,4 +1,4 @@
-# 2026-09-08 (2차) 고도화: SNOMED 141종 · 곰팡이 감별 · 클래식 카드뉴스 · 결과 상담 챗봇 · 서버 콘텐츠 다국어화
+# 2026-09-08 (2차) 고도화: SNOMED 147종 · 곰팡이 감별 · 클래식 카드뉴스 · 결과 상담 챗봇 · 서버 콘텐츠 다국어화
 
 > English: [`release_2026-09-08b_snomed_mold_chat_i18n.en.md`](release_2026-09-08b_snomed_mold_chat_i18n.en.md)
 > 1차 릴리스(FHIR Observation·듀얼 UI·i18n 화면 문구): [`release_2026-09-08_fhir_dual_ui.ko.md`](release_2026-09-08_fhir_dual_ui.ko.md)
@@ -10,7 +10,7 @@
 
 ---
 
-## 1. 실제 SNOMED CT SCTID 22종 → 141종
+## 1. 실제 SNOMED CT SCTID 22종 → 147종
 
 ### 방법
 `scripts/lookup_snomed_sctids.py` 가 항원 148종을 **tx.fhir.org**(SNOMED CT International)의
@@ -32,10 +32,26 @@
 실제 검색 결과로 대체했다.
 
 ### 결과
-- **141/148 항원**이 실제 SCTID 로 해석된다(별칭·수식어 포함, `Birch pollen` → `Birch` 흡수).
-- 나머지 7종은 대응 개념이 없어 OMOP 로 폴백한다: `data/snomed_ct_unmapped.json`
-  (혼합 항원 `Tree mixture 1·2`·`Indoor/Outdoor mold mixture`, 대조 `Control`·`Histamine`,
-  `Cornflour`, `2-spotted spider mite`).
+- **147/148 항원**이 실제 SCTID 로 해석된다(별칭·수식어 포함, `Birch pollen` → `Birch` 흡수).
+- 폴백은 **음성 대조 1종**뿐이다: `data/snomed_ct_unmapped.json`.
+
+### 혼합 항원을 어떻게 처리했나
+혼합 항원(`Tree mixture 1·2`, `Indoor/Outdoor mold mixture`)은 **구성 종을 성분 단위로 분해할 수 없다**.
+어떤 수목·곰팡이가 섞였는지는 검사 패널 인서트에만 있고 레지스트리에는 없기 때문이다. 실제로 혼합 1과
+혼합 2가 같은 OMOP concept 하나를 공유하고 있었다.
+
+그래서 단일 종 대신 **더 넓지만 실재하는** SNOMED 개념을 쓴다. 덜 구체적일 뿐 틀린 코드가 아니고,
+SNOMED 로 검증하는 수신 측이 거부하지 않는다.
+
+| 항원 | 코드 | FSN |
+|---|---|---|
+| Tree mixture 1·2 | `782576004` | Tree pollen |
+| Indoor/Outdoor mold mixture | `722071008` | Mold antigen |
+| Histamine (SPT 양성 대조 시약) | `54235008` | Histamine |
+| 2-spotted spider mite | `106854009` | Family Tetranychidae |
+
+음성 대조(생리식염수)만 코드를 붙이지 않는다. `Sodium chloride solution`(373757009) 이 존재하지만,
+대조 행에 물질 코드를 달면 수신 측이 검사 항원으로 오해할 수 있다.
 
 ### 부수적 교정 — OMOP 을 SNOMED 로 위장하지 않는다
 기존에는 CDM(OMOP) `concept_id` 를 `system: http://snomed.info/sct` 로 내보냈다. concept_id 는 SCTID 가
@@ -168,6 +184,6 @@ LLM 없이 판정 데이터에서 **결정론적으로** 답한다. Df/Dp 는 �
 
 ## 6. 남은 과제
 - Render Blueprint 첫 배포에서 Dockerfile 빌드 검증(로컬에 Docker 없음)
-- 미매핑 7종 중 혼합 항원은 성분 단위로 분해해 개별 SCTID 를 붙일 수 있는지 검토
+- ~~미매핑 항원의 성분 분해 검토~~ → **완료**: 구성 종이 패널 인서트에만 있어 분해는 불가능하다. 더 넓지만 실재하는 SNOMED 개념으로 코딩해 147/148 이 되었고, 폴백은 음성 대조 1종만 남았다.
 - 챗봇 대화 로그 보존 정책(현재 서버 무상태, 브라우저 메모리에만 존재)
 - 기계 번역 결과의 의학 용어 검수(전문가 리뷰) 후 캐시 확정
