@@ -6,7 +6,8 @@
 | Item | Value |
 |---|---|
 | Commits | `cb4c387` (SNOMED · mold · card news) · `574d404` (chatbot) · `63e0bc9` (server-content translation) |
-| Verification | **30** regression tests · 13 node tests (game + i18n) · full UI smoke |
+| Follow-up commits | `58badf2` (three translation defects, scalar guard, slimmer image) · `138340f` (atomic cache save) · `80aa739` (mixture antigens coded) |
+| Verification | **33** regression tests · 13 node tests (game + i18n) · full UI smoke (re-confirmed 2026-09-11) |
 
 ---
 
@@ -188,7 +189,7 @@ cannot cover. It uses **LLM translation with a persistent cache**
 - A UI banner states that the text is machine-translated
 
 ### Performance and cost
-A 578-entry cache ships with the repository so Korean, English and Chinese work immediately after
+A 702-entry cache ships with the repository so Korean, English and Chinese work immediately after
 deployment. A cache hit answers the questionnaire in **0.0 s**. A cold first pass through the full
 Chinese flow took about 40 s, and 0 s thereafter.
 
