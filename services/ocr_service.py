@@ -79,7 +79,9 @@ REQUIRED JSON STRUCTURE:
   },
   "results": [
     { "index": 1, "allergen_name": "as printed (keep English + any Korean in parentheses)",
-      "class": 0-6 or null, "value": number or null, "unit": "IU/ml | kU/L | mm" }
+      "class": 0-6 or null, "value": number or null, "unit": "IU/ml | kU/L | mm",
+      "value_text": "the value EXACTLY as printed when it is not a plain number, else null",
+      "size_text": "SPT wheal size exactly as printed, e.g. \"4.5x3\" — else null" }
   ]
 }
 
@@ -103,7 +105,16 @@ FIELD RULES:
 - MAST/UniCAP: read the "Class" number (0–6) AND the numeric IgE value with its unit.
   Do NOT invent a Positive/Negative column if the report has none — leave interpretation out;
   positivity is derived from Class (>=1) or value (>=0.35 kU/L).
-- SPT: put wheal size in "value" with unit "mm".
+- SPT: the Size cell is usually TWO measurements, e.g. "4.5x3" (major x minor, in mm).
+  Copy it VERBATIM into "size_text" and leave "value" null. A single number goes in "value".
+  An empty Size cell means no reaction: value null, size_text null. Do not guess a size.
+- SPT controls: read the "Histamine"(positive) and "Saline"(negative) rows into
+  patient.histamine_mean_mm and patient.negative_control_mean_mm as the mean of their two
+  measurements. Do NOT list the control rows in "results".
+- BELOW-DETECTION-LIMIT values: reports print "<0.15", "<0.35", "<50", "undetectable" or "ND".
+  These are NOT the plain number. Put the printed string VERBATIM in "value_text" and leave
+  "value" null. Dropping the "<" would turn "less than 0.15" into a measured 0.15, which
+  changes the clinical meaning of the result.
 - EXCLUDE the summary row "Total IgE" / "총 IgE" from results (it is not an allergen).
 
 Be exhaustive and accurate. Return the JSON only."""
@@ -539,9 +550,17 @@ Be exhaustive and accurate. Return the JSON only."""
                     value = self._safe_float(raw_value)
                     # 숫자가 아닌 값('<0.35', 'N/A', 'undetectable' 등)은 원문을 보존해
                     # FHIR 에서 comparator / dataAbsentReason 으로 표현한다(결과를 버리지 않음).
-                    value_text = None
-                    if value is None and raw_value not in (None, ""):
+                    # 모델이 따로 보낸 value_text 를 먼저 쓴다. 예전에는 value 필드가
+                    # 숫자로 안 읽힐 때만 원문을 남겨서, 모델이 '{value: null,
+                    # value_text: "<0.15"}' 로 정확히 답해도 '<' 표기를 버렸다.
+                    # 그러면 '0.15 미만'이 '측정 안 됨'이 되어 임상적 의미가 사라진다.
+                    explicit = item.get('value_text')
+                    value_text = str(explicit).strip() if explicit not in (None, "") else None
+                    if value_text is None and value is None and raw_value not in (None, ""):
                         value_text = str(raw_value).strip()
+                    # '<0.15' 처럼 비교연산자가 붙은 표기는 수치로 승격하지 않는다
+                    if value_text and value_text.lstrip().startswith("<"):
+                        value = None
                     if test_type == TestType.SPT and not value and mean_mm:
                         value = mean_mm
 

@@ -96,6 +96,18 @@ uvicorn server:app --reload        # http://127.0.0.1:8000
 > 레거시 Streamlit UI 는 별도 설치가 필요합니다(웹 서비스 이미지에서 분리됨):
 > `pip install -r requirements-legacy.txt && streamlit run app.py` (http://localhost:8501)
 
+### OCR 정확도 측정 (합성 픽스처)
+
+실제 결과지는 환자 정보를 담고 있어 모아 두기 어렵다. 실제 양식 5계열을 관찰해 **가짜 환자
+정보로 결과지 이미지를 합성**하고, 이미지마다 정답을 붙여 OCR 정확도를 숫자로 잰다.
+
+```bash
+python3 scripts/generate_result_sheets.py --out tests/fixtures/ocr --count 15
+python3 scripts/score_ocr.py --limit 5        # OPENAI_API_KEY 필요
+```
+
+조사·방법·측정 결과: [`docs/ocr_fixtures_survey.md`](docs/ocr_fixtures_survey.md)
+
 ### 엔진 회귀 테스트 (API 불필요)
 
 ```bash

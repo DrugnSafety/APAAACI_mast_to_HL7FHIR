@@ -1,0 +1,127 @@
+{
+ "note_ko": "합성 OCR 픽스처 목록. 생성: scripts/generate_result_sheets.py",
+ "seed": 20260912,
+ "count": 15,
+ "items": [
+  {
+   "image": "mast_lab_report_clean_01.png",
+   "truth": "mast_lab_report_clean_01.truth.json",
+   "layout": "mast_lab_report",
+   "degrade": "clean",
+   "test_type": "MAST",
+   "rows": 69
+  },
+  {
+   "image": "mast_photo_photo_02.jpg",
+   "truth": "mast_photo_photo_02.truth.json",
+   "layout": "mast_photo",
+   "degrade": "photo",
+   "test_type": "MAST",
+   "rows": 37
+  },
+  {
+   "image": "mast_emr_text_clean_03.png",
+   "truth": "mast_emr_text_clean_03.truth.json",
+   "layout": "mast_emr_text",
+   "degrade": "clean",
+   "test_type": "MAST",
+   "rows": 39
+  },
+  {
+   "image": "spt_form_light_scan_04.jpg",
+   "truth": "spt_form_light_scan_04.truth.json",
+   "layout": "spt_form_light",
+   "degrade": "scan",
+   "test_type": "SPT",
+   "rows": 47
+  },
+  {
+   "image": "spt_form_dark_clean_05.png",
+   "truth": "spt_form_dark_clean_05.truth.json",
+   "layout": "spt_form_dark",
+   "degrade": "clean",
+   "test_type": "SPT",
+   "rows": 47
+  },
+  {
+   "image": "mast_lab_report_clean_06.png",
+   "truth": "mast_lab_report_clean_06.truth.json",
+   "layout": "mast_lab_report",
+   "degrade": "clean",
+   "test_type": "MAST",
+   "rows": 69
+  },
+  {
+   "image": "mast_photo_photo_07.jpg",
+   "truth": "mast_photo_photo_07.truth.json",
+   "layout": "mast_photo",
+   "degrade": "photo",
+   "test_type": "MAST",
+   "rows": 37
+  },
+  {
+   "image": "mast_emr_text_clean_08.png",
+   "truth": "mast_emr_text_clean_08.truth.json",
+   "layout": "mast_emr_text",
+   "degrade": "clean",
+   "test_type": "MAST",
+   "rows": 39
+  },
+  {
+   "image": "spt_form_light_scan_09.jpg",
+   "truth": "spt_form_light_scan_09.truth.json",
+   "layout": "spt_form_light",
+   "degrade": "scan",
+   "test_type": "SPT",
+   "rows": 47
+  },
+  {
+   "image": "spt_form_dark_clean_10.png",
+   "truth": "spt_form_dark_clean_10.truth.json",
+   "layout": "spt_form_dark",
+   "degrade": "clean",
+   "test_type": "SPT",
+   "rows": 47
+  },
+  {
+   "image": "mast_lab_report_clean_11.png",
+   "truth": "mast_lab_report_clean_11.truth.json",
+   "layout": "mast_lab_report",
+   "degrade": "clean",
+   "test_type": "MAST",
+   "rows": 69
+  },
+  {
+   "image": "mast_photo_photo_12.jpg",
+   "truth": "mast_photo_photo_12.truth.json",
+   "layout": "mast_photo",
+   "degrade": "photo",
+   "test_type": "MAST",
+   "rows": 37
+  },
+  {
+   "image": "mast_emr_text_clean_13.png",
+   "truth": "mast_emr_text_clean_13.truth.json",
+   "layout": "mast_emr_text",
+   "degrade": "clean",
+   "test_type": "MAST",
+   "rows": 39
+  },
+  {
+   "image": "spt_form_light_scan_14.jpg",
+   "truth": "spt_form_light_scan_14.truth.json",
+   "layout": "spt_form_light",
+   "degrade": "scan",
+   "test_type": "SPT",
+   "rows": 47
+  },
+  {
+   "image": "spt_form_dark_clean_15.png",
+   "truth": "spt_form_dark_clean_15.truth.json",
+   "layout": "spt_form_dark",
+   "degrade": "clean",
+   "test_type": "SPT",
+   "rows": 47
+  }
+ ]
+}

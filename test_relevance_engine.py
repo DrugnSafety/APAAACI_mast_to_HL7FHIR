@@ -1277,6 +1277,50 @@ def test_translation_cache_save_is_atomic_and_thread_safe():
     print("✓ 번역 캐시 저장 원자성·동시성(임시파일 교체·실패 시 원본 보존)")
 
 
+def test_ocr_preserves_below_detection_limit_and_wheal_size():
+    """OCR 파서가 '<0.15' 표기와 팽진 크기 원문을 보존한다.
+
+    합성 픽스처로 정확도를 재다가 찾은 결함이다. 프롬프트가 value_text·size_text 를
+    요구하지 않아 두 기능이 데이터를 못 받고 있었고, 파서도 모델이 보낸 value_text 를
+    무시했다. '0.15 미만'이 '측정값 0.15'가 되면 임상적 의미가 바뀌고, 팽진 크기가
+    비면 SPT Observation.component(장축·단축·평균)가 통째로 빈다."""
+    from services.ocr_service import OCRService
+    from config.settings import settings
+    svc = OCRService(settings)
+
+    prompt = svc._get_default_prompt()
+    for key in ("value_text", "size_text", "histamine_mean_mm"):
+        assert key in prompt, f"OCR 프롬프트가 {key} 를 요구하지 않음"
+
+    # 1) 모델이 value=null, value_text='<0.15' 로 정확히 답한 경우
+    data = {"test_type": "MAST", "patient": {"name": "홍길동"}, "results": [
+        {"index": 1, "allergen_name": "D. farinae (집먼지진드기)",
+         "class": 0, "value": None, "value_text": "<0.15", "unit": "IU/ml"},
+        {"index": 2, "allergen_name": "Cat dander (고양이 비듬)",
+         "class": 3, "value": 7.14, "value_text": None, "unit": "IU/ml"},
+    ]}
+    out = svc._parse_ocr_result(data)
+    r0, r1 = out.results[0], out.results[1]
+    assert r0.value_text == "<0.15", f"검출한계 미만 원문 유실: {r0.value_text!r}"
+    assert r0.value is None, f"'<0.15' 가 측정값 {r0.value} 로 승격됨"
+    assert r1.value == 7.14 and r1.value_text is None
+
+    # 2) 예전 방식(value 에 문자열)도 계속 받아준다
+    old_style = {"test_type": "MAST", "patient": {}, "results": [
+        {"index": 1, "allergen_name": "Birch", "class": 0, "value": "<0.35", "unit": "kU/L"}]}
+    assert svc._parse_ocr_result(old_style).results[0].value_text == "<0.35"
+
+    # 3) SPT 팽진 크기 원문에서 장축·단축·평균이 나온다
+    spt = {"test_type": "SPT", "patient": {"histamine_mean_mm": 4.0}, "results": [
+        {"index": 1, "allergen_name": "D. farinae", "size_text": "4.5x3", "unit": "mm"},
+        {"index": 2, "allergen_name": "Birch", "size_text": None, "unit": "mm"}]}
+    sr = svc._parse_ocr_result(spt).results
+    assert sr[0].size_text == "4.5x3" and sr[0].mean_mm == 3.75, \
+        f"팽진 크기 파싱 실패: {sr[0].size_text!r} mean={sr[0].mean_mm}"
+    assert sr[1].mean_mm is None, "반응 없는 행에 크기를 지어냄"
+    print("✓ OCR 검출한계 미만 표기·팽진 크기 원문 보존")
+
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0
