@@ -1,0 +1,403 @@
+{
+ "note_ko": "중국어 검사 결과지의 항원 표기 → 레지스트리 항원 대응표. 중국 결과지는 항원명을 중국어로만 쓰기 때문에 이 표가 없으면 OCR 이 제대로 읽어도 지식베이스 조회·감별 판정·SNOMED 코딩이 전부 실패한다. 출처: 德国 敏筛(AllergyScreen) 조합 항목표 + 중국 임상검사 보고서 통용 표기. 포괄적 표기(鱼·贝类 등)는 오매핑 위험이 커서 넣지 않았다. 임상 전문가 검수 대상.",
+ "count": 53,
+ "map": {
+  "Dermatophagoides pteronyssinus": {
+   "id": "dermatophagoides_pteronyssinus",
+   "korean_name": "유럽 집먼지진드기",
+   "zh": [
+    "户尘螨",
+    "屋尘螨"
+   ]
+  },
+  "Dermatophagoides farinae": {
+   "id": "dermatophagoides_farinae",
+   "korean_name": "미국집먼지진드기",
+   "zh": [
+    "粉尘螨"
+   ]
+  },
+  "Ragweed": {
+   "id": "ragweed",
+   "korean_name": "돼지풀",
+   "zh": [
+    "矮豚草",
+    "豚草"
+   ]
+  },
+  "Mugwort": {
+   "id": "mugwort",
+   "korean_name": "쑥",
+   "zh": [
+    "蒿",
+    "艾蒿",
+    "蒿属"
+   ]
+  },
+  "Japanese hop": {
+   "id": "japanese_hop",
+   "korean_name": "환삼덩굴",
+   "zh": [
+    "葎草"
+   ]
+  },
+  "Oak": {
+   "id": "oak",
+   "korean_name": "참나무",
+   "zh": [
+    "栎",
+    "橡树"
+   ]
+  },
+  "Elm": {
+   "id": "elm",
+   "korean_name": "느릅나무",
+   "zh": [
+    "榆",
+    "榆树"
+   ]
+  },
+  "Plane": {
+   "id": "plane",
+   "korean_name": "양버즘나무",
+   "zh": [
+    "梧桐",
+    "悬铃木"
+   ]
+  },
+  "Willow": {
+   "id": "willow",
+   "korean_name": "버드나무",
+   "zh": [
+    "柳",
+    "柳树"
+   ]
+  },
+  "Poplar": {
+   "id": "poplar",
+   "korean_name": "포플러나무",
+   "zh": [
+    "三角叶杨",
+    "杨树"
+   ]
+  },
+  "Birch": {
+   "id": "birch",
+   "korean_name": "자작나무",
+   "zh": [
+    "桦树",
+    "白桦"
+   ]
+  },
+  "Alder": {
+   "id": "alder",
+   "korean_name": "오리나무",
+   "zh": [
+    "桤木"
+   ]
+  },
+  "Japanese cedar": {
+   "id": "japanese_cedar",
+   "korean_name": "삼나무",
+   "zh": [
+    "日本柳杉"
+   ]
+  },
+  "Bermuda grass": {
+   "id": "bermuda_grass",
+   "korean_name": "우산잔디",
+   "zh": [
+    "百慕大草",
+    "狗牙根"
+   ]
+  },
+  "Timothy": {
+   "id": "timothy",
+   "korean_name": "티모시",
+   "zh": [
+    "梯牧草"
+   ]
+  },
+  "Rye grass, perennial": {
+   "id": "rye_grass_perennial",
+   "korean_name": "호밀풀",
+   "zh": [
+    "黑麦草"
+   ]
+  },
+  "Penicillium": {
+   "id": "penicillium",
+   "korean_name": "페니실리움",
+   "zh": [
+    "点青霉",
+    "青霉"
+   ]
+  },
+  "Cladosporium herbarum": {
+   "id": "cladosporium_herbarum",
+   "korean_name": "클라도스포리움 헤르바룸",
+   "zh": [
+    "分枝孢霉",
+    "枝孢霉"
+   ]
+  },
+  "Aspergillus fumigatus": {
+   "id": "aspergillus_fumigatus",
+   "korean_name": "아스페르길루스 푸미가투스",
+   "zh": [
+    "烟曲霉"
+   ]
+  },
+  "Alternaria alternata": {
+   "id": "alternaria_alternata",
+   "korean_name": "얼터나리아",
+   "zh": [
+    "交链孢霉",
+    "链格孢"
+   ]
+  },
+  "Candida albicans": {
+   "id": "candida_albicans",
+   "korean_name": "칸디다 알비칸스",
+   "zh": [
+    "白色念珠菌"
+   ]
+  },
+  "Cat dander": {
+   "id": "cat_dander",
+   "korean_name": "고양이 표피",
+   "zh": [
+    "猫毛皮屑",
+    "猫毛"
+   ]
+  },
+  "Dog dander": {
+   "id": "dog_dander",
+   "korean_name": "개 표피",
+   "zh": [
+    "狗毛皮屑",
+    "狗毛"
+   ]
+  },
+  "Horse dander": {
+   "id": "horse_dander",
+   "korean_name": "말 비듬",
+   "zh": [
+    "马毛皮屑"
+   ]
+  },
+  "Cockroach, German": {
+   "id": "cockroach_german",
+   "korean_name": "독일바퀴",
+   "zh": [
+    "蟑螂",
+    "德国小蠊"
+   ]
+  },
+  "Cockroach, Mix": {
+   "id": "cockroach_mix",
+   "korean_name": "바퀴벌레",
+   "zh": [
+    "蟑螂混合"
+   ]
+  },
+  "Egg white": {
+   "id": "egg_white",
+   "korean_name": "계란흰자",
+   "zh": [
+    "鸡蛋白",
+    "蛋清"
+   ]
+  },
+  "Egg yolk": {
+   "id": "egg_yolk",
+   "korean_name": "계란노른자",
+   "zh": [
+    "蛋黄"
+   ]
+  },
+  "Cow milk": {
+   "id": "cow_milk",
+   "korean_name": "우유",
+   "zh": [
+    "牛奶"
+   ]
+  },
+  "Crab": {
+   "id": "crab",
+   "korean_name": "게",
+   "zh": [
+    "蟹",
+    "螃蟹"
+   ]
+  },
+  "Shrimp": {
+   "id": "shrimp",
+   "korean_name": "새우",
+   "zh": [
+    "虾"
+   ]
+  },
+  "Beef": {
+   "id": "beef",
+   "korean_name": "소고기",
+   "zh": [
+    "牛肉"
+   ]
+  },
+  "Pork": {
+   "id": "pork",
+   "korean_name": "돼지고기",
+   "zh": [
+    "猪肉"
+   ]
+  },
+  "Chicken": {
+   "id": "chicken",
+   "korean_name": "닭",
+   "zh": [
+    "鸡肉"
+   ]
+  },
+  "Sheep": {
+   "id": "sheep",
+   "korean_name": "양고기",
+   "zh": [
+    "羊肉"
+   ]
+  },
+  "Cashew": {
+   "id": "cashew",
+   "korean_name": "캐슈넛",
+   "zh": [
+    "腰果"
+   ]
+  },
+  "Peanut": {
+   "id": "peanut",
+   "korean_name": "땅콩",
+   "zh": [
+    "花生"
+   ]
+  },
+  "Wheat": {
+   "id": "wheat",
+   "korean_name": "밀",
+   "zh": [
+    "小麦"
+   ]
+  },
+  "Rice": {
+   "id": "rice",
+   "korean_name": "쌀가루",
+   "zh": [
+    "大米",
+    "稻米"
+   ]
+  },
+  "Maize (corn)": {
+   "id": "maize_corn",
+   "korean_name": "옥수수",
+   "zh": [
+    "玉米"
+   ]
+  },
+  "Sesame": {
+   "id": "sesame",
+   "korean_name": "참깨",
+   "zh": [
+    "芝麻"
+   ]
+  },
+  "Walnut": {
+   "id": "walnut",
+   "korean_name": "호두",
+   "zh": [
+    "核桃"
+   ]
+  },
+  "Hazelnut": {
+   "id": "hazelnut",
+   "korean_name": "헤이즐넛",
+   "zh": [
+    "榛子"
+   ]
+  },
+  "Apple": {
+   "id": "apple",
+   "korean_name": "사과",
+   "zh": [
+    "苹果"
+   ]
+  },
+  "Peach": {
+   "id": "peach",
+   "korean_name": "복숭아",
+   "zh": [
+    "桃"
+   ]
+  },
+  "Kiwi": {
+   "id": "kiwi",
+   "korean_name": "키위",
+   "zh": [
+    "猕猴桃",
+    "奇异果"
+   ]
+  },
+  "Tomato": {
+   "id": "tomato",
+   "korean_name": "토마토",
+   "zh": [
+    "西红柿",
+    "番茄"
+   ]
+  },
+  "Potato": {
+   "id": "potato",
+   "korean_name": "감자",
+   "zh": [
+    "马铃薯",
+    "土豆"
+   ]
+  },
+  "Oyster": {
+   "id": "oyster",
+   "korean_name": "굴",
+   "zh": [
+    "牡蛎",
+    "生蚝"
+   ]
+  },
+  "Mussel": {
+   "id": "mussel",
+   "korean_name": "홍합",
+   "zh": [
+    "贻贝"
+   ]
+  },
+  "Latex": {
+   "id": "latex",
+   "korean_name": "라텍스",
+   "zh": [
+    "乳胶"
+   ]
+  },
+  "Cod": {
+   "id": "cod",
+   "korean_name": "대구",
+   "zh": [
+    "鳕鱼"
+   ]
+  },
+  "Soybean": {
+   "id": "soybean",
+   "korean_name": "대두",
+   "zh": [
+    "黄豆",
+    "大豆"
+   ]
+  }
+ },
+ "missing_from_registry_ko": "중국 결과지에 흔한 다음 항원이 레지스트리에 없어 대응표를 만들 수 없다: House dust(屋尘·집먼지), Buckwheat(荞麦·메밀), Mango(芒果·망고). 셋 다 한국 MAST 패널에도 등장하므로 레지스트리 확장 검토가 필요하다."
+}

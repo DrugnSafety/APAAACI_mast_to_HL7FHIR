@@ -1,0 +1,33 @@
+{
+  "version": "1.0",
+  "note_ko": "임상적으로 구분해 설명·관리할 실익이 없는 동종 항원을 하나의 '임상 그룹'으로 묶는다. 문진(교차반응 1회만 질의)·리포트·카드뉴스에서 통합 서술한다. 확장은 members 에 항원명을 추가(add-to-list).",
+  "groups": [
+    {
+      "id": "house_dust_mite",
+      "label_ko": "집먼지진드기",
+      "detail_ko": "집먼지진드기(유럽·미국 두 종)",
+      "members": [
+        "Dermatophagoides pteronyssinus",
+        "Dermatophagoides farinae",
+        "집먼지진드기",
+        "유럽 집먼지진드기",
+        "미국집먼지진드기"
+      ],
+      "note_ko": "유럽·미국 집먼지진드기는 항원이 매우 유사해 임상적으로 구분되지 않습니다. 두 종이 함께 양성인 경우가 흔하며, 회피·관리 방법도 동일해 하나로 묶어 설명합니다."
+    },
+    {
+      "id": "cockroach",
+      "label_ko": "바퀴",
+      "detail_ko": "바퀴(독일·미국 바퀴)",
+      "members": [
+        "Cockroach, German",
+        "Cockroach, American",
+        "Cockroach, Mix",
+        "독일바퀴",
+        "미국바퀴",
+        "바퀴벌레"
+      ],
+      "note_ko": "바퀴 종류별로 회피·관리 방법이 같아 하나로 묶어 설명합니다."
+    }
+  ]
+}

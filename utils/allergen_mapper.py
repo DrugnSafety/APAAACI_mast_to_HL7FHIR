@@ -31,6 +31,146 @@ class AllergenMapper:
         self.mapping_file_path = mapping_file_path
         self.database = self._load_database()
         self._build_lookup_tables()
+        self._load_chinese_names()
+        self._load_cdm_map()
+        self._load_snomed_ct_map()
+
+    def _load_snomed_ct_map(self):
+        """실제 SNOMED CT SCTID 매핑(사용자 제공) — get_coding 최우선 소스."""
+        self.snomed_ct_map = {}
+        try:
+            path = Path(__file__).resolve().parent.parent / "data" / "snomed_ct_map.json"
+            if not path.exists():
+                return
+            data = json.load(open(path, encoding="utf-8"))
+            for name, v in (data.get("map") or {}).items():
+                self.snomed_ct_map[self._cdm_norm(name)] = {
+                    "system": data.get("system", "http://snomed.info/sct"),
+                    "code": str(v["code"]), "display": v.get("display") or name}
+            logger.info(f"SNOMED CT SCTID 매핑 로드: {len(self.snomed_ct_map)}개")
+        except Exception as e:
+            logger.warning(f"SNOMED CT 매핑 로드 실패(무시): {e}")
+
+    # ------------------------------------------------------------------
+    # CDM(OMOP) SNOMED 기매핑 — 병원 제공 엑셀(255a467b CDM_SPT_Mapping.xlsx) 기반
+    # data/cdm_snomed_mapping.json 을 로드하여 알러젠별 concept_id·concept_name·
+    # vocabulary(SNOMED/LOINC) 를 FHIR coding 의 1순위 소스로 사용한다.
+    # ------------------------------------------------------------------
+    def _cdm_norm(self, x: str) -> str:
+        return re.sub(r"[^a-z0-9가-힣]", "", (x or "").lower())
+
+    def _load_cdm_map(self):
+        self.cdm_entries: List[Dict[str, Any]] = []
+        self.cdm_lookup: Dict[str, int] = {}
+        self.cdm_qualifiers: Dict[str, Any] = {}
+        self.cdm_spt_method: Dict[str, Any] = {}
+        try:
+            path = Path(__file__).resolve().parent.parent / "data" / "cdm_snomed_mapping.json"
+            if not path.exists():
+                return
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            self.cdm_entries = data.get("entries", [])
+            self.cdm_qualifiers = data.get("qualifiers", {})
+            self.cdm_spt_method = data.get("spt_method", {})
+            # 저장된 lookup(정규화 키 → 인덱스) 재사용
+            self.cdm_lookup = {k: v for k, v in (data.get("lookup") or {}).items()}
+            logger.info(f"CDM SNOMED 기매핑 로드: {len(self.cdm_entries)}개 항원, {len(self.cdm_lookup)} 키")
+        except Exception as e:  # 데이터 파일 문제로 전체 매핑이 죽지 않도록 방어
+            logger.warning(f"CDM SNOMED 기매핑 로드 실패(무시): {e}")
+
+    def get_qualifier_coding(self, key: str) -> Optional[Dict[str, str]]:
+        """SPT 측정 성분(장축·단축·평균·A/H비)의 CDM qualifier concept 코딩 생성.
+        data/cdm_snomed_mapping.json 의 qualifiers[key] 에서 concept_id·display 를 읽는다.
+        vocabulary 미지정 시 OMOP 표준개념으로 간주(system=OMOP)."""
+        q = (getattr(self, "cdm_qualifiers", {}) or {}).get(key)
+        if not q or not q.get("concept_id"):
+            return None
+        voc = (q.get("vocabulary") or "OMOP").upper()
+        system = {"LOINC": "http://loinc.org", "SNOMED": "http://snomed.info/sct"}.get(
+            voc, "https://athena.ohdsi.org/search-terms/terms")
+        return {"system": system, "code": str(q["concept_id"]), "display": q.get("display") or key}
+
+    def get_spt_method_coding(self) -> Optional[Dict[str, str]]:
+        """SPT 방법(히스타민 양성대조) CDM concept 코딩."""
+        m = getattr(self, "cdm_spt_method", {}) or {}
+        if not m.get("concept_id"):
+            return None
+        return {"system": "https://athena.ohdsi.org/search-terms/terms",
+                "code": str(m["concept_id"]), "display": m.get("display") or "Skin prick test method"}
+
+    def cdm_find(self, name: str, korean: str = "") -> Optional[Dict[str, Any]]:
+        """CDM 기매핑에서 항원 concept 를 조회. 실패 시 접미사 제거·부분일치로 재시도."""
+        if not self.cdm_entries:
+            return None
+        for cand in (name, korean):
+            k = self._cdm_norm(cand)
+            if k and k in self.cdm_lookup:
+                return self.cdm_entries[self.cdm_lookup[k]]
+        # 'pollen/dander/protein …' 접미사 제거 후 재시도
+        stripped = re.sub(r"\b(pollen|dander|epithelium|protein|mix|mixture|allergen|hair|fur|feathers)\b",
+                          "", name or "", flags=re.I).strip()
+        k = self._cdm_norm(stripped)
+        if k and k in self.cdm_lookup:
+            return self.cdm_entries[self.cdm_lookup[k]]
+        # 부분 일치(정규화 키가 서로 포함) — 짧은 오타/약어 흡수
+        if k and len(k) >= 3:
+            for key, idx in self.cdm_lookup.items():
+                if len(key) >= 3 and (k in key or key in k):
+                    return self.cdm_entries[idx]
+        return None
+
+    # OMOP(CDM) concept_id 폴백용 system URI — SCTID 와 혼동하지 않기 위해 분리
+    OMOP_SYSTEM = "https://athena.ohdsi.org/search-terms/terms"
+
+    def sctid_find(self, name: str, korean: str = "") -> Optional[Dict[str, str]]:
+        """실제 SNOMED CT SCTID 매핑 조회. 정확 일치 → 수식어 제거 후 재시도.
+        (예: OCR 의 'Birch pollen' → 레지스트리 canonical 'Birch')"""
+        m = getattr(self, "snomed_ct_map", {}) or {}
+        if not m:
+            return None
+        for cand in (name, korean):
+            k = self._cdm_norm(cand)
+            if k and k in m:
+                return m[k]
+        # 'pollen/dander/protein …' 수식어를 흡수 (CDM 조회와 동일 규칙)
+        for cand in (name, korean):
+            stripped = re.sub(
+                r"\b(pollen|dander|epithelium|protein|mix|mixture|allergen|hair|fur|feathers)\b",
+                "", cand or "", flags=re.I).strip()
+            k = self._cdm_norm(stripped)
+            if k and k in m:
+                return m[k]
+        return None
+
+    def get_coding(self, name: str, korean: str = "") -> Optional[Dict[str, str]]:
+        """FHIR code.coding 1건 생성. 우선순위:
+        (1) 실제 SNOMED CT SCTID 매핑(사용자 검토) → (2) CDM(OMOP concept) → (3) 기존 snomed 필드.
+        vocabulary 에 따라 SNOMED/LOINC system URI 를 구분한다."""
+        sct = self.sctid_find(name, korean)
+        if sct:
+            return dict(sct)
+        cdm = self.cdm_find(name, korean)
+        if cdm and cdm.get("concept_id"):
+            # concept_id 는 OMOP 식별자이지 SCTID 가 아니다. SNOMED 로 표기하면 수신 측이
+            # 잘못된 코드로 검증하게 되므로 Athena(OMOP) system URI 로 구분한다.
+            return {"system": self.OMOP_SYSTEM, "code": str(cdm["concept_id"]),
+                    "display": cdm.get("concept_name") or name,
+                    "vocabulary_hint": (cdm.get("vocabulary") or "SNOMED").upper()}
+        code = self.get_snomed_code(name if name else korean)
+        if code:
+            # 레거시 snomed 필드에는 CDM 에서 복사된 OMOP concept_id 가 섞여 있다.
+            # CDM concept_id 집합에 있으면 SNOMED 가 아니라 OMOP 로 표기한다.
+            system = self.OMOP_SYSTEM if str(code) in self._cdm_concept_ids() else "http://snomed.info/sct"
+            return {"system": system, "code": str(code), "display": name or korean}
+        return None
+
+    def _cdm_concept_ids(self):
+        ids = getattr(self, "_cdm_id_set", None)
+        if ids is None:
+            ids = {str(e.get("concept_id")) for e in (self.cdm_entries or []) if e.get("concept_id")}
+            self._cdm_id_set = ids
+        return ids
     
     def _load_database(self) -> AllergenDatabase:
         """알레르겐 매핑 데이터베이스 로드"""
@@ -75,6 +215,36 @@ class AllergenMapper:
             # SNOMED 코드 룩업
             if entry.snomed:
                 self.snomed_lookup[entry.snomed] = entry
+
+    def _load_chinese_names(self):
+        """중국어 항원명을 별칭 테이블에 합친다.
+
+        중국 결과지는 항원명을 중국어로만 인쇄한다(户尘螨·猫毛皮屑·交链孢霉 …).
+        레지스트리에는 영문·한글만 있어서, OCR 이 중국어를 정확히 읽어도 매핑이 전부
+        실패하고 지식베이스 조회·감별 판정·SNOMED 코딩이 함께 무너졌다."""
+        self.chinese_lookup = {}
+        try:
+            path = Path(__file__).resolve().parent.parent / "data" / "allergen_names_zh.json"
+            if not path.exists():
+                return
+            data = json.load(open(path, encoding="utf-8"))
+        except Exception as e:  # noqa: BLE001
+            logger.warning(f"중국어 항원명 로드 실패: {e}")
+            return
+
+        added = 0
+        for canonical, info in (data.get("map") or {}).items():
+            entry = self.canonical_lookup.get(canonical.lower())
+            if entry is None:
+                continue
+            for zh in (info.get("zh") or []):
+                key = zh.strip()
+                if not key:
+                    continue
+                self.chinese_lookup[key] = entry
+                self.alias_lookup.setdefault(key.lower(), entry)
+                added += 1
+        logger.info(f"중국어 항원명 로드: {added}개 표기 / {len(data.get('map') or {})}종")
     
     def normalize_text(self, text: str) -> str:
         """텍스트 정규화"""

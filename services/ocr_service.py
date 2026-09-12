@@ -6,6 +6,7 @@ OpenAI GPT Vision API를 사용한 알레르기 검사 결과 이미지 OCR
 import base64
 import json
 import logging
+import re
 import os
 from datetime import datetime
 from pathlib import Path
@@ -17,8 +18,14 @@ from openai import OpenAI
 from pydantic import ValidationError
 
 from config.settings import Settings
-from models.schemas import OCRResult, AllergenResult, TestType, PatientInfo, InterpretationType
+from models.schemas import (
+    OCRResult, AllergenResult, TestType, PatientInfo, InterpretationType,
+    determine_interpretation,
+)
 from utils.allergen_mapper import get_allergen_mapper
+
+# 알러젠이 아닌 요약/대조 행 (결과에서 제외)
+_NON_ALLERGEN_ROWS = ("total ige", "총 ige", "total-ige", "totalige")
 
 # 로거 설정
 logger = logging.getLogger(__name__)
@@ -58,35 +65,77 @@ class OCRService:
     
     def _get_default_prompt(self) -> str:
         """기본 OCR 프롬프트 반환"""
-        return """Extract allergy test results from this image and return JSON with the following structure:
-        {
-            "test_type": "SPT or MAST",
-            "patient": {
-                "name": "patient name or null",
-                "test_date": "YYYY-MM-DD or null"
-            },
-            "results": [
-                {
-                    "index": 1,
-                    "allergen_name": "allergen name",
-                    "size_text": "for SPT: original size text like '12.5x12' or null",
-                    "mean_mm": "for SPT: average of two dimensions in mm (e.g., (12.5+12)/2 = 12.25)",
-                    "value": "numeric value",
-                    "unit": "unit (mm for SPT, kU/L for MAST)",
-                    "class": "for MAST: class value or null",
-                    "interpretation": "Positive or Negative"
-                }
-            ]
-        }
-        
-        IMPORTANT for SPT (Skin Prick Test):
-        - If size is written as "12.5x12" or "12.5×12", extract as size_text: "12.5x12"
-        - Calculate mean_mm as the average: (12.5 + 12) / 2 = 12.25
-        - Set value = mean_mm
-        - Set unit = "mm"
-        - Positive if mean_mm >= 3.0
-        
-        Extract all allergens visible in the image."""
+        return """You are extracting an allergy test result table from an image. Return ONLY a valid JSON object.
+
+REQUIRED JSON STRUCTURE:
+{
+  "test_type": "SPT" | "MAST" | "UniCAP",
+  "patient": {
+    "name": "or null", "age": number or null, "gender": "M" | "F" | null,
+    "test_date": "YYYY-MM-DD or null", "report_date": "YYYY-MM-DD or null",
+    "facility": "testing lab / hospital / clinic name or null",
+    "ordering_provider": "ordering doctor or referring org or null",
+    "patient_id_external": "printed chart/patient number or null"
+  },
+  "results": [
+    { "index": 1, "allergen_name": "as printed (keep English + any Korean in parentheses)",
+      "class": 0-6, or the printed grade string when it is not a digit
+               (e.g. "+++", "阴性", "Class 3"), or null if no grade column exists,
+      "value": number or null, "unit": "IU/ml | kU/L | mm",
+      "value_text": "the value EXACTLY as printed when it is not a plain number, else null",
+      "size_text": "SPT wheal size exactly as printed, e.g. \"4.5x3\" — else null" }
+  ]
+}
+
+PATIENT / FACILITY: read any printed patient demographics (name, age, sex) and the
+testing institution (병원/검사실/laboratory name), ordering doctor, chart/patient number,
+and dates (collection/report). Use null when a field is not printed. Do NOT invent values.
+
+READ EVERY ROW — do not stop early:
+- Tables are OFTEN laid out in TWO COLUMNS (e.g. No 1–31 on the left, No 32–62 on the right).
+  Read the LEFT column top-to-bottom, THEN the RIGHT column top-to-bottom. Include ALL numbered rows.
+- Keep the allergen name exactly as printed, including the Korean in parentheses,
+  e.g. "D. pteronyssinus (진드기 Dp)", "Peanut (땅콩)".
+- Preserve the value's unit as shown on the report (this report uses "IU/ml"; some use "kU/L").
+
+DETERMINE test_type:
+- Title/labels contain "MAST" or columns "Class" + "IU/ml"(IgE) -> "MAST"
+- "UniCAP"/"ImmunoCAP" named on the report, or unit "kUA/L" -> "UniCAP"
+- "SPT"/"Skin Prick"/"피부단자검사"/"皮肤点刺试验" with wheal size in mm -> "SPT"
+- Chinese serum sIgE reports (过敏原特异性IgE检测报告单) are immunoblot panels:
+  "免疫印迹法" or "+" grading -> "MAST". Do not call them UniCAP unless the report
+  itself names ImmunoCAP/UniCAP. Being quantitative is not enough — MAST panels are
+  quantitative too.
+
+FIELD RULES:
+- MAST/UniCAP: read the "Class" number (0–6) AND the numeric IgE value with its unit.
+  Do NOT invent a Positive/Negative column if the report has none — leave interpretation out;
+  positivity is derived from Class (>=1) or value (>=0.35 kU/L).
+- SPT: the Size cell is usually TWO measurements, e.g. "4.5x3" (major x minor, in mm).
+  Copy it VERBATIM into "size_text" and leave "value" null. A single number goes in "value".
+  An empty Size cell means no reaction: value null, size_text null. Do not guess a size.
+- SPT controls: read the "Histamine"(positive) and "Saline"(negative) rows into
+  patient.histamine_mean_mm and patient.negative_control_mean_mm as the mean of their two
+  measurements. Do NOT list the control rows in "results".
+- BELOW-DETECTION-LIMIT values: reports print "<0.15", "<0.35", "<50", "undetectable" or "ND".
+  These are NOT the plain number. Put the printed string VERBATIM in "value_text" and leave
+  "value" null. Dropping the "<" would turn "less than 0.15" into a measured 0.15, which
+  changes the clinical meaning of the result.
+- CLASS NOTATION varies by country. Normalise all of these into "class":
+  a plain digit 0-6; "Class 3"; "3급"; "3级"; Roman numerals; and Chinese immunoblot
+  reports that print "+" marks, where the NUMBER OF PLUS SIGNS is the class
+  ("+" = 1, "++" = 2 … "++++++" = 6) and "阴性" means class 0. Copy the plus marks
+  verbatim into "class" (e.g. "+++") — do not convert them yourself.
+- NON-KOREAN REPORTS: keep the allergen name in the language it is printed in.
+  Chinese reports print Chinese only (户尘螨, 猫毛皮屑, 交链孢霉) — return that text as
+  "allergen_name" and do NOT translate it. English reports print a Phadia-style code in
+  parentheses (d1, e5, g6, t3, w1, f13) — keep it inside the name.
+- Some English reports show the class as a COLOURED BAR across "Class 0/1 … Class 6"
+  columns instead of a digit, with the value in an "FSU" column written without a leading
+  zero (".40", "<.01"). Read the FSU value; leave "class" null when no digit is printed.
+- EXCLUDE the summary row "Total IgE" / "총 IgE" / "总IgE" from results (it is not an allergen).
+
+Be exhaustive and accurate. Return the JSON only."""
     
     def _encode_image(self, image_source: Union[str, Path, Image.Image, bytes]) -> str:
         """
@@ -167,7 +216,7 @@ class OCRService:
                             ]
                         }
                     ],
-                    max_tokens=4096,
+                    max_tokens=16384,
                     temperature=0.1,  # 낮은 temperature로 일관성 있는 결과 유도
                     response_format={"type": "json_object"}  # JSON 모드 강제
                 )
@@ -195,7 +244,7 @@ class OCRService:
                             ]
                         }
                     ],
-                    max_tokens=4096,
+                    max_tokens=16384,
                     temperature=0.1
                 )
             
@@ -287,13 +336,86 @@ class OCRService:
                     except:
                         pass
         
-        # 시도 4: 기본 구조 반환
+        # 시도 4: 잘린 응답에서 완성된 결과 객체만이라도 건져낸다 (대형 패널 대비)
+        salvaged = self._salvage_partial_json(content)
+        if salvaged and salvaged.get("results"):
+            logger.warning(f"JSON이 잘렸으나 {len(salvaged['results'])}개 항목을 복구했습니다.")
+            return salvaged
+
+        # 시도 5: 기본 구조 반환 (test_type 은 원문에서 추정)
         logger.error("JSON 추출 실패, 기본 구조 반환")
         return {
-            "test_type": "SPT",
+            "test_type": self._sniff_test_type(content) or "MAST",
             "patient": {},
             "results": []
         }
+
+    @staticmethod
+    def _sniff_test_type(text: str) -> Optional[str]:
+        """원문 텍스트에서 검사 종류 추정."""
+        low = (text or "").lower()
+        if "unicap" in low or "immunocap" in low:
+            return "UniCAP"
+        if "mast" in low or "iu/ml" in low or "ku/l" in low or "class" in low:
+            return "MAST"
+        if "spt" in low or "prick" in low or "피부" in low:
+            return "SPT"
+        return None
+
+    def _salvage_partial_json(self, content: str) -> Optional[Dict[str, Any]]:
+        """잘린 JSON에서 test_type 과 완성된 result 객체들을 정규식/괄호매칭으로 복구."""
+        import re
+        if not content:
+            return None
+        test_type = self._sniff_test_type(content) or "MAST"
+
+        # "results" 배열 시작 위치 이후에서 완성된 {...} 객체를 순서대로 추출
+        start = content.find('"results"')
+        scan_from = content.find('[', start) if start != -1 else content.find('[')
+        if scan_from == -1:
+            scan_from = 0
+        objs: list = []
+        i = scan_from
+        n = len(content)
+        while i < n:
+            if content[i] == '{':
+                depth = 0
+                j = i
+                in_str = False
+                esc = False
+                while j < n:
+                    c = content[j]
+                    if in_str:
+                        if esc:
+                            esc = False
+                        elif c == '\\':
+                            esc = True
+                        elif c == '"':
+                            in_str = False
+                    else:
+                        if c == '"':
+                            in_str = True
+                        elif c == '{':
+                            depth += 1
+                        elif c == '}':
+                            depth -= 1
+                            if depth == 0:
+                                frag = content[i:j + 1]
+                                try:
+                                    obj = json.loads(frag)
+                                    if isinstance(obj, dict) and (
+                                        obj.get("allergen_name") or obj.get("name") or obj.get("allergen")):
+                                        objs.append(obj)
+                                except Exception:
+                                    pass
+                                break
+                    j += 1
+                i = j + 1
+            else:
+                i += 1
+        if not objs:
+            return None
+        return {"test_type": test_type, "patient": {}, "results": objs}
     
     def _safe_float(self, value: Any) -> Optional[float]:
         """안전한 float 변환"""
@@ -303,6 +425,17 @@ class OCRService:
             return float(value)
         except (TypeError, ValueError):
             return None
+
+    def _safe_int(self, value: Any) -> Optional[int]:
+        """안전한 int 변환 (문자열 '34세' 등에서 숫자만 추출)"""
+        if value is None:
+            return None
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            import re
+            m = re.search(r"\d+", str(value))
+            return int(m.group()) if m else None
     
     def _fix_common_json_errors(self, json_str: str) -> str:
         """일반적인 JSON 오류 수정"""
@@ -350,17 +483,31 @@ class OCRService:
                 logger.warning("OCR 응답이 딕셔너리가 아님, 기본값 사용")
                 data = {}
             
-            # TestType 파싱
+            # TestType 파싱 (SPT / MAST / UniCAP)
             test_type_str = str(data.get('test_type', 'SPT')).upper()
-            test_type = TestType.SPT if 'SPT' in test_type_str else TestType.MAST
+            if 'SPT' in test_type_str or 'PRICK' in test_type_str or '피부' in test_type_str:
+                test_type = TestType.SPT
+            elif 'UNICAP' in test_type_str or 'IMMUNOCAP' in test_type_str or 'CAP' in test_type_str:
+                test_type = TestType.UNICAP
+            else:
+                test_type = TestType.MAST
             
             # PatientInfo 파싱
             patient_data = data.get('patient', {})
+            _g = patient_data.get('gender')
+            if isinstance(_g, str):
+                _g = _g.strip().upper()[:1]
+                _g = {"M": "M", "F": "F", "남": "M", "여": "F"}.get(_g) or (
+                    "M" if _g in ("남",) else "F" if _g in ("여",) else None)
             patient = PatientInfo(
                 name=patient_data.get('name'),
-                age=patient_data.get('age'),
-                gender=patient_data.get('gender'),
+                age=self._safe_int(patient_data.get('age')),
+                gender=_g,
                 test_date=patient_data.get('test_date'),
+                report_date=patient_data.get('report_date'),
+                facility=patient_data.get('facility'),
+                ordering_provider=patient_data.get('ordering_provider'),
+                patient_id_external=patient_data.get('patient_id_external'),
                 histamine_mean_mm=patient_data.get('histamine_mean_mm'),
                 negative_control_mean_mm=patient_data.get('negative_control_mean_mm')
             )
@@ -379,19 +526,26 @@ class OCRService:
                     if not isinstance(item, dict):
                         continue
                     
-                    # interpretation 파싱
-                    interp_str = str(item.get('interpretation', 'Unknown'))
-                    if any(x in interp_str for x in ['Positive', 'P', '+', '양성', 'positive']):
-                        interpretation = InterpretationType.POSITIVE
-                    elif any(x in interp_str for x in ['Negative', 'N', '-', '음성', 'negative']):
-                        interpretation = InterpretationType.NEGATIVE
-                    else:
-                        interpretation = InterpretationType.UNKNOWN
-                    
                     # 필수 필드 확인
                     allergen_name = item.get('allergen_name', '')
                     if not allergen_name:
                         allergen_name = item.get('name', '') or item.get('allergen', '') or f"Unknown_{idx+1}"
+
+                    # 알러젠이 아닌 요약 행(Total IgE 등)은 제외
+                    _norm_name = allergen_name.strip().lower().replace(" ", "")
+                    if _norm_name.startswith("totalige") or _norm_name.startswith("total-ige") \
+                            or "총ige" in _norm_name:
+                        continue
+
+                    # interpretation: 명시적 Positive/Negative 가 있으면 사용,
+                    # 없으면 Class/수치로부터 결정론적으로 유도
+                    interp_str = str(item.get('interpretation') or '')
+                    if any(x in interp_str for x in ['Positive', '양성', 'positive']):
+                        interpretation = InterpretationType.POSITIVE
+                    elif any(x in interp_str for x in ['Negative', '음성', 'negative']):
+                        interpretation = InterpretationType.NEGATIVE
+                    else:
+                        interpretation = None  # 아래에서 수치 기반으로 채움
                     
                     # SPT의 경우 size_text 처리
                     size_text = item.get('size_text')
@@ -410,10 +564,38 @@ class OCRService:
                             pass
                     
                     # SPT의 경우 value가 없으면 mean_mm 사용
-                    value = self._safe_float(item.get('value'))
+                    raw_value = item.get('value')
+                    value = self._safe_float(raw_value)
+                    # 숫자가 아닌 값('<0.35', 'N/A', 'undetectable' 등)은 원문을 보존해
+                    # FHIR 에서 comparator / dataAbsentReason 으로 표현한다(결과를 버리지 않음).
+                    # 모델이 따로 보낸 value_text 를 먼저 쓴다. 예전에는 value 필드가
+                    # 숫자로 안 읽힐 때만 원문을 남겨서, 모델이 '{value: null,
+                    # value_text: "<0.15"}' 로 정확히 답해도 '<' 표기를 버렸다.
+                    # 그러면 '0.15 미만'이 '측정 안 됨'이 되어 임상적 의미가 사라진다.
+                    explicit = item.get('value_text')
+                    value_text = str(explicit).strip() if explicit not in (None, "") else None
+                    if value_text is None and value is None and raw_value not in (None, ""):
+                        value_text = str(raw_value).strip()
+                    # '<0.15' 처럼 비교연산자가 붙은 표기는 수치로 승격하지 않는다
+                    if value_text and value_text.lstrip().startswith("<"):
+                        value = None
                     if test_type == TestType.SPT and not value and mean_mm:
                         value = mean_mm
-                    
+
+                    class_value = item.get('class')
+                    if class_value is None:
+                        class_value = item.get('class_value')
+
+                    # interpretation 이 명시되지 않았으면 Class/수치로부터 유도
+                    if interpretation is None:
+                        interpretation = determine_interpretation(
+                            test_type=test_type,
+                            mean_mm=mean_mm,
+                            class_value=class_value,
+                            value=value,
+                            histamine_control=patient.histamine_mean_mm,
+                        )
+
                     result = AllergenResult(
                         index=item.get('index', idx + 1),
                         raw_text=item.get('raw_text', ''),
@@ -422,8 +604,9 @@ class OCRService:
                         size_text=size_text,
                         mean_mm=mean_mm,
                         value=value,
-                        unit=item.get('unit', 'kU/L' if test_type == TestType.MAST else 'mm'),
-                        class_value=item.get('class') or item.get('class_value'),
+                        value_text=value_text,
+                        unit=item.get('unit') or ('mm' if test_type == TestType.SPT else 'kU/L'),
+                        class_value=class_value,
                         interpretation=interpretation
                     )
                     results.append(result)

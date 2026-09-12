@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>알러젠 탐험 퀘스트 · 알레르기 검사 결과 리포트</title>
+  <meta name="description" content="알레르기 검사(SPT·MAST·UniCAP) 결과를 탐험 퀘스트처럼 따라가며 감작과 실제 알레르기를 감별하고 환자 맞춤 리포트를 만들어 드립니다." />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="bar">
+      <div class="logo">
+        <span class="mark">🧭</span>
+        <span><span data-i18n="app.title">알러젠 탐험 퀘스트</span>
+          <small data-i18n="app.tagline">검사 양성은 흔적일 뿐 · 진범은 증상으로 확정</small>
+        </span>
+      </div>
+      <div class="hud" id="hud" aria-live="polite"></div>
+      <select class="lang-sel" id="langSel" data-i18n-aria="app.lang" aria-label="언어"></select>
+      <a class="ui-switch" href="/classic/" data-i18n="app.classic" data-i18n-title="app.classic_title" title="재설계 이전의 클래식 UI 로 전환 (같은 데이터·같은 API)">클래식 UI</a>
+      <button class="theme-toggle" id="themeToggle" data-i18n-title="app.theme" title="라이트/다크 전환" aria-label="테마 전환">🌙</button>
+    </div>
+  </header>
+
+  <main>
+    <nav class="trail" id="stepper" data-i18n-aria="trail.aria" aria-label="퀘스트 진행"></nav>
+    <div id="view"><!-- 단계별 화면 렌더링 --></div>
+    <p class="disclaimer" data-i18n="app.disclaimer">본 서비스는 교육용 참고 자료이며 의학적 진단·치료를 대체하지 않습니다. 정확한 판단은 담당 의료진과 상담하세요.</p>
+  </main>
+
+  <div class="quest-bar hidden" id="questBar" aria-live="polite"></div>
+  <div class="toast" id="toast"></div>
+  <div class="overlay hidden" id="overlay"></div>
+  <script src="/i18n.js"></script>
+  <script src="/game.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>
