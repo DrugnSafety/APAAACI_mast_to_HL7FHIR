@@ -2,16 +2,16 @@
  "test_type": "MAST",
  "patient": {
   "name": "김시우",
-  "age": 30,
+  "age": 6,
   "gender": "M",
-  "birth": "1996-02-01",
+  "birth": "2020-10-23",
   "test_date": "2026-08-03",
   "report_date": "2026-08-04",
   "facility": "해든병원 소아청소년과",
   "department": "내과",
-  "ordering_provider": "윤나윤",
-  "patient_id_external": "85137963",
-  "accession": "20260803-808-1911"
+  "ordering_provider": "최하윤",
+  "patient_id_external": "75382314",
+  "accession": "20260803-558-1911"
  },
  "results": [
   {

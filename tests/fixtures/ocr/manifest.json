@@ -1,7 +1,7 @@
 {
  "note_ko": "합성 OCR 픽스처 목록. 생성: scripts/generate_result_sheets.py",
  "seed": 20260912,
- "count": 15,
+ "count": 21,
  "items": [
   {
    "image": "mast_lab_report_clean_01.png",
@@ -44,84 +44,132 @@
    "rows": 47
   },
   {
-   "image": "mast_lab_report_clean_06.png",
-   "truth": "mast_lab_report_clean_06.truth.json",
+   "image": "en_ige_report_clean_06.png",
+   "truth": "en_ige_report_clean_06.truth.json",
+   "layout": "en_ige_report",
+   "degrade": "clean",
+   "test_type": "MAST",
+   "rows": 23
+  },
+  {
+   "image": "zh_sige_report_scan_07.jpg",
+   "truth": "zh_sige_report_scan_07.truth.json",
+   "layout": "zh_sige_report",
+   "degrade": "scan",
+   "test_type": "MAST",
+   "rows": 31
+  },
+  {
+   "image": "mast_lab_report_clean_08.png",
+   "truth": "mast_lab_report_clean_08.truth.json",
    "layout": "mast_lab_report",
    "degrade": "clean",
    "test_type": "MAST",
    "rows": 69
   },
   {
-   "image": "mast_photo_photo_07.jpg",
-   "truth": "mast_photo_photo_07.truth.json",
+   "image": "mast_photo_photo_09.jpg",
+   "truth": "mast_photo_photo_09.truth.json",
    "layout": "mast_photo",
    "degrade": "photo",
    "test_type": "MAST",
    "rows": 37
   },
   {
-   "image": "mast_emr_text_clean_08.png",
-   "truth": "mast_emr_text_clean_08.truth.json",
+   "image": "mast_emr_text_clean_10.png",
+   "truth": "mast_emr_text_clean_10.truth.json",
    "layout": "mast_emr_text",
    "degrade": "clean",
    "test_type": "MAST",
    "rows": 39
   },
   {
-   "image": "spt_form_light_scan_09.jpg",
-   "truth": "spt_form_light_scan_09.truth.json",
+   "image": "spt_form_light_scan_11.jpg",
+   "truth": "spt_form_light_scan_11.truth.json",
    "layout": "spt_form_light",
    "degrade": "scan",
    "test_type": "SPT",
    "rows": 47
   },
   {
-   "image": "spt_form_dark_clean_10.png",
-   "truth": "spt_form_dark_clean_10.truth.json",
+   "image": "spt_form_dark_clean_12.png",
+   "truth": "spt_form_dark_clean_12.truth.json",
    "layout": "spt_form_dark",
    "degrade": "clean",
    "test_type": "SPT",
    "rows": 47
   },
   {
-   "image": "mast_lab_report_clean_11.png",
-   "truth": "mast_lab_report_clean_11.truth.json",
+   "image": "en_ige_report_clean_13.png",
+   "truth": "en_ige_report_clean_13.truth.json",
+   "layout": "en_ige_report",
+   "degrade": "clean",
+   "test_type": "MAST",
+   "rows": 23
+  },
+  {
+   "image": "zh_sige_report_scan_14.jpg",
+   "truth": "zh_sige_report_scan_14.truth.json",
+   "layout": "zh_sige_report",
+   "degrade": "scan",
+   "test_type": "MAST",
+   "rows": 31
+  },
+  {
+   "image": "mast_lab_report_clean_15.png",
+   "truth": "mast_lab_report_clean_15.truth.json",
    "layout": "mast_lab_report",
    "degrade": "clean",
    "test_type": "MAST",
    "rows": 69
   },
   {
-   "image": "mast_photo_photo_12.jpg",
-   "truth": "mast_photo_photo_12.truth.json",
+   "image": "mast_photo_photo_16.jpg",
+   "truth": "mast_photo_photo_16.truth.json",
    "layout": "mast_photo",
    "degrade": "photo",
    "test_type": "MAST",
    "rows": 37
   },
   {
-   "image": "mast_emr_text_clean_13.png",
-   "truth": "mast_emr_text_clean_13.truth.json",
+   "image": "mast_emr_text_clean_17.png",
+   "truth": "mast_emr_text_clean_17.truth.json",
    "layout": "mast_emr_text",
    "degrade": "clean",
    "test_type": "MAST",
    "rows": 39
   },
   {
-   "image": "spt_form_light_scan_14.jpg",
-   "truth": "spt_form_light_scan_14.truth.json",
+   "image": "spt_form_light_scan_18.jpg",
+   "truth": "spt_form_light_scan_18.truth.json",
    "layout": "spt_form_light",
    "degrade": "scan",
    "test_type": "SPT",
    "rows": 47
   },
   {
-   "image": "spt_form_dark_clean_15.png",
-   "truth": "spt_form_dark_clean_15.truth.json",
+   "image": "spt_form_dark_clean_19.png",
+   "truth": "spt_form_dark_clean_19.truth.json",
    "layout": "spt_form_dark",
    "degrade": "clean",
    "test_type": "SPT",
    "rows": 47
+  },
+  {
+   "image": "en_ige_report_clean_20.png",
+   "truth": "en_ige_report_clean_20.truth.json",
+   "layout": "en_ige_report",
+   "degrade": "clean",
+   "test_type": "MAST",
+   "rows": 23
+  },
+  {
+   "image": "zh_sige_report_scan_21.jpg",
+   "truth": "zh_sige_report_scan_21.truth.json",
+   "layout": "zh_sige_report",
+   "degrade": "scan",
+   "test_type": "MAST",
+   "rows": 31
   }
  ]
 }

@@ -2,16 +2,16 @@
  "test_type": "MAST",
  "patient": {
   "name": "조유진",
-  "age": 41,
-  "gender": "F",
-  "birth": "1985-04-16",
-  "test_date": "2026-09-07",
-  "report_date": "2026-09-08",
-  "facility": "한빛대학교병원 진단검사의학과",
-  "department": "이비인후과",
-  "ordering_provider": "한수아",
+  "age": 32,
+  "gender": "M",
+  "birth": "1994-08-18",
+  "test_date": "2026-04-13",
+  "report_date": "2026-04-14",
+  "facility": "푸른숲내과의원",
+  "department": "알레르기내과",
+  "ordering_provider": "신건우",
   "patient_id_external": "45441381",
-  "accession": "20260907-199-9377"
+  "accession": "20260413-199-9377"
  },
  "results": [
   {

@@ -98,13 +98,15 @@ uvicorn server:app --reload        # http://127.0.0.1:8000
 
 ### OCR 정확도 측정 (합성 픽스처)
 
-실제 결과지는 환자 정보를 담고 있어 모아 두기 어렵다. 실제 양식 5계열을 관찰해 **가짜 환자
-정보로 결과지 이미지를 합성**하고, 이미지마다 정답을 붙여 OCR 정확도를 숫자로 잰다.
+실제 결과지는 환자 정보를 담고 있어 모아 두기 어렵다. 한국어·영어·중국어 결과지 **7계열**을
+조사해 **가짜 환자 정보로 이미지를 합성**하고, 이미지마다 정답을 붙여 OCR 정확도를 숫자로 잰다.
 
 ```bash
-python3 scripts/generate_result_sheets.py --out tests/fixtures/ocr --count 15
-python3 scripts/score_ocr.py --limit 5        # OPENAI_API_KEY 필요
+python3 scripts/generate_result_sheets.py --out tests/fixtures/ocr --count 21
+python3 scripts/score_ocr.py --limit 14       # OPENAI_API_KEY 필요
 ```
+
+전체 평균(gpt-4o): 재현율 95.1% · 정밀도 96.7% · 수치 80.6% · class 91.0% · 팽진 98.9%.
 
 조사·방법·측정 결과: [`docs/ocr_fixtures_survey.md`](docs/ocr_fixtures_survey.md)
 

@@ -79,7 +79,9 @@ REQUIRED JSON STRUCTURE:
   },
   "results": [
     { "index": 1, "allergen_name": "as printed (keep English + any Korean in parentheses)",
-      "class": 0-6 or null, "value": number or null, "unit": "IU/ml | kU/L | mm",
+      "class": 0-6, or the printed grade string when it is not a digit
+               (e.g. "+++", "阴性", "Class 3"), or null if no grade column exists,
+      "value": number or null, "unit": "IU/ml | kU/L | mm",
       "value_text": "the value EXACTLY as printed when it is not a plain number, else null",
       "size_text": "SPT wheal size exactly as printed, e.g. \"4.5x3\" — else null" }
   ]
@@ -98,8 +100,12 @@ READ EVERY ROW — do not stop early:
 
 DETERMINE test_type:
 - Title/labels contain "MAST" or columns "Class" + "IU/ml"(IgE) -> "MAST"
-- "UniCAP"/"ImmunoCAP" quantitative specific IgE -> "UniCAP"
-- "SPT"/"Skin Prick"/"피부단자검사" with wheal size in mm -> "SPT"
+- "UniCAP"/"ImmunoCAP" named on the report, or unit "kUA/L" -> "UniCAP"
+- "SPT"/"Skin Prick"/"피부단자검사"/"皮肤点刺试验" with wheal size in mm -> "SPT"
+- Chinese serum sIgE reports (过敏原特异性IgE检测报告单) are immunoblot panels:
+  "免疫印迹法" or "+" grading -> "MAST". Do not call them UniCAP unless the report
+  itself names ImmunoCAP/UniCAP. Being quantitative is not enough — MAST panels are
+  quantitative too.
 
 FIELD RULES:
 - MAST/UniCAP: read the "Class" number (0–6) AND the numeric IgE value with its unit.
@@ -115,7 +121,19 @@ FIELD RULES:
   These are NOT the plain number. Put the printed string VERBATIM in "value_text" and leave
   "value" null. Dropping the "<" would turn "less than 0.15" into a measured 0.15, which
   changes the clinical meaning of the result.
-- EXCLUDE the summary row "Total IgE" / "총 IgE" from results (it is not an allergen).
+- CLASS NOTATION varies by country. Normalise all of these into "class":
+  a plain digit 0-6; "Class 3"; "3급"; "3级"; Roman numerals; and Chinese immunoblot
+  reports that print "+" marks, where the NUMBER OF PLUS SIGNS is the class
+  ("+" = 1, "++" = 2 … "++++++" = 6) and "阴性" means class 0. Copy the plus marks
+  verbatim into "class" (e.g. "+++") — do not convert them yourself.
+- NON-KOREAN REPORTS: keep the allergen name in the language it is printed in.
+  Chinese reports print Chinese only (户尘螨, 猫毛皮屑, 交链孢霉) — return that text as
+  "allergen_name" and do NOT translate it. English reports print a Phadia-style code in
+  parentheses (d1, e5, g6, t3, w1, f13) — keep it inside the name.
+- Some English reports show the class as a COLOURED BAR across "Class 0/1 … Class 6"
+  columns instead of a digit, with the value in an "FSU" column written without a leading
+  zero (".40", "<.01"). Read the FSU value; leave "class" null when no digit is printed.
+- EXCLUDE the summary row "Total IgE" / "총 IgE" / "总IgE" from results (it is not an allergen).
 
 Be exhaustive and accurate. Return the JSON only."""
     

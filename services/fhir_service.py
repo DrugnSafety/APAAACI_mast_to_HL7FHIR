@@ -11,7 +11,7 @@ from uuid import uuid4
 
 from models.schemas import (
     OCRResult, AllergenResult, TestType, InterpretationType,
-    SymptomFeedback, ExposureStatus, FHIRBundle
+    SymptomFeedback, ExposureStatus, FHIRBundle, normalize_class_token
 )
 from utils.allergen_mapper import get_allergen_mapper
 
@@ -73,12 +73,8 @@ class FHIRService:
 
     @staticmethod
     def _class_int(v) -> Optional[int]:
-        if v is None or v == "":
-            return None
-        try:
-            return int(str(v).strip())
-        except ValueError:
-            return None
+        """class 표기를 정수로. 중국 '+++' · '3级', 영어 'Class 3' 도 받는다."""
+        return normalize_class_token(v)
 
     @staticmethod
     def _parse_size_text(size_text: Optional[str]):

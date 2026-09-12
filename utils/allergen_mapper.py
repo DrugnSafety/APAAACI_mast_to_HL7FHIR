@@ -31,6 +31,7 @@ class AllergenMapper:
         self.mapping_file_path = mapping_file_path
         self.database = self._load_database()
         self._build_lookup_tables()
+        self._load_chinese_names()
         self._load_cdm_map()
         self._load_snomed_ct_map()
 
@@ -214,6 +215,36 @@ class AllergenMapper:
             # SNOMED 코드 룩업
             if entry.snomed:
                 self.snomed_lookup[entry.snomed] = entry
+
+    def _load_chinese_names(self):
+        """중국어 항원명을 별칭 테이블에 합친다.
+
+        중국 결과지는 항원명을 중국어로만 인쇄한다(户尘螨·猫毛皮屑·交链孢霉 …).
+        레지스트리에는 영문·한글만 있어서, OCR 이 중국어를 정확히 읽어도 매핑이 전부
+        실패하고 지식베이스 조회·감별 판정·SNOMED 코딩이 함께 무너졌다."""
+        self.chinese_lookup = {}
+        try:
+            path = Path(__file__).resolve().parent.parent / "data" / "allergen_names_zh.json"
+            if not path.exists():
+                return
+            data = json.load(open(path, encoding="utf-8"))
+        except Exception as e:  # noqa: BLE001
+            logger.warning(f"중국어 항원명 로드 실패: {e}")
+            return
+
+        added = 0
+        for canonical, info in (data.get("map") or {}).items():
+            entry = self.canonical_lookup.get(canonical.lower())
+            if entry is None:
+                continue
+            for zh in (info.get("zh") or []):
+                key = zh.strip()
+                if not key:
+                    continue
+                self.chinese_lookup[key] = entry
+                self.alias_lookup.setdefault(key.lower(), entry)
+                added += 1
+        logger.info(f"중국어 항원명 로드: {added}개 표기 / {len(data.get('map') or {})}종")
     
     def normalize_text(self, text: str) -> str:
         """텍스트 정규화"""

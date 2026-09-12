@@ -1321,6 +1321,52 @@ def test_ocr_preserves_below_detection_limit_and_wheal_size():
     print("✓ OCR 검출한계 미만 표기·팽진 크기 원문 보존")
 
 
+def test_chinese_and_english_report_support():
+    """중국어·영어 결과지도 항원 매핑과 등급 해석이 된다.
+
+    영어·중국어 합성 픽스처를 만들어 재 보니 중국어 결과지가 재현율 0% 였다. OCR 은
+    중국어를 정확히 읽는데(户尘螨·猫毛皮屑) 레지스트리에 중국어명이 없어 매핑이 전부
+    실패했고, 그러면 지식베이스 조회·감별 판정·SNOMED 코딩이 함께 무너진다.
+    등급도 나라마다 표기가 달라(중국 '+++' · '3级', 영어 'Class 3') 숫자만 받으면
+    중국어 양성 결과가 등급 없음으로 떨어진다."""
+    from utils.allergen_mapper import get_allergen_mapper
+    from models.schemas import normalize_class_token, determine_interpretation
+
+    m = get_allergen_mapper()
+    for zh, expect in (("户尘螨", "Dermatophagoides pteronyssinus"),
+                       ("粉尘螨", "Dermatophagoides farinae"),
+                       ("猫毛皮屑", "Cat dander"),
+                       ("交链孢霉", "Alternaria alternata"),
+                       ("矮豚草", "Ragweed"),
+                       ("花生", "Peanut")):
+        got = m.find_allergen(zh)
+        assert got and got.canonical_name == expect, f"중국어 항원 매핑 실패: {zh} -> {got}"
+
+    # 등급 표기 정규화 — 나라별 표기를 모두 0-6 으로 접는다
+    for token, expect in ((3, 3), ("3", 3), ("3.0", 3), ("Class 3", 3), ("3급", 3),
+                          ("3级", 3), ("+++", 3), ("+", 1), ("++++++", 6), ("Ⅲ", 3),
+                          ("", None), (None, None), ("7", None)):
+        assert normalize_class_token(token) == expect, f"등급 정규화 실패: {token!r}"
+
+    # 중국식 '+' 등급만 있고 수치가 없어도 양성으로 판정된다
+    pos = determine_interpretation(test_type=TestType.MAST, class_value="++", value=None)
+    neg = determine_interpretation(test_type=TestType.MAST, class_value="阴性", value=None)
+    assert pos == InterpretationType.POSITIVE, f"'++' 가 양성으로 안 읽힘: {pos}"
+    assert neg == InterpretationType.NEGATIVE, f"'阴性' 이 음성으로 안 읽힘: {neg}"
+
+    # FHIR component 도 같은 정규화를 쓴다(숫자만 받으면 '+++' 가 통째로 빠진다)
+    from services.fhir_service import FHIRService
+    assert FHIRService._class_int("+++") == 3 and FHIRService._class_int("3级") == 3
+
+    # OCR 프롬프트가 비한국어 표기 규칙을 담고 있다
+    from services.ocr_service import OCRService
+    from config.settings import settings
+    prompt = OCRService(settings)._get_default_prompt()
+    for key in ("免疫印迹法", "阴性", "FSU", "Phadia"):
+        assert key in prompt, f"OCR 프롬프트에 {key} 규칙 없음"
+    print("✓ 중국어·영어 결과지 지원(항원 매핑·등급 표기 정규화·프롬프트 규칙)")
+
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0

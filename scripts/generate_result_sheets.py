@@ -53,6 +53,16 @@ BOLD_CANDIDATES = [
 ]
 
 
+# 중국어 간체 글리프는 한국어 폰트에 없다(过·阴·阳·检 등이 두부 □ 로 렌더된다).
+# 간체를 쓰는 레이아웃에서는 중국어 폰트를 따로 쓴다.
+ZH_CANDIDATES = [
+    ("/System/Library/Fonts/STHeiti Medium.ttc", 0),
+    ("/System/Library/Fonts/Hiragino Sans GB.ttc", 0),
+    ("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc", 0),
+    ("/usr/share/fonts/truetype/arphic/uming.ttc", 0),
+]
+
+
 def _load(cands, size: int) -> ImageFont.FreeTypeFont:
     for path, idx in cands:
         if Path(path).exists():
@@ -66,13 +76,21 @@ def _load(cands, size: int) -> ImageFont.FreeTypeFont:
 _FONT_CACHE: Dict[Tuple[str, int], ImageFont.FreeTypeFont] = {}
 
 
-def font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont:
-    key = ("b" if bold else "r", size)
+def font(size: int, bold: bool = False, zh: bool = False) -> ImageFont.FreeTypeFont:
+    key = ("zh" if zh else "b" if bold else "r", size)
     if key not in _FONT_CACHE:
-        _FONT_CACHE[key] = _load(BOLD_CANDIDATES if bold else FONT_CANDIDATES, size)
-        if bold and _FONT_CACHE[key] is None:
-            _FONT_CACHE[key] = _load(FONT_CANDIDATES, size)
+        cands = ZH_CANDIDATES if zh else (BOLD_CANDIDATES if bold else FONT_CANDIDATES)
+        _FONT_CACHE[key] = _load(cands, size)
     return _FONT_CACHE[key]
+
+
+def assert_renderable(sample: str, f: ImageFont.FreeTypeFont) -> None:
+    """글리프가 없으면 조용히 두부(□)로 그려져 사람이 못 읽는 이미지가 된다.
+    합성 픽스처가 통째로 쓸모없어지므로 생성 시점에 막는다."""
+    missing = [ch for ch in sample if ch.strip() and f.getmask(ch).getbbox() is None]
+    if missing:
+        raise SystemExit(f"폰트에 글리프가 없다: {''.join(missing)!r} — "
+                         f"중국어 간체 폰트를 설치하거나 ZH_CANDIDATES 에 경로를 추가한다")
 
 
 # ---------------------------------------------------------------- 가짜 신원
@@ -85,8 +103,24 @@ FACILITIES = ["한빛대학교병원 진단검사의학과", "새길병원 진�
 DEPARTMENTS = ["내과", "소아청소년과", "알레르기내과", "이비인후과", "가정의학과"]
 
 
-def fake_patient(rng: random.Random) -> Dict[str, Any]:
-    name = rng.choice(SURNAMES) + rng.choice(GIVEN)
+# 영어권 보고서에는 영어 이름을, 중국어 보고서에는 중국어 이름을 쓴다.
+# 모두 가상 인물이다.
+EN_FIRST = ["Jane", "Michael", "Emily", "David", "Sarah", "James", "Olivia", "Daniel"]
+EN_LAST = ["Smith", "Johnson", "Miller", "Davis", "Wilson", "Taylor", "Brown", "Clark"]
+ZH_SURNAMES = ["王", "李", "张", "刘", "陈", "杨", "黄", "周", "吴", "徐"]
+ZH_GIVEN = ["伟", "芳", "敏", "静", "丽", "强", "磊", "洋", "艳", "娜", "秀英", "小明"]
+
+
+def fake_patient(rng: random.Random, locale: str = "ko") -> Dict[str, Any]:
+    if locale == "en":
+        name = f"{rng.choice(EN_FIRST)} {rng.choice(EN_LAST)}"
+        provider = f"{rng.choice(EN_FIRST)} {rng.choice(EN_LAST)}"
+    elif locale == "zh":
+        name = rng.choice(ZH_SURNAMES) + rng.choice(ZH_GIVEN)
+        provider = rng.choice(ZH_SURNAMES) + rng.choice(ZH_GIVEN)
+    else:
+        name = rng.choice(SURNAMES) + rng.choice(GIVEN)
+        provider = rng.choice(SURNAMES) + rng.choice(GIVEN)
     age = rng.randint(3, 72)
     y = 2026 - age
     birth = f"{y}-{rng.randint(1,12):02d}-{rng.randint(1,28):02d}"
@@ -103,7 +137,7 @@ def fake_patient(rng: random.Random) -> Dict[str, Any]:
         "report_date": report_date,
         "facility": rng.choice(FACILITIES),
         "department": rng.choice(DEPARTMENTS),
-        "ordering_provider": rng.choice(SURNAMES) + rng.choice(GIVEN),
+        "ordering_provider": provider,
         "patient_id_external": f"{rng.randint(10000000, 99999999)}",
         "accession": f"2026{m:02d}{d:02d}-{rng.randint(100,999)}-{rng.randint(1000,9999)}",
     }
@@ -587,6 +621,220 @@ def layout_spt_form(rng, reg, dark: bool) -> Tuple[Image.Image, Dict[str, Any]]:
     return img, {"test_type": "SPT", "patient": pat, "results": results}
 
 
+# ---------------------------------------------------------------- 영어·중국어 표기
+# 영어 보고서는 항원 뒤에 Phadia 계열 코드를 붙인다(d1, e5, g6, t3, w1, f13 …).
+# 중국어 보고서는 항원명을 중국어로만 쓰므로 별도 대응표가 필요하다(레지스트리에는 없다).
+# 실제 중국 패널(敏筛/AllergyScreen 식물·흡입 조합)에 들어가는 항목만 담았다.
+ALLERGEN_CODE = {
+    "Dermatophagoides pteronyssinus": "d1", "Dermatophagoides farinae": "d2",
+    "Cat dander": "e1", "Horse dander": "e3", "Dog dander": "e5", "Guinea pig": "e6",
+    "Cockroach, German": "i6", "Egg white": "f1", "Cow milk": "f2", "Codfish": "f3",
+    "Wheat": "f4", "Peanut": "f13", "Soy bean": "f14", "Shrimp": "f24", "Beef": "f27",
+    "Cashew": "f202", "Crab": "f23", "Timothy": "g6", "Bermuda grass": "g2",
+    "Rye grass, perennial": "g5", "Birch": "t3", "Oak": "t7", "Elm": "t8",
+    "Willow": "t12", "Poplar": "t14", "Japanese cedar": "t17", "Alder": "t2",
+    "Ragweed": "w1", "Mugwort": "w6", "Japanese hop": "w22", "Russian thistle": "w11",
+    "Alternaria alternata": "m6", "Aspergillus fumigatus": "m3",
+    "Cladosporium herbarum": "m2", "Penicillium": "m1",
+}
+def _load_zh_names() -> Dict[str, str]:
+    """중국어 항원명은 data/allergen_names_zh.json 이 단일 출처다.
+    스크립트에 따로 적어 두면 데이터와 어긋난다(실제로 柏 을 Japanese cedar 로 쓰고 있었다)."""
+    path = ROOT / "data" / "allergen_names_zh.json"
+    if not path.exists():
+        raise SystemExit("data/allergen_names_zh.json 이 없다 — 중국어 레이아웃을 만들 수 없다")
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return {canonical: info["zh"][0]
+            for canonical, info in (data.get("map") or {}).items() if info.get("zh")}
+
+
+ALLERGEN_ZH = _load_zh_names()
+
+ZH_INHALANT = [n for n in
+               ["Dermatophagoides pteronyssinus", "Dermatophagoides farinae", "Ragweed",
+                "Mugwort", "Japanese hop", "Cat dander", "Dog dander", "Cockroach, German",
+                "Penicillium", "Cladosporium herbarum", "Aspergillus fumigatus",
+                "Alternaria alternata", "Oak", "Elm", "Plane", "Willow", "Poplar", "Birch"]
+               if n in ALLERGEN_ZH]
+ZH_FOOD = [n for n in
+           ["Egg white", "Egg yolk", "Cow milk", "Cod", "Crab", "Shrimp", "Beef",
+            "Sheep", "Cashew", "Peanut", "Soybean", "Wheat", "Rice"]
+           if n in ALLERGEN_ZH]
+
+
+def pick(reg, names):
+    """정규명으로 레지스트리 항목을 고른다(없는 이름은 조용히 건너뛴다)."""
+    by = {a["canonical_name"]: a for a in reg}
+    return [by[n] for n in names if n in by]
+
+
+# ---------------------------------------------------------------- 레이아웃 F: 영어 IgE 보고서
+def layout_en_ige_report(rng, reg) -> Tuple[Image.Image, Dict[str, Any]]:
+    """미국형 소비자·검사실 보고서. class 를 숫자가 아니라 **막대**로 보여주고,
+    수치는 'FSU' 열에 '<.01'·'.40' 처럼 앞자리 0 없이 쓴다."""
+    pat = fake_patient(rng, "en")
+    indoor = pick(reg, ["Dermatophagoides pteronyssinus", "Dermatophagoides farinae",
+                        "Cat dander", "Dog dander", "Cockroach, German",
+                        "Alternaria alternata", "Aspergillus fumigatus",
+                        "Cladosporium herbarum", "Penicillium"])
+    outdoor = pick(reg, ["Bermuda grass", "Rye grass, perennial", "Timothy", "Alder",
+                         "Birch", "Elm", "Oak", "Willow", "Poplar", "Japanese cedar",
+                         "Ragweed", "Mugwort", "Russian thistle", "Japanese hop"])
+    W, H = 1240, 1754
+    img = Image.new("RGB", (W, H), (255, 255, 255))
+    d = ImageDraw.Draw(img)
+    f_h1, f_h2, f_lbl, f_row = font(26, True), font(18, True), font(14), font(15)
+
+    text(d, (70, 60), "IgE Allergy Test Report", f_h1, (20, 20, 20))
+    text(d, (70, 98), f"Date Presented - {pat['report_date']}", f_row, (90, 90, 90))
+    cols3 = [("Ordering Doctor", [f"Name: Dr. {pat['ordering_provider']}",
+                                  f"License #: {rng.randint(10000,99999)}",
+                                  f"NPI #: {rng.randint(1000000000,9999999999)}"]),
+             ("Patient Details", [pat["name"], f"Patient Number: {pat['patient_id_external']}",
+                                  f"DOB: {pat['birth']}",
+                                  f"Gender: {'Female' if pat['gender']=='F' else 'Male'}"]),
+             ("Specimen Details", [f"Collected: {pat['test_date']}",
+                                   f"Tested: {pat['report_date']}",
+                                   "Source: Capillary Blood"])]
+    for i, (h, lines) in enumerate(cols3):
+        x = 70 + i * 390
+        text(d, (x, 150), h, f_h2, (25, 25, 25))
+        for j, ln in enumerate(lines):
+            text(d, (x, 184 + j * 22), ln, f_row, (60, 60, 60))
+
+    results: List[Dict[str, Any]] = []
+    y = 300
+    # class 경계(ImmunoCAP): 0.35 / 0.7 / 3.5 / 17.5 / 50 / 100
+    bounds = [0.35, 0.7, 3.5, 17.5, 50.0, 100.0]
+    grid_x0, grid_x1 = 470, W - 70
+    seg = (grid_x1 - grid_x0) / 7.0
+    for title, group in (("INDOOR ALLERGENS", indoor), ("OUTDOOR ALLERGENS", outdoor)):
+        text(d, (70, y), title, f_h2, (25, 25, 25))
+        y += 30
+        text(d, (70, y), "Allergens", f_lbl, (40, 40, 40))
+        text(d, (390, y), "FSU", f_lbl, (40, 40, 40))
+        for c in range(7):
+            lbl = "Class 0/1" if c == 0 else f"Class {c}"
+            center(d, (grid_x0 + seg * c, y - 4, grid_x0 + seg * (c + 1), y + 18),
+                   lbl, f_lbl, (40, 40, 40))
+        y += 24
+        d.line([70, y, W - 70, y], fill=(170, 170, 170))
+        y += 6
+        top = y
+        for a in group:
+            val, _, cls, interp = mast_value(rng)
+            shown = 0.0 if val is None else val
+            # 실제 보고서 표기: 앞자리 0 을 쓰지 않고, 검출한계 미만은 '<.01'
+            vtext = "<.01" if (val is None or shown < 0.01) else f"{shown:.2f}".lstrip("0")
+            code = ALLERGEN_CODE.get(a["canonical_name"])
+            label = f"{display_name(a)} ({code})" if code else display_name(a)
+            text_lm(d, 70, y, 22, fit(d, label, f_row, 300), f_row, (30, 30, 30))
+            text_lm(d, 390, y, 22, vtext, f_row, (30, 30, 30))
+            if vtext != "<.01":
+                # 막대는 왼쪽 끝에서 시작해 해당 class 칸까지 뻗는다
+                band = sum(1 for b in bounds if shown >= b)
+                x_end = grid_x0 + seg * (band + 1) - 12
+                color = [(120, 200, 120), (250, 200, 60), (245, 160, 40),
+                         (235, 120, 60), (225, 90, 70), (210, 60, 60), (180, 40, 40)][band]
+                d.line([grid_x0 + 4, y + 11, x_end, y + 11], fill=color, width=7)
+            results.append({
+                "index": len(results) + 1, "raw_text": f"{label} {vtext}",
+                "allergen_name": a["canonical_name"], "korean_name": a.get("korean_name"),
+                "display_text": label, "allergen_code": code,
+                "value": None if vtext == "<.01" else shown,
+                "value_text": vtext if vtext == "<.01" else None,
+                "unit": "kU/L",
+                # 이 양식은 class 를 숫자로 찍지 않고 막대로만 보여준다 → 정답에서 제외
+                "class_value": None,
+                "interpretation": "Negative" if vtext == "<.01" else interp,
+            })
+            y += 22
+        for c in range(1, 7):
+            gx = grid_x0 + seg * c
+            d.line([gx, top - 30, gx, y], fill=(205, 205, 205))
+        y += 14
+        text(d, (330, y), "Any results with a fluorescent standard units greater than .01 "
+                          "are indicated with a colored bar.", f_lbl, (110, 110, 110))
+        y += 46
+
+    text(d, (70, H - 60), "Copyright - sample report - synthetic data", f_lbl, (140, 140, 140))
+    text(d, (W - 200, H - 60), "Page 1 of 1", f_lbl, (140, 140, 140))
+    return img, {"test_type": "MAST", "patient": pat, "results": results,
+                 "class_is_graphical": True}
+
+
+# ---------------------------------------------------------------- 레이아웃 G: 중국어 sIgE 보고서
+def layout_zh_sige_report(rng, reg) -> Tuple[Image.Image, Dict[str, Any]]:
+    """중국형 검험보고서. 등급을 '+' 개수로 쓰고 판정을 阴性/阳性 으로 적는다."""
+    pat = fake_patient(rng, "zh")
+    inh = pick(reg, ZH_INHALANT)
+    food = pick(reg, ZH_FOOD)
+    W, H = 1240, 1754
+    img = Image.new("RGB", (W, H), (255, 255, 255))
+    d = ImageDraw.Draw(img)
+    f_h1, f_h2 = font(28, zh=True), font(17, zh=True)
+    f_lbl, f_row = font(15, zh=True), font(16, zh=True)
+    assert_renderable("过敏原特异性IgE检测报告单阴阳级浓度参考值项目结果判定螨尘蟑螂霉栎榆", f_row)
+
+    center(d, (0, 44, W, 80), "过敏原特异性IgE检测报告单", f_h1, (15, 15, 15))
+    d.line([60, 92, W - 60, 92], fill=(60, 60, 60), width=2)
+    hdr = [("姓    名", pat["name"]), ("性    别", "女" if pat["gender"] == "F" else "男"),
+           ("年    龄", f"{pat['age']}岁"), ("门诊号", pat["patient_id_external"]),
+           ("送检科室", "变态反应科"), ("标本类型", "血清"),
+           ("送检医师", pat["ordering_provider"]), ("采样日期", pat["test_date"]),
+           ("报告日期", pat["report_date"]), ("检测方法", "免疫印迹法")]
+    for i, (k, v) in enumerate(hdr):
+        x = 70 + (i % 2) * 560
+        yy = 110 + (i // 2) * 28
+        text(d, (x, yy), k, f_lbl, (40, 40, 40))
+        text(d, (x + 120, yy), v, f_lbl, (15, 15, 15))
+    y = 110 + 5 * 28 + 20
+    d.line([60, y, W - 60, y], fill=(60, 60, 60), width=2)
+    y += 16
+
+    cols = [(70, "检测项目"), (420, "结    果"), (610, "浓度(IU/mL)"), (830, "参考值"),
+            (1030, "结果判定")]
+    results: List[Dict[str, Any]] = []
+    for title, group in (("吸入性过敏原", inh), ("食入性过敏原", food)):
+        d.rectangle([60, y, W - 60, y + 30], fill=(232, 238, 246))
+        text_lm(d, 76, y, 30, title, f_h2, (20, 30, 70))
+        y += 30
+        for x, name in cols:
+            text_lm(d, x, y, 28, name, f_lbl, (40, 40, 40))
+        y += 28
+        d.line([60, y, W - 60, y], fill=(150, 150, 150))
+        for a in group:
+            val, _, cls, _ = mast_value(rng)
+            shown = 0.0 if val is None else val
+            zh = ALLERGEN_ZH[a["canonical_name"]]
+            grade = "阴性" if cls == 0 else "+" * cls
+            verdict = "阴性" if cls == 0 else "阳性"
+            vtext = "<0.35" if val is None else f"{shown:.2f}"
+            text_lm(d, cols[0][0] + 6, y, 28, zh, f_row)
+            text_lm(d, cols[1][0], y, 28, grade, f_row,
+                    (30, 30, 30) if cls == 0 else (190, 40, 40))
+            text_lm(d, cols[2][0], y, 28, vtext, f_row)
+            text_lm(d, cols[3][0], y, 28, "0 ~ 0.35", f_row, (90, 90, 90))
+            text_lm(d, cols[4][0], y, 28, verdict, f_row,
+                    (30, 30, 30) if cls == 0 else (190, 40, 40))
+            results.append({
+                "index": len(results) + 1, "raw_text": f"{zh} {grade} {vtext}",
+                "allergen_name": a["canonical_name"], "korean_name": a.get("korean_name"),
+                "display_text": zh, "chinese_name": zh,
+                "value": None if val is None else shown,
+                "value_text": vtext if val is None else None,
+                "unit": "IU/mL", "class_value": cls,
+                "interpretation": "Negative" if cls == 0 else "Positive",
+            })
+            y += 28
+        y += 18
+
+    text(d, (70, y + 10), "说明：本结果仅对送检标本负责，请结合临床表现综合判断。", f_lbl, (90, 90, 90))
+    text(d, (70, H - 70), "检验者：" + rng.choice(ZH_SURNAMES) + rng.choice(ZH_GIVEN), f_lbl, (60, 60, 60))
+    text(d, (500, H - 70), "审核者：" + rng.choice(ZH_SURNAMES) + rng.choice(ZH_GIVEN), f_lbl, (60, 60, 60))
+    return img, {"test_type": "MAST", "patient": pat, "results": results}
+
+
 # ---------------------------------------------------------------- 열화 파이프라인
 def degrade(img: Image.Image, mode: str, rng: random.Random) -> Image.Image:
     if mode == "clean":
@@ -637,6 +885,8 @@ LAYOUTS = {
     "mast_emr_text": (layout_mast_emr_text, "clean"),
     "spt_form_light": (lambda r, g: layout_spt_form(r, g, False), "scan"),
     "spt_form_dark": (lambda r, g: layout_spt_form(r, g, True), "clean"),
+    "en_ige_report": (layout_en_ige_report, "clean"),
+    "zh_sige_report": (layout_zh_sige_report, "scan"),
 }
 
 

@@ -3,6 +3,7 @@ Pydantic Models and Schemas
 데이터 검증 및 직렬화를 위한 모델 정의
 """
 
+import re
 from typing import List, Optional, Dict, Any, Literal, Union
 from datetime import datetime, date
 from pydantic import BaseModel, Field, validator
@@ -465,6 +466,45 @@ def validate_allergen_name(name: str, allergen_db: AllergenDatabase) -> Optional
     return None
 
 
+def normalize_class_token(value) -> Optional[int]:
+    """검사 class 표기를 0-6 정수로 정규화한다. 못 읽으면 None.
+
+    나라마다 표기가 다르다. 한국 결과지는 숫자(0-6)를 쓰지만, 중국 면역블롯
+    보고서(敏筛 등)는 '+' 개수로 등급을 나타내고 '3级' 처럼 급수를 붙이며,
+    영어 보고서는 'Class 3' 로 쓴다. 숫자만 받으면 중국어 양성 결과가 등급 없음으로
+    떨어져 음성처럼 취급된다.
+
+    받는 표기: 3 · '3' · '3.0' · 'Class 3' · '3급' · '3级' · '+++' · 'Ⅲ'
+    """
+    if value is None:
+        return None
+    token = str(value).strip()
+    if not token:
+        return None
+
+    # '+' 개수 = 등급 (중국 면역블롯 관행: + 는 1급, ++ 는 2급 …)
+    plus = token.replace(" ", "")
+    if plus and set(plus) == {"+"}:
+        return min(len(plus), 6)
+
+    # 로마 숫자 등급
+    roman = {"0": 0, "Ⅰ": 1, "Ⅱ": 2, "Ⅲ": 3, "Ⅳ": 4, "Ⅴ": 5, "Ⅵ": 6,
+             "I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6}
+    up = token.upper()
+    if up in roman:
+        return roman[up]
+
+    # 'Class 3' · '3급' · '3级' · 'grade 3' 처럼 숫자를 감싼 표기
+    m = re.search(r"(\d+(?:\.\d+)?)", token)
+    if m:
+        try:
+            n = int(float(m.group(1)))
+            return n if 0 <= n <= 6 else None
+        except (ValueError, TypeError):
+            return None
+    return None
+
+
 def determine_interpretation(
     test_type: TestType,
     mean_mm: Optional[float] = None,
@@ -491,17 +531,14 @@ def determine_interpretation(
         # MAST/UniCAP 양성 기준: Class 1 이상 또는 0.35 kU/L 이상
         if class_value is not None and str(class_value).strip() != "":
             token = str(class_value).strip().upper()
-            try:
-                c = int(float(token))
-                if c >= 1:
-                    return InterpretationType.POSITIVE
-                if c == 0:
-                    return InterpretationType.NEGATIVE
-            except (ValueError, TypeError):
-                if token in ("P", "POSITIVE", "양성"):
-                    return InterpretationType.POSITIVE
-                if token in ("N", "NEGATIVE", "음성"):
-                    return InterpretationType.NEGATIVE
+            c = normalize_class_token(class_value)
+            if c is not None:
+                return (InterpretationType.POSITIVE if c >= 1
+                        else InterpretationType.NEGATIVE)
+            if token in ("P", "POSITIVE", "양성", "阳性", "陽性"):
+                return InterpretationType.POSITIVE
+            if token in ("N", "NEGATIVE", "음성", "阴性", "陰性"):
+                return InterpretationType.NEGATIVE
 
         if value is not None:
             if value >= 0.35:

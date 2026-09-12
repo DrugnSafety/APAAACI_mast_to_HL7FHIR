@@ -36,10 +36,13 @@ from typing import Any, Dict, List, Optional, Tuple
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+from models.schemas import normalize_class_token  # noqa: E402
+
 
 def norm(s: Optional[str]) -> str:
     s = re.sub(r"\(.*?\)", " ", (s or "").lower())
-    s = re.sub(r"[^a-z0-9가-힣 ]+", " ", s)
+    # 한자를 지우면 중국어 항원명이 빈 문자열이 되어 전부 매칭 실패한다
+    s = re.sub(r"[^a-z0-9가-힣\u4e00-\u9fff ]+", " ", s)
     return " ".join(s.split())
 
 
@@ -47,6 +50,14 @@ def build_alias_index() -> Dict[str, str]:
     """별칭·한글명을 정규 id 로 접는다. 'D. farinae' 도 접히도록 속명 약어를 함께 넣는다."""
     reg = json.loads((ROOT / "data" / "allergens.json").read_text(encoding="utf-8"))["antigens"]
     idx: Dict[str, str] = {}
+    # 중국어 결과지는 항원명이 중국어로만 인쇄된다
+    zh_path = ROOT / "data" / "allergen_names_zh.json"
+    if zh_path.exists():
+        for canonical, info in (json.loads(zh_path.read_text(encoding="utf-8")).get("map") or {}).items():
+            for zh in (info.get("zh") or []):
+                n = norm(zh)
+                if n:
+                    idx.setdefault(n, info["id"])
     for a in reg:
         keys = [a.get("canonical_name"), a.get("korean_name"), *(a.get("aliases") or [])]
         cn = a.get("canonical_name") or ""
@@ -118,7 +129,7 @@ def score_one(truth: Dict[str, Any], got: Any, idx: Dict[str, str]) -> Dict[str,
                               f"{g.value_text or gv!r}")
             if t.get("class_value") is not None:
                 cls_n += 1
-                if str(g.class_value) == str(t["class_value"]):
+                if normalize_class_token(g.class_value) == normalize_class_token(t["class_value"]):
                     cls_ok += 1
                 else:
                     misses.append(f"class {key}: 정답 {t['class_value']} → 읽음 {g.class_value}")
