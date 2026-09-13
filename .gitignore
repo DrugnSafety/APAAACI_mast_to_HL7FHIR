@@ -61,3 +61,9 @@ output/
 # Temporary files
 *.tmp
 *.temp
+
+# local agent/skill dirs
+.agents/
+.claude/
+.gstack/
+.omc/

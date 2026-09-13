@@ -1,0 +1,21 @@
+# Render.com Blueprint — 저장소를 연결하면 이 파일로 웹 서비스가 생성됩니다.
+# 대시보드에서 OPENAI_API_KEY 만 시크릿으로 입력하면 됩니다.
+services:
+  - type: web
+    name: allergy-quest
+    runtime: docker
+    plan: starter          # free 플랜은 15분 유휴 시 슬립(첫 요청 지연) — 데모용이면 free 로 변경 가능
+    region: singapore
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false        # 대시보드에서 직접 입력(시크릿)
+      - key: OPENAI_VISION_MODEL
+        value: gpt-4o
+      - key: OPENAI_REPORT_MODEL
+        value: gpt-4o
+      - key: APP_ENV
+        value: production
+      - key: DEBUG
+        value: "False"

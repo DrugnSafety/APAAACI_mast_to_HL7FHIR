@@ -1,0 +1,31 @@
+{
+  "version": "1.0",
+  "note_ko": "카테고리 결정 규칙(데이터 기반). resolve_category 우선순위: (1) 명시된 category, (2) allergen_map(base map)의 category, (3) alias_map 정확일치, (4) regex_patterns 순차매칭, (5) 미분류→other(+로그). 새 미분류 항원은 alias_map/regex_patterns에 한 줄 추가하면 됨(코드 무수정). Dog hair·Horse dander 등 이름변형이 접미사 regex로 흡수된다.",
+  "valid_categories": ["mite", "animal", "pollen_tree", "pollen_grass", "pollen_weed", "mold", "insect", "food", "latex", "drug", "control", "other"],
+  "alias_map": {
+    "house dust mite": "mite",
+    "hdm": "mite",
+    "dog hair": "animal",
+    "cat hair": "animal",
+    "horse hair": "animal",
+    "cow hair": "animal",
+    "rabbit fur": "animal",
+    "sheep wool": "animal",
+    "chicken feathers": "animal",
+    "guinea pig": "animal",
+    "feather mix": "animal",
+    "latex": "latex"
+  },
+  "regex_patterns": [
+    {"pattern": "dermatophagoides|acarus|tyrophagus|glycyphagus|lepidoglyphus|blomia|\\bmite\\b|집먼지|진드기|응애", "category": "mite"},
+    {"pattern": "cockroach|blattella|periplaneta|\\broach\\b|바퀴", "category": "insect"},
+    {"pattern": "alternaria|aspergillus|cladosporium|penicillium|candida|epicoccum|mucor|fusarium|botrytis|helminthosporium|\\bmold\\b|\\bfungus\\b|곰팡이|진균", "category": "mold"},
+    {"pattern": "\\bdander\\b|epithelium|epithelia|\\bhair\\b|feather|\\bfur\\b|\\bpelt\\b|serum albumin|비듬|상피|\\b털\\b|깃털", "category": "animal"},
+    {"pattern": "\\bcat\\b|feline|\\bdog\\b|canine|horse|equine|\\bcow\\b|cattle|bovine|\\bpig\\b|porcine|rabbit|hamster|\\bmouse\\b|\\brat\\b|guinea pig|gerbil|고양이|강아지|말\\b|토끼|햄스터|생쥐|기니피그", "category": "animal"},
+    {"pattern": "\\bbirch\\b|\\boak\\b|alder|hazel|\\bpine\\b|cedar|cypress|\\bplane\\b|poplar|\\belm\\b|beech|hornbeam|willow|ash tree|maple|acacia|자작|참나무|오리나무|삼나무|소나무|버즘|서어나무|개암", "category": "pollen_tree"},
+    {"pattern": "\\bgrass\\b|timothy|bermuda|\\brye\\b|fescue|orchard|meadow|bluegrass|잔디|화본|우산잔디|티모시", "category": "pollen_grass"},
+    {"pattern": "ragweed|mugwort|pigweed|nettle|plantain|goosefoot|\\bhop\\b|lamb.?s quarter|saltwort|wormwood|돼지풀|\\b쑥\\b|환삼|명아주|질경이", "category": "pollen_weed"},
+    {"pattern": "\\bpollen\\b|꽃가루", "category": "pollen_tree"},
+    {"pattern": "\\blatex\\b|hevea|라텍스", "category": "latex"}
+  ]
+}
