@@ -212,6 +212,13 @@ class AllergenMapper:
             for alias in entry.aliases + entry.ocr_aliases:
                 self.alias_lookup[alias.lower()] = entry
             
+            # 학명 속명 약어 — 결과지는 'Alternaria alternata' 를 'A. alternata' 로 인쇄한다
+            parts = entry.canonical_name.split()
+            if len(parts) == 2 and parts[1].islower() and len(parts[0]) > 3:
+                # 조회는 normalize_text 를 거치므로(마침표가 지워진다) 키도 같은 형태로 넣는다
+                for form in (f"{parts[0][0]}. {parts[1]}", f"{parts[0][0]}.{parts[1]}"):
+                    self.alias_lookup.setdefault(self.normalize_text(form).lower(), entry)
+
             # SNOMED 코드 룩업
             if entry.snomed:
                 self.snomed_lookup[entry.snomed] = entry
@@ -321,7 +328,19 @@ class AllergenMapper:
         if normalized_lower in self.alias_lookup:
             return self.alias_lookup[normalized_lower]
         
-        # 4. 부분 매칭 시도
+        # 4. 괄호 표기 분해 후 재시도
+        #    실제 결과지는 항원명을 거의 항상 괄호와 함께 인쇄한다:
+        #      'Birch (t3)'  'D. farinae(미국집먼지진드기)'  'Alder (오리나무)(T2)'  '户尘螨(尘螨)'
+        #    괄호를 붙인 채로는 어느 표에도 없어서 한국어·영어·중국어 결과지 모두에서
+        #    행의 3분의 1 가량이 매핑에 실패하고 있었다. 매핑이 실패하면 지식베이스·판정·
+        #    SNOMED 코딩이 함께 빈다. 퍼지 매칭으로 넘기기 전에 조각으로 나눠 정확 매칭만
+        #    다시 본다(퍼지로 넘기면 't3' 같은 코드가 엉뚱한 항원에 붙는다).
+        for part in self._split_parenthetical(name):
+            hit = self._find_exact(part)
+            if hit:
+                return hit
+
+        # 5. 부분 매칭 시도
         for entry in self.database.entries:
             # 부분 문자열 매칭
             if normalized_lower in entry.canonical_name.lower():
@@ -329,7 +348,7 @@ class AllergenMapper:
             if entry.korean_name and normalized in entry.korean_name:
                 return entry
         
-        # 5. 퍼지 매칭 (편집 거리)
+        # 6. 퍼지 매칭 (편집 거리)
         best_match = self._fuzzy_match(normalized_lower)
         if best_match:
             return best_match
@@ -337,6 +356,35 @@ class AllergenMapper:
         logger.warning(f"알레르겐 매핑 실패: {name}")
         return None
     
+    @staticmethod
+    def _split_parenthetical(name: str) -> List[str]:
+        """'Alder (오리나무)(T2)' → ['Alder', '오리나무', 'T2'] 처럼 조각으로 나눈다.
+        괄호 밖 이름이 주 이름이므로 먼저 돌려준다."""
+        import re as _re
+        raw = (name or "").strip()
+        if "(" not in raw and "（" not in raw:
+            return []
+        norm = raw.replace("（", "(").replace("）", ")")
+        outside = _re.sub(r"\([^)]*\)", " ", norm).strip(" -·,")
+        inside = [m.strip() for m in _re.findall(r"\(([^)]*)\)", norm)]
+        parts, seen = [], set()
+        for cand in [outside, *inside]:
+            c = " ".join((cand or "").split())
+            if c and c.lower() not in seen:
+                seen.add(c.lower())
+                parts.append(c)
+        return parts
+
+    def _find_exact(self, name: str) -> Optional[AllergenMapping]:
+        """정확 매칭만 본다(정규명·한국어명·별칭). 부분·퍼지 매칭은 쓰지 않는다."""
+        normalized = self.normalize_text(name)
+        if not normalized:
+            return None
+        low = normalized.lower()
+        return (self.canonical_lookup.get(low)
+                or self.korean_lookup.get(normalized)
+                or self.alias_lookup.get(low))
+
     def _fuzzy_match(self, text: str, threshold: float = 0.8) -> Optional[AllergenMapping]:
         """
         편집 거리 기반 퍼지 매칭

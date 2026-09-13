@@ -1367,6 +1367,39 @@ def test_chinese_and_english_report_support():
     print("✓ 중국어·영어 결과지 지원(항원 매핑·등급 표기 정규화·프롬프트 규칙)")
 
 
+def test_parenthetical_allergen_names_map():
+    """결과지가 인쇄하는 괄호 표기 그대로도 항원이 매핑된다.
+
+    이미지 한 장을 끝까지 통과시켜 보니(scripts/pipeline_from_image.py) 한국어·영어·중국어
+    모두 행의 3분의 1 가량이 매핑에 실패했다. 실제 결과지는 항원명을 거의 항상 괄호와 함께
+    인쇄하는데('Birch (t3)', 'D. farinae(미국집먼지진드기)', '户尘螨(尘螨)') 그 형태로는
+    어느 표에도 없었다. 매핑이 끊기면 지식베이스·문진·판정·SNOMED 코딩이 함께 빈다."""
+    from utils.allergen_mapper import get_allergen_mapper
+    m = get_allergen_mapper()
+
+    cases = [
+        ("Birch (t3)", "Birch"),                       # 영어 + Phadia 코드
+        ("Birch(자작나무)", "Birch"),                    # 영어 + 한글명
+        ("Alder (오리나무)(T2)", "Alder"),               # 괄호 두 번
+        ("D. farinae(미국집먼지진드기)", "Dermatophagoides farinae"),
+        ("A. alternata (m6)", "Alternaria alternata"),  # 속명 약어 + 코드
+        ("C. herbarum (m2)", "Cladosporium herbarum"),
+        ("户尘螨(尘螨)", "Dermatophagoides pteronyssinus"),   # 중국어 + 괄호
+    ]
+    for printed, expect in cases:
+        got = m.find_allergen(printed)
+        assert got and got.canonical_name == expect, \
+            f"괄호 표기 매핑 실패: {printed!r} -> {got.canonical_name if got else None}"
+
+    # 정규명 자체에 괄호가 있는 항원을 망가뜨리지 않는다
+    maize = m.find_allergen("Maize (corn)")
+    assert maize and maize.canonical_name == "Maize (corn)", f"정규명 훼손: {maize}"
+
+    # 괄호 안이 의미 없는 코드뿐이면 엉뚱한 항원으로 끌려가지 않는다
+    assert m.find_allergen("존재하지않는항원(zz9)") is None
+    print("✓ 괄호 표기 항원명 매핑(코드·한글명·중국어·이중 괄호)")
+
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0
