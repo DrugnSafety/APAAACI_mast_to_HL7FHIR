@@ -26,7 +26,12 @@ class Settings(BaseSettings):
     openai_vision_model: str = Field(default="gpt-4o", alias="OPENAI_VISION_MODEL")
     # 리포트 생성용 고급 모델 - 자세한 분석과 추론을 위한 설정
     openai_report_model: str = Field(default="gpt-4o", alias="OPENAI_REPORT_MODEL")  # 리포트 생성용
-    openai_chat_model: str = Field(default="gpt-4o-mini", alias="OPENAI_CHAT_MODEL")  # 결과 상담 챗봇용
+    # 결과 상담 챗봇용. 2026-09 후보 7종 벤치마크(docs/llm_model_and_cost.md)에서 응급 인지·용량 미언급·
+    # 언어 혼입 0건을 모두 통과한 모델 중 답변 품질이 가장 좋았다. 비용을 더 줄이려면 gpt-4o-mini(안전성은 통과, 말투·개인화는 약함).
+    openai_chat_model: str = Field(default="gpt-5.4-mini", alias="OPENAI_CHAT_MODEL")
+    # gpt-5 계열(추론 모델)에만 쓰인다: none/minimal/low/medium/high. 상담 답변은 깊은 추론보다
+    # 지연·비용이 중요해 낮게 둔다. 모델이 지원하지 않는 값이면 빼고 다시 호출한다.
+    openai_chat_reasoning_effort: str = Field(default="low", alias="OPENAI_CHAT_REASONING_EFFORT")
     report_temperature: float = Field(default=0.8, alias="REPORT_TEMPERATURE")  # 창의성 설정 (0.7~0.9)
     report_max_tokens: int = Field(default=9600, alias="REPORT_MAX_TOKENS")  # 더 긴 리포트를 위한 토큰
     # GPT-5가 출시되면 아래 주석을 해제하고 사용
