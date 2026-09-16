@@ -15,7 +15,7 @@ from __future__ import annotations
 import logging
 import os
 import re
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, Iterable, List, Optional
 
 from models.schemas import ClinicalRelevance
 from services.knowledge_service import normalize_category
@@ -66,6 +66,40 @@ _VERDICT_KO = {
     ClinicalRelevance.INDETERMINATE: "정보가 부족해 판정 보류(관찰 대상)",
     ClinicalRelevance.NOT_ASSESSED: "평가하지 않음",
 }
+
+
+class _Localizer:
+    """추천 답변에 끼워 넣을 한국어 조각(항원명·판정 근거·회피 수칙)을 화면 언어로 바꾼다.
+
+    답변 문장은 세 언어로 손으로 써 두었는데, 그 안에 들어가는 값은 지식베이스의 한국어였다.
+    그래서 영어 문장 안에 '집먼지진드기'가 그대로 박혀 나왔다. 조각을 **한 번에 모아** 번역하고
+    (번역 캐시가 영구라 두 번째부터는 API 호출이 없다) 조회만 한다. 키가 없으면 원문을 둔다.
+    """
+
+    def __init__(self, lang: str):
+        self.lang = lang
+        self._map: Dict[str, str] = {}
+
+    def prime(self, texts: Iterable[str]) -> None:
+        if self.lang == "ko":
+            return
+        todo = sorted({t for t in texts if t and isinstance(t, str) and t not in self._map})
+        if not todo:
+            return
+        try:
+            from services.translation_service import get_translation_service
+            for src, out in zip(todo, get_translation_service().translate_batch(todo, self.lang)):
+                self._map[src] = out
+        except Exception as e:  # noqa: BLE001
+            logger.warning(f"상담 답변 조각 번역 실패({self.lang}): {e}")
+
+    def __call__(self, text: Optional[str]) -> str:
+        if not text:
+            return ""
+        return self._map.get(text, text)
+
+    def join(self, texts: Iterable[str], sep: str = ", ") -> str:
+        return sep.join(self(t) for t in texts)
 
 
 class ResultChatService:
@@ -170,6 +204,10 @@ class ResultChatService:
         sens = relevance_result.by_relevance(ClinicalRelevance.SENSITIZED_ONLY)
         L = lang if lang in ("ko", "en", "zh") else "ko"
 
+        foods = self._all_foods(relevance_result)
+        tr = _Localizer(L)
+        tr.prime(self._translatable_fragments(rel, sens, ind, foods))
+
         def q(key, ko, en, zh, answer=None):
             return {"key": key, "text": {"ko": ko, "en": en, "zh": zh}[L], "answer": answer}
 
@@ -177,41 +215,58 @@ class ResultChatService:
                  "제 결과에서 지금 가장 조심해야 할 것은 뭔가요?",
                  "What should I be most careful about in my results?",
                  "在我的结果中，现在最需要注意什么？",
-                 answer=self._answer_top_priority(rel, L))]
+                 answer=self._answer_top_priority(rel, L, tr))]
         if rel:
             first = self._collapse(rel)[0]
-            nm = self._label(first)
+            nm = tr(self._label(first))
             out.append(q("rationale",
                          f"‘{nm}’은(는) 왜 실제 원인으로 판단됐나요?",
                          f"Why was '{nm}' judged to be an actual cause?",
                          f"为什么判定“{nm}”是实际原因？",
-                         answer=self._answer_rationale(first, L)))
+                         answer=self._answer_rationale(first, L, tr)))
         if sens:
             out.append(q("sensitized_only",
                          "검사에서 양성인데 피하지 않아도 된다는 건 무슨 뜻인가요?",
                          "What does it mean that a positive test doesn't need avoidance?",
                          "检测阳性却不需要回避，是什么意思？",
-                         answer=self._answer_sensitized(sens, L)))
+                         answer=self._answer_sensitized(sens, L, tr)))
         if ind:
             out.append(q("indeterminate",
                          "‘관찰 필요’로 나온 항목은 어떻게 해야 하나요?",
                          "What should I do about items marked 'under watch'?",
                          "标记为“需观察”的项目该怎么办？",
-                         answer=self._answer_indeterminate(ind, L)))
-        foods = self._all_foods(relevance_result)
+                         answer=self._answer_indeterminate(ind, L, tr)))
         if foods:
             out.append(q("foods",
                          "제가 조심해야 할 음식은 무엇인가요?",
                          "Which foods should I be careful with?",
                          "我需要注意哪些食物？",
-                         answer=self._answer_foods(foods, L)))
+                         answer=self._answer_foods(foods, L, tr)))
         out.append(q("immunotherapy",
                      "면역치료(알레르기 근본치료)를 받아야 하나요?",
                      "Should I consider allergen immunotherapy?",
                      "我需要做免疫治疗吗？", answer=None))
         return out
 
-    def _answer_top_priority(self, rel, lang):
+    def _translatable_fragments(self, rel, sens, ind, foods) -> List[str]:
+        """추천 답변에 실제로 들어갈 한국어 조각만 모은다(번역 비용을 필요한 만큼만 쓴다)."""
+        out: List[str] = []
+        for group in (rel, sens, ind):
+            for a in self._collapse(group)[:6]:
+                out.append(self._label(a))
+        if rel:
+            first = self._collapse(rel)[0]
+            if first.rationale_ko:
+                out.append(first.rationale_ko)
+            for a in self._collapse(rel)[:2]:
+                out.extend((a.kb or {}).get("avoidance_control_ko", [])[:2])
+        for food, triggers in (foods or {}).items():
+            out.append(food)
+            out.extend(triggers)
+        return out
+
+    def _answer_top_priority(self, rel, lang, tr=None):
+        tr = tr or _Localizer(lang)
         if not rel:
             return {"ko": "이번 문진에서는 노출 시 실제 증상과 뚜렷이 연관된 알러젠이 확인되지 않았습니다. "
                           "증상이 있을 때의 상황을 기록해 두면 다음 평가에 도움이 됩니다.",
@@ -220,13 +275,15 @@ class ResultChatService:
                     "zh": "本次问卷中没有发现与症状明确相关的过敏原。记录出现症状时的情况有助于下次评估。"}[lang]
         # Df/Dp 처럼 임상적으로 같은 그룹은 한 번만 세고 한 번만 조언한다
         grouped = self._collapse(rel)
-        names = ", ".join(self._label(a) for a in grouped[:5])
+        names = ", ".join(tr(self._label(a)) for a in grouped[:5])
         tips = []
         for a in grouped[:2]:
             for t in (a.kb or {}).get("avoidance_control_ko", [])[:2]:
                 if not self._dup_tip(t, tips):
                     tips.append(t)
-        tip_txt = ("\n\n먼저 할 일\n" + "\n".join(f"{i}. {t}" for i, t in enumerate(tips, 1))) if tips else ""
+        tip_head = {"ko": "먼저 할 일", "en": "Start with", "zh": "先做这些"}[lang]
+        tip_txt = ("\n\n" + tip_head + "\n" +
+                   "\n".join(f"{i}. {tr(t)}" for i, t in enumerate(tips, 1))) if tips else ""
         n = len(grouped)
         return {"ko": f"노출될 때 실제로 증상이 나타나는 알러젠은 {n}가지입니다: {names}.{tip_txt}",
                 "en": f"{n} allergen(s) actually cause symptoms on exposure: {names}.{tip_txt}",
@@ -266,16 +323,18 @@ class ResultChatService:
                 return True
         return False
 
-    def _answer_rationale(self, a, lang):
-        nm = self._label(a)
+    def _answer_rationale(self, a, lang, tr=None):
+        tr = tr or _Localizer(lang)
+        nm = tr(self._label(a))
         if not a.rationale_ko:
             return None
         pre = {"ko": f"‘{nm}’ 판정 근거입니다.\n\n", "en": f"Here is the basis for '{nm}'.\n\n",
                "zh": f"这是“{nm}”的判定依据。\n\n"}[lang]
-        return pre + a.rationale_ko
+        return pre + tr(a.rationale_ko)
 
-    def _answer_sensitized(self, sens, lang):
-        names = ", ".join(self._label(a) for a in self._collapse(sens)[:6])
+    def _answer_sensitized(self, sens, lang, tr=None):
+        tr = tr or _Localizer(lang)
+        names = ", ".join(tr(self._label(a)) for a in self._collapse(sens)[:6])
         return {"ko": ("검사 양성은 몸이 그 물질에 반응할 준비가 되어 있다는 뜻(감작)일 뿐입니다. "
                        "알레르기 질환은 노출될 때 증상이 되풀이되어야 성립합니다. "
                        f"다음 항목은 노출해도 증상이 없어 지금은 피하지 않아도 됩니다: {names}. "
@@ -286,15 +345,16 @@ class ResultChatService:
                 "zh": ("检测阳性只表示身体已致敏。过敏性疾病需要在暴露时反复出现症状才能成立。"
                        f"以下项目暴露后没有症状，目前不需要回避：{names}。若出现新症状请重新评估。")}[lang]
 
-    def _answer_indeterminate(self, ind, lang):
-        names = ", ".join(self._label(a) for a in self._collapse(ind)[:6])
+    def _answer_indeterminate(self, ind, lang, tr=None):
+        tr = tr or _Localizer(lang)
+        names = ", ".join(tr(self._label(a)) for a in self._collapse(ind)[:6])
         return {"ko": (f"{names}은(는) 노출 경험이나 정보가 부족해 판정을 보류했습니다. "
                        "해당 알러젠에 노출되는 상황(계절·장소·먹은 음식)과 그때 증상이 있었는지를 "
                        "기록해 두었다가 다음 진료 때 보여주세요."),
                 "en": (f"{names} were left undetermined because exposure information was insufficient. "
                        "Record when you are exposed (season, place, food) and whether symptoms occurred, "
                        "then show it at your next visit."),
-                "zh": (f"{names} 因暴露信息不足而暂缓判定。请记录接触的情形（季节、场所、food）"
+                "zh": (f"{names} 因暴露信息不足而暂缓判定。请记录接触的情形（季节、场所、食物）"
                        "以及当时是否出现症状，下次就诊时提供给医生。")}[lang]
 
     def _all_foods(self, relevance_result):
@@ -309,10 +369,13 @@ class ResultChatService:
                 foods.setdefault(a.korean_name or a.allergen_name, [])
         return foods
 
-    def _answer_foods(self, foods, lang):
+    def _answer_foods(self, foods, lang, tr=None):
+        tr = tr or _Localizer(lang)
+        cross = {"ko": "{s} 교차반응", "en": "cross-reacts with {s}", "zh": "与{s}交叉反应"}[lang]
         rows = []
         for f, trg in foods.items():
-            rows.append(f"- {f}" + (f" ({', '.join(trg)} 교차반응)" if trg else ""))
+            note = cross.format(s=tr.join(trg)) if trg else ""
+            rows.append(f"- {tr(f)}" + (f" ({note})" if note else ""))
         body = "\n".join(rows)
         return {"ko": ("증상이 확인된 음식입니다. 검사에서 직접 양성으로 나온 알러젠과 같은 수준으로 "
                        f"주의하세요.\n{body}\n\n외식·가공식품에서는 원재료 표시를 꼭 확인하세요."),
@@ -326,9 +389,24 @@ class ResultChatService:
     # 3) 대화
     # ------------------------------------------------------------------
     def _system_prompt(self, context: str, lang: str) -> str:
+        target = LANG_NAME.get(lang, "Korean")
+        # 근거 컨텍스트는 한국어로 만들어진다(지식베이스가 한국어라서). 언어 규칙을 따로 못 박지
+        # 않으면 모델이 항원명·회피 수칙을 한국어 그대로 옮겨 붙여 답변이 섞여 나온다.
+        lang_rules = (
+            f"LANGUAGE (strict):\n"
+            f"A. Write the ENTIRE answer in {target}. Every sentence, heading and list item.\n"
+            f"B. The context below is written in Korean because the source knowledge base is Korean. "
+            f"It is DATA, not a style guide. Translate every Korean term you use into {target} — "
+            f"allergen names, verdicts, avoidance advice, questionnaire summaries.\n"
+            + ("C. Output no Hangul characters at all. If a Korean allergen name has no common "
+               f"{target} name, give the {target} name you do know, or the Latin/scientific name.\n"
+               if lang != "ko" else "")
+            + "D. Keep unchanged: numbers, units (mm, kU/L, ℃, %), class values, dates, Latin "
+              "species names, and test names (MAST, UniCAP, ImmunoCAP, SPT).\n\n"
+        )
         return (
-            "You are a patient-education assistant for an allergy test report. "
-            f"Answer ONLY in {LANG_NAME.get(lang, 'Korean')}.\n\n"
+            "You are a patient-education assistant for an allergy test report.\n\n"
+            + lang_rules +
             "GROUNDING RULES (strict):\n"
             "1. Use ONLY the patient result context below. Do not add allergens, numbers, or findings "
             "that are not in it.\n"

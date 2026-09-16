@@ -18,7 +18,7 @@ function fmtErr(detail, fallback) {
 }
 
 const API = {
-  async health() { return (await fetch('/api/health')).json(); },
+  async health(lang) { return (await fetch('/api/health?lang=' + encodeURIComponent(lang || 'ko'))).json(); },
   async demo() { return (await fetch('/api/ocr/demo')).json(); },
   async allergen(name) { return (await fetch('/api/allergen?name=' + encodeURIComponent(name))).json(); },
   async ocr(file) {
@@ -54,6 +54,15 @@ const STEPS = () => [0, 1, 2, 3, 4].map(i => t(`step.${i}.name`));
 const STEP_SUB = () => [0, 1, 2, 3, 4].map(i => t(`step.${i}.sub`));
 const catLabel = (c) => { const k = `cat.${c}`; const v = t(k); return v === k ? (c || '') : v; };
 // 서버 생성 콘텐츠(문진·KB·리포트)가 한국어임을 비한국어 UI 에서 안내
+// 서버 선택지(스크리닝 칩 라벨)는 화면 언어에 따라 달라진다 — 언어를 바꿀 때마다 다시 받는다.
+async function loadOptions() {
+  try {
+    S.options = await API.health(I18N.getLang());
+  } catch (_) {
+    S.options = S.options || { has_api_key: false, screening_options: { diseases: [], medications: [], organ_systems: [] } };
+  }
+}
+
 const partialNotice = () => I18N.getLang() === 'ko' ? '' : `<div class="notice info" style="margin-bottom:14px">${t('notice.partial')}</div>`;
 const CAT_EMOJI = { mite: '🛏️', animal: '🐾', pollen_tree: '🌳', pollen_grass: '🌾', pollen_weed: '🍂', mold: '🍄', insect: '🪳', food: '🍽️', other: '•' };
 const REL_LABEL = { clinically_relevant: '실제 주의', sensitized_only: '감작만', indeterminate: '관찰 필요', not_assessed: '미평가' };
@@ -958,12 +967,17 @@ function initLang() {
   const sel = $('#langSel');
   if (sel) {
     sel.innerHTML = I18N.LANGS.map(l => `<option value="${l.code}" ${l.code === I18N.getLang() ? 'selected' : ''}>${l.label}</option>`).join('');
-    sel.addEventListener('change', () => { I18N.setLang(sel.value); render(); });
+    sel.addEventListener('change', async () => {
+      I18N.setLang(sel.value);
+      render();                       // 사전 기반 화면 크롬은 즉시 반영
+      await loadOptions();            // 서버가 만드는 선택지 라벨은 다시 받아와야 바뀐다
+      if (S.screening) render();      // 스크리닝 화면이면 새 라벨로 다시 그린다
+    });
   }
 }
 
 (async function () {
   initTheme(); initLang();
-  try { S.options = await API.health(); } catch (_) { S.options = { has_api_key: false, screening_options: { diseases: [], medications: [], organ_systems: [] } }; }
+  await loadOptions();
   render();
 })();

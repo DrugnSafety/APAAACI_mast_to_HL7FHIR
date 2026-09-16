@@ -25,7 +25,7 @@ from models.schemas import (
 from services.knowledge_service import get_knowledge_service, normalize_category
 from services.relevance_service import get_relevance_service, RelevanceService
 from services.questionnaire_service import get_questionnaire_engine
-from services.screening_service import get_screening_service
+from services.screening_service import get_screening_service, normalize_lang
 from services.report_service import get_report_service
 from services.cardnews_service import get_cardnews_service
 from services.fhir_service import FHIRService
@@ -66,6 +66,8 @@ QUESTION_TEXT_KEYS = {"title", "subtitle", "help", "label", "hint"}
 ASSESSMENT_TEXT_KEYS = {
     "rationale_ko", "season_label_ko", "biology_ko", "exposure_environment_ko",
     "cross_reactivity_ko", "oral_allergy_syndrome_ko", "korean_name",
+    # 아래는 값이 문자열 리스트다. 번역하지 않으면 도감 카드에 한국어가 그대로 남는다.
+    "avoidance_control_ko", "oas_foods", "crossreact_confirmed", "crossreact_risk",
 }
 
 
@@ -148,18 +150,21 @@ def _build_info() -> Dict[str, Any]:
 
 
 @app.get("/api/health")
-def health():
+def health(lang: str = "ko"):
+    """상태 + 스크리닝 선택지. 선택지 라벨은 화면 언어로 낸다 —
+    프론트가 언어를 바꾸면 다시 호출해야 칩이 같이 바뀐다."""
     ks = get_knowledge_service()
     sc = get_screening_service()
     return {
         "ok": True,
         "has_api_key": _api_key_ok(),
         "build": _build_info(),
+        "lang": normalize_lang(lang),
         "kb": ks.stats(),
         "screening_options": {
-            "diseases": sc.disease_options(),
-            "medications": sc.medication_options(),
-            "organ_systems": sc.organ_system_options(),
+            "diseases": sc.disease_options(lang),
+            "medications": sc.medication_options(lang),
+            "organ_systems": sc.organ_system_options(lang),
         },
     }
 

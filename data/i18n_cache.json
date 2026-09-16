@@ -1,6 +1,6 @@
 {
 "note_ko": "서버 생성 콘텐츠 기계번역 캐시. key = '<lang>:<sha1(원문)>'",
-"count": 812,
+"count": 818,
 "map": {
 "en:729c2861a058e2823c55672d067bfb203e1582f1": "Are the symptoms mainly worse in the evening, during sleep, or early in the morning?",
 "en:222196043e8e62c36476e5d90ab7f6dbc122a098": "Bedding should be washed once a week in water hotter than 55~60℃.",
@@ -813,6 +813,12 @@
 "en:6ddd0c59529cbb2bc6b7c86d45cfba30b7b007e4": "**🔗 Cross-reactivity possible with 'Oak'**",
 "en:9db4d6b524cdf2859938001180f40ad3cce574d1": "**🔗 Cross-reactivity possible with 'Willow'**",
 "en:41eacc280adcca040dce01f52b1db20b66ecd0a7": "**🔗 Cross-reactivity possible with 'Poplar'**",
-"en:da3ecadb1463cafe5efbc14659b7b78c06ea62da": "### 💉 Consider Immunotherapy (allergy shots/sublingual)\nIf it is difficult to control symptoms caused by inhalant allergens (house dust mites, dog dander, birch, alder, willow, ragweed) through avoidance and medication, you may discuss **allergen immunotherapy (3-5 years)** with your healthcare provider. Long-term symptom relief and asthma prevention effects have been reported."
+"en:da3ecadb1463cafe5efbc14659b7b78c06ea62da": "### 💉 Consider Immunotherapy (allergy shots/sublingual)\nIf it is difficult to control symptoms caused by inhalant allergens (house dust mites, dog dander, birch, alder, willow, ragweed) through avoidance and medication, you may discuss **allergen immunotherapy (3-5 years)** with your healthcare provider. Long-term symptom relief and asthma prevention effects have been reported.",
+"en:c558a11d61fa00bd3b4d39bca2c55e26b5bd738d": "Symptoms worsen in the evening, early morning, and dawn. They become more severe when touching dust or being exposed to that environment. This pattern indicates that dust mite allergy is considered the actual cause of the symptoms. Managing bedding and indoor environments is key.",
+"en:dce2f607a60d0285f4950e299758fbca1163c953": "Dust Mite",
+"zh:c558a11d61fa00bd3b4d39bca2c55e26b5bd738d": "晚上和清晨，症状会加重。接触灰尘或暴露在相关环境中会加重症状。确认了这一模式后，判断尘螨过敏是实际症状的原因。床上用品和室内环境的管理是关键。",
+"zh:dce2f607a60d0285f4950e299758fbca1163c953": "尘螨",
+"en:95174c73f43c2a54ca9635d35b7b9a69aa60fa93": "Wash bedding once a week in water at 55~60℃",
+"en:5f0117dabdc1203a6877a6264ab0b683d92ecf7a": "Keep indoor humidity below 50%"
 }
 }

@@ -54,6 +54,91 @@ ORGAN_SYSTEM_LABELS_KO: Dict[str, str] = {
     "systemic": "전신 (어지럼·아나필락시스)",
 }
 
+# 화면 표시 언어별 라벨 — 고정된 임상 어휘라 기계 번역 대신 손으로 확정한다.
+# (번역 캐시를 타면 API 키가 없을 때 한국어로 새어 나가고, 약제 분류명이 흔들린다)
+DISEASE_LABELS_EN: Dict[str, str] = {
+    "allergic_rhinitis": "Allergic rhinitis",
+    "asthma": "Asthma",
+    "atopic_dermatitis": "Atopic dermatitis",
+    "allergic_conjunctivitis": "Allergic conjunctivitis",
+    "chronic_urticaria": "Chronic urticaria",
+    "food_allergy": "Food allergy",
+    "anaphylaxis": "History of anaphylaxis",
+    "drug_allergy": "Drug allergy",
+    "sinusitis": "Sinusitis",
+    "none": "None of these",
+}
+
+DISEASE_LABELS_ZH: Dict[str, str] = {
+    "allergic_rhinitis": "过敏性鼻炎",
+    "asthma": "哮喘",
+    "atopic_dermatitis": "特应性皮炎",
+    "allergic_conjunctivitis": "过敏性结膜炎",
+    "chronic_urticaria": "慢性荨麻疹",
+    "food_allergy": "食物过敏",
+    "anaphylaxis": "过敏性休克病史",
+    "drug_allergy": "药物过敏",
+    "sinusitis": "鼻窦炎",
+    "none": "以上均无",
+}
+
+MEDICATION_LABELS_EN: Dict[str, str] = {
+    "antihistamine": "Antihistamine",
+    "nasal_steroid": "Nasal steroid spray",
+    "inhaled_steroid": "Inhaled steroid",
+    "leukotriene": "Leukotriene modifier (e.g. montelukast)",
+    "systemic_steroid": "Oral/injected steroid",
+    "immunotherapy": "Immunotherapy (sublingual/subcutaneous)",
+    "biologics": "Biologic agent (injection)",
+    "decongestant": "Decongestant (nasal spray/oral)",
+    "none": "Not taking any",
+}
+
+MEDICATION_LABELS_ZH: Dict[str, str] = {
+    "antihistamine": "抗组胺药",
+    "nasal_steroid": "鼻用糖皮质激素喷雾",
+    "inhaled_steroid": "吸入型糖皮质激素",
+    "leukotriene": "白三烯调节剂（如孟鲁司特）",
+    "systemic_steroid": "口服/注射糖皮质激素",
+    "immunotherapy": "免疫治疗（舌下/皮下）",
+    "biologics": "生物制剂（注射）",
+    "decongestant": "减充血剂（鼻喷/口服）",
+    "none": "未服用",
+}
+
+ORGAN_SYSTEM_LABELS_EN: Dict[str, str] = {
+    "nasal": "Nose (sneezing, runny or blocked nose)",
+    "ocular": "Eyes (itching, redness, watering)",
+    "lower_airway": "Lower airway (cough, wheeze, shortness of breath)",
+    "skin": "Skin (hives, itching, eczema)",
+    "gi": "Digestive (abdominal pain, diarrhoea, vomiting)",
+    "systemic": "Whole body (dizziness, anaphylaxis)",
+}
+
+ORGAN_SYSTEM_LABELS_ZH: Dict[str, str] = {
+    "nasal": "鼻部（打喷嚏·流涕·鼻塞）",
+    "ocular": "眼部（发痒·充血·流泪）",
+    "lower_airway": "下呼吸道（咳嗽·喘鸣·呼吸困难）",
+    "skin": "皮肤（荨麻疹·瘙痒·湿疹）",
+    "gi": "消化道（腹痛·腹泻·呕吐）",
+    "systemic": "全身（头晕·过敏性休克）",
+}
+
+# code -> {lang: label}. ko 는 기존 사전을 그대로 쓴다.
+_LABEL_SETS = {
+    "diseases": {"ko": DISEASE_LABELS_KO, "en": DISEASE_LABELS_EN, "zh": DISEASE_LABELS_ZH},
+    "medications": {"ko": MEDICATION_LABELS_KO, "en": MEDICATION_LABELS_EN, "zh": MEDICATION_LABELS_ZH},
+    "organ_systems": {"ko": ORGAN_SYSTEM_LABELS_KO, "en": ORGAN_SYSTEM_LABELS_EN,
+                      "zh": ORGAN_SYSTEM_LABELS_ZH},
+}
+
+
+def normalize_lang(lang: Optional[str]) -> str:
+    """'en-US', 'zh-CN', None 등을 ko/en/zh 로 정규화한다."""
+    code = (lang or "ko").lower().replace("_", "-").split("-")[0]
+    return code if code in ("ko", "en", "zh") else "ko"
+
+
 SEASON_PATTERN_LABELS_KO: Dict[str, str] = {
     "perennial": "연중 (사철 내내)",
     "seasonal": "계절성 (특정 시기에만)",
@@ -68,14 +153,22 @@ MONTH_LABELS_KO = ["1월", "2월", "3월", "4월", "5월", "6월",
 class ScreeningService:
     """스크리닝 문진 도우미"""
 
-    def disease_options(self) -> List[Dict[str, str]]:
-        return [{"code": c, "label": DISEASE_LABELS_KO.get(c, c)} for c in ALLERGIC_DISEASE_OPTIONS]
+    @staticmethod
+    def _options(kind: str, codes: List[str], lang: Optional[str]) -> List[Dict[str, str]]:
+        """선택지를 화면 언어로 낸다. 해당 언어에 라벨이 없으면 한국어로 떨어진다(빈칸 금지)."""
+        sets = _LABEL_SETS[kind]
+        table = sets[normalize_lang(lang)]
+        fallback = sets["ko"]
+        return [{"code": c, "label": table.get(c) or fallback.get(c, c)} for c in codes]
 
-    def medication_options(self) -> List[Dict[str, str]]:
-        return [{"code": c, "label": MEDICATION_LABELS_KO.get(c, c)} for c in MEDICATION_OPTIONS]
+    def disease_options(self, lang: Optional[str] = "ko") -> List[Dict[str, str]]:
+        return self._options("diseases", ALLERGIC_DISEASE_OPTIONS, lang)
 
-    def organ_system_options(self) -> List[Dict[str, str]]:
-        return [{"code": c, "label": ORGAN_SYSTEM_LABELS_KO.get(c, c)} for c in ORGAN_SYSTEM_OPTIONS]
+    def medication_options(self, lang: Optional[str] = "ko") -> List[Dict[str, str]]:
+        return self._options("medications", MEDICATION_OPTIONS, lang)
+
+    def organ_system_options(self, lang: Optional[str] = "ko") -> List[Dict[str, str]]:
+        return self._options("organ_systems", ORGAN_SYSTEM_OPTIONS, lang)
 
     def summarize(self, profile: ScreeningProfile) -> Dict[str, Any]:
         """스크리닝 요약 + 임상적 주의사항(flags) 생성."""

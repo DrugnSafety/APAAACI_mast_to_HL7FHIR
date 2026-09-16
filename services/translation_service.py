@@ -235,17 +235,23 @@ class TranslationService:
         if lang not in ("en", "zh"):
             return obj
         keys = set(keys)
-        targets: List[Any] = []          # (container, key) 쌍
+        targets: List[Any] = []          # (container, key) 쌍 — key 는 dict 키 또는 리스트 인덱스
         texts: List[str] = []
 
         def walk(node):
             if isinstance(node, dict):
                 for k, v in node.items():
-                    if k in keys and self._needs_translation(v):
+                    if k not in keys:
+                        walk(v)
+                    elif self._needs_translation(v):
                         targets.append((node, k))
                         texts.append(v)
-                    else:
-                        walk(v)
+                    elif isinstance(v, list):
+                        # 회피 수칙·교차반응 음식처럼 값이 문자열 리스트인 필드도 번역 대상이다
+                        for i, item in enumerate(v):
+                            if self._needs_translation(item):
+                                targets.append((v, i))
+                                texts.append(item)
             elif isinstance(node, list):
                 for v in node:
                     walk(v)
