@@ -271,4 +271,6 @@ class TestChatBlockCarriesProvenance:
         assert "Missing data is NOT medical absence" in p
         assert "imply the clinical claims were approved" in p
         assert "Do not merge them" in p
-        assert "mark it as your own" in p
+        # 규칙 24 는 "내 지식이라고 표시하면 덧붙여도 된다"에서 "덧붙이지 말라"로 바뀌었다
+        # (astra 검증: 표시만 하면 근거 범위를 우회할 수 있었다)
+        assert "Do not add clinical content that is in neither" in p

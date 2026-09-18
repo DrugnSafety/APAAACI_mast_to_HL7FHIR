@@ -117,9 +117,15 @@ class TestSystemPrompt:
         return ResultChatService(api_key="")._system_prompt("CTX", lang, name)
 
     def test_everyday_symptoms_are_not_emergencies(self):
-        """중국어 '아침 코막힘' 질문에 응급 진료부터 권하던 오발동의 재발 방지."""
+        """중국어 '아침 코막힘' 질문에 응급 진료부터 권하던 오발동의 재발 방지.
+
+        단, 무조건 금지가 아니라 '해당 증상만 단독·안정·적신호 없음'일 때만이다
+        (astra 지적: 소수 두드러기라도 목 부종이 동반되면 응급이다).
+        """
         p = self._p("zh")
-        assert "stuffy or runny nose" in p and "do NOT mention" in p
+        assert "stuffy or runny nose" in p
+        assert "do not mention emergency care" in p
+        assert "occur ALONE, are stable, and no red" in p
 
     def test_emergency_rule_is_still_first_for_red_flags(self):
         p = self._p("en")

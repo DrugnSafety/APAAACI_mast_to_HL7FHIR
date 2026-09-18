@@ -35,14 +35,21 @@ GOOGLE_ENDPOINT = "https://pollen.googleapis.com/v1/forecast:lookup"
 # 우리 항원 카테고리 → 지역 달력의 꽃가루 타입
 CATEGORY_TO_TYPE = {"pollen_tree": "tree", "pollen_grass": "grass", "pollen_weed": "weed"}
 
-# Google Pollen API 의 식물 코드 → 이 앱의 항원 canonical_name.
-# 주의: JUNIPER/CYPRESS 계열은 측백나무과라 국내 '삼나무' 항원과 같은 과다(마운틴 시더 포함).
+# Google Pollen API 의 식물 코드 → 이 앱의 항원 canonical_name (같은 식물).
 GOOGLE_PLANT_TO_ANTIGEN = {
     "ALDER": "Alder", "BIRCH": "Birch pollen", "HAZEL": "Hazel", "HORNBEAM": "Hornbeam",
     "BEECH": "Beech", "OAK": "Oak pollen", "ELM": "Elm", "ASH": "White ash",
     "PINE": "Pine", "OLIVE": "Olive", "MAPLE": "Tree mixture 1", "COTTONWOOD": "Poplar",
-    "JUNIPER": "Japanese cedar", "CYPRESS_PINE": "Japanese cedar", "CEDAR": "Japanese cedar",
+    "JAPANESE_CEDAR": "Japanese cedar",
     "GRAMINALES": "Grass", "RAGWEED": "Ragweed pollen", "MUGWORT": "Mugwort pollen",
+}
+
+# 같은 식물은 아니지만 같은 과(科)라 참고가 되는 코드. 예보를 보여주되 '검사한 그 식물'로
+# 말하지 않는다 — 측백나무과 교차반응은 가능성이지 동일 항원이 아니다.
+# (텍사스의 마운틴 시더 Juniperus ashei 가 여기 해당한다)
+GOOGLE_PLANT_RELATED = {
+    "JUNIPER": "Japanese cedar", "CYPRESS_PINE": "Japanese cedar",
+    "CYPRESS": "Japanese cedar", "JAPANESE_CYPRESS": "Japanese cedar", "CEDAR": "Japanese cedar",
 }
 
 TYPE_LABEL_KO = {"tree": "수목", "grass": "잔디", "weed": "잡초"}
@@ -50,6 +57,16 @@ UPI_CATEGORY_KO = {
     "NONE": "없음", "VERY_LOW": "매우 낮음", "LOW": "낮음",
     "MODERATE": "보통", "HIGH": "높음", "VERY_HIGH": "매우 높음",
 }
+
+
+def _stronger(a: Dict[str, Any], b: Dict[str, Any]) -> bool:
+    """예보 항목 비교 — 같은 식물(exact)이 우선, 그다음 시즌 여부, 그다음 지수."""
+    if bool(a.get("exact")) != bool(b.get("exact")):
+        return bool(a.get("exact"))
+    if bool(a.get("in_season")) != bool(b.get("in_season")):
+        return bool(a.get("in_season"))
+    return (a.get("value") or 0) > (b.get("value") or 0)
+
 
 
 class PollenForecastService:
@@ -209,6 +226,7 @@ class PollenForecastService:
                 code = p.get("code") or ""
                 day["plants"][code] = {
                     "antigen": GOOGLE_PLANT_TO_ANTIGEN.get(code),
+                    "related_antigen": GOOGLE_PLANT_RELATED.get(code),
                     "display_name": p.get("displayName"),
                     "in_season": bool(p.get("inSeason")),
                     "value": idx.get("value"), "category": idx.get("category"),
@@ -236,11 +254,14 @@ class PollenForecastService:
             return {"available": False, "reason": "no_pollen_allergen"}
 
         region_info = self.resolve_region(country, region)
-        if region_info is None and postal_code:
+        # 우편번호는 권역을 모를 때뿐 아니라 **좌표가 없을 때도** 쓴다. 예전에는 권역을 이미
+        # 알면 ZIP 조회를 건너뛰어, 키가 있어도 실시간 예보가 한 번도 돌지 않았다.
+        if postal_code and (region_info is None or lat is None or lon is None):
             z = self.lookup_zip(country, postal_code)
             if z.get("ok"):
-                region = z["state"]
-                region_info = self.resolve_region(country, region)
+                if region_info is None:
+                    region = z["state"]
+                    region_info = self.resolve_region(country, region)
                 lat = lat if lat is not None else z["lat"]
                 lon = lon if lon is not None else z["lon"]
         live = {}
@@ -248,9 +269,16 @@ class PollenForecastService:
             fc = self.live_forecast(lat, lon)
             if fc.get("available") and fc.get("days"):
                 today_day = fc["days"][0]
+                # 여러 식물 코드가 한 항원에 걸릴 수 있다(측백나무과). 나중 값으로 덮어쓰면
+                # 높은 노출이 낮은 값에 지워진다 — 더 강한 쪽을 남긴다.
                 for code, p in (today_day.get("plants") or {}).items():
-                    if p.get("antigen"):
-                        live[p["antigen"]] = p
+                    for key, exact in ((p.get("antigen"), True), (p.get("related_antigen"), False)):
+                        if not key:
+                            continue
+                        cur = live.get(key)
+                        cand = dict(p, exact=exact, plant_code=code)
+                        if cur is None or _stronger(cand, cur):
+                            live[key] = cand
                 live_types = today_day.get("types") or {}
             else:
                 live_types = {}
@@ -268,7 +296,13 @@ class PollenForecastService:
             if hit:
                 entry.update({"source": "live", "in_season": hit["in_season"],
                               "level": hit.get("category_ko") or hit.get("category"),
-                              "value": hit.get("value")})
+                              "value": hit.get("value"),
+                              "exact_plant": bool(hit.get("exact")),
+                              "forecast_plant": hit.get("display_name") or hit.get("plant_code")})
+                if not hit.get("exact"):
+                    entry["related_note_ko"] = (
+                        f"검사한 식물이 아니라 같은 과(科)인 {hit.get('display_name') or ''} 예보입니다. "
+                        "교차반응 가능성을 참고하는 용도입니다.")
             else:
                 season = self.season_for(cat, country, region)
                 if season:
@@ -327,16 +361,19 @@ class PollenForecastService:
             name = getattr(a, "korean_name", None) or getattr(a, "allergen_name", None)
             m: List[int] = []
             label = ""
+            # 한국 달력(peak_months_korea)은 한국 거주자에게만 쓴다. 거주국이 다르면 시기를
+            # 모른다고 두는 편이 낫다 — 미국 환자에게 한국 달을 들이대면 '악화 시기가 어긋난다'는
+            # 엉뚱한 경고까지 만들어낸다.
+            korea_ok = (country or "KR").upper() == "KR"
+            kb = getattr(a, "kb", None) or {}
             if cat in CATEGORY_TO_TYPE:
                 season = self.season_for(cat, country, region)
                 if season:
                     m, label = list(season.get("months") or []), season.get("label_ko") or ""
-                else:
-                    kb = getattr(a, "kb", None) or {}
+                elif korea_ok:
                     m = list(kb.get("peak_months_korea") or [])
                     label = kb.get("season_label_ko") or ""
-            elif cat == "mold":
-                kb = getattr(a, "kb", None) or {}
+            elif cat == "mold" and korea_ok:
                 if (kb.get("indoor_outdoor") or "") == "outdoor":
                     m, label = list(kb.get("peak_months_korea") or []), kb.get("season_label_ko") or ""
             if not m:

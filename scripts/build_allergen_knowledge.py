@@ -130,6 +130,10 @@ def build_entry(item, profiles, seasons) -> dict:
         if sp.get("cross_reactivity_ko"):
             # 과(科)가 다르면 교차반응도 다르다. 삼나무에 '자작나무과 PR-10' 을 붙이면 틀린 말이 된다.
             entry["cross_reactivity_ko"] = sp["cross_reactivity_ko"]
+        if sp.get("species_caution_ko"):
+            # 검사 항원과 이름이 비슷한 국내 식물이 다른 종인 경우 — 환자가 주변 식물을
+            # 검사 항원으로 오인하지 않도록 먼저 밝힌다.
+            notes.append(sp["species_caution_ko"])
         if sp.get("note_ko"):
             notes.append(sp["note_ko"])
         if sp.get("is_entomophilous"):

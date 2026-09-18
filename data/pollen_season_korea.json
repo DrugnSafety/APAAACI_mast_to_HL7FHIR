@@ -7,7 +7,8 @@
     "지역(중부/남부/제주)과 해마다 1~3주 차이가 납니다. 월 단위 근사입니다.",
     "충매화(곤충이 옮기는 꽃)는 공기 중 농도가 낮아 임상 의의가 제한적입니다 — is_entomophilous 로 표시했습니다.",
     "국내에 거의 자생하지 않는 종은 note_ko 에 적었습니다. 검사 패널에는 있어도 실제 노출은 드뭅니다.",
-    "임상 확정 전 담당 의료진 검토를 권합니다."
+    "임상 확정 전 담당 의료진 검토를 권합니다.",
+    "검사 패널의 항원명은 제조사 기준(대개 북미·유럽 종)이라, 이름이 비슷한 국내 식물과 다른 종인 경우가 있습니다. 해당 항목에 species_caution_ko 로 표시했습니다."
   ],
   "species": {
     "Japanese cedar": {
@@ -99,7 +100,8 @@
         5
       ],
       "season_label_ko": "봄 (4~5월)",
-      "cross_reactivity_ko": "물푸레나무는 물푸레나무과로 올리브·쥐똥나무·개나리 등 같은 과의 꽃가루와 교차반응합니다."
+      "cross_reactivity_ko": "물푸레나무는 물푸레나무과로 올리브·쥐똥나무·개나리 등 같은 과의 꽃가루와 교차반응합니다.",
+      "species_caution_ko": "White ash 는 북미 원산 Fraxinus americana 로, 국내 물푸레나무(Fraxinus rhynchophylla)와 다른 종입니다. 같은 물푸레나무과라 교차반응은 가능하지만 국내 비산 시기를 그대로 적용하기 어렵습니다."
     },
     "Plane": {
       "korean_name": "양버즘나무",
@@ -130,7 +132,8 @@
       "season_label_ko": "늦봄 (5~6월)",
       "is_entomophilous": true,
       "note_ko": "꿀벌이 옮기는 충매화라 공기 중 농도가 낮습니다.",
-      "cross_reactivity_ko": "아까시나무는 콩과로, 콩과 식물과의 교차반응이 보고됩니다."
+      "cross_reactivity_ko": "아까시나무는 콩과로, 콩과 식물과의 교차반응이 보고됩니다.",
+      "species_caution_ko": "아까시나무(Robinia pseudoacacia)와 아카시아속(Acacia)은 같은 콩과지만 다른 속입니다. 검사 항원이 어느 쪽인지 시약 학명을 확인해야 합니다. 국내에서 흔히 보는 것은 아까시나무(Black locust)입니다."
     },
     "Elder": {
       "korean_name": "딱총나무",
@@ -149,7 +152,7 @@
         6
       ],
       "season_label_ko": "봄~초여름 (4~6월)",
-      "note_ko": "국내에는 거의 자생하지 않습니다. 지중해 지역 거주·여행력이 없으면 노출이 드뭅니다.",
+      "note_ko": "국내에는 거의 자생하지 않습니다. 다만 지중해 지역뿐 아니라 미국 남서부·캘리포니아 등 올리브를 재배·조경하는 지역에서는 실제 노출이 있을 수 있습니다.",
       "cross_reactivity_ko": "올리브는 물푸레나무과로 물푸레나무와 교차반응합니다."
     },
     "Kentucky blue grass": {
@@ -207,7 +210,8 @@
         9
       ],
       "season_label_ko": "여름 (5~9월)",
-      "note_ko": "다른 잔디보다 시즌이 길어 여름 내내 노출될 수 있습니다."
+      "note_ko": "다른 잔디보다 시즌이 길어 여름 내내 노출될 수 있습니다.",
+      "species_caution_ko": "Cynodon dactylon. 난지형 잔디라 따뜻한 지역에서는 시즌이 훨씬 깁니다."
     },
     "Velvet grass": {
       "korean_name": "잔디",
@@ -216,7 +220,8 @@
         6,
         7
       ],
-      "season_label_ko": "늦봄~여름 (5~7월)"
+      "season_label_ko": "늦봄~여름 (5~7월)",
+      "species_caution_ko": "Velvet grass 는 보통 Holcus lanatus 를 뜻하며, 국내에서 '잔디'라 부르는 Zoysia japonica 와는 다른 식물입니다. 잔디밭 노출로 바로 해석하지 마세요."
     },
     "Grass": {
       "korean_name": "잔디 꽃가루 혼합",
@@ -241,7 +246,8 @@
         9
       ],
       "season_label_ko": "늦봄~가을 (5~9월)",
-      "cross_reactivity_ko": "질경이는 질경이과로, 다른 잡초와의 교차반응은 제한적입니다."
+      "cross_reactivity_ko": "질경이는 질경이과로, 다른 잡초와의 교차반응은 제한적입니다.",
+      "species_caution_ko": "English plantain 은 창질경이(Plantago lanceolata)로, 국내 질경이(Plantago asiatica)와 다른 종입니다."
     },
     "Nettle": {
       "korean_name": "쐐기풀",

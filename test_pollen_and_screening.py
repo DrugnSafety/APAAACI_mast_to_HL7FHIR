@@ -47,7 +47,8 @@ class TestRegionalCalendar:
     def test_korea_is_single_region(self, svc):
         r = svc.resolve_region("KR", None)
         assert r and r["code"] == "ALL"
-        assert svc.season_for("pollen_tree", "KR", None)["months"] == [3, 4, 5]
+        # 자체 종별 표가 삼나무 2~4월이라고 하므로 전국 수목도 2월부터다(astra 가 모순을 지적)
+        assert svc.season_for("pollen_tree", "KR", None)["months"] == [2, 3, 4, 5]
 
     def test_unknown_country_returns_nothing(self, svc):
         assert svc.resolve_region("ZZ", None) is None
@@ -109,10 +110,16 @@ class TestLiveForecastAdapter:
         assert plants["BIRCH"]["antigen"] == "Birch pollen"
         assert out["days"][0]["types"]["weed"]["in_season"] is True
 
-    def test_juniper_and_cedar_map_to_the_cupressaceae_antigen(self):
-        """마운틴 시더(Juniperus ashei)는 측백나무과라 삼나무 항원과 같은 과다."""
+    def test_cupressaceae_relatives_are_separated_from_the_tested_plant(self):
+        """마운틴 시더(Juniperus ashei)는 삼나무(Cryptomeria)와 같은 과일 뿐 같은 식물이 아니다.
+
+        예전에는 둘을 같은 항원으로 매핑해 '검사한 그 식물의 예보'처럼 보여줬다(astra 지적).
+        """
+        from services.pollen_forecast_service import GOOGLE_PLANT_RELATED
+        assert GOOGLE_PLANT_TO_ANTIGEN["JAPANESE_CEDAR"] == "Japanese cedar"
         for code in ("JUNIPER", "CYPRESS_PINE", "CEDAR"):
-            assert GOOGLE_PLANT_TO_ANTIGEN[code] == "Japanese cedar"
+            assert code not in GOOGLE_PLANT_TO_ANTIGEN
+            assert GOOGLE_PLANT_RELATED[code] == "Japanese cedar"
 
     def test_live_values_win_over_the_calendar(self, monkeypatch):
         svc = PollenForecastService(api_key="fake")
