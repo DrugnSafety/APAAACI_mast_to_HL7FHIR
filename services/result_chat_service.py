@@ -36,9 +36,37 @@ def _free_text(v: Optional[str]) -> str:
 
 # 응급 신호 — 질문에 이 표현이 있으면 설명보다 먼저 안내한다
 EMERGENCY_PATTERNS = re.compile(
-    r"호흡곤란|숨이\s*안|숨쉬기|숨을 못|아나필락시스|기도\s*막|목이 붓|의식|쓰러|혈압.*떨어|"
+    r"호흡곤란|숨이\s*안|숨쉬기|숨을 못|아나필락시스|기도\s*막|목이 붓|쓰러|혈압.*떨어|"
+    r"의식\s*(을|이)?\s*(잃|없|흐릿|혼탁)|"
     r"anaphyla|can'?t breathe|trouble breathing|throat clos|passed out|"
     r"呼吸困难|喘不上气|过敏性休克|窒息", re.I)
+
+# 위 패턴이 걸려도 응급이 아닌 경우 — 빠른경로를 건너뛰고 LLM 이 정상 답변을 하게 둔다.
+# (예전에는 "아나필락시스가 뭔가요?" 에도 응급 안내문만 나가서 질문에 답을 못 했다)
+_EMERGENCY_EXCEPTIONS = (
+    # ① 용어 뜻을 묻는 질문
+    re.compile(r"(뭔가요|뭐예요|뭐에요|뭐죠|무엇인가요|무엇인지|뭔지|뜻이|의미가|어떤\s*(병|증상)인|차이가)|"
+               r"(뭐|무엇|뭔|뜻|의미)\s*(인가요|가요|예요|이에요|입니까|냐)|"
+               r"what\s+(is|are|does)|explain|meaning of|是什么|什么意思|指的是", re.I),
+    # ② 좋아졌다는 서술
+    re.compile(r"(좋아졌|편해졌|나아졌|괜찮아졌|호전|가라앉았|멀쩡|好转|缓解了)|"
+               r"\b(better|improved|resolved|went away|fine now)\b", re.I),
+    # ③ 적신호를 명시적으로 부정
+    re.compile(r"(호흡곤란|숨이|숨쉬기|숨을|의식|쓰러|목이 붓)[^.?!\n]{0,12}"
+               r"(없어요|없습니다|없었|아니|않아요|않습니다|않았|괜찮)", re.I),
+)
+
+
+def is_emergency(text: str) -> bool:
+    """응급 빠른경로 판단. 적신호가 있고, 예외(용어 질문·호전·부정)에 걸리지 않을 때만 참.
+
+    빠른경로를 놓쳐도 시스템 프롬프트의 응급 규칙이 2차 안전망으로 남는다. 반대로 과발동은
+    환자의 질문 자체를 못 받게 만들므로, 여기서는 정밀도를 조금 높이는 쪽이 낫다.
+    """
+    if not text or not EMERGENCY_PATTERNS.search(text):
+        return False
+    return not any(x.search(text) for x in _EMERGENCY_EXCEPTIONS)
+
 
 EMERGENCY_TEXT = {
     "ko": ("🚨 지금 호흡이 힘들거나 온몸 두드러기·어지럼이 함께 있다면 아나필락시스일 수 있습니다. "
@@ -512,6 +540,9 @@ class ResultChatService:
             "go into topics the report does not touch.\n"
             "8. If the report cannot answer the question, say that plainly in one sentence, then say "
             "what the clinician could check or what the patient could record to find out.\n"
+            "8b. For a question outside this allergy report (other illnesses, which over-the-counter "
+            "product to buy, unrelated symptoms), say in one sentence that this report cannot answer it "
+            "and point them to a clinician or pharmacist. Do not recommend or help choose a product.\n"
             "9. Keep the core distinction straight: a positive test alone means sensitization; it is an "
             "allergy only when symptoms recur on exposure. Respect the verdict given for each allergen.\n"
             "10. Never diagnose, prescribe, or suggest starting/stopping/changing a medication or dose. "
@@ -529,7 +560,9 @@ class ResultChatService:
             "emergency care at all.\n"
             "14. If the report shows a PAST whole-body reaction (e.g. systemic symptoms after a food), "
             "you may note once that it is worth asking the clinician about an emergency plan — calmly, "
-            "without alarm.\n\n"
+            "without alarm. Do this ONLY when the question is about food reactions, severe reactions, "
+            "epinephrine or emergencies. Never append it to an unrelated answer about nose, eyes, "
+            "pets, pollen or cleaning.\n\n"
             f"PATIENT REPORT\n{context}\n"
         )
 
@@ -546,7 +579,7 @@ class ResultChatService:
         max_completion_tokens 를 쓴다. 이 한도에는 보이지 않는 추론 토큰도 포함되므로
         gpt-4o-mini 의 600 을 그대로 쓰면 답이 비어서 돌아온다 — 넉넉히 준다.
         """
-        model = model or getattr(settings, "openai_chat_model", None) or "gpt-5.4-mini"
+        model = model or getattr(settings, "openai_chat_model", None) or "gpt-5.6-luna"
         if not self._is_reasoning_model(model):
             return self.client.chat.completions.create(
                 model=model, messages=convo, temperature=0.3, max_tokens=700)
@@ -572,7 +605,7 @@ class ResultChatService:
         last = (user_msgs[-1].get("content") if user_msgs else "") or ""
         last = last.strip()[:MAX_QUESTION_CHARS]
 
-        if EMERGENCY_PATTERNS.search(last):
+        if is_emergency(last):
             return {"reply": EMERGENCY_TEXT[lang], "source": "emergency", "disclaimer": DISCLAIMER[lang]}
         if not last:
             return {"reply": {"ko": "궁금한 점을 입력해 주세요.", "en": "Please type your question.",

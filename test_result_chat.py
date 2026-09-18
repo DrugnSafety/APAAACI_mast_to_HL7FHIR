@@ -92,7 +92,7 @@ class TestModelParams:
         assert kw["temperature"] == 0.3 and "max_tokens" in kw
         assert "reasoning_effort" not in kw and "max_completion_tokens" not in kw
 
-    @pytest.mark.parametrize("model", ["gpt-5.4-mini", "gpt-5-mini", "o4-mini"])
+    @pytest.mark.parametrize("model", ["gpt-5.6-luna", "gpt-5.6-sol", "gpt-5.4-mini", "o4-mini"])
     def test_reasoning_model_params(self, model):
         """추론 모델에 temperature/max_tokens 를 보내면 400 이 난다."""
         fake = _FakeCompletions()
@@ -104,12 +104,12 @@ class TestModelParams:
 
     def test_unsupported_effort_retries_without_it(self):
         fake = _FakeCompletions(fail_on_effort=True)
-        _svc(fake).complete(self.CONVO, model="gpt-5.4-mini", reasoning_effort="minimal")
+        _svc(fake).complete(self.CONVO, model="gpt-5.6-luna", reasoning_effort="minimal")
         assert len(fake.calls) == 2 and "reasoning_effort" not in fake.calls[1]
 
     def test_default_model_is_the_benchmarked_one(self):
         from config.settings import Settings
-        assert Settings.model_fields["openai_chat_model"].default == "gpt-5.4-mini"
+        assert Settings.model_fields["openai_chat_model"].default == "gpt-5.6-luna"
 
 
 class TestSystemPrompt:
@@ -135,3 +135,50 @@ class TestSystemPrompt:
 
     def test_personalization_is_required(self):
         assert "connect to what this patient actually reported" in self._p("en")
+
+
+class TestEmergencyFastPath:
+    """적신호면 LLM 을 거치지 않고 즉시 안내한다. 단, 과발동하면 질문에 답을 못 하게 된다.
+
+    예전 정규식은 '아나필락시스가 뭔가요?'·'숨쉬기 편해졌어요'·'의식적으로' 에도 걸려서
+    환자가 물은 것과 무관한 응급 안내문만 돌려줬다(답변 범위가 좁게 느껴진 원인 중 하나).
+    빠른경로를 놓쳐도 시스템 프롬프트의 응급 규칙이 2차 안전망이므로 정밀도를 높였다.
+    """
+
+    @pytest.mark.parametrize("text", [
+        "지금 숨쉬기가 너무 힘들어요", "갑자기 의식을 잃었어요", "의식이 흐릿해요",
+        "목이 붓고 어지러워요", "숨이 안 쉬어져요", "지금 아나필락시스 같아요 도와주세요",
+        "I can't breathe", "trouble breathing right now", "我现在呼吸困难",
+    ])
+    def test_red_flags_still_trigger(self, text):
+        from services.result_chat_service import is_emergency
+        assert is_emergency(text)
+
+    @pytest.mark.parametrize("text", [
+        "아나필락시스가 뭔가요?", "아나필락시스 뜻이 뭐예요", "아나필락시스가 무엇인지 알려주세요",
+        "What is anaphylaxis exactly?", "过敏性休克是什么意思",
+        "요즘은 숨쉬기 편해졌어요", "약 먹고 나서 숨쉬기가 좋아졌어요", "my breathing is better now",
+        "의식적으로 먼지를 피하려고 해요", "쓰러질 것 같진 않아요", "호흡곤란은 없어요",
+        "고양이 털 때문에 목이 간질간질해요",
+    ])
+    def test_non_emergencies_do_not_trigger(self, text):
+        from services.result_chat_service import is_emergency
+        assert not is_emergency(text)
+
+    def test_answer_uses_fast_path_only_for_real_emergency(self, case):
+        from services.result_chat_service import ResultChatService
+        svc = ResultChatService(api_key="")        # 키 없음 → LLM 경로는 no_api_key 로 끝난다
+        emerg = svc.answer(case.result, {}, [{"role": "user", "content": "지금 숨쉬기가 힘들어요"}], lang="ko")
+        assert emerg["source"] == "emergency"
+        ask = svc.answer(case.result, {}, [{"role": "user", "content": "아나필락시스가 뭔가요?"}], lang="ko")
+        assert ask["source"] != "emergency"
+
+
+class TestScopeRules:
+    def test_out_of_scope_questions_get_a_refusal_rule(self):
+        p = ResultChatService(api_key="")._system_prompt("CTX", "ko")
+        assert "over-the-counter" in p and "Do not recommend or help choose a product" in p
+
+    def test_emergency_plan_is_not_appended_to_unrelated_answers(self):
+        p = ResultChatService(api_key="")._system_prompt("CTX", "en")
+        assert "Never append it to an unrelated answer" in p

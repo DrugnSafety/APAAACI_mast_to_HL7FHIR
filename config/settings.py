@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     openai_report_model: str = Field(default="gpt-4o", alias="OPENAI_REPORT_MODEL")  # 리포트 생성용
     # 결과 상담 챗봇용. 2026-09 후보 7종 벤치마크(docs/llm_model_and_cost.md)에서 응급 인지·용량 미언급·
     # 언어 혼입 0건을 모두 통과한 모델 중 답변 품질이 가장 좋았다. 비용을 더 줄이려면 gpt-4o-mini(안전성은 통과, 말투·개인화는 약함).
-    openai_chat_model: str = Field(default="gpt-5.4-mini", alias="OPENAI_CHAT_MODEL")
+    openai_chat_model: str = Field(default="gpt-5.6-luna", alias="OPENAI_CHAT_MODEL")
     # gpt-5 계열(추론 모델)에만 쓰인다: none/minimal/low/medium/high. 상담 답변은 깊은 추론보다
     # 지연·비용이 중요해 낮게 둔다. 모델이 지원하지 않는 값이면 빼고 다시 호출한다.
     openai_chat_reasoning_effort: str = Field(default="low", alias="OPENAI_CHAT_REASONING_EFFORT")
