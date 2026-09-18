@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>항원 소개문 검토</title>
+<style>
+  :root { --bg:#f7f8fa; --card:#fff; --line:#e3e6ea; --text:#1b1f24; --text2:#5b6572;
+          --brand:#2f6fdb; --ok:#1a7f4b; --warn:#b4530a; --danger:#b3261e; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg:#14171a; --card:#1c2024; --line:#2c3238;
+      --text:#e8eaed; --text2:#a4adb8; --brand:#7aa8f0; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-size:15px; line-height:1.6;
+         font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Segoe UI",sans-serif; }
+  header { position:sticky; top:0; background:var(--bg); border-bottom:1px solid var(--line);
+           padding:16px; z-index:5; }
+  h1 { margin:0 0 4px; font-size:19px; }
+  .sub { color:var(--text2); font-size:13px; }
+  .bar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-top:10px; }
+  .pill { border:1px solid var(--line); background:var(--card); border-radius:999px;
+          padding:5px 12px; font-size:13px; cursor:pointer; color:var(--text); }
+  .pill.on { background:var(--brand); color:#fff; border-color:var(--brand); }
+  main { padding:16px; max-width:900px; margin:0 auto; display:grid; gap:12px; }
+  .item { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; }
+  .head { display:flex; gap:8px; align-items:baseline; flex-wrap:wrap; }
+  .kr { font-weight:700; }
+  .en { color:var(--text2); font-size:13px; }
+  .tag { font-size:11px; border:1px solid var(--line); border-radius:6px; padding:1px 7px;
+         color:var(--text2); }
+  .tag.candidate { color:var(--warn); border-color:var(--warn); }
+  .tag.approved { color:var(--ok); border-color:var(--ok); }
+  textarea { width:100%; margin-top:10px; padding:10px; border:1px solid var(--line);
+             border-radius:8px; background:transparent; color:var(--text); font:inherit;
+             resize:vertical; min-height:62px; }
+  .ctx { margin-top:8px; font-size:12.5px; color:var(--text2); border-left:3px solid var(--line);
+         padding-left:10px; }
+  .ctx div { margin:2px 0; }
+  .acts { display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
+  button.act { border:1px solid var(--line); background:var(--card); color:var(--text);
+               border-radius:8px; padding:7px 14px; font-size:13.5px; cursor:pointer; }
+  button.act.ok { background:var(--ok); color:#fff; border-color:var(--ok); }
+  button.act.no { color:var(--danger); border-color:var(--danger); }
+  button.act:disabled { opacity:.5; cursor:default; }
+  .empty { text-align:center; color:var(--text2); padding:40px 0; }
+  .note { background:var(--card); border:1px solid var(--line); border-left:3px solid var(--brand);
+          border-radius:8px; padding:12px; font-size:13px; color:var(--text2); }
+  .toast { position:fixed; left:50%; transform:translateX(-50%); bottom:24px; background:#1b1f24;
+           color:#fff; padding:9px 16px; border-radius:999px; font-size:13.5px; opacity:0;
+           transition:opacity .2s; pointer-events:none; }
+  .toast.on { opacity:1; }
+</style>
+</head>
+<body>
+<header>
+  <h1>항원 소개문 검토</h1>
+  <div class="sub" id="counts">불러오는 중…</div>
+  <div class="bar">
+    <button class="pill on" data-filter="candidate">검토 대기</button>
+    <button class="pill" data-filter="approved">승인됨</button>
+    <button class="pill" data-filter="all">전체</button>
+    <span class="sub" style="margin-left:auto">승인 전에는 환자 화면에 나오지 않습니다</span>
+  </div>
+</header>
+<main id="list"><div class="empty">불러오는 중…</div></main>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = t => String(t ?? '').replace(/[&<>"']/g, c =>
+  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let filter = 'candidate';
+
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.classList.add('on');
+  setTimeout(() => t.classList.remove('on'), 1800);
+}
+
+async function load() {
+  const r = await fetch('/api/knowledge/candidates?status=' + filter);
+  const d = await r.json();
+  $('#counts').textContent =
+    `검토 대기 ${d.counts.candidate}건 · 승인 ${d.counts.approved}건 · 템플릿 적용 항원 ${d.total_generated}종`;
+  const list = $('#list');
+  if (!d.items.length) {
+    list.innerHTML = `<div class="empty">${filter === 'candidate'
+      ? '검토할 문장이 없습니다.' : '해당하는 항목이 없습니다.'}</div>`;
+    return;
+  }
+  list.innerHTML = `<div class="note">
+      소개문(한두 문장)만 검토 대상입니다. 노출 환경·회피 수칙·교차반응은 사람이 쓴 템플릿이라
+      검토 없이 이미 환자에게 나갑니다. 문장을 고치면 자동으로 승인 처리됩니다.
+    </div>` + d.items.map(it => `
+    <div class="item" data-name="${esc(it.canonical_name)}">
+      <div class="head">
+        <span class="kr">${esc(it.korean_name)}</span>
+        <span class="en">${esc(it.canonical_name)}</span>
+        <span class="tag">${esc(it.category)}</span>
+        <span class="tag">${esc(it.profile_key)}</span>
+        <span class="tag ${esc(it.status)}">${it.status === 'approved' ? '승인됨' : '검토 대기'}</span>
+      </div>
+      <textarea>${esc(it.biology_ko)}</textarea>
+      <div class="ctx">
+        ${it.season_label_ko ? `<div>시기: ${esc(it.season_label_ko)}</div>` : ''}
+        ${it.exposure_environment_ko ? `<div>노출: ${esc(it.exposure_environment_ko)}</div>` : ''}
+        ${it.cross_reactivity_ko ? `<div>교차: ${esc(it.cross_reactivity_ko)}</div>` : ''}
+        ${it.model ? `<div>생성: ${esc(it.model)}</div>` : ''}
+      </div>
+      <div class="acts">
+        <button class="act ok" data-a="approve">승인</button>
+        <button class="act" data-a="edit">수정 후 승인</button>
+        <button class="act no" data-a="reject">문장 삭제</button>
+      </div>
+    </div>`).join('');
+}
+
+document.addEventListener('click', async e => {
+  const pill = e.target.closest('.pill');
+  if (pill) {
+    document.querySelectorAll('.pill').forEach(p => p.classList.toggle('on', p === pill));
+    filter = pill.dataset.filter;
+    return load();
+  }
+  const btn = e.target.closest('button.act');
+  if (!btn) return;
+  const item = btn.closest('.item');
+  const name = item.dataset.name;
+  const action = btn.dataset.a;
+  const body = { name, action };
+  if (action === 'edit') body.text = item.querySelector('textarea').value;
+  item.querySelectorAll('button.act').forEach(b => b.disabled = true);
+  try {
+    const r = await fetch('/api/knowledge/review', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    if (!r.ok) throw new Error((await r.json()).detail || r.statusText);
+    toast({ approve: '승인했습니다', edit: '수정하고 승인했습니다', reject: '문장을 삭제했습니다' }[action]);
+    load();
+  } catch (err) {
+    toast('실패: ' + err.message);
+    item.querySelectorAll('button.act').forEach(b => b.disabled = false);
+  }
+});
+
+load();
+</script>
+</body>
+</html>

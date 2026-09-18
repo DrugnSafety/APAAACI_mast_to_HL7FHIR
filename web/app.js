@@ -54,6 +54,27 @@ const STEPS = () => [0, 1, 2, 3, 4].map(i => t(`step.${i}.name`));
 const STEP_SUB = () => [0, 1, 2, 3, 4].map(i => t(`step.${i}.sub`));
 const catLabel = (c) => { const k = `cat.${c}`; const v = t(k); return v === k ? (c || '') : v; };
 // 서버 생성 콘텐츠(문진·KB·리포트)가 한국어임을 비한국어 UI 에서 안내
+// 거주 지역 선택지. 국가를 고르면 그 나라의 지역 목록만 보여준다.
+// 미국은 주(州)까지 받는데, 같은 수목 시즌이 남동부 1월·알래스카 4월로 석 달까지 차이 나기 때문이다.
+function regionOptions(sc) {
+  const country = (S.pollenRegions || []).find(c => c.code === sc.residence_country);
+  if (!country) return `<option value="">${t('s2.region_none')}</option>`;
+  if (country.single_region) {
+    return `<option value="">${esc(country.regions[0] ? country.regions[0].label_ko : '')}</option>`;
+  }
+  return `<option value="">${t('s2.region_none')}</option>` + country.regions.map(r => {
+    const states = (r.states || []).length ? ` (${r.states.join(', ')})` : '';
+    return `<option value="${esc(r.code)}" ${sc.residence_region === r.code ? 'selected' : ''}>${esc(r.label_ko)}${esc(states)}</option>`;
+  }).join('');
+}
+
+async function loadPollenRegions() {
+  try {
+    const r = await fetch('/api/pollen/regions');
+    S.pollenRegions = (await r.json()).countries || [];
+  } catch (_) { S.pollenRegions = []; }
+}
+
 // 서버 선택지(스크리닝 칩 라벨)는 화면 언어에 따라 달라진다 — 언어를 바꿀 때마다 다시 받는다.
 async function loadOptions() {
   try {
@@ -473,6 +494,21 @@ function renderScreening() {
         <div class="field" style="margin:0"><label>${t('s2.test_date')}</label><input class="input" id="pDate" type="date" value="${esc(p.test_date || '')}" /></div>
       </div>
 
+      <div class="card soft" style="margin-bottom:20px">
+        <div class="field" style="margin-bottom:8px">
+          <label>${t('s2.residence')} <span class="hint">${t('s2.residence_hint')}</span></label>
+        </div>
+        <div class="grid-3">
+          <div class="field"><label>${t('s2.country')}</label>
+            <select class="input" id="resCountry">
+              <option value="">${t('s2.region_none')}</option>
+              ${(S.pollenRegions || []).map(c => `<option value="${esc(c.code)}" ${sc.residence_country === c.code ? 'selected' : ''}>${esc(c.label_ko)}</option>`).join('')}
+            </select></div>
+          <div class="field" style="grid-column:span 2"><label>${t('s2.region')}</label>
+            <select class="input" id="resRegion">${regionOptions(sc)}</select></div>
+        </div>
+      </div>
+
       <div class="field"><label>${t('s2.diseases')} <span class="hint">${t('s2.multi')}</span></label>
         ${chipList(opt.diseases, sc.allergic_diseases, 'allergic_diseases')}</div>
 
@@ -497,6 +533,14 @@ function renderScreening() {
         <button class="btn primary" id="next">${t('s2.btn_next')}</button>
       </div>
     </div>`;
+
+  const resC = $('#resCountry'), resR = $('#resRegion');
+  if (resC) resC.addEventListener('change', () => {
+    sc.residence_country = resC.value || null;
+    sc.residence_region = null;
+    resR.innerHTML = regionOptions(sc);
+  });
+  if (resR) resR.addEventListener('change', () => { sc.residence_region = resR.value || null; });
 
   view().querySelectorAll('[data-chipgroup]').forEach(group => {
     group.addEventListener('click', e => {
@@ -997,7 +1041,8 @@ function initLang() {
     sel.addEventListener('change', async () => {
       I18N.setLang(sel.value);
       render();                       // 사전 기반 화면 크롬은 즉시 반영
-      await loadOptions();            // 서버가 만드는 선택지 라벨은 다시 받아와야 바뀐다
+      await loadOptions();
+  await loadPollenRegions();            // 서버가 만드는 선택지 라벨은 다시 받아와야 바뀐다
       if (S.screening) render();      // 스크리닝 화면이면 새 라벨로 다시 그린다
     });
   }

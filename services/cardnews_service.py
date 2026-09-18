@@ -83,6 +83,11 @@ class CardNewsService:
 
         cards: List[str] = []
         cards.append(self._cover_card(name, test_date, relevant, sensitized, indeterminate))
+        # 처음에 물어본 동반 질환·주증상을 카드에 반영한다.
+        # (이전에는 screening 을 인자로 받기만 하고 어떤 카드에도 쓰지 않았다)
+        profile_card = self._profile_card(screening, relevant)
+        if profile_card:
+            cards.append(profile_card)
         cards.append(self._relevant_card(relevant))
         # 실제 주의 알러젠별 상세 카드 (Df/Dp 등은 그룹으로 1회만 — A1)
         for a in self._collapse(relevant)[:4]:
@@ -92,6 +97,9 @@ class CardNewsService:
         if food_card:
             cards.append(food_card)
         cards.append(self._sensitized_card(sensitized, indeterminate))
+        season_card = self._season_card(result.assessments, screening)
+        if season_card:
+            cards.append(season_card)
         cards.append(self._prevention_card(relevant))
         cards.append(self._treatment_card(relevant, screening))
         cards.append(self._closing_card(name))
@@ -278,6 +286,109 @@ class CardNewsService:
         </div>
         """
 
+    # 질환 코드 → 카드에 쓸 문구. 환자가 이미 앓고 있다고 답한 질환에 맞춰 연결한다.
+    _DISEASE_CARD_KO = {
+        "allergic_rhinitis": ("알레르기 비염", "코 증상이 계속된다면 원인 알러젠 노출을 줄이는 것이 약만큼 중요해요."),
+        "asthma": ("천식", "흡입 알러젠 노출은 천식 발작과 직결돼요. 조절제는 증상이 없어도 꾸준히 쓰는 약이에요."),
+        "atopic_dermatitis": ("아토피 피부염", "보습이 기본이고, 확인된 알러젠 노출이 겹치면 더 나빠질 수 있어요."),
+        "allergic_conjunctivitis": ("알레르기 결막염", "눈을 비비면 더 심해져요. 외출 후 세안이 도움이 됩니다."),
+        "chronic_urticaria": ("만성 두드러기", "두드러기는 알레르겐 외 원인도 많아, 유발 상황을 기록해 두면 좋아요."),
+        "food_allergy": ("음식 알레르기", "먹고 반복해서 증상이 났던 음식이 핵심이에요. 검사 수치만으로 끊지 않아요."),
+        "anaphylaxis": ("아나필락시스 병력", "응급 대처 계획과 에피네프린 처방 여부를 반드시 확인하세요."),
+        "drug_allergy": ("약물 알레르기", "약 이름과 당시 증상을 기록해 진료 때마다 알리세요."),
+        "sinusitis": ("부비동염", "코 증상이 오래가면 부비동염이 겹쳤는지 확인이 필요해요."),
+    }
+    _ORGAN_CARD_KO = {
+        "nasal": "코(재채기·콧물·코막힘)",
+        "ocular": "눈(가려움·충혈·눈물)",
+        "lower_airway": "하기도(기침·천명·숨참)",
+        "skin": "피부(두드러기·가려움·습진)",
+        "gi": "소화기(복통·설사·구토)",
+        "systemic": "전신(어지럼·아나필락시스)",
+    }
+
+    def _profile_card(self, screening, relevant: List[AllergenAssessment]) -> str:
+        """처음 문진에서 답한 동반 질환·주증상 부위를 검사 결과와 연결한다."""
+        if screening is None:
+            return ""
+        diseases = [d for d in (getattr(screening, "allergic_diseases", None) or []) if d != "none"]
+        organs = list(getattr(screening, "organ_systems", None) or [])
+        if not diseases and not organs:
+            return ""
+
+        disease_items = "".join(
+            f"<li>🩺 <b>{_esc(self._DISEASE_CARD_KO[d][0])}</b> — {_esc(self._DISEASE_CARD_KO[d][1])}</li>"
+            for d in diseases if d in self._DISEASE_CARD_KO)
+        organ_txt = ", ".join(self._ORGAN_CARD_KO.get(o, o) for o in organs)
+        organ_line = (f'<li>📍 <b>주로 나타나는 부위:</b> {_esc(organ_txt)} — '
+                      f'이 부위 증상이 아래 알러젠 노출과 함께 움직이는지가 판정의 핵심이었어요.</li>'
+                      if organ_txt else "")
+        # 하기도 증상이 있는데 천식 진단이 없으면 확인을 권한다(진단하지는 않는다)
+        airway_line = ""
+        if "lower_airway" in organs and "asthma" not in diseases:
+            airway_line = ('<li>🫁 기침·천명·숨참이 있다고 하셨어요. 천식 여부는 이 검사로 알 수 없으니 '
+                           '진료에서 폐기능검사가 필요한지 확인해 보세요.</li>')
+        ah = ""
+        meds = getattr(screening, "current_medications", None) or []
+        if "antihistamine" in meds or getattr(screening, "antihistamine_recent", None):
+            ah = ('<li>⚠️ 항히스타민제를 최근 복용하셨다면 피부반응검사(SPT)에서 '
+                  '<b>위음성</b>이 나올 수 있어 해석에 주의가 필요해요.</li>')
+        n = len(relevant)
+        return f"""
+        <div class="section profile">
+          <div class="tag">📋 처음 알려주신 정보</div>
+          <h2>이미 앓고 있는 질환과<br/>검사 결과를 이어봤어요</h2>
+          <ul class="tips">
+            {disease_items}
+            {organ_line}
+            {airway_line}
+            {ah}
+            <li>🔎 이번 검사에서 실제 증상과 연결된 알러젠은 <b>{n}가지</b>였어요.</li>
+          </ul>
+        </div>"""
+
+    def _season_card(self, assessments: List[AllergenAssessment], screening) -> str:
+        """거주 지역 기준으로 지금 조심할 꽃가루를 짚어준다.
+
+        꽃가루 시기는 지역을 탄다. 거주지를 모르면 이 카드는 만들지 않는다 —
+        틀린 시기를 알려주느니 말하지 않는 편이 낫다.
+        """
+        if screening is None or not getattr(screening, "residence_country", None):
+            return ""
+        try:
+            from services.pollen_forecast_service import get_pollen_forecast_service
+            out = get_pollen_forecast_service().for_patient(
+                assessments,
+                country=getattr(screening, "residence_country", None),
+                region=getattr(screening, "residence_region", None),
+                lat=getattr(screening, "residence_lat", None),
+                lon=getattr(screening, "residence_lon", None))
+        except Exception:  # noqa: BLE001
+            return ""
+        if not out.get("available") or not out.get("items"):
+            return ""
+
+        now = out.get("in_season_now") or []
+        rows = "".join(
+            f'<li>{"🔴" if i.get("in_season") else "⚪"} <b>{_esc(i.get("korean_name") or i.get("allergen_name"))}</b>'
+            f' [{_esc(i.get("type_ko"))}] — {_esc(i.get("season_label_ko") or ("지금 " + str(i.get("level"))) or "")}</li>'
+            for i in out["items"])
+        head = (f'지금은 <b>{_esc(", ".join(i.get("korean_name") or "" for i in now))}</b> 시즌이에요.'
+                if now else "지금은 시즌이 아닌 꽃가루들이에요.")
+        notable = f'<li>📌 {_esc(out["notable_ko"])}</li>' if out.get("notable_ko") else ""
+        live = ('<li>📡 실시간 꽃가루 예보를 반영했어요.</li>' if out.get("live") else "")
+        return f"""
+        <div class="section season">
+          <div class="tag">🗓️ {_esc(out.get("region_label_ko") or "거주 지역")} 기준</div>
+          <h2>지금 조심할<br/>꽃가루는</h2>
+          <p class="lead">{head}</p>
+          <ul class="tips">
+            {rows}
+            {notable}
+            {live}
+          </ul>
+        </div>"""
+
     def _treatment_card(self, relevant: List[AllergenAssessment], screening) -> str:
         eligible = []
         ks = get_knowledge_service()
@@ -291,11 +402,23 @@ class CardNewsService:
             f'<li>💉 <b>면역치료 후보:</b> {_esc(", ".join(dict.fromkeys(eligible)))} — 원인 알러젠에 '
             f'대한 근본치료(설하/피하)를 전문의와 상의할 수 있어요.</li>' if eligible else ''
         )
+        diseases = set(getattr(screening, "allergic_diseases", None) or [])
+        disease_lines = ""
+        if "asthma" in diseases:
+            disease_lines += ('<li>🫁 <b>천식이 있다고 하셨어요:</b> 흡입 알러젠 노출은 발작과 직결됩니다. '
+                              '조절제는 증상이 없을 때도 꾸준히 쓰는 약이에요(임의 중단 금지).</li>')
+        if diseases & {"atopic_dermatitis", "chronic_urticaria"}:
+            disease_lines += ('<li>🧴 <b>피부 증상이 있다고 하셨어요:</b> 보습이 기본이고, 필요 시 국소 치료를 '
+                              '진료에서 상의하세요.</li>')
+        if "anaphylaxis" in diseases:
+            disease_lines += ('<li>🚨 <b>아나필락시스 병력이 있다고 하셨어요:</b> 응급 대처 계획과 '
+                              '에피네프린 자가주사기 처방 여부를 반드시 확인하세요.</li>')
         return f"""
         <div class="section treatment">
           <div class="tag">🩺 치료와 연결하기</div>
           <h2>기존 치료와<br/>어떻게 함께 갈까</h2>
           <ul class="tips">
+            {disease_lines}
             <li>💊 <b>증상 조절:</b> 항히스타민제·비강 스테로이드 등은 증상을 빠르게 줄여줍니다. 증상 시기에 맞춰 예방적으로 쓰면 더 효과적입니다.</li>
             <li>🛡️ <b>회피가 기본:</b> 실제 주의 알러젠의 노출을 줄이는 것이 약물 효과를 높입니다.</li>
             {imt_line}

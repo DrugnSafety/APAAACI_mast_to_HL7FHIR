@@ -2,10 +2,10 @@
  "version": "1.0",
  "locale": "ko-KR",
  "generated_by": "scripts/build_allergen_knowledge.py",
- "generated_at": "2026-09-18T05:05:27.768270+00:00",
+ "generated_at": "2026-09-18T14:51:09.382894+00:00",
  "description": "카테고리·성분군 템플릿 + 국내 꽃가루 시기로 만든 항원 지식. biology_ko 가 candidate 인 항목은 검토 전까지 환자에게 노출되지 않는다.",
  "count": 128,
- "llm_candidates": 0,
+ "llm_candidates": 1,
  "entries": [
   {
    "canonical_name": "2-spotted spider mite",
@@ -520,10 +520,11 @@
     "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
    ],
    "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
-   "biology_ko": "콩은 콩류 식물의 씨앗으로, 두유·두부·된장·간장과 같은 음식에 들어 있어요.",
-   "biology_ko_status": "candidate",
+   "biology_ko": "콩은 콩과 식물의 씨앗으로, 밥·반찬·가공식품에 두루 들어가요.",
+   "biology_ko_status": "approved",
    "biology_ko_model": "gpt-5.6-luna",
-   "biology_ko_generated_at": "2026-09-18T05:02:33.750287+00:00"
+   "biology_ko_generated_at": "2026-09-18T05:02:33.750287+00:00",
+   "biology_ko_reviewed_by": "web_edit"
   },
   {
    "canonical_name": "Beech",
@@ -2717,7 +2718,7 @@
    "biology_ko": "라텍스는 고무나무 수액으로 만든 천연고무예요. 장갑, 풍선, 고무줄 같은 제품에서 만날 수 있어요.",
    "biology_ko_status": "candidate",
    "biology_ko_model": "gpt-5.6-luna",
-   "biology_ko_generated_at": "2026-09-18T05:03:38.932942+00:00"
+   "biology_ko_generated_at": "2026-09-18T14:51:09.382782+00:00"
   },
   {
    "canonical_name": "Lentil",
@@ -5329,9 +5330,10 @@
     "nsltp"
    ],
    "biology_ko": "호두는 견과류의 한 종류로, 음식이나 과자, 빵 등에 들어 있어요.",
-   "biology_ko_status": "candidate",
+   "biology_ko_status": "approved",
    "biology_ko_model": "gpt-5.6-luna",
-   "biology_ko_generated_at": "2026-09-18T05:04:58.779893+00:00"
+   "biology_ko_generated_at": "2026-09-18T05:04:58.779893+00:00",
+   "biology_ko_reviewed_by": "web"
   },
   {
    "canonical_name": "Watermelon",

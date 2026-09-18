@@ -170,6 +170,22 @@ class ScreeningService:
     def organ_system_options(self, lang: Optional[str] = "ko") -> List[Dict[str, str]]:
         return self._options("organ_systems", ORGAN_SYSTEM_OPTIONS, lang)
 
+    @staticmethod
+    def _residence_label(profile: ScreeningProfile) -> str:
+        """거주 지역을 사람이 읽는 문구로. 꽃가루 시기 안내의 근거가 된다."""
+        country = (getattr(profile, "residence_country", None) or "").upper()
+        region = (getattr(profile, "residence_region", None) or "").upper()
+        if not country:
+            return ""
+        try:
+            from services.pollen_forecast_service import get_pollen_forecast_service
+            r = get_pollen_forecast_service().resolve_region(country, region)
+            if r:
+                return f"{country} · {r.get('label_ko') or r.get('code')}"
+        except Exception:  # noqa: BLE001
+            pass
+        return f"{country}{(' · ' + region) if region else ''}"
+
     def summarize(self, profile: ScreeningProfile) -> Dict[str, Any]:
         """스크리닝 요약 + 임상적 주의사항(flags) 생성."""
         flags: List[str] = []
@@ -192,6 +208,7 @@ class ScreeningService:
             "organ_systems_ko": [ORGAN_SYSTEM_LABELS_KO.get(o, o) for o in profile.organ_systems],
             "season_pattern_ko": SEASON_PATTERN_LABELS_KO.get(profile.season_pattern.value, profile.season_pattern.value),
             "worse_months_ko": [MONTH_LABELS_KO[m - 1] for m in profile.worse_months if 1 <= m <= 12],
+            "residence_ko": self._residence_label(profile),
             "flags": flags,
             "has_symptoms": profile.symptom_present,
         }

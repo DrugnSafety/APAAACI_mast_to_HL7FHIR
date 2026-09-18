@@ -352,6 +352,13 @@ class ScreeningProfile(BaseModel):
     )
     food_reaction_foods: List[str] = Field(default_factory=list, description="전신 반응 유발 음식")
     # 반려동물 사육 여부 (동물 알러젠 노출 판정에 활용)
+    # 거주 지역 — 꽃가루 시기는 지역을 탄다. 미국처럼 넓은 나라는 같은 수목 시즌이
+    # 남동부 1월, 알래스카 4월로 석 달까지 차이 난다. 없으면 기존 전국 기본값을 쓴다.
+    residence_country: Optional[str] = Field(None, description="거주 국가 코드 (KR/US/CN)")
+    residence_region: Optional[str] = Field(None, description="지역 코드 또는 미국 주 코드 (예: TX)")
+    residence_lat: Optional[float] = Field(None, description="실시간 예보용 위도(선택)")
+    residence_lon: Optional[float] = Field(None, description="실시간 예보용 경도(선택)")
+
     pets: List[str] = Field(default_factory=list, description="키우는 동물 코드 (cat/dog/other)")
     pets_other: Optional[str] = Field(None, description="기타 반려동물(주관식)")
     notes: Optional[str] = None

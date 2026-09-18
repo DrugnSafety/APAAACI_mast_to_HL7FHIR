@@ -687,9 +687,16 @@ class ReportService:
                 extra = f" (악화 시기: {', '.join(sc['worse_months_ko'])})" if sc["worse_months_ko"] else ""
                 md.append(f"- 📆 증상 패턴: {sc['season_pattern_ko']}{extra}")
             if sc["organ_systems_ko"]:
-                md.append(f"- 👃 침범 부위: {', '.join(sc['organ_systems_ko'])}")
+                md.append(f"- 👃 주로 나타나는 부위: {', '.join(sc['organ_systems_ko'])}")
+            if sc.get("residence_ko"):
+                md.append(f"- 📍 거주 지역: {sc['residence_ko']} (꽃가루 시기 안내의 기준)")
             for flag in sc["flags"]:
                 md.append(f"- ⚠️ {flag}")
+
+            # 주증상 부위를 검사 결과와 이어준다. 나열만 하면 왜 물었는지 알 수 없다.
+            organ_note = self._organ_focus_md(screening, relevant)
+            if organ_note:
+                md.append(organ_note)
 
         md.append("\n---\n")
 
@@ -748,6 +755,10 @@ class ReportService:
 
         # 3. 예방·관리 플랜
         md.append("## 3️⃣ 🛡️ 나를 위한 예방·관리 플랜")
+        season_md = self._regional_season_md(relevance_result.assessments, screening)
+        if season_md:
+            md.append(season_md)
+
         plan = self._prevention_plan_md(relevant, screening)
         md.append(plan)
 
@@ -947,6 +958,71 @@ class ReportService:
                         "  - ⏳ **확대 가능성(중요):** 같은 성분을 공유하는 다른 과일·채소·견과에서도 향후 "
                         "교차반응이 새로 생길 수 있으니, 새 음식을 처음 먹을 때 입·목 증상을 관찰하세요.")
         return md
+
+    _ORGAN_FOCUS_KO = {
+        "nasal": ("코 증상", "코 증상은 흡입 알러젠(진드기·꽃가루·동물) 노출과 함께 움직이는지가 핵심입니다."),
+        "ocular": ("눈 증상", "눈 증상은 꽃가루 시즌·동물 접촉과 겹치는지 확인하세요."),
+        "lower_airway": ("하기도 증상", "기침·천명·숨참은 천식과 연관될 수 있어 별도 평가가 필요합니다."),
+        "skin": ("피부 증상", "피부 증상은 음식·접촉 알러젠과의 시간 관계를 기록해 두면 판정에 도움이 됩니다."),
+        "gi": ("소화기 증상", "복통·설사는 음식 섭취와의 시간 관계가 중요합니다."),
+        "systemic": ("전신 증상", "전신 증상 병력은 응급 대처 계획이 필요한지 판단하는 근거가 됩니다."),
+    }
+
+    def _organ_focus_md(self, screening, relevant) -> str:
+        """처음에 답한 '주증상 부위'를 이번 판정과 연결한다."""
+        organs = list(getattr(screening, "organ_systems", None) or [])
+        if not organs:
+            return ""
+        lines = []
+        for o in organs:
+            if o in self._ORGAN_FOCUS_KO:
+                label, note = self._ORGAN_FOCUS_KO[o]
+                lines.append(f"  - **{label}**: {note}")
+        if not lines:
+            return ""
+        diseases = set(getattr(screening, "allergic_diseases", None) or [])
+        if "lower_airway" in organs and "asthma" not in diseases:
+            lines.append("  - 기침·천명·숨참이 있다고 답하셨는데 천식 진단은 없습니다. "
+                         "이 검사로는 천식 여부를 알 수 없으니 진료에서 폐기능검사가 필요한지 확인하세요.")
+        return "\n".join(["", "처음 알려주신 **주증상 부위**를 이번 결과와 이어보면:"] + lines)
+
+    def _regional_season_md(self, assessments, screening) -> str:
+        """거주 지역 기준 꽃가루 시기. 지역을 모르면 아무 말도 하지 않는다."""
+        if screening is None or not getattr(screening, "residence_country", None):
+            return ""
+        try:
+            from services.pollen_forecast_service import get_pollen_forecast_service
+            out = get_pollen_forecast_service().for_patient(
+                assessments,
+                country=getattr(screening, "residence_country", None),
+                region=getattr(screening, "residence_region", None),
+                lat=getattr(screening, "residence_lat", None),
+                lon=getattr(screening, "residence_lon", None))
+        except Exception:  # noqa: BLE001
+            return ""
+        if not out.get("available") or not out.get("items"):
+            return ""
+
+        md = [f"\n## 🗓️ 거주 지역 기준 꽃가루 시기 — {out.get('region_label_ko') or ''}"]
+        now = out.get("in_season_now") or []
+        if now:
+            md.append(f"**지금은 {', '.join(i.get('korean_name') or '' for i in now)} 시즌입니다.**")
+        else:
+            md.append("지금은 해당하는 꽃가루 시즌이 아닙니다.")
+        md.append("")
+        md.append("| 알러젠 | 종류 | 시기 | 지금 |")
+        md.append("|---|---|---|---|")
+        for i in out["items"]:
+            mark = "🔴 시즌" if i.get("in_season") else ("⚪ 비시즌" if i.get("in_season") is False else "–")
+            label = i.get("season_label_ko") or (f"실시간 {i.get('level')}" if i.get("level") else "–")
+            md.append(f"| {i.get('korean_name') or i.get('allergen_name')} | {i.get('type_ko')} | {label} | {mark} |")
+        if out.get("notable_ko"):
+            md.append(f"\n> {out['notable_ko']}")
+        if out.get("live"):
+            md.append("\n> 실시간 꽃가루 예보를 반영한 값입니다.")
+        else:
+            md.append("\n> 지역 달력 기준이며 해마다 1~3주 차이가 납니다.")
+        return "\n".join(md)
 
     def _prevention_plan_md(
         self, relevant: List["AllergenAssessment"], screening: Optional["ScreeningProfile"]

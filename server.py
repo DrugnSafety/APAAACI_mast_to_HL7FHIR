@@ -11,6 +11,7 @@ FastAPI 백엔드 — 알레르기 검사 환자용 리포트 플랫폼 (비-Str
 """
 
 import logging
+from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
 from fastapi import FastAPI, UploadFile, File, HTTPException, Body
@@ -364,6 +365,92 @@ def ontology_topics():
             "exported_at": (svc._raw or {}).get("export_finished_at")}
 
 
+class KnowledgeReviewRequest(BaseModel):
+    """항원 소개문 검토. LLM 이 만든 문장은 승인해야 환자에게 나간다."""
+    name: str                      # canonical_name 또는 korean_name
+    action: str                    # approve | reject | edit
+    text: Optional[str] = None     # edit 일 때 새 문장
+
+
+@app.get("/api/pollen/regions")
+def pollen_regions():
+    """거주 지역 선택지. 꽃가루 시기가 지역마다 달라 화면에서 고르게 한다."""
+    from services.pollen_forecast_service import get_pollen_forecast_service
+    svc = get_pollen_forecast_service()
+    return {"countries": svc.countries(), "live_forecast": svc.live_available}
+
+
+@app.get("/api/knowledge/candidates")
+def knowledge_candidates(status: str = "candidate"):
+    """검토 대기(또는 승인된) 항원 소개문 목록. /review 화면이 쓴다."""
+    from services.knowledge_service import get_knowledge_service
+    ks = get_knowledge_service()
+    out = []
+    for e in ks.generated:
+        st = e.get("biology_ko_status")
+        if not e.get("biology_ko"):
+            continue
+        if status != "all" and st != status:
+            continue
+        out.append({"canonical_name": e.get("canonical_name"), "korean_name": e.get("korean_name"),
+                    "category": e.get("category"), "profile_key": e.get("profile_key"),
+                    "biology_ko": e.get("biology_ko"), "status": st,
+                    "model": e.get("biology_ko_model"),
+                    "generated_at": e.get("biology_ko_generated_at"),
+                    "exposure_environment_ko": e.get("exposure_environment_ko"),
+                    "season_label_ko": e.get("season_label_ko"),
+                    "cross_reactivity_ko": e.get("cross_reactivity_ko")})
+    counts = {"candidate": 0, "approved": 0}
+    for e in ks.generated:
+        st = e.get("biology_ko_status")
+        if st in counts:
+            counts[st] += 1
+    return {"items": out, "counts": counts, "total_generated": len(ks.generated)}
+
+
+@app.post("/api/knowledge/review")
+def knowledge_review(req: KnowledgeReviewRequest):
+    """소개문 승인·수정·삭제. 템플릿 필드(회피 수칙 등)는 건드리지 않는다."""
+    import json as _json
+    from services.knowledge_service import GENERATED_KB_PATH, get_knowledge_service, _norm
+
+    if req.action not in ("approve", "reject", "edit"):
+        raise HTTPException(status_code=400, detail="action 은 approve/reject/edit 중 하나입니다.")
+    try:
+        data = _json.loads(GENERATED_KB_PATH.read_text(encoding="utf-8"))
+    except Exception as e:  # noqa: BLE001
+        raise HTTPException(status_code=500, detail=f"지식 파일을 읽지 못했습니다: {e}")
+
+    key = _norm(req.name)
+    target = next((e for e in data.get("entries", [])
+                   if _norm(e.get("canonical_name") or "") == key
+                   or _norm(e.get("korean_name") or "") == key), None)
+    if not target:
+        raise HTTPException(status_code=404, detail=f"항원을 찾을 수 없습니다: {req.name}")
+
+    if req.action == "approve":
+        if not target.get("biology_ko"):
+            raise HTTPException(status_code=400, detail="승인할 문장이 없습니다.")
+        target["biology_ko_status"] = "approved"
+        target["biology_ko_reviewed_by"] = "web"
+    elif req.action == "edit":
+        if not (req.text or "").strip():
+            raise HTTPException(status_code=400, detail="edit 에는 text 가 필요합니다.")
+        target["biology_ko"] = req.text.strip()
+        target["biology_ko_status"] = "approved"
+        target["biology_ko_reviewed_by"] = "web_edit"
+    else:
+        for k in ("biology_ko", "biology_ko_status", "biology_ko_model",
+                  "biology_ko_generated_at", "biology_ko_reviewed_by"):
+            target.pop(k, None)
+
+    data["reviewed_at"] = datetime.now(timezone.utc).isoformat()
+    GENERATED_KB_PATH.write_text(_json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+    get_knowledge_service()._load_generated()      # 즉시 반영
+    return {"ok": True, "name": req.name, "action": req.action,
+            "status": target.get("biology_ko_status")}
+
+
 @app.get("/api/ontology/search")
 def ontology_search(q: str):
     """주제 검색(별칭 포함). 연동 가이드의 `search_topics`."""
@@ -441,6 +528,10 @@ CLASSIC_DIR = WEB_DIR / "classic"
 # 두 UI 는 같은 /api 를 사용하므로 판정·FHIR 결과는 동일하다.
 if CLASSIC_DIR.exists():
     app.mount("/classic", StaticFiles(directory=str(CLASSIC_DIR), html=True), name="web-classic")
+# 항원 소개문 검토 화면(의료진용). 루트(/) 마운트보다 먼저 걸어야 가려지지 않는다.
+REVIEW_DIR = WEB_DIR / "review"
+if REVIEW_DIR.exists():
+    app.mount("/review", StaticFiles(directory=str(REVIEW_DIR), html=True), name="web-review")
 if WEB_DIR.exists():
     app.mount("/", StaticFiles(directory=str(WEB_DIR), html=True), name="web")
 
