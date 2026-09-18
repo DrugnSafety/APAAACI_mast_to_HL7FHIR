@@ -5,7 +5,8 @@
   "note_ko": [
     "월 단위 근사이며 해마다 1~3주 차이가 납니다.",
     "실시간 예보(Google Pollen API 등)가 연결되면 그 값이 이 표보다 우선합니다.",
-    "임상 확정 전 담당 의료진 검토를 권합니다."
+    "임상 확정 전 담당 의료진 검토를 권합니다.",
+    "중국은 권역별 근거가 충분치 않아 제외했습니다. 한국·미국만 지원합니다."
   ],
   "countries": {
     "KR": {
@@ -479,138 +480,6 @@
           },
           "notable_ko": "뚜렷한 계절이 없어 잔디 꽃가루에 연중 노출됩니다.",
           "notable_plants": []
-        }
-      }
-    },
-    "CN": {
-      "label_ko": "중국",
-      "regions_note_ko": "남북 기후차가 커서 지역별로 시기가 다릅니다.",
-      "regions": {
-        "NORTH": {
-          "label_ko": "화북·동북 (베이징·둥베이)",
-          "tree": {
-            "months": [
-              3,
-              4,
-              5
-            ],
-            "label_ko": "봄 (3~5월)"
-          },
-          "grass": {
-            "months": [
-              5,
-              6,
-              7
-            ],
-            "label_ko": "늦봄~여름 (5~7월)"
-          },
-          "weed": {
-            "months": [
-              8,
-              9,
-              10
-            ],
-            "label_ko": "늦여름~가을 (8~10월)"
-          },
-          "notable_ko": "가을에 쑥(Artemisia) 꽃가루가 주요 원인으로 보고됩니다. 북부 초원 지대에서 특히 높습니다.",
-          "notable_plants": [
-            "Mugwort pollen"
-          ]
-        },
-        "EAST": {
-          "label_ko": "화동 (상하이·장쑤)",
-          "tree": {
-            "months": [
-              2,
-              3,
-              4
-            ],
-            "label_ko": "이른 봄 (2~4월)"
-          },
-          "grass": {
-            "months": [
-              4,
-              5,
-              6,
-              7
-            ],
-            "label_ko": "봄~여름 (4~7월)"
-          },
-          "weed": {
-            "months": [
-              8,
-              9,
-              10
-            ],
-            "label_ko": "늦여름~가을 (8~10월)"
-          },
-          "notable_ko": "습윤해 곰팡이 노출도 함께 고려해야 합니다.",
-          "notable_plants": []
-        },
-        "SOUTH": {
-          "label_ko": "화남 (광둥·광시)",
-          "tree": {
-            "months": [
-              1,
-              2,
-              3,
-              4
-            ],
-            "label_ko": "늦겨울~봄 (1~4월)"
-          },
-          "grass": {
-            "months": [
-              3,
-              4,
-              5,
-              6,
-              7,
-              8,
-              9
-            ],
-            "label_ko": "봄~초가을 (3~9월)"
-          },
-          "weed": {
-            "months": [
-              8,
-              9,
-              10
-            ],
-            "label_ko": "늦여름~가을 (8~10월)"
-          },
-          "notable_ko": "아열대 기후로 시즌이 이르고 깁니다. 집먼지진드기 노출이 연중 높습니다.",
-          "notable_plants": []
-        },
-        "NORTHWEST": {
-          "label_ko": "서북 (신장·간쑤)",
-          "tree": {
-            "months": [
-              4,
-              5
-            ],
-            "label_ko": "봄 (4~5월)"
-          },
-          "grass": {
-            "months": [
-              5,
-              6,
-              7,
-              8
-            ],
-            "label_ko": "늦봄~여름 (5~8월)"
-          },
-          "weed": {
-            "months": [
-              7,
-              8,
-              9
-            ],
-            "label_ko": "여름~초가을 (7~9월)"
-          },
-          "notable_ko": "건조 지대로 쑥·명아주 등 잡초 꽃가루 비중이 큽니다.",
-          "notable_plants": [
-            "Mugwort pollen"
-          ]
         }
       }
     }

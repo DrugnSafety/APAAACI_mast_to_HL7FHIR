@@ -504,8 +504,13 @@ function renderScreening() {
               <option value="">${t('s2.region_none')}</option>
               ${(S.pollenRegions || []).map(c => `<option value="${esc(c.code)}" ${sc.residence_country === c.code ? 'selected' : ''}>${esc(c.label_ko)}</option>`).join('')}
             </select></div>
-          <div class="field" style="grid-column:span 2"><label>${t('s2.region')}</label>
+          <div class="field"><label>${t('s2.region')}</label>
             <select class="input" id="resRegion">${regionOptions(sc)}</select></div>
+          <div class="field ${sc.residence_country === 'US' ? '' : 'hidden'}" id="zipField">
+            <label>${t('s2.zip')}</label>
+            <input class="input" id="resZip" placeholder="${t('s2.zip_ph')}" value="${esc(sc.residence_postal_code || '')}" />
+            <div class="hint" id="zipMsg">${t('s2.zip_hint')}</div>
+          </div>
         </div>
       </div>
 
@@ -538,9 +543,32 @@ function renderScreening() {
   if (resC) resC.addEventListener('change', () => {
     sc.residence_country = resC.value || null;
     sc.residence_region = null;
+    sc.residence_postal_code = null;
+    sc.residence_lat = sc.residence_lon = null;
     resR.innerHTML = regionOptions(sc);
+    const zf = $('#zipField');
+    if (zf) zf.classList.toggle('hidden', sc.residence_country !== 'US');
   });
   if (resR) resR.addEventListener('change', () => { sc.residence_region = resR.value || null; });
+
+  // 우편번호로 권역을 정한다. 주 이름을 몰라도 되고, 실시간 예보용 좌표까지 함께 받는다.
+  const resZip = $('#resZip');
+  if (resZip) resZip.addEventListener('change', async () => {
+    const code = (resZip.value || '').trim();
+    sc.residence_postal_code = code || null;
+    const msg = $('#zipMsg');
+    if (!code) { sc.residence_lat = sc.residence_lon = null; msg.textContent = t('s2.zip_hint'); return; }
+    try {
+      const r = await fetch('/api/pollen/zip?country=US&postal_code=' + encodeURIComponent(code));
+      const d = await r.json();
+      if (!d.ok) { msg.textContent = t('s2.zip_bad'); return; }
+      sc.residence_region = d.state;
+      sc.residence_lat = d.lat;
+      sc.residence_lon = d.lon;
+      msg.textContent = t('s2.zip_ok', { region: d.region_label_ko || d.state });
+      if (resR) resR.innerHTML = regionOptions(sc);
+    } catch (_) { msg.textContent = t('s2.zip_bad'); }
+  });
 
   view().querySelectorAll('[data-chipgroup]').forEach(group => {
     group.addEventListener('click', e => {

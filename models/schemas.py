@@ -356,6 +356,7 @@ class ScreeningProfile(BaseModel):
     # 남동부 1월, 알래스카 4월로 석 달까지 차이 난다. 없으면 기존 전국 기본값을 쓴다.
     residence_country: Optional[str] = Field(None, description="거주 국가 코드 (KR/US/CN)")
     residence_region: Optional[str] = Field(None, description="지역 코드 또는 미국 주 코드 (예: TX)")
+    residence_postal_code: Optional[str] = Field(None, description="우편번호(미국 ZIP, 선택)")
     residence_lat: Optional[float] = Field(None, description="실시간 예보용 위도(선택)")
     residence_lon: Optional[float] = Field(None, description="실시간 예보용 경도(선택)")
 

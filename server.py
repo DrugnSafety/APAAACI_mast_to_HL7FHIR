@@ -380,6 +380,13 @@ def pollen_regions():
     return {"countries": svc.countries(), "live_forecast": svc.live_available}
 
 
+@app.get("/api/pollen/zip")
+def pollen_zip(postal_code: str, country: str = "US"):
+    """우편번호 → 주·권역·대표좌표. 미국만 지원한다(한국은 단일 권역이라 불필요)."""
+    from services.pollen_forecast_service import get_pollen_forecast_service
+    return get_pollen_forecast_service().lookup_zip(country, postal_code)
+
+
 @app.get("/api/knowledge/candidates")
 def knowledge_candidates(status: str = "candidate"):
     """검토 대기(또는 승인된) 항원 소개문 목록. /review 화면이 쓴다."""

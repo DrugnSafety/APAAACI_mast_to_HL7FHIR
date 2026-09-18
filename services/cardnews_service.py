@@ -97,9 +97,9 @@ class CardNewsService:
         if food_card:
             cards.append(food_card)
         cards.append(self._sensitized_card(sensitized, indeterminate))
-        season_card = self._season_card(result.assessments, screening)
-        if season_card:
-            cards.append(season_card)
+        seasonality_card = self._seasonality_card(result.assessments, screening)
+        if seasonality_card:
+            cards.append(seasonality_card)
         cards.append(self._prevention_card(relevant))
         cards.append(self._treatment_card(relevant, screening))
         cards.append(self._closing_card(name))
@@ -347,6 +347,66 @@ class CardNewsService:
           </ul>
         </div>"""
 
+    def _seasonality_card(self, assessments: List[AllergenAssessment], screening) -> str:
+        """증상이 계절을 탄다면 달력으로 보여준다. 거주 지역이 없어도 만든다 —
+        계절성은 알러젠 자체의 성질이라 지역 없이도 말할 수 있다."""
+        try:
+            from services.pollen_forecast_service import get_pollen_forecast_service
+            s = get_pollen_forecast_service().seasonality(assessments, screening)
+        except Exception:  # noqa: BLE001
+            return ""
+        if not s.get("available") or not s.get("predicted_months"):
+            return ""
+
+        labels = s["month_labels_ko"]
+        months = set(s["predicted_months"])
+        strip = "".join(
+            f'<span class="m {"on" if m in months else ""}{" now" if m == s["current_month"] else ""}">'
+            f'{_esc(labels[m - 1].replace("월", ""))}</span>' for m in range(1, 13))
+        rows = "".join(
+            f'<li>🌿 <b>{_esc(it["name"])}</b> — {_esc(it["season_label_ko"] or "-")}</li>'
+            for it in s["items"][:5])
+        now_line = (f'<p class="lead">지금은 <b>{_esc(", ".join(s["in_season_now"]))}</b> 시즌이에요.</p>'
+                    if s.get("in_season_now") else "")
+        notable = ""
+        try:
+            from services.pollen_forecast_service import get_pollen_forecast_service
+            svc = get_pollen_forecast_service()
+            rr = svc.resolve_region(getattr(screening, "residence_country", None),
+                                    getattr(screening, "residence_region", None))
+            if rr is None:
+                z = svc.lookup_zip(getattr(screening, "residence_country", None),
+                                   getattr(screening, "residence_postal_code", None))
+                if z.get("ok"):
+                    rr = svc.resolve_region("US", z["state"])
+            if (rr or {}).get("notable_ko"):
+                notable = f'<li>📌 {_esc(rr["notable_ko"])}</li>'
+        except Exception:  # noqa: BLE001
+            pass
+
+        note = ""
+        if s.get("mismatch"):
+            rl = ", ".join(labels[m - 1] for m in s["reported_months"])
+            note = (f'<li>🔎 말씀하신 악화 시기({_esc(rl)})가 위 시즌과 겹치지 않아요. '
+                    f'계절과 무관한 원인이 함께 있을 수 있어요.</li>')
+        elif s.get("overlap_months"):
+            ol = ", ".join(labels[m - 1] for m in s["overlap_months"])
+            note = (f'<li>✅ 말씀하신 악화 시기가 <b>{_esc(ol)}</b> 에서 겹쳐요. '
+                    f'계절성 알레르기로 볼 근거예요.</li>')
+        return f"""
+        <div class="section seasonality">
+          <div class="tag">🍂 증상의 계절성</div>
+          <h2>몇 월에<br/>조심해야 할까</h2>
+          {now_line}
+          <div class="month-strip">{strip}</div>
+          <ul class="tips">
+            {rows}
+            {note}
+            {notable}
+            <li>⏰ <b>시즌 2주 전부터</b> 준비하면 조절이 쉬워요. 약 시작 시점은 진료에서 정하세요.</li>
+          </ul>
+        </div>"""
+
     def _season_card(self, assessments: List[AllergenAssessment], screening) -> str:
         """거주 지역 기준으로 지금 조심할 꽃가루를 짚어준다.
 
@@ -362,7 +422,8 @@ class CardNewsService:
                 country=getattr(screening, "residence_country", None),
                 region=getattr(screening, "residence_region", None),
                 lat=getattr(screening, "residence_lat", None),
-                lon=getattr(screening, "residence_lon", None))
+                lon=getattr(screening, "residence_lon", None),
+                postal_code=getattr(screening, "residence_postal_code", None))
         except Exception:  # noqa: BLE001
             return ""
         if not out.get("available") or not out.get("items"):
@@ -443,6 +504,15 @@ class CardNewsService:
         """
 
     # ---------- 래퍼(스타일) ----------
+    _MONTH_STRIP_CSS = """
+      .month-strip { display:flex; gap:4px; flex-wrap:wrap; margin:14px 0; }
+      .month-strip .m { flex:1 1 0; min-width:26px; text-align:center; padding:7px 0;
+        border-radius:7px; background:rgba(0,0,0,.05); font-size:13px; font-weight:700;
+        color:#8a8f98; }
+      .month-strip .m.on { background:#ffd8a8; color:#7a4100; }
+      .month-strip .m.now { outline:2px solid #e8590c; outline-offset:1px; }
+    """
+
     def _wrap(self, cards_html: str, name: str) -> str:
         return f"""<!DOCTYPE html>
 <html lang="ko"><head><meta charset="utf-8"/>
@@ -452,6 +522,7 @@ class CardNewsService:
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap"/>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
 <style>
+  {self._MONTH_STRIP_CSS}
   * {{ box-sizing: border-box; margin: 0; padding: 0; }}
   :root {{ --cream:#fbf7ee; --elev:#fffdf8; --ink:#1f2a24; --ink2:#4d5a52; --ink3:#5f6d63; --line:#e6dcc6;
            --forest:#2f8f5b; --forest-d:#1f5f3f; --amber:#f2a33a; --amber-soft:#fdeed6; --amber-ink:#8a5a12;

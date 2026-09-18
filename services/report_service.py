@@ -755,9 +755,9 @@ class ReportService:
 
         # 3. 예방·관리 플랜
         md.append("## 3️⃣ 🛡️ 나를 위한 예방·관리 플랜")
-        season_md = self._regional_season_md(relevance_result.assessments, screening)
-        if season_md:
-            md.append(season_md)
+        seasonality_md = self._seasonality_md(relevance_result.assessments, screening)
+        if seasonality_md:
+            md.append(seasonality_md)
 
         plan = self._prevention_plan_md(relevant, screening)
         md.append(plan)
@@ -986,6 +986,84 @@ class ReportService:
                          "이 검사로는 천식 여부를 알 수 없으니 진료에서 폐기능검사가 필요한지 확인하세요.")
         return "\n".join(["", "처음 알려주신 **주증상 부위**를 이번 결과와 이어보면:"] + lines)
 
+    def _seasonality_md(self, assessments, screening) -> str:
+        """증상이 계절을 타는지, 탄다면 어느 달에 대비해야 하는지.
+
+        꽃가루·실외 곰팡이는 노출이 계절로 몰린다. 시즌을 알면 '언제부터 약을 준비할지'가 정해져서
+        회피 수칙보다 실행에 옮기기 쉽다. 환자가 답한 악화 시기와 어긋나면 그 사실도 알린다.
+        """
+        try:
+            from services.pollen_forecast_service import get_pollen_forecast_service
+            s = get_pollen_forecast_service().seasonality(assessments, screening)
+        except Exception:  # noqa: BLE001
+            return ""
+        if not s.get("available"):
+            return ""
+
+        md = ["\n## 🍂 증상의 계절성"]
+        region = f" ({s['region_label_ko']} 기준)" if s.get("region_label_ko") else ""
+        if s.get("items"):
+            md.append(f"검사에서 확인된 알러젠 중 **계절을 타는 것**이 있습니다{region}.")
+            md.append("")
+            md.append("| 알러젠 | 시기 |")
+            md.append("|---|---|")
+            for it in s["items"]:
+                md.append(f"| {it['name']} | {it['season_label_ko'] or '-'} |")
+
+        months = s.get("predicted_months") or []
+        if months:
+            labels = s["month_labels_ko"]
+            strip = " ".join(("**" + labels[m - 1] + "**") if m in months else labels[m - 1]
+                             for m in range(1, 13))
+            md.append(f"\n주의가 필요한 달: {strip}")
+
+        if s.get("in_season_now"):
+            md.append(f"\n**지금({s['month_labels_ko'][s['current_month'] - 1]})은 "
+                      f"{', '.join(s['in_season_now'])} 시즌입니다.**")
+
+        reported = s.get("reported_months") or []
+        if reported:
+            rl = ", ".join(s["month_labels_ko"][m - 1] for m in reported)
+            if s.get("mismatch"):
+                md.append(f"\n> 답해주신 악화 시기({rl})가 위 알러젠 시즌과 겹치지 않습니다. "
+                          "계절과 무관한 원인(집먼지진드기·동물·실내 곰팡이)이 함께 있을 수 있어 "
+                          "진료에서 확인이 필요합니다.")
+            elif s.get("overlap_months"):
+                ol = ", ".join(s["month_labels_ko"][m - 1] for m in s["overlap_months"])
+                md.append(f"\n> 답해주신 악화 시기({rl})가 위 알러젠 시즌과 **{ol}** 에서 겹칩니다. "
+                          "계절성 알레르기로 볼 근거가 됩니다.")
+        elif s.get("reported_pattern") in ("seasonal", "both"):
+            md.append("\n> 증상이 계절을 탄다고 답하셨습니다. 어느 달에 심한지 기록해 두면 "
+                      "다음 진료에서 원인을 좁히는 데 도움이 됩니다.")
+
+        notable = self._region_notable(screening)
+        if notable:
+            md.append(f"\n> {notable}")
+
+        md.append("\n**시즌 대비:** 증상이 시작되고 나서 약을 쓰기보다, 예년에 심해지던 달의 "
+                  "**2주 전부터** 준비하는 편이 조절에 유리합니다. 어떤 약을 언제 시작할지는 "
+                  "담당 의료진과 정하세요.")
+        return "\n".join(md)
+
+    @staticmethod
+    def _region_notable(screening) -> str:
+        """그 지역에서 특별히 알아둘 점(예: 텍사스의 한겨울 마운틴 시더)."""
+        if screening is None or not getattr(screening, "residence_country", None):
+            return ""
+        try:
+            from services.pollen_forecast_service import get_pollen_forecast_service
+            svc = get_pollen_forecast_service()
+            region = getattr(screening, "residence_region", None)
+            r = svc.resolve_region(getattr(screening, "residence_country", None), region)
+            if r is None:
+                z = svc.lookup_zip(getattr(screening, "residence_country", None),
+                                   getattr(screening, "residence_postal_code", None))
+                if z.get("ok"):
+                    r = svc.resolve_region("US", z["state"])
+            return (r or {}).get("notable_ko") or ""
+        except Exception:  # noqa: BLE001
+            return ""
+
     def _regional_season_md(self, assessments, screening) -> str:
         """거주 지역 기준 꽃가루 시기. 지역을 모르면 아무 말도 하지 않는다."""
         if screening is None or not getattr(screening, "residence_country", None):
@@ -997,7 +1075,8 @@ class ReportService:
                 country=getattr(screening, "residence_country", None),
                 region=getattr(screening, "residence_region", None),
                 lat=getattr(screening, "residence_lat", None),
-                lon=getattr(screening, "residence_lon", None))
+                lon=getattr(screening, "residence_lon", None),
+                postal_code=getattr(screening, "residence_postal_code", None))
         except Exception:  # noqa: BLE001
             return ""
         if not out.get("available") or not out.get("items"):

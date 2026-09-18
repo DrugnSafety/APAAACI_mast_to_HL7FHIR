@@ -163,12 +163,12 @@ class TestScreeningReachesOutputs:
         from services.cardnews_service import get_cardnews_service
         ocr, res = self._result()
         no_region = ScreeningProfile(allergic_diseases=["allergic_rhinitis"])
-        assert "지금 조심할" not in get_cardnews_service().generate_html(
+        assert "마운틴 시더" not in get_cardnews_service().generate_html(
             res, {"name": "t"}, screening=no_region)
         with_region = ScreeningProfile(allergic_diseases=["allergic_rhinitis"],
                                        residence_country="US", residence_region="TX")
         html = get_cardnews_service().generate_html(res, {"name": "t"}, screening=with_region)
-        assert "지금 조심할" in html and "남중부" in html
+        assert "증상의 계절성" in html and "마운틴 시더" in html
 
     def test_report_connects_symptom_sites_and_region(self):
         from services.report_service import get_report_service
@@ -178,11 +178,96 @@ class TestScreeningReachesOutputs:
         md = get_report_service().build_patient_report_markdown(res, {"name": "테스트"}, scr)
         assert "주증상 부위" in md
         assert "폐기능검사" in md, "하기도 증상인데 천식 진단이 없으면 확인을 권해야 한다"
-        assert "거주 지역 기준 꽃가루 시기" in md and "마운틴 시더" in md
+        assert "증상의 계절성" in md and "마운틴 시더" in md
 
     def test_report_without_region_has_no_season_section(self):
         from services.report_service import get_report_service
         ocr, res = self._result()
         md = get_report_service().build_patient_report_markdown(
             res, {"name": "테스트"}, ScreeningProfile(organ_systems=["nasal"]))
+        assert "마운틴 시더" not in md
+
+
+class TestZipLookup:
+    """우편번호로 지역을 정한다. 주 이름을 몰라도 되고 예보 좌표도 함께 얻는다."""
+
+    @pytest.mark.parametrize("zip_code,state,region", [
+        ("78701", "TX", "SOUTH_CENTRAL"),     # 오스틴
+        ("33101", "FL", "SOUTHEAST"),          # 마이애미
+        ("99501", "AK", "ALASKA"),             # 앵커리지
+        ("10001", "NY", "NORTHEAST"),          # 뉴욕
+        ("98101", "WA", "PACIFIC_NORTHWEST"),  # 시애틀
+    ])
+    def test_zip_resolves_state_and_region(self, svc, zip_code, state, region):
+        out = svc.lookup_zip("US", zip_code)
+        assert out["ok"] and out["state"] == state and out["region_code"] == region
+        assert -180 <= out["lon"] <= 180 and -90 <= out["lat"] <= 90
+
+    @pytest.mark.parametrize("bad", ["", "abc", "12", None, "0000"])
+    def test_invalid_zip_is_rejected(self, svc, bad):
+        assert svc.lookup_zip("US", bad)["ok"] is False
+
+    def test_korea_does_not_use_zip(self, svc):
+        """한국은 단일 권역이라 우편번호가 필요 없다."""
+        assert svc.lookup_zip("KR", "06236") == {"ok": False, "reason": "unsupported_country"}
+
+    def test_zip_alone_drives_the_calendar(self, svc):
+        out = svc.for_patient([RAGWEED], country="US", postal_code="78701",
+                              today=date(2026, 9, 15))
+        assert out["available"] and out["region_code"] == "SOUTH_CENTRAL"
+
+    def test_china_is_no_longer_offered(self, svc):
+        """근거가 충분치 않아 중국은 제외했다 — 한국·미국만 지원."""
+        assert {c["code"] for c in svc.countries()} == {"KR", "US"}
+        assert svc.resolve_region("CN", "NORTH") is None
+
+
+class TestSeasonality:
+    def _screening(self, **kw):
+        return ScreeningProfile(**kw)
+
+    def test_agreement_with_reported_months_is_stated(self, svc):
+        from models.schemas import SymptomSeasonPattern
+        scr = self._screening(residence_country="US", residence_postal_code="78701",
+                              season_pattern=SymptomSeasonPattern.SEASONAL, worse_months=[9, 10])
+        out = svc.seasonality([RAGWEED, BIRCH], scr, today=date(2026, 9, 15))
+        assert out["available"] and out["overlap_months"] and not out["mismatch"]
+
+    def test_mismatch_is_flagged(self, svc):
+        """환자가 말한 악화 시기가 알러젠 시즌과 어긋나면 다른 원인을 의심해야 한다."""
+        from models.schemas import SymptomSeasonPattern
+        scr = self._screening(residence_country="US", residence_postal_code="78701",
+                              season_pattern=SymptomSeasonPattern.SEASONAL, worse_months=[6, 7])
+        out = svc.seasonality([RAGWEED], scr, today=date(2026, 9, 15))
+        assert out["mismatch"] is True and out["overlap_months"] == []
+
+    def test_not_seasonal_when_no_seasonal_allergen_and_no_report(self, svc):
+        out = svc.seasonality([MITE], self._screening())
+        assert out == {"available": False, "reason": "not_seasonal"}
+
+    def test_works_without_a_region(self, svc):
+        """계절성은 알러젠 자체의 성질이라 거주지를 몰라도 말할 수 있다."""
+        from models.schemas import SymptomSeasonPattern
+        out = svc.seasonality([RAGWEED], self._screening(
+            season_pattern=SymptomSeasonPattern.SEASONAL))
+        assert out["available"] is True
+
+    def test_report_and_cardnews_have_one_seasonality_section(self):
+        """예전엔 계절성 절과 지역 절이 같은 말을 두 번 했다."""
+        from models.schemas import OCRResult, SymptomSeasonPattern
+        from services.relevance_service import get_relevance_service
+        from services.report_service import get_report_service
+        from services.cardnews_service import get_cardnews_service
+        from server import ocr_demo
+        import json as _json
+        ocr = OCRResult(**_json.loads(ocr_demo().body))
+        scr = ScreeningProfile(residence_country="US", residence_postal_code="78701",
+                               season_pattern=SymptomSeasonPattern.SEASONAL, worse_months=[9])
+        res = get_relevance_service().build_assessments(ocr, scr)
+        md = get_report_service().build_patient_report_markdown(res, {"name": "t"}, scr)
+        assert md.count("증상의 계절성") == 1
         assert "거주 지역 기준 꽃가루 시기" not in md
+        assert "2주 전부터" in md, "시즌 대비 조언이 있어야 한다"
+        html = get_cardnews_service().generate_html(res, {"name": "t"}, screening=scr)
+        assert html.count("증상의 계절성") == 1
+        assert "month-strip" in html

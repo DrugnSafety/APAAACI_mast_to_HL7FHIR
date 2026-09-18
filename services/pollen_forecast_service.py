@@ -29,6 +29,7 @@ from config.settings import BASE_DIR
 logger = logging.getLogger(__name__)
 
 CALENDAR_PATH = BASE_DIR / "data" / "pollen_calendar_regional.json"
+ZIP3_PATH = BASE_DIR / "data" / "us_zip3_centroids.json"
 GOOGLE_ENDPOINT = "https://pollen.googleapis.com/v1/forecast:lookup"
 
 # 우리 항원 카테고리 → 지역 달력의 꽃가루 타입
@@ -52,8 +53,11 @@ UPI_CATEGORY_KO = {
 
 
 class PollenForecastService:
-    def __init__(self, calendar_path: Optional[Path] = None, api_key: Optional[str] = None):
+    def __init__(self, calendar_path: Optional[Path] = None, api_key: Optional[str] = None,
+                 zip3_path: Optional[Path] = None):
         self.path = Path(calendar_path or CALENDAR_PATH)
+        self.zip3_path = Path(zip3_path or ZIP3_PATH)
+        self._zip3: Optional[Dict[str, Any]] = None
         # api_key=None → 환경변수에서 읽는다. api_key="" → 실시간 예보 끔(테스트·오프라인).
         self.api_key = (os.getenv("GOOGLE_POLLEN_API_KEY", "") if api_key is None else api_key)
         self._lock = threading.Lock()
@@ -73,6 +77,44 @@ class PollenForecastService:
                         logger.warning(f"지역 꽃가루 달력 로드 실패: {e}")
                         self._data = {"countries": {}}
         return self._data
+
+    # ------------------------------------------------------------------
+    # 우편번호
+    # ------------------------------------------------------------------
+    @property
+    def zip3(self) -> Dict[str, Any]:
+        if self._zip3 is None:
+            with self._lock:
+                if self._zip3 is None:
+                    try:
+                        self._zip3 = json.loads(
+                            self.zip3_path.read_text(encoding="utf-8")).get("zip3", {})
+                    except Exception as e:  # noqa: BLE001
+                        logger.warning(f"ZIP3 표 로드 실패: {e}")
+                        self._zip3 = {}
+        return self._zip3
+
+    def lookup_zip(self, country: Optional[str], postal_code: Optional[str]) -> Dict[str, Any]:
+        """우편번호 → 주·권역·대표좌표.
+
+        미국만 지원한다. 한국은 단일 권역이라 우편번호가 필요 없다.
+        전체 우편번호(3만 3천 개) 대신 앞 3자리(911개)를 쓴다 — 권역 판단과 예보 좌표에는 충분하고
+        저장소에 52KB 만 더한다.
+        """
+        code = "".join(ch for ch in str(postal_code or "") if ch.isdigit())
+        if (country or "").upper() != "US":
+            return {"ok": False, "reason": "unsupported_country"}
+        if len(code) < 5:
+            return {"ok": False, "reason": "invalid_zip"}
+        hit = self.zip3.get(code[:3])
+        if not hit:
+            return {"ok": False, "reason": "unknown_zip"}
+        region = self.resolve_region("US", hit["state"])
+        return {"ok": True, "zip": code[:5], "state": hit["state"],
+                "lat": hit["lat"], "lon": hit["lon"],
+                "region_code": region.get("code") if region else None,
+                "region_label_ko": region.get("label_ko") if region else None,
+                "precision_note_ko": "우편번호 앞 3자리 기준이라 수십 km 오차가 있습니다."}
 
     def countries(self) -> List[Dict[str, Any]]:
         out = []
@@ -181,7 +223,8 @@ class PollenForecastService:
     # ------------------------------------------------------------------
     def for_patient(self, assessments, country: Optional[str] = None, region: Optional[str] = None,
                     lat: Optional[float] = None, lon: Optional[float] = None,
-                    today: Optional[date] = None) -> Dict[str, Any]:
+                    today: Optional[date] = None,
+                    postal_code: Optional[str] = None) -> Dict[str, Any]:
         """이 환자가 양성인 꽃가루만 골라 '지금 시즌인지'를 붙인다.
 
         실시간 예보가 있으면 그 값을 쓰고, 없으면 지역 달력으로 답한다.
@@ -193,6 +236,13 @@ class PollenForecastService:
             return {"available": False, "reason": "no_pollen_allergen"}
 
         region_info = self.resolve_region(country, region)
+        if region_info is None and postal_code:
+            z = self.lookup_zip(country, postal_code)
+            if z.get("ok"):
+                region = z["state"]
+                region_info = self.resolve_region(country, region)
+                lat = lat if lat is not None else z["lat"]
+                lon = lon if lon is not None else z["lon"]
         live = {}
         if lat is not None and lon is not None and self.live_available:
             fc = self.live_forecast(lat, lon)
@@ -243,6 +293,81 @@ class PollenForecastService:
             "live_types": live_types,
             "items": items,
             "in_season_now": [i for i in items if i.get("in_season")],
+        }
+
+
+    # ------------------------------------------------------------------
+    # 계절성 요약
+    # ------------------------------------------------------------------
+    MONTH_KO = ["1월", "2월", "3월", "4월", "5월", "6월",
+                "7월", "8월", "9월", "10월", "11월", "12월"]
+
+    def seasonality(self, assessments, screening=None, today: Optional[date] = None) -> Dict[str, Any]:
+        """이 환자의 증상이 계절을 타는지, 탄다면 어느 달인지.
+
+        세 가지를 합친다.
+          1) 계절성 알러젠(꽃가루·실외 곰팡이)의 시기 — 거주 지역이 있으면 지역 달력, 없으면 기본값
+          2) 환자가 문진에서 답한 증상 패턴·악화 월
+          3) 둘의 일치 여부 — 어긋나면 그 사실을 알려준다(다른 원인이 섞였을 수 있다)
+
+        계절성 알러젠이 없고 환자도 계절성을 말하지 않았으면 available=False.
+        """
+        country = getattr(screening, "residence_country", None)
+        region = getattr(screening, "residence_region", None)
+        postal = getattr(screening, "residence_postal_code", None)
+        if country and not self.resolve_region(country, region) and postal:
+            z = self.lookup_zip(country, postal)
+            if z.get("ok"):
+                region = z["state"]
+
+        months: Dict[int, List[str]] = {}
+        items = []
+        for a in (assessments or []):
+            cat = getattr(a, "category", None) or ""
+            name = getattr(a, "korean_name", None) or getattr(a, "allergen_name", None)
+            m: List[int] = []
+            label = ""
+            if cat in CATEGORY_TO_TYPE:
+                season = self.season_for(cat, country, region)
+                if season:
+                    m, label = list(season.get("months") or []), season.get("label_ko") or ""
+                else:
+                    kb = getattr(a, "kb", None) or {}
+                    m = list(kb.get("peak_months_korea") or [])
+                    label = kb.get("season_label_ko") or ""
+            elif cat == "mold":
+                kb = getattr(a, "kb", None) or {}
+                if (kb.get("indoor_outdoor") or "") == "outdoor":
+                    m, label = list(kb.get("peak_months_korea") or []), kb.get("season_label_ko") or ""
+            if not m:
+                continue
+            items.append({"name": name, "category": cat, "months": m, "season_label_ko": label})
+            for mm in m:
+                months.setdefault(mm, []).append(name)
+
+        reported_pattern = getattr(getattr(screening, "season_pattern", None), "value", None)
+        reported_months = sorted(set(getattr(screening, "worse_months", None) or []))
+
+        if not items and reported_pattern not in ("seasonal", "both"):
+            return {"available": False, "reason": "not_seasonal"}
+
+        predicted = sorted(months)
+        overlap = sorted(set(predicted) & set(reported_months))
+        mismatch = bool(reported_months) and bool(predicted) and not overlap
+        now = (today or date.today()).month
+        return {
+            "available": True,
+            "items": items,
+            "months": {m: months[m] for m in predicted},
+            "predicted_months": predicted,
+            "reported_pattern": reported_pattern,
+            "reported_months": reported_months,
+            "overlap_months": overlap,
+            "mismatch": mismatch,
+            "current_month": now,
+            "in_season_now": sorted(set(months.get(now, []))),
+            "region_label_ko": (self.resolve_region(country, region) or {}).get("label_ko"),
+            "month_labels_ko": self.MONTH_KO,
         }
 
 
