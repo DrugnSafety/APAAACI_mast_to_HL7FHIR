@@ -21,6 +21,9 @@ from config.settings import BASE_DIR
 logger = logging.getLogger(__name__)
 
 KB_PATH = BASE_DIR / "data" / "allergen_knowledge_base.json"
+# 카테고리·성분군 템플릿으로 만든 항원 지식(레지스트리 148종 중 개별 지식이 없는 128종).
+# 개별 지식(KB_PATH, 사람이 쓴 18종)이 있으면 그쪽이 언제나 우선이다.
+GENERATED_KB_PATH = BASE_DIR / "data" / "allergen_knowledge_generated.json"
 PFAS_PATH = BASE_DIR / "data" / "pollen_food_cross_reactivity.json"
 
 # shellfish(조개·갑각) 판별용 무척추 근육 범알레르겐 성분 — 어류(parvalbumin)와 구분
@@ -168,15 +171,23 @@ def _norm(text: str) -> str:
 class KnowledgeService:
     """알레르겐 지식베이스 조회 + 외부검색 보강"""
 
-    def __init__(self, kb_path: Path = KB_PATH, enable_web: bool = True):
+    def __init__(self, kb_path: Path = KB_PATH, enable_web: bool = True,
+                 generated_path: Path = GENERATED_KB_PATH, include_candidates: bool = False):
         self.kb_path = kb_path
+        self.generated_path = generated_path
+        # 검토 전(candidate) 문장을 환자 화면에 내보낼지. 기본은 False —
+        # 승인 전에는 보이지 않는다. 검토 화면만 True 로 읽는다.
+        self.include_candidates = include_candidates
         self.enable_web = enable_web
         self.data: Dict[str, Any] = {}
         self.entries: List[Dict[str, Any]] = []
         self.rubric: Dict[str, Any] = {}
         self._lookup: Dict[str, Dict[str, Any]] = {}
+        self.generated: List[Dict[str, Any]] = []
+        self._generated_lookup: Dict[str, Dict[str, Any]] = {}
         self._web_cache: Dict[str, Optional[Dict[str, Any]]] = {}
         self._load()
+        self._load_generated()
 
     def _load(self):
         try:
@@ -193,6 +204,48 @@ class KnowledgeService:
             logger.error(f"지식베이스 로드 실패: {e}")
             self.data, self.entries, self.rubric = {}, [], {}
 
+    def _load_generated(self):
+        """템플릿 기반 항원 지식 적재. 파일이 없어도 앱은 그대로 돈다."""
+        try:
+            with open(self.generated_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            self.generated = data.get("entries", [])
+            self._generated_lookup = {}
+            for e in self.generated:
+                for k in [e.get("canonical_name"), e.get("korean_name")] + (e.get("aliases") or []):
+                    if k:
+                        self._generated_lookup[_norm(k)] = e
+            logger.info(f"템플릿 항원 지식 로드: {len(self.generated)}종 "
+                        f"(v{data.get('version')}, LLM 후보 {data.get('llm_candidates', 0)}건)")
+        except FileNotFoundError:
+            logger.info(f"템플릿 항원 지식 없음: {self.generated_path} (개별 KB·기본값으로 동작)")
+            self.generated, self._generated_lookup = [], {}
+        except Exception as e:  # noqa: BLE001
+            logger.warning(f"템플릿 항원 지식 로드 실패: {e}")
+            self.generated, self._generated_lookup = [], {}
+
+    def lookup_generated(self, name: Optional[str]) -> Optional[Dict[str, Any]]:
+        if not name:
+            return None
+        return self._generated_lookup.get(_norm(name))
+
+    def _strip_candidates(self, entry: Dict[str, Any]) -> Dict[str, Any]:
+        """검토 전 문장을 걷어낸다.
+
+        `<field>_status == "candidate"` 인 필드는 승인 전까지 환자에게 보이지 않는다.
+        LLM 이 쓴 소개문이 여기에 해당한다.
+        """
+        if self.include_candidates:
+            return entry
+        out = dict(entry)
+        for field in [k for k in list(out) if not k.endswith("_status")]:
+            if out.get(f"{field}_status") == "candidate":
+                out.pop(field, None)
+                out.pop(f"{field}_status", None)
+                out.pop(f"{field}_model", None)
+                out.pop(f"{field}_generated_at", None)
+        return out
+
     def _build_lookup(self):
         self._lookup = {}
         for entry in self.entries:
@@ -203,6 +256,12 @@ class KnowledgeService:
                     self._lookup[_norm(k)] = entry
 
     # ---------- 조회 ----------
+    def lookup_exact(self, name: Optional[str]) -> Optional[Dict[str, Any]]:
+        """이름이 정확히 일치하는 개별 지식만. 부분·퍼지 매칭을 쓰지 않는다."""
+        if not name:
+            return None
+        return self._lookup.get(_norm(name))
+
     def lookup(self, name: str) -> Optional[Dict[str, Any]]:
         """지식베이스에서 알레르겐 항목 조회 (정확→부분→퍼지)"""
         if not name:
@@ -224,6 +283,15 @@ class KnowledgeService:
             return best
         return None
 
+    def generated_stats(self) -> Dict[str, Any]:
+        cand = sum(1 for e in self.generated
+                   if any(k.endswith("_status") and v == "candidate" for k, v in e.items()))
+        by_profile: Dict[str, int] = {}
+        for e in self.generated:
+            k = e.get("profile_key", "?")
+            by_profile[k] = by_profile.get(k, 0) + 1
+        return {"total": len(self.generated), "llm_candidates": cand, "by_profile": by_profile}
+
     def get_backdata(
         self,
         name: str,
@@ -233,10 +301,32 @@ class KnowledgeService:
         """알레르겐 backdata 반환. 지식베이스 → 외부검색 → 기본값 순으로 보강한다.
         항상 표준 스키마의 dict 를 반환하며 'source' 필드로 출처를 표시한다.
         """
-        entry = self.lookup(name) or (self.lookup(korean_name) if korean_name else None)
+        # 조회 순서가 중요하다.
+        #   1) 개별 지식 **정확 일치**  2) 템플릿 지식 **정확 일치**  3) 개별 지식 부분/퍼지  4) 기본값
+        # 2 와 3 의 순서를 바꾸면 퍼지 매칭이 엉뚱한 항원을 집어온다. 실제로 '굴'(Oyster)이
+        # '환삼덩굴 꽃가루'의 부분 문자열이라 음식에 꽃가루 지식(가을 시즌·야외 회피)이 붙었고,
+        # '콩'은 '땅콩', '토끼 상피'는 '고양이 비듬'으로 붙었다.
+        entry = self.lookup_exact(name) or self.lookup_exact(korean_name)
         if entry:
             result = dict(entry)
             result.setdefault("source", "knowledge_base")
+            result["category"] = normalize_category(result.get("category") or category)
+            return result
+
+        # 개별 지식이 없으면 카테고리·성분군 템플릿으로 답한다(128종). 빈 화면보다 낫고,
+        # 회피 수칙처럼 실행에 쓰이는 문장은 사람이 쓴 템플릿이라 검증돼 있다.
+        gen = self.lookup_generated(name) or self.lookup_generated(korean_name)
+        if gen:
+            result = self._strip_candidates(gen)
+            result.setdefault("source", "category_profile")
+            result["category"] = normalize_category(result.get("category") or category)
+            return result
+
+        # 레지스트리에 없는 이름(OCR 변형 등)만 부분/퍼지 매칭으로 구제한다.
+        entry = self.lookup(name) or (self.lookup(korean_name) if korean_name else None)
+        if entry:
+            result = dict(entry)
+            result.setdefault("source", "knowledge_base_fuzzy")
             result["category"] = normalize_category(result.get("category") or category)
             return result
 

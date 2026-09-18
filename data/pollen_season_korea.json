@@ -1,0 +1,336 @@
+{
+  "version": "1.0",
+  "locale": "ko-KR",
+  "review_status": "curated_needs_clinical_review",
+  "description": "국내 꽃가루 항원의 종별 비산 시기. 카테고리 기본값(수목 3~5월 / 잔디 5~6월 / 잡초 8~10월)을 종 단위로 덮어쓴다.",
+  "note_ko": [
+    "지역(중부/남부/제주)과 해마다 1~3주 차이가 납니다. 월 단위 근사입니다.",
+    "충매화(곤충이 옮기는 꽃)는 공기 중 농도가 낮아 임상 의의가 제한적입니다 — is_entomophilous 로 표시했습니다.",
+    "국내에 거의 자생하지 않는 종은 note_ko 에 적었습니다. 검사 패널에는 있어도 실제 노출은 드뭅니다.",
+    "임상 확정 전 담당 의료진 검토를 권합니다."
+  ],
+  "species": {
+    "Japanese cedar": {
+      "korean_name": "삼나무",
+      "months": [
+        2,
+        3,
+        4
+      ],
+      "season_label_ko": "이른 봄 (2~4월)",
+      "note_ko": "제주·남부에서 1월 말부터 시작되기도 합니다. 국내 삼나무 조림지 주변에서 노출이 큽니다.",
+      "cross_reactivity_ko": "삼나무는 측백나무과로, 편백·향나무 등 같은 과의 나무와 교차반응합니다. 자작나무과와는 계통이 달라 과일 구강 증상과의 연관은 상대적으로 적습니다."
+    },
+    "Hazel": {
+      "korean_name": "개암나무",
+      "months": [
+        2,
+        3,
+        4
+      ],
+      "season_label_ko": "이른 봄 (2~4월)",
+      "note_ko": "자작나무과라 자작·오리나무와 교차반응합니다.",
+      "cross_reactivity_ko": "자작나무과(자작·오리·개암·서어나무)끼리 교차반응이 강하고, PR-10 단백을 통해 사과·복숭아·체리·당근 등 생과일·생채소와 구강 증상으로 이어질 수 있습니다."
+    },
+    "Alder": {
+      "korean_name": "오리나무",
+      "months": [
+        2,
+        3,
+        4
+      ],
+      "season_label_ko": "이른 봄 (2~4월)",
+      "note_ko": "가장 이른 봄 수목 꽃가루 중 하나입니다.",
+      "cross_reactivity_ko": "자작나무과(자작·오리·개암·서어나무)끼리 교차반응이 강하고, PR-10 단백을 통해 사과·복숭아·체리·당근 등 생과일·생채소와 구강 증상으로 이어질 수 있습니다."
+    },
+    "Willow": {
+      "korean_name": "버드나무",
+      "months": [
+        3,
+        4
+      ],
+      "season_label_ko": "봄 (3~4월)",
+      "is_entomophilous": true,
+      "note_ko": "주로 곤충이 옮겨 공기 중 농도는 낮은 편입니다.",
+      "cross_reactivity_ko": "버드나무는 포플러와 같은 버드나무과로 서로 교차반응할 수 있습니다."
+    },
+    "Elm": {
+      "korean_name": "느릅나무",
+      "months": [
+        3,
+        4
+      ],
+      "season_label_ko": "봄 (3~4월)",
+      "cross_reactivity_ko": "느릅나무는 같은 느릅나무과 안에서 교차반응합니다."
+    },
+    "Poplar": {
+      "korean_name": "포플러나무",
+      "months": [
+        3,
+        4
+      ],
+      "season_label_ko": "봄 (3~4월)",
+      "note_ko": "봄에 날리는 솜털은 씨앗이라 꽃가루 알레르기와 직접 관계가 없습니다.",
+      "cross_reactivity_ko": "포플러는 버드나무와 같은 버드나무과로 서로 교차반응할 수 있습니다."
+    },
+    "Hornbeam": {
+      "korean_name": "서어나무",
+      "months": [
+        3,
+        4,
+        5
+      ],
+      "season_label_ko": "봄 (3~5월)",
+      "cross_reactivity_ko": "자작나무과(자작·오리·개암·서어나무)끼리 교차반응이 강하고, PR-10 단백을 통해 사과·복숭아·체리·당근 등 생과일·생채소와 구강 증상으로 이어질 수 있습니다."
+    },
+    "Beech": {
+      "korean_name": "너도밤나무",
+      "months": [
+        4,
+        5
+      ],
+      "season_label_ko": "봄 (4~5월)",
+      "cross_reactivity_ko": "너도밤나무는 참나무과로 참나무와 교차반응할 수 있습니다."
+    },
+    "White ash": {
+      "korean_name": "물푸레나무",
+      "months": [
+        4,
+        5
+      ],
+      "season_label_ko": "봄 (4~5월)",
+      "cross_reactivity_ko": "물푸레나무는 물푸레나무과로 올리브·쥐똥나무·개나리 등 같은 과의 꽃가루와 교차반응합니다."
+    },
+    "Plane": {
+      "korean_name": "양버즘나무",
+      "months": [
+        4,
+        5
+      ],
+      "season_label_ko": "봄 (4~5월)",
+      "note_ko": "가로수로 많이 심어 도심 노출이 많습니다.",
+      "cross_reactivity_ko": "양버즘나무는 개암·복숭아·사과 등과 교차반응이 보고된 적이 있습니다."
+    },
+    "Pine": {
+      "korean_name": "소나무",
+      "months": [
+        4,
+        5
+      ],
+      "season_label_ko": "봄 (4~5월)",
+      "note_ko": "송홧가루는 양이 매우 많지만 입자가 커서 알레르기 유발력은 상대적으로 낮다고 알려져 있습니다.",
+      "cross_reactivity_ko": "소나무 꽃가루는 다른 수목 꽃가루와의 교차반응이 뚜렷하지 않은 편입니다."
+    },
+    "Acacia": {
+      "korean_name": "아까시나무",
+      "months": [
+        5,
+        6
+      ],
+      "season_label_ko": "늦봄 (5~6월)",
+      "is_entomophilous": true,
+      "note_ko": "꿀벌이 옮기는 충매화라 공기 중 농도가 낮습니다.",
+      "cross_reactivity_ko": "아까시나무는 콩과로, 콩과 식물과의 교차반응이 보고됩니다."
+    },
+    "Elder": {
+      "korean_name": "딱총나무",
+      "months": [
+        5,
+        6
+      ],
+      "season_label_ko": "늦봄 (5~6월)",
+      "is_entomophilous": true
+    },
+    "Olive": {
+      "korean_name": "올리브",
+      "months": [
+        4,
+        5,
+        6
+      ],
+      "season_label_ko": "봄~초여름 (4~6월)",
+      "note_ko": "국내에는 거의 자생하지 않습니다. 지중해 지역 거주·여행력이 없으면 노출이 드뭅니다.",
+      "cross_reactivity_ko": "올리브는 물푸레나무과로 물푸레나무와 교차반응합니다."
+    },
+    "Kentucky blue grass": {
+      "korean_name": "왕포아풀",
+      "months": [
+        5,
+        6
+      ],
+      "season_label_ko": "늦봄~초여름 (5~6월)"
+    },
+    "Orchard grass": {
+      "korean_name": "오리새",
+      "months": [
+        5,
+        6,
+        7
+      ],
+      "season_label_ko": "늦봄~여름 (5~7월)"
+    },
+    "Rye grass, perennial": {
+      "korean_name": "호밀풀",
+      "months": [
+        5,
+        6,
+        7
+      ],
+      "season_label_ko": "늦봄~여름 (5~7월)"
+    },
+    "Meadow fescue": {
+      "korean_name": "넓은김의털",
+      "months": [
+        5,
+        6,
+        7
+      ],
+      "season_label_ko": "늦봄~여름 (5~7월)"
+    },
+    "Cultivated oat": {
+      "korean_name": "귀리",
+      "months": [
+        5,
+        6,
+        7
+      ],
+      "season_label_ko": "늦봄~여름 (5~7월)",
+      "note_ko": "재배지 주변에서 노출됩니다. 먹는 귀리(음식 알레르기)와는 다른 문제입니다."
+    },
+    "Bermuda grass": {
+      "korean_name": "우산잔디",
+      "months": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "season_label_ko": "여름 (5~9월)",
+      "note_ko": "다른 잔디보다 시즌이 길어 여름 내내 노출될 수 있습니다."
+    },
+    "Velvet grass": {
+      "korean_name": "잔디",
+      "months": [
+        5,
+        6,
+        7
+      ],
+      "season_label_ko": "늦봄~여름 (5~7월)"
+    },
+    "Grass": {
+      "korean_name": "잔디 꽃가루 혼합",
+      "months": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "season_label_ko": "여름 (5~9월)",
+      "is_mixture": true,
+      "note_ko": "여러 잔디를 섞은 혼합 항원입니다. 어떤 종인지까지는 알 수 없습니다."
+    },
+    "English plantain": {
+      "korean_name": "질경이",
+      "months": [
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "season_label_ko": "늦봄~가을 (5~9월)",
+      "cross_reactivity_ko": "질경이는 질경이과로, 다른 잡초와의 교차반응은 제한적입니다."
+    },
+    "Nettle": {
+      "korean_name": "쐐기풀",
+      "months": [
+        6,
+        7,
+        8,
+        9
+      ],
+      "season_label_ko": "여름~초가을 (6~9월)",
+      "cross_reactivity_ko": "쐐기풀은 쐐기풀과로, 다른 잡초와의 교차반응은 제한적입니다."
+    },
+    "Lamb's quarters": {
+      "korean_name": "명아주",
+      "months": [
+        7,
+        8,
+        9
+      ],
+      "season_label_ko": "여름~가을 (7~9월)",
+      "cross_reactivity_ko": "명아주는 비름과로 러시안 엉겅퀴 등과 교차반응할 수 있습니다."
+    },
+    "Russian thistle": {
+      "korean_name": "러시안 엉겅퀴",
+      "months": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "season_label_ko": "여름~가을 (7~10월)",
+      "cross_reactivity_ko": "러시안 엉겅퀴는 비름과로 명아주 등과 교차반응할 수 있습니다."
+    },
+    "Goldenrod": {
+      "korean_name": "미역취",
+      "months": [
+        8,
+        9,
+        10
+      ],
+      "season_label_ko": "가을 (8~10월)",
+      "is_entomophilous": true,
+      "note_ko": "충매화라 공기 중 농도는 낮습니다. 같은 시기에 날리는 돼지풀과 혼동되곤 합니다.",
+      "cross_reactivity_ko": "미역취는 국화과로 쑥·돼지풀과 교차반응할 수 있습니다."
+    },
+    "Chrysanthemum": {
+      "korean_name": "국화",
+      "months": [
+        9,
+        10
+      ],
+      "season_label_ko": "가을 (9~10월)",
+      "is_entomophilous": true,
+      "note_ko": "충매화입니다. 꽃꽂이·화훼 취급처럼 가까이 접촉하는 상황에서 문제되는 경우가 많습니다.",
+      "cross_reactivity_ko": "국화는 국화과로 쑥·돼지풀과 교차반응할 수 있습니다."
+    },
+    "Dandelion": {
+      "korean_name": "서양민들레",
+      "months": [
+        3,
+        4,
+        5
+      ],
+      "season_label_ko": "봄 (3~5월)",
+      "is_entomophilous": true,
+      "note_ko": "잡초로 분류되지만 시기는 봄이고 충매화입니다.",
+      "cross_reactivity_ko": "서양민들레는 국화과로 쑥·돼지풀과 교차반응할 수 있습니다."
+    },
+    "Tree mixture 1": {
+      "korean_name": "나무 꽃가루 혼합-1",
+      "months": [
+        3,
+        4,
+        5
+      ],
+      "season_label_ko": "봄 (3~5월)",
+      "is_mixture": true,
+      "note_ko": "여러 수목을 섞은 혼합 항원이라 원인 나무를 특정할 수 없습니다. 양성이면 개별 수목 검사가 필요할 수 있습니다."
+    },
+    "Tree mixture 2": {
+      "korean_name": "나무 꽃가루 혼합-2",
+      "months": [
+        3,
+        4,
+        5
+      ],
+      "season_label_ko": "봄 (3~5월)",
+      "is_mixture": true,
+      "note_ko": "여러 수목을 섞은 혼합 항원이라 원인 나무를 특정할 수 없습니다. 양성이면 개별 수목 검사가 필요할 수 있습니다."
+    }
+  }
+}

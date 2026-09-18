@@ -161,6 +161,7 @@ def health(lang: str = "ko"):
         "build": _build_info(),
         "lang": normalize_lang(lang),
         "kb": ks.stats(),
+        "allergen_knowledge": ks.generated_stats(),   # 템플릿으로 덮은 항원 + 검토 대기 건수
         "screening_options": {
             "diseases": sc.disease_options(lang),
             "medications": sc.medication_options(lang),

@@ -1,0 +1,5603 @@
+{
+ "version": "1.0",
+ "locale": "ko-KR",
+ "generated_by": "scripts/build_allergen_knowledge.py",
+ "generated_at": "2026-09-18T05:05:27.768270+00:00",
+ "description": "카테고리·성분군 템플릿 + 국내 꽃가루 시기로 만든 항원 지식. biology_ko 가 candidate 인 항목은 검토 전까지 환자에게 노출되지 않는다.",
+ "count": 128,
+ "llm_candidates": 0,
+ "entries": [
+  {
+   "canonical_name": "2-spotted spider mite",
+   "korean_name": "점박이응애",
+   "aliases": [
+    "2-spotted spider mite",
+    "T utricae",
+    "Tetranychus urticae",
+    "점박이응애"
+   ],
+   "category": "mite",
+   "profile_key": "mite",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "침구·매트리스·소파·카펫·봉제인형처럼 섬유가 많고 습한 실내에 삽니다. 사람의 피부 각질을 먹고 살아 침실 농도가 가장 높습니다.",
+   "season_label_ko": "연중 (장마철·초가을에 증가)",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "indoor",
+   "cross_reactivity_ko": "집먼지진드기와 저장진드기는 서로 교차반응할 수 있고, 트로포마이오신을 공유해 새우·게 등 갑각류와도 교차반응이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "맑은 콧물",
+    "코막힘",
+    "눈 가려움",
+    "기침",
+    "천명"
+   ],
+   "avoidance_control_ko": [
+    "침구(시트·베갯잇·이불커버)를 주 1회 55~60℃ 이상 물로 세탁하세요.",
+    "매트리스·베개·이불에 진드기 차단 커버를 씌우세요.",
+    "실내 습도를 50% 이하로 유지하세요(제습기·환기).",
+    "침실의 카펫·천소파·봉제인형을 줄이세요.",
+    "청소는 HEPA 필터 청소기를 쓰고, 이불을 세게 털지 마세요."
+   ],
+   "relevance_probes_ko": [
+    "계절과 무관하게 연중 코·눈 증상이 있나요?",
+    "청소·이불정리·먼지 노출 때 증상이 심해지나요?",
+    "아침 기상 직후에 특히 심한가요?",
+    "여행 등으로 집을 며칠 비우면 좋아지나요?"
+   ],
+   "clinical_pearl_ko": "연중 증상 + 아침·침구 노출 악화 + 외박 시 호전이 함께 있으면 임상적 의미가 큽니다.",
+   "biology_ko": "점박이응애는 식물에 사는 아주 작은 진드기로, 화분과 농작물에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:18.156456+00:00"
+  },
+  {
+   "canonical_name": "Abalone",
+   "korean_name": "전복",
+   "aliases": [
+    "Haliotis"
+   ],
+   "category": "food",
+   "profile_key": "food:shellfish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "새우·게·조개·오징어 등에 들어 있는 트로포마이오신이 주원인입니다. 가열해도 잘 파괴되지 않고, 삶는 김이나 조리 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "트로포마이오신은 갑각류·연체류끼리 교차반응이 매우 흔하고, 집먼지진드기·바퀴와도 교차반응이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 갑각류·연체류는 피하고, 같은 계열 음식은 진료와 상의해 범위를 정하세요.",
+    "가열해도 알레르겐이 남으므로 '익히면 괜찮다'고 가정하지 마세요.",
+    "조리 증기·같은 기름·같은 도마에 의한 교차오염을 주의하세요.",
+    "외식 시 육수·젓갈·소스에 들어가는지 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "진드기 양성자에서 갑각류 검사 양성이 함께 나오는 일이 흔하지만, 실제로 잘 먹고 있다면 감작만일 수 있습니다.",
+   "components": [
+    "tropomyosin"
+   ],
+   "biology_ko": "전복은 바다에 사는 조개류로, 전복회나 전복죽 같은 음식에 들어가요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:19.622598+00:00"
+  },
+  {
+   "canonical_name": "Acacia",
+   "korean_name": "아까시나무",
+   "aliases": [
+    "False Acacia",
+    "False acacia",
+    "아까시나무",
+    "Acacia",
+    "Robinia pseudoacacia"
+   ],
+   "category": "pollen_tree",
+   "profile_key": "pollen_tree",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "바람에 실려 날아오는 봄철 수목 꽃가루입니다. 건조하고 바람 부는 날, 오전에 농도가 높습니다.",
+   "season_label_ko": "늦봄 (5~6월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    5,
+    6
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "아까시나무는 콩과로, 콩과 식물과의 교차반응이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "맑은 콧물",
+    "코막힘",
+    "눈 가려움·눈물",
+    "목 가려움"
+   ],
+   "avoidance_control_ko": [
+    "꽃가루가 많은 날(건조·강풍)에는 창문을 닫고 환기를 줄이세요.",
+    "외출할 때 마스크와 안경을 쓰세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "빨래를 실외에 널지 마세요.",
+    "차량은 창문을 닫고 내기순환으로 두세요."
+   ],
+   "relevance_probes_ko": [
+    "봄철(3~5월)에 코·눈 증상이 뚜렷하게 심해지나요?",
+    "봄철 야외활동 때 악화되나요?",
+    "다른 계절에는 증상이 줄어드나요?"
+   ],
+   "clinical_pearl_ko": "매년 같은 시기에 반복되는지가 핵심 단서입니다.",
+   "species_note_ko": "꿀벌이 옮기는 충매화라 공기 중 농도가 낮습니다. 곤충이 옮기는 꽃(충매화)이라 공기 중 꽃가루 농도는 낮은 편입니다.",
+   "biology_ko": "아까시나무에서 날리는 꽃가루로, 나무가 꽃필 때 야외에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:21.676364+00:00"
+  },
+  {
+   "canonical_name": "Almond",
+   "korean_name": "아몬드",
+   "aliases": [
+    "Almond",
+    "아몬드"
+   ],
+   "category": "food",
+   "profile_key": "food:ltp",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "LTP(지질전달단백)는 껍질에 많고 열과 소화에 강합니다. 익혀도 남는 경우가 많습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "복숭아·사과·자두·체리·포도·토마토·옥수수·견과 등 식물성 식품 사이에서 폭넓게 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "익혀도 증상이 남을 수 있으니 '가열하면 안전하다'고 가정하지 마세요.",
+    "껍질에 많으므로 껍질을 피하면 덜한 경우가 있습니다.",
+    "운동·음주·해열진통제가 겹치면 반응이 커질 수 있어, 그런 상황을 함께 기록하세요.",
+    "전신 반응 이력이 있으면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "LTP 관련 반응은 입·목에 그치지 않고 전신으로 갈 수 있어, PR-10 형과 구분이 중요합니다.",
+   "components": [
+    "pr10",
+    "profilin",
+    "nsltp"
+   ],
+   "biology_ko": "아몬드는 견과류의 한 종류로, 아몬드 자체나 아몬드가 들어간 음식에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:22.535122+00:00"
+  },
+  {
+   "canonical_name": "Anisakis",
+   "korean_name": "아니사키스",
+   "aliases": [
+    "고래회충",
+    "Ani s"
+   ],
+   "category": "food",
+   "profile_key": "food:shellfish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "새우·게·조개·오징어 등에 들어 있는 트로포마이오신이 주원인입니다. 가열해도 잘 파괴되지 않고, 삶는 김이나 조리 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "트로포마이오신은 갑각류·연체류끼리 교차반응이 매우 흔하고, 집먼지진드기·바퀴와도 교차반응이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 갑각류·연체류는 피하고, 같은 계열 음식은 진료와 상의해 범위를 정하세요.",
+    "가열해도 알레르겐이 남으므로 '익히면 괜찮다'고 가정하지 마세요.",
+    "조리 증기·같은 기름·같은 도마에 의한 교차오염을 주의하세요.",
+    "외식 시 육수·젓갈·소스에 들어가는지 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "진드기 양성자에서 갑각류 검사 양성이 함께 나오는 일이 흔하지만, 실제로 잘 먹고 있다면 감작만일 수 있습니다.",
+   "components": [
+    "tropomyosin"
+   ],
+   "biology_ko": "아니사키스는 생선과 오징어류에 사는 기생충이에요. 날것이나 덜 익힌 해산물을 먹을 때 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:23.865813+00:00"
+  },
+  {
+   "canonical_name": "Apple",
+   "korean_name": "사과",
+   "aliases": [
+    "Apple",
+    "사과"
+   ],
+   "category": "food",
+   "profile_key": "food:ltp",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "LTP(지질전달단백)는 껍질에 많고 열과 소화에 강합니다. 익혀도 남는 경우가 많습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "복숭아·사과·자두·체리·포도·토마토·옥수수·견과 등 식물성 식품 사이에서 폭넓게 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "익혀도 증상이 남을 수 있으니 '가열하면 안전하다'고 가정하지 마세요.",
+    "껍질에 많으므로 껍질을 피하면 덜한 경우가 있습니다.",
+    "운동·음주·해열진통제가 겹치면 반응이 커질 수 있어, 그런 상황을 함께 기록하세요.",
+    "전신 반응 이력이 있으면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "LTP 관련 반응은 입·목에 그치지 않고 전신으로 갈 수 있어, PR-10 형과 구분이 중요합니다.",
+   "components": [
+    "pr10",
+    "profilin",
+    "nsltp",
+    "thaumatin_pr5"
+   ],
+   "biology_ko": "사과는 과일이며, 생사과나 사과 주스·소스 같은 음식에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:25.086031+00:00"
+  },
+  {
+   "canonical_name": "Apricot",
+   "korean_name": "살구",
+   "aliases": [
+    "Prunus armeniaca",
+    "Pru ar"
+   ],
+   "category": "food",
+   "profile_key": "food:ltp",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "LTP(지질전달단백)는 껍질에 많고 열과 소화에 강합니다. 익혀도 남는 경우가 많습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "복숭아·사과·자두·체리·포도·토마토·옥수수·견과 등 식물성 식품 사이에서 폭넓게 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "익혀도 증상이 남을 수 있으니 '가열하면 안전하다'고 가정하지 마세요.",
+    "껍질에 많으므로 껍질을 피하면 덜한 경우가 있습니다.",
+    "운동·음주·해열진통제가 겹치면 반응이 커질 수 있어, 그런 상황을 함께 기록하세요.",
+    "전신 반응 이력이 있으면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "LTP 관련 반응은 입·목에 그치지 않고 전신으로 갈 수 있어, PR-10 형과 구분이 중요합니다.",
+   "components": [
+    "pr10",
+    "nsltp"
+   ],
+   "biology_ko": "살구는 살구나무에서 열리는 과일이에요. 생으로 먹거나 잼, 주스, 말린 과일로 접할 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:26.464155+00:00"
+  },
+  {
+   "canonical_name": "Aspergillus niger",
+   "korean_name": "아스페르길루스 니거",
+   "aliases": [
+    "A. niger",
+    "Aspergillus niger",
+    "아스페르길루스 니거"
+   ],
+   "category": "mold",
+   "profile_key": "mold",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "욕실·지하실·결로가 생기는 벽, 오래된 에어컨 필터, 화분 흙, 낙엽 더미처럼 습한 곳에서 포자가 퍼집니다.",
+   "season_label_ko": "연중 (장마철·여름~초가을 증가)",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "both",
+   "cross_reactivity_ko": "곰팡이 속(屬)이 다르면 교차반응은 제한적입니다. 여러 곰팡이 양성은 각각의 노출을 따로 확인해야 합니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "기침",
+    "천명",
+    "눈 가려움"
+   ],
+   "avoidance_control_ko": [
+    "실내 습도를 50% 이하로 유지하고 자주 환기하세요.",
+    "욕실·주방·창틀의 결로와 곰팡이를 바로 닦아내세요.",
+    "에어컨·제습기 필터를 주기적으로 청소하세요.",
+    "젖은 빨래를 실내에 오래 두지 마세요.",
+    "낙엽 더미·퇴비·화분 흙을 다룰 때 마스크를 쓰세요."
+   ],
+   "relevance_probes_ko": [
+    "습한 공간(욕실·지하·장마철)에 있으면 증상이 심해지나요?",
+    "곰팡이 냄새가 나는 곳에서 악화되나요?",
+    "여름~초가을에 더 심한가요?"
+   ],
+   "clinical_pearl_ko": "실내 곰팡이는 연중, 실외 곰팡이는 여름~가을에 증상이 몰리는 경향이 있습니다.",
+   "biology_ko": "아스페르길루스 니거는 검은곰팡이의 한 종류로, 습한 곳과 흙, 상한 음식에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:28.955396+00:00"
+  },
+  {
+   "canonical_name": "Avocado",
+   "korean_name": "아보카도",
+   "aliases": [
+    "Avocado",
+    "아보카도"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "아보카도는 열대 과일로, 생으로 먹거나 샐러드와 음료에 넣어 먹어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:29.833389+00:00"
+  },
+  {
+   "canonical_name": "Banana",
+   "korean_name": "바나나",
+   "aliases": [
+    "Banana",
+    "바나나"
+   ],
+   "category": "food",
+   "profile_key": "food:profilin",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "프로필린은 여러 식물에 두루 있는 범알레르겐입니다. 검사에서 여러 과일·채소가 한꺼번에 양성으로 보이게 만들 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "잔디·잡초 꽃가루와 멜론·수박·바나나·오렌지·토마토 등이 프로필린으로 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "실제로 먹었을 때 증상이 있었던 음식만 가려내세요. 프로필린 양성만으로 광범위하게 끊지 않습니다.",
+    "생과일에서 증상이 있으면 익혀서 시도해 보세요.",
+    "꽃가루 시즌에 증상이 강해지는지 기록해 두세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "프로필린은 다수 양성을 만들지만 임상 증상으로 이어지는 비율은 낮은 편입니다.",
+   "components": [
+    "profilin",
+    "thaumatin_pr5"
+   ],
+   "biology_ko": "바나나는 열대 과일로, 과일 자체와 바나나가 들어간 음식에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:30.778641+00:00"
+  },
+  {
+   "canonical_name": "Barley",
+   "korean_name": "보리가루",
+   "aliases": [
+    "Barley",
+    "Barley flour",
+    "보리가루"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "보리는 곡물로, 보리밥·보리차·맥주·빵 등에 들어 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:32.602812+00:00"
+  },
+  {
+   "canonical_name": "Bean",
+   "korean_name": "콩",
+   "aliases": [
+    "Bean",
+    "콩"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "콩은 콩류 식물의 씨앗으로, 두유·두부·된장·간장과 같은 음식에 들어 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:33.750287+00:00"
+  },
+  {
+   "canonical_name": "Beech",
+   "korean_name": "너도밤나무",
+   "aliases": [
+    "Beech",
+    "너도밤나무"
+   ],
+   "category": "pollen_tree",
+   "profile_key": "pollen_tree",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "바람에 실려 날아오는 봄철 수목 꽃가루입니다. 건조하고 바람 부는 날, 오전에 농도가 높습니다.",
+   "season_label_ko": "봄 (4~5월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    4,
+    5
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "너도밤나무는 참나무과로 참나무와 교차반응할 수 있습니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "맑은 콧물",
+    "코막힘",
+    "눈 가려움·눈물",
+    "목 가려움"
+   ],
+   "avoidance_control_ko": [
+    "꽃가루가 많은 날(건조·강풍)에는 창문을 닫고 환기를 줄이세요.",
+    "외출할 때 마스크와 안경을 쓰세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "빨래를 실외에 널지 마세요.",
+    "차량은 창문을 닫고 내기순환으로 두세요."
+   ],
+   "relevance_probes_ko": [
+    "봄철(3~5월)에 코·눈 증상이 뚜렷하게 심해지나요?",
+    "봄철 야외활동 때 악화되나요?",
+    "다른 계절에는 증상이 줄어드나요?"
+   ],
+   "clinical_pearl_ko": "매년 같은 시기에 반복되는지가 핵심 단서입니다.",
+   "components": [
+    "pr10"
+   ],
+   "biology_ko": "너도밤나무는 꽃가루를 만드는 나무예요. 나무가 자라는 곳의 공기 중 꽃가루로 접할 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:35.389250+00:00"
+  },
+  {
+   "canonical_name": "Beef",
+   "korean_name": "소고기",
+   "aliases": [
+    "Beef",
+    "소고기"
+   ],
+   "category": "food",
+   "profile_key": "food:mammal_meat",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "포유류 고기의 혈청알부민에 반응하는 경우로, 동물 비듬 감작과 함께 나타나기도 합니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "고양이 알부민과 돼지고기(pork-cat 증후군), 소 비듬과 소고기·우유 사이에 교차반응이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 반복된 고기만 우선 피하고, 조리 정도에 따른 차이를 기록하세요.",
+    "혈청알부민은 충분히 익히면 줄어드는 경우가 있어, 생·덜 익힌 상태에서 더 문제되는지 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "동물 비듬 양성자에서 고기 검사 양성이 함께 보이는 일이 있으나, 잘 먹고 있다면 감작만일 수 있습니다.",
+   "components": [
+    "serum_albumin"
+   ],
+   "biology_ko": "소고기는 소에서 얻는 고기로, 주로 스테이크·국·불고기 같은 음식으로 먹어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:36.354906+00:00"
+  },
+  {
+   "canonical_name": "Bermuda grass",
+   "korean_name": "우산잔디",
+   "aliases": [
+    "Bermuda",
+    "Bermuda grass",
+    "우산잔디"
+   ],
+   "category": "pollen_grass",
+   "profile_key": "pollen_grass",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "잔디·목초의 꽃가루로, 잔디밭·운동장·하천변에서 노출됩니다. 잔디를 깎을 때 농도가 크게 올라갑니다.",
+   "season_label_ko": "여름 (5~9월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "잔디 꽃가루끼리는 교차반응이 흔해 한 종에 양성이면 다른 잔디에도 양성으로 나오는 경우가 많습니다. 밀·토마토 등과 프로필린을 통한 교차도 보고됩니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움",
+    "피부 접촉 두드러기"
+   ],
+   "avoidance_control_ko": [
+    "잔디 깎기는 피하고, 해야 한다면 마스크를 쓰세요.",
+    "잔디밭에 직접 앉거나 눕지 마세요.",
+    "시즌에는 야외활동 후 샤워하고 옷을 갈아입으세요.",
+    "이른 아침·저녁 잔디밭 산책을 줄이세요."
+   ],
+   "relevance_probes_ko": [
+    "5~6월에 증상이 심해지나요?",
+    "잔디밭·풀밭에 다녀오면 악화되나요?",
+    "잔디를 깎거나 그 근처에 있을 때 증상이 생기나요?"
+   ],
+   "clinical_pearl_ko": "잔디 종끼리 교차반응이 많아, 여러 잔디 양성이 곧 여러 원인을 뜻하지는 않습니다.",
+   "species_note_ko": "다른 잔디보다 시즌이 길어 여름 내내 노출될 수 있습니다.",
+   "components": [
+    "profilin",
+    "polcalcin"
+   ],
+   "biology_ko": "우산잔디는 잔디의 한 종류로, 꽃가루가 날리는 야외 잔디밭이나 풀밭에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:37.986759+00:00"
+  },
+  {
+   "canonical_name": "Cabbage",
+   "korean_name": "양배추",
+   "aliases": [
+    "Cabbage",
+    "양배추"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "양배추는 잎을 먹는 채소예요. 샐러드, 김치, 국과 볶음 요리에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:39.071016+00:00"
+  },
+  {
+   "canonical_name": "Candida albicans",
+   "korean_name": "칸디다 알비칸스",
+   "aliases": [
+    "C. albicans",
+    "Candida albicans",
+    "칸디다 알비칸스"
+   ],
+   "category": "mold",
+   "profile_key": "mold",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "욕실·지하실·결로가 생기는 벽, 오래된 에어컨 필터, 화분 흙, 낙엽 더미처럼 습한 곳에서 포자가 퍼집니다.",
+   "season_label_ko": "연중 (장마철·여름~초가을 증가)",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "both",
+   "cross_reactivity_ko": "곰팡이 속(屬)이 다르면 교차반응은 제한적입니다. 여러 곰팡이 양성은 각각의 노출을 따로 확인해야 합니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "기침",
+    "천명",
+    "눈 가려움"
+   ],
+   "avoidance_control_ko": [
+    "실내 습도를 50% 이하로 유지하고 자주 환기하세요.",
+    "욕실·주방·창틀의 결로와 곰팡이를 바로 닦아내세요.",
+    "에어컨·제습기 필터를 주기적으로 청소하세요.",
+    "젖은 빨래를 실내에 오래 두지 마세요.",
+    "낙엽 더미·퇴비·화분 흙을 다룰 때 마스크를 쓰세요."
+   ],
+   "relevance_probes_ko": [
+    "습한 공간(욕실·지하·장마철)에 있으면 증상이 심해지나요?",
+    "곰팡이 냄새가 나는 곳에서 악화되나요?",
+    "여름~초가을에 더 심한가요?"
+   ],
+   "clinical_pearl_ko": "실내 곰팡이는 연중, 실외 곰팡이는 여름~가을에 증상이 몰리는 경향이 있습니다.",
+   "biology_ko": "칸디다 알비칸스는 피부와 입안·장 등에 사는 효모균이에요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:40.956680+00:00"
+  },
+  {
+   "canonical_name": "Carp",
+   "korean_name": "잉어",
+   "aliases": [
+    "Cyp c"
+   ],
+   "category": "food",
+   "profile_key": "food:fish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "어류의 파브알부민이 주원인입니다. 가열에 안정적이며, 생선을 굽거나 찌는 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "어종 간 교차반응이 흔합니다. 다만 참치·황새치처럼 파브알부민이 적은 어종은 비교적 견디는 경우가 있습니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 어종은 피하고, 다른 어종 섭취 범위는 진료와 상의해 정하세요.",
+    "조리 증기에 노출되는 주방 환경을 주의하세요.",
+    "액젓·멸치육수·어묵 등 표시가 잘 안 되는 형태를 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "어류 알레르기와 아니사키스(기생충) 반응은 원인이 다르므로 구분이 필요합니다.",
+   "components": [
+    "parvalbumin"
+   ],
+   "biology_ko": "잉어는 민물에 사는 물고기로, 잉어 요리나 잉어가 들어간 식품에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:42.085376+00:00"
+  },
+  {
+   "canonical_name": "Carrot",
+   "korean_name": "당근",
+   "aliases": [
+    "Carrot",
+    "당근"
+   ],
+   "category": "food",
+   "profile_key": "food:pr10",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "자작나무 꽃가루 단백(PR-10)과 닮은 과일·채소 단백에 반응하는 경우입니다. 생과일에서 주로 나타납니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "자작나무과 꽃가루와 사과·배·복숭아·체리·살구·당근·셀러리 등이 교차반응합니다(구강알레르기증후군).",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "생으로 먹을 때 입·목이 가렵다면 익혀서 드세요. PR-10 은 열에 약해 증상이 줄어드는 경우가 많습니다.",
+    "껍질에 많으므로 껍질을 벗기면 나아질 수 있습니다.",
+    "꽃가루 시즌에는 증상이 더 심해질 수 있습니다.",
+    "입·목을 넘어 두드러기·호흡곤란으로 번진 적이 있다면 반드시 진료에서 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "대개 입·목에 국한된 가벼운 증상이지만, 전신 반응 이력이 있으면 별도 평가가 필요합니다.",
+   "components": [
+    "pr10",
+    "profilin"
+   ],
+   "biology_ko": "당근은 주황색 뿌리채소로, 생으로 먹거나 요리와 주스에 사용돼요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:43.060459+00:00"
+  },
+  {
+   "canonical_name": "Casein",
+   "korean_name": "암소건락소-치즈원료",
+   "aliases": [
+    "Casein",
+    "Cow casein",
+    "암소건락소-치즈원료"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "카제인은 우유에 들어 있는 단백질로 치즈, 요구르트와 우유가 들어간 음식에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:44.750190+00:00"
+  },
+  {
+   "canonical_name": "Cashew",
+   "korean_name": "캐슈넛",
+   "aliases": [
+    "Cashew nut",
+    "캐슈",
+    "Ana o",
+    "Anacardium"
+   ],
+   "category": "food",
+   "profile_key": "food:seed_storage",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "견과·씨앗의 저장단백(2S albumin)은 열과 소화에 안정적이라 가공식품에서도 그대로 남습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "견과류끼리(캐슈-피스타치오, 호두-피칸) 교차반응이 잘 알려져 있습니다. 땅콩은 콩과로 견과와는 별개입니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 견과·씨앗은 피하고, 같은 계열 견과의 허용 범위는 진료와 상의하세요.",
+    "제과·소스·드레싱에 분말 형태로 들어가는 경우가 많아 원재료 표시를 확인하세요.",
+    "같은 설비에서 생산된 제품의 교차오염 표시도 확인하세요.",
+    "전신 반응 이력이 있다면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "가열로 줄지 않는 유형이라 소량 노출에도 반응할 수 있습니다.",
+   "components": [
+    "2s_albumin"
+   ],
+   "biology_ko": "캐슈넛은 캐슈나무의 씨앗으로, 견과류나 캐슈넛이 들어간 음식에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:45.663244+00:00"
+  },
+  {
+   "canonical_name": "Celery",
+   "korean_name": "샐러리",
+   "aliases": [
+    "Celery",
+    "샐러리"
+   ],
+   "category": "food",
+   "profile_key": "food:ltp",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "LTP(지질전달단백)는 껍질에 많고 열과 소화에 강합니다. 익혀도 남는 경우가 많습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "복숭아·사과·자두·체리·포도·토마토·옥수수·견과 등 식물성 식품 사이에서 폭넓게 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "익혀도 증상이 남을 수 있으니 '가열하면 안전하다'고 가정하지 마세요.",
+    "껍질에 많으므로 껍질을 피하면 덜한 경우가 있습니다.",
+    "운동·음주·해열진통제가 겹치면 반응이 커질 수 있어, 그런 상황을 함께 기록하세요.",
+    "전신 반응 이력이 있으면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "LTP 관련 반응은 입·목에 그치지 않고 전신으로 갈 수 있어, PR-10 형과 구분이 중요합니다.",
+   "components": [
+    "pr10",
+    "profilin",
+    "nsltp"
+   ],
+   "biology_ko": "샐러리는 향이 강한 채소로, 샐러드나 수프, 주스 등에 들어가요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:46.776938+00:00"
+  },
+  {
+   "canonical_name": "Cherry",
+   "korean_name": "체리",
+   "aliases": [
+    "버찌",
+    "Pru av"
+   ],
+   "category": "food",
+   "profile_key": "food:ltp",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "LTP(지질전달단백)는 껍질에 많고 열과 소화에 강합니다. 익혀도 남는 경우가 많습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "복숭아·사과·자두·체리·포도·토마토·옥수수·견과 등 식물성 식품 사이에서 폭넓게 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "익혀도 증상이 남을 수 있으니 '가열하면 안전하다'고 가정하지 마세요.",
+    "껍질에 많으므로 껍질을 피하면 덜한 경우가 있습니다.",
+    "운동·음주·해열진통제가 겹치면 반응이 커질 수 있어, 그런 상황을 함께 기록하세요.",
+    "전신 반응 이력이 있으면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "LTP 관련 반응은 입·목에 그치지 않고 전신으로 갈 수 있어, PR-10 형과 구분이 중요합니다.",
+   "components": [
+    "pr10",
+    "nsltp",
+    "thaumatin_pr5"
+   ],
+   "biology_ko": "체리는 벚나무에서 열리는 작고 붉은 과일이에요. 생과일이나 주스, 디저트에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:48.092694+00:00"
+  },
+  {
+   "canonical_name": "Chicken",
+   "korean_name": "닭",
+   "aliases": [
+    "Chicken",
+    "닭"
+   ],
+   "category": "animal",
+   "profile_key": "animal",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "털 자체보다 비듬·침·소변의 단백질이 원인입니다. 입자가 가볍고 오래 떠 있어 동물이 없는 공간(옷·차·학교)에서도 노출될 수 있습니다.",
+   "season_label_ko": "연중 (접촉할 때)",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "indoor",
+   "cross_reactivity_ko": "동물 간에는 혈청알부민을 통해 교차반응이 있을 수 있고, 고양이 알부민은 돼지고기와(pork-cat 증후군) 연관이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움·충혈",
+    "두드러기",
+    "기침",
+    "천명"
+   ],
+   "avoidance_control_ko": [
+    "동물을 침실에 들이지 마세요. 자는 동안 노출을 줄이는 것이 가장 효과가 큽니다.",
+    "HEPA 공기청정기를 생활공간에 두고 자주 청소하세요.",
+    "카펫·천소파처럼 비듬이 쌓이는 물건을 줄이세요.",
+    "동물을 만진 뒤 손을 씻고 얼굴·눈을 비비지 마세요.",
+    "목욕·빗질은 가능하면 알레르기가 없는 가족이 맡으세요."
+   ],
+   "relevance_probes_ko": [
+    "그 동물과 접촉하면 수분~수십 분 안에 증상이 생기나요?",
+    "그 동물이 있는 집·공간에 가면 악화되나요?",
+    "접촉을 피한 기간에는 증상이 줄었나요?"
+   ],
+   "clinical_pearl_ko": "접촉 후 짧은 시간 안에 재현되는지가 핵심입니다. 키우지 않아도 간접 노출로 증상이 날 수 있습니다.",
+   "biology_ko": "닭고기와 닭에서 나온 성분이에요. 음식으로 먹거나 깃털과 피부 비듬에 닿을 때 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:49.206640+00:00"
+  },
+  {
+   "canonical_name": "Chrysanthemum",
+   "korean_name": "국화",
+   "aliases": [
+    "Chrysan",
+    "Chrysanthemum",
+    "국화"
+   ],
+   "category": "pollen_weed",
+   "profile_key": "pollen_weed",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "하천변·공터·길가에 자라는 잡초 꽃가루입니다. 가을 건조하고 바람 부는 날 농도가 높습니다.",
+   "season_label_ko": "가을 (9~10월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    9,
+    10
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "국화는 국화과로 쑥·돼지풀과 교차반응할 수 있습니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움",
+    "기침"
+   ],
+   "avoidance_control_ko": [
+    "가을철 꽃가루 농도가 높은 날에는 외출·환기를 줄이세요.",
+    "외출 시 마스크·안경을 착용하세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "하천변·공터 산책을 시즌에는 줄이세요."
+   ],
+   "relevance_probes_ko": [
+    "8~10월에 증상이 뚜렷하게 심해지나요?",
+    "가을철 야외(하천변·풀밭) 노출 때 악화되나요?",
+    "봄에는 상대적으로 괜찮은가요?"
+   ],
+   "clinical_pearl_ko": "가을에만 반복되는 패턴이면 임상적 의미가 큽니다.",
+   "species_note_ko": "충매화입니다. 꽃꽂이·화훼 취급처럼 가까이 접촉하는 상황에서 문제되는 경우가 많습니다. 곤충이 옮기는 꽃(충매화)이라 공기 중 꽃가루 농도는 낮은 편입니다.",
+   "biology_ko": "국화는 꽃이 피는 식물로, 꽃가루가 날릴 때 공기 중에서 접할 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:50.962627+00:00"
+  },
+  {
+   "canonical_name": "Citrus fruit",
+   "korean_name": "귤",
+   "aliases": [
+    "Citrus",
+    "Citrus fruit",
+    "귤"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "감귤류 과일로 귤, 오렌지, 레몬 등이 있으며 과일이나 주스에 들어 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:53.046270+00:00"
+  },
+  {
+   "canonical_name": "Cladosporium herbarum",
+   "korean_name": "클라도스포리움 헤르바룸",
+   "aliases": [
+    "Cladosporium",
+    "Cladosporium herbarum",
+    "클라도스포리움 헤르바룸"
+   ],
+   "category": "mold",
+   "profile_key": "mold",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "욕실·지하실·결로가 생기는 벽, 오래된 에어컨 필터, 화분 흙, 낙엽 더미처럼 습한 곳에서 포자가 퍼집니다.",
+   "season_label_ko": "연중 (장마철·여름~초가을 증가)",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "both",
+   "cross_reactivity_ko": "곰팡이 속(屬)이 다르면 교차반응은 제한적입니다. 여러 곰팡이 양성은 각각의 노출을 따로 확인해야 합니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "기침",
+    "천명",
+    "눈 가려움"
+   ],
+   "avoidance_control_ko": [
+    "실내 습도를 50% 이하로 유지하고 자주 환기하세요.",
+    "욕실·주방·창틀의 결로와 곰팡이를 바로 닦아내세요.",
+    "에어컨·제습기 필터를 주기적으로 청소하세요.",
+    "젖은 빨래를 실내에 오래 두지 마세요.",
+    "낙엽 더미·퇴비·화분 흙을 다룰 때 마스크를 쓰세요."
+   ],
+   "relevance_probes_ko": [
+    "습한 공간(욕실·지하·장마철)에 있으면 증상이 심해지나요?",
+    "곰팡이 냄새가 나는 곳에서 악화되나요?",
+    "여름~초가을에 더 심한가요?"
+   ],
+   "clinical_pearl_ko": "실내 곰팡이는 연중, 실외 곰팡이는 여름~가을에 증상이 몰리는 경향이 있습니다.",
+   "biology_ko": "클라도스포리움 헤르바룸은 곰팡이의 한 종류예요. 흙, 낙엽, 식물과 집 안팎의 습한 곳에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:54.283331+00:00"
+  },
+  {
+   "canonical_name": "Clam",
+   "korean_name": "조개",
+   "aliases": [
+    "바지락",
+    "백합",
+    "Rud p"
+   ],
+   "category": "food",
+   "profile_key": "food:shellfish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "새우·게·조개·오징어 등에 들어 있는 트로포마이오신이 주원인입니다. 가열해도 잘 파괴되지 않고, 삶는 김이나 조리 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "트로포마이오신은 갑각류·연체류끼리 교차반응이 매우 흔하고, 집먼지진드기·바퀴와도 교차반응이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 갑각류·연체류는 피하고, 같은 계열 음식은 진료와 상의해 범위를 정하세요.",
+    "가열해도 알레르겐이 남으므로 '익히면 괜찮다'고 가정하지 마세요.",
+    "조리 증기·같은 기름·같은 도마에 의한 교차오염을 주의하세요.",
+    "외식 시 육수·젓갈·소스에 들어가는지 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "진드기 양성자에서 갑각류 검사 양성이 함께 나오는 일이 흔하지만, 실제로 잘 먹고 있다면 감작만일 수 있습니다.",
+   "components": [
+    "tropomyosin"
+   ],
+   "biology_ko": "조개는 바다나 민물에 사는 연체동물이에요. 조개류 요리나 국물, 소스에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:55.580308+00:00"
+  },
+  {
+   "canonical_name": "Cockroach, American",
+   "korean_name": "미국바퀴",
+   "aliases": [
+    "American cockroach",
+    "American cockroach protein",
+    "미국바퀴",
+    "Cockroach, American"
+   ],
+   "category": "insect",
+   "profile_key": "insect",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "바퀴의 배설물·탈피 껍질·사체가 부서져 집먼지에 섞입니다. 주방·싱크대 아래·배관 주변에 많습니다.",
+   "season_label_ko": "연중",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "indoor",
+   "cross_reactivity_ko": "바퀴는 트로포마이오신을 통해 집먼지진드기·갑각류와 교차반응할 수 있습니다.",
+   "typical_symptoms_ko": [
+    "연중 코막힘",
+    "재채기",
+    "기침",
+    "천명"
+   ],
+   "avoidance_control_ko": [
+    "음식물은 밀폐 보관하고 부스러기를 바로 치우세요.",
+    "싱크대 아래·배관 주변의 물기와 틈을 막으세요.",
+    "쓰레기통을 자주 비우고 밀폐하세요.",
+    "방제 후에는 남은 배설물·사체까지 물청소로 제거하세요."
+   ],
+   "relevance_probes_ko": [
+    "집에서 바퀴를 본 적이 있나요?",
+    "실내에서 연중 코·호흡기 증상이 지속되나요?",
+    "주방·오래된 건물에서 더 심해지나요?"
+   ],
+   "clinical_pearl_ko": "도시 주거 환경에서 천식 악화와의 연관이 보고되는 실내 알러젠입니다.",
+   "components": [
+    "tropomyosin",
+    "arginine_kinase",
+    "lipocalin"
+   ],
+   "biology_ko": "미국바퀴는 집 안팎에서 발견되는 바퀴벌레로, 배설물과 몸 조각에 노출될 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:57.215990+00:00"
+  },
+  {
+   "canonical_name": "Cod",
+   "korean_name": "대구",
+   "aliases": [
+    "Cod",
+    "대구"
+   ],
+   "category": "food",
+   "profile_key": "food:fish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "어류의 파브알부민이 주원인입니다. 가열에 안정적이며, 생선을 굽거나 찌는 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "어종 간 교차반응이 흔합니다. 다만 참치·황새치처럼 파브알부민이 적은 어종은 비교적 견디는 경우가 있습니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 어종은 피하고, 다른 어종 섭취 범위는 진료와 상의해 정하세요.",
+    "조리 증기에 노출되는 주방 환경을 주의하세요.",
+    "액젓·멸치육수·어묵 등 표시가 잘 안 되는 형태를 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "어류 알레르기와 아니사키스(기생충) 반응은 원인이 다르므로 구분이 필요합니다.",
+   "components": [
+    "parvalbumin"
+   ],
+   "biology_ko": "대구는 바다에 사는 생선으로, 대구살이나 대구가 들어간 음식에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:58.636095+00:00"
+  },
+  {
+   "canonical_name": "Control",
+   "korean_name": "음성 대조용 생리식염수",
+   "aliases": [
+    "Control",
+    "Negative control",
+    "음성 대조용 생리식염수"
+   ],
+   "category": "control",
+   "profile_key": "control",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "이 항목은 알레르겐이 아니라 피부반응검사(SPT)가 제대로 작동했는지 확인하는 대조입니다.",
+   "season_label_ko": "해당 없음",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [],
+   "avoidance_control_ko": [],
+   "relevance_probes_ko": [],
+   "clinical_pearl_ko": "음성 대조(생리식염수)는 반응이 없어야 정상이고, 양성 대조(히스타민)는 반응이 나와야 검사가 유효합니다. 회피 대상이 아닙니다.",
+   "is_control": true
+  },
+  {
+   "canonical_name": "Cornflour",
+   "korean_name": "옥수수가루",
+   "aliases": [
+    "Corn flour",
+    "Cornflour",
+    "옥수수가루"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "옥수수가루는 옥수수를 곱게 간 가루예요. 빵, 과자, 시리얼과 옥수수 성분이 든 음식에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:02:59.781568+00:00"
+  },
+  {
+   "canonical_name": "Cow dander",
+   "korean_name": "소 비듬",
+   "aliases": [
+    "Bos d 2",
+    "소 상피"
+   ],
+   "category": "animal",
+   "profile_key": "animal",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "털 자체보다 비듬·침·소변의 단백질이 원인입니다. 입자가 가볍고 오래 떠 있어 동물이 없는 공간(옷·차·학교)에서도 노출될 수 있습니다.",
+   "season_label_ko": "연중 (접촉할 때)",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "indoor",
+   "cross_reactivity_ko": "동물 간에는 혈청알부민을 통해 교차반응이 있을 수 있고, 고양이 알부민은 돼지고기와(pork-cat 증후군) 연관이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움·충혈",
+    "두드러기",
+    "기침",
+    "천명"
+   ],
+   "avoidance_control_ko": [
+    "동물을 침실에 들이지 마세요. 자는 동안 노출을 줄이는 것이 가장 효과가 큽니다.",
+    "HEPA 공기청정기를 생활공간에 두고 자주 청소하세요.",
+    "카펫·천소파처럼 비듬이 쌓이는 물건을 줄이세요.",
+    "동물을 만진 뒤 손을 씻고 얼굴·눈을 비비지 마세요.",
+    "목욕·빗질은 가능하면 알레르기가 없는 가족이 맡으세요."
+   ],
+   "relevance_probes_ko": [
+    "그 동물과 접촉하면 수분~수십 분 안에 증상이 생기나요?",
+    "그 동물이 있는 집·공간에 가면 악화되나요?",
+    "접촉을 피한 기간에는 증상이 줄었나요?"
+   ],
+   "clinical_pearl_ko": "접촉 후 짧은 시간 안에 재현되는지가 핵심입니다. 키우지 않아도 간접 노출로 증상이 날 수 있습니다.",
+   "components": [
+    "lipocalin",
+    "serum_albumin"
+   ],
+   "biology_ko": "소 비듬은 소의 피부에서 떨어지는 각질과 털 조각으로, 소나 축사에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:01.733541+00:00"
+  },
+  {
+   "canonical_name": "Crab",
+   "korean_name": "게",
+   "aliases": [
+    "꽃게",
+    "Blue crab",
+    "Portunus",
+    "대게",
+    "킹크랩",
+    "Cha f"
+   ],
+   "category": "food",
+   "profile_key": "food:shellfish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "새우·게·조개·오징어 등에 들어 있는 트로포마이오신이 주원인입니다. 가열해도 잘 파괴되지 않고, 삶는 김이나 조리 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "트로포마이오신은 갑각류·연체류끼리 교차반응이 매우 흔하고, 집먼지진드기·바퀴와도 교차반응이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 갑각류·연체류는 피하고, 같은 계열 음식은 진료와 상의해 범위를 정하세요.",
+    "가열해도 알레르겐이 남으므로 '익히면 괜찮다'고 가정하지 마세요.",
+    "조리 증기·같은 기름·같은 도마에 의한 교차오염을 주의하세요.",
+    "외식 시 육수·젓갈·소스에 들어가는지 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "진드기 양성자에서 갑각류 검사 양성이 함께 나오는 일이 흔하지만, 실제로 잘 먹고 있다면 감작만일 수 있습니다.",
+   "components": [
+    "tropomyosin",
+    "arginine_kinase"
+   ],
+   "biology_ko": "게는 갑각류로, 게살이나 게가 들어간 음식에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:02.575621+00:00"
+  },
+  {
+   "canonical_name": "Crayfish",
+   "korean_name": "가재",
+   "aliases": [
+    "민물가재",
+    "Astacus",
+    "크레이피시"
+   ],
+   "category": "food",
+   "profile_key": "food:shellfish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "새우·게·조개·오징어 등에 들어 있는 트로포마이오신이 주원인입니다. 가열해도 잘 파괴되지 않고, 삶는 김이나 조리 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "트로포마이오신은 갑각류·연체류끼리 교차반응이 매우 흔하고, 집먼지진드기·바퀴와도 교차반응이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 갑각류·연체류는 피하고, 같은 계열 음식은 진료와 상의해 범위를 정하세요.",
+    "가열해도 알레르겐이 남으므로 '익히면 괜찮다'고 가정하지 마세요.",
+    "조리 증기·같은 기름·같은 도마에 의한 교차오염을 주의하세요.",
+    "외식 시 육수·젓갈·소스에 들어가는지 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "진드기 양성자에서 갑각류 검사 양성이 함께 나오는 일이 흔하지만, 실제로 잘 먹고 있다면 감작만일 수 있습니다.",
+   "components": [
+    "tropomyosin",
+    "arginine_kinase"
+   ],
+   "biology_ko": "가재는 민물에 사는 갑각류로, 가재 요리나 가재가 들어간 음식에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:03.614305+00:00"
+  },
+  {
+   "canonical_name": "Cultivated oat",
+   "korean_name": "귀리",
+   "aliases": [
+    "Cultivated oat",
+    "oat",
+    "귀리"
+   ],
+   "category": "pollen_grass",
+   "profile_key": "pollen_grass",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "잔디·목초의 꽃가루로, 잔디밭·운동장·하천변에서 노출됩니다. 잔디를 깎을 때 농도가 크게 올라갑니다.",
+   "season_label_ko": "늦봄~여름 (5~7월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    5,
+    6,
+    7
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "잔디 꽃가루끼리는 교차반응이 흔해 한 종에 양성이면 다른 잔디에도 양성으로 나오는 경우가 많습니다. 밀·토마토 등과 프로필린을 통한 교차도 보고됩니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움",
+    "피부 접촉 두드러기"
+   ],
+   "avoidance_control_ko": [
+    "잔디 깎기는 피하고, 해야 한다면 마스크를 쓰세요.",
+    "잔디밭에 직접 앉거나 눕지 마세요.",
+    "시즌에는 야외활동 후 샤워하고 옷을 갈아입으세요.",
+    "이른 아침·저녁 잔디밭 산책을 줄이세요."
+   ],
+   "relevance_probes_ko": [
+    "5~6월에 증상이 심해지나요?",
+    "잔디밭·풀밭에 다녀오면 악화되나요?",
+    "잔디를 깎거나 그 근처에 있을 때 증상이 생기나요?"
+   ],
+   "clinical_pearl_ko": "잔디 종끼리 교차반응이 많아, 여러 잔디 양성이 곧 여러 원인을 뜻하지는 않습니다.",
+   "species_note_ko": "재배지 주변에서 노출됩니다. 먹는 귀리(음식 알레르기)와는 다른 문제입니다.",
+   "biology_ko": "귀리는 곡물의 하나로, 오트밀과 빵에 들어가며 귀리밭의 꽃가루에서도 접할 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:05.974297+00:00"
+  },
+  {
+   "canonical_name": "Dandelion",
+   "korean_name": "서양민들레",
+   "aliases": [
+    "Dandelion",
+    "서양민들레"
+   ],
+   "category": "pollen_weed",
+   "profile_key": "pollen_weed",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "하천변·공터·길가에 자라는 잡초 꽃가루입니다. 가을 건조하고 바람 부는 날 농도가 높습니다.",
+   "season_label_ko": "봄 (3~5월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    3,
+    4,
+    5
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "서양민들레는 국화과로 쑥·돼지풀과 교차반응할 수 있습니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움",
+    "기침"
+   ],
+   "avoidance_control_ko": [
+    "가을철 꽃가루 농도가 높은 날에는 외출·환기를 줄이세요.",
+    "외출 시 마스크·안경을 착용하세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "하천변·공터 산책을 시즌에는 줄이세요."
+   ],
+   "relevance_probes_ko": [
+    "8~10월에 증상이 뚜렷하게 심해지나요?",
+    "가을철 야외(하천변·풀밭) 노출 때 악화되나요?",
+    "봄에는 상대적으로 괜찮은가요?"
+   ],
+   "clinical_pearl_ko": "가을에만 반복되는 패턴이면 임상적 의미가 큽니다.",
+   "species_note_ko": "잡초로 분류되지만 시기는 봄이고 충매화입니다. 곤충이 옮기는 꽃(충매화)이라 공기 중 꽃가루 농도는 낮은 편입니다.",
+   "biology_ko": "서양민들레는 국화과 식물의 꽃가루로, 꽃이 피는 계절에 공기 중에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:07.735803+00:00"
+  },
+  {
+   "canonical_name": "Egg yolk",
+   "korean_name": "계란노른자",
+   "aliases": [
+    "Egg yolk",
+    "계란노른자"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "계란노른자는 달걀의 노란 부분이에요. 달걀 요리와 달걀이 들어간 음식에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:08.943809+00:00"
+  },
+  {
+   "canonical_name": "Elder",
+   "korean_name": "딱총나무",
+   "aliases": [
+    "Elder",
+    "딱총나무"
+   ],
+   "category": "pollen_tree",
+   "profile_key": "pollen_tree",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "바람에 실려 날아오는 봄철 수목 꽃가루입니다. 건조하고 바람 부는 날, 오전에 농도가 높습니다.",
+   "season_label_ko": "늦봄 (5~6월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    5,
+    6
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "수목 꽃가루는 같은 과(科)에 속하는 나무끼리 교차반응하는 경향이 있습니다. 어떤 나무와 묶이는지는 종마다 다르므로 개별 항목의 설명을 확인하세요.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "맑은 콧물",
+    "코막힘",
+    "눈 가려움·눈물",
+    "목 가려움"
+   ],
+   "avoidance_control_ko": [
+    "꽃가루가 많은 날(건조·강풍)에는 창문을 닫고 환기를 줄이세요.",
+    "외출할 때 마스크와 안경을 쓰세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "빨래를 실외에 널지 마세요.",
+    "차량은 창문을 닫고 내기순환으로 두세요."
+   ],
+   "relevance_probes_ko": [
+    "봄철(3~5월)에 코·눈 증상이 뚜렷하게 심해지나요?",
+    "봄철 야외활동 때 악화되나요?",
+    "다른 계절에는 증상이 줄어드나요?"
+   ],
+   "clinical_pearl_ko": "매년 같은 시기에 반복되는지가 핵심 단서입니다.",
+   "species_note_ko": "곤충이 옮기는 꽃(충매화)이라 공기 중 꽃가루 농도는 낮은 편입니다.",
+   "biology_ko": "딱총나무의 꽃가루로, 꽃이 피는 계절에 공기 중이나 주변 식물에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:09.858262+00:00"
+  },
+  {
+   "canonical_name": "Elm",
+   "korean_name": "느릅나무",
+   "aliases": [
+    "Elm",
+    "느릅나무"
+   ],
+   "category": "pollen_tree",
+   "profile_key": "pollen_tree",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "바람에 실려 날아오는 봄철 수목 꽃가루입니다. 건조하고 바람 부는 날, 오전에 농도가 높습니다.",
+   "season_label_ko": "봄 (3~4월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    3,
+    4
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "느릅나무는 같은 느릅나무과 안에서 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "맑은 콧물",
+    "코막힘",
+    "눈 가려움·눈물",
+    "목 가려움"
+   ],
+   "avoidance_control_ko": [
+    "꽃가루가 많은 날(건조·강풍)에는 창문을 닫고 환기를 줄이세요.",
+    "외출할 때 마스크와 안경을 쓰세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "빨래를 실외에 널지 마세요.",
+    "차량은 창문을 닫고 내기순환으로 두세요."
+   ],
+   "relevance_probes_ko": [
+    "봄철(3~5월)에 코·눈 증상이 뚜렷하게 심해지나요?",
+    "봄철 야외활동 때 악화되나요?",
+    "다른 계절에는 증상이 줄어드나요?"
+   ],
+   "clinical_pearl_ko": "매년 같은 시기에 반복되는지가 핵심 단서입니다.",
+   "biology_ko": "느릅나무에서 날리는 꽃가루예요. 봄철 느릅나무 주변의 공기와 먼지에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:10.886513+00:00"
+  },
+  {
+   "canonical_name": "English plantain",
+   "korean_name": "질경이",
+   "aliases": [
+    "English plantain",
+    "Plantain",
+    "질경이"
+   ],
+   "category": "pollen_weed",
+   "profile_key": "pollen_weed",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "하천변·공터·길가에 자라는 잡초 꽃가루입니다. 가을 건조하고 바람 부는 날 농도가 높습니다.",
+   "season_label_ko": "늦봄~가을 (5~9월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "질경이는 질경이과로, 다른 잡초와의 교차반응은 제한적입니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움",
+    "기침"
+   ],
+   "avoidance_control_ko": [
+    "가을철 꽃가루 농도가 높은 날에는 외출·환기를 줄이세요.",
+    "외출 시 마스크·안경을 착용하세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "하천변·공터 산책을 시즌에는 줄이세요."
+   ],
+   "relevance_probes_ko": [
+    "8~10월에 증상이 뚜렷하게 심해지나요?",
+    "가을철 야외(하천변·풀밭) 노출 때 악화되나요?",
+    "봄에는 상대적으로 괜찮은가요?"
+   ],
+   "clinical_pearl_ko": "가을에만 반복되는 패턴이면 임상적 의미가 큽니다.",
+   "components": [
+    "ole_e_1"
+   ],
+   "biology_ko": "질경이는 잡초의 꽃가루로, 주로 야외에서 공기 중에 퍼져 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:12.457644+00:00"
+  },
+  {
+   "canonical_name": "Fusarium",
+   "korean_name": "푸사리움 모닐리포르메",
+   "aliases": [
+    "Fusarium",
+    "푸사리움 모닐리포르메"
+   ],
+   "category": "mold",
+   "profile_key": "mold",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "욕실·지하실·결로가 생기는 벽, 오래된 에어컨 필터, 화분 흙, 낙엽 더미처럼 습한 곳에서 포자가 퍼집니다.",
+   "season_label_ko": "연중 (장마철·여름~초가을 증가)",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "both",
+   "cross_reactivity_ko": "곰팡이 속(屬)이 다르면 교차반응은 제한적입니다. 여러 곰팡이 양성은 각각의 노출을 따로 확인해야 합니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "기침",
+    "천명",
+    "눈 가려움"
+   ],
+   "avoidance_control_ko": [
+    "실내 습도를 50% 이하로 유지하고 자주 환기하세요.",
+    "욕실·주방·창틀의 결로와 곰팡이를 바로 닦아내세요.",
+    "에어컨·제습기 필터를 주기적으로 청소하세요.",
+    "젖은 빨래를 실내에 오래 두지 마세요.",
+    "낙엽 더미·퇴비·화분 흙을 다룰 때 마스크를 쓰세요."
+   ],
+   "relevance_probes_ko": [
+    "습한 공간(욕실·지하·장마철)에 있으면 증상이 심해지나요?",
+    "곰팡이 냄새가 나는 곳에서 악화되나요?",
+    "여름~초가을에 더 심한가요?"
+   ],
+   "clinical_pearl_ko": "실내 곰팡이는 연중, 실외 곰팡이는 여름~가을에 증상이 몰리는 경향이 있습니다.",
+   "biology_ko": "푸사리움은 곰팡이의 한 종류로, 흙과 식물, 곡물 등에 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:14.030629+00:00"
+  },
+  {
+   "canonical_name": "Goldenrod",
+   "korean_name": "미역취",
+   "aliases": [
+    "Golden Rod",
+    "Goldenrod",
+    "미역취"
+   ],
+   "category": "pollen_weed",
+   "profile_key": "pollen_weed",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "하천변·공터·길가에 자라는 잡초 꽃가루입니다. 가을 건조하고 바람 부는 날 농도가 높습니다.",
+   "season_label_ko": "가을 (8~10월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    8,
+    9,
+    10
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "미역취는 국화과로 쑥·돼지풀과 교차반응할 수 있습니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움",
+    "기침"
+   ],
+   "avoidance_control_ko": [
+    "가을철 꽃가루 농도가 높은 날에는 외출·환기를 줄이세요.",
+    "외출 시 마스크·안경을 착용하세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "하천변·공터 산책을 시즌에는 줄이세요."
+   ],
+   "relevance_probes_ko": [
+    "8~10월에 증상이 뚜렷하게 심해지나요?",
+    "가을철 야외(하천변·풀밭) 노출 때 악화되나요?",
+    "봄에는 상대적으로 괜찮은가요?"
+   ],
+   "clinical_pearl_ko": "가을에만 반복되는 패턴이면 임상적 의미가 큽니다.",
+   "species_note_ko": "충매화라 공기 중 농도는 낮습니다. 같은 시기에 날리는 돼지풀과 혼동되곤 합니다. 곤충이 옮기는 꽃(충매화)이라 공기 중 꽃가루 농도는 낮은 편입니다.",
+   "biology_ko": "미역취는 국화과 식물의 꽃가루로, 꽃이 피는 계절에 야외에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:16.495182+00:00"
+  },
+  {
+   "canonical_name": "Grape",
+   "korean_name": "포도",
+   "aliases": [
+    "Grape",
+    "포도"
+   ],
+   "category": "food",
+   "profile_key": "food:ltp",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "LTP(지질전달단백)는 껍질에 많고 열과 소화에 강합니다. 익혀도 남는 경우가 많습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "복숭아·사과·자두·체리·포도·토마토·옥수수·견과 등 식물성 식품 사이에서 폭넓게 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "익혀도 증상이 남을 수 있으니 '가열하면 안전하다'고 가정하지 마세요.",
+    "껍질에 많으므로 껍질을 피하면 덜한 경우가 있습니다.",
+    "운동·음주·해열진통제가 겹치면 반응이 커질 수 있어, 그런 상황을 함께 기록하세요.",
+    "전신 반응 이력이 있으면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "LTP 관련 반응은 입·목에 그치지 않고 전신으로 갈 수 있어, PR-10 형과 구분이 중요합니다.",
+   "components": [
+    "nsltp"
+   ],
+   "biology_ko": "포도는 과일로, 생포도나 포도주스·포도주 같은 음식과 음료에 들어 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:17.347427+00:00"
+  },
+  {
+   "canonical_name": "Grass",
+   "korean_name": "잔디 꽃가루 혼합",
+   "aliases": [
+    "Grass",
+    "Grass mixture",
+    "나무 꽃가루 혼합"
+   ],
+   "category": "pollen_grass",
+   "profile_key": "pollen_grass",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "잔디·목초의 꽃가루로, 잔디밭·운동장·하천변에서 노출됩니다. 잔디를 깎을 때 농도가 크게 올라갑니다.",
+   "season_label_ko": "여름 (5~9월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "잔디 꽃가루끼리는 교차반응이 흔해 한 종에 양성이면 다른 잔디에도 양성으로 나오는 경우가 많습니다. 밀·토마토 등과 프로필린을 통한 교차도 보고됩니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움",
+    "피부 접촉 두드러기"
+   ],
+   "avoidance_control_ko": [
+    "잔디 깎기는 피하고, 해야 한다면 마스크를 쓰세요.",
+    "잔디밭에 직접 앉거나 눕지 마세요.",
+    "시즌에는 야외활동 후 샤워하고 옷을 갈아입으세요.",
+    "이른 아침·저녁 잔디밭 산책을 줄이세요."
+   ],
+   "relevance_probes_ko": [
+    "5~6월에 증상이 심해지나요?",
+    "잔디밭·풀밭에 다녀오면 악화되나요?",
+    "잔디를 깎거나 그 근처에 있을 때 증상이 생기나요?"
+   ],
+   "clinical_pearl_ko": "잔디 종끼리 교차반응이 많아, 여러 잔디 양성이 곧 여러 원인을 뜻하지는 않습니다.",
+   "species_note_ko": "여러 잔디를 섞은 혼합 항원입니다. 어떤 종인지까지는 알 수 없습니다. 여러 종을 섞은 혼합 항원이라 원인 종을 특정할 수 없습니다.",
+   "biology_ko": "잔디 꽃가루는 잔디에서 날리는 꽃가루예요. 잔디밭이나 꽃가루가 날리는 야외에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:18.707342+00:00"
+  },
+  {
+   "canonical_name": "Guinea pig",
+   "korean_name": "기니피그",
+   "aliases": [
+    "Cavia",
+    "기니픽",
+    "Cav p"
+   ],
+   "category": "animal",
+   "profile_key": "animal",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "털 자체보다 비듬·침·소변의 단백질이 원인입니다. 입자가 가볍고 오래 떠 있어 동물이 없는 공간(옷·차·학교)에서도 노출될 수 있습니다.",
+   "season_label_ko": "연중 (접촉할 때)",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "indoor",
+   "cross_reactivity_ko": "동물 간에는 혈청알부민을 통해 교차반응이 있을 수 있고, 고양이 알부민은 돼지고기와(pork-cat 증후군) 연관이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움·충혈",
+    "두드러기",
+    "기침",
+    "천명"
+   ],
+   "avoidance_control_ko": [
+    "동물을 침실에 들이지 마세요. 자는 동안 노출을 줄이는 것이 가장 효과가 큽니다.",
+    "HEPA 공기청정기를 생활공간에 두고 자주 청소하세요.",
+    "카펫·천소파처럼 비듬이 쌓이는 물건을 줄이세요.",
+    "동물을 만진 뒤 손을 씻고 얼굴·눈을 비비지 마세요.",
+    "목욕·빗질은 가능하면 알레르기가 없는 가족이 맡으세요."
+   ],
+   "relevance_probes_ko": [
+    "그 동물과 접촉하면 수분~수십 분 안에 증상이 생기나요?",
+    "그 동물이 있는 집·공간에 가면 악화되나요?",
+    "접촉을 피한 기간에는 증상이 줄었나요?"
+   ],
+   "clinical_pearl_ko": "접촉 후 짧은 시간 안에 재현되는지가 핵심입니다. 키우지 않아도 간접 노출로 증상이 날 수 있습니다.",
+   "components": [
+    "serum_albumin",
+    "lipocalin"
+   ],
+   "biology_ko": "기니피그는 작은 설치류로, 털·비듬·침·소변 등에 알레르기 물질이 있어 기니피그와 접촉할 때 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:20.032846+00:00"
+  },
+  {
+   "canonical_name": "Hamster",
+   "korean_name": "햄스터",
+   "aliases": [
+    "Cricetus",
+    "Mesocricetus",
+    "Pho s"
+   ],
+   "category": "animal",
+   "profile_key": "animal",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "털 자체보다 비듬·침·소변의 단백질이 원인입니다. 입자가 가볍고 오래 떠 있어 동물이 없는 공간(옷·차·학교)에서도 노출될 수 있습니다.",
+   "season_label_ko": "연중 (접촉할 때)",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "indoor",
+   "cross_reactivity_ko": "동물 간에는 혈청알부민을 통해 교차반응이 있을 수 있고, 고양이 알부민은 돼지고기와(pork-cat 증후군) 연관이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움·충혈",
+    "두드러기",
+    "기침",
+    "천명"
+   ],
+   "avoidance_control_ko": [
+    "동물을 침실에 들이지 마세요. 자는 동안 노출을 줄이는 것이 가장 효과가 큽니다.",
+    "HEPA 공기청정기를 생활공간에 두고 자주 청소하세요.",
+    "카펫·천소파처럼 비듬이 쌓이는 물건을 줄이세요.",
+    "동물을 만진 뒤 손을 씻고 얼굴·눈을 비비지 마세요.",
+    "목욕·빗질은 가능하면 알레르기가 없는 가족이 맡으세요."
+   ],
+   "relevance_probes_ko": [
+    "그 동물과 접촉하면 수분~수십 분 안에 증상이 생기나요?",
+    "그 동물이 있는 집·공간에 가면 악화되나요?",
+    "접촉을 피한 기간에는 증상이 줄었나요?"
+   ],
+   "clinical_pearl_ko": "접촉 후 짧은 시간 안에 재현되는지가 핵심입니다. 키우지 않아도 간접 노출로 증상이 날 수 있습니다.",
+   "components": [
+    "lipocalin"
+   ],
+   "biology_ko": "햄스터는 설치류 반려동물로, 털과 피부 조각, 침, 소변에서 알레르겐이 나와요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:21.230199+00:00"
+  },
+  {
+   "canonical_name": "Hazel",
+   "korean_name": "개암나무",
+   "aliases": [
+    "Hazel",
+    "개암나무"
+   ],
+   "category": "pollen_tree",
+   "profile_key": "pollen_tree",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "바람에 실려 날아오는 봄철 수목 꽃가루입니다. 건조하고 바람 부는 날, 오전에 농도가 높습니다.",
+   "season_label_ko": "이른 봄 (2~4월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    2,
+    3,
+    4
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "자작나무과(자작·오리·개암·서어나무)끼리 교차반응이 강하고, PR-10 단백을 통해 사과·복숭아·체리·당근 등 생과일·생채소와 구강 증상으로 이어질 수 있습니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "맑은 콧물",
+    "코막힘",
+    "눈 가려움·눈물",
+    "목 가려움"
+   ],
+   "avoidance_control_ko": [
+    "꽃가루가 많은 날(건조·강풍)에는 창문을 닫고 환기를 줄이세요.",
+    "외출할 때 마스크와 안경을 쓰세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "빨래를 실외에 널지 마세요.",
+    "차량은 창문을 닫고 내기순환으로 두세요."
+   ],
+   "relevance_probes_ko": [
+    "봄철(3~5월)에 코·눈 증상이 뚜렷하게 심해지나요?",
+    "봄철 야외활동 때 악화되나요?",
+    "다른 계절에는 증상이 줄어드나요?"
+   ],
+   "clinical_pearl_ko": "매년 같은 시기에 반복되는지가 핵심 단서입니다.",
+   "species_note_ko": "자작나무과라 자작·오리나무와 교차반응합니다.",
+   "components": [
+    "pr10",
+    "profilin"
+   ],
+   "biology_ko": "개암나무에서 날리는 꽃가루로, 봄철 숲이나 공원에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:22.283470+00:00"
+  },
+  {
+   "canonical_name": "Hazelnut",
+   "korean_name": "헤이즐넛",
+   "aliases": [
+    "개암",
+    "Cor a",
+    "Filbert",
+    "헤이즐럿",
+    "헤이즐 넛"
+   ],
+   "category": "food",
+   "profile_key": "food:ltp",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "LTP(지질전달단백)는 껍질에 많고 열과 소화에 강합니다. 익혀도 남는 경우가 많습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "복숭아·사과·자두·체리·포도·토마토·옥수수·견과 등 식물성 식품 사이에서 폭넓게 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "익혀도 증상이 남을 수 있으니 '가열하면 안전하다'고 가정하지 마세요.",
+    "껍질에 많으므로 껍질을 피하면 덜한 경우가 있습니다.",
+    "운동·음주·해열진통제가 겹치면 반응이 커질 수 있어, 그런 상황을 함께 기록하세요.",
+    "전신 반응 이력이 있으면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "LTP 관련 반응은 입·목에 그치지 않고 전신으로 갈 수 있어, PR-10 형과 구분이 중요합니다.",
+   "components": [
+    "pr10",
+    "2s_albumin",
+    "nsltp",
+    "profilin"
+   ],
+   "biology_ko": "헤이즐넛은 개암나무의 열매로, 견과류와 초콜릿, 과자 등에 들어 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:23.356842+00:00"
+  },
+  {
+   "canonical_name": "Hen's egg",
+   "korean_name": "달걀 전체",
+   "aliases": [
+    "Hen's egg",
+    "달걀 전체"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "달걀 전체는 달걀의 흰자와 노른자를 말해요. 달걀 요리, 빵, 과자, 면류 등에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:24.487504+00:00"
+  },
+  {
+   "canonical_name": "Herring",
+   "korean_name": "청어",
+   "aliases": [
+    "Clu h"
+   ],
+   "category": "food",
+   "profile_key": "food:fish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "어류의 파브알부민이 주원인입니다. 가열에 안정적이며, 생선을 굽거나 찌는 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "어종 간 교차반응이 흔합니다. 다만 참치·황새치처럼 파브알부민이 적은 어종은 비교적 견디는 경우가 있습니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 어종은 피하고, 다른 어종 섭취 범위는 진료와 상의해 정하세요.",
+    "조리 증기에 노출되는 주방 환경을 주의하세요.",
+    "액젓·멸치육수·어묵 등 표시가 잘 안 되는 형태를 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "어류 알레르기와 아니사키스(기생충) 반응은 원인이 다르므로 구분이 필요합니다.",
+   "components": [
+    "parvalbumin"
+   ],
+   "biology_ko": "청어는 바닷물에 사는 생선으로, 청어 자체나 청어가 들어간 음식에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:25.438575+00:00"
+  },
+  {
+   "canonical_name": "Histamine",
+   "korean_name": "양성 대조용 0.1% 히스타민 용액",
+   "aliases": [
+    "Histamine",
+    "Positive control",
+    "양성 대조용 0.1% 히스타민 용액"
+   ],
+   "category": "control",
+   "profile_key": "control",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "이 항목은 알레르겐이 아니라 피부반응검사(SPT)가 제대로 작동했는지 확인하는 대조입니다.",
+   "season_label_ko": "해당 없음",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [],
+   "avoidance_control_ko": [],
+   "relevance_probes_ko": [],
+   "clinical_pearl_ko": "음성 대조(생리식염수)는 반응이 없어야 정상이고, 양성 대조(히스타민)는 반응이 나와야 검사가 유효합니다. 회피 대상이 아닙니다.",
+   "is_control": true
+  },
+  {
+   "canonical_name": "Hornbeam",
+   "korean_name": "서어나무",
+   "aliases": [
+    "Carpinus",
+    "Car b"
+   ],
+   "category": "pollen_tree",
+   "profile_key": "pollen_tree",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "바람에 실려 날아오는 봄철 수목 꽃가루입니다. 건조하고 바람 부는 날, 오전에 농도가 높습니다.",
+   "season_label_ko": "봄 (3~5월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    3,
+    4,
+    5
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "자작나무과(자작·오리·개암·서어나무)끼리 교차반응이 강하고, PR-10 단백을 통해 사과·복숭아·체리·당근 등 생과일·생채소와 구강 증상으로 이어질 수 있습니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "맑은 콧물",
+    "코막힘",
+    "눈 가려움·눈물",
+    "목 가려움"
+   ],
+   "avoidance_control_ko": [
+    "꽃가루가 많은 날(건조·강풍)에는 창문을 닫고 환기를 줄이세요.",
+    "외출할 때 마스크와 안경을 쓰세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "빨래를 실외에 널지 마세요.",
+    "차량은 창문을 닫고 내기순환으로 두세요."
+   ],
+   "relevance_probes_ko": [
+    "봄철(3~5월)에 코·눈 증상이 뚜렷하게 심해지나요?",
+    "봄철 야외활동 때 악화되나요?",
+    "다른 계절에는 증상이 줄어드나요?"
+   ],
+   "clinical_pearl_ko": "매년 같은 시기에 반복되는지가 핵심 단서입니다.",
+   "components": [
+    "pr10"
+   ],
+   "biology_ko": "서어나무는 꽃가루를 날리는 나무예요. 주로 봄철 야외에서 꽃가루를 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:26.758375+00:00"
+  },
+  {
+   "canonical_name": "Horse dander",
+   "korean_name": "말 비듬",
+   "aliases": [
+    "Equ c",
+    "말 상피"
+   ],
+   "category": "animal",
+   "profile_key": "animal",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "털 자체보다 비듬·침·소변의 단백질이 원인입니다. 입자가 가볍고 오래 떠 있어 동물이 없는 공간(옷·차·학교)에서도 노출될 수 있습니다.",
+   "season_label_ko": "연중 (접촉할 때)",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "indoor",
+   "cross_reactivity_ko": "동물 간에는 혈청알부민을 통해 교차반응이 있을 수 있고, 고양이 알부민은 돼지고기와(pork-cat 증후군) 연관이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움·충혈",
+    "두드러기",
+    "기침",
+    "천명"
+   ],
+   "avoidance_control_ko": [
+    "동물을 침실에 들이지 마세요. 자는 동안 노출을 줄이는 것이 가장 효과가 큽니다.",
+    "HEPA 공기청정기를 생활공간에 두고 자주 청소하세요.",
+    "카펫·천소파처럼 비듬이 쌓이는 물건을 줄이세요.",
+    "동물을 만진 뒤 손을 씻고 얼굴·눈을 비비지 마세요.",
+    "목욕·빗질은 가능하면 알레르기가 없는 가족이 맡으세요."
+   ],
+   "relevance_probes_ko": [
+    "그 동물과 접촉하면 수분~수십 분 안에 증상이 생기나요?",
+    "그 동물이 있는 집·공간에 가면 악화되나요?",
+    "접촉을 피한 기간에는 증상이 줄었나요?"
+   ],
+   "clinical_pearl_ko": "접촉 후 짧은 시간 안에 재현되는지가 핵심입니다. 키우지 않아도 간접 노출로 증상이 날 수 있습니다.",
+   "components": [
+    "lipocalin",
+    "serum_albumin"
+   ],
+   "biology_ko": "말 비듬은 말의 피부에서 떨어지는 각질과 털에 묻은 물질로, 말이나 마구간에서 접해요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:28.562491+00:00"
+  },
+  {
+   "canonical_name": "Indoor mold mixture",
+   "korean_name": "실내 곰팡이 혼합",
+   "aliases": [
+    "Indoor mold mixture",
+    "실내 곰팡이 혼합"
+   ],
+   "category": "mold",
+   "profile_key": "mold",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "욕실·지하실·결로가 생기는 벽, 오래된 에어컨 필터, 화분 흙, 낙엽 더미처럼 습한 곳에서 포자가 퍼집니다.",
+   "season_label_ko": "연중 (장마철·여름~초가을 증가)",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "both",
+   "cross_reactivity_ko": "곰팡이 속(屬)이 다르면 교차반응은 제한적입니다. 여러 곰팡이 양성은 각각의 노출을 따로 확인해야 합니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "기침",
+    "천명",
+    "눈 가려움"
+   ],
+   "avoidance_control_ko": [
+    "실내 습도를 50% 이하로 유지하고 자주 환기하세요.",
+    "욕실·주방·창틀의 결로와 곰팡이를 바로 닦아내세요.",
+    "에어컨·제습기 필터를 주기적으로 청소하세요.",
+    "젖은 빨래를 실내에 오래 두지 마세요.",
+    "낙엽 더미·퇴비·화분 흙을 다룰 때 마스크를 쓰세요."
+   ],
+   "relevance_probes_ko": [
+    "습한 공간(욕실·지하·장마철)에 있으면 증상이 심해지나요?",
+    "곰팡이 냄새가 나는 곳에서 악화되나요?",
+    "여름~초가을에 더 심한가요?"
+   ],
+   "clinical_pearl_ko": "실내 곰팡이는 연중, 실외 곰팡이는 여름~가을에 증상이 몰리는 경향이 있습니다.",
+   "biology_ko": "실내 곰팡이 혼합은 집 안 공기와 먼지에 섞인 여러 곰팡이 종류예요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:29.926359+00:00"
+  },
+  {
+   "canonical_name": "Japanese cedar",
+   "korean_name": "삼나무",
+   "aliases": [
+    "J ceder",
+    "Japanese cedar",
+    "삼나무"
+   ],
+   "category": "pollen_tree",
+   "profile_key": "pollen_tree",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "바람에 실려 날아오는 봄철 수목 꽃가루입니다. 건조하고 바람 부는 날, 오전에 농도가 높습니다.",
+   "season_label_ko": "이른 봄 (2~4월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    2,
+    3,
+    4
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "삼나무는 측백나무과로, 편백·향나무 등 같은 과의 나무와 교차반응합니다. 자작나무과와는 계통이 달라 과일 구강 증상과의 연관은 상대적으로 적습니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "맑은 콧물",
+    "코막힘",
+    "눈 가려움·눈물",
+    "목 가려움"
+   ],
+   "avoidance_control_ko": [
+    "꽃가루가 많은 날(건조·강풍)에는 창문을 닫고 환기를 줄이세요.",
+    "외출할 때 마스크와 안경을 쓰세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "빨래를 실외에 널지 마세요.",
+    "차량은 창문을 닫고 내기순환으로 두세요."
+   ],
+   "relevance_probes_ko": [
+    "봄철(3~5월)에 코·눈 증상이 뚜렷하게 심해지나요?",
+    "봄철 야외활동 때 악화되나요?",
+    "다른 계절에는 증상이 줄어드나요?"
+   ],
+   "clinical_pearl_ko": "매년 같은 시기에 반복되는지가 핵심 단서입니다.",
+   "species_note_ko": "제주·남부에서 1월 말부터 시작되기도 합니다. 국내 삼나무 조림지 주변에서 노출이 큽니다.",
+   "components": [
+    "thaumatin_pr5"
+   ],
+   "biology_ko": "삼나무는 꽃가루를 날리는 나무로, 봄철 야외에서 꽃가루를 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:31.907973+00:00"
+  },
+  {
+   "canonical_name": "Kentucky blue grass",
+   "korean_name": "왕포아풀",
+   "aliases": [
+    "Kentucky",
+    "Kentucky blue grass",
+    "왕포아풀"
+   ],
+   "category": "pollen_grass",
+   "profile_key": "pollen_grass",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "잔디·목초의 꽃가루로, 잔디밭·운동장·하천변에서 노출됩니다. 잔디를 깎을 때 농도가 크게 올라갑니다.",
+   "season_label_ko": "늦봄~초여름 (5~6월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    5,
+    6
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "잔디 꽃가루끼리는 교차반응이 흔해 한 종에 양성이면 다른 잔디에도 양성으로 나오는 경우가 많습니다. 밀·토마토 등과 프로필린을 통한 교차도 보고됩니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움",
+    "피부 접촉 두드러기"
+   ],
+   "avoidance_control_ko": [
+    "잔디 깎기는 피하고, 해야 한다면 마스크를 쓰세요.",
+    "잔디밭에 직접 앉거나 눕지 마세요.",
+    "시즌에는 야외활동 후 샤워하고 옷을 갈아입으세요.",
+    "이른 아침·저녁 잔디밭 산책을 줄이세요."
+   ],
+   "relevance_probes_ko": [
+    "5~6월에 증상이 심해지나요?",
+    "잔디밭·풀밭에 다녀오면 악화되나요?",
+    "잔디를 깎거나 그 근처에 있을 때 증상이 생기나요?"
+   ],
+   "clinical_pearl_ko": "잔디 종끼리 교차반응이 많아, 여러 잔디 양성이 곧 여러 원인을 뜻하지는 않습니다.",
+   "biology_ko": "왕포아풀은 잔디의 한 종류로, 꽃가루가 날릴 때 공원·잔디밭과 주변 공기에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:33.004978+00:00"
+  },
+  {
+   "canonical_name": "Kiwi",
+   "korean_name": "키위",
+   "aliases": [
+    "Kiwi",
+    "Kiwi fruit",
+    "키위"
+   ],
+   "category": "food",
+   "profile_key": "food:ltp",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "LTP(지질전달단백)는 껍질에 많고 열과 소화에 강합니다. 익혀도 남는 경우가 많습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "복숭아·사과·자두·체리·포도·토마토·옥수수·견과 등 식물성 식품 사이에서 폭넓게 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "익혀도 증상이 남을 수 있으니 '가열하면 안전하다'고 가정하지 마세요.",
+    "껍질에 많으므로 껍질을 피하면 덜한 경우가 있습니다.",
+    "운동·음주·해열진통제가 겹치면 반응이 커질 수 있어, 그런 상황을 함께 기록하세요.",
+    "전신 반응 이력이 있으면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "LTP 관련 반응은 입·목에 그치지 않고 전신으로 갈 수 있어, PR-10 형과 구분이 중요합니다.",
+   "components": [
+    "pr10",
+    "nsltp",
+    "thaumatin_pr5",
+    "2s_albumin"
+   ],
+   "biology_ko": "키위는 갈색 껍질과 초록색 또는 노란색 속살이 있는 과일이에요. 생과일이나 주스, 디저트에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:34.158472+00:00"
+  },
+  {
+   "canonical_name": "Krill",
+   "korean_name": "크릴",
+   "aliases": [
+    "크릴새우",
+    "Euphausia"
+   ],
+   "category": "food",
+   "profile_key": "food:shellfish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "새우·게·조개·오징어 등에 들어 있는 트로포마이오신이 주원인입니다. 가열해도 잘 파괴되지 않고, 삶는 김이나 조리 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "트로포마이오신은 갑각류·연체류끼리 교차반응이 매우 흔하고, 집먼지진드기·바퀴와도 교차반응이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 갑각류·연체류는 피하고, 같은 계열 음식은 진료와 상의해 범위를 정하세요.",
+    "가열해도 알레르겐이 남으므로 '익히면 괜찮다'고 가정하지 마세요.",
+    "조리 증기·같은 기름·같은 도마에 의한 교차오염을 주의하세요.",
+    "외식 시 육수·젓갈·소스에 들어가는지 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "진드기 양성자에서 갑각류 검사 양성이 함께 나오는 일이 흔하지만, 실제로 잘 먹고 있다면 감작만일 수 있습니다.",
+   "components": [
+    "tropomyosin"
+   ],
+   "biology_ko": "크릴은 작은 새우와 비슷한 바다 생물이에요. 주로 해산물 식품이나 오메가3 보충제에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:35.227304+00:00"
+  },
+  {
+   "canonical_name": "Lactalbumin",
+   "korean_name": "락토알부민",
+   "aliases": [
+    "Lactalbumin",
+    "락토알부민"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "락토알부민은 우유에 들어 있는 단백질로, 우유와 우유로 만든 식품에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:36.324204+00:00"
+  },
+  {
+   "canonical_name": "Lamb's quarters",
+   "korean_name": "명아주",
+   "aliases": [
+    "Lamb's quarters",
+    "명아주"
+   ],
+   "category": "pollen_weed",
+   "profile_key": "pollen_weed",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "하천변·공터·길가에 자라는 잡초 꽃가루입니다. 가을 건조하고 바람 부는 날 농도가 높습니다.",
+   "season_label_ko": "여름~가을 (7~9월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    7,
+    8,
+    9
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "명아주는 비름과로 러시안 엉겅퀴 등과 교차반응할 수 있습니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움",
+    "기침"
+   ],
+   "avoidance_control_ko": [
+    "가을철 꽃가루 농도가 높은 날에는 외출·환기를 줄이세요.",
+    "외출 시 마스크·안경을 착용하세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "하천변·공터 산책을 시즌에는 줄이세요."
+   ],
+   "relevance_probes_ko": [
+    "8~10월에 증상이 뚜렷하게 심해지나요?",
+    "가을철 야외(하천변·풀밭) 노출 때 악화되나요?",
+    "봄에는 상대적으로 괜찮은가요?"
+   ],
+   "clinical_pearl_ko": "가을에만 반복되는 패턴이면 임상적 의미가 큽니다.",
+   "components": [
+    "profilin",
+    "polcalcin",
+    "ole_e_1"
+   ],
+   "biology_ko": "명아주는 들판과 길가에 자라는 잡초로, 꽃가루가 날릴 때 접할 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:37.681342+00:00"
+  },
+  {
+   "canonical_name": "Latex",
+   "korean_name": "라텍스",
+   "aliases": [
+    "Latex",
+    "라텍스"
+   ],
+   "category": "other",
+   "profile_key": "other",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "생활·직업 환경에서 접촉하는 알레르겐입니다. 노출되는 상황이 사람마다 달라 개별 확인이 필요합니다.",
+   "season_label_ko": "연중",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "both",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "두드러기",
+    "가려움",
+    "재채기",
+    "콧물",
+    "호흡기 증상"
+   ],
+   "avoidance_control_ko": [
+    "어떤 상황에서 증상이 생기는지 기록해 노출원을 좁히세요.",
+    "확인된 노출은 가능한 범위에서 피하고, 대체품이 있는지 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "어떤 상황·장소에서 증상이 생기나요?",
+    "노출을 피했을 때 증상이 줄었나요?"
+   ],
+   "clinical_pearl_ko": "노출 상황이 개인마다 달라, 증상 일지가 판정에 큰 도움이 됩니다.",
+   "biology_ko": "라텍스는 고무나무 수액으로 만든 천연고무예요. 장갑, 풍선, 고무줄 같은 제품에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:38.932942+00:00"
+  },
+  {
+   "canonical_name": "Lentil",
+   "korean_name": "렌즈콩",
+   "aliases": [
+    "Lentil",
+    "Lentils",
+    "렌즈콩"
+   ],
+   "category": "food",
+   "profile_key": "food:ltp",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "LTP(지질전달단백)는 껍질에 많고 열과 소화에 강합니다. 익혀도 남는 경우가 많습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "복숭아·사과·자두·체리·포도·토마토·옥수수·견과 등 식물성 식품 사이에서 폭넓게 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "익혀도 증상이 남을 수 있으니 '가열하면 안전하다'고 가정하지 마세요.",
+    "껍질에 많으므로 껍질을 피하면 덜한 경우가 있습니다.",
+    "운동·음주·해열진통제가 겹치면 반응이 커질 수 있어, 그런 상황을 함께 기록하세요.",
+    "전신 반응 이력이 있으면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "LTP 관련 반응은 입·목에 그치지 않고 전신으로 갈 수 있어, PR-10 형과 구분이 중요합니다.",
+   "components": [
+    "nsltp"
+   ],
+   "biology_ko": "렌즈콩은 콩과 식물의 씨앗으로, 수프·카레·샐러드 등에 들어가요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:39.869851+00:00"
+  },
+  {
+   "canonical_name": "Lobster",
+   "korean_name": "바닷가재",
+   "aliases": [
+    "Lobster",
+    "바닷가재"
+   ],
+   "category": "food",
+   "profile_key": "food:shellfish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "새우·게·조개·오징어 등에 들어 있는 트로포마이오신이 주원인입니다. 가열해도 잘 파괴되지 않고, 삶는 김이나 조리 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "트로포마이오신은 갑각류·연체류끼리 교차반응이 매우 흔하고, 집먼지진드기·바퀴와도 교차반응이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 갑각류·연체류는 피하고, 같은 계열 음식은 진료와 상의해 범위를 정하세요.",
+    "가열해도 알레르겐이 남으므로 '익히면 괜찮다'고 가정하지 마세요.",
+    "조리 증기·같은 기름·같은 도마에 의한 교차오염을 주의하세요.",
+    "외식 시 육수·젓갈·소스에 들어가는지 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "진드기 양성자에서 갑각류 검사 양성이 함께 나오는 일이 흔하지만, 실제로 잘 먹고 있다면 감작만일 수 있습니다.",
+   "components": [
+    "tropomyosin",
+    "arginine_kinase"
+   ],
+   "biology_ko": "바닷가재는 갑각류 해산물로, 주로 음식으로 먹을 때 접할 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:40.975209+00:00"
+  },
+  {
+   "canonical_name": "Mackerel",
+   "korean_name": "고등어",
+   "aliases": [
+    "Mackerel",
+    "고등어"
+   ],
+   "category": "food",
+   "profile_key": "food:fish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "어류의 파브알부민이 주원인입니다. 가열에 안정적이며, 생선을 굽거나 찌는 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "어종 간 교차반응이 흔합니다. 다만 참치·황새치처럼 파브알부민이 적은 어종은 비교적 견디는 경우가 있습니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 어종은 피하고, 다른 어종 섭취 범위는 진료와 상의해 정하세요.",
+    "조리 증기에 노출되는 주방 환경을 주의하세요.",
+    "액젓·멸치육수·어묵 등 표시가 잘 안 되는 형태를 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "어류 알레르기와 아니사키스(기생충) 반응은 원인이 다르므로 구분이 필요합니다.",
+   "components": [
+    "parvalbumin"
+   ],
+   "biology_ko": "고등어는 등푸른 생선으로, 구이·조림·통조림 같은 음식에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:42.053999+00:00"
+  },
+  {
+   "canonical_name": "Maize (corn)",
+   "korean_name": "옥수수",
+   "aliases": [
+    "Corn",
+    "콘",
+    "Zea mays",
+    "옥수수가루",
+    "Zea m",
+    "Maize (corn)",
+    "Maize"
+   ],
+   "category": "food",
+   "profile_key": "food:ltp",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "LTP(지질전달단백)는 껍질에 많고 열과 소화에 강합니다. 익혀도 남는 경우가 많습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "복숭아·사과·자두·체리·포도·토마토·옥수수·견과 등 식물성 식품 사이에서 폭넓게 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "익혀도 증상이 남을 수 있으니 '가열하면 안전하다'고 가정하지 마세요.",
+    "껍질에 많으므로 껍질을 피하면 덜한 경우가 있습니다.",
+    "운동·음주·해열진통제가 겹치면 반응이 커질 수 있어, 그런 상황을 함께 기록하세요.",
+    "전신 반응 이력이 있으면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "LTP 관련 반응은 입·목에 그치지 않고 전신으로 갈 수 있어, PR-10 형과 구분이 중요합니다.",
+   "components": [
+    "nsltp",
+    "profilin"
+   ],
+   "biology_ko": "옥수수는 곡물의 한 종류로, 옥수수와 옥수수 가공식품에 들어 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:43.351644+00:00"
+  },
+  {
+   "canonical_name": "Meadow fescue",
+   "korean_name": "넓은김의털",
+   "aliases": [
+    "Meadow",
+    "Meadow fescue",
+    "넓은김의털"
+   ],
+   "category": "pollen_grass",
+   "profile_key": "pollen_grass",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "잔디·목초의 꽃가루로, 잔디밭·운동장·하천변에서 노출됩니다. 잔디를 깎을 때 농도가 크게 올라갑니다.",
+   "season_label_ko": "늦봄~여름 (5~7월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    5,
+    6,
+    7
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "잔디 꽃가루끼리는 교차반응이 흔해 한 종에 양성이면 다른 잔디에도 양성으로 나오는 경우가 많습니다. 밀·토마토 등과 프로필린을 통한 교차도 보고됩니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움",
+    "피부 접촉 두드러기"
+   ],
+   "avoidance_control_ko": [
+    "잔디 깎기는 피하고, 해야 한다면 마스크를 쓰세요.",
+    "잔디밭에 직접 앉거나 눕지 마세요.",
+    "시즌에는 야외활동 후 샤워하고 옷을 갈아입으세요.",
+    "이른 아침·저녁 잔디밭 산책을 줄이세요."
+   ],
+   "relevance_probes_ko": [
+    "5~6월에 증상이 심해지나요?",
+    "잔디밭·풀밭에 다녀오면 악화되나요?",
+    "잔디를 깎거나 그 근처에 있을 때 증상이 생기나요?"
+   ],
+   "clinical_pearl_ko": "잔디 종끼리 교차반응이 많아, 여러 잔디 양성이 곧 여러 원인을 뜻하지는 않습니다.",
+   "biology_ko": "넓은김의털 꽃가루는 목초와 잔디에서 날리며 야외에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:45.328435+00:00"
+  },
+  {
+   "canonical_name": "Melon",
+   "korean_name": "멜론",
+   "aliases": [
+    "Melon",
+    "멜론"
+   ],
+   "category": "food",
+   "profile_key": "food:profilin",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "프로필린은 여러 식물에 두루 있는 범알레르겐입니다. 검사에서 여러 과일·채소가 한꺼번에 양성으로 보이게 만들 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "잔디·잡초 꽃가루와 멜론·수박·바나나·오렌지·토마토 등이 프로필린으로 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "실제로 먹었을 때 증상이 있었던 음식만 가려내세요. 프로필린 양성만으로 광범위하게 끊지 않습니다.",
+    "생과일에서 증상이 있으면 익혀서 시도해 보세요.",
+    "꽃가루 시즌에 증상이 강해지는지 기록해 두세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "프로필린은 다수 양성을 만들지만 임상 증상으로 이어지는 비율은 낮은 편입니다.",
+   "components": [
+    "profilin"
+   ],
+   "biology_ko": "멜론은 달고 향이 있는 과일로, 생과일이나 주스, 디저트에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:46.480374+00:00"
+  },
+  {
+   "canonical_name": "Mouse",
+   "korean_name": "생쥐",
+   "aliases": [
+    "Mus musculus",
+    "마우스",
+    "Mus m"
+   ],
+   "category": "animal",
+   "profile_key": "animal",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "털 자체보다 비듬·침·소변의 단백질이 원인입니다. 입자가 가볍고 오래 떠 있어 동물이 없는 공간(옷·차·학교)에서도 노출될 수 있습니다.",
+   "season_label_ko": "연중 (접촉할 때)",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "indoor",
+   "cross_reactivity_ko": "동물 간에는 혈청알부민을 통해 교차반응이 있을 수 있고, 고양이 알부민은 돼지고기와(pork-cat 증후군) 연관이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움·충혈",
+    "두드러기",
+    "기침",
+    "천명"
+   ],
+   "avoidance_control_ko": [
+    "동물을 침실에 들이지 마세요. 자는 동안 노출을 줄이는 것이 가장 효과가 큽니다.",
+    "HEPA 공기청정기를 생활공간에 두고 자주 청소하세요.",
+    "카펫·천소파처럼 비듬이 쌓이는 물건을 줄이세요.",
+    "동물을 만진 뒤 손을 씻고 얼굴·눈을 비비지 마세요.",
+    "목욕·빗질은 가능하면 알레르기가 없는 가족이 맡으세요."
+   ],
+   "relevance_probes_ko": [
+    "그 동물과 접촉하면 수분~수십 분 안에 증상이 생기나요?",
+    "그 동물이 있는 집·공간에 가면 악화되나요?",
+    "접촉을 피한 기간에는 증상이 줄었나요?"
+   ],
+   "clinical_pearl_ko": "접촉 후 짧은 시간 안에 재현되는지가 핵심입니다. 키우지 않아도 간접 노출로 증상이 날 수 있습니다.",
+   "components": [
+    "lipocalin"
+   ],
+   "biology_ko": "생쥐는 작은 설치류로, 집이나 실험실에서 털과 피부 조각, 소변 등에 노출될 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:47.500336+00:00"
+  },
+  {
+   "canonical_name": "Mucor racemosus",
+   "korean_name": "뮤코르 라세모수스",
+   "aliases": [
+    "Mucor",
+    "Mucor racemosus",
+    "뮤코르 라세모수스"
+   ],
+   "category": "mold",
+   "profile_key": "mold",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "욕실·지하실·결로가 생기는 벽, 오래된 에어컨 필터, 화분 흙, 낙엽 더미처럼 습한 곳에서 포자가 퍼집니다.",
+   "season_label_ko": "연중 (장마철·여름~초가을 증가)",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "both",
+   "cross_reactivity_ko": "곰팡이 속(屬)이 다르면 교차반응은 제한적입니다. 여러 곰팡이 양성은 각각의 노출을 따로 확인해야 합니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "기침",
+    "천명",
+    "눈 가려움"
+   ],
+   "avoidance_control_ko": [
+    "실내 습도를 50% 이하로 유지하고 자주 환기하세요.",
+    "욕실·주방·창틀의 결로와 곰팡이를 바로 닦아내세요.",
+    "에어컨·제습기 필터를 주기적으로 청소하세요.",
+    "젖은 빨래를 실내에 오래 두지 마세요.",
+    "낙엽 더미·퇴비·화분 흙을 다룰 때 마스크를 쓰세요."
+   ],
+   "relevance_probes_ko": [
+    "습한 공간(욕실·지하·장마철)에 있으면 증상이 심해지나요?",
+    "곰팡이 냄새가 나는 곳에서 악화되나요?",
+    "여름~초가을에 더 심한가요?"
+   ],
+   "clinical_pearl_ko": "실내 곰팡이는 연중, 실외 곰팡이는 여름~가을에 증상이 몰리는 경향이 있습니다.",
+   "biology_ko": "뮤코르 라세모수스는 곰팡이의 한 종류예요. 썩은 식물이나 흙, 공기 중에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:48.935767+00:00"
+  },
+  {
+   "canonical_name": "Mung bean",
+   "korean_name": "녹두",
+   "aliases": [
+    "Vigna radiata",
+    "녹두콩"
+   ],
+   "category": "food",
+   "profile_key": "food:pr10",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "자작나무 꽃가루 단백(PR-10)과 닮은 과일·채소 단백에 반응하는 경우입니다. 생과일에서 주로 나타납니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "자작나무과 꽃가루와 사과·배·복숭아·체리·살구·당근·셀러리 등이 교차반응합니다(구강알레르기증후군).",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "생으로 먹을 때 입·목이 가렵다면 익혀서 드세요. PR-10 은 열에 약해 증상이 줄어드는 경우가 많습니다.",
+    "껍질에 많으므로 껍질을 벗기면 나아질 수 있습니다.",
+    "꽃가루 시즌에는 증상이 더 심해질 수 있습니다.",
+    "입·목을 넘어 두드러기·호흡곤란으로 번진 적이 있다면 반드시 진료에서 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "대개 입·목에 국한된 가벼운 증상이지만, 전신 반응 이력이 있으면 별도 평가가 필요합니다.",
+   "components": [
+    "pr10"
+   ],
+   "biology_ko": "녹두는 콩과 식물의 씨앗으로, 녹두전·숙주나물·녹두죽 등에 들어가요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:49.960144+00:00"
+  },
+  {
+   "canonical_name": "Mushroom",
+   "korean_name": "버섯",
+   "aliases": [
+    "Mushroom",
+    "Edible mushroom",
+    "버섯",
+    "표고버섯",
+    "느타리버섯"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "버섯은 식용 균류로, 음식이나 조리된 요리에서 접할 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:51.042547+00:00"
+  },
+  {
+   "canonical_name": "Mussel",
+   "korean_name": "홍합",
+   "aliases": [
+    "Mussel",
+    "홍합"
+   ],
+   "category": "food",
+   "profile_key": "food:shellfish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "새우·게·조개·오징어 등에 들어 있는 트로포마이오신이 주원인입니다. 가열해도 잘 파괴되지 않고, 삶는 김이나 조리 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "트로포마이오신은 갑각류·연체류끼리 교차반응이 매우 흔하고, 집먼지진드기·바퀴와도 교차반응이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 갑각류·연체류는 피하고, 같은 계열 음식은 진료와 상의해 범위를 정하세요.",
+    "가열해도 알레르겐이 남으므로 '익히면 괜찮다'고 가정하지 마세요.",
+    "조리 증기·같은 기름·같은 도마에 의한 교차오염을 주의하세요.",
+    "외식 시 육수·젓갈·소스에 들어가는지 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "진드기 양성자에서 갑각류 검사 양성이 함께 나오는 일이 흔하지만, 실제로 잘 먹고 있다면 감작만일 수 있습니다.",
+   "components": [
+    "tropomyosin"
+   ],
+   "biology_ko": "홍합은 바다에 사는 조개류로, 홍합 요리나 홍합이 들어간 음식에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:52.309684+00:00"
+  },
+  {
+   "canonical_name": "Mustard",
+   "korean_name": "겨자",
+   "aliases": [
+    "Mustard",
+    "겨자"
+   ],
+   "category": "food",
+   "profile_key": "food:seed_storage",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "견과·씨앗의 저장단백(2S albumin)은 열과 소화에 안정적이라 가공식품에서도 그대로 남습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "견과류끼리(캐슈-피스타치오, 호두-피칸) 교차반응이 잘 알려져 있습니다. 땅콩은 콩과로 견과와는 별개입니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 견과·씨앗은 피하고, 같은 계열 견과의 허용 범위는 진료와 상의하세요.",
+    "제과·소스·드레싱에 분말 형태로 들어가는 경우가 많아 원재료 표시를 확인하세요.",
+    "같은 설비에서 생산된 제품의 교차오염 표시도 확인하세요.",
+    "전신 반응 이력이 있다면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "가열로 줄지 않는 유형이라 소량 노출에도 반응할 수 있습니다.",
+   "components": [
+    "2s_albumin"
+   ],
+   "biology_ko": "겨자는 톡 쏘는 맛이 나는 식물로, 겨자소스와 양념, 피클 등에 들어가요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:53.864610+00:00"
+  },
+  {
+   "canonical_name": "Nettle",
+   "korean_name": "쐐기풀",
+   "aliases": [
+    "Nettle",
+    "쐐기풀"
+   ],
+   "category": "pollen_weed",
+   "profile_key": "pollen_weed",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "하천변·공터·길가에 자라는 잡초 꽃가루입니다. 가을 건조하고 바람 부는 날 농도가 높습니다.",
+   "season_label_ko": "여름~초가을 (6~9월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    6,
+    7,
+    8,
+    9
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "쐐기풀은 쐐기풀과로, 다른 잡초와의 교차반응은 제한적입니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움",
+    "기침"
+   ],
+   "avoidance_control_ko": [
+    "가을철 꽃가루 농도가 높은 날에는 외출·환기를 줄이세요.",
+    "외출 시 마스크·안경을 착용하세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "하천변·공터 산책을 시즌에는 줄이세요."
+   ],
+   "relevance_probes_ko": [
+    "8~10월에 증상이 뚜렷하게 심해지나요?",
+    "가을철 야외(하천변·풀밭) 노출 때 악화되나요?",
+    "봄에는 상대적으로 괜찮은가요?"
+   ],
+   "clinical_pearl_ko": "가을에만 반복되는 패턴이면 임상적 의미가 큽니다.",
+   "biology_ko": "쐐기풀은 쐐기풀과 식물이에요. 꽃가루가 날릴 때 공기 중이나 식물 주변에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:55.037393+00:00"
+  },
+  {
+   "canonical_name": "Neurospora",
+   "korean_name": "뉴로스포라",
+   "aliases": [
+    "Neurospora",
+    "뉴로스포라"
+   ],
+   "category": "mold",
+   "profile_key": "mold",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "욕실·지하실·결로가 생기는 벽, 오래된 에어컨 필터, 화분 흙, 낙엽 더미처럼 습한 곳에서 포자가 퍼집니다.",
+   "season_label_ko": "연중 (장마철·여름~초가을 증가)",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "both",
+   "cross_reactivity_ko": "곰팡이 속(屬)이 다르면 교차반응은 제한적입니다. 여러 곰팡이 양성은 각각의 노출을 따로 확인해야 합니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "기침",
+    "천명",
+    "눈 가려움"
+   ],
+   "avoidance_control_ko": [
+    "실내 습도를 50% 이하로 유지하고 자주 환기하세요.",
+    "욕실·주방·창틀의 결로와 곰팡이를 바로 닦아내세요.",
+    "에어컨·제습기 필터를 주기적으로 청소하세요.",
+    "젖은 빨래를 실내에 오래 두지 마세요.",
+    "낙엽 더미·퇴비·화분 흙을 다룰 때 마스크를 쓰세요."
+   ],
+   "relevance_probes_ko": [
+    "습한 공간(욕실·지하·장마철)에 있으면 증상이 심해지나요?",
+    "곰팡이 냄새가 나는 곳에서 악화되나요?",
+    "여름~초가을에 더 심한가요?"
+   ],
+   "clinical_pearl_ko": "실내 곰팡이는 연중, 실외 곰팡이는 여름~가을에 증상이 몰리는 경향이 있습니다.",
+   "biology_ko": "뉴로스포라는 곰팡이의 한 종류로, 흙과 식물 표면, 발효 식품에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:56.928682+00:00"
+  },
+  {
+   "canonical_name": "Oat",
+   "korean_name": "귀리가루",
+   "aliases": [
+    "Oat",
+    "Oat flour",
+    "귀리가루"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "귀리가루는 귀리를 갈아 만든 식품으로, 오트밀·빵·시리얼 등에 들어가요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:58.325178+00:00"
+  },
+  {
+   "canonical_name": "Octopus",
+   "korean_name": "문어",
+   "aliases": [
+    "Octopus",
+    "문어"
+   ],
+   "category": "food",
+   "profile_key": "food:shellfish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "새우·게·조개·오징어 등에 들어 있는 트로포마이오신이 주원인입니다. 가열해도 잘 파괴되지 않고, 삶는 김이나 조리 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "트로포마이오신은 갑각류·연체류끼리 교차반응이 매우 흔하고, 집먼지진드기·바퀴와도 교차반응이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 갑각류·연체류는 피하고, 같은 계열 음식은 진료와 상의해 범위를 정하세요.",
+    "가열해도 알레르겐이 남으므로 '익히면 괜찮다'고 가정하지 마세요.",
+    "조리 증기·같은 기름·같은 도마에 의한 교차오염을 주의하세요.",
+    "외식 시 육수·젓갈·소스에 들어가는지 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "진드기 양성자에서 갑각류 검사 양성이 함께 나오는 일이 흔하지만, 실제로 잘 먹고 있다면 감작만일 수 있습니다.",
+   "components": [
+    "tropomyosin"
+   ],
+   "biology_ko": "문어는 바다에 사는 연체동물로, 문어회·숙회·구이·볶음 등 음식에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:03:59.728101+00:00"
+  },
+  {
+   "canonical_name": "Olive",
+   "korean_name": "올리브",
+   "aliases": [
+    "Olea",
+    "올리브나무",
+    "Ole e"
+   ],
+   "category": "pollen_tree",
+   "profile_key": "pollen_tree",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "바람에 실려 날아오는 봄철 수목 꽃가루입니다. 건조하고 바람 부는 날, 오전에 농도가 높습니다.",
+   "season_label_ko": "봄~초여름 (4~6월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    4,
+    5,
+    6
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "올리브는 물푸레나무과로 물푸레나무와 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "맑은 콧물",
+    "코막힘",
+    "눈 가려움·눈물",
+    "목 가려움"
+   ],
+   "avoidance_control_ko": [
+    "꽃가루가 많은 날(건조·강풍)에는 창문을 닫고 환기를 줄이세요.",
+    "외출할 때 마스크와 안경을 쓰세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "빨래를 실외에 널지 마세요.",
+    "차량은 창문을 닫고 내기순환으로 두세요."
+   ],
+   "relevance_probes_ko": [
+    "봄철(3~5월)에 코·눈 증상이 뚜렷하게 심해지나요?",
+    "봄철 야외활동 때 악화되나요?",
+    "다른 계절에는 증상이 줄어드나요?"
+   ],
+   "clinical_pearl_ko": "매년 같은 시기에 반복되는지가 핵심 단서입니다.",
+   "species_note_ko": "국내에는 거의 자생하지 않습니다. 지중해 지역 거주·여행력이 없으면 노출이 드뭅니다.",
+   "components": [
+    "ole_e_1",
+    "polcalcin",
+    "thaumatin_pr5"
+   ],
+   "biology_ko": "올리브나무에서 날리는 꽃가루로, 올리브나무가 자라는 곳의 공기 중에 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:00.898464+00:00"
+  },
+  {
+   "canonical_name": "Onion",
+   "korean_name": "양파",
+   "aliases": [
+    "Onion",
+    "양파"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "양파는 음식에 넣어 먹는 채소로, 생으로 먹거나 익혀서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:03.886872+00:00"
+  },
+  {
+   "canonical_name": "Orange",
+   "korean_name": "오렌지",
+   "aliases": [
+    "Orange",
+    "Orange - fruit",
+    "오렌지"
+   ],
+   "category": "food",
+   "profile_key": "food:profilin",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "프로필린은 여러 식물에 두루 있는 범알레르겐입니다. 검사에서 여러 과일·채소가 한꺼번에 양성으로 보이게 만들 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "잔디·잡초 꽃가루와 멜론·수박·바나나·오렌지·토마토 등이 프로필린으로 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "실제로 먹었을 때 증상이 있었던 음식만 가려내세요. 프로필린 양성만으로 광범위하게 끊지 않습니다.",
+    "생과일에서 증상이 있으면 익혀서 시도해 보세요.",
+    "꽃가루 시즌에 증상이 강해지는지 기록해 두세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "프로필린은 다수 양성을 만들지만 임상 증상으로 이어지는 비율은 낮은 편입니다.",
+   "components": [
+    "profilin"
+   ],
+   "biology_ko": "오렌지는 귤과의 과일로, 생과일이나 주스, 잼과 음료에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:05.014586+00:00"
+  },
+  {
+   "canonical_name": "Orchard grass",
+   "korean_name": "오리새",
+   "aliases": [
+    "Orchard",
+    "Orchard grass",
+    "오리새"
+   ],
+   "category": "pollen_grass",
+   "profile_key": "pollen_grass",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "잔디·목초의 꽃가루로, 잔디밭·운동장·하천변에서 노출됩니다. 잔디를 깎을 때 농도가 크게 올라갑니다.",
+   "season_label_ko": "늦봄~여름 (5~7월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    5,
+    6,
+    7
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "잔디 꽃가루끼리는 교차반응이 흔해 한 종에 양성이면 다른 잔디에도 양성으로 나오는 경우가 많습니다. 밀·토마토 등과 프로필린을 통한 교차도 보고됩니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움",
+    "피부 접촉 두드러기"
+   ],
+   "avoidance_control_ko": [
+    "잔디 깎기는 피하고, 해야 한다면 마스크를 쓰세요.",
+    "잔디밭에 직접 앉거나 눕지 마세요.",
+    "시즌에는 야외활동 후 샤워하고 옷을 갈아입으세요.",
+    "이른 아침·저녁 잔디밭 산책을 줄이세요."
+   ],
+   "relevance_probes_ko": [
+    "5~6월에 증상이 심해지나요?",
+    "잔디밭·풀밭에 다녀오면 악화되나요?",
+    "잔디를 깎거나 그 근처에 있을 때 증상이 생기나요?"
+   ],
+   "clinical_pearl_ko": "잔디 종끼리 교차반응이 많아, 여러 잔디 양성이 곧 여러 원인을 뜻하지는 않습니다.",
+   "biology_ko": "오리새는 목초로 자라는 풀의 꽃가루예요. 주로 꽃이 피는 계절의 야외 공기에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:06.351090+00:00"
+  },
+  {
+   "canonical_name": "Outdoor mold mixture",
+   "korean_name": "실외 곰팡이 혼합",
+   "aliases": [
+    "Outdoor mold mixture",
+    "실외 곰팡이 홉합"
+   ],
+   "category": "mold",
+   "profile_key": "mold",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "욕실·지하실·결로가 생기는 벽, 오래된 에어컨 필터, 화분 흙, 낙엽 더미처럼 습한 곳에서 포자가 퍼집니다.",
+   "season_label_ko": "연중 (장마철·여름~초가을 증가)",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "both",
+   "cross_reactivity_ko": "곰팡이 속(屬)이 다르면 교차반응은 제한적입니다. 여러 곰팡이 양성은 각각의 노출을 따로 확인해야 합니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "기침",
+    "천명",
+    "눈 가려움"
+   ],
+   "avoidance_control_ko": [
+    "실내 습도를 50% 이하로 유지하고 자주 환기하세요.",
+    "욕실·주방·창틀의 결로와 곰팡이를 바로 닦아내세요.",
+    "에어컨·제습기 필터를 주기적으로 청소하세요.",
+    "젖은 빨래를 실내에 오래 두지 마세요.",
+    "낙엽 더미·퇴비·화분 흙을 다룰 때 마스크를 쓰세요."
+   ],
+   "relevance_probes_ko": [
+    "습한 공간(욕실·지하·장마철)에 있으면 증상이 심해지나요?",
+    "곰팡이 냄새가 나는 곳에서 악화되나요?",
+    "여름~초가을에 더 심한가요?"
+   ],
+   "clinical_pearl_ko": "실내 곰팡이는 연중, 실외 곰팡이는 여름~가을에 증상이 몰리는 경향이 있습니다.",
+   "biology_ko": "실외 곰팡이를 섞은 물질이에요. 주로 흙, 낙엽, 풀밭과 야외 공기에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:07.485774+00:00"
+  },
+  {
+   "canonical_name": "Oyster",
+   "korean_name": "굴",
+   "aliases": [
+    "Oyster",
+    "굴"
+   ],
+   "category": "food",
+   "profile_key": "food:shellfish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "새우·게·조개·오징어 등에 들어 있는 트로포마이오신이 주원인입니다. 가열해도 잘 파괴되지 않고, 삶는 김이나 조리 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "트로포마이오신은 갑각류·연체류끼리 교차반응이 매우 흔하고, 집먼지진드기·바퀴와도 교차반응이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 갑각류·연체류는 피하고, 같은 계열 음식은 진료와 상의해 범위를 정하세요.",
+    "가열해도 알레르겐이 남으므로 '익히면 괜찮다'고 가정하지 마세요.",
+    "조리 증기·같은 기름·같은 도마에 의한 교차오염을 주의하세요.",
+    "외식 시 육수·젓갈·소스에 들어가는지 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "진드기 양성자에서 갑각류 검사 양성이 함께 나오는 일이 흔하지만, 실제로 잘 먹고 있다면 감작만일 수 있습니다.",
+   "components": [
+    "tropomyosin"
+   ],
+   "biology_ko": "굴은 바다에 사는 조개류로, 굴회나 굴 요리에서 접할 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:08.687399+00:00"
+  },
+  {
+   "canonical_name": "Peach",
+   "korean_name": "복숭아",
+   "aliases": [
+    "Peach",
+    "복숭아"
+   ],
+   "category": "food",
+   "profile_key": "food:ltp",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "LTP(지질전달단백)는 껍질에 많고 열과 소화에 강합니다. 익혀도 남는 경우가 많습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "복숭아·사과·자두·체리·포도·토마토·옥수수·견과 등 식물성 식품 사이에서 폭넓게 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "익혀도 증상이 남을 수 있으니 '가열하면 안전하다'고 가정하지 마세요.",
+    "껍질에 많으므로 껍질을 피하면 덜한 경우가 있습니다.",
+    "운동·음주·해열진통제가 겹치면 반응이 커질 수 있어, 그런 상황을 함께 기록하세요.",
+    "전신 반응 이력이 있으면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "LTP 관련 반응은 입·목에 그치지 않고 전신으로 갈 수 있어, PR-10 형과 구분이 중요합니다.",
+   "components": [
+    "nsltp",
+    "pr10",
+    "profilin",
+    "thaumatin_pr5"
+   ],
+   "biology_ko": "복숭아는 장미과의 과일로, 생과일이나 주스·잼·디저트에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:09.799714+00:00"
+  },
+  {
+   "canonical_name": "Pear",
+   "korean_name": "배",
+   "aliases": [
+    "Pear",
+    "배"
+   ],
+   "category": "food",
+   "profile_key": "food:pr10",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "자작나무 꽃가루 단백(PR-10)과 닮은 과일·채소 단백에 반응하는 경우입니다. 생과일에서 주로 나타납니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "자작나무과 꽃가루와 사과·배·복숭아·체리·살구·당근·셀러리 등이 교차반응합니다(구강알레르기증후군).",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "생으로 먹을 때 입·목이 가렵다면 익혀서 드세요. PR-10 은 열에 약해 증상이 줄어드는 경우가 많습니다.",
+    "껍질에 많으므로 껍질을 벗기면 나아질 수 있습니다.",
+    "꽃가루 시즌에는 증상이 더 심해질 수 있습니다.",
+    "입·목을 넘어 두드러기·호흡곤란으로 번진 적이 있다면 반드시 진료에서 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "대개 입·목에 국한된 가벼운 증상이지만, 전신 반응 이력이 있으면 별도 평가가 필요합니다.",
+   "components": [
+    "pr10"
+   ],
+   "biology_ko": "배는 과일로, 생으로 먹거나 주스와 디저트에 들어가요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:10.675482+00:00"
+  },
+  {
+   "canonical_name": "Pecan",
+   "korean_name": "피칸",
+   "aliases": [
+    "Carya",
+    "피칸넛"
+   ],
+   "category": "food",
+   "profile_key": "food:seed_storage",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "견과·씨앗의 저장단백(2S albumin)은 열과 소화에 안정적이라 가공식품에서도 그대로 남습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "견과류끼리(캐슈-피스타치오, 호두-피칸) 교차반응이 잘 알려져 있습니다. 땅콩은 콩과로 견과와는 별개입니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 견과·씨앗은 피하고, 같은 계열 견과의 허용 범위는 진료와 상의하세요.",
+    "제과·소스·드레싱에 분말 형태로 들어가는 경우가 많아 원재료 표시를 확인하세요.",
+    "같은 설비에서 생산된 제품의 교차오염 표시도 확인하세요.",
+    "전신 반응 이력이 있다면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "가열로 줄지 않는 유형이라 소량 노출에도 반응할 수 있습니다.",
+   "components": [
+    "2s_albumin"
+   ],
+   "biology_ko": "피칸은 고소한 맛이 나는 견과류예요. 피칸 자체나 피칸이 들어간 빵과 과자에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:11.843701+00:00"
+  },
+  {
+   "canonical_name": "Penicillium",
+   "korean_name": "페니실리움",
+   "aliases": [
+    "Penicillium",
+    "페니실리움"
+   ],
+   "category": "mold",
+   "profile_key": "mold",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "욕실·지하실·결로가 생기는 벽, 오래된 에어컨 필터, 화분 흙, 낙엽 더미처럼 습한 곳에서 포자가 퍼집니다.",
+   "season_label_ko": "연중 (장마철·여름~초가을 증가)",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "both",
+   "cross_reactivity_ko": "곰팡이 속(屬)이 다르면 교차반응은 제한적입니다. 여러 곰팡이 양성은 각각의 노출을 따로 확인해야 합니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "기침",
+    "천명",
+    "눈 가려움"
+   ],
+   "avoidance_control_ko": [
+    "실내 습도를 50% 이하로 유지하고 자주 환기하세요.",
+    "욕실·주방·창틀의 결로와 곰팡이를 바로 닦아내세요.",
+    "에어컨·제습기 필터를 주기적으로 청소하세요.",
+    "젖은 빨래를 실내에 오래 두지 마세요.",
+    "낙엽 더미·퇴비·화분 흙을 다룰 때 마스크를 쓰세요."
+   ],
+   "relevance_probes_ko": [
+    "습한 공간(욕실·지하·장마철)에 있으면 증상이 심해지나요?",
+    "곰팡이 냄새가 나는 곳에서 악화되나요?",
+    "여름~초가을에 더 심한가요?"
+   ],
+   "clinical_pearl_ko": "실내 곰팡이는 연중, 실외 곰팡이는 여름~가을에 증상이 몰리는 경향이 있습니다.",
+   "biology_ko": "페니실리움은 곰팡이의 한 종류로, 집 안 먼지와 습한 곳, 상한 음식에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:14.107510+00:00"
+  },
+  {
+   "canonical_name": "Pepper",
+   "korean_name": "피망",
+   "aliases": [
+    "Pepper",
+    "Sweet pepper",
+    "피망"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "피망은 매운맛이 적은 고추류 채소로, 생으로 먹거나 요리와 샐러드에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:15.808875+00:00"
+  },
+  {
+   "canonical_name": "Pine",
+   "korean_name": "소나무",
+   "aliases": [
+    "Pine",
+    "소나무"
+   ],
+   "category": "pollen_tree",
+   "profile_key": "pollen_tree",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "바람에 실려 날아오는 봄철 수목 꽃가루입니다. 건조하고 바람 부는 날, 오전에 농도가 높습니다.",
+   "season_label_ko": "봄 (4~5월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    4,
+    5
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "소나무 꽃가루는 다른 수목 꽃가루와의 교차반응이 뚜렷하지 않은 편입니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "맑은 콧물",
+    "코막힘",
+    "눈 가려움·눈물",
+    "목 가려움"
+   ],
+   "avoidance_control_ko": [
+    "꽃가루가 많은 날(건조·강풍)에는 창문을 닫고 환기를 줄이세요.",
+    "외출할 때 마스크와 안경을 쓰세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "빨래를 실외에 널지 마세요.",
+    "차량은 창문을 닫고 내기순환으로 두세요."
+   ],
+   "relevance_probes_ko": [
+    "봄철(3~5월)에 코·눈 증상이 뚜렷하게 심해지나요?",
+    "봄철 야외활동 때 악화되나요?",
+    "다른 계절에는 증상이 줄어드나요?"
+   ],
+   "clinical_pearl_ko": "매년 같은 시기에 반복되는지가 핵심 단서입니다.",
+   "species_note_ko": "송홧가루는 양이 매우 많지만 입자가 커서 알레르기 유발력은 상대적으로 낮다고 알려져 있습니다.",
+   "biology_ko": "소나무는 꽃가루를 날리는 나무로, 봄철 숲이나 공원에서 꽃가루를 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:17.237746+00:00"
+  },
+  {
+   "canonical_name": "Pineapple",
+   "korean_name": "파인애플",
+   "aliases": [
+    "Pineapple",
+    "파인애플"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "파인애플은 열대 과일로, 생과일이나 주스, 통조림, 디저트에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:18.380029+00:00"
+  },
+  {
+   "canonical_name": "Pistachio",
+   "korean_name": "피스타치오",
+   "aliases": [
+    "Pistacia",
+    "Pis v",
+    "피스타치오넛"
+   ],
+   "category": "food",
+   "profile_key": "food:seed_storage",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "견과·씨앗의 저장단백(2S albumin)은 열과 소화에 안정적이라 가공식품에서도 그대로 남습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "견과류끼리(캐슈-피스타치오, 호두-피칸) 교차반응이 잘 알려져 있습니다. 땅콩은 콩과로 견과와는 별개입니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 견과·씨앗은 피하고, 같은 계열 견과의 허용 범위는 진료와 상의하세요.",
+    "제과·소스·드레싱에 분말 형태로 들어가는 경우가 많아 원재료 표시를 확인하세요.",
+    "같은 설비에서 생산된 제품의 교차오염 표시도 확인하세요.",
+    "전신 반응 이력이 있다면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "가열로 줄지 않는 유형이라 소량 노출에도 반응할 수 있습니다.",
+   "components": [
+    "2s_albumin"
+   ],
+   "biology_ko": "피스타치오는 견과류의 한 종류로, 피스타치오 열매와 이를 넣은 음식에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:19.462837+00:00"
+  },
+  {
+   "canonical_name": "Plaice",
+   "korean_name": "넙치, 가자미류",
+   "aliases": [
+    "Plaice",
+    "넙치, 가자미류"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "넙치는 바닷물고기이며, 주로 생선 요리나 수산물 가공식품을 통해 접해요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:20.813128+00:00"
+  },
+  {
+   "canonical_name": "Plane",
+   "korean_name": "양버즘나무",
+   "aliases": [
+    "Plane",
+    "양버즘나무"
+   ],
+   "category": "pollen_tree",
+   "profile_key": "pollen_tree",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "바람에 실려 날아오는 봄철 수목 꽃가루입니다. 건조하고 바람 부는 날, 오전에 농도가 높습니다.",
+   "season_label_ko": "봄 (4~5월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    4,
+    5
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "양버즘나무는 개암·복숭아·사과 등과 교차반응이 보고된 적이 있습니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "맑은 콧물",
+    "코막힘",
+    "눈 가려움·눈물",
+    "목 가려움"
+   ],
+   "avoidance_control_ko": [
+    "꽃가루가 많은 날(건조·강풍)에는 창문을 닫고 환기를 줄이세요.",
+    "외출할 때 마스크와 안경을 쓰세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "빨래를 실외에 널지 마세요.",
+    "차량은 창문을 닫고 내기순환으로 두세요."
+   ],
+   "relevance_probes_ko": [
+    "봄철(3~5월)에 코·눈 증상이 뚜렷하게 심해지나요?",
+    "봄철 야외활동 때 악화되나요?",
+    "다른 계절에는 증상이 줄어드나요?"
+   ],
+   "clinical_pearl_ko": "매년 같은 시기에 반복되는지가 핵심 단서입니다.",
+   "species_note_ko": "가로수로 많이 심어 도심 노출이 많습니다.",
+   "biology_ko": "양버즘나무에서 날리는 꽃가루로, 나무 주변의 공기와 바깥 환경에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:22.373048+00:00"
+  },
+  {
+   "canonical_name": "Plum",
+   "korean_name": "자두",
+   "aliases": [
+    "Pru d"
+   ],
+   "category": "food",
+   "profile_key": "food:ltp",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "LTP(지질전달단백)는 껍질에 많고 열과 소화에 강합니다. 익혀도 남는 경우가 많습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "복숭아·사과·자두·체리·포도·토마토·옥수수·견과 등 식물성 식품 사이에서 폭넓게 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "익혀도 증상이 남을 수 있으니 '가열하면 안전하다'고 가정하지 마세요.",
+    "껍질에 많으므로 껍질을 피하면 덜한 경우가 있습니다.",
+    "운동·음주·해열진통제가 겹치면 반응이 커질 수 있어, 그런 상황을 함께 기록하세요.",
+    "전신 반응 이력이 있으면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "LTP 관련 반응은 입·목에 그치지 않고 전신으로 갈 수 있어, PR-10 형과 구분이 중요합니다.",
+   "components": [
+    "pr10",
+    "nsltp"
+   ],
+   "biology_ko": "자두는 자두나무에서 열리는 과일이에요. 생과일이나 잼, 주스 등으로 먹을 때 접할 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:23.772510+00:00"
+  },
+  {
+   "canonical_name": "Pollock",
+   "korean_name": "명태",
+   "aliases": [
+    "동태",
+    "황태",
+    "Gad c"
+   ],
+   "category": "food",
+   "profile_key": "food:fish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "어류의 파브알부민이 주원인입니다. 가열에 안정적이며, 생선을 굽거나 찌는 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "어종 간 교차반응이 흔합니다. 다만 참치·황새치처럼 파브알부민이 적은 어종은 비교적 견디는 경우가 있습니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 어종은 피하고, 다른 어종 섭취 범위는 진료와 상의해 정하세요.",
+    "조리 증기에 노출되는 주방 환경을 주의하세요.",
+    "액젓·멸치육수·어묵 등 표시가 잘 안 되는 형태를 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "어류 알레르기와 아니사키스(기생충) 반응은 원인이 다르므로 구분이 필요합니다.",
+   "components": [
+    "parvalbumin"
+   ],
+   "biology_ko": "명태는 바다에 사는 생선으로, 명태살이나 명태가 들어간 음식에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:24.927427+00:00"
+  },
+  {
+   "canonical_name": "Poplar",
+   "korean_name": "포플러나무",
+   "aliases": [
+    "Poplar",
+    "포플러나무"
+   ],
+   "category": "pollen_tree",
+   "profile_key": "pollen_tree",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "바람에 실려 날아오는 봄철 수목 꽃가루입니다. 건조하고 바람 부는 날, 오전에 농도가 높습니다.",
+   "season_label_ko": "봄 (3~4월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    3,
+    4
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "포플러는 버드나무와 같은 버드나무과로 서로 교차반응할 수 있습니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "맑은 콧물",
+    "코막힘",
+    "눈 가려움·눈물",
+    "목 가려움"
+   ],
+   "avoidance_control_ko": [
+    "꽃가루가 많은 날(건조·강풍)에는 창문을 닫고 환기를 줄이세요.",
+    "외출할 때 마스크와 안경을 쓰세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "빨래를 실외에 널지 마세요.",
+    "차량은 창문을 닫고 내기순환으로 두세요."
+   ],
+   "relevance_probes_ko": [
+    "봄철(3~5월)에 코·눈 증상이 뚜렷하게 심해지나요?",
+    "봄철 야외활동 때 악화되나요?",
+    "다른 계절에는 증상이 줄어드나요?"
+   ],
+   "clinical_pearl_ko": "매년 같은 시기에 반복되는지가 핵심 단서입니다.",
+   "species_note_ko": "봄에 날리는 솜털은 씨앗이라 꽃가루 알레르기와 직접 관계가 없습니다.",
+   "biology_ko": "포플러나무에서 날리는 꽃가루로, 나무 주변의 공기와 실외 환경에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:26.144911+00:00"
+  },
+  {
+   "canonical_name": "Pork",
+   "korean_name": "돼지고기",
+   "aliases": [
+    "Pork",
+    "돼지고기"
+   ],
+   "category": "food",
+   "profile_key": "food:mammal_meat",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "포유류 고기의 혈청알부민에 반응하는 경우로, 동물 비듬 감작과 함께 나타나기도 합니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "고양이 알부민과 돼지고기(pork-cat 증후군), 소 비듬과 소고기·우유 사이에 교차반응이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 반복된 고기만 우선 피하고, 조리 정도에 따른 차이를 기록하세요.",
+    "혈청알부민은 충분히 익히면 줄어드는 경우가 있어, 생·덜 익힌 상태에서 더 문제되는지 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "동물 비듬 양성자에서 고기 검사 양성이 함께 보이는 일이 있으나, 잘 먹고 있다면 감작만일 수 있습니다.",
+   "components": [
+    "serum_albumin"
+   ],
+   "biology_ko": "돼지고기는 돼지에서 얻은 고기예요. 삼겹살, 햄, 소시지 같은 음식에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:27.241313+00:00"
+  },
+  {
+   "canonical_name": "Potato",
+   "korean_name": "감자",
+   "aliases": [
+    "Potato",
+    "감자"
+   ],
+   "category": "food",
+   "profile_key": "food:pr10",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "자작나무 꽃가루 단백(PR-10)과 닮은 과일·채소 단백에 반응하는 경우입니다. 생과일에서 주로 나타납니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "자작나무과 꽃가루와 사과·배·복숭아·체리·살구·당근·셀러리 등이 교차반응합니다(구강알레르기증후군).",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "생으로 먹을 때 입·목이 가렵다면 익혀서 드세요. PR-10 은 열에 약해 증상이 줄어드는 경우가 많습니다.",
+    "껍질에 많으므로 껍질을 벗기면 나아질 수 있습니다.",
+    "꽃가루 시즌에는 증상이 더 심해질 수 있습니다.",
+    "입·목을 넘어 두드러기·호흡곤란으로 번진 적이 있다면 반드시 진료에서 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "대개 입·목에 국한된 가벼운 증상이지만, 전신 반응 이력이 있으면 별도 평가가 필요합니다.",
+   "components": [
+    "pr10"
+   ],
+   "biology_ko": "감자는 땅속에서 자라는 식용 덩이줄기 채소예요. 주로 감자 요리와 감자를 넣은 가공식품에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:28.536225+00:00"
+  },
+  {
+   "canonical_name": "Rabbit epithelium",
+   "korean_name": "토끼 상피",
+   "aliases": [
+    "Rabbit",
+    "Rabbit epithelium",
+    "토끼 상피"
+   ],
+   "category": "animal",
+   "profile_key": "animal",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "털 자체보다 비듬·침·소변의 단백질이 원인입니다. 입자가 가볍고 오래 떠 있어 동물이 없는 공간(옷·차·학교)에서도 노출될 수 있습니다.",
+   "season_label_ko": "연중 (접촉할 때)",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "indoor",
+   "cross_reactivity_ko": "동물 간에는 혈청알부민을 통해 교차반응이 있을 수 있고, 고양이 알부민은 돼지고기와(pork-cat 증후군) 연관이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움·충혈",
+    "두드러기",
+    "기침",
+    "천명"
+   ],
+   "avoidance_control_ko": [
+    "동물을 침실에 들이지 마세요. 자는 동안 노출을 줄이는 것이 가장 효과가 큽니다.",
+    "HEPA 공기청정기를 생활공간에 두고 자주 청소하세요.",
+    "카펫·천소파처럼 비듬이 쌓이는 물건을 줄이세요.",
+    "동물을 만진 뒤 손을 씻고 얼굴·눈을 비비지 마세요.",
+    "목욕·빗질은 가능하면 알레르기가 없는 가족이 맡으세요."
+   ],
+   "relevance_probes_ko": [
+    "그 동물과 접촉하면 수분~수십 분 안에 증상이 생기나요?",
+    "그 동물이 있는 집·공간에 가면 악화되나요?",
+    "접촉을 피한 기간에는 증상이 줄었나요?"
+   ],
+   "clinical_pearl_ko": "접촉 후 짧은 시간 안에 재현되는지가 핵심입니다. 키우지 않아도 간접 노출로 증상이 날 수 있습니다.",
+   "components": [
+    "lipocalin"
+   ],
+   "biology_ko": "토끼 상피는 토끼 피부에서 떨어지는 세포로, 토끼나 토끼 주변의 먼지를 통해 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:30.443709+00:00"
+  },
+  {
+   "canonical_name": "Rat epithelium",
+   "korean_name": "쥐 상피",
+   "aliases": [
+    "Rat",
+    "Rat epithelium",
+    "쥐 상피"
+   ],
+   "category": "animal",
+   "profile_key": "animal",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "털 자체보다 비듬·침·소변의 단백질이 원인입니다. 입자가 가볍고 오래 떠 있어 동물이 없는 공간(옷·차·학교)에서도 노출될 수 있습니다.",
+   "season_label_ko": "연중 (접촉할 때)",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "indoor",
+   "cross_reactivity_ko": "동물 간에는 혈청알부민을 통해 교차반응이 있을 수 있고, 고양이 알부민은 돼지고기와(pork-cat 증후군) 연관이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움·충혈",
+    "두드러기",
+    "기침",
+    "천명"
+   ],
+   "avoidance_control_ko": [
+    "동물을 침실에 들이지 마세요. 자는 동안 노출을 줄이는 것이 가장 효과가 큽니다.",
+    "HEPA 공기청정기를 생활공간에 두고 자주 청소하세요.",
+    "카펫·천소파처럼 비듬이 쌓이는 물건을 줄이세요.",
+    "동물을 만진 뒤 손을 씻고 얼굴·눈을 비비지 마세요.",
+    "목욕·빗질은 가능하면 알레르기가 없는 가족이 맡으세요."
+   ],
+   "relevance_probes_ko": [
+    "그 동물과 접촉하면 수분~수십 분 안에 증상이 생기나요?",
+    "그 동물이 있는 집·공간에 가면 악화되나요?",
+    "접촉을 피한 기간에는 증상이 줄었나요?"
+   ],
+   "clinical_pearl_ko": "접촉 후 짧은 시간 안에 재현되는지가 핵심입니다. 키우지 않아도 간접 노출로 증상이 날 수 있습니다.",
+   "components": [
+    "lipocalin"
+   ],
+   "biology_ko": "쥐 상피는 쥐의 피부에서 떨어지는 비듬과 털 조각으로, 쥐가 있는 곳에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:32.243491+00:00"
+  },
+  {
+   "canonical_name": "Rice",
+   "korean_name": "쌀가루",
+   "aliases": [
+    "Rice",
+    "Rice flour",
+    "쌀가루"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "쌀가루는 쌀을 곱게 갈아 만든 가루예요. 떡, 빵, 면, 과자 등에 들어 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:33.235609+00:00"
+  },
+  {
+   "canonical_name": "Russian thistle",
+   "korean_name": "러시안 엉겅퀴",
+   "aliases": [
+    "Russian thistle",
+    "러시안 엉겅퀴"
+   ],
+   "category": "pollen_weed",
+   "profile_key": "pollen_weed",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "하천변·공터·길가에 자라는 잡초 꽃가루입니다. 가을 건조하고 바람 부는 날 농도가 높습니다.",
+   "season_label_ko": "여름~가을 (7~10월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    7,
+    8,
+    9,
+    10
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "러시안 엉겅퀴는 비름과로 명아주 등과 교차반응할 수 있습니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움",
+    "기침"
+   ],
+   "avoidance_control_ko": [
+    "가을철 꽃가루 농도가 높은 날에는 외출·환기를 줄이세요.",
+    "외출 시 마스크·안경을 착용하세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "하천변·공터 산책을 시즌에는 줄이세요."
+   ],
+   "relevance_probes_ko": [
+    "8~10월에 증상이 뚜렷하게 심해지나요?",
+    "가을철 야외(하천변·풀밭) 노출 때 악화되나요?",
+    "봄에는 상대적으로 괜찮은가요?"
+   ],
+   "clinical_pearl_ko": "가을에만 반복되는 패턴이면 임상적 의미가 큽니다.",
+   "biology_ko": "러시안 엉겅퀴는 잡초의 꽃가루로, 야외 공기와 들판에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:34.780055+00:00"
+  },
+  {
+   "canonical_name": "Rye flour",
+   "korean_name": "호밀가루",
+   "aliases": [
+    "Rye flour",
+    "호밀가루"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "호밀가루는 호밀을 갈아 만든 가루예요. 빵, 과자, 면 같은 음식에 들어 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:36.031117+00:00"
+  },
+  {
+   "canonical_name": "Rye grass, perennial",
+   "korean_name": "호밀풀",
+   "aliases": [
+    "Rye grass",
+    "호밀풀",
+    "Rye grass, perennial"
+   ],
+   "category": "pollen_grass",
+   "profile_key": "pollen_grass",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "잔디·목초의 꽃가루로, 잔디밭·운동장·하천변에서 노출됩니다. 잔디를 깎을 때 농도가 크게 올라갑니다.",
+   "season_label_ko": "늦봄~여름 (5~7월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    5,
+    6,
+    7
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "잔디 꽃가루끼리는 교차반응이 흔해 한 종에 양성이면 다른 잔디에도 양성으로 나오는 경우가 많습니다. 밀·토마토 등과 프로필린을 통한 교차도 보고됩니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움",
+    "피부 접촉 두드러기"
+   ],
+   "avoidance_control_ko": [
+    "잔디 깎기는 피하고, 해야 한다면 마스크를 쓰세요.",
+    "잔디밭에 직접 앉거나 눕지 마세요.",
+    "시즌에는 야외활동 후 샤워하고 옷을 갈아입으세요.",
+    "이른 아침·저녁 잔디밭 산책을 줄이세요."
+   ],
+   "relevance_probes_ko": [
+    "5~6월에 증상이 심해지나요?",
+    "잔디밭·풀밭에 다녀오면 악화되나요?",
+    "잔디를 깎거나 그 근처에 있을 때 증상이 생기나요?"
+   ],
+   "clinical_pearl_ko": "잔디 종끼리 교차반응이 많아, 여러 잔디 양성이 곧 여러 원인을 뜻하지는 않습니다.",
+   "biology_ko": "호밀풀은 여러 해 자라는 풀로, 꽃가루가 날릴 때 코와 눈에 닿을 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:37.857073+00:00"
+  },
+  {
+   "canonical_name": "Salmon",
+   "korean_name": "연어",
+   "aliases": [
+    "Salmon",
+    "연어"
+   ],
+   "category": "food",
+   "profile_key": "food:fish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "어류의 파브알부민이 주원인입니다. 가열에 안정적이며, 생선을 굽거나 찌는 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "어종 간 교차반응이 흔합니다. 다만 참치·황새치처럼 파브알부민이 적은 어종은 비교적 견디는 경우가 있습니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 어종은 피하고, 다른 어종 섭취 범위는 진료와 상의해 정하세요.",
+    "조리 증기에 노출되는 주방 환경을 주의하세요.",
+    "액젓·멸치육수·어묵 등 표시가 잘 안 되는 형태를 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "어류 알레르기와 아니사키스(기생충) 반응은 원인이 다르므로 구분이 필요합니다.",
+   "components": [
+    "parvalbumin"
+   ],
+   "biology_ko": "연어는 붉은 살을 가진 생선으로, 연어회·구이·통조림·훈제 연어 등에 들어 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:39.217897+00:00"
+  },
+  {
+   "canonical_name": "Sardine",
+   "korean_name": "정어리",
+   "aliases": [
+    "Ele",
+    "Sardine",
+    "Sardine~",
+    "생선 혼합"
+   ],
+   "category": "food",
+   "profile_key": "food:fish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "어류의 파브알부민이 주원인입니다. 가열에 안정적이며, 생선을 굽거나 찌는 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "어종 간 교차반응이 흔합니다. 다만 참치·황새치처럼 파브알부민이 적은 어종은 비교적 견디는 경우가 있습니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 어종은 피하고, 다른 어종 섭취 범위는 진료와 상의해 정하세요.",
+    "조리 증기에 노출되는 주방 환경을 주의하세요.",
+    "액젓·멸치육수·어묵 등 표시가 잘 안 되는 형태를 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "어류 알레르기와 아니사키스(기생충) 반응은 원인이 다르므로 구분이 필요합니다.",
+   "components": [
+    "parvalbumin"
+   ],
+   "biology_ko": "정어리는 작은 바닷물고기로, 생선 요리나 통조림을 먹을 때 접할 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:40.527552+00:00"
+  },
+  {
+   "canonical_name": "Sesame",
+   "korean_name": "참깨",
+   "aliases": [
+    "깨",
+    "Ses i",
+    "참깨씨",
+    "Sesamum"
+   ],
+   "category": "food",
+   "profile_key": "food:seed_storage",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "견과·씨앗의 저장단백(2S albumin)은 열과 소화에 안정적이라 가공식품에서도 그대로 남습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "견과류끼리(캐슈-피스타치오, 호두-피칸) 교차반응이 잘 알려져 있습니다. 땅콩은 콩과로 견과와는 별개입니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 견과·씨앗은 피하고, 같은 계열 견과의 허용 범위는 진료와 상의하세요.",
+    "제과·소스·드레싱에 분말 형태로 들어가는 경우가 많아 원재료 표시를 확인하세요.",
+    "같은 설비에서 생산된 제품의 교차오염 표시도 확인하세요.",
+    "전신 반응 이력이 있다면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "가열로 줄지 않는 유형이라 소량 노출에도 반응할 수 있습니다.",
+   "components": [
+    "2s_albumin"
+   ],
+   "biology_ko": "참깨는 고소한 맛이 나는 씨앗으로, 참기름과 빵, 과자, 소스 등에 들어가요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:41.649189+00:00"
+  },
+  {
+   "canonical_name": "Sheep",
+   "korean_name": "양고기",
+   "aliases": [
+    "Sheep",
+    "양고기"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "양고기는 양에서 얻는 고기로, 양고기 요리나 가공식품에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:42.942751+00:00"
+  },
+  {
+   "canonical_name": "Snail",
+   "korean_name": "달팽이",
+   "aliases": [
+    "에스카르고",
+    "Helix"
+   ],
+   "category": "food",
+   "profile_key": "food:shellfish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "새우·게·조개·오징어 등에 들어 있는 트로포마이오신이 주원인입니다. 가열해도 잘 파괴되지 않고, 삶는 김이나 조리 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "트로포마이오신은 갑각류·연체류끼리 교차반응이 매우 흔하고, 집먼지진드기·바퀴와도 교차반응이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 갑각류·연체류는 피하고, 같은 계열 음식은 진료와 상의해 범위를 정하세요.",
+    "가열해도 알레르겐이 남으므로 '익히면 괜찮다'고 가정하지 마세요.",
+    "조리 증기·같은 기름·같은 도마에 의한 교차오염을 주의하세요.",
+    "외식 시 육수·젓갈·소스에 들어가는지 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "진드기 양성자에서 갑각류 검사 양성이 함께 나오는 일이 흔하지만, 실제로 잘 먹고 있다면 감작만일 수 있습니다.",
+   "components": [
+    "tropomyosin"
+   ],
+   "biology_ko": "달팽이는 식용 연체동물로, 달팽이 요리나 달팽이 추출물이 든 식품에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:44.461022+00:00"
+  },
+  {
+   "canonical_name": "Soybean",
+   "korean_name": "대두",
+   "aliases": [
+    "콩",
+    "Soy",
+    "Glycine max",
+    "메주콩",
+    "Gly m"
+   ],
+   "category": "food",
+   "profile_key": "food:seed_storage",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "견과·씨앗의 저장단백(2S albumin)은 열과 소화에 안정적이라 가공식품에서도 그대로 남습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "견과류끼리(캐슈-피스타치오, 호두-피칸) 교차반응이 잘 알려져 있습니다. 땅콩은 콩과로 견과와는 별개입니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 견과·씨앗은 피하고, 같은 계열 견과의 허용 범위는 진료와 상의하세요.",
+    "제과·소스·드레싱에 분말 형태로 들어가는 경우가 많아 원재료 표시를 확인하세요.",
+    "같은 설비에서 생산된 제품의 교차오염 표시도 확인하세요.",
+    "전신 반응 이력이 있다면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "가열로 줄지 않는 유형이라 소량 노출에도 반응할 수 있습니다.",
+   "components": [
+    "pr10",
+    "profilin",
+    "2s_albumin"
+   ],
+   "biology_ko": "대두는 콩의 한 종류로, 두부·된장·간장·콩기름 등 콩으로 만든 음식에 들어 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:45.398157+00:00"
+  },
+  {
+   "canonical_name": "Spinach",
+   "korean_name": "시금치",
+   "aliases": [
+    "Spinach",
+    "시금치"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "시금치는 잎채소로, 생으로 먹거나 익힌 음식에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:46.217889+00:00"
+  },
+  {
+   "canonical_name": "Squid",
+   "korean_name": "오징어",
+   "aliases": [
+    "Squid",
+    "오징어"
+   ],
+   "category": "food",
+   "profile_key": "food:shellfish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "새우·게·조개·오징어 등에 들어 있는 트로포마이오신이 주원인입니다. 가열해도 잘 파괴되지 않고, 삶는 김이나 조리 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "트로포마이오신은 갑각류·연체류끼리 교차반응이 매우 흔하고, 집먼지진드기·바퀴와도 교차반응이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 갑각류·연체류는 피하고, 같은 계열 음식은 진료와 상의해 범위를 정하세요.",
+    "가열해도 알레르겐이 남으므로 '익히면 괜찮다'고 가정하지 마세요.",
+    "조리 증기·같은 기름·같은 도마에 의한 교차오염을 주의하세요.",
+    "외식 시 육수·젓갈·소스에 들어가는지 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "진드기 양성자에서 갑각류 검사 양성이 함께 나오는 일이 흔하지만, 실제로 잘 먹고 있다면 감작만일 수 있습니다.",
+   "components": [
+    "tropomyosin"
+   ],
+   "biology_ko": "오징어는 바다에 사는 연체동물로, 오징어 요리와 가공식품에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:47.347023+00:00"
+  },
+  {
+   "canonical_name": "Strawberry",
+   "korean_name": "딸기",
+   "aliases": [
+    "Strawberry",
+    "딸기"
+   ],
+   "category": "food",
+   "profile_key": "food:pr10",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "자작나무 꽃가루 단백(PR-10)과 닮은 과일·채소 단백에 반응하는 경우입니다. 생과일에서 주로 나타납니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "자작나무과 꽃가루와 사과·배·복숭아·체리·살구·당근·셀러리 등이 교차반응합니다(구강알레르기증후군).",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "생으로 먹을 때 입·목이 가렵다면 익혀서 드세요. PR-10 은 열에 약해 증상이 줄어드는 경우가 많습니다.",
+    "껍질에 많으므로 껍질을 벗기면 나아질 수 있습니다.",
+    "꽃가루 시즌에는 증상이 더 심해질 수 있습니다.",
+    "입·목을 넘어 두드러기·호흡곤란으로 번진 적이 있다면 반드시 진료에서 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "대개 입·목에 국한된 가벼운 증상이지만, 전신 반응 이력이 있으면 별도 평가가 필요합니다.",
+   "components": [
+    "pr10"
+   ],
+   "biology_ko": "딸기는 장미과의 열매로, 생과일이나 잼, 주스, 디저트에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:48.701762+00:00"
+  },
+  {
+   "canonical_name": "Tomato",
+   "korean_name": "토마토",
+   "aliases": [
+    "Tomato",
+    "토마토"
+   ],
+   "category": "food",
+   "profile_key": "food:ltp",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "LTP(지질전달단백)는 껍질에 많고 열과 소화에 강합니다. 익혀도 남는 경우가 많습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "복숭아·사과·자두·체리·포도·토마토·옥수수·견과 등 식물성 식품 사이에서 폭넓게 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "익혀도 증상이 남을 수 있으니 '가열하면 안전하다'고 가정하지 마세요.",
+    "껍질에 많으므로 껍질을 피하면 덜한 경우가 있습니다.",
+    "운동·음주·해열진통제가 겹치면 반응이 커질 수 있어, 그런 상황을 함께 기록하세요.",
+    "전신 반응 이력이 있으면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "LTP 관련 반응은 입·목에 그치지 않고 전신으로 갈 수 있어, PR-10 형과 구분이 중요합니다.",
+   "components": [
+    "profilin",
+    "nsltp"
+   ],
+   "biology_ko": "토마토는 열매채소로, 생토마토나 토마토소스·주스 등에 들어 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:49.719128+00:00"
+  },
+  {
+   "canonical_name": "Tree mixture 1",
+   "korean_name": "나무 꽃가루 혼합-1",
+   "aliases": [
+    "Tree mixture 1",
+    "나무 꽃가루 혼합-1"
+   ],
+   "category": "pollen_tree",
+   "profile_key": "pollen_tree",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "바람에 실려 날아오는 봄철 수목 꽃가루입니다. 건조하고 바람 부는 날, 오전에 농도가 높습니다.",
+   "season_label_ko": "봄 (3~5월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    3,
+    4,
+    5
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "수목 꽃가루는 같은 과(科)에 속하는 나무끼리 교차반응하는 경향이 있습니다. 어떤 나무와 묶이는지는 종마다 다르므로 개별 항목의 설명을 확인하세요.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "맑은 콧물",
+    "코막힘",
+    "눈 가려움·눈물",
+    "목 가려움"
+   ],
+   "avoidance_control_ko": [
+    "꽃가루가 많은 날(건조·강풍)에는 창문을 닫고 환기를 줄이세요.",
+    "외출할 때 마스크와 안경을 쓰세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "빨래를 실외에 널지 마세요.",
+    "차량은 창문을 닫고 내기순환으로 두세요."
+   ],
+   "relevance_probes_ko": [
+    "봄철(3~5월)에 코·눈 증상이 뚜렷하게 심해지나요?",
+    "봄철 야외활동 때 악화되나요?",
+    "다른 계절에는 증상이 줄어드나요?"
+   ],
+   "clinical_pearl_ko": "매년 같은 시기에 반복되는지가 핵심 단서입니다.",
+   "species_note_ko": "여러 수목을 섞은 혼합 항원이라 원인 나무를 특정할 수 없습니다. 양성이면 개별 수목 검사가 필요할 수 있습니다. 여러 종을 섞은 혼합 항원이라 원인 종을 특정할 수 없습니다.",
+   "biology_ko": "나무 꽃가루를 섞은 알레르겐이에요. 봄철 나무에서 날려 공기와 주변 환경에 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:51.295697+00:00"
+  },
+  {
+   "canonical_name": "Tree mixture 2",
+   "korean_name": "나무 꽃가루 혼합-2",
+   "aliases": [
+    "Tree mixture 2",
+    "나무 꽃가루 혼합-2"
+   ],
+   "category": "pollen_tree",
+   "profile_key": "pollen_tree",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "바람에 실려 날아오는 봄철 수목 꽃가루입니다. 건조하고 바람 부는 날, 오전에 농도가 높습니다.",
+   "season_label_ko": "봄 (3~5월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    3,
+    4,
+    5
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "수목 꽃가루는 같은 과(科)에 속하는 나무끼리 교차반응하는 경향이 있습니다. 어떤 나무와 묶이는지는 종마다 다르므로 개별 항목의 설명을 확인하세요.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "맑은 콧물",
+    "코막힘",
+    "눈 가려움·눈물",
+    "목 가려움"
+   ],
+   "avoidance_control_ko": [
+    "꽃가루가 많은 날(건조·강풍)에는 창문을 닫고 환기를 줄이세요.",
+    "외출할 때 마스크와 안경을 쓰세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "빨래를 실외에 널지 마세요.",
+    "차량은 창문을 닫고 내기순환으로 두세요."
+   ],
+   "relevance_probes_ko": [
+    "봄철(3~5월)에 코·눈 증상이 뚜렷하게 심해지나요?",
+    "봄철 야외활동 때 악화되나요?",
+    "다른 계절에는 증상이 줄어드나요?"
+   ],
+   "clinical_pearl_ko": "매년 같은 시기에 반복되는지가 핵심 단서입니다.",
+   "species_note_ko": "여러 수목을 섞은 혼합 항원이라 원인 나무를 특정할 수 없습니다. 양성이면 개별 수목 검사가 필요할 수 있습니다. 여러 종을 섞은 혼합 항원이라 원인 종을 특정할 수 없습니다.",
+   "biology_ko": "나무 혼합 꽃가루는 여러 나무에서 날리는 꽃가루를 섞은 것이며, 봄철 야외 공기에서 만나요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:52.395077+00:00"
+  },
+  {
+   "canonical_name": "Trout",
+   "korean_name": "송어",
+   "aliases": [
+    "Trout",
+    "송어"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "송어는 민물이나 바다에 사는 물고기로, 송어 요리나 가공식품을 먹을 때 접할 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:53.610556+00:00"
+  },
+  {
+   "canonical_name": "Tuna",
+   "korean_name": "참치",
+   "aliases": [
+    "Tuna",
+    "참치"
+   ],
+   "category": "food",
+   "profile_key": "food:fish",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "어류의 파브알부민이 주원인입니다. 가열에 안정적이며, 생선을 굽거나 찌는 증기로도 증상이 생길 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "어종 간 교차반응이 흔합니다. 다만 참치·황새치처럼 파브알부민이 적은 어종은 비교적 견디는 경우가 있습니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "증상이 확인된 어종은 피하고, 다른 어종 섭취 범위는 진료와 상의해 정하세요.",
+    "조리 증기에 노출되는 주방 환경을 주의하세요.",
+    "액젓·멸치육수·어묵 등 표시가 잘 안 되는 형태를 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "어류 알레르기와 아니사키스(기생충) 반응은 원인이 다르므로 구분이 필요합니다.",
+   "components": [
+    "parvalbumin"
+   ],
+   "biology_ko": "참치는 바다에 사는 생선으로, 참치회·통조림·초밥·샌드위치 등에 들어 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:54.649086+00:00"
+  },
+  {
+   "canonical_name": "Tyrophagus putrescentiae",
+   "korean_name": "긴털가루진드기",
+   "aliases": [
+    "T putres.",
+    "Tyrophagus putrescentiae protein",
+    "긴털가루진드기",
+    "Tyrophagus putrescentiae"
+   ],
+   "category": "mite",
+   "profile_key": "mite",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "침구·매트리스·소파·카펫·봉제인형처럼 섬유가 많고 습한 실내에 삽니다. 사람의 피부 각질을 먹고 살아 침실 농도가 가장 높습니다.",
+   "season_label_ko": "연중 (장마철·초가을에 증가)",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "indoor",
+   "cross_reactivity_ko": "집먼지진드기와 저장진드기는 서로 교차반응할 수 있고, 트로포마이오신을 공유해 새우·게 등 갑각류와도 교차반응이 보고됩니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "맑은 콧물",
+    "코막힘",
+    "눈 가려움",
+    "기침",
+    "천명"
+   ],
+   "avoidance_control_ko": [
+    "침구(시트·베갯잇·이불커버)를 주 1회 55~60℃ 이상 물로 세탁하세요.",
+    "매트리스·베개·이불에 진드기 차단 커버를 씌우세요.",
+    "실내 습도를 50% 이하로 유지하세요(제습기·환기).",
+    "침실의 카펫·천소파·봉제인형을 줄이세요.",
+    "청소는 HEPA 필터 청소기를 쓰고, 이불을 세게 털지 마세요."
+   ],
+   "relevance_probes_ko": [
+    "계절과 무관하게 연중 코·눈 증상이 있나요?",
+    "청소·이불정리·먼지 노출 때 증상이 심해지나요?",
+    "아침 기상 직후에 특히 심한가요?",
+    "여행 등으로 집을 며칠 비우면 좋아지나요?"
+   ],
+   "clinical_pearl_ko": "연중 증상 + 아침·침구 노출 악화 + 외박 시 호전이 함께 있으면 임상적 의미가 큽니다.",
+   "biology_ko": "긴털가루진드기는 저장식품과 집먼지에 사는 작은 진드기예요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:56.560663+00:00"
+  },
+  {
+   "canonical_name": "Velvet grass",
+   "korean_name": "잔디",
+   "aliases": [
+    "Velvet",
+    "Velvet grass",
+    "잔디"
+   ],
+   "category": "pollen_grass",
+   "profile_key": "pollen_grass",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "잔디·목초의 꽃가루로, 잔디밭·운동장·하천변에서 노출됩니다. 잔디를 깎을 때 농도가 크게 올라갑니다.",
+   "season_label_ko": "늦봄~여름 (5~7월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    5,
+    6,
+    7
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "잔디 꽃가루끼리는 교차반응이 흔해 한 종에 양성이면 다른 잔디에도 양성으로 나오는 경우가 많습니다. 밀·토마토 등과 프로필린을 통한 교차도 보고됩니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "콧물",
+    "코막힘",
+    "눈 가려움",
+    "피부 접촉 두드러기"
+   ],
+   "avoidance_control_ko": [
+    "잔디 깎기는 피하고, 해야 한다면 마스크를 쓰세요.",
+    "잔디밭에 직접 앉거나 눕지 마세요.",
+    "시즌에는 야외활동 후 샤워하고 옷을 갈아입으세요.",
+    "이른 아침·저녁 잔디밭 산책을 줄이세요."
+   ],
+   "relevance_probes_ko": [
+    "5~6월에 증상이 심해지나요?",
+    "잔디밭·풀밭에 다녀오면 악화되나요?",
+    "잔디를 깎거나 그 근처에 있을 때 증상이 생기나요?"
+   ],
+   "clinical_pearl_ko": "잔디 종끼리 교차반응이 많아, 여러 잔디 양성이 곧 여러 원인을 뜻하지는 않습니다.",
+   "biology_ko": "벨벳그래스는 잔디의 한 종류로 꽃가루를 날려요. 주로 잔디밭이나 들판에서 접해요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:57.789959+00:00"
+  },
+  {
+   "canonical_name": "Walnut",
+   "korean_name": "호두",
+   "aliases": [
+    "Walnut",
+    "호두"
+   ],
+   "category": "food",
+   "profile_key": "food:ltp",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "LTP(지질전달단백)는 껍질에 많고 열과 소화에 강합니다. 익혀도 남는 경우가 많습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "복숭아·사과·자두·체리·포도·토마토·옥수수·견과 등 식물성 식품 사이에서 폭넓게 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "익혀도 증상이 남을 수 있으니 '가열하면 안전하다'고 가정하지 마세요.",
+    "껍질에 많으므로 껍질을 피하면 덜한 경우가 있습니다.",
+    "운동·음주·해열진통제가 겹치면 반응이 커질 수 있어, 그런 상황을 함께 기록하세요.",
+    "전신 반응 이력이 있으면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "LTP 관련 반응은 입·목에 그치지 않고 전신으로 갈 수 있어, PR-10 형과 구분이 중요합니다.",
+   "components": [
+    "2s_albumin",
+    "nsltp"
+   ],
+   "biology_ko": "호두는 견과류의 한 종류로, 음식이나 과자, 빵 등에 들어 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:58.779893+00:00"
+  },
+  {
+   "canonical_name": "Watermelon",
+   "korean_name": "수박",
+   "aliases": [
+    "Citrullus",
+    "워터멜론"
+   ],
+   "category": "food",
+   "profile_key": "food:profilin",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "프로필린은 여러 식물에 두루 있는 범알레르겐입니다. 검사에서 여러 과일·채소가 한꺼번에 양성으로 보이게 만들 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "잔디·잡초 꽃가루와 멜론·수박·바나나·오렌지·토마토 등이 프로필린으로 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "실제로 먹었을 때 증상이 있었던 음식만 가려내세요. 프로필린 양성만으로 광범위하게 끊지 않습니다.",
+    "생과일에서 증상이 있으면 익혀서 시도해 보세요.",
+    "꽃가루 시즌에 증상이 강해지는지 기록해 두세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "프로필린은 다수 양성을 만들지만 임상 증상으로 이어지는 비율은 낮은 편입니다.",
+   "components": [
+    "profilin"
+   ],
+   "biology_ko": "수박은 박과에 속하는 과일로, 주로 생과일이나 주스 형태로 접해요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:04:59.795112+00:00"
+  },
+  {
+   "canonical_name": "Wheat",
+   "korean_name": "밀",
+   "aliases": [
+    "소맥",
+    "밀가루",
+    "Triticum",
+    "통밀",
+    "Tri a"
+   ],
+   "category": "food",
+   "profile_key": "food:ltp",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "LTP(지질전달단백)는 껍질에 많고 열과 소화에 강합니다. 익혀도 남는 경우가 많습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "복숭아·사과·자두·체리·포도·토마토·옥수수·견과 등 식물성 식품 사이에서 폭넓게 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "익혀도 증상이 남을 수 있으니 '가열하면 안전하다'고 가정하지 마세요.",
+    "껍질에 많으므로 껍질을 피하면 덜한 경우가 있습니다.",
+    "운동·음주·해열진통제가 겹치면 반응이 커질 수 있어, 그런 상황을 함께 기록하세요.",
+    "전신 반응 이력이 있으면 응급 대처 계획을 진료에서 상의하세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "LTP 관련 반응은 입·목에 그치지 않고 전신으로 갈 수 있어, PR-10 형과 구분이 중요합니다.",
+   "components": [
+    "nsltp",
+    "profilin"
+   ],
+   "biology_ko": "밀은 빵, 면, 과자와 같은 음식에 들어가는 곡물이에요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:05:00.808630+00:00"
+  },
+  {
+   "canonical_name": "White ash",
+   "korean_name": "물푸레나무",
+   "aliases": [
+    "Ash",
+    "White ash",
+    "물푸레나무"
+   ],
+   "category": "pollen_tree",
+   "profile_key": "pollen_tree",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "바람에 실려 날아오는 봄철 수목 꽃가루입니다. 건조하고 바람 부는 날, 오전에 농도가 높습니다.",
+   "season_label_ko": "봄 (4~5월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    4,
+    5
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "물푸레나무는 물푸레나무과로 올리브·쥐똥나무·개나리 등 같은 과의 꽃가루와 교차반응합니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "맑은 콧물",
+    "코막힘",
+    "눈 가려움·눈물",
+    "목 가려움"
+   ],
+   "avoidance_control_ko": [
+    "꽃가루가 많은 날(건조·강풍)에는 창문을 닫고 환기를 줄이세요.",
+    "외출할 때 마스크와 안경을 쓰세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "빨래를 실외에 널지 마세요.",
+    "차량은 창문을 닫고 내기순환으로 두세요."
+   ],
+   "relevance_probes_ko": [
+    "봄철(3~5월)에 코·눈 증상이 뚜렷하게 심해지나요?",
+    "봄철 야외활동 때 악화되나요?",
+    "다른 계절에는 증상이 줄어드나요?"
+   ],
+   "clinical_pearl_ko": "매년 같은 시기에 반복되는지가 핵심 단서입니다.",
+   "components": [
+    "ole_e_1",
+    "polcalcin"
+   ],
+   "biology_ko": "물푸레나무에서 날리는 꽃가루로, 나무 주변의 공기와 흙에서 만날 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:05:01.848285+00:00"
+  },
+  {
+   "canonical_name": "Wholemeal flour",
+   "korean_name": "통밀가루",
+   "aliases": [
+    "Whole wheat flour",
+    "Wholemeal flour",
+    "통밀가루"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "통밀을 통째로 갈아 만든 밀가루예요. 빵, 면, 과자와 같은 음식에 들어 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:05:02.946150+00:00"
+  },
+  {
+   "canonical_name": "Willow",
+   "korean_name": "버드나무",
+   "aliases": [
+    "Willow",
+    "Willow tree",
+    "버드나무"
+   ],
+   "category": "pollen_tree",
+   "profile_key": "pollen_tree",
+   "source": "category_profile+pollen_calendar",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "바람에 실려 날아오는 봄철 수목 꽃가루입니다. 건조하고 바람 부는 날, 오전에 농도가 높습니다.",
+   "season_label_ko": "봄 (3~4월)",
+   "seasonality_pattern": "seasonal",
+   "peak_months_korea": [
+    3,
+    4
+   ],
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "버드나무는 포플러와 같은 버드나무과로 서로 교차반응할 수 있습니다.",
+   "typical_symptoms_ko": [
+    "재채기",
+    "맑은 콧물",
+    "코막힘",
+    "눈 가려움·눈물",
+    "목 가려움"
+   ],
+   "avoidance_control_ko": [
+    "꽃가루가 많은 날(건조·강풍)에는 창문을 닫고 환기를 줄이세요.",
+    "외출할 때 마스크와 안경을 쓰세요.",
+    "귀가 후 샤워·세수하고 옷을 갈아입으세요.",
+    "빨래를 실외에 널지 마세요.",
+    "차량은 창문을 닫고 내기순환으로 두세요."
+   ],
+   "relevance_probes_ko": [
+    "봄철(3~5월)에 코·눈 증상이 뚜렷하게 심해지나요?",
+    "봄철 야외활동 때 악화되나요?",
+    "다른 계절에는 증상이 줄어드나요?"
+   ],
+   "clinical_pearl_ko": "매년 같은 시기에 반복되는지가 핵심 단서입니다.",
+   "species_note_ko": "주로 곤충이 옮겨 공기 중 농도는 낮은 편입니다. 곤충이 옮기는 꽃(충매화)이라 공기 중 꽃가루 농도는 낮은 편입니다.",
+   "biology_ko": "버드나무에서 날리는 꽃가루로, 봄철 공기 중이나 나무 주변에서 접할 수 있어요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:05:04.393664+00:00"
+  },
+  {
+   "canonical_name": "Yeast",
+   "korean_name": "맥주용효모",
+   "aliases": [
+    "Brewer's yeast",
+    "Yeast",
+    "맥주용효모"
+   ],
+   "category": "food",
+   "profile_key": "food",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "섭취했을 때 증상이 생기는지가 핵심입니다. 가공식품·외식에서는 표시되지 않은 형태로 들어갈 수 있습니다.",
+   "season_label_ko": "먹었을 때",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "입·입술·목 가려움",
+    "두드러기",
+    "복통",
+    "구토",
+    "설사"
+   ],
+   "avoidance_control_ko": [
+    "먹은 뒤 증상이 반복되는 음식만 우선 피하세요. 검사 양성만으로 모든 음식을 끊지 않습니다.",
+    "가공식품·외식에서는 원재료 표시를 확인하세요.",
+    "먹은 음식·시간·증상을 기록해 진료 때 보여주세요."
+   ],
+   "relevance_probes_ko": [
+    "그 음식을 먹었을 때 증상이 반복해서 생겼나요?",
+    "익혀서 먹을 때와 생으로 먹을 때 차이가 있나요?",
+    "증상이 입·목에만 있었나요, 아니면 피부·호흡기·전신으로 퍼졌나요?"
+   ],
+   "clinical_pearl_ko": "음식 알레르기는 검사 수치보다 '먹었을 때 반복되는 증상'으로 판단합니다.",
+   "biology_ko": "맥주용효모는 빵과 맥주를 만들 때 쓰이는 미생물이에요.",
+   "biology_ko_status": "candidate",
+   "biology_ko_model": "gpt-5.6-luna",
+   "biology_ko_generated_at": "2026-09-18T05:05:05.884472+00:00"
+  }
+ ]
+}
