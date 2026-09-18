@@ -94,6 +94,23 @@ _SPARQL_FORBIDDEN = re.compile(
     r"\b(INSERT|DELETE|LOAD|CLEAR|DROP|CREATE|ADD|MOVE|COPY|WITH|SERVICE)\b", re.I)
 
 
+def _clean_quote(raw, limit: int = 220) -> str:
+    """위키텍스트 마크업을 걷어내 사람이 읽을 수 있는 인용문으로 만든다.
+
+    raw_text 는 원문 위키텍스트라 '[[spirometry]]<ref name="x" />' 같은 표기가 섞여 있다.
+    그대로 프롬프트에 넣으면 모델이 대괄호째 따라 쓴다.
+    """
+    if not raw:
+        return ""
+    t = re.sub(r"<ref[^>]*?/>|<ref[^>]*?>.*?</ref>", "", str(raw), flags=re.S | re.I)
+    t = re.sub(r"<[^>]+>", "", t)
+    t = re.sub(r"\[\[(?:[^\]|]*\|)?([^\]|]*)\]\]", r"\1", t)     # [[a|b]] -> b
+    t = re.sub(r"\{\{[^{}]*\}\}", "", t)
+    t = t.replace("\'\'\'", "").replace("\'\'", "")
+    t = re.sub(r"\s+", " ", t).strip(" .,;:|")
+    return t[:limit]
+
+
 class OntologyService:
     """스냅샷을 RDF 로 올리고 SPARQL·검색을 제공한다. 그래프 구축은 최초 사용 시 1회."""
 
@@ -181,11 +198,23 @@ class OntologyService:
                     ru = uri(rec["id"])
                     g.add((gu, n.claim, ru))
                     g.add((ru, RDF.type, n.Claim))
+                    g.add((ru, n.claimId, Literal(rec["id"])))
                     g.add((ru, n.reviewStatus, Literal(rec.get("review_status", "candidate"))))
-                    for ev in rec.get("evidence", []) or []:
-                        eid = ev.get("id") if isinstance(ev, dict) else ev
-                        if eid:
-                            g.add((ru, n.evidence, uri(eid)))
+                    g.add((ru, n.polarity, Literal(rec.get("polarity", ""))))
+                    # 근거 원문. 연동 가이드가 '구조화된 관계와 원문 셀을 함께' 가져오라고 한 부분이다.
+                    # 라벨("based on symptoms")만으로는 무슨 맥락인지 알 수 없다.
+                    src = rec.get("source") or {}
+                    if src.get("evidence_id"):
+                        g.add((ru, n.evidenceId, Literal(src["evidence_id"])))
+                        g.add((ru, n.evidence, uri(src["evidence_id"])))
+                    for key, pred in (("raw_text", n.rawText), ("fragment", n.fragment),
+                                      ("url", n.sourceUrl), ("field", n.field)):
+                        if src.get(key):
+                            g.add((ru, pred, Literal(src[key])))
+                    sp = src.get("section_path") or (rec.get("context") or {}).get("section_path")
+                    if sp:
+                        g.add((ru, n.sectionPath,
+                               Literal(" > ".join(sp) if isinstance(sp, list) else str(sp))))
 
             # 표준 용어(DO/HPO): 코드·정의·동의어·상위 개념
             for grp in t.get("terminology_summary", {}).get("groups", []):
@@ -321,7 +350,8 @@ class OntologyService:
         q = f"""
         PREFIX allergy: <{NS}>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-        SELECT ?group ?label ?predicate ?polarity ?status ?evidence WHERE {{
+        SELECT ?group ?label ?predicate ?polarity ?status ?evidence ?claimId ?evidenceId ?quote ?url
+        WHERE {{
           ?topic allergy:hasExpression ?group .
           ?topic allergy:query "{topic}" .
           ?group rdfs:label ?label ;
@@ -329,6 +359,11 @@ class OntologyService:
                  allergy:polarity ?polarity ;
                  allergy:reviewStatus ?status ;
                  allergy:evidenceCount ?evidence .
+          OPTIONAL {{ ?group allergy:claim ?c .
+                     OPTIONAL {{ ?c allergy:claimId ?claimId }}
+                     OPTIONAL {{ ?c allergy:evidenceId ?evidenceId }}
+                     OPTIONAL {{ ?c allergy:rawText ?quote }}
+                     OPTIONAL {{ ?c allergy:sourceUrl ?url }} }}
           {filt}
         }} ORDER BY DESC(?evidence)
         """
@@ -351,6 +386,10 @@ class OntologyService:
                 "polarity": row["polarity"],
                 "review_status": row["status"],
                 "evidence_count": int(row["evidence"] or 0),
+                "claim_id": row.get("claimId"),
+                "evidence_id": row.get("evidenceId"),
+                "quote": _clean_quote(row.get("quote")),
+                "source_url": row.get("url"),
                 "topic": topic,
                 "topic_url": (self._topics[topic]["topic"].get("data") or {}).get("url"),
                 "node_id": node_id,
@@ -360,19 +399,56 @@ class OntologyService:
         return out
 
     def definition(self, topic: str) -> Optional[Dict[str, Any]]:
-        """표준 용어(DO 우선)의 정의 — 질환을 한 문장으로 설명할 때 쓴다."""
+        """표준 용어의 정의 — 질환을 한 문장으로 설명할 때 쓴다.
+
+        체계 우선순위 DO > HPO > SYMP. DO 만 보면 allergy·urticaria 처럼 DO 가 없거나 얕은 주제에서
+        정의를 통째로 놓친다(스냅샷에 DO 5 · HPO 5 · SYMP 2).
+        """
         self._ensure()
         if not self._loaded or topic not in self._topics:
             return None
-        for grp in self._topics[topic].get("terminology_summary", {}).get("groups", []):
-            tgt = grp.get("target") or {}
-            if tgt.get("definition") and tgt.get("system") == "DO":
-                return {"label": tgt.get("label"), "system": tgt.get("system"),
-                        "code": tgt.get("code"), "release": tgt.get("release"),
-                        "definition": tgt["definition"],
-                        "parents": [p.get("label") for p in (grp.get("hierarchy") or {}).get("items", [])
-                                    if p.get("label")]}
+        groups = self._topics[topic].get("terminology_summary", {}).get("groups", [])
+        for system in ("DO", "HPO", "SYMP"):
+            for grp in groups:
+                tgt = grp.get("target") or {}
+                if tgt.get("definition") and tgt.get("system") == system:
+                    return {"label": tgt.get("label"), "system": system,
+                            "code": tgt.get("code"), "release": tgt.get("release"),
+                            "definition": tgt["definition"],
+                            "parents": [p.get("label")
+                                        for p in (grp.get("hierarchy") or {}).get("items", [])
+                                        if p.get("label")]}
         return None
+
+    def topic_status(self, topic: str) -> Dict[str, Any]:
+        """주제의 **수집 범위**와 **매핑 검토 상태**.
+
+        연동 가이드가 둘을 분리해 표시하라고 한다.
+          - 임상 주장의 검토 상태(전부 candidate)와
+          - 용어 매핑의 검토 상태(asthma 만 accepted 5건)는 별개다.
+        또 수집량이 0 인 주제(allergy)를 '의학적으로 그런 관계가 없다'로 읽으면 안 된다.
+        """
+        self._ensure()
+        if not self._loaded or topic not in self._topics:
+            return {}
+        t = self._topics[topic]
+        md = t["topic"].get("mapping_display") or {}
+        items = t.get("clinical_context", {}).get("items", [])
+        return {
+            "topic": topic,
+            "label": t["topic"].get("label"),
+            "url": (t["topic"].get("data") or {}).get("url"),
+            "expression_groups": len(items),
+            "evidence_cells": len(t.get("source_evidence", [])),
+            "claim_review": "candidate" if items else "none_collected",
+            "mapping_state": md.get("state"),
+            "mapping_accepted": md.get("accepted_count", 0),
+            "mapping_candidate": md.get("candidate_count", 0),
+            "mapping_systems": md.get("target_systems", []),
+            "snomed_available": bool((t.get("terminology_summary", {})
+                                      .get("snomed") or {}).get("available")),
+            "data_collected": bool(items),
+        }
 
     def retrieve(self, question: str, diseases: Optional[Iterable[str]] = None,
                  max_topics: int = 2, per_topic: int = 6,
@@ -386,15 +462,104 @@ class OntologyService:
         if not include_treatment:
             preds = [p for p in preds if p not in TREATMENT_PREDICATES]
         blocks = []
+        uncollected: List[Dict[str, Any]] = []
         for tp in topics:
             facts = self.facts(tp, preds or None, limit=per_topic + len(SENSITIVE_PREDICATES))
             facts = [f for f in facts if f["predicate"] not in SENSITIVE_PREDICATES]
             if not include_treatment:
                 facts = [f for f in facts if f["predicate"] not in TREATMENT_PREDICATES]
             facts = facts[:per_topic]
-            blocks.append({"topic": tp, "definition": self.definition(tp), "facts": facts})
+            st = self.topic_status(tp)
+            if not st.get("data_collected"):
+                uncollected.append(st)
+            blocks.append({"topic": tp, "definition": self.definition(tp), "facts": facts,
+                           "status": st})
         return {"available": True, "topics": blocks, "predicates": preds,
-                "source": "Wikipedia 기반 온톨로지 스냅샷(2026-09-16), 임상 검토 전(candidate)"}
+                "uncollected": uncollected,
+                "source": "Wikipedia 기반 온톨로지 스냅샷(2026-09-16), 임상 주장은 모두 검토 전(candidate)"}
+
+    # ------------------------------------------------------------------
+    # 연동 가이드가 제안한 읽기 전용 도구 4종
+    # ------------------------------------------------------------------
+    def search_topics(self, q: str) -> List[Dict[str, Any]]:
+        """문자열로 주제를 찾는다. 별칭(hay fever → Allergic rhinitis)도 본다.
+
+        가이드 주의: 문서 별칭 통합은 '같은 Wikipedia 문서'라는 뜻이지 임상 하위유형 동등성이
+        아니다. 그래서 어떤 별칭으로 걸렸는지 함께 돌려준다.
+        """
+        self._ensure()
+        needle = (q or "").strip().lower()
+        if not needle:
+            return []
+        out = []
+        for topic, t in self._topics.items():
+            node = t["topic"]
+            aliases = [m.get("label", "") for m in (node.get("identity") or {}).get("members", [])]
+            hay = [topic, node.get("label", "")] + aliases
+            matched = [h for h in hay if h and needle in h.lower()]
+            if matched:
+                st = self.topic_status(topic)
+                st["matched_on"] = matched[:4]
+                st["alias_note"] = ("문서 식별상의 별칭이며 임상 하위유형이 같다는 뜻은 아닙니다."
+                                    if matched[0].lower() != topic else "")
+                out.append(st)
+        return out
+
+    def get_topic_context(self, topic: str, predicate: Optional[str] = None,
+                          limit: int = 20) -> Dict[str, Any]:
+        """주제의 임상 관계 + 검토 상태 + 수집 범위."""
+        self._ensure()
+        if topic not in self._topics:
+            return {"error": f"알 수 없는 주제: {topic}", "known": list(self._topics)}
+        return {"status": self.topic_status(topic), "definition": self.definition(topic),
+                "facts": self.facts(topic, [predicate] if predicate else None, limit=limit)}
+
+    def get_evidence(self, evidence_id: str) -> Dict[str, Any]:
+        """근거 셀 원문. claim 의 evidence_id 로 실제 문장·출처·판본을 되짚는다."""
+        self._ensure()
+        ev = self._evidence.get(evidence_id)
+        if not ev:
+            # clinical-claim 의 source.evidence_id 는 'evidence:...' 이고 소유 셀 목록은
+            # 'wikipedia-evidence:...' 다. 둘 다 받아준다.
+            for eid, cell in self._evidence.items():
+                if eid.endswith(evidence_id.split(":")[-1]):
+                    ev = cell
+                    break
+        if not ev:
+            return {"error": f"근거를 찾을 수 없습니다: {evidence_id}"}
+        return {"id": ev.get("id"), "text": (ev.get("text") or "").strip(),
+                "clean_text": _clean_quote(ev.get("text"), limit=1000),
+                "source_url": ev.get("source_url"), "revision_url": ev.get("revision_url"),
+                "revision_timestamp": ev.get("revision_timestamp"),
+                "field": ev.get("field"), "sheet": ev.get("sheet"),
+                "section": ev.get("section"), "text_sha256": ev.get("text_sha256")}
+
+    def get_terminology(self, topic: str) -> Dict[str, Any]:
+        """표준 용어 매핑 — 체계·코드·판본·검토 상태·상위 개념."""
+        self._ensure()
+        if topic not in self._topics:
+            return {"error": f"알 수 없는 주제: {topic}"}
+        t = self._topics[topic]
+        ts = t.get("terminology_summary", {})
+        terms = []
+        for grp in ts.get("groups", []):
+            tgt = grp.get("target") or {}
+            terms.append({
+                "label": tgt.get("label"), "system": tgt.get("system"), "code": tgt.get("code"),
+                "release": tgt.get("release"), "definition": tgt.get("definition"),
+                "synonyms": [x.get("term") for x in (tgt.get("synonyms") or []) if x.get("term")],
+                "parents": [{"label": p.get("label"), "code": p.get("code"),
+                             "system": p.get("system"), "predicate": p.get("predicate")}
+                            for p in (grp.get("hierarchy") or {}).get("items", [])],
+            })
+        st = self.topic_status(topic)
+        return {"topic": topic, "systems": ts.get("systems", []), "terms": terms,
+                "mapping_state": st.get("mapping_state"),
+                "mapping_accepted": st.get("mapping_accepted"),
+                "mapping_candidate": st.get("mapping_candidate"),
+                "snomed": ts.get("snomed", {}),
+                "constraints": ts.get("constraints", []),
+                "note": "매핑 검토 상태는 임상 주장의 검토 상태와 별개입니다."}
 
 
 _ontology_service: Optional[OntologyService] = None

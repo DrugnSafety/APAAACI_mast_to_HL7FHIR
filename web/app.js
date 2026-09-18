@@ -862,9 +862,18 @@ function knowledgeSources(sources) {
   sources.forEach(s => { (byTopic[s.topic] = byTopic[s.topic] || { url: s.url, items: [] }).items.push(s); });
   const groups = Object.keys(byTopic).map(topic => {
     const g = byTopic[topic];
-    const items = g.items.slice(0, 6).map(s => `${esc(s.predicate_ko)}: ${esc(s.label)}`).join(' · ');
+    // 연동 가이드: 관계명·claim ID·evidence ID·원문 URL·검토 상태를 표시할 것.
+    // 원문 인용을 함께 보여줘야 'based on symptoms' 같은 라벨의 맥락을 알 수 있다.
+    const items = g.items.slice(0, 6).map(s => `
+      <li>
+        <span class="src-pred">${esc(s.predicate_ko)}</span> ${esc(s.label)}
+        ${s.quote ? `<div class="src-quote">“${esc(s.quote)}”</div>` : ''}
+        <div class="src-ids">${esc(s.review_status || '')}${s.claim_id ? ' · ' + esc(s.claim_id) : ''}${s.evidence_id ? ' · ' + esc(s.evidence_id) : ''}</div>
+      </li>`).join('');
     const link = g.url ? `<a href="${esc(g.url)}" target="_blank" rel="noopener noreferrer">${esc(topic)}</a>` : esc(topic);
-    return `<div class="src-item">${link} — ${items}</div>`;
+    const mapping = g.items[0] && g.items[0].mapping_state
+      ? `<span class="src-map">${t('chat.src_mapping', { s: esc(g.items[0].mapping_state) })}</span>` : '';
+    return `<div class="src-item">${link} ${mapping}<ul class="src-list">${items}</ul></div>`;
   }).join('');
   return `<details class="kb-src"><summary>${t('chat.src_summary', { n: sources.length })}</summary>
     ${groups}<div class="src-note">${t('chat.src_note')}</div></details>`;

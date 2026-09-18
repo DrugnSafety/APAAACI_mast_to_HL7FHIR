@@ -190,6 +190,7 @@
     'chat.fail': '답변을 가져오지 못했습니다: ',
     'chat.src_summary': '관련 일반 지식 {n}건 (검토 전 자료)',
     'chat.src_note': '질환 일반 정보이며 이 검사 결과가 아닙니다. 임상 검토를 거치지 않은 백과사전 기반 자료예요.',
+    'chat.src_mapping': '용어 매핑 검토: {s} (임상 주장 검토와 별개)',
     'chat.nokey': '자유 질문에는 서버 API 키가 필요합니다. 추천 질문은 키 없이도 답해 드립니다.',
     'chat.reset': '대화 지우기',
   };
@@ -372,6 +373,7 @@
     'chat.fail': 'Could not get an answer: ',
     'chat.src_summary': '{n} related general-knowledge item(s) (unreviewed)',
     'chat.src_note': 'General information about the condition, not a finding from your test. Encyclopedia-based and not clinically reviewed.',
+    'chat.src_mapping': 'Terminology mapping review: {s} (separate from clinical claims)',
     'chat.nokey': 'Free-text questions need a server API key. Suggested questions work without one.',
     'chat.reset': 'Clear chat',
   };
@@ -554,6 +556,7 @@
     'chat.fail': '未能获取回答：',
     'chat.src_summary': '相关一般知识 {n} 条（未经审核）',
     'chat.src_note': '这是疾病的一般信息，不是您的检测结果。来源为百科资料，未经临床审核。',
+    'chat.src_mapping': '术语映射审核：{s}（与临床主张审核分开）',
     'chat.nokey': '自由提问需要服务器 API 密钥。推荐问题无需密钥即可作答。',
     'chat.reset': '清除对话',
   };

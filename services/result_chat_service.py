@@ -309,23 +309,43 @@ class ResultChatService:
             return "", []
 
         lines = ["\n[일반 질환 지식 — 참고용, 이 환자의 검사 결과가 아님]",
-                 f"출처: {r['source']}. 아래 항목은 모두 임상 검토 전(candidate)이며 진료 지침이 아님."]
+                 f"출처: {r['source']}. 진료 지침이 아님."]
         cites: List[Dict[str, Any]] = []
         for blk in r["topics"]:
             d = blk.get("definition")
+            st = blk.get("status") or {}
             head = (d or {}).get("label") or blk["topic"]
             lines.append(f"\n({head})")
+            # 임상 주장의 검토 상태와 용어 매핑의 검토 상태는 별개다(가이드 요구).
+            lines.append(f"  임상 관계 검토: {st.get('claim_review', 'candidate')} "
+                         f"(수집된 관계 {st.get('expression_groups', 0)}건) / "
+                         f"용어 매핑 검토: {st.get('mapping_state')} "
+                         f"(승인 {st.get('mapping_accepted', 0)}, 후보 {st.get('mapping_candidate', 0)}, "
+                         f"체계 {', '.join(st.get('mapping_systems') or []) or '없음'})")
             if d:
                 lines.append(f"  표준 정의 [{d['system']} {d['code']} {d['release']}]: {d['definition']}")
                 if d.get("parents"):
                     lines.append(f"  상위 개념: {', '.join(d['parents'])}")
+            if not blk["facts"]:
+                lines.append("  수집된 임상 관계 없음 — '해당 관계가 의학적으로 없다'는 뜻이 아니라 "
+                             "이 스냅샷에 자료가 없다는 뜻임.")
             for f in blk["facts"]:
                 lines.append(f"  - [{f['predicate_ko']}] {f['label']} "
-                             f"(근거 {f['evidence_count']}건, {f['review_status']}, polarity={f['polarity']})")
+                             f"(근거 {f['evidence_count']}건, {f['review_status']}, "
+                             f"polarity={f['polarity']})")
+                # 라벨만으로는 맥락을 알 수 없다. 가이드가 '구조화된 관계 + 원문 셀'을 함께
+                # 가져오라고 한 이유다. 예: 라벨 'based on symptoms' → 원문 'Based on symptoms,
+                # response to therapy, spirometry'
+                if f.get("quote"):
+                    lines.append(f"      원문: \"{f['quote']}\"")
                 cites.append({"topic": blk["topic"], "label": f["label"],
                               "predicate": f["predicate"], "predicate_ko": f["predicate_ko"],
-                              "group_id": f["group_id"], "review_status": f["review_status"],
-                              "evidence_count": f["evidence_count"], "url": f["topic_url"]})
+                              "group_id": f["group_id"], "claim_id": f.get("claim_id"),
+                              "evidence_id": f.get("evidence_id"), "quote": f.get("quote"),
+                              "review_status": f["review_status"],
+                              "mapping_state": st.get("mapping_state"),
+                              "evidence_count": f["evidence_count"],
+                              "url": f.get("source_url") or f["topic_url"]})
         return "\n".join(lines), cites
 
     # ------------------------------------------------------------------
@@ -624,7 +644,18 @@ class ResultChatService:
                 "19. Items under 약제/치료 (medication/treatment) describe what exists generally. You may "
                 "say a class of treatment exists, but never recommend one, never tell the patient to take "
                 "or stop anything, and always send that decision to their clinician.\n"
-                "20. If the general block does not cover the question, say so rather than inventing.\n\n"
+                "20. If the general block does not cover the question, say so rather than inventing.\n"
+                "21. Missing data is NOT medical absence. If a topic says nothing was collected, or a "
+                "relation is absent, never conclude the link does not exist medically — say this "
+                "reference does not cover it.\n"
+                "22. The block shows TWO separate review states: the clinical relations (all unreviewed) "
+                "and the terminology mapping (approved for some topics). Never let an approved mapping "
+                "imply the clinical claims were approved.\n"
+                "23. The same wording appearing under two diseases does not make it the same clinical "
+                "concept, and an article alias (e.g. hay fever) is a document name, not proof of an "
+                "identical clinical subtype. Do not merge them.\n"
+                "24. If you add anything you know beyond this block and the report, mark it as your own "
+                "general knowledge so the patient can tell the two apart.\n\n"
                 f"{ontology}\n\n" if ontology else ""
             )
             + f"PATIENT REPORT\n{context}\n"

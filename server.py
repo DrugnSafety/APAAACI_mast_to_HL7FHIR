@@ -363,6 +363,43 @@ def ontology_topics():
             "exported_at": (svc._raw or {}).get("export_finished_at")}
 
 
+@app.get("/api/ontology/search")
+def ontology_search(q: str):
+    """주제 검색(별칭 포함). 연동 가이드의 `search_topics`."""
+    from services.ontology_service import get_ontology_service
+    return {"query": q, "results": get_ontology_service().search_topics(q)}
+
+
+@app.get("/api/ontology/topic/{topic:path}")
+def ontology_topic(topic: str, predicate: Optional[str] = None, limit: int = 20):
+    """주제의 임상 관계 + 검토 상태 + 수집 범위. 가이드의 `get_topic_context`."""
+    from services.ontology_service import get_ontology_service
+    out = get_ontology_service().get_topic_context(topic, predicate, limit)
+    if out.get("error"):
+        raise HTTPException(status_code=404, detail=out["error"])
+    return out
+
+
+@app.get("/api/ontology/evidence/{evidence_id:path}")
+def ontology_evidence(evidence_id: str):
+    """근거 셀 원문·출처·판본. 가이드의 `get_evidence`."""
+    from services.ontology_service import get_ontology_service
+    out = get_ontology_service().get_evidence(evidence_id)
+    if out.get("error"):
+        raise HTTPException(status_code=404, detail=out["error"])
+    return out
+
+
+@app.get("/api/ontology/terminology/{topic:path}")
+def ontology_terminology(topic: str):
+    """표준 용어 매핑(체계·코드·판본·검토 상태). 가이드의 `get_terminology`."""
+    from services.ontology_service import get_ontology_service
+    out = get_ontology_service().get_terminology(topic)
+    if out.get("error"):
+        raise HTTPException(status_code=404, detail=out["error"])
+    return out
+
+
 @app.post("/api/ontology/sparql")
 def ontology_sparql(req: SparqlRequest):
     """온톨로지에 직접 SPARQL 질의.

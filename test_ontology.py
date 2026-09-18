@@ -10,7 +10,7 @@ import pytest
 
 from models.schemas import ScreeningProfile
 from services.ontology_service import (NS, PREDICATE_LABEL_KO, SENSITIVE_PREDICATES,
-                                       OntologyService, get_ontology_service)
+                                       OntologyService, _clean_quote, get_ontology_service)
 from services.result_chat_service import ResultChatService
 
 
@@ -160,3 +160,115 @@ class TestChatInjection:
     def test_treatment_items_carry_a_no_recommendation_rule(self):
         p = self._svc()._system_prompt("CTX", "ko", None, "ONTO")
         assert "never recommend one" in p
+
+
+class TestGuideRequirements:
+    """`docs/20260916-allergy-chatbot/chatbot-integration-guide.md` 가 명시한 요구사항.
+
+    가이드는 답변에 관계명·claim ID·evidence ID·원문 URL 을 표시하고, 임상 관계의 검토 상태와
+    용어 매핑의 검토 상태를 **따로** 밝히라고 한다. 또 자료가 없는 관계를 의학적 부재로
+    단정하지 말라고 한다.
+    """
+
+    def test_facts_carry_claim_and_evidence_ids_with_quote(self, svc):
+        facts = svc.facts("asthma", ["evaluated_with"], limit=3)
+        assert facts
+        f = facts[0]
+        assert f["claim_id"].startswith("clinical-claim:")
+        assert f["evidence_id"].startswith("evidence:")
+        assert f["source_url"].startswith("https://en.wikipedia.org/")
+        assert f["quote"], "라벨만으로는 맥락을 알 수 없다 — 원문 인용이 있어야 한다"
+
+    def test_quotes_are_stripped_of_wikitext(self):
+        raw = ("'''" + "Based on symptoms" + "'''" +
+               ", [[spirometry]]<ref name=\"x\" /> and tests {{cn}}")
+        out = _clean_quote(raw)
+        assert "[[" not in out and "<ref" not in out and "{{" not in out
+        assert "'''" not in out
+        assert "spirometry" in out and "tests" in out
+
+    def test_mapping_review_is_separate_from_claim_review(self, svc):
+        """asthma 는 매핑이 승인 5건이지만 임상 주장은 여전히 전부 candidate 다."""
+        asthma = svc.topic_status("asthma")
+        assert asthma["mapping_state"] == "accepted" and asthma["mapping_accepted"] == 5
+        assert asthma["claim_review"] == "candidate"
+        rhinitis = svc.topic_status("allergic rhinitis")
+        assert rhinitis["mapping_state"] == "candidate" and rhinitis["mapping_accepted"] == 0
+
+    def test_uncollected_topic_is_flagged_not_silently_empty(self, svc):
+        """Allergy 는 본문·관계가 미수집이다. 조용히 비우면 '없다'로 읽힌다."""
+        st = svc.topic_status("allergy")
+        assert st["data_collected"] is False and st["claim_review"] == "none_collected"
+        r = svc.retrieve("알레르기가 뭔가요?", [])
+        assert any(u["topic"] == "allergy" for u in r["uncollected"])
+
+    def test_definition_falls_back_to_hpo_and_symp(self, svc):
+        """DO 만 보면 allergy 처럼 DO 가 없는 주제에서 정의를 통째로 놓친다."""
+        d = svc.definition("allergy")
+        assert d and d["system"] == "HPO" and d["code"].startswith("HP:")
+        assert svc.definition("asthma")["system"] == "DO"
+
+    def test_snomed_absence_is_recorded(self, svc):
+        """가이드: SNOMED CT 판본은 아직 반입되지 않았다."""
+        assert svc.topic_status("asthma")["snomed_available"] is False
+        assert svc.get_terminology("asthma")["snomed"].get("available") is False
+
+
+class TestReadOnlyTools:
+    """가이드가 제안한 네 가지 읽기 전용 도구."""
+
+    def test_search_topics_resolves_aliases_with_a_caveat(self, svc):
+        hits = svc.search_topics("hay fever")
+        assert [h["topic"] for h in hits] == ["allergic rhinitis"]
+        assert "임상 하위유형" in hits[0]["alias_note"], "별칭=동일 임상개념 아님을 알려야 한다"
+
+    def test_search_topics_handles_urticaria_hives(self, svc):
+        assert [h["topic"] for h in svc.search_topics("hives")] == ["urticaria"]
+        assert svc.search_topics("") == []
+
+    def test_get_topic_context(self, svc):
+        out = svc.get_topic_context("asthma", "has_differential", limit=5)
+        assert out["status"]["expression_groups"] == 68
+        assert "COPD" in {f["label"] for f in out["facts"]}
+        assert svc.get_topic_context("nope")["error"]
+
+    def test_get_evidence_returns_source_and_hash(self, svc):
+        f = svc.facts("asthma", ["evaluated_with"], limit=1)[0]
+        ev = svc.get_evidence(f["evidence_id"])
+        assert ev["source_url"].startswith("https://")
+        assert ev["text_sha256"] and ev["clean_text"]
+        assert svc.get_evidence("evidence:nonexistent").get("error")
+
+    def test_get_terminology_preserves_system_code_release(self, svc):
+        out = svc.get_terminology("asthma")
+        codes = {(t["system"], t["code"]) for t in out["terms"]}
+        assert ("DO", "DOID:2841") in codes
+        assert all(t["release"] for t in out["terms"] if t["code"])
+        assert out["note"] and out["constraints"]
+
+
+class TestChatBlockCarriesProvenance:
+    def _block(self, q, diseases):
+        from models.schemas import ScreeningProfile
+        from services.result_chat_service import ResultChatService
+        return ResultChatService(api_key="").ontology_block(
+            q, ScreeningProfile(allergic_diseases=diseases))
+
+    def test_block_includes_quote_and_both_review_states(self):
+        text, cites = self._block("천식은 어떻게 진단하나요?", ["asthma"])
+        assert "원문:" in text
+        assert "임상 관계 검토: candidate" in text and "용어 매핑 검토: accepted" in text
+        assert cites[0]["claim_id"] and cites[0]["evidence_id"] and cites[0]["quote"]
+
+    def test_block_states_uncollected_rather_than_absent(self):
+        text, _ = self._block("알레르기가 뭔가요?", [])
+        assert "수집된 임상 관계 없음" in text
+        assert "의학적으로 없다" in text
+
+    def test_prompt_has_guide_rules(self):
+        from services.result_chat_service import ResultChatService
+        p = ResultChatService(api_key="")._system_prompt("CTX", "ko", None, "ONTO")
+        assert "Missing data is NOT medical absence" in p
+        assert "imply the clinical claims were approved" in p
+        assert "Do not merge them" in p
+        assert "mark it as your own" in p
