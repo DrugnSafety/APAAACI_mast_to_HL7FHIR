@@ -343,6 +343,40 @@ def chat(req: ChatRequest):
     return out
 
 
+class SparqlRequest(BaseModel):
+    """온톨로지 SPARQL 질의. 읽기 전용(SELECT/ASK)만 허용한다."""
+    query: str
+    limit: int = 50
+
+
+@app.get("/api/ontology/topics")
+def ontology_topics():
+    """온톨로지에 어떤 질환 주제·근거가 들어 있는지. 연결 상태 확인용."""
+    from services.ontology_service import get_ontology_service
+    svc = get_ontology_service()
+    if not svc.available:
+        raise HTTPException(status_code=503, detail="온톨로지 스냅샷을 불러오지 못했습니다.")
+    return {"topics": svc.topics(),
+            "usage_rules": (svc._raw or {}).get("usage_rules", []),
+            "limitations": (svc._raw or {}).get("limitations", []),
+            "schema_version": (svc._raw or {}).get("schema_version"),
+            "exported_at": (svc._raw or {}).get("export_finished_at")}
+
+
+@app.post("/api/ontology/sparql")
+def ontology_sparql(req: SparqlRequest):
+    """온톨로지에 직접 SPARQL 질의.
+
+    그래프는 스냅샷에서 만든 메모리 그래프다. 수정 질의(INSERT/DELETE/DROP…)와 SERVICE(외부 호출)는
+    거부한다. 어휘는 services/ontology_service.py 상단 주석과 /api/ontology/topics 참고.
+    """
+    from services.ontology_service import get_ontology_service
+    out = get_ontology_service().sparql(req.query, req.limit)
+    if not out.get("ok"):
+        raise HTTPException(status_code=400, detail=out.get("error", "질의 실패"))
+    return out
+
+
 @app.post("/api/fhir")
 def fhir(req: ClassifyRequest):
     """FHIR 매핑.

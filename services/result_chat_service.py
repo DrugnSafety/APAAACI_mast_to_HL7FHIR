@@ -15,7 +15,7 @@ from __future__ import annotations
 import logging
 import os
 import re
-from typing import Any, Dict, Iterable, List, Optional
+from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 from models.schemas import ClinicalRelevance
 from services.knowledge_service import normalize_category
@@ -287,6 +287,48 @@ class ResultChatService:
         return "\n".join(parts)
 
     # ------------------------------------------------------------------
+    # 1-2) 일반 질환 지식(온톨로지 RAG)
+    # ------------------------------------------------------------------
+    def ontology_block(self, question: str, screening=None,
+                       include_treatment: bool = True) -> Tuple[str, List[Dict[str, Any]]]:
+        """질문과 관련된 질환 일반 지식을 온톨로지에서 찾아 (컨텍스트 텍스트, 인용목록) 으로 준다.
+
+        환자 개별 사실(어떤 항원이 양성인지, 수치가 얼마인지)은 절대 여기서 오지 않는다.
+        이 블록은 '알레르기 비염이란 무엇인가' 같은 질환 일반 설명에만 쓰인다.
+        스냅샷의 usage_rules 대로 항목마다 검토 상태·근거 수·출처를 붙인다.
+        """
+        try:
+            from services.ontology_service import get_ontology_service
+            svc = get_ontology_service()
+            diseases = list(getattr(screening, "allergic_diseases", None) or [])
+            r = svc.retrieve(question, diseases, include_treatment=include_treatment)
+        except Exception as e:  # noqa: BLE001
+            logger.debug(f"온톨로지 조회 실패: {e}")
+            return "", []
+        if not r.get("available") or not r.get("topics"):
+            return "", []
+
+        lines = ["\n[일반 질환 지식 — 참고용, 이 환자의 검사 결과가 아님]",
+                 f"출처: {r['source']}. 아래 항목은 모두 임상 검토 전(candidate)이며 진료 지침이 아님."]
+        cites: List[Dict[str, Any]] = []
+        for blk in r["topics"]:
+            d = blk.get("definition")
+            head = (d or {}).get("label") or blk["topic"]
+            lines.append(f"\n({head})")
+            if d:
+                lines.append(f"  표준 정의 [{d['system']} {d['code']} {d['release']}]: {d['definition']}")
+                if d.get("parents"):
+                    lines.append(f"  상위 개념: {', '.join(d['parents'])}")
+            for f in blk["facts"]:
+                lines.append(f"  - [{f['predicate_ko']}] {f['label']} "
+                             f"(근거 {f['evidence_count']}건, {f['review_status']}, polarity={f['polarity']})")
+                cites.append({"topic": blk["topic"], "label": f["label"],
+                              "predicate": f["predicate"], "predicate_ko": f["predicate_ko"],
+                              "group_id": f["group_id"], "review_status": f["review_status"],
+                              "evidence_count": f["evidence_count"], "url": f["topic_url"]})
+        return "\n".join(lines), cites
+
+    # ------------------------------------------------------------------
     # 2) 추천 질문 — 일부는 LLM 없이 바로 답한다
     # ------------------------------------------------------------------
     def suggestions(self, relevance_result, lang: str = "ko") -> List[Dict[str, Any]]:
@@ -490,7 +532,8 @@ class ResultChatService:
                "wording rather than textbook terms; no exclamation marks."),
     }
 
-    def _system_prompt(self, context: str, lang: str, patient_name: Optional[str] = None) -> str:
+    def _system_prompt(self, context: str, lang: str, patient_name: Optional[str] = None,
+                       ontology: str = "") -> str:
         target = LANG_NAME.get(lang, "Korean")
         voice = self._VOICE.get(lang, self._VOICE["ko"]).replace("{name}", patient_name or "")
         # 근거 컨텍스트는 한국어로 만들어진다(지식베이스가 한국어라서). 언어 규칙을 따로 못 박지
@@ -563,7 +606,28 @@ class ResultChatService:
             "without alarm. Do this ONLY when the question is about food reactions, severe reactions, "
             "epinephrine or emergencies. Never append it to an unrelated answer about nose, eyes, "
             "pets, pollen or cleaning.\n\n"
-            f"PATIENT REPORT\n{context}\n"
+            + (
+                "GENERAL DISEASE KNOWLEDGE (separate source, use with care)\n"
+                "15. A second block below holds general knowledge about allergic diseases, taken from a "
+                "curated ontology built on Wikipedia articles. It is NOT about this patient.\n"
+                "16. Use it only to explain what a disease, symptom, test or term generally is. Never use "
+                "it to state what this patient has, what caused their symptoms, or what their numbers "
+                "mean — those come from the report only. If the two ever disagree, the report wins.\n"
+                "17. Every item there is UNREVIEWED (review status 'candidate') and comes from an "
+                "encyclopedia, not a clinical guideline. When you use one, say plainly that it is general "
+                "information, not a finding from their test. Do not present it as established fact, do "
+                "not give numbers, percentages or strengths of evidence from it, and never print the "
+                "internal IDs.\n"
+                "18. 'polarity: positive' only means the source text described it positively. It is not "
+                "proof, prevalence, or clinical approval. An item listed as a cause or risk factor is a "
+                "research candidate, so word it as 'has been described as', not 'causes'.\n"
+                "19. Items under 약제/치료 (medication/treatment) describe what exists generally. You may "
+                "say a class of treatment exists, but never recommend one, never tell the patient to take "
+                "or stop anything, and always send that decision to their clinician.\n"
+                "20. If the general block does not cover the question, say so rather than inventing.\n\n"
+                f"{ontology}\n\n" if ontology else ""
+            )
+            + f"PATIENT REPORT\n{context}\n"
         )
 
     @staticmethod
@@ -615,8 +679,9 @@ class ResultChatService:
             return {"reply": NO_KEY_TEXT[lang], "source": "no_api_key", "disclaimer": DISCLAIMER[lang]}
 
         context = self.build_context(relevance_result, patient_info, screening, answers)
+        onto_text, onto_cites = self.ontology_block(last, screening)
         convo = [{"role": "system", "content": self._system_prompt(
-            context, lang, (patient_info or {}).get("name"))}]
+            context, lang, (patient_info or {}).get("name"), onto_text)}]
         for m in (messages or [])[-MAX_HISTORY:]:
             role = m.get("role")
             if role in ("user", "assistant") and m.get("content"):
@@ -626,7 +691,11 @@ class ResultChatService:
             reply = (resp.choices[0].message.content or "").strip()
             if not reply:
                 raise RuntimeError("빈 응답(추론 토큰이 출력 한도를 다 썼을 수 있음)")
-            return {"reply": reply, "source": "llm", "disclaimer": DISCLAIMER[lang]}
+            # 스냅샷 usage_rules: 답변에 claim/근거 ID·URL·검토 상태를 함께 남긴다.
+            # 환자에게 ID 를 그대로 읽히면 읽기 어려우므로 본문이 아니라 응답 필드로 돌려주고,
+            # UI 가 '참고 출처' 줄로 표시한다.
+            return {"reply": reply, "source": "llm", "disclaimer": DISCLAIMER[lang],
+                    "knowledge_sources": onto_cites}
         except Exception as e:  # noqa: BLE001
             logger.warning(f"상담 응답 생성 실패: {e}")
             return {"reply": {"ko": "지금은 답변을 생성하지 못했습니다. 잠시 후 다시 시도해 주세요.",

@@ -1,0 +1,91 @@
+{
+  "verified_at": "2026-09-16T14:06:06.300838+00:00",
+  "topics": [
+    {
+      "query": "allergy",
+      "canonical_title": "Allergy",
+      "node_id": "concept:516ae49c727715b2cded943d",
+      "evidence_count": 0,
+      "claim_count": 0,
+      "expression_group_count": 0,
+      "review_status": {},
+      "mapping_count": 4,
+      "source_hashes_match": true,
+      "claim_spans_match": true,
+      "all_pages_exported": true
+    },
+    {
+      "query": "asthma",
+      "canonical_title": "Asthma",
+      "node_id": "concept:0151fdf6dad140b7e8d3a5f0",
+      "evidence_count": 330,
+      "claim_count": 85,
+      "expression_group_count": 68,
+      "review_status": {
+        "candidate": 85
+      },
+      "mapping_count": 5,
+      "source_hashes_match": true,
+      "claim_spans_match": true,
+      "all_pages_exported": true
+    },
+    {
+      "query": "allergic rhinitis",
+      "canonical_title": "Allergic rhinitis",
+      "node_id": "concept:6ebd8063f88a7b7b75fa198d",
+      "evidence_count": 120,
+      "claim_count": 36,
+      "expression_group_count": 36,
+      "review_status": {
+        "candidate": 36
+      },
+      "mapping_count": 8,
+      "source_hashes_match": true,
+      "claim_spans_match": true,
+      "all_pages_exported": true
+    },
+    {
+      "query": "atopic dermatitis",
+      "canonical_title": "Atopic dermatitis",
+      "node_id": "concept:bc949f9d312e276c381f9d5f",
+      "evidence_count": 263,
+      "claim_count": 58,
+      "expression_group_count": 39,
+      "review_status": {
+        "candidate": 58
+      },
+      "mapping_count": 6,
+      "source_hashes_match": true,
+      "claim_spans_match": true,
+      "all_pages_exported": true
+    },
+    {
+      "query": "urticaria",
+      "canonical_title": "Hives",
+      "node_id": "concept:997c4659fea53bf6936f1f9a",
+      "evidence_count": 417,
+      "claim_count": 28,
+      "expression_group_count": 18,
+      "review_status": {
+        "candidate": 28
+      },
+      "mapping_count": 9,
+      "source_hashes_match": true,
+      "claim_spans_match": true,
+      "all_pages_exported": true
+    }
+  ],
+  "total_evidence_cells": 1130,
+  "total_claims": 207,
+  "total_expression_groups": 161,
+  "file_sha256": {
+    "allergic-rhinitis.md": "fa04aa1d5658db5f03e3626063459edb531690310ec1bbc0b960121f4aa07cf7",
+    "allergy.md": "a1a1727e8ce998d3de3af75dc7bad22d447eb274bb9214bca47e9f70a239fe07",
+    "asthma.md": "c50b71fa4dea9ee3c9628aa89a560e7ceeeae6da78476b1e688700430c8b71ca",
+    "atopic-dermatitis.md": "73c6ed50f2978cd3d1f7693e3da0eefb98b96c0cdc4cab4cec2adcaaacf87ec8",
+    "chatbot-knowledge.md": "a07b28e31343a6618f25c9b18d9be5afd2a32e4cd040398b3023dcc5b47f5eb4",
+    "ontology-snapshot.json": "114b791b400de355a66f626364bab93b4c24cf1fd707db515b7c06d77e3fc511",
+    "urticaria.md": "9eeba89d800003928534f9e7198374cd05a7b26bcf048005262537a1b037a2e8",
+    "chatbot-knowledge.txt": "a07b28e31343a6618f25c9b18d9be5afd2a32e4cd040398b3023dcc5b47f5eb4"
+  }
+}

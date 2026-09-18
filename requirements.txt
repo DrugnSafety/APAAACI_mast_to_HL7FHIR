@@ -15,6 +15,9 @@ python-dotenv
 # Image processing
 Pillow
 
+# 온톨로지 RAG (질환 일반지식 스냅샷 → RDF 그래프 + SPARQL)
+rdflib
+
 # Data processing
 pandas
 numpy

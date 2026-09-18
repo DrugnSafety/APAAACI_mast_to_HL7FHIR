@@ -810,6 +810,7 @@ function renderChat(body) {
     <div class="chat-msg ${m.role}">
       <div class="chat-who">${m.role === 'user' ? t('chat.you') : t('chat.bot')}</div>
       <div class="chat-bubble">${m.role === 'user' ? esc(m.content) : mdLite(m.content)}</div>
+      ${m.role === 'assistant' ? knowledgeSources(m.sources) : ''}
     </div>`).join('');
   const sugg = (c.suggestions || []).map((sg, i) =>
     `<button type="button" class="chip-opt" data-sg="${i}">${esc(sg.text)}</button>`).join('');
@@ -852,6 +853,23 @@ function renderChat(body) {
   if (c.suggestions === null && !c.busy) askChat(null);   // 최초 진입: 추천 질문만 받아온다
 }
 
+// 일반 질환 지식(온톨로지)을 참고한 답변에는 출처를 밝힌다.
+// 스냅샷 usage_rules 가 '검토 상태·원문 URL 표시'를 요구한다. 환자에게 내부 ID 를 그대로 읽히는
+// 대신, 주제·항목·검토상태를 보여주고 원문(Wikipedia 문서)으로 링크한다.
+function knowledgeSources(sources) {
+  if (!sources || !sources.length) return '';
+  const byTopic = {};
+  sources.forEach(s => { (byTopic[s.topic] = byTopic[s.topic] || { url: s.url, items: [] }).items.push(s); });
+  const groups = Object.keys(byTopic).map(topic => {
+    const g = byTopic[topic];
+    const items = g.items.slice(0, 6).map(s => `${esc(s.predicate_ko)}: ${esc(s.label)}`).join(' · ');
+    const link = g.url ? `<a href="${esc(g.url)}" target="_blank" rel="noopener noreferrer">${esc(topic)}</a>` : esc(topic);
+    return `<div class="src-item">${link} — ${items}</div>`;
+  }).join('');
+  return `<details class="kb-src"><summary>${t('chat.src_summary', { n: sources.length })}</summary>
+    ${groups}<div class="src-note">${t('chat.src_note')}</div></details>`;
+}
+
 // 마크다운 최소 렌더(굵게·줄바꿈·번호목록) — 답변은 서버 생성 텍스트다
 function mdLite(txt) {
   const lines = esc(txt).split('\n');
@@ -869,7 +887,7 @@ async function askChat(question) {
     });
     c.suggestions = r.suggestions || [];
     c.hasKey = !!r.has_api_key;
-    if (question) c.messages.push({ role: 'assistant', content: r.reply });
+    if (question) c.messages.push({ role: 'assistant', content: r.reply, sources: r.knowledge_sources || [] });
   } catch (e) {
     if (question) c.messages.push({ role: 'assistant', content: t('chat.fail') + e.message });
     c.suggestions = c.suggestions || [];
