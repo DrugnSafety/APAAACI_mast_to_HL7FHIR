@@ -22,6 +22,7 @@ from models.schemas import (
     ScreeningProfile,
 )
 from services.knowledge_service import get_knowledge_service
+from utils.text_utils import trim_sentences
 
 logger = logging.getLogger(__name__)
 
@@ -223,8 +224,8 @@ class CardNewsService:
         kb = a.kb or {}
         emoji = _CATEGORY_EMOJI.get(a.category, "•")
         nm = _esc(self._label(a, detail=True))
-        bio = _esc(self._short(kb.get("biology_ko", ""), 90))
-        expo = _esc(self._short(kb.get("exposure_environment_ko", ""), 80))
+        bio = _esc(self._short(kb.get("biology_ko", ""), 300))
+        expo = _esc(self._short(kb.get("exposure_environment_ko", ""), 300))
         tips = [t for t in (kb.get("avoidance_control_ko") or [])[:3]]
         tips_html = "".join(f"<li>{_esc(t)}</li>" for t in tips)
         try:
@@ -395,7 +396,7 @@ class CardNewsService:
                     f'계절성 알레르기로 볼 근거예요.</li>')
         return f"""
         <div class="section seasonality">
-          <div class="tag">🍂 증상의 계절성</div>
+          <div class="tag">🍂 증상의 계절성{(" · " + _esc(s["region_label_ko"]) + " 기준") if s.get("region_label_ko") else ""}</div>
           <h2>몇 월에<br/>조심해야 할까</h2>
           {now_line}
           <div class="month-strip">{strip}</div>
@@ -490,8 +491,8 @@ class CardNewsService:
 
     @staticmethod
     def _short(text: str, n: int) -> str:
-        text = (text or "").strip()
-        return text if len(text) <= n else text[:n].rstrip() + "…"
+        # 글자수로 자르면 '온도 20~2…' 처럼 문장 중간에서 끊긴다 — 문장 경계에서만 줄인다
+        return trim_sentences(text, n)
 
     def _closing_card(self, name) -> str:
         return f"""

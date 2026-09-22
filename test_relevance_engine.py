@@ -1400,6 +1400,99 @@ def test_parenthetical_allergen_names_map():
     print("✓ 괄호 표기 항원명 매핑(코드·한글명·중국어·이중 괄호)")
 
 
+def test_tested_negatives_kept_for_chat_report_and_fhir():
+    """음성도 결과다 — '검사 안 함'과 구분돼야 한다.
+    회귀: 개 sIgE 0.1(class 0) 인데 챗봇이 '강아지는 이 검사에 없다'고 답했다(양성만 남겼기 때문)."""
+    from services.result_chat_service import get_result_chat_service
+    from services.report_service import get_report_service
+    from services.fhir_service import FHIRService
+    ocr = build_case()
+    # SPT 식 빈칸·대조액·class/수치 충돌 행을 더한다
+    ocr.results.append(_mast("Total IgE", "총 IgE", 120.0, None, AllergenCategory.OTHER,
+                             interp=InterpretationType.UNKNOWN, idx=6))
+    ocr.results.append(_mast("Horse dander", "말 비듬", 0.64, 0, AllergenCategory.ANIMAL,
+                             interp=InterpretationType.NEGATIVE, idx=7))
+    rs = get_relevance_service()
+    res = rs.build_assessments(ocr, None)
+    neg = {n.allergen_name: n for n in res.tested_negatives}
+    assert "Dog dander" in neg and neg["Dog dander"].status == "negative", neg
+    assert "Total IgE" not in neg, "총 IgE 는 항원이 아니다"
+    # class 0 인데 수치 0.64 — OCR 충돌은 음성으로 단정하지 않는다
+    assert neg["Horse dander"].status == "equivocal", neg["Horse dander"]
+
+    ctx = get_result_chat_service().build_context(res, {"name": "테스트"})
+    assert "검사했고 음성" in ctx and "개 비듬 (Dog dander)" in ctx, ctx[-600:]
+    assert "미검사" in ctx
+
+    md = get_report_service().build_patient_report_markdown(res, {"name": "테스트"}, None, "ko")
+    assert "## ⚫ 검사했고 음성인 항목" in md and "개 비듬" in md.split("## ⚫")[1][:400]
+    assert "| ⚫ 음성 |" in md
+
+    fs = FHIRService()
+    rs_q = __import__("services.questionnaire_service", fromlist=["x"]).get_questionnaire_engine()
+    rs_q.classify(res, {}, None)
+    b = fs.build_bundles_from_relevance(ocr, res, None, [])
+    codes = {}
+    for e in b["observation_bundle"]["entry"]:
+        r = e["resource"]
+        codes[r["code"]["text"].split(" - ")[-1]] = [c["coding"][0]["code"] for c in r.get("interpretation", [])]
+    assert codes["Dog dander"] == ["NEG"], codes
+    assert codes["Horse dander"] == ["IND"], codes
+    assert "screening_bundle" not in b
+    print("✓ 음성 결과 보존(챗봇 '검사함·음성' vs '미검사' 구분·리포트 음성 섹션·FHIR NEG/IND)")
+
+
+def test_spt_blank_wheal_is_negative_not_unknown():
+    """SPT 입력폼의 빈칸은 '반응 없음'이다. 예전 FHIR 은 NEG 코드에 display 'Unknown' 을 붙였다."""
+    from services.relevance_service import RelevanceService
+    blank = AllergenResult(index=1, raw_text="Oak", allergen_name="Oak", size_text=None,
+                           interpretation=InterpretationType.UNKNOWN)
+    small = AllergenResult(index=2, raw_text="Elm", allergen_name="Elm", size_text="2.5x2", mean_mm=2.25,
+                           interpretation=InterpretationType.EQUIVOCAL)
+    big = AllergenResult(index=3, raw_text="Birch", allergen_name="Birch", size_text="5x4", mean_mm=4.5,
+                         interpretation=InterpretationType.POSITIVE)
+    assert RelevanceService.result_status(blank, TestType.SPT) == "negative"
+    assert RelevanceService.result_status(small, TestType.SPT) == "equivocal"
+    assert RelevanceService.result_status(big, TestType.SPT) == "positive"
+    print("✓ SPT 빈칸=음성, 2-3mm=경계")
+
+
+def test_screening_maps_to_fhir_condition_symptom_and_questionnaire():
+    """문진의 기저 질환·증상이 FHIR 로 남아야 한다. SNOMED 코드는 tx.fhir.org $lookup 으로 확인한 값."""
+    from services.fhir_service import FHIRService
+    sc = ScreeningProfile(allergic_diseases=["allergic_rhinitis", "chronic_urticaria", "anaphylaxis", "none"],
+                          organ_systems=["nasal", "gi"], symptom_severity="moderate",
+                          current_medications=["antihistamine"], pets=["dog"],
+                          residence_country="KR", residence_region="seoul")
+    b = FHIRService().build_screening_bundle(sc, "p1", "테스트", "2026-06-01", {"q1": "yes"})
+    res = [e["resource"] for e in b["entry"]]
+    conds = {r["code"]["coding"][0]["code"]: r for r in res if r["resourceType"] == "Condition"}
+    assert set(conds) == {"61582004", "51611005", "39579001"}, conds.keys()  # 만성 두드러기는 51611005(402408009 는 급성)
+    assert conds["39579001"]["clinicalStatus"]["coding"][0]["code"] == "resolved"   # 아나필락시스는 병력
+    assert all(c["verificationStatus"]["coding"][0]["code"] == "provisional" for c in conds.values())
+    obs = [r for r in res if r["resourceType"] == "Observation"]
+    assert {o["code"]["coding"][0]["code"] for o in obs} == {"249307003", "267045008"}
+    qr = [r for r in res if r["resourceType"] == "QuestionnaireResponse"][0]
+    links = {i["linkId"] for i in qr["item"]}
+    assert {"allergic_diseases", "organ_systems", "current_medications", "pets",
+            "residence_country", "allergen-q/q1"} <= links, links
+    print("✓ 문진 → FHIR Condition·Observation(survey)·QuestionnaireResponse")
+
+
+def test_trim_sentences_never_cuts_mid_sentence():
+    """카드뉴스가 '온도 20~2…' 처럼 문장 중간에서 잘리던 회귀."""
+    from utils.text_utils import trim_sentences
+    t = ("사람 피부 각질을 먹고 사는 0.2~0.3mm 크기의 진드기입니다. 침구에 많습니다. "
+         "온도 20~25℃, 습도 70% 이상에서 잘 번식합니다.")
+    for n in (10, 40, 60, 90, 300):
+        out = trim_sentences(t, n)
+        assert "…" not in out and out.endswith("."), (n, out)
+        assert out in t
+    assert trim_sentences(t, 300) == t
+    assert "0.2~0.3mm" in trim_sentences(t, 10)   # 소수점에서 나뉘지 않는다
+    print("✓ 문장 경계에서만 줄이기")
+
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0

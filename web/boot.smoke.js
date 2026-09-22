@@ -85,8 +85,10 @@ const STUBS = {
   },
 };
 
+const FETCHED = [];
 async function fakeFetch(url) {
   const p = String(url).replace(BASE, '');
+  FETCHED.push(p.split('?')[0]);
   if (LIVE) {
     const r = await fetch(BASE + p);
     const body = await r.text();
@@ -148,6 +150,9 @@ function run(file) {
   const missing = ['renderScreening', 'regionOptions', 'loadPollenRegions', 'knowledgeSources']
     .filter((fn) => typeof sandbox[fn] !== 'function');
   if (missing.length) errors.push(`전역 함수 없음: ${missing.join(', ')}`);
+
+  // 거주 지역 목록은 부팅 때 받아야 한다(언어를 바꿀 때만 받던 회귀: 첫 방문자의 국가 목록이 비었다)
+  if (!FETCHED.includes('/api/pollen/regions')) errors.push('부팅 때 /api/pollen/regions 를 받지 않음 — 거주 국가 목록이 비게 된다');
 
   if (errors.length) {
     console.error('FAIL — app.js 부팅 오류\n' + errors.map((e) => '  - ' + e).join('\n'));

@@ -513,6 +513,8 @@ def ontology_sparql(req: SparqlRequest):
 def fhir(req: ClassifyRequest):
     """FHIR 매핑.
     - Observation: 전체 검사결과(양성+음성) + 검사기관 performer
+    - Observation 은 음성도 포함(interpretation NEG), 경계는 IND
+    - Condition/Observation(survey)/QuestionnaireResponse: 환자 문진의 기저 질환·증상(screening_bundle)
     - AllergyIntolerance: 양성/의심 알러젠 전부 (임상적 유의=confirmed, 감작·미확정=unconfirmed),
       criticality/clinicalStatus 코딩, 꽃가루-음식 교차반응(OAS) 음식도 포함
     """
@@ -523,7 +525,7 @@ def fhir(req: ClassifyRequest):
     cross_foods = engine.crossreactive_food_items(result.assessments, req.answers)
 
     fs = FHIRService()
-    return fs.build_bundles_from_relevance(req.ocr, result, req.screening, cross_foods)
+    return fs.build_bundles_from_relevance(req.ocr, result, req.screening, cross_foods, req.answers)
 
 
 # ============================================================

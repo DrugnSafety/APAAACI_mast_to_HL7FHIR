@@ -238,11 +238,15 @@ class FHIRService:
                     else:
                         observation["dataAbsentReason"] = self._absent_reason(allergen_result.value_text)
             
-            # 해석 (Positive/Negative)
-            if allergen_result.interpretation:
-                interpretation_code = "POS" if allergen_result.interpretation == InterpretationType.POSITIVE else "NEG"
-                interpretation_display = allergen_result.interpretation.value
-                
+            # 해석 — 양성·음성·경계를 판정 로직과 같은 기준으로 코딩한다.
+            # 예전에는 POSITIVE 가 아니면 전부 NEG 로 찍어, 경계(Equivocal)와 '값 모름'(Unknown)까지 음성이 됐다.
+            # SPT 입력폼의 빈칸은 '반응 없음'(음성)이다. 값을 못 읽은 행은 해석을 붙이지 않는다.
+            from services.relevance_service import RelevanceService
+            status = RelevanceService.result_status(allergen_result, test_type)
+            interp = {"positive": ("POS", "Positive"), "negative": ("NEG", "Negative"),
+                      "equivocal": ("IND", "Indeterminate")}.get(status)
+            if interp:
+                interpretation_code, interpretation_display = interp
                 observation["interpretation"] = [
                     {
                         "coding": [
@@ -667,8 +671,10 @@ class FHIRService:
     def build_bundles_from_relevance(
         self, ocr_result: OCRResult, relevance_result: Any,
         screening: Any = None, oas_foods: Optional[List[Dict[str, Any]]] = None,
+        answers: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
-        """검사 전체는 Observation 으로, 양성/의심 알러젠은 AllergyIntolerance 로 매핑."""
+        """검사 전체는 Observation 으로, 양성/의심 알러젠은 AllergyIntolerance 로,
+        환자 문진(기저 질환·증상)은 Condition·Observation(survey)·QuestionnaireResponse 로 매핑."""
         from models.schemas import ClinicalRelevance
         patient_id = (ocr_result.patient.name or f"patient-{uuid4().hex[:6]}").replace(" ", "_")
         patient_name = ocr_result.patient.name
@@ -760,7 +766,162 @@ class FHIRService:
                 ai["recordedDate"] = recorded
             allergy_bundle["entry"].append({"resource": ai})
 
-        return {"observation_bundle": obs_bundle, "allergy_intolerance_bundle": allergy_bundle}
+        out = {"observation_bundle": obs_bundle, "allergy_intolerance_bundle": allergy_bundle}
+        if screening is not None:
+            out["screening_bundle"] = self.build_screening_bundle(
+                screening, patient_id, patient_name, recorded, answers)
+        return out
+
+    # ---- 환자 문진(스크리닝) → FHIR ----
+    # 모든 코드는 tx.fhir.org(SNOMED CT International 20250201) $lookup 으로 존재·표시명을 확인했다.
+    # (402408009 는 Acute urticaria 여서 만성 두드러기에 쓰면 안 된다 → 51611005)
+    DISEASE_SCT = {
+        "allergic_rhinitis": ("61582004", "Allergic rhinitis"),
+        "asthma": ("195967001", "Asthma"),
+        "atopic_dermatitis": ("24079001", "Atopic dermatitis"),
+        "allergic_conjunctivitis": ("473460002", "Allergic conjunctivitis"),
+        "chronic_urticaria": ("51611005", "Chronic urticaria"),
+        "food_allergy": ("414285001", "Allergy to food"),
+        "anaphylaxis": ("39579001", "Anaphylaxis"),
+        "drug_allergy": ("416098002", "Allergy to drug"),
+        "sinusitis": ("36971009", "Sinusitis"),
+    }
+    SYMPTOM_SCT = {
+        "nasal": ("249307003", "Nasal symptom"),
+        "ocular": ("308923001", "Eye symptom"),
+        "lower_airway": ("161920001", "Respiratory symptom"),
+        "skin": ("106076001", "Skin finding"),
+        "gi": ("267045008", "Gastrointestinal symptom"),
+        "systemic": ("404640003", "Dizziness"),
+    }
+
+    def build_screening_bundle(self, screening: Any, patient_id: str, patient_name: Optional[str],
+                               recorded: Optional[str], answers: Optional[Dict[str, Any]] = None
+                               ) -> Dict[str, Any]:
+        """환자가 문진에서 답한 기저 알레르기 질환·증상을 FHIR 로 남긴다.
+
+        - 동반 알레르기 질환 → Condition (환자 보고이므로 verificationStatus=provisional)
+          · 아나필락시스는 '병력'이므로 clinicalStatus=resolved
+        - 증상 부위 → Observation(category=survey, valueBoolean=true)
+        - 문진 전체(약·계절·악화 월·반려동물·거주지·자유 기재·항원별 감별 문항) → QuestionnaireResponse
+        """
+        from services.screening_service import (
+            DISEASE_LABELS_KO, ORGAN_SYSTEM_LABELS_KO, MEDICATION_LABELS_KO)
+        subject = {"reference": f"Patient/{patient_id}", "display": patient_name or patient_id}
+        entries: List[Dict[str, Any]] = []
+        cond_cat = [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                                 "code": "problem-list-item", "display": "Problem List Item"}]}]
+        for d in (getattr(screening, "allergic_diseases", None) or []):
+            if d == "none":
+                continue
+            code = self.DISEASE_SCT.get(d)
+            status = "resolved" if d == "anaphylaxis" else "active"
+            cond = {
+                "resourceType": "Condition", "id": f"condition-{uuid4().hex[:8]}",
+                "clinicalStatus": {"coding": [{
+                    "system": "http://terminology.hl7.org/CodeSystem/condition-clinical", "code": status}]},
+                "verificationStatus": {"coding": [{
+                    "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+                    "code": "provisional", "display": "Provisional"}]},
+                "category": cond_cat,
+                "code": {"coding": ([{"system": self.SCT, "code": code[0], "display": code[1]}] if code else []),
+                         "text": DISEASE_LABELS_KO.get(d, d) + (" 병력" if d == "anaphylaxis" and "병력" not in DISEASE_LABELS_KO.get(d, "") else "")},
+                "subject": subject,
+                "note": [{"text": "환자 문진에서 보고한 기저 알레르기 질환(의료진 확인 전)"}],
+            }
+            if recorded:
+                cond["recordedDate"] = recorded
+            entries.append({"resource": cond})
+        other = (getattr(screening, "disease_other", None) or "").strip()
+        if other:
+            entries.append({"resource": {
+                "resourceType": "Condition", "id": f"condition-{uuid4().hex[:8]}",
+                "verificationStatus": {"coding": [{
+                    "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status", "code": "provisional"}]},
+                "category": cond_cat, "code": {"text": other}, "subject": subject,
+                "note": [{"text": "환자 자유 기재"}]}})
+
+        severity = getattr(screening, "symptom_severity", None)
+        survey_cat = [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                                   "code": "survey", "display": "Survey"}]}]
+        for o in (getattr(screening, "organ_systems", None) or []):
+            code = self.SYMPTOM_SCT.get(o)
+            obs = {
+                "resourceType": "Observation", "id": f"obs-symptom-{uuid4().hex[:8]}",
+                "status": "final", "category": survey_cat,
+                "code": {"coding": ([{"system": self.SCT, "code": code[0], "display": code[1]}] if code else []),
+                         "text": ORGAN_SYSTEM_LABELS_KO.get(o, o)},
+                "subject": subject, "valueBoolean": True,
+                "note": [{"text": "환자 문진에서 보고한 알레르기 증상 부위"
+                                  + (f" · 본인 평가 중증도: {severity}" if severity else "")}],
+            }
+            if recorded:
+                obs["effectiveDateTime"] = recorded
+            entries.append({"resource": obs})
+
+        entries.append({"resource": self._screening_questionnaire_response(
+            screening, subject, recorded, answers, DISEASE_LABELS_KO, ORGAN_SYSTEM_LABELS_KO,
+            MEDICATION_LABELS_KO)})
+        return {"resourceType": "Bundle", "id": f"bundle-screening-{uuid4().hex[:8]}",
+                "type": "collection", "entry": entries}
+
+    @staticmethod
+    def _screening_questionnaire_response(screening, subject, recorded, answers,
+                                          dis_ko, org_ko, med_ko) -> Dict[str, Any]:
+        def item(link, text, values):
+            vals = [v for v in (values if isinstance(values, list) else [values]) if v not in (None, "", [])]
+            if not vals:
+                return None
+            ans = []
+            for v in vals:
+                if isinstance(v, bool):
+                    ans.append({"valueBoolean": v})
+                elif isinstance(v, int) and not isinstance(v, bool):
+                    ans.append({"valueInteger": v})
+                else:
+                    ans.append({"valueString": str(v)})
+            return {"linkId": link, "text": text, "answer": ans}
+
+        g = lambda k: getattr(screening, k, None)  # noqa: E731
+        sp = g("season_pattern")
+        items = [
+            item("allergic_diseases", "기저 알레르기 질환",
+                 [dis_ko.get(d, d) for d in (g("allergic_diseases") or []) if d != "none"]),
+            item("disease_other", "기타 질환", g("disease_other")),
+            item("current_medications", "복용 중인 약",
+                 [med_ko.get(m, m) for m in (g("current_medications") or []) if m != "none"]),
+            item("antihistamine_recent", "최근 5-7일 내 항히스타민제 복용", g("antihistamine_recent")),
+            item("symptom_present", "현재 알레르기 증상", g("symptom_present")),
+            item("organ_systems", "증상 부위", [org_ko.get(o, o) for o in (g("organ_systems") or [])]),
+            item("symptom_severity", "증상 정도(본인 평가)", g("symptom_severity")),
+            item("season_pattern", "증상 계절 패턴", getattr(sp, "value", sp)),
+            item("worse_months", "증상 악화 월", list(g("worse_months") or [])),
+            item("perennial_symptom", "연중 지속 증상", g("perennial_symptom")),
+            item("triggers_free_text", "스스로 느끼는 유발요인", g("triggers_free_text")),
+            item("oral_allergy_syndrome", "과일·채소 섭취 시 입·목 가려움(OAS)", g("oral_allergy_syndrome")),
+            item("oas_foods", "OAS 유발 음식", list(g("oas_foods") or [])),
+            item("food_systemic_reaction", "음식 섭취 후 전신 반응", g("food_systemic_reaction")),
+            item("food_reaction_foods", "전신 반응 유발 음식", list(g("food_reaction_foods") or [])),
+            item("pets", "반려동물", [p for p in (g("pets") or []) if p != "none"]),
+            item("pets_other", "기타 반려동물", g("pets_other")),
+            item("residence_country", "거주 국가", g("residence_country")),
+            item("residence_region", "거주 지역", g("residence_region")),
+            item("residence_postal_code", "우편번호", g("residence_postal_code")),
+        ]
+        # 항원별 증상 감별 문항 응답 — 문항 id 그대로 남긴다(질문지는 입력으로부터 결정론적으로 재생성된다)
+        for qid, v in (answers or {}).items():
+            items.append(item(f"allergen-q/{qid}", None, v if isinstance(v, list) else [v]))
+        qr = {
+            "resourceType": "QuestionnaireResponse", "id": f"qr-screening-{uuid4().hex[:8]}",
+            "status": "completed", "subject": subject,
+            "item": [i for i in items if i],
+        }
+        for i in qr["item"]:
+            if i.get("text") is None:
+                i.pop("text")
+        if recorded:
+            qr["authored"] = recorded
+        return qr
 
     def bundle_to_dict(self, bundle: Dict[str, Any]) -> Dict[str, Any]:
         """

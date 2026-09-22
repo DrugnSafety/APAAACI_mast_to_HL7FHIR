@@ -19,6 +19,7 @@ from models.schemas import (
     ScreeningProfile,
 )
 from services.screening_service import get_screening_service
+from utils.text_utils import trim_sentences
 from services.knowledge_service import normalize_category, get_knowledge_service
 
 # 로거 설정
@@ -631,6 +632,10 @@ class ReportService:
         sensitized = relevance_result.by_relevance(ClinicalRelevance.SENSITIZED_ONLY)
         indeterminate = relevance_result.by_relevance(ClinicalRelevance.INDETERMINATE)
 
+        tested = list(getattr(relevance_result, "tested_negatives", None) or [])
+        negatives = [n for n in tested if n.status == "negative"]
+        equivocal = [n for n in tested if n.status == "equivocal"]
+
         def names(items):
             # Df/Dp 등 임상 그룹은 한 번만 표기(A1)
             return ", ".join(self._display_name(a) for a, _g in self._collapse(items)) or "없음"
@@ -658,6 +663,8 @@ class ReportService:
             f"| 🔴 실제 주의 | **{len(relevant)}** | 노출 시 실제 증상 유발 → 적극 관리 | {names(relevant)} |\n"
             f"| ⚪ 감작만 | {len(sensitized)} | 검사만 양성, 증상 없음 → 과도한 회피 불필요 | {names(sensitized)} |\n"
             f"| 🟡 관찰 필요 | {len(indeterminate)} | 노출·정보 부족 → 경과 관찰 | {names(indeterminate)} |"
+            + (f"\n| ⚫ 음성 | {len(negatives)} | 검사했고 감작 없음 | {self._negative_names(negatives, 12)} |"
+               if negatives else "")
         )
         if relevant:
             md.append("**🔴 지금 우선 관리할 알러젠 요약**")
@@ -748,6 +755,20 @@ class ReportService:
                 probe = f" (확인 포인트: {probes[0]})" if probes else ""
                 md.append(f"- **{nm}** — {a.rationale_ko or '노출-증상 관계 관찰이 필요합니다.'}{probe}")
 
+        # 음성·경계 — 음성도 결과다. '검사 안 함'과 구분되도록 무엇을 검사해서 음성이었는지 남긴다
+        if negatives or equivocal:
+            md.append("\n---\n")
+            md.append("## ⚫ 검사했고 음성인 항목")
+            if negatives:
+                md.append("아래 항목은 **이번에 검사했고 감작이 확인되지 않았습니다.** 지금 겪는 알레르기 증상의 "
+                          "원인일 가능성은 낮습니다. 다만 음성이 평생 괜찮다는 보증은 아니므로, 특정 노출 때마다 "
+                          "증상이 뚜렷하게 되풀이되면 의료진에게 알려 주세요.")
+                md.append(f"- {self._negative_names(negatives)}")
+            if equivocal:
+                md.append("**경계값·판독 확인 필요** — 양성·음성을 단정하기 어려운 항목입니다. 원본 결과지를 "
+                          "의료진과 함께 확인하세요.")
+                md.append(f"- {self._negative_names(equivocal, with_value=True)}")
+
         # 교차반응 관찰 음식(원인 항원별 그룹 + 확대 경고)
         md += self._crossreact_watchlist_md(relevance_result)
 
@@ -825,14 +846,30 @@ class ReportService:
         return doc
 
     @staticmethod
+    def _negative_names(items, limit: Optional[int] = None, with_value: bool = False) -> str:
+        """음성·경계 항목 이름 나열. 같은 한글명(예: 진드기 두 종)은 영문을 붙여 구분한다."""
+        out: List[str] = []
+        for n in items:
+            nm = n.korean_name or n.allergen_name
+            if with_value:
+                val = n.size_text or n.value_text or (f"{n.test_value}" if n.test_value is not None else "")
+                cls = f", class {n.class_value}" if n.class_value not in (None, "") else ""
+                if val or cls:
+                    nm += f" ({val}{cls})".replace("(, ", "(")
+            if nm not in out:
+                out.append(nm)
+        if limit is not None and len(out) > limit:
+            return ", ".join(out[:limit]) + f" 외 {len(out) - limit}개"
+        return ", ".join(out)
+
+    @staticmethod
     def _first_sentences(text: str, n: int = 2, max_len: int = 110) -> str:
         """설명문을 앞 n문장(최대 max_len자)으로 줄인다 — 리포트 본문은 짧게, 나머지는 '더 알아보기'로."""
         text = (text or "").strip()
         if not text:
             return ""
-        parts = [t.strip() for t in re.split(r"(?<=[.!?。])\s+", text) if t.strip()]
-        out = " ".join(parts[:n])
-        return out if len(out) <= max_len else out[:max_len].rstrip() + "…"
+        # 글자수로 자르면 문장 중간에서 끊긴다 — 온전한 문장만 모은다
+        return trim_sentences(text, max_len, max_sentences=n)
 
     def _allergen_detail_md(self, a: "AllergenAssessment", detailed: bool = True,
                             lang: str = "ko") -> str:

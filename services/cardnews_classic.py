@@ -27,6 +27,7 @@ from models.schemas import (
     ScreeningProfile,
 )
 from services.knowledge_service import get_knowledge_service
+from utils.text_utils import trim_sentences
 
 logger = logging.getLogger(__name__)
 
@@ -66,6 +67,13 @@ class ClassicCardNewsService:
 
         cards: List[str] = []
         cards.append(self._cover_card(name, test_date, relevant, sensitized, indeterminate))
+        # 문진에서 답한 동반 질환·주증상, 거주 지역 기준 계절성 — 퀘스트 카드뉴스와 같은 카드를 쓴다.
+        # (클래식 카드뉴스는 문진을 치료 카드에만 쓰고 있어, 환자가 답한 내용 대부분이 빠졌다)
+        from services.cardnews_service import get_cardnews_service
+        quest = get_cardnews_service()
+        profile_card = quest._profile_card(screening, relevant)
+        if profile_card:
+            cards.append(profile_card)
         cards.append(self._relevant_card(relevant))
         # 실제 주의 알러젠별 상세 카드 (Df/Dp 등은 그룹으로 1회만 — A1)
         for a in self._collapse(relevant)[:4]:
@@ -75,6 +83,9 @@ class ClassicCardNewsService:
         if food_card:
             cards.append(food_card)
         cards.append(self._sensitized_card(sensitized, indeterminate))
+        seasonality_card = quest._seasonality_card(result.assessments, screening)
+        if seasonality_card:
+            cards.append(seasonality_card)
         cards.append(self._prevention_card(relevant))
         cards.append(self._treatment_card(relevant, screening))
         cards.append(self._closing_card(name))
@@ -199,8 +210,8 @@ class ClassicCardNewsService:
         kb = a.kb or {}
         emoji = _CATEGORY_EMOJI.get(a.category, "•")
         nm = _esc(self._label(a, detail=True))
-        bio = _esc(self._short(kb.get("biology_ko", ""), 90))
-        expo = _esc(self._short(kb.get("exposure_environment_ko", ""), 80))
+        bio = _esc(self._short(kb.get("biology_ko", ""), 300))
+        expo = _esc(self._short(kb.get("exposure_environment_ko", ""), 300))
         tips = [t for t in (kb.get("avoidance_control_ko") or [])[:3]]
         tips_html = "".join(f"<li>{_esc(t)}</li>" for t in tips)
         try:
@@ -290,8 +301,8 @@ class ClassicCardNewsService:
 
     @staticmethod
     def _short(text: str, n: int) -> str:
-        text = (text or "").strip()
-        return text if len(text) <= n else text[:n].rstrip() + "…"
+        # 글자수로 자르면 '온도 20~2…' 처럼 문장 중간에서 끊긴다 — 문장 경계에서만 줄인다
+        return trim_sentences(text, n)
 
     def _closing_card(self, name) -> str:
         return f"""
@@ -336,6 +347,15 @@ class ClassicCardNewsService:
   .detail .tag {{ background:#e8ecfd; color:#4a4fe0; }}
   .treatment .tag {{ background:#e5f1fb; color:#1f6fb2; }}
   .oas .tag {{ background:#fdf3e3; color:#d9860a; }}
+  .profile .tag {{ background:#e8f4fd; color:#1c6ea4; }}
+  .seasonality .tag {{ background:#fff0e0; color:#c25a00; }}
+  .section.profile, .section.seasonality {{ overflow-y:auto; }}
+  .lead {{ font-size:13.5px; line-height:1.55; color:#3a4150; margin-top:4px; }}
+  .month-strip {{ display:flex; gap:4px; flex-wrap:wrap; margin:14px 0; }}
+  .month-strip .m {{ flex:1 1 0; min-width:22px; text-align:center; padding:7px 0; border-radius:7px;
+    background:rgba(0,0,0,.05); font-size:12px; font-weight:700; color:#8a8f98; }}
+  .month-strip .m.on {{ background:#ffd8a8; color:#7a4100; }}
+  .month-strip .m.now {{ outline:2px solid #e8590c; outline-offset:1px; }}
   .oas .chip {{ background:#fff8ee; border-color:#f3dcae; }}
   .detail .desc b, .treatment .tips b {{ color:#2a3350; }}
   .imt {{ margin-top:12px; font-size:12.5px; background:#f0edff; color:#5a34c9; border-radius:10px; padding:10px 12px; line-height:1.5; }}

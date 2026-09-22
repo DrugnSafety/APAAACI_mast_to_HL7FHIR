@@ -399,6 +399,50 @@ function screeningContext() {
   return { pos, cats };
 }
 
+// 거주 지역 — 꽃가루 시기가 지역마다 달라서 받는다(퀘스트 UI 와 같은 /api/pollen/* 사용).
+// 예전 클래식 화면에는 이 입력이 없어서 지역별 계절성이 리포트에 들어갈 수 없었다.
+function regionOptions(sc) {
+  const country = (S.pollenRegions || []).find(c => c.code === sc.residence_country);
+  if (!country) return `<option value="">${t('s2.region_none')}</option>`;
+  if (country.single_region) {
+    return `<option value="">${esc(country.regions[0] ? country.regions[0].label_ko : '')}</option>`;
+  }
+  return `<option value="">${t('s2.region_none')}</option>` + country.regions.map(r => {
+    const states = (r.states || []).length ? ` (${r.states.join(', ')})` : '';
+    return `<option value="${esc(r.code)}" ${sc.residence_region === r.code ? 'selected' : ''}>${esc(r.label_ko)}${esc(states)}</option>`;
+  }).join('');
+}
+async function loadPollenRegions() {
+  try {
+    const r = await fetch('/api/pollen/regions');
+    S.pollenRegions = (await r.json()).countries || [];
+  } catch (_) { S.pollenRegions = []; }
+}
+function bindResidence(sc) {
+  const resC = $('#resCountry'), resR = $('#resRegion'), resZip = $('#resZip');
+  if (resC) resC.addEventListener('change', () => {
+    sc.residence_country = resC.value || null;
+    sc.residence_region = null; sc.residence_postal_code = null; sc.residence_lat = sc.residence_lon = null;
+    resR.innerHTML = regionOptions(sc);
+    const zf = $('#zipField'); if (zf) zf.classList.toggle('hidden', sc.residence_country !== 'US');
+  });
+  if (resR) resR.addEventListener('change', () => { sc.residence_region = resR.value || null; });
+  if (resZip) resZip.addEventListener('change', async () => {
+    const code = (resZip.value || '').trim();
+    sc.residence_postal_code = code || null;
+    const msg = $('#zipMsg');
+    if (!code) { sc.residence_lat = sc.residence_lon = null; msg.textContent = t('s2.zip_hint'); return; }
+    try {
+      const r = await fetch('/api/pollen/zip?country=US&postal_code=' + encodeURIComponent(code));
+      const d = await r.json();
+      if (!d.ok) { msg.textContent = t('s2.zip_bad'); return; }
+      sc.residence_region = d.state; sc.residence_lat = d.lat; sc.residence_lon = d.lon;
+      msg.textContent = t('s2.zip_ok', { region: d.region_label_ko || d.state });
+      if (resR) resR.innerHTML = regionOptions(sc);
+    } catch (_) { msg.textContent = t('s2.zip_bad'); }
+  });
+}
+
 function renderScreening() {
   const o = S.options || { screening_options: { diseases: [], medications: [], organ_systems: [] } };
   const opt = o.screening_options;
@@ -441,6 +485,26 @@ function renderScreening() {
             </select></div>
         </div>
         <div class="field" style="margin:0"><label>${t('s2.test_date')}</label><input class="input" id="pDate" type="date" value="${esc(p.test_date || '')}" /></div>
+      </div>
+
+      <div class="card soft" style="margin-bottom:20px">
+        <div class="field" style="margin-bottom:8px">
+          <label>${t('s2.residence')} <span class="hint">${t('s2.residence_hint')}</span></label>
+        </div>
+        <div class="grid-3">
+          <div class="field"><label>${t('s2.country')}</label>
+            <select class="input" id="resCountry">
+              <option value="">${t('s2.region_none')}</option>
+              ${(S.pollenRegions || []).map(c => `<option value="${esc(c.code)}" ${sc.residence_country === c.code ? 'selected' : ''}>${esc(c.label_ko)}</option>`).join('')}
+            </select></div>
+          <div class="field"><label>${t('s2.region')}</label>
+            <select class="input" id="resRegion">${regionOptions(sc)}</select></div>
+          <div class="field ${sc.residence_country === 'US' ? '' : 'hidden'}" id="zipField">
+            <label>${t('s2.zip')}</label>
+            <input class="input" id="resZip" placeholder="${t('s2.zip_ph')}" value="${esc(sc.residence_postal_code || '')}" />
+            <div class="hint" id="zipMsg">${t('s2.zip_hint')}</div>
+          </div>
+        </div>
       </div>
 
       <div class="field"><label>${t('s2.diseases')} <span class="hint">${t('s2.multi')}</span></label>
@@ -489,6 +553,7 @@ function renderScreening() {
   if (sc.current_medications.includes('antihistamine'))
     $('#ahWarn').innerHTML = `<div class="notice flag" style="margin-top:10px">${t('s2.ah_warn')}</div>`;
 
+  bindResidence(sc);
   $('#back').addEventListener('click', () => goto(1));
   $('#next').addEventListener('click', submitScreening);
 }
@@ -714,9 +779,11 @@ function renderResultTab() {
       <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
         <button class="btn ${FHIR_VIEW==='allergy'?'primary':'secondary'} sm" id="vAllergy">AllergyIntolerance</button>
         <button class="btn ${FHIR_VIEW==='obs'?'primary':'secondary'} sm" id="vObs">Observation</button>
+        <button class="btn ${FHIR_VIEW==='screening'?'primary':'secondary'} sm" id="vScreening">Condition · Questionnaire</button>
         <span class="spacer" style="flex:1"></span>
         <button class="btn subtle sm" id="dlObs">⬇️ Observation</button>
         <button class="btn subtle sm" id="dlAllergy">⬇️ AllergyIntolerance</button>
+        <button class="btn subtle sm" id="dlScreening">⬇️ Condition · Questionnaire</button>
       </div>
       <pre id="fhirPreview" style="max-height:420px;overflow:auto;background:var(--bg-subtle);padding:14px;border-radius:12px;font-size:12px">${t('common.loading')}</pre></div>`;
     loadFhir();
@@ -828,7 +895,9 @@ function cardForAllergen(a) {
 let FHIR_VIEW = 'allergy';
 function fhirRenderPreview() {
   const f = S.fhir; if (!f) return;
-  const bundle = FHIR_VIEW === 'obs' ? f.observation_bundle : f.allergy_intolerance_bundle;
+  const bundle = FHIR_VIEW === 'obs' ? f.observation_bundle
+    : FHIR_VIEW === 'screening' ? (f.screening_bundle || { resourceType: 'Bundle', type: 'collection', entry: [] })
+    : f.allergy_intolerance_bundle;
   $('#fhirPreview').textContent = JSON.stringify(bundle, null, 2);
   const ai = (f.allergy_intolerance_bundle.entry || []).map(e => e.resource);
   const env = ai.filter(r => (r.category || []).includes('environment')).length;
@@ -840,7 +909,8 @@ function fhirRenderPreview() {
     <span class="chip-opt sel" style="cursor:default">Observation ${obsN}</span>
     <span class="chip-opt sel" style="cursor:default">${t('s4.fhir_env', { n: env })}</span>
     <span class="chip-opt sel" style="cursor:default">${t('s4.fhir_food', { n: food })}</span>
-    <span class="chip-opt sel" style="cursor:default">confirmed ${conf}</span></div>`;
+    <span class="chip-opt sel" style="cursor:default">confirmed ${conf}</span>
+    <span class="chip-opt sel" style="cursor:default">Condition ${((f.screening_bundle || {}).entry || []).filter(e => e.resource.resourceType === 'Condition').length}</span></div>`;
 }
 async function loadFhir() {
   try {
@@ -849,8 +919,11 @@ async function loadFhir() {
     fhirRenderPreview();
     $('#vAllergy').addEventListener('click', () => { FHIR_VIEW = 'allergy'; renderResultTab(); });
     $('#vObs').addEventListener('click', () => { FHIR_VIEW = 'obs'; renderResultTab(); });
+    $('#vScreening')?.addEventListener('click', () => { FHIR_VIEW = 'screening'; renderResultTab(); });
     $('#dlObs').addEventListener('click', () => download(`${(S.ocr.patient.name || 'patient')}_observation.json`, JSON.stringify(f.observation_bundle, null, 2)));
     $('#dlAllergy').addEventListener('click', () => download(`${(S.ocr.patient.name || 'patient')}_allergyintolerance.json`, JSON.stringify(f.allergy_intolerance_bundle, null, 2)));
+    // 문진(기저 질환·증상) — 문진을 건너뛰면 서버가 번들을 만들지 않는다
+    $('#dlScreening')?.addEventListener('click', () => download(`${(S.ocr.patient.name || 'patient')}_screening.json`, JSON.stringify(f.screening_bundle || { resourceType: 'Bundle', type: 'collection', entry: [] }, null, 2)));
   } catch (e) { const el = $('#fhirPreview'); if (el) el.textContent = t('s4.fhir_fail') + e.message; }
 }
 
@@ -884,5 +957,6 @@ function initLang() {
 (async function () {
   initTheme(); initLang();
   try { S.options = await API.health(); } catch (_) { S.options = { has_api_key: false, screening_options: { diseases: [], medications: [], organ_systems: [] } }; }
+  await loadPollenRegions();
   render();
 })();

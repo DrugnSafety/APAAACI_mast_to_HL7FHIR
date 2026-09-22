@@ -404,11 +404,31 @@ class AllergenAssessment(BaseModel):
     rationale_ko: Optional[str] = None
 
 
+class TestedNegative(BaseModel):
+    """검사했지만 양성이 아닌 항원.
+
+    '음성'과 '검사 안 함'은 전혀 다른 정보다. 양성만 남기면 챗봇·리포트가 음성 항원을
+    '검사 결과에 없다'로 오해한다(예: 개 sIgE 0 인데 '강아지 검사는 안 했다'고 답함).
+    """
+    allergen_name: str
+    korean_name: Optional[str] = None
+    category: Optional[str] = None
+    # negative: 음성 / equivocal: 경계(SPT 2-3mm 등) / unknown: 값을 못 읽음
+    status: str = "negative"
+    test_value: Optional[float] = None
+    value_text: Optional[str] = None
+    test_unit: Optional[str] = None
+    class_value: Optional[Union[int, str]] = None
+    size_text: Optional[str] = None
+
+
 class RelevanceAssessmentResult(BaseModel):
     """전체 양성 알레르겐 감별 결과"""
     patient_name: Optional[str] = None
     test_date: Optional[str] = None
     assessments: List[AllergenAssessment] = Field(default_factory=list)
+    # 검사했지만 양성이 아닌 항원 — 음성도 결과다
+    tested_negatives: List[TestedNegative] = Field(default_factory=list)
     created_at: datetime = Field(default_factory=datetime.now)
 
     def by_relevance(self, relevance: ClinicalRelevance) -> List[AllergenAssessment]:

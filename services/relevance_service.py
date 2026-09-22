@@ -15,6 +15,7 @@ Relevance Service — 임상적 의미(감작 vs 실제 알레르기) 감별 엔
 """
 
 import logging
+import re
 from typing import Any, Dict, List, Optional
 
 from models.schemas import (
@@ -26,6 +27,8 @@ from models.schemas import (
     RelevanceAssessmentResult,
     ClinicalRelevance,
     ScreeningProfile,
+    TestedNegative,
+    normalize_class_token,
 )
 from services.knowledge_service import get_knowledge_service, normalize_category
 
@@ -128,6 +131,62 @@ class RelevanceService:
             return "strong"
         return None
 
+    # 대조액·총 IgE 는 항원이 아니므로 '음성 항원' 목록에 넣지 않는다
+    _NON_ALLERGEN = re.compile(r"histamine|saline|히스타민|생리식염수|식염수|total\s*ige|총\s*ige|총ige", re.I)
+
+    @classmethod
+    def result_status(cls, r: AllergenResult, test_type: TestType) -> str:
+        """행 하나의 판정: positive / negative / equivocal / unknown.
+        FHIR interpretation 과 '검사한 음성 항원' 목록이 같은 기준을 쓰도록 한 곳에 둔다."""
+        if cls._is_positive(r, test_type):
+            return "positive"
+        if r.interpretation == InterpretationType.EQUIVOCAL:
+            return "equivocal"
+        if test_type == TestType.SPT:
+            mm = r.mean_mm if r.mean_mm is not None else r.value
+            # SPT 입력폼의 빈칸은 '반응 없음'이다(검사는 했다)
+            if mm is None or mm < 2.0:
+                return "negative"
+            return "equivocal"
+        # class 는 0 인데 수치는 0.35 이상 — OCR 이 한쪽을 잘못 읽은 경우가 많다. 음성으로 단정하지 않는다
+        if r.value is not None and r.value >= 0.35:
+            return "equivocal"
+        if r.interpretation == InterpretationType.NEGATIVE:
+            return "negative"
+        vt = (r.value_text or "").strip()
+        if vt.startswith("<"):
+            return "negative"
+        if r.class_value is not None:
+            c = normalize_class_token(r.class_value)
+            if c is not None:
+                return "negative" if c < 1 else "positive"
+        if r.value is not None:
+            return "negative" if r.value < 0.35 else "positive"
+        return "unknown"
+
+    def _tested_negative(self, r: AllergenResult, test_type: TestType) -> Optional[TestedNegative]:
+        name = (r.allergen_name or "").strip()
+        if not name and not (r.korean_name or "").strip():
+            return None
+        if self._NON_ALLERGEN.search(f"{name} {r.korean_name or ''}"):
+            return None
+        try:
+            kb = self.kb.get_backdata(name=r.allergen_name, category=str(r.category) if r.category else None,
+                                      korean_name=r.korean_name) or {}
+        except Exception:  # noqa: BLE001
+            kb = {}
+        return TestedNegative(
+            allergen_name=r.allergen_name,
+            korean_name=r.korean_name or kb.get("korean_name"),
+            category=normalize_category(kb.get("category")) if kb.get("category") else None,
+            status=self.result_status(r, test_type),
+            test_value=r.value if r.value is not None else r.mean_mm,
+            value_text=r.value_text,
+            test_unit=r.unit or ("mm" if test_type == TestType.SPT else "kU/L"),
+            class_value=r.class_value,
+            size_text=r.size_text,
+        )
+
     @staticmethod
     def _is_positive(r: AllergenResult, test_type: TestType) -> bool:
         # 명시적 양성/음성만 신뢰; UNKNOWN/EQUIVOCAL 은 아래 수치 기반으로 재판정
@@ -163,6 +222,7 @@ class RelevanceService:
     ) -> RelevanceAssessmentResult:
         """OCR 결과의 양성 알러젠에 대해 backdata 를 붙이고 초기 평가 객체를 만든다."""
         assessments: List[AllergenAssessment] = []
+        negatives: List[TestedNegative] = []
         worse_months = screening.worse_months if screening else []
 
         for r in ocr_result.results:
@@ -170,6 +230,9 @@ class RelevanceService:
             if not (r.allergen_name or "").strip() and not (r.korean_name or "").strip():
                 continue
             if not self._is_positive(r, ocr_result.test_type):
+                neg = self._tested_negative(r, ocr_result.test_type)
+                if neg is not None:
+                    negatives.append(neg)
                 continue
 
             kb = self.kb.get_backdata(
@@ -203,6 +266,7 @@ class RelevanceService:
             patient_name=ocr_result.patient.name,
             test_date=ocr_result.patient.test_date,
             assessments=assessments,
+            tested_negatives=negatives,
         )
 
     # ---------- 질문 생성 ----------

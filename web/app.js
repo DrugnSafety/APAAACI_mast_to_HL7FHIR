@@ -865,9 +865,11 @@ function renderResultTab() {
       <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
         <button class="btn ${FHIR_VIEW==='allergy'?'primary':'secondary'} sm" id="vAllergy">AllergyIntolerance</button>
         <button class="btn ${FHIR_VIEW==='obs'?'primary':'secondary'} sm" id="vObs">Observation</button>
+        <button class="btn ${FHIR_VIEW==='screening'?'primary':'secondary'} sm" id="vScreening">Condition · Questionnaire</button>
         <span class="spacer" style="flex:1"></span>
         <button class="btn subtle sm" id="dlObs">⬇️ Observation</button>
         <button class="btn subtle sm" id="dlAllergy">⬇️ AllergyIntolerance</button>
+        <button class="btn subtle sm" id="dlScreening">⬇️ Condition · Questionnaire</button>
       </div>
       <pre id="fhirPreview" style="max-height:420px;overflow:auto;background:var(--bg-subtle);padding:14px;border-radius:12px;font-size:12px">${t('common.loading')}</pre></div>`;
     loadFhir();
@@ -1017,7 +1019,9 @@ function dexCard(a, i) {
 let FHIR_VIEW = 'allergy';
 function fhirRenderPreview() {
   const f = S.fhir; if (!f) return;
-  const bundle = FHIR_VIEW === 'obs' ? f.observation_bundle : f.allergy_intolerance_bundle;
+  const bundle = FHIR_VIEW === 'obs' ? f.observation_bundle
+    : FHIR_VIEW === 'screening' ? (f.screening_bundle || { resourceType: 'Bundle', type: 'collection', entry: [] })
+    : f.allergy_intolerance_bundle;
   $('#fhirPreview').textContent = JSON.stringify(bundle, null, 2);
   const ai = (f.allergy_intolerance_bundle.entry || []).map(e => e.resource);
   const env = ai.filter(r => (r.category || []).includes('environment')).length;
@@ -1029,7 +1033,8 @@ function fhirRenderPreview() {
     <span class="chip-opt sel" style="cursor:default">Observation ${obsN}</span>
     <span class="chip-opt sel" style="cursor:default">${t('s4.fhir_env', { n: env })}</span>
     <span class="chip-opt sel" style="cursor:default">${t('s4.fhir_food', { n: food })}</span>
-    <span class="chip-opt sel" style="cursor:default">confirmed ${conf}</span></div>`;
+    <span class="chip-opt sel" style="cursor:default">confirmed ${conf}</span>
+    <span class="chip-opt sel" style="cursor:default">Condition ${((f.screening_bundle || {}).entry || []).filter(e => e.resource.resourceType === 'Condition').length}</span></div>`;
 }
 async function loadFhir() {
   try {
@@ -1038,8 +1043,11 @@ async function loadFhir() {
     fhirRenderPreview();
     $('#vAllergy').addEventListener('click', () => { FHIR_VIEW = 'allergy'; renderResultTab(); });
     $('#vObs').addEventListener('click', () => { FHIR_VIEW = 'obs'; renderResultTab(); });
+    $('#vScreening')?.addEventListener('click', () => { FHIR_VIEW = 'screening'; renderResultTab(); });
     $('#dlObs').addEventListener('click', () => download(`${(S.ocr.patient.name || 'patient')}_observation.json`, JSON.stringify(f.observation_bundle, null, 2)));
     $('#dlAllergy').addEventListener('click', () => download(`${(S.ocr.patient.name || 'patient')}_allergyintolerance.json`, JSON.stringify(f.allergy_intolerance_bundle, null, 2)));
+    // 문진(기저 질환·증상) — 문진을 건너뛰면 서버가 번들을 만들지 않는다
+    $('#dlScreening')?.addEventListener('click', () => download(`${(S.ocr.patient.name || 'patient')}_screening.json`, JSON.stringify(f.screening_bundle || { resourceType: 'Bundle', type: 'collection', entry: [] }, null, 2)));
   } catch (e) { const el = $('#fhirPreview'); if (el) el.textContent = t('s4.fhir_fail') + e.message; }
 }
 
@@ -1070,7 +1078,7 @@ function initLang() {
       I18N.setLang(sel.value);
       render();                       // 사전 기반 화면 크롬은 즉시 반영
       await loadOptions();
-  await loadPollenRegions();            // 서버가 만드는 선택지 라벨은 다시 받아와야 바뀐다
+      await loadPollenRegions();        // 서버가 만드는 선택지 라벨은 다시 받아와야 바뀐다
       if (S.screening) render();      // 스크리닝 화면이면 새 라벨로 다시 그린다
     });
   }
@@ -1078,6 +1086,8 @@ function initLang() {
 
 (async function () {
   initTheme(); initLang();
-  await loadOptions();
+  // 거주 지역 선택지도 부팅 때 받아야 한다. 예전에는 언어를 바꿀 때만 불러서,
+  // 처음 들어온 환자에게는 국가 목록이 비어 있었고 지역별 꽃가루 시기가 리포트에 들어가지 못했다.
+  await Promise.all([loadOptions(), loadPollenRegions()]);
   render();
 })();

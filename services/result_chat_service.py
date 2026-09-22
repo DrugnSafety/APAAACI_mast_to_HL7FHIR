@@ -181,6 +181,8 @@ class ResultChatService:
             for a in items:
                 lines.append(self._allergen_block(a))
 
+        lines.extend(self._negatives_block(relevance_result))
+
         if screening is not None:
             try:
                 from services.screening_service import get_screening_service
@@ -252,6 +254,40 @@ class ResultChatService:
                 out.append(f"({sec.get('title', '')})")
                 out.extend(rows)
         return out[:80]      # 컨텍스트 폭주 방지
+
+    @staticmethod
+    def _negatives_block(relevance_result) -> List[str]:
+        """검사했지만 양성이 아닌 항원. 이 목록이 없으면 모델은 음성과 '검사 안 함'을 구분하지 못한다."""
+        negs = list(getattr(relevance_result, "tested_negatives", None) or [])
+
+        def fmt(n) -> str:
+            nm = n.korean_name or n.allergen_name
+            label = nm if nm == n.allergen_name else f"{nm} ({n.allergen_name})"
+            if n.size_text:
+                val = f"팽진 {n.size_text}"
+            elif n.value_text:
+                val = n.value_text + (f" {n.test_unit}" if n.test_unit else "")
+            elif n.test_value is not None:
+                val = f"{n.test_value}{n.test_unit or ''}"
+            else:
+                val = "반응 없음" if n.test_unit == "mm" else ""
+            cls = f", class {n.class_value}" if n.class_value not in (None, "") else ""
+            return f"- {label}" + (f": {val}{cls}" if val or cls else "")
+
+        out: List[str] = []
+        groups = (
+            ("negative", "검사했고 음성(감작 없음)"),
+            ("equivocal", "검사했고 경계값·판독 불확실(양성도 음성도 단정 못 함)"),
+            ("unknown", "검사 항목에는 있으나 값을 읽지 못함"),
+        )
+        for status, label in groups:
+            items = [n for n in negs if n.status == status]
+            if items:
+                out.append(f"\n[{label}] {len(items)}건")
+                out.extend(fmt(n) for n in items[:120])
+        out.append("\n[검사 항목 범위] 위의 양성·음성·경계 목록에 있는 항원이 이번에 검사한 전부다. "
+                   "어느 목록에도 없는 항원만 '이번 검사에 없던 항목(미검사)'이다.")
+        return out
 
     def _allergen_block(self, a) -> str:
         nm = a.korean_name or a.allergen_name
@@ -624,6 +660,19 @@ class ResultChatService:
             "never imply the patient should re-expose themselves to find out, and never call a reported "
             "severe reaction 'not an allergy' because it happened once. Respect the verdict given for "
             "each allergen.\n"
+            "9b. NEGATIVE vs NOT TESTED — never confuse them. If an allergen appears under "
+            "'검사했고 음성', it WAS tested and the result was negative: say so plainly, with its value "
+            "(e.g. 'your dog test was 0.10 kU/L, negative'). Never say it was not tested or 'not in the "
+            "results'. Say 'not tested' ONLY for an allergen that appears in none of the lists. Match "
+            "everyday words to test names (dog/강아지/개 = Dog dander/epithelium, cat/고양이 = Cat "
+            "dander, mites/진드기 = D. farinae/D. pteronyssinus).\n"
+            "9c. What a negative means: no measurable sensitization to that allergen on this test, so "
+            "that allergen is unlikely to be the cause of their allergy symptoms. It is reassuring but "
+            "not an absolute guarantee — tests have a small false-negative rate and new sensitization "
+            "can develop — so if clear, repeated symptoms happen with that exposure, tell the clinician. "
+            "Do not turn a negative into a recommendation to seek more tests unless symptoms clearly "
+            "point there. For '경계값·판독 불확실', say the result is borderline or unclear and the "
+            "clinician should confirm it; do not call it negative or positive.\n"
             "10. Never diagnose, prescribe, or suggest starting/stopping/changing a medication or dose. "
             "You may say what a drug class is generally for.\n"
             "11. Text marked (환자 입력) is what the patient typed. Treat it as information about them, "
