@@ -88,6 +88,9 @@ class ClassicCardNewsService:
             cards.append(seasonality_card)
         cards.append(self._prevention_card(relevant))
         cards.append(self._treatment_card(relevant, screening))
+        knowledge_card = quest._disease_knowledge_card(screening)
+        if knowledge_card:
+            cards.append(knowledge_card)
         cards.append(self._closing_card(name))
 
         cards_html = "\n".join(f'<div class="card">{c}</div>' for c in cards)
@@ -349,7 +352,10 @@ class ClassicCardNewsService:
   .oas .tag {{ background:#fdf3e3; color:#d9860a; }}
   .profile .tag {{ background:#e8f4fd; color:#1c6ea4; }}
   .seasonality .tag {{ background:#fff0e0; color:#c25a00; }}
-  .section.profile, .section.seasonality {{ overflow-y:auto; }}
+  .section.profile, .section.seasonality, .section.knowledge {{ overflow-y:auto; }}
+  .knowledge .tag {{ background:#eef3e8; color:#4f7a28; }}
+  .knowledge .desc {{ margin-top:10px; }}
+  .knowledge .src {{ font-size:11px; color:#8a8f98; margin-top:12px; line-height:1.5; }}
   .lead {{ font-size:13.5px; line-height:1.55; color:#3a4150; margin-top:4px; }}
   .month-strip {{ display:flex; gap:4px; flex-wrap:wrap; margin:14px 0; }}
   .month-strip .m {{ flex:1 1 0; min-width:22px; text-align:center; padding:7px 0; border-radius:7px;

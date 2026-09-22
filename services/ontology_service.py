@@ -570,3 +570,49 @@ def get_ontology_service() -> OntologyService:
     if _ontology_service is None:
         _ontology_service = OntologyService()
     return _ontology_service
+
+
+# ---------------------------------------------------------------------------
+# 리포트·카드뉴스용 질환 일반 정보(한국어 요약)
+# ---------------------------------------------------------------------------
+# 요약은 scripts/build_ontology_summaries.py 가 손으로 고른 라벨 대응표로 만든다(LLM 없음).
+# 런타임은 파일만 읽는다 — 환자에게 남는 문서의 내용이 요청마다 흔들리지 않게.
+SUMMARIES_PATH = BASE_DIR / "data" / "ontology_disease_summaries_ko.json"
+_SUMMARIES: Optional[Dict[str, Any]] = None
+
+
+def load_disease_summaries() -> Dict[str, Any]:
+    global _SUMMARIES
+    if _SUMMARIES is None:
+        try:
+            _SUMMARIES = json.loads(SUMMARIES_PATH.read_text(encoding="utf-8"))
+        except Exception as e:  # noqa: BLE001
+            logger.warning(f"질환 요약 파일을 읽지 못함({SUMMARIES_PATH.name}): {e}")
+            _SUMMARIES = {"topics": {}}
+    return _SUMMARIES
+
+
+def disease_summaries_for(screening=None, limit: int = 3) -> List[Dict[str, Any]]:
+    """환자가 문진에서 고른 기저 질환의 일반 정보. 고른 게 없으면 '알레르기' 일반 설명 하나.
+
+    환자가 말하지 않은 질환을 끌어오지 않는다 — 증상 부위만 보고 '천식'을 붙이면 진단처럼 읽힌다.
+    """
+    data = load_disease_summaries()
+    topics = data.get("topics") or {}
+    picked: List[str] = []
+    for d in (getattr(screening, "allergic_diseases", None) or []):
+        t = DISEASE_TO_TOPIC.get(d)
+        if t and t in topics and t not in picked:
+            picked.append(t)
+    if not picked and "allergy" in topics:
+        picked = ["allergy"]
+    out = []
+    for t in picked[:limit]:
+        item = dict(topics[t])
+        item["topic"] = t
+        out.append(item)
+    return out
+
+
+def disease_summary_notice() -> str:
+    return load_disease_summaries().get("notice_ko") or ""

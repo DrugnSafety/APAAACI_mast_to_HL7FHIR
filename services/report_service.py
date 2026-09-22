@@ -785,6 +785,12 @@ class ReportService:
 
         md.append("\n---\n")
 
+        # 질환 일반 정보(온톨로지) — 환자가 고른 기저 질환 기준. 검사 결과와 섞이지 않게 따로 둔다
+        disease_md = self._disease_knowledge_md(screening)
+        if disease_md:
+            md.append(disease_md)
+            md.append("\n---\n")
+
         # 4. 추적 관리
         md.append("## 4️⃣ 📅 추적 관리")
         md.append(
@@ -844,6 +850,38 @@ class ReportService:
             from services.translation_service import get_translation_service
             doc = get_translation_service().translate_html(doc, lang)
         return doc
+
+    @staticmethod
+    def _disease_knowledge_md(screening) -> str:
+        """온톨로지에서 고른 질환 일반 정보. 모든 항목은 검토 전(candidate)임을 밝히고 출처를 단다.
+        약은 계열 이름만, 선택은 의료진에게 — 챗봇과 같은 사용 규칙을 따른다."""
+        try:
+            from services.ontology_service import disease_summaries_for, disease_summary_notice
+            items = disease_summaries_for(screening)
+        except Exception as e:  # noqa: BLE001
+            logger.debug(f"질환 일반 정보 생략: {e}")
+            return ""
+        if not items:
+            return ""
+        md = ["## 📚 알아두면 좋은 질환 정보 (일반 참고)"]
+        for it in items:
+            md.append(f"### {it['title_ko']}")
+            if it.get("definition_ko"):
+                md.append(it["definition_ko"])
+            rows = [("흔한 증상", it.get("symptoms")), ("확인 방법", it.get("evaluation")),
+                    ("일반적인 관리", it.get("management")), ("함께 나타날 수 있는 질환", it.get("related"))]
+            lines = [f"- **{label}:** {', '.join(x['ko'] for x in vals)}"
+                     + (" — 어떤 치료를 할지는 담당 의료진과 정하세요." if label == "일반적인 관리" else "")
+                     for label, vals in rows if vals]
+            if lines:
+                md.append("\n".join(lines))
+            if it.get("source_url"):
+                src = it.get("definition_source") or {}
+                code = " ".join(x for x in (src.get("system"), src.get("code")) if x)
+                md.append(f"*출처: [Wikipedia — {src.get('label') or it['title_ko']}]({it['source_url']})"
+                          + (f" · 표준 정의 {code}" if code else "") + "*")
+        md.append(f"> ℹ️ {disease_summary_notice()}")
+        return "\n\n".join(md)
 
     @staticmethod
     def _negative_names(items, limit: Optional[int] = None, with_value: bool = False) -> str:

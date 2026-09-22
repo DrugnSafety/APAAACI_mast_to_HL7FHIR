@@ -1493,6 +1493,40 @@ def test_trim_sentences_never_cuts_mid_sentence():
     print("✓ 문장 경계에서만 줄이기")
 
 
+def test_ontology_disease_knowledge_in_report_and_cardnews():
+    """온톨로지 질환 일반 정보를 리포트·카드뉴스에 싣는다 — 환자가 고른 질환만, 검토 전임을 밝히고.
+    요약 파일은 손으로 고른 라벨 대응표로 만든다. LLM 선별이 천식의 흡입 스테로이드를 '비강 스테로이드'로
+    옮기고 두드러기 항히스타민제를 '유발 요인 피하기'로 옮긴 적이 있어, 그 실수를 고정해 막는다."""
+    import json as _json
+    from services.ontology_service import disease_summaries_for, load_disease_summaries
+    from services.report_service import get_report_service
+    from services.cardnews_service import get_cardnews_service
+    data = load_disease_summaries()
+    assert data.get("review_status") == "candidate"
+    blob = _json.dumps(data, ensure_ascii=False).lower()
+    for drug in ("montelukast", "loratadine", "salbutamol", "dupilumab", "hydroxyzine", "diphenhydramine"):
+        assert f'"ko": "{drug}' not in blob, drug
+    asthma = data["topics"]["asthma"]
+    assert all("비강" not in x["ko"] for x in asthma["management"]), asthma["management"]
+    for t in data["topics"].values():
+        for field in ("symptoms", "evaluation", "management", "related"):
+            for x in t.get(field, []):
+                assert x["claims"], f"근거 claim 없음: {x}"      # 추적 가능해야 한다
+
+    sc = ScreeningProfile(allergic_diseases=["allergic_rhinitis", "food_allergy"])
+    assert [d["topic"] for d in disease_summaries_for(sc)] == ["allergic rhinitis"]
+    assert [d["topic"] for d in disease_summaries_for(None)] == ["allergy"]
+
+    res = get_relevance_service().build_assessments(build_case(), sc)
+    md = get_report_service().build_patient_report_markdown(res, {"name": "테스트"}, sc, "ko")
+    sec = md.split("## 📚 알아두면 좋은 질환 정보")[1].split("## 4️⃣")[0]
+    assert "알레르기 비염" in sec and "전문가 검토 전" in sec and "wikipedia.org" in sec
+    assert "천식" not in sec.split("함께 나타날 수 있는 질환")[0]   # 고르지 않은 질환을 끌어오지 않는다
+    html = get_cardnews_service().generate_html(res, {"name": "테스트"}, sc)
+    assert 'section knowledge' in html and "검토 전" in html
+    print("✓ 온톨로지 질환 일반 정보 → 리포트·카드뉴스(고른 질환만·검토 전 표기·약 이름 없음)")
+
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0

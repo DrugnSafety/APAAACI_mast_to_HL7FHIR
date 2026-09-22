@@ -103,6 +103,9 @@ class CardNewsService:
             cards.append(seasonality_card)
         cards.append(self._prevention_card(relevant))
         cards.append(self._treatment_card(relevant, screening))
+        knowledge_card = self._disease_knowledge_card(screening)
+        if knowledge_card:
+            cards.append(knowledge_card)
         cards.append(self._closing_card(name))
 
         cards_html = "\n".join(f'<div class="card">{c}</div>' for c in cards)
@@ -348,6 +351,36 @@ class CardNewsService:
           </ul>
         </div>"""
 
+    def _disease_knowledge_card(self, screening) -> str:
+        """📚 질환 알아보기 — 환자가 고른 기저 질환의 일반 정보(온톨로지, 검토 전).
+        검사 결과 카드와 섞이지 않게 치료 카드 뒤에 둔다."""
+        try:
+            from services.ontology_service import disease_summaries_for
+            items = disease_summaries_for(screening, limit=2)
+        except Exception:  # noqa: BLE001
+            return ""
+        if not items:
+            return ""
+        blocks = []
+        for it in items:
+            lis = []
+            if it.get("symptoms"):
+                lis.append(f"<li>🤧 <b>흔한 증상:</b> {_esc(', '.join(x['ko'] for x in it['symptoms']))}</li>")
+            if it.get("management"):
+                lis.append(f"<li>🩹 <b>일반적인 관리:</b> {_esc(', '.join(x['ko'] for x in it['management']))}"
+                           f" — 선택은 의료진과</li>")
+            if it.get("related"):
+                lis.append(f"<li>🔗 <b>함께 나타날 수 있어요:</b> {_esc(', '.join(x['ko'] for x in it['related']))}</li>")
+            blocks.append(f'<p class="desc"><b>{_esc(it["title_ko"])}</b> — {_esc(it.get("definition_ko") or "")}</p>'
+                          + (f'<ul class="tips">{"".join(lis)}</ul>' if lis else ""))
+        return f"""
+        <div class="section knowledge">
+          <div class="tag">📚 질환 알아보기</div>
+          <h2>알아두면 좋은<br/>질환 정보</h2>
+          {"".join(blocks)}
+          <p class="src">위키백과 기반 온톨로지에서 고른 일반 정보예요. 전문가 검토 전이며, 내 검사 결과가 아니에요.</p>
+        </div>"""
+
     def _seasonality_card(self, assessments: List[AllergenAssessment], screening) -> str:
         """증상이 계절을 탄다면 달력으로 보여준다. 거주 지역이 없어도 만든다 —
         계절성은 알러젠 자체의 성질이라 지역 없이도 말할 수 있다."""
@@ -505,6 +538,12 @@ class CardNewsService:
         """
 
     # ---------- 래퍼(스타일) ----------
+    _KNOWLEDGE_CSS = """
+      .section.knowledge { overflow-y:auto; }
+      .knowledge .tag { background:#eef3e8; color:#4f7a28; }
+      .knowledge .desc { margin-top:10px; }
+      .knowledge .src { font-size:11px; color:#8a8f98; margin-top:12px; line-height:1.5; }
+    """
     _MONTH_STRIP_CSS = """
       .month-strip { display:flex; gap:4px; flex-wrap:wrap; margin:14px 0; }
       .month-strip .m { flex:1 1 0; min-width:26px; text-align:center; padding:7px 0;
@@ -524,6 +563,7 @@ class CardNewsService:
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"/>
 <style>
   {self._MONTH_STRIP_CSS}
+  {self._KNOWLEDGE_CSS}
   * {{ box-sizing: border-box; margin: 0; padding: 0; }}
   :root {{ --cream:#fbf7ee; --elev:#fffdf8; --ink:#1f2a24; --ink2:#4d5a52; --ink3:#5f6d63; --line:#e6dcc6;
            --forest:#2f8f5b; --forest-d:#1f5f3f; --amber:#f2a33a; --amber-soft:#fdeed6; --amber-ink:#8a5a12;

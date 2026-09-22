@@ -1,0 +1,478 @@
+{
+ "source": "docs/20260916-allergy-chatbot/ontology-snapshot.json",
+ "method": "curated label map (scripts/build_ontology_summaries.py), no LLM",
+ "review_status": "candidate",
+ "notice_ko": "Wikipedia 기반 온톨로지에서 고른 질환 일반 정보입니다. 전문가 검토 전이며, 이 환자의 검사 결과가 아닙니다.",
+ "topics": {
+  "allergy": {
+   "title_ko": "알레르기",
+   "definition_ko": "알레르기는 보통은 해롭지 않은 물질에 몸의 면역계가 반응하는 것입니다.",
+   "definition_source": {
+    "system": "HPO",
+    "code": "HP:0012393",
+    "release": "v2026-09-01",
+    "label": "Allergy"
+   },
+   "source_url": "https://en.wikipedia.org/wiki/Allergy",
+   "review_status": "candidate",
+   "symptoms": [],
+   "evaluation": [],
+   "management": [],
+   "related": []
+  },
+  "allergic rhinitis": {
+   "title_ko": "알레르기 비염",
+   "definition_ko": "꽃가루·먼지·곰팡이·동물 비듬·바퀴벌레나 집먼지진드기 배설물 같은 알레르기 유발 물질 때문에 코 점막에 알레르기 염증이 생기는 병입니다. 재채기, 콧물, 코막힘, 눈 가려움과 눈물이 나타납니다.",
+   "definition_source": {
+    "system": "DO",
+    "code": "DOID:4481",
+    "release": "v2026-08-31",
+    "label": "allergic rhinitis"
+   },
+   "source_url": "https://en.wikipedia.org/wiki/Allergic_rhinitis",
+   "review_status": "candidate",
+   "symptoms": [
+    {
+     "ko": "재채기",
+     "labels_en": [
+      "sneezing"
+     ],
+     "claims": [
+      "clinical-claim:b7113d2d68b5c68f2b2cf505"
+     ]
+    },
+    {
+     "ko": "코막힘·코 가려움",
+     "labels_en": [
+      "stuffy itchy nose"
+     ],
+     "claims": [
+      "clinical-claim:264c103bfd0c4ca7d3f6a14f"
+     ]
+    },
+    {
+     "ko": "눈물",
+     "labels_en": [
+      "watery eyes"
+     ],
+     "claims": [
+      "clinical-claim:bb582687361508937515793a"
+     ]
+    },
+    {
+     "ko": "눈 주위 부기",
+     "labels_en": [
+      "swelling around the eyes"
+     ],
+     "claims": [
+      "clinical-claim:f1a25490e84ba92064685013"
+     ]
+    }
+   ],
+   "evaluation": [
+    {
+     "ko": "증상 확인",
+     "labels_en": [
+      "based on symptoms"
+     ],
+     "claims": [
+      "clinical-claim:ceee0fda938af33a01f24220"
+     ]
+    },
+    {
+     "ko": "피부단자검사",
+     "labels_en": [
+      "skin prick test"
+     ],
+     "claims": [
+      "clinical-claim:91c2aed247723ff1c376b9ae"
+     ]
+    },
+    {
+     "ko": "특이 IgE 혈액검사",
+     "labels_en": [
+      "blood tests for specific antibodies"
+     ],
+     "claims": [
+      "clinical-claim:7c9aed19a9c55a081011e73f"
+     ]
+    }
+   ],
+   "management": [
+    {
+     "ko": "비강 스테로이드 스프레이",
+     "labels_en": [
+      "nasal steroids"
+     ],
+     "claims": [
+      "clinical-claim:af3754314dd46d8cbc8f3e23"
+     ]
+    },
+    {
+     "ko": "항히스타민제",
+     "labels_en": [
+      "antihistamines",
+      "antihistamines such as loratadine"
+     ],
+     "claims": [
+      "clinical-claim:3aefb8fdac6a8e57c050c8e5",
+      "clinical-claim:60256c682e6b526f045ad476"
+     ]
+    },
+    {
+     "ko": "코 세척",
+     "labels_en": [
+      "nasal irrigation"
+     ],
+     "claims": [
+      "clinical-claim:2ef6d5777b948343b27f0700"
+     ]
+    },
+    {
+     "ko": "알레르기 면역치료",
+     "labels_en": [
+      "allergen immunotherapy"
+     ],
+     "claims": [
+      "clinical-claim:feb905f354dff44b572377d8"
+     ]
+    }
+   ],
+   "related": [
+    {
+     "ko": "천식",
+     "labels_en": [
+      "asthma"
+     ],
+     "claims": [
+      "clinical-claim:27bde58a678e993c7375a28c"
+     ]
+    },
+    {
+     "ko": "아토피 피부염",
+     "labels_en": [
+      "atopic dermatitis"
+     ],
+     "claims": [
+      "clinical-claim:2e078a45625485640cc1d381"
+     ]
+    },
+    {
+     "ko": "알레르기 결막염",
+     "labels_en": [
+      "allergic conjunctivitis"
+     ],
+     "claims": [
+      "clinical-claim:24a9dfa1d5ee571569975a9c"
+     ]
+    }
+   ]
+  },
+  "asthma": {
+   "title_ko": "천식",
+   "definition_ko": "기관지에 만성 염증이 생겨 기도가 좁아지는 병으로, 환경 요인과 유전 요인이 함께 작용합니다. 쌕쌕거림(숨 쉴 때 휘파람 같은 소리)이 되풀이되고, 가슴 답답함·숨참·가래·기침이 나타납니다.",
+   "definition_source": {
+    "system": "DO",
+    "code": "DOID:2841",
+    "release": "v2026-08-31",
+    "label": "asthma"
+   },
+   "source_url": "https://en.wikipedia.org/wiki/Asthma",
+   "review_status": "candidate",
+   "symptoms": [
+    {
+     "ko": "반복되는 쌕쌕거림",
+     "labels_en": [
+      "recurring episodes of wheezing"
+     ],
+     "claims": [
+      "clinical-claim:56cd445abd950e2d99976934"
+     ]
+    },
+    {
+     "ko": "가슴 답답함",
+     "labels_en": [
+      "chest tightness"
+     ],
+     "claims": [
+      "clinical-claim:a2ee5e435090d2b7576e1deb"
+     ]
+    },
+    {
+     "ko": "숨참",
+     "labels_en": [
+      "shortness of breath"
+     ],
+     "claims": [
+      "clinical-claim:413a84350a87e8d8c7b26343"
+     ]
+    },
+    {
+     "ko": "기침",
+     "labels_en": [
+      "coughing"
+     ],
+     "claims": [
+      "clinical-claim:493d7d2fd41afb73fb7ce194"
+     ]
+    }
+   ],
+   "evaluation": [
+    {
+     "ko": "증상 확인",
+     "labels_en": [
+      "based on symptoms"
+     ],
+     "claims": [
+      "clinical-claim:065414b4113a81cf046b613f"
+     ]
+    },
+    {
+     "ko": "폐기능검사(폐활량 측정)",
+     "labels_en": [
+      "spirometry"
+     ],
+     "claims": [
+      "clinical-claim:168c76e365b2af35273ca715"
+     ]
+    },
+    {
+     "ko": "치료에 대한 반응 확인",
+     "labels_en": [
+      "response to therapy"
+     ],
+     "claims": [
+      "clinical-claim:51143efa041371eed5771289"
+     ]
+    }
+   ],
+   "management": [
+    {
+     "ko": "유발 요인 피하기",
+     "labels_en": [
+      "avoiding triggers"
+     ],
+     "claims": [
+      "clinical-claim:b90b4e7fccbafd737c911cbe"
+     ]
+    },
+    {
+     "ko": "흡입 스테로이드",
+     "labels_en": [
+      "inhaled corticosteroids"
+     ],
+     "claims": [
+      "clinical-claim:30662bb0c0242070f87a9336"
+     ]
+    },
+    {
+     "ko": "기관지 확장제",
+     "labels_en": [
+      "bronchodilators"
+     ],
+     "claims": [
+      "clinical-claim:55d48c23ac1d18ef1f20303e"
+     ]
+    },
+    {
+     "ko": "호흡 재활",
+     "labels_en": [
+      "pulmonary rehabilitation"
+     ],
+     "claims": [
+      "clinical-claim:eaa493c02c8eb58d9050b0d9"
+     ]
+    }
+   ],
+   "related": [
+    {
+     "ko": "다른 아토피 질환",
+     "labels_en": [
+      "atopic disease"
+     ],
+     "claims": [
+      "clinical-claim:639ca51c44dd8e6e11a5732c"
+     ]
+    }
+   ]
+  },
+  "atopic dermatitis": {
+   "title_ko": "아토피 피부염",
+   "definition_ko": "피부의 알레르기성 염증이 좋아졌다 나빠지기를 되풀이하는 만성 질환으로, 가려움과 각질이 생깁니다.",
+   "definition_source": {
+    "system": "DO",
+    "code": "DOID:3310",
+    "release": "v2026-08-31",
+    "label": "atopic dermatitis"
+   },
+   "source_url": "https://en.wikipedia.org/wiki/Atopic_dermatitis",
+   "review_status": "candidate",
+   "symptoms": [
+    {
+     "ko": "가려움",
+     "labels_en": [
+      "itchy"
+     ],
+     "claims": [
+      "clinical-claim:bc9e7ba044400d63ca88ef62"
+     ]
+    },
+    {
+     "ko": "붉어짐",
+     "labels_en": [
+      "red"
+     ],
+     "claims": [
+      "clinical-claim:1592def38571ff8cb6b5b770"
+     ]
+    },
+    {
+     "ko": "부기",
+     "labels_en": [
+      "swollen"
+     ],
+     "claims": [
+      "clinical-claim:d6cc99ed7724b44ea815663f"
+     ]
+    },
+    {
+     "ko": "피부 갈라짐",
+     "labels_en": [
+      "cracked skin"
+     ],
+     "claims": [
+      "clinical-claim:c9c1ac8788d4d0703e149819"
+     ]
+    }
+   ],
+   "evaluation": [
+    {
+     "ko": "다른 원인을 배제한 뒤 증상으로 진단",
+     "labels_en": [
+      "based on symptoms after ruling out other possible causes"
+     ],
+     "claims": [
+      "clinical-claim:569ae683eadfab14c3a5f580"
+     ]
+    }
+   ],
+   "management": [
+    {
+     "ko": "매일 목욕 후 보습제 바르기",
+     "labels_en": [
+      "daily bathing followed by moisturising cream"
+     ],
+     "claims": [
+      "clinical-claim:af8f8347e31db5510ff1a4c8"
+     ]
+    },
+    {
+     "ko": "악화 요인 피하기",
+     "labels_en": [
+      "avoiding things that worsen the condition"
+     ],
+     "claims": [
+      "clinical-claim:8045e6a9c4b8488007a1ecfa"
+     ]
+    },
+    {
+     "ko": "악화 시 스테로이드 연고",
+     "labels_en": [
+      "steroid creams for flares Humidifier"
+     ],
+     "claims": [
+      "clinical-claim:549e4080c9c84632ad518226"
+     ]
+    }
+   ],
+   "related": []
+  },
+  "urticaria": {
+   "title_ko": "두드러기",
+   "definition_ko": "피부에 옅은 붉은색으로 부풀어 오르고 가려운 발진이 생기는 피부 질환입니다.",
+   "definition_source": {
+    "system": "DO",
+    "code": "DOID:1555",
+    "release": "v2026-08-31",
+    "label": "urticaria"
+   },
+   "source_url": "https://en.wikipedia.org/wiki/Hives",
+   "review_status": "candidate",
+   "symptoms": [
+    {
+     "ko": "붉게 부풀어 오른 가려운 발진",
+     "labels_en": [
+      "itchy bumps",
+      "raised",
+      "red"
+     ],
+     "claims": [
+      "clinical-claim:875b73e3077fce78fe14bc01",
+      "clinical-claim:ab4f5cb367d2c02e2f4af39b",
+      "clinical-claim:c8a6454ede6de135fceaa5ad"
+     ]
+    }
+   ],
+   "evaluation": [
+    {
+     "ko": "증상 확인",
+     "labels_en": [
+      "based on symptoms"
+     ],
+     "claims": [
+      "clinical-claim:e43868fe60bba0bc517cc6db"
+     ]
+    }
+   ],
+   "management": [
+    {
+     "ko": "항히스타민제",
+     "labels_en": [
+      "antihistamine"
+     ],
+     "claims": [
+      "clinical-claim:f971a831f177af02efa6de99"
+     ]
+    },
+    {
+     "ko": "스테로이드",
+     "labels_en": [
+      "corticosteroid"
+     ],
+     "claims": [
+      "clinical-claim:f1a9788a9a793205f7917e29"
+     ]
+    },
+    {
+     "ko": "류코트리엔 조절제",
+     "labels_en": [
+      "leukotriene inhibitors"
+     ],
+     "claims": [
+      "clinical-claim:e7e71adc93067b6d80e08dd9"
+     ]
+    }
+   ],
+   "related": [
+    {
+     "ko": "천식",
+     "labels_en": [
+      "asthma"
+     ],
+     "claims": [
+      "clinical-claim:93b95195a21d615224d7ec7f"
+     ]
+    },
+    {
+     "ko": "건초열(알레르기 비염)",
+     "labels_en": [
+      "hay fever"
+     ],
+     "claims": [
+      "clinical-claim:14ff62ddbffb658e5be906d0"
+     ]
+    }
+   ]
+  }
+ }
+}
