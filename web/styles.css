@@ -439,3 +439,9 @@ table.grid input:focus { background: var(--bg-elev); border-color: var(--brand);
 .kb-src .src-quote { margin: 2px 0 0; padding-left: 8px; border-left: 2px solid var(--line, #d8d8d8); opacity: .85; }
 .kb-src .src-ids { font-size: 10.5px; opacity: .6; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; }
 .kb-src .src-map { font-size: 10.5px; opacity: .7; }
+
+/* OCR 확인 화면 — 검증 규칙이 표시한 행 */
+tr.row-flag td { background: rgba(255, 176, 32, .13); }
+tr.row-flag td:first-child { box-shadow: inset 3px 0 0 #e8a33d; }
+.rv-gate { display: block; }
+.rv-gate b { font-weight: 800; }

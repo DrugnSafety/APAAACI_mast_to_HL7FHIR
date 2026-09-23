@@ -200,7 +200,9 @@ async def ocr(file: UploadFile = File(...)):
     try:
         from services.ocr_service import get_ocr_service
         content = await file.read()
-        result = get_ocr_service().extract_from_image(content)
+        # 두 번 읽기로 한 장에 1분 가까이 걸린다 — 이벤트 루프를 막지 않도록 스레드에서 돌린다
+        from starlette.concurrency import run_in_threadpool
+        result = await run_in_threadpool(get_ocr_service().extract_from_image, content)
         return JSONResponse(result.model_dump(by_alias=False))
     except HTTPException:
         raise

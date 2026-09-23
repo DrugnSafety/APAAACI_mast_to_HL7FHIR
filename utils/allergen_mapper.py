@@ -363,6 +363,13 @@ class AllergenMapper:
         import re as _re
         raw = (name or "").strip()
         if "(" not in raw and "（" not in raw:
+            # 괄호 없이 'Fusarium 붉은점박이곰팡이' 처럼 영문·한글을 붙여 쓴 경우 — OCR 이 괄호를
+            # 빠뜨리거나 한글명을 지어내 붙일 때 생긴다. 영문 쪽을 먼저 본다(한글명은 틀렸을 수 있다).
+            latin = _re.sub(r"[가-힣]+", " ", raw)
+            hangul = " ".join(_re.findall(r"[가-힣][가-힣\s]*[가-힣]|[가-힣]", raw))
+            latin = " ".join(latin.split()).strip(" -·,")
+            if latin and hangul and _re.search(r"[A-Za-z]", latin):
+                return [p for p in (latin, hangul.strip()) if p]
             return []
         norm = raw.replace("（", "(").replace("）", ")")
         outside = _re.sub(r"\([^)]*\)", " ", norm).strip(" -·,")

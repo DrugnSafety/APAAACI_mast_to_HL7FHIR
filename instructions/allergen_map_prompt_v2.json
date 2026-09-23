@@ -353,7 +353,10 @@
         "Cat dander",
         "고양이 표피"
       ],
-      "ocr_aliases": [],
+      "ocr_aliases": [
+        "고양이",
+        "고양이 비듬"
+      ],
       "category": "Animal",
       "subcategory": null,
       "snomed": "4125384"
@@ -434,7 +437,11 @@
         "바퀴벌레",
         "Cockroach, Mix"
       ],
-      "ocr_aliases": [],
+      "ocr_aliases": [
+        "바퀴벌레 혼합",
+        "Cockroach mix",
+        "바퀴벌레믹스"
+      ],
       "category": "Insect",
       "subcategory": "Cockroach",
       "snomed": "46273916"
@@ -553,7 +560,12 @@
         "Dog epithelium",
         "개 표피"
       ],
-      "ocr_aliases": [],
+      "ocr_aliases": [
+        "Dog",
+        "개",
+        "개 비듬",
+        "Dog hair"
+      ],
       "category": "Animal",
       "subcategory": null,
       "snomed": "4128602"

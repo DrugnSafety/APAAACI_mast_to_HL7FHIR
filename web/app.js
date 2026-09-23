@@ -195,6 +195,8 @@ async function handleFile(f) {
   try {
     const ocr = await API.ocr(f);
     S.ocr = normalizeOcr(ocr);
+    S.ocrConfirmed = false;
+    REVIEW_TAB = flaggedCount() ? 'flag' : 'measured';
     goto(1);
   } catch (e) {
     msg.innerHTML = `<div class="notice warn" style="margin-top:16px">⚠️ ${esc(e.message)}<br/>${t('s0.ocr_fail_hint')}</div>`;
@@ -210,7 +212,11 @@ function startManual() {
 }
 function normalizeOcr(ocr) {
   ocr.patient = ocr.patient || {};
+  // 원래 필드를 모두 남긴다(...r). 예전에는 몇 개만 골라 담아서 value_text('<0.15')·size_text('4.5x3')·
+  // 검증 표시(review_flags)가 화면을 거치며 사라졌고, 리포트·FHIR 에서 미만 표기와 팽진 크기가 빠졌다.
   ocr.results = (ocr.results || []).map((r, i) => ({
+    ...r,
+    review_flags: Array.isArray(r.review_flags) ? r.review_flags : [],
     index: r.index ?? i + 1, raw_text: r.raw_text || r.allergen_name || '',
     allergen_name: r.allergen_name || '', korean_name: r.korean_name || '',
     value: r.value ?? r.mean_mm ?? null, mean_mm: r.mean_mm ?? null,
@@ -264,8 +270,48 @@ function refreshReviewSummary() {
   const pn = $('#posN'); if (pn) pn.textContent = n;
   const ps = $('#posSummary');
   if (ps) ps.innerHTML = n ? `<div class="pos-summary">${t('s1.pos_summary', { n })}</div>` : '';
-  const nx = $('#next'); if (nx) nx.disabled = !n;
+  const nx = $('#next'); if (nx) nx.disabled = !n || !reviewGateOpen();
 }
+
+/* ---------------- OCR 확인 화면(필수) ----------------
+   서버 검증(services/ocr_validation.py)이 의심스러운 행에 review_flags 를 단다.
+   표시된 행을 하나씩 확인(또는 수정)하고, 원본과 대조했다는 확인란을 체크해야 다음으로 넘어간다.
+   데모·직접 입력은 OCR 메타데이터가 없으므로 막지 않는다. */
+function reviewInfo() { return (S.ocr && S.ocr.metadata && S.ocr.metadata.review) || null; }
+function flagText(code) {
+  const k = `flag.${code}`; const v = t(k);
+  if (v !== k) return v;
+  const rv = reviewInfo();
+  return (rv && rv.flag_text_ko && rv.flag_text_ko[code]) || code;
+}
+function flaggedCount() { return (S.ocr.results || []).filter(r => (r.review_flags || []).length).length; }
+function reviewGateOpen() { return !reviewInfo() || (flaggedCount() === 0 && !!S.ocrConfirmed); }
+function refreshReviewGate() {
+  const nx = $('#next'); if (nx) nx.disabled = !posCount() || !reviewGateOpen();
+  const el = $('#rvRemain'); if (el) el.textContent = flaggedCount();
+  const hint = $('#rvGateHint');
+  if (hint) hint.textContent = reviewGateOpen() ? '' : (flaggedCount() ? t('rv.need_rows') : t('rv.need_check'));
+}
+function reviewBannerHtml() {
+  const rv = reviewInfo(); if (!rv) return '';
+  const n = flaggedCount();
+  const docs = (rv.doc_flags || []).map(c => `<li>${esc(flagText(c))}${c === 'missing_rows' && (rv.missing_row_numbers || []).length ? ' — No. ' + esc(rv.missing_row_numbers.join(', ')) : ''}</li>`).join('');
+  const model = (S.ocr.metadata || {}).model;
+  return `<div class="notice ${n ? 'warn' : 'info'} rv-gate" style="margin-bottom:14px">
+    <div><b>${t('rv.title')}</b> — ${t('rv.remaining', { n: `<span id="rvRemain">${n}</span>` })}</div>
+    ${docs ? `<ul style="margin:6px 0 0 18px;font-size:13px">${docs}</ul>` : ''}
+    <label style="display:flex;gap:8px;align-items:center;margin-top:10px;font-weight:700;cursor:pointer">
+      <input type="checkbox" id="rvConfirm" ${S.ocrConfirmed ? 'checked' : ''} /> ${t('rv.confirm')}</label>
+    ${model ? `<div class="hint" style="margin-top:6px">OCR: ${esc(model)}</div>` : ''}
+  </div>`;
+}
+function flagCellHtml(r) {
+  const fl = r.review_flags || [];
+  if (!fl.length) return '';
+  const why = fl.map(flagText).join(' · ') + (r.note ? ` (${r.note})` : '');
+  return `<div class="rv-why" style="font-size:11.5px;color:var(--warn-ink, #b25e00);margin-top:3px">⚠️ ${esc(why)}</div>`;
+}
+
 function renderReview() {
   const tt = S.ocr.test_type;
   const isSPT = tt === 'SPT';
@@ -273,22 +319,26 @@ function renderReview() {
   const allRows = S.ocr.results.map((r, i) => ({ r, i }));
   const zeroN = allRows.filter(({ r }) => rowIsZero(r)).length;
   const measuredN = allRows.length - zeroN;
-  const shown = allRows.filter(({ r }) => REVIEW_TAB === 'zero' ? rowIsZero(r) : !rowIsZero(r));
+  const flagN = allRows.filter(({ r }) => (r.review_flags || []).length).length;
+  if (REVIEW_TAB === 'flag' && !flagN) REVIEW_TAB = 'measured';
+  const shown = allRows.filter(({ r }) => REVIEW_TAB === 'flag' ? (r.review_flags || []).length
+    : REVIEW_TAB === 'zero' ? rowIsZero(r) : !rowIsZero(r));
   const rows = shown.map(({ r, i }) => {
     const on = isPositive(r, tt);
     // SPT 는 Class 개념이 없으므로 비활성화(—). MAST/UniCAP 만 Class 편집.
     const classCell = isSPT
       ? `<td style="width:66px;text-align:center;color:var(--text-3)">—</td>`
       : `<td style="width:66px"><input data-f="class_value" value="${r.class_value ?? ''}" placeholder="0-6" title="${t('s1.class_title')}" /></td>`;
-    return `<tr data-i="${i}">
+    const flagged = (r.review_flags || []).length > 0;
+    return `<tr data-i="${i}" class="${flagged ? 'row-flag' : ''}">
       <td style="color:var(--text-3);width:34px">${i + 1}</td>
-      <td><input data-f="allergen_name" value="${esc(r.allergen_name)}" placeholder="${t('s1.ph_allergen')}" /></td>
+      <td><input data-f="allergen_name" value="${esc(r.allergen_name)}" placeholder="${t('s1.ph_allergen')}" />${flagCellHtml(r)}</td>
       <td><input data-f="korean_name" value="${esc(r.korean_name)}" placeholder="${t('s1.ph_korean')}" /></td>
       <td class="num" style="width:96px"><input data-f="value" type="number" step="0.01" value="${r.value ?? ''}" /></td>
       <td style="width:78px"><input data-f="unit" value="${esc(r.unit || '')}" /></td>
       ${classCell}
       <td style="width:78px"><button class="pos-toggle ${on ? 'on' : 'off'}" data-toggle="${i}">${on ? t('s1.pos') : t('s1.neg')}</button></td>
-      <td style="width:40px"><button class="btn danger-ghost" data-del="${i}" title="${t('s1.del')}">🗑️</button></td>
+      <td style="width:40px;white-space:nowrap">${flagged ? `<button class="btn subtle sm" data-ok="${i}" title="${t('rv.ok_title')}">${t('rv.ok')}</button>` : ''}<button class="btn danger-ghost" data-del="${i}" title="${t('s1.del')}">🗑️</button></td>
     </tr>`;
   }).join('');
   const emptyMsg = REVIEW_TAB === 'zero'
@@ -313,7 +363,10 @@ function renderReview() {
         <span class="hint">${isSPT ? t('s1.hint_spt') : t('s1.hint_ige')}</span>
       </div>
 
+      ${reviewBannerHtml()}
+
       <div class="rv-tabs" role="tablist">
+        ${flagN ? `<button class="rv-tab ${REVIEW_TAB === 'flag' ? 'active' : ''}" data-rvtab="flag" style="border-color:#e8a33d">⚠️ ${t('rv.tab')} <span class="rv-count">${flagN}</span></button>` : ''}
         <button role="tab" aria-selected="${REVIEW_TAB === 'measured'}" class="rv-tab ${REVIEW_TAB === 'measured' ? 'active' : ''}" data-rvtab="measured">${t('s1.tab_measured')} <span class="rv-count">${measuredN}</span></button>
         <button role="tab" aria-selected="${REVIEW_TAB === 'zero'}" class="rv-tab ${REVIEW_TAB === 'zero' ? 'active' : ''}" data-rvtab="zero">${t('s1.tab_zero')} <span class="rv-count">${zeroN}</span></button>
         <span class="hint" style="margin-left:auto">${REVIEW_TAB === 'zero' ? t('s1.tab_hint_zero') : t('s1.tab_hint_measured')}</span>
@@ -339,7 +392,8 @@ function renderReview() {
       <div class="actions">
         <button class="btn secondary" id="back">${t('common.back')}</button>
         <span class="spacer"></span>
-        <button class="btn primary" id="next" ${posCount() ? '' : 'disabled'}>${t('s1.btn_register')}</button>
+        <span class="hint" id="rvGateHint" style="margin-right:8px"></span>
+        <button class="btn primary" id="next" ${posCount() && reviewGateOpen() ? '' : 'disabled'}>${t('s1.btn_register')}</button>
       </div>
     </div>`;
 
@@ -363,6 +417,13 @@ function renderReview() {
     Game.noteEdit(S.game);   // '꼼꼼한 검토자' 배지 — 직접 수정 행동만 기록
     let v = e.target.value;
     if (f === 'value') v = v === '' ? null : parseFloat(v);
+    // 사용자가 값을 고치면 인쇄 원문 표기는 더 이상 이 값을 설명하지 못한다 — 서버가 옛 표기('<0.15',
+    // '4.5x3')로 되돌리지 않도록 지운다. 값·Class 를 고친 행은 검토한 것으로 보고 표시를 내린다.
+    if (['value', 'class_value'].includes(f)) {
+      const row = S.ocr.results[i];
+      if (f === 'value') { row.value_text = null; row.value_raw = null; if (S.ocr.test_type === 'SPT') { row.size_text = null; row.mean_mm = v; } }
+      if ((row.review_flags || []).length) { row.review_flags = []; row.reviewed = true; tr.classList.remove('row-flag'); refreshReviewGate && refreshReviewGate(); }
+    }
     if (f === 'class_value') v = v === '' ? null : v;
     S.ocr.results[i][f] = v;
     // 수치 수정 → (MAST/UniCAP) Class 자동 계산 + 판정 재계산. Class 직접 수정 → 판정만 재계산.
@@ -392,6 +453,8 @@ function renderReview() {
   }, true);
   $('#tbody').addEventListener('click', e => {
     const del = e.target.closest('[data-del]'); const tog = e.target.closest('[data-toggle]');
+    const ok = e.target.closest('[data-ok]');
+    if (ok) { const r = S.ocr.results[+ok.dataset.ok]; r.review_flags = []; r.reviewed = true; renderReview(); return; }
     if (del) { S.ocr.results.splice(+del.dataset.del, 1); renderReview(); }
     if (tog) { const i = +tog.dataset.toggle; const on = isPositive(S.ocr.results[i], S.ocr.test_type);
       S.ocr.results[i].interpretation = on ? 'Negative' : 'Positive'; renderReview(); }
@@ -401,6 +464,9 @@ function renderReview() {
   view().querySelectorAll('[data-rvtab]').forEach(b => b.addEventListener('click', () => {
     REVIEW_TAB = b.dataset.rvtab; renderReview();
   }));
+  const rvc = $('#rvConfirm');
+  if (rvc) rvc.addEventListener('change', () => { S.ocrConfirmed = rvc.checked; refreshReviewGate(); });
+  refreshReviewGate();
   $('#back').addEventListener('click', () => goto(0));
   $('#next').addEventListener('click', confirmDiscovery);
 }

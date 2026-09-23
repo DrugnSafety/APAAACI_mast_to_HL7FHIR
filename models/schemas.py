@@ -120,6 +120,11 @@ class AllergenResult(BaseModel):
     interpretation: Optional[InterpretationType] = None
     confidence: float = Field(1.0, description="OCR 신뢰도 (0-1)")
     note: Optional[str] = Field(None, description="추가 메모")
+    # OCR 검증(services/ocr_validation.py) — 값을 고치지 않고 의심 표시만 단다. 확인 화면에서 강조된다.
+    printed_no: Optional[str] = Field(None, description="결과지에 인쇄된 행 번호(빠진 행 탐지용)")
+    value_raw: Optional[str] = Field(None, description="수치 칸을 인쇄된 그대로 옮긴 문자열('.48' 등)")
+    value_raw_conflict: bool = Field(False, description="인쇄 문자열과 모델이 준 숫자가 달라 인쇄 문자열을 택함")
+    review_flags: List[str] = Field(default_factory=list, description="검증 규칙이 단 의심 표시 코드")
 
     class Config:
         populate_by_name = True  # 'class' alias 와 'class_value' 필드명 모두 허용

@@ -137,7 +137,47 @@ def score_one(truth: Dict[str, Any], got: Any, idx: Dict[str, str]) -> Dict[str,
     def pct(a, b):
         return round(100.0 * a / b, 1) if b else None
 
+    # 임상적으로 중요한 오류 — 앱의 양성 판정과 같은 기준(class 가 있으면 class≥1, 없으면 수치≥0.35,
+    # SPT 는 평균 팽진≥3mm). 글자 정확도는 높아도 이것이 틀리면 환자에게 틀린 말을 하게 된다.
+    def positive(row_class, row_value, row_vt, size):
+        if truth["test_type"] == "SPT":
+            nums = [float(x) for x in re.findall(r"\d+(?:\.\d+)?", size or "")]
+            return bool(nums) and sum(nums) / len(nums) >= 3
+        c = normalize_class_token(row_class)
+        if c is not None:
+            return c >= 1
+        if isinstance(row_vt, str) and row_vt.strip().startswith("<"):
+            return False
+        return (row_value or 0) >= 0.35
+    t_pos = missed_pos = false_pos = x10 = 0
+    clin_err = clin_flagged = correct = correct_flagged = 0
+    for key, t in t_rows.items():
+        tp = positive(t.get("class_value"), t.get("value"), t.get("value_text"), t.get("size_text"))
+        t_pos += tp
+        g = g_rows.get(key)
+        if g is None:
+            missed_pos += tp
+            continue
+        gp = positive(g.class_value, g.value, g.value_text, g.size_text)
+        missed_pos += tp and not gp
+        false_pos += gp and not tp
+        tv, gv = t.get("value"), g.value
+        is_x10 = bool(tv and gv and tv > 0 and gv > 0 and (0.09 <= gv / tv <= 0.11 or 9 <= gv / tv <= 11))
+        x10 += is_x10
+        # 검증 표시가 임상 오류를 잡았나, 맞는 행에 괜히 달렸나
+        flagged = bool(getattr(g, "review_flags", None))
+        if (tp != gp) or is_x10:
+            clin_err += 1
+            clin_flagged += flagged
+        else:
+            correct += 1
+            correct_flagged += flagged
+
     return {
+        "truth_positive": t_pos, "missed_positive": missed_pos, "false_positive": false_pos,
+        "clin_err": clin_err, "clin_flagged": clin_flagged, "correct": correct,
+        "correct_flagged": correct_flagged,
+        "x10_error": x10,
         "test_type_ok": got.test_type.value == truth["test_type"],
         "test_type_got": got.test_type.value,
         "truth_rows": n_t, "read_rows": n_g, "matched": n_m,
@@ -154,6 +194,10 @@ def main():
     ap.add_argument("--limit", type=int, help="앞에서 N건만")
     ap.add_argument("--layout", help="특정 레이아웃만")
     ap.add_argument("--json", help="결과 JSON 저장 경로")
+    ap.add_argument("--model", help="비전 모델(기본: 설정값). 예: gpt-5.5, gemini-2.5-pro")
+    ap.add_argument("--no-preprocess", action="store_true", help="전처리(조명 평탄화·확대) 끄기")
+    ap.add_argument("--no-double-read", action="store_true", help="두 번째 판독(절반 확대본) 끄기")
+    ap.add_argument("--text-layer", action="store_true", help="전용 OCR(Tesseract) 텍스트 층을 참고로 붙이기")
     args = ap.parse_args()
     logging.disable(logging.INFO)
 
@@ -163,7 +207,8 @@ def main():
         sys.exit(f"픽스처가 없다: {man_path}\n  먼저 python3 scripts/generate_result_sheets.py 실행")
     items = json.loads(man_path.read_text(encoding="utf-8"))["items"]
     if args.layout:
-        items = [i for i in items if i["layout"] == args.layout]
+        wanted = set(args.layout.split(","))
+        items = [i for i in items if i["layout"] in wanted]
     if args.limit:
         items = items[:args.limit]
 
@@ -179,11 +224,15 @@ def main():
         truth = json.loads((fx / it["truth"]).read_text(encoding="utf-8"))
         t0 = time.time()
         try:
-            got = svc.extract_from_image(fx / it["image"])
+            got = svc.extract_from_image(fx / it["image"], model=args.model,
+                                         preprocess=not args.no_preprocess,
+                                         double_read=not args.no_double_read,
+                                         text_layer=args.text_layer)
             sc = score_one(truth, got, idx)
         except Exception as e:  # noqa: BLE001
             sc = {"error": str(e)[:160]}
-        sc.update({"image": it["image"], "layout": it["layout"], "degrade": it["degrade"],
+        sc.update({"model": args.model or settings.openai_vision_model,
+                   "image": it["image"], "layout": it["layout"], "degrade": it["degrade"],
                    "seconds": round(time.time() - t0, 1)})
         out.append(sc)
         rows.append(sc)
@@ -205,6 +254,12 @@ def main():
             v = avg(k)
             if v is not None:
                 print(f"  {label:8s} {v}%")
+        tp = sum(r["truth_positive"] for r in ok)
+        print(f"  양성 누락  {sum(r['missed_positive'] for r in ok)}/{tp}  "
+              f"위양성 {sum(r['false_positive'] for r in ok)}  10배오독 {sum(r['x10_error'] for r in ok)}")
+        ce, cf = sum(r['clin_err'] for r in ok), sum(r['clin_flagged'] for r in ok)
+        co, cof = sum(r['correct'] for r in ok), sum(r['correct_flagged'] for r in ok)
+        print(f"  확인표시   임상오류 {cf}/{ce} 포착 · 맞는 행 {cof}/{co} 괜히 표시")
     if args.json:
         Path(args.json).write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
         print(f"\n저장: {args.json}")

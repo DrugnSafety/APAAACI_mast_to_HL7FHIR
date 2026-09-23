@@ -646,7 +646,9 @@
    "aliases": [
     "Cat",
     "Cat dander",
-    "고양이 표피"
+    "고양이 표피",
+    "고양이",
+    "고양이 비듬"
    ],
    "ocr_aliases": [],
    "category": "animal",
@@ -901,7 +903,10 @@
     "Cockroach",
     "Cockroach protein",
     "바퀴벌레",
-    "Cockroach, Mix"
+    "Cockroach, Mix",
+    "바퀴벌레 혼합",
+    "Cockroach mix",
+    "바퀴벌레믹스"
    ],
    "ocr_aliases": [],
    "category": "insect",
@@ -1218,7 +1223,11 @@
    "aliases": [
     "Dog dander",
     "Dog epithelium",
-    "개 표피"
+    "개 표피",
+    "Dog",
+    "개",
+    "개 비듬",
+    "Dog hair"
    ],
    "ocr_aliases": [],
    "category": "animal",

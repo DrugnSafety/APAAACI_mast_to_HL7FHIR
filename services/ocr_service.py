@@ -31,6 +31,17 @@ _NON_ALLERGEN_ROWS = ("total ige", "총 ige", "total-ige", "totalige")
 logger = logging.getLogger(__name__)
 
 
+def _mime(b64: str) -> str:
+    """base64 앞머리로 이미지 형식을 판별한다(JPEG 를 PNG 로 표기하면 거부하는 API 가 있다)."""
+    if b64.startswith("/9j/"):
+        return "image/jpeg"
+    if b64.startswith("R0lG"):
+        return "image/gif"
+    if b64.startswith("UklG"):
+        return "image/webp"
+    return "image/png"
+
+
 class OCRService:
     """OpenAI GPT Vision API를 사용한 OCR 서비스"""
     
@@ -71,21 +82,30 @@ REQUIRED JSON STRUCTURE:
 {
   "test_type": "SPT" | "MAST" | "UniCAP",
   "patient": {
-    "name": "or null", "age": number or null, "gender": "M" | "F" | null,
+    "name": "or null",
+    "name_label": "the printed label right next to the name you used (e.g. 성명, 수진자명, 환자명, Name, 姓名) or null",
+    "age": number or null, "gender": "M" | "F" | null,
     "test_date": "YYYY-MM-DD or null", "report_date": "YYYY-MM-DD or null",
     "facility": "testing lab / hospital / clinic name or null",
     "ordering_provider": "ordering doctor or referring org or null",
     "patient_id_external": "printed chart/patient number or null"
   },
   "results": [
-    { "index": 1, "allergen_name": "as printed (keep English + any Korean in parentheses)",
+    { "index": 1, "no": "the row number printed on the sheet (e.g. 62) or null if none",
+      "allergen_name": "as printed (keep English + any Korean in parentheses)",
       "class": 0-6, or the printed grade string when it is not a digit
                (e.g. "+++", "阴性", "Class 3"), or null if no grade column exists,
       "value": number or null, "unit": "IU/ml | kU/L | mm",
+      "value_raw": "the value cell copied character-for-character as printed, e.g. \".48\", \"<0.35\", \"12.23\" — null if empty",
       "value_text": "the value EXACTLY as printed when it is not a plain number, else null",
       "size_text": "SPT wheal size exactly as printed, e.g. \"4.5x3\" — else null" }
   ]
 }
+
+PATIENT NAME: take it ONLY from the patient field (성명 / 수진자명 / 환자명 / 이름 / Name / Patient /
+姓名). Never use a name printed next to 검사자, 보고자, 판독의, 의사/의뢰의사, 담당, Examiner,
+Reported by, Physician, 检验者, 审核者 — those are staff, not the patient. If the patient field is
+blank or masked, return null.
 
 PATIENT / FACILITY: read any printed patient demographics (name, age, sex) and the
 testing institution (병원/검사실/laboratory name), ordering doctor, chart/patient number,
@@ -173,112 +193,148 @@ Be exhaustive and accurate. Return the JSON only."""
     def extract_from_image(
         self,
         image_source: Union[str, Path, Image.Image, bytes],
-        custom_prompt: Optional[str] = None
+        custom_prompt: Optional[str] = None,
+        model: Optional[str] = None,
+        preprocess: Optional[bool] = None,
+        double_read: Optional[bool] = None,
+        text_layer: Optional[bool] = None,
     ) -> OCRResult:
+        """이미지에서 알레르기 검사 데이터 추출.
+
+        1) 전처리 — 촬영본이면 조명 평탄화, 작으면 확대 (utils/image_preprocess.py)
+        2) 첫 판독 — 전체 이미지
+        3) 두 번째 판독 — 위·아래 절반 확대본. 첫 판독과 행마다 비교해 다르면 표시하고,
+           첫 판독이 빠뜨린 행은 추가한다 (services/ocr_validation.merge_double_read)
+        4) 검증 규칙 — class↔수치, 인쇄값↔숫자, 빠진 행, 환자명 출처 등 (ocr_validation.validate)
+        값은 고치지 않고 표시만 단다. 표시된 행은 확인 화면에서 사람이 원본과 대조한다.
         """
-        이미지에서 알레르기 검사 데이터 추출
-        
-        Args:
-            image_source: 이미지 소스 (경로, PIL Image, 또는 bytes)
-            custom_prompt: 커스텀 프롬프트 (선택사항)
-            
-        Returns:
-            OCRResult 객체
-        """
+        model = model or self.settings.openai_vision_model
+        preprocess = self.settings.ocr_preprocess if preprocess is None else preprocess
+        double_read = self.settings.ocr_double_read if double_read is None else double_read
+        prompt = custom_prompt or self.ocr_prompt
         try:
-            # 이미지 인코딩
-            base64_image = self._encode_image(image_source)
-            
-            # 프롬프트 설정
-            prompt = custom_prompt or self.ocr_prompt
-            
-            # OpenAI v2 API 호출
-            try:
-                # JSON 모드로 시도 (gpt-4o에서 지원)
-                response = self.client.chat.completions.create(
-                    model=self.settings.openai_vision_model,
-                    messages=[
-                        {
-                            "role": "system",
-                            "content": "You are a medical image OCR specialist. Extract data from allergy test images and return ONLY valid JSON."
-                        },
-                        {
-                            "role": "user",
-                            "content": [
-                                {"type": "text", "text": prompt},
-                                {
-                                    "type": "image_url",
-                                    "image_url": {
-                                        "url": f"data:image/png;base64,{base64_image}",
-                                        "detail": "high"
-                                    }
-                                }
-                            ]
-                        }
-                    ],
-                    max_tokens=16384,
-                    temperature=0.1,  # 낮은 temperature로 일관성 있는 결과 유도
-                    response_format={"type": "json_object"}  # JSON 모드 강제
-                )
-            except Exception as e:
-                # JSON 모드가 실패하면 일반 모드로 재시도
-                logger.warning(f"JSON 모드 실패, 일반 모드로 재시도: {e}")
-                response = self.client.chat.completions.create(
-                    model=self.settings.openai_vision_model,
-                    messages=[
-                        {
-                            "role": "system",
-                            "content": "Extract allergy test data and return ONLY a valid JSON object."
-                        },
-                        {
-                            "role": "user",
-                            "content": [
-                                {"type": "text", "text": prompt + "\n\nReturn ONLY JSON, no markdown or explanation."},
-                                {
-                                    "type": "image_url",
-                                    "image_url": {
-                                        "url": f"data:image/png;base64,{base64_image}",
-                                        "detail": "high"
-                                    }
-                                }
-                            ]
-                        }
-                    ],
-                    max_tokens=16384,
-                    temperature=0.1
-                )
-            
-            # 응답 파싱
-            content = response.choices[0].message.content
-            logger.info(f"OCR API 응답 길이: {len(content)} 문자")
-            
-            # 디버깅: 응답 저장
-            try:
-                from pathlib import Path
-                debug_dir = Path("output/debug")
-                debug_dir.mkdir(exist_ok=True, parents=True)
-                debug_file = debug_dir / f"ocr_response_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-                with open(debug_file, 'w', encoding='utf-8') as f:
-                    f.write(content)
-                logger.debug(f"OCR 응답 저장: {debug_file}")
-            except:
-                pass
-            
-            # JSON 추출
-            ocr_data = self._extract_json(content)
-            
-            # OCRResult 생성
-            ocr_result = self._parse_ocr_result(ocr_data)
-            
-            # 알레르겐 매핑 적용
-            self._apply_allergen_mapping(ocr_result)
-            
+            prep = None
+            if preprocess or double_read:
+                from utils.image_preprocess import prepare
+                prep = prepare(image_source, flatten=None if preprocess else False)
+            full = prep["full"] if (prep and preprocess) else self._encode_image(image_source)
+
+            # 전용 OCR 텍스트 층(선택) — 행 순서 확인용. 숫자는 이미지를 믿으라고 프롬프트에 못 박는다
+            text_layer = self.settings.ocr_text_layer if text_layer is None else text_layer
+            first_prompt = prompt
+            if text_layer:
+                from utils.ocr_text_layer import tesseract_text, TEXT_LAYER_PROMPT
+                layer = tesseract_text(full)
+                if layer:
+                    first_prompt = prompt + TEXT_LAYER_PROMPT.format(text=layer)
+
+            ocr_result, raw = self._read_once(model, first_prompt, [full])
+
+            dr_stats: Optional[Dict[str, Any]] = None
+            if double_read and prep:
+                from utils.image_preprocess import HALVES_PROMPT_ADDENDUM
+                from services.ocr_validation import merge_double_read
+                try:
+                    second, _ = self._read_once(model, prompt + HALVES_PROMPT_ADDENDUM, prep["halves"])
+                    dr_stats = merge_double_read(ocr_result, second)
+                except Exception as e:  # noqa: BLE001 — 두 번째 판독 실패는 첫 판독을 막지 않는다
+                    logger.warning(f"두 번째 판독 실패: {e}")
+                    dr_stats = {"error": str(e)[:200]}
+
+            # 검증 규칙 — 값을 고치지 않고 의심 표시만 단다(확인 화면에서 강조)
+            from services.ocr_validation import validate
+            validate(ocr_result, raw_patient=(raw or {}).get('patient') if isinstance(raw, dict) else None)
+            md = dict(ocr_result.metadata or {})
+            md["model"] = model
+            md["preprocess"] = (prep or {}).get("notes", []) if preprocess else []
+            md["text_layer"] = bool(text_layer and first_prompt != prompt)
+            if dr_stats is not None:
+                md["double_read"] = dr_stats
+            ocr_result.metadata = md
             return ocr_result
-            
+
         except Exception as e:
             logger.error(f"OCR 추출 실패: {e}")
             raise
-    
+
+    def _read_once(self, model: str, prompt: str, images_b64: list):
+        """모델 1회 호출 → 파싱 → 항원 매핑. (OCRResult, 원본 JSON) 을 돌려준다."""
+        content = self._call_vision_model(model, prompt, images_b64)
+        logger.info(f"OCR API 응답 길이: {len(content)} 문자")
+        try:
+            debug_dir = Path("output/debug")
+            debug_dir.mkdir(exist_ok=True, parents=True)
+            stamp = datetime.now().strftime('%Y%m%d_%H%M%S_%f')
+            tag = re.sub(r'[^A-Za-z0-9.-]', '', model) + ("-halves" if len(images_b64) > 1 else "")
+            (debug_dir / f"ocr_response_{stamp}_{tag}.json").write_text(content, encoding="utf-8")
+        except Exception:  # noqa: BLE001
+            pass
+        data = self._extract_json(content)
+        result = self._parse_ocr_result(data)
+        self._apply_allergen_mapping(result)
+        return result, data
+
+    # ------------------------------------------------------------------
+    # 모델 호출 — OpenAI(gpt-4o/4.1, gpt-5 계열) 와 Gemini 를 같은 입력으로 부른다.
+    # 모델을 바꿔 가며 같은 픽스처로 재기 위함(scripts/score_ocr.py --model).
+    # ------------------------------------------------------------------
+    _SYSTEM = ("You are a medical image OCR specialist. Extract data from allergy test images "
+               "and return ONLY valid JSON.")
+
+    @staticmethod
+    def _is_reasoning_model(model: str) -> bool:
+        return (model or "").lower().startswith(("gpt-5", "o1", "o3", "o4"))
+
+    def _call_vision_model(self, model: str, prompt: str, images_b64: list) -> str:
+        if (model or "").lower().startswith("gemini"):
+            return self._call_gemini(model, prompt, images_b64)
+        parts = [{"type": "text", "text": prompt}] + [
+            {"type": "image_url", "image_url": {"url": f"data:{_mime(b)};base64,{b}", "detail": "high"}}
+            for b in images_b64]
+        messages = [{"role": "system", "content": self._SYSTEM}, {"role": "user", "content": parts}]
+        kw: Dict[str, Any] = {"model": model, "messages": messages,
+                              "response_format": {"type": "json_object"}}
+        if self._is_reasoning_model(model):
+            # gpt-5 계열은 temperature 를 받지 않고, 출력 한도를 max_completion_tokens 로 받는다
+            kw["max_completion_tokens"] = 32000
+            kw["reasoning_effort"] = getattr(self.settings, "ocr_reasoning_effort", None) or "low"
+        else:
+            kw["max_tokens"] = 16384
+            kw["temperature"] = 0.1
+        try:
+            resp = self.client.chat.completions.create(**kw)
+        except Exception as e:
+            # JSON 모드를 받지 않는 모델이면 일반 모드로 한 번 더
+            logger.warning(f"JSON 모드 실패({model}), 일반 모드로 재시도: {e}")
+            kw.pop("response_format", None)
+            messages[1]["content"][0]["text"] = prompt + "\n\nReturn ONLY JSON, no markdown or explanation."
+            resp = self.client.chat.completions.create(**kw)
+        return resp.choices[0].message.content or ""
+
+    def _call_gemini(self, model: str, prompt: str, images_b64: list) -> str:
+        import httpx
+        key = os.getenv("GEMINI_API_KEY") or getattr(self.settings, "gemini_api_key", None)
+        if not key:
+            raise RuntimeError("GEMINI_API_KEY 가 없다")
+        body = {
+            "systemInstruction": {"parts": [{"text": self._SYSTEM}]},
+            "contents": [{"role": "user", "parts": [{"text": prompt}] + [
+                {"inlineData": {"mimeType": _mime(b), "data": b}} for b in images_b64]}],
+            "generationConfig": {"temperature": 0.1, "responseMimeType": "application/json",
+                                 "maxOutputTokens": 32000},
+        }
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+        for attempt in range(4):
+            r = httpx.post(url, params={"key": key}, json=body, timeout=180)
+            if r.status_code == 429 and attempt < 3:
+                import time
+                time.sleep(20 * (attempt + 1))      # 분당 요청 한도 — 잠시 쉬고 다시
+                continue
+            r.raise_for_status()
+            break
+        cands = r.json().get("candidates") or []
+        return "".join(p.get("text", "") for p in (cands[0].get("content", {}).get("parts", []) if cands else []))
+
     def _extract_json(self, content: str) -> Dict[str, Any]:
         """
         응답 내용에서 JSON 추출
@@ -576,6 +632,20 @@ Be exhaustive and accurate. Return the JSON only."""
                     value_text = str(explicit).strip() if explicit not in (None, "") else None
                     if value_text is None and value is None and raw_value not in (None, ""):
                         value_text = str(raw_value).strip()
+                    # 인쇄된 그대로의 문자열(value_raw)을 모델의 숫자보다 믿는다.
+                    # 영어 결과지 '.48' 을 모델이 4.8 로 옮긴 적이 있다(10배 — 음성이 양성이 됨).
+                    value_raw = item.get('value_raw')
+                    value_raw = str(value_raw).strip() if value_raw not in (None, "") else None
+                    raw_conflict = False
+                    if value_raw and test_type != TestType.SPT:
+                        from services.ocr_validation import parse_printed_number
+                        printed = parse_printed_number(value_raw)
+                        if printed is not None:
+                            if value is None or abs(printed - value) > 1e-9:
+                                raw_conflict = value is not None
+                                value = printed
+                        elif value_raw.startswith("<") and not value_text:
+                            value_text, value = value_raw, None
                     # '<0.15' 처럼 비교연산자가 붙은 표기는 수치로 승격하지 않는다
                     if value_text and value_text.lstrip().startswith("<"):
                         value = None
@@ -607,7 +677,10 @@ Be exhaustive and accurate. Return the JSON only."""
                         value_text=value_text,
                         unit=item.get('unit') or ('mm' if test_type == TestType.SPT else 'kU/L'),
                         class_value=class_value,
-                        interpretation=interpretation
+                        interpretation=interpretation,
+                        printed_no=(str(item.get('no')).strip() if item.get('no') not in (None, "") else None),
+                        value_raw=value_raw,
+                        value_raw_conflict=raw_conflict,
                     )
                     results.append(result)
                 except Exception as e:

@@ -23,7 +23,15 @@ class Settings(BaseSettings):
     # OpenAI API 설정
     openai_api_key: str = Field(default="", alias="OPENAI_API_KEY")
     openai_model: str = Field(default="gpt-4o", alias="OPENAI_MODEL")
-    openai_vision_model: str = Field(default="gpt-4o", alias="OPENAI_VISION_MODEL")
+    # OCR 모델: 합성 결과지 21장 비교(2026-09-22)에서 gpt-5.5 가 양성 누락 2/200(gpt-4o 56/200),
+    # 위양성 0, 10배 오독 0 — 촬영본 수치 99%(gpt-4o 55%). 환경변수로 바꿀 수 있다.
+    openai_vision_model: str = Field(default="gpt-5.5", alias="OPENAI_VISION_MODEL")
+    # OCR 고도화(2026-09-22): 전처리(조명 평탄화·확대)와 두 번 읽기(전체 + 위·아래 절반 확대본)
+    ocr_preprocess: bool = Field(default=True, alias="OCR_PREPROCESS")
+    ocr_double_read: bool = Field(default=True, alias="OCR_DOUBLE_READ")
+    ocr_reasoning_effort: str = Field(default="low", alias="OCR_REASONING_EFFORT")
+    # 전용 OCR 텍스트 층(현재 Tesseract) — 행 순서 확인용 참고. 측정 결과에 따라 기본 끔
+    ocr_text_layer: bool = Field(default=False, alias="OCR_TEXT_LAYER")
     # 리포트 생성용 고급 모델 - 자세한 분석과 추론을 위한 설정
     openai_report_model: str = Field(default="gpt-4o", alias="OPENAI_REPORT_MODEL")  # 리포트 생성용
     # 결과 상담 챗봇용. 2026-09 후보 7종 벤치마크(docs/llm_model_and_cost.md)에서 응급 인지·용량 미언급·

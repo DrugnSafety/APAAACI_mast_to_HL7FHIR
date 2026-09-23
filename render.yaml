@@ -12,7 +12,7 @@ services:
       - key: OPENAI_API_KEY
         sync: false        # 대시보드에서 직접 입력(시크릿)
       - key: OPENAI_VISION_MODEL
-        value: gpt-4o
+        value: gpt-5.5
       - key: OPENAI_REPORT_MODEL
         value: gpt-4o
       - key: APP_ENV

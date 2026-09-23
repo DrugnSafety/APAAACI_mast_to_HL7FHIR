@@ -1527,6 +1527,72 @@ def test_ontology_disease_knowledge_in_report_and_cardnews():
     print("✓ 온톨로지 질환 일반 정보 → 리포트·카드뉴스(고른 질환만·검토 전 표기·약 이름 없음)")
 
 
+def test_ocr_validation_rules_and_double_read_merge():
+    """OCR 검증 규칙 — 값을 고치지 않고 의심 표시만 단다(확인 화면에서 강조).
+    2026-09-14 평가의 실제 오류를 고정한다: '.48'→4.8, 'Class 0/1' 막대→class 1, 행 밀림, 검사자 이름."""
+    from services.ocr_validation import parse_printed_number, validate, merge_double_read, class_from_value
+    from services.ocr_service import OCRService
+    from config.settings import settings
+    assert parse_printed_number(".48") == 0.48 and parse_printed_number("0,48") == 0.48
+    assert parse_printed_number("<0.35") is None and parse_printed_number("12.23") == 12.23
+    assert [class_from_value(v) for v in (0.1, 0.35, 0.7, 3.5, 17.5, 50, 100)] == [0, 1, 2, 3, 4, 5, 6]
+
+    svc = OCRService.__new__(OCRService)      # 모델 호출 없이 파서만 쓴다
+    svc.settings = settings
+    raw = {"test_type": "MAST",
+           "patient": {"name": "최재원", "name_label": "검사자", "test_date": "2026-01-20"},
+           "results": [
+               # 영어 결과지: 인쇄 '.48' 을 모델이 4.8 로 옮김 → 인쇄 문자열을 택하고 표시
+               {"no": "1", "allergen_name": "Dog dander (e5)", "value": 4.8, "value_raw": ".48", "class": None},
+               # 막대 'Class 0/1' 을 class 1 로 읽음 → 수치(0.26)와 안 맞음
+               {"no": "2", "allergen_name": "Alternaria alternata (m6)", "value": 0.26, "value_raw": ".26", "class": 1},
+               {"no": "4", "allergen_name": "Birch (t3)", "value": 3.0, "value_raw": "3.0", "class": 2},
+               {"no": "5", "allergen_name": "Timothy (g6)", "value": None, "value_raw": "<.01", "class": 0},
+               {"no": "6", "allergen_name": "Oak (t7)", "value": 0.68, "value_raw": "0.68", "class": 1},
+           ]}
+    ocr = svc._parse_ocr_result(raw)
+    rows = {r.allergen_name.split(" (")[0]: r for r in ocr.results}
+    validate(ocr, raw_patient=raw["patient"])
+    assert rows["Dog dander"].value == 0.48, rows["Dog dander"].value
+    assert "value_raw_mismatch" in rows["Dog dander"].review_flags, rows["Dog dander"].review_flags
+    assert "class_value_mismatch" in rows["Alternaria alternata"].review_flags
+    assert not rows["Birch"].review_flags                                # 3.0 은 class 2 경계 안 — 맞는 행
+    assert rows["Timothy"].value is None and rows["Timothy"].value_text == "<.01"
+    assert not rows["Oak"].review_flags                                  # 맞는 행에는 표시가 없어야 한다
+    rv = ocr.metadata["review"]
+    assert "patient_name_from_staff" in rv["doc_flags"] and rv["missing_row_numbers"] == [3]
+    assert rv["needs_review"]
+
+    # 두 번 읽기: 값이 다르면 표시 + 다른 판독값 메모, 두 번째에만 있는 행은 추가
+    second = svc._parse_ocr_result({"test_type": "MAST", "patient": {}, "results": [
+        {"allergen_name": "Oak (t7)", "value": 6.8, "class": 3},
+        {"allergen_name": "Elm (t8)", "value": 3.46, "class": 2},
+    ]})
+    first = svc._parse_ocr_result({"test_type": "MAST", "patient": {}, "results": [
+        {"allergen_name": "Oak (t7)", "value": 0.68, "class": 1},
+    ]})
+    st = merge_double_read(first, second)
+    oak = [r for r in first.results if r.allergen_name.startswith("Oak")][0]
+    elm = [r for r in first.results if r.allergen_name.startswith("Elm")][0]
+    assert "double_read_mismatch" in oak.review_flags and "6.8" in (oak.note or "")
+    assert "second_read_only" in elm.review_flags and st["added"] == 1
+    print("✓ OCR 검증 규칙(인쇄값 우선·class↔수치·빠진 행·검사자 이름) + 두 번 읽기 비교")
+
+
+def test_mapper_splits_unbracketed_english_korean_names():
+    """OCR 이 괄호를 빠뜨리거나 한글명을 지어내 붙인 'Fusarium 붉은점박이곰팡이' 도 영문으로 매핑한다.
+    (인쇄보고서 한 장이 34/69 행만 매핑되던 원인)"""
+    from utils.allergen_mapper import get_allergen_mapper
+    m = get_allergen_mapper()
+    for printed, want in [("Fusarium 붉은점박이곰팡이", "Fusarium"),
+                          ("T. putrescentiae 건분진드기", "Tyrophagus putrescentiae"),
+                          ("M. racemosus 쿠르바리아", "Mucor racemosus"),
+                          ("Dog(개)", "Dog dander"), ("바퀴벌레 혼합", "Cockroach, Mix")]:
+        got = m.find_allergen(printed)
+        assert got and got.canonical_name == want, (printed, got and got.canonical_name)
+    print("✓ 괄호 없는 '영문 한글' 항원명 매핑 + 별칭(개·바퀴벌레 혼합)")
+
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0
