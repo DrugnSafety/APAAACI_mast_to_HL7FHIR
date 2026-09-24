@@ -136,7 +136,9 @@ class TranslationService:
                 misses.append(i)
         if not misses:
             return out
-        if not self.client:
+        from services import llm_backend
+        use_ollama = llm_backend.active() == "ollama" and llm_backend.is_available("ollama")
+        if not self.client and not use_ollama:
             return out          # 키 없음 → 원문 유지
 
         for chunk in self._chunks(misses, texts):
@@ -197,20 +199,21 @@ class TranslationService:
 
     def _call(self, src: List[str], lang: str) -> Optional[List[str]]:
         try:
-            resp = self.client.chat.completions.create(
-                model=getattr(settings, "openai_chat_model", None) or "gpt-4o-mini",
-                messages=[
-                    {"role": "system", "content": _SYSTEM},
-                    {"role": "user",
-                     "content": f"Target language: {LANG_NAME[lang]}\n"
-                                f"Translate these {len(src)} strings. Return exactly {len(src)} "
-                                f"translations in the same order.\n"
-                                f"{json.dumps(src, ensure_ascii=False)}"},
-                ],
-                temperature=0,
-                response_format={"type": "json_object"},
-                max_tokens=4000,
-            )
+            # 백엔드(OpenAI/연구실 Ollama)와 모델 계열에 맞는 파라미터로 부른다.
+            # 예전에는 temperature·max_tokens 를 그대로 넘겨서, chat 모델이 gpt-5 계열로 바뀐 뒤
+            # 캐시에 없는 문장의 번역 호출이 오류로 끝나고 한국어가 그대로 남았다.
+            from services import llm_backend
+            backend = llm_backend.active()
+            if backend != "ollama" and self.client is not None:
+                llm_backend._clients.setdefault("openai", self.client)
+            resp = llm_backend.complete_chat(
+                [{"role": "system", "content": _SYSTEM},
+                 {"role": "user",
+                  "content": f"Target language: {LANG_NAME[lang]}\n"
+                             f"Translate these {len(src)} strings. Return exactly {len(src)} "
+                             f"translations in the same order.\n"
+                             f"{json.dumps(src, ensure_ascii=False)}"}],
+                max_tokens=4000, temperature=0, json_mode=True, reasoning_effort="low")
             raw = (resp.choices[0].message.content or "").strip()
             data = json.loads(raw)
             if isinstance(data, list):

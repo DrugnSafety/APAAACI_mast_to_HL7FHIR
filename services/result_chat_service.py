@@ -753,6 +753,14 @@ class ResultChatService:
         max_completion_tokens 를 쓴다. 이 한도에는 보이지 않는 추론 토큰도 포함되므로
         gpt-4o-mini 의 600 을 그대로 쓰면 답이 비어서 돌아온다 — 넉넉히 준다.
         """
+        from services import llm_backend
+        backend = llm_backend.active()
+        if backend == "ollama":
+            # 연구실 Ollama — 모델은 OLLAMA_CHAT_MODEL(텍스트 전용 모델)
+            from config.settings import settings as _s
+            return llm_backend.complete_chat(convo, backend=backend, model=model, max_tokens=700,
+                                             temperature=0.3,
+                                             reasoning_effort=reasoning_effort or _s.ollama_chat_reasoning)
         model = model or getattr(settings, "openai_chat_model", None) or "gpt-5.6-luna"
         if not self._is_reasoning_model(model):
             return self.client.chat.completions.create(
@@ -790,7 +798,10 @@ class ResultChatService:
             return {"reply": {"ko": "궁금한 점을 입력해 주세요.", "en": "Please type your question.",
                               "zh": "请输入您的问题。"}[lang], "source": "empty",
                     "disclaimer": DISCLAIMER[lang]}
-        if not self.client:
+        from services import llm_backend
+        # OpenAI 는 이 인스턴스의 키(client)로, 연구실 Ollama 는 서버 설정으로 판단한다
+        use_ollama = llm_backend.active() == "ollama" and llm_backend.is_available("ollama")
+        if not self.client and not use_ollama:
             return {"reply": NO_KEY_TEXT[lang], "source": "no_api_key", "disclaimer": DISCLAIMER[lang]}
 
         context = self.build_context(relevance_result, patient_info, screening, answers)

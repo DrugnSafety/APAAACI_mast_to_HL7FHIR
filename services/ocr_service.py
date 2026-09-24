@@ -198,6 +198,7 @@ Be exhaustive and accurate. Return the JSON only."""
         preprocess: Optional[bool] = None,
         double_read: Optional[bool] = None,
         text_layer: Optional[bool] = None,
+        backend: Optional[str] = None,
     ) -> OCRResult:
         """이미지에서 알레르기 검사 데이터 추출.
 
@@ -208,7 +209,9 @@ Be exhaustive and accurate. Return the JSON only."""
         4) 검증 규칙 — class↔수치, 인쇄값↔숫자, 빠진 행, 환자명 출처 등 (ocr_validation.validate)
         값은 고치지 않고 표시만 단다. 표시된 행은 확인 화면에서 사람이 원본과 대조한다.
         """
-        model = model or self.settings.openai_vision_model
+        from services import llm_backend
+        backend = llm_backend.normalize(backend) or llm_backend.active()
+        model = model or llm_backend.vision_model(backend)
         preprocess = self.settings.ocr_preprocess if preprocess is None else preprocess
         double_read = self.settings.ocr_double_read if double_read is None else double_read
         prompt = custom_prompt or self.ocr_prompt
@@ -228,14 +231,14 @@ Be exhaustive and accurate. Return the JSON only."""
                 if layer:
                     first_prompt = prompt + TEXT_LAYER_PROMPT.format(text=layer)
 
-            ocr_result, raw = self._read_once(model, first_prompt, [full])
+            ocr_result, raw = self._read_once(model, first_prompt, [full], backend)
 
             dr_stats: Optional[Dict[str, Any]] = None
             if double_read and prep:
                 from utils.image_preprocess import HALVES_PROMPT_ADDENDUM
                 from services.ocr_validation import merge_double_read
                 try:
-                    second, _ = self._read_once(model, prompt + HALVES_PROMPT_ADDENDUM, prep["halves"])
+                    second, _ = self._read_once(model, prompt + HALVES_PROMPT_ADDENDUM, prep["halves"], backend)
                     dr_stats = merge_double_read(ocr_result, second)
                 except Exception as e:  # noqa: BLE001 — 두 번째 판독 실패는 첫 판독을 막지 않는다
                     logger.warning(f"두 번째 판독 실패: {e}")
@@ -246,6 +249,7 @@ Be exhaustive and accurate. Return the JSON only."""
             validate(ocr_result, raw_patient=(raw or {}).get('patient') if isinstance(raw, dict) else None)
             md = dict(ocr_result.metadata or {})
             md["model"] = model
+            md["backend"] = backend
             md["preprocess"] = (prep or {}).get("notes", []) if preprocess else []
             md["text_layer"] = bool(text_layer and first_prompt != prompt)
             if dr_stats is not None:
@@ -257,15 +261,15 @@ Be exhaustive and accurate. Return the JSON only."""
             logger.error(f"OCR 추출 실패: {e}")
             raise
 
-    def _read_once(self, model: str, prompt: str, images_b64: list):
+    def _read_once(self, model: str, prompt: str, images_b64: list, backend: Optional[str] = None):
         """모델 1회 호출 → 파싱 → 항원 매핑. (OCRResult, 원본 JSON) 을 돌려준다."""
-        content = self._call_vision_model(model, prompt, images_b64)
+        content = self._call_vision_model(model, prompt, images_b64, backend)
         logger.info(f"OCR API 응답 길이: {len(content)} 문자")
         try:
             debug_dir = Path("output/debug")
             debug_dir.mkdir(exist_ok=True, parents=True)
             stamp = datetime.now().strftime('%Y%m%d_%H%M%S_%f')
-            tag = re.sub(r'[^A-Za-z0-9.-]', '', model) + ("-halves" if len(images_b64) > 1 else "")
+            tag = re.sub(r'[^A-Za-z0-9.-]', '', model.replace(':', '-')) + ("-halves" if len(images_b64) > 1 else "")
             (debug_dir / f"ocr_response_{stamp}_{tag}.json").write_text(content, encoding="utf-8")
         except Exception:  # noqa: BLE001
             pass
@@ -285,16 +289,26 @@ Be exhaustive and accurate. Return the JSON only."""
     def _is_reasoning_model(model: str) -> bool:
         return (model or "").lower().startswith(("gpt-5", "o1", "o3", "o4"))
 
-    def _call_vision_model(self, model: str, prompt: str, images_b64: list) -> str:
+    def _call_vision_model(self, model: str, prompt: str, images_b64: list,
+                           backend: Optional[str] = None) -> str:
         if (model or "").lower().startswith("gemini"):
             return self._call_gemini(model, prompt, images_b64)
+        from services import llm_backend
+        backend = llm_backend.normalize(backend) or llm_backend.active()
+        client = llm_backend.client(backend) or self.client
         parts = [{"type": "text", "text": prompt}] + [
             {"type": "image_url", "image_url": {"url": f"data:{_mime(b)};base64,{b}", "detail": "high"}}
             for b in images_b64]
         messages = [{"role": "system", "content": self._SYSTEM}, {"role": "user", "content": parts}]
         kw: Dict[str, Any] = {"model": model, "messages": messages,
                               "response_format": {"type": "json_object"}}
-        if self._is_reasoning_model(model):
+        if backend == "ollama":
+            # 연구실 Ollama(OpenAI 호환). 생각(thinking) 모델은 추론 토큰이 한도를 먹으므로 넉넉히 준다
+            kw["max_tokens"] = 32000
+            kw["temperature"] = 0.1
+            if self.settings.ollama_ocr_reasoning:
+                kw["reasoning_effort"] = self.settings.ollama_ocr_reasoning
+        elif self._is_reasoning_model(model):
             # gpt-5 계열은 temperature 를 받지 않고, 출력 한도를 max_completion_tokens 로 받는다
             kw["max_completion_tokens"] = 32000
             kw["reasoning_effort"] = getattr(self.settings, "ocr_reasoning_effort", None) or "low"
@@ -302,13 +316,15 @@ Be exhaustive and accurate. Return the JSON only."""
             kw["max_tokens"] = 16384
             kw["temperature"] = 0.1
         try:
-            resp = self.client.chat.completions.create(**kw)
+            resp = client.chat.completions.create(**kw)
         except Exception as e:
             # JSON 모드를 받지 않는 모델이면 일반 모드로 한 번 더
             logger.warning(f"JSON 모드 실패({model}), 일반 모드로 재시도: {e}")
+            if any(w in str(e).lower() for w in ("think", "reason")):
+                kw.pop("reasoning_effort", None)      # 생각 모드가 없는 모델(qwen2.5vl·llama4 등)
             kw.pop("response_format", None)
             messages[1]["content"][0]["text"] = prompt + "\n\nReturn ONLY JSON, no markdown or explanation."
-            resp = self.client.chat.completions.create(**kw)
+            resp = client.chat.completions.create(**kw)
         return resp.choices[0].message.content or ""
 
     def _call_gemini(self, model: str, prompt: str, images_b64: list) -> str:

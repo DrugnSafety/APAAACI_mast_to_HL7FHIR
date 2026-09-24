@@ -28,6 +28,17 @@ class Settings(BaseSettings):
     # 장당 13.7초로 가장 빠름). 환경변수 OPENAI_VISION_MODEL 로 바꿀 수 있다.
     openai_vision_model: str = Field(default="gpt-5.6-luna", alias="OPENAI_VISION_MODEL")
     # OCR 고도화(2026-09-22): 전처리(조명 평탄화·확대)와 두 번 읽기(전체 + 위·아래 절반 확대본)
+    # LLM 백엔드: openai(클라우드) 또는 ollama(연구실 DGX Spark). 화면에서 요청마다 바꿀 수도 있다.
+    llm_backend: str = Field(default="openai", alias="LLM_BACKEND")
+    ollama_base_url: str = Field(default="", alias="OLLAMA_BASE_URL")
+    ollama_api_key: str = Field(default="", alias="OLLAMA_API_KEY")
+    ollama_vision_model: str = Field(default="qwen3.8:27b", alias="OLLAMA_VISION_MODEL")
+    ollama_chat_model: str = Field(default="gpt-oss:120b", alias="OLLAMA_CHAT_MODEL")
+    ollama_timeout: int = Field(default=600, alias="OLLAMA_TIMEOUT")
+    # 생각(thinking) 모델의 추론 단계. OCR 은 끈다 — qwen3.8:27b 로 69행 보고서가 19분 → 수십 초.
+    # (Ollama OpenAI 호환 API 에서는 reasoning_effort="none" 만 먹는다. extra_body think=false 는 무시됨)
+    ollama_ocr_reasoning: str = Field(default="none", alias="OLLAMA_OCR_REASONING")
+    ollama_chat_reasoning: str = Field(default="low", alias="OLLAMA_CHAT_REASONING")
     ocr_preprocess: bool = Field(default=True, alias="OCR_PREPROCESS")
     ocr_double_read: bool = Field(default=True, alias="OCR_DOUBLE_READ")
     ocr_reasoning_effort: str = Field(default="low", alias="OCR_REASONING_EFFORT")

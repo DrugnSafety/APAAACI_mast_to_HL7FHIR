@@ -18,17 +18,17 @@ function fmtErr(detail, fallback) {
 }
 
 const API = {
-  async health() { return (await fetch('/api/health')).json(); },
+  async health() { return (await fetch('/api/health', { headers: llmHeaders() })).json(); },
   async demo() { return (await fetch('/api/ocr/demo')).json(); },
   async allergen(name) { return (await fetch('/api/allergen?name=' + encodeURIComponent(name))).json(); },
   async ocr(file) {
     const fd = new FormData(); fd.append('file', file);
-    const r = await fetch('/api/ocr', { method: 'POST', body: fd });
+    const r = await fetch('/api/ocr', { method: 'POST', body: fd, headers: llmHeaders() });
     if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(fmtErr(e.detail, 'OCR 실패')); }
     return r.json();
   },
   async post(path, body) {
-    const r = await fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const r = await fetch(path, { method: 'POST', headers: llmHeaders({ 'Content-Type': 'application/json' }), body: JSON.stringify(body) });
     if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(fmtErr(e.detail, path + ' 실패')); }
     return r.json();
   },
@@ -96,6 +96,32 @@ function defaultUnit(testType) { return testType === 'SPT' ? 'mm' : 'kU/L'; }
 function rowIsZero(r) {
   const v = parseFloat(r.value);
   return isNaN(v) || v === 0;
+}
+
+/* ---------------- AI 엔진 선택 (OpenAI / 연구실 Ollama) ----------------
+   선택은 브라우저에 기억하고, 모든 API 호출에 X-LLM-Backend 헤더로 보낸다.
+   서버는 이 헤더로 OCR(비전 모델)·상담·번역(텍스트 모델)의 백엔드를 고른다. */
+function getEngine() { try { return localStorage.getItem('llmBackend') || ''; } catch (_) { return ''; } }
+function llmHeaders(extra) { const b = getEngine(); return Object.assign({}, extra || {}, b ? { 'X-LLM-Backend': b } : {}); }
+function initEngine() {
+  const sel = document.getElementById('engineSel');
+  const llm = S.options && S.options.llm;
+  if (!sel || !llm) { if (sel) sel.classList.add('hidden'); return; }
+  const cur = getEngine() || llm.default;
+  sel.innerHTML = Object.entries(llm.backends).map(([k, b]) =>
+    `<option value="${k}" ${k === cur ? 'selected' : ''} ${b.available ? '' : 'disabled'}>` +
+    `${esc(k === 'ollama' ? t('eng.ollama') : 'OpenAI')} · ${esc(b.vision_model)}${b.encrypted ? '' : ' ⚠️'}</option>`).join('');
+  const b = llm.backends[cur];
+  sel.title = b ? `${t('eng.label')}: OCR ${b.vision_model} / ${t('eng.chat')} ${b.chat_model}` + (b.encrypted ? '' : `\n${t('eng.insecure')}`) : '';
+  if (!sel._bound) {
+    sel._bound = true;
+    sel.addEventListener('change', () => {
+      try { localStorage.setItem('llmBackend', sel.value); } catch (_) {}
+      const nb = llm.backends[sel.value];
+      toast(t('eng.switched', { name: sel.value === 'ollama' ? t('eng.ollama') : 'OpenAI' }) + (nb && !nb.encrypted ? ' — ' + t('eng.insecure') : ''));
+      initEngine();
+    });
+  }
 }
 
 /* ---------------- navigation ---------------- */
@@ -1024,5 +1050,6 @@ function initLang() {
   initTheme(); initLang();
   try { S.options = await API.health(); } catch (_) { S.options = { has_api_key: false, screening_options: { diseases: [], medications: [], organ_systems: [] } }; }
   await loadPollenRegions();
+  initEngine();
   render();
 })();

@@ -38,6 +38,28 @@ logger = logging.getLogger(__name__)
 app = FastAPI(title="알레르기 검사 환자 리포트 플랫폼", version="2.0")
 
 
+class LLMBackendMiddleware:
+    """요청 헤더 X-LLM-Backend(openai|ollama)로 이번 요청의 LLM 백엔드를 정한다.
+    화면의 'AI 엔진' 선택이 OCR·상담·번역(리포트 안의 번역 포함)까지 한 번에 따라가게 한다."""
+
+    def __init__(self, app_):
+        self.app = app_
+
+    async def __call__(self, scope, receive, send):
+        if scope.get("type") != "http":
+            return await self.app(scope, receive, send)
+        from services import llm_backend
+        raw = dict(scope.get("headers") or []).get(b"x-llm-backend", b"").decode("latin-1")
+        token = llm_backend._current.set(llm_backend.normalize(raw))
+        try:
+            return await self.app(scope, receive, send)
+        finally:
+            llm_backend._current.reset(token)
+
+
+app.add_middleware(LLMBackendMiddleware)
+
+
 # ============================================================
 # 요청 모델
 # ============================================================
@@ -84,8 +106,9 @@ def _localize(payload, lang: Optional[str], keys):
         logger.warning(f"응답 번역 실패({lang}): {e}")
         return payload
 def _api_key_ok() -> bool:
-    key = getattr(settings, "openai_api_key", None)
-    return bool(key and key != "your_openai_api_key_here")
+    """이번 요청이 고른 LLM 백엔드(없으면 서버 기본값)를 쓸 수 있는가."""
+    from services import llm_backend
+    return llm_backend.is_available(llm_backend.active())
 
 
 def _assessment_public(a) -> Dict[str, Any]:
@@ -159,6 +182,7 @@ def health(lang: str = "ko"):
     return {
         "ok": True,
         "has_api_key": _api_key_ok(),
+        "llm": __import__("services.llm_backend", fromlist=["x"]).describe(),   # 'AI 엔진' 선택지
         "build": _build_info(),
         "lang": normalize_lang(lang),
         "kb": ks.stats(),
@@ -202,7 +226,9 @@ async def ocr(file: UploadFile = File(...)):
         content = await file.read()
         # 두 번 읽기로 한 장에 1분 가까이 걸린다 — 이벤트 루프를 막지 않도록 스레드에서 돌린다
         from starlette.concurrency import run_in_threadpool
-        result = await run_in_threadpool(get_ocr_service().extract_from_image, content)
+        from services import llm_backend
+        backend = llm_backend.active()      # 스레드로 넘어가기 전에 이번 요청의 백엔드를 확정한다
+        result = await run_in_threadpool(get_ocr_service().extract_from_image, content, backend=backend)
         return JSONResponse(result.model_dump(by_alias=False))
     except HTTPException:
         raise
@@ -343,7 +369,7 @@ def chat(req: ChatRequest):
     lang = (req.lang or "ko").lower()
     out = svc.answer(result, patient_info, req.messages, req.screening, req.answers, lang)
     out["suggestions"] = svc.suggestions(result, lang)
-    out["has_api_key"] = bool(svc.client)
+    out["has_api_key"] = _api_key_ok()
     return out
 
 

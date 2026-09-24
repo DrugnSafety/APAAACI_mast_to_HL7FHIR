@@ -194,7 +194,8 @@ def main():
     ap.add_argument("--limit", type=int, help="앞에서 N건만")
     ap.add_argument("--layout", help="특정 레이아웃만")
     ap.add_argument("--json", help="결과 JSON 저장 경로")
-    ap.add_argument("--model", help="비전 모델(기본: 설정값). 예: gpt-5.5, gemini-2.5-pro")
+    ap.add_argument("--model", help="비전 모델(기본: 백엔드 설정값). 예: gpt-5.5, qwen3.8:27b")
+    ap.add_argument("--backend", choices=["openai", "ollama"], help="LLM 백엔드(기본: LLM_BACKEND)")
     ap.add_argument("--no-preprocess", action="store_true", help="전처리(조명 평탄화·확대) 끄기")
     ap.add_argument("--no-double-read", action="store_true", help="두 번째 판독(절반 확대본) 끄기")
     ap.add_argument("--text-layer", action="store_true", help="전용 OCR(Tesseract) 텍스트 층을 참고로 붙이기")
@@ -213,8 +214,9 @@ def main():
         items = items[:args.limit]
 
     from config.settings import settings
-    if not (settings.openai_api_key or "").strip():
-        sys.exit("OPENAI_API_KEY 가 없다. OCR 은 LLM 이 필요하므로 측정할 수 없다.")
+    from services import llm_backend as _lb0
+    if not _lb0.is_available(args.backend or _lb0.active()):
+        sys.exit("선택한 LLM 백엔드의 키/주소가 없다. OCR 은 LLM 이 필요하므로 측정할 수 없다.")
     from services.ocr_service import get_ocr_service
     svc = get_ocr_service()
     idx = build_alias_index()
@@ -227,11 +229,13 @@ def main():
             got = svc.extract_from_image(fx / it["image"], model=args.model,
                                          preprocess=not args.no_preprocess,
                                          double_read=not args.no_double_read,
-                                         text_layer=args.text_layer)
+                                         text_layer=args.text_layer,
+                                         backend=args.backend)
             sc = score_one(truth, got, idx)
         except Exception as e:  # noqa: BLE001
             sc = {"error": str(e)[:160]}
-        sc.update({"model": args.model or settings.openai_vision_model,
+        from services import llm_backend as _lb
+        sc.update({"model": args.model or _lb.vision_model(args.backend), "backend": args.backend or _lb.active(),
                    "image": it["image"], "layout": it["layout"], "degrade": it["degrade"],
                    "seconds": round(time.time() - t0, 1)})
         out.append(sc)

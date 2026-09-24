@@ -1593,6 +1593,54 @@ def test_mapper_splits_unbracketed_english_korean_names():
     print("✓ 괄호 없는 '영문 한글' 항원명 매핑 + 별칭(개·바퀴벌레 혼합)")
 
 
+def test_llm_backend_selection_and_no_secret_leak():
+    """AI 엔진 선택 — OpenAI / 연구실 Ollama. 요청 헤더로 고르고, 화면에는 키·주소를 내보내지 않는다."""
+    from services import llm_backend as L
+    from config.settings import settings
+    assert L.normalize("OLLAMA") == "ollama" and L.normalize("local") == "ollama"
+    assert L.normalize("gpt") is None and L.normalize("") is None
+    with L.use("ollama"):
+        if L.is_available("ollama"):
+            assert L.active() == "ollama" and L.vision_model() == settings.ollama_vision_model
+            assert L.chat_model() == settings.ollama_chat_model
+    d = L.describe()
+    blob = str(d)
+    assert set(d["backends"]) == {"openai", "ollama"}
+    for secret in (settings.ollama_api_key, settings.openai_api_key, settings.ollama_base_url):
+        if secret:
+            assert secret not in blob, "키·주소가 화면용 응답에 섞였다"
+    # http 연결은 암호화되지 않았다고 표시해야 한다
+    if (settings.ollama_base_url or "").startswith("http://"):
+        assert d["backends"]["ollama"]["encrypted"] is False
+
+    # 번역 호출이 gpt-5 계열에 temperature 를 넘기지 않는다(예전엔 오류로 한국어가 남았다)
+    calls = []
+
+    class FakeCompletions:
+        def create(self, **kw):
+            calls.append(kw)
+            class R:  # noqa: D401
+                choices = [type("C", (), {"message": type("M", (), {"content": "{}"})()})()]
+            return R()
+
+    class FakeClient:
+        chat = type("Chat", (), {"completions": FakeCompletions()})()
+
+    orig = L.client
+    L.client = lambda backend=None: FakeClient()
+    try:
+        with L.use("openai"):
+            L.complete_chat([{"role": "user", "content": "x"}], model="gpt-5.6-luna", temperature=0,
+                            json_mode=True, max_tokens=4000)
+            L.complete_chat([{"role": "user", "content": "x"}], model="gpt-4o-mini", temperature=0)
+    finally:
+        L.client = orig
+    assert "temperature" not in calls[0] and "max_completion_tokens" in calls[0]
+    assert calls[0]["response_format"] == {"type": "json_object"}
+    assert calls[1]["temperature"] == 0 and "max_tokens" in calls[1]
+    print("✓ AI 엔진 선택(OpenAI/Ollama)·키 비노출·gpt-5 계열 파라미터")
+
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0
