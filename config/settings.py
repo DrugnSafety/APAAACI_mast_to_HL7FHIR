@@ -23,9 +23,10 @@ class Settings(BaseSettings):
     # OpenAI API 설정
     openai_api_key: str = Field(default="", alias="OPENAI_API_KEY")
     openai_model: str = Field(default="gpt-4o", alias="OPENAI_MODEL")
-    # OCR 모델: 합성 결과지 21장 비교(2026-09-22)에서 gpt-5.5 가 양성 누락 2/200(gpt-4o 56/200),
-    # 위양성 0, 10배 오독 0 — 촬영본 수치 99%(gpt-4o 55%). 환경변수로 바꿀 수 있다.
-    openai_vision_model: str = Field(default="gpt-5.5", alias="OPENAI_VISION_MODEL")
+    # OCR 모델: 합성 결과지 21장 비교(2026-09-22) — gpt-4o 양성 누락 56/200 → gpt-5.x 계열 1~5/200.
+    # 2026-09-24 사용자 결정으로 gpt-5.6-luna(비교 시 양성 누락 5/200, 영어 결과지 검사종류 오분류 2/3,
+    # 장당 13.7초로 가장 빠름). 환경변수 OPENAI_VISION_MODEL 로 바꿀 수 있다.
+    openai_vision_model: str = Field(default="gpt-5.6-luna", alias="OPENAI_VISION_MODEL")
     # OCR 고도화(2026-09-22): 전처리(조명 평탄화·확대)와 두 번 읽기(전체 + 위·아래 절반 확대본)
     ocr_preprocess: bool = Field(default=True, alias="OCR_PREPROCESS")
     ocr_double_read: bool = Field(default=True, alias="OCR_DOUBLE_READ")
