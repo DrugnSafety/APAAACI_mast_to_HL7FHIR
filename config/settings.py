@@ -24,9 +24,9 @@ class Settings(BaseSettings):
     openai_api_key: str = Field(default="", alias="OPENAI_API_KEY")
     openai_model: str = Field(default="gpt-4o", alias="OPENAI_MODEL")
     # OCR 모델: 합성 결과지 21장 비교(2026-09-22) — gpt-4o 양성 누락 56/200 → gpt-5.x 계열 1~5/200.
-    # 2026-09-24 사용자 결정으로 gpt-5.6-luna(비교 시 양성 누락 5/200, 영어 결과지 검사종류 오분류 2/3,
-    # 장당 13.7초로 가장 빠름). 환경변수 OPENAI_VISION_MODEL 로 바꿀 수 있다.
-    openai_vision_model: str = Field(default="gpt-5.6-luna", alias="OPENAI_VISION_MODEL")
+    # 2026-09-25 사용자 결정으로 gpt-5.4(옛 프롬프트 비교 시 양성 누락 1/200, 수치 100%, class 85.5%).
+    # 그 전에는 gpt-5.6-luna(09-24), gpt-5.5(09-22). 환경변수 OPENAI_VISION_MODEL 로 바꿀 수 있다.
+    openai_vision_model: str = Field(default="gpt-5.4", alias="OPENAI_VISION_MODEL")
     # OCR 고도화(2026-09-22): 전처리(조명 평탄화·확대)와 두 번 읽기(전체 + 위·아래 절반 확대본)
     # LLM 백엔드: openai(클라우드) 또는 ollama(연구실 DGX Spark). 화면에서 요청마다 바꿀 수도 있다.
     llm_backend: str = Field(default="openai", alias="LLM_BACKEND")
@@ -48,7 +48,8 @@ class Settings(BaseSettings):
     openai_report_model: str = Field(default="gpt-4o", alias="OPENAI_REPORT_MODEL")  # 리포트 생성용
     # 결과 상담 챗봇용. 2026-09 후보 7종 벤치마크(docs/llm_model_and_cost.md)에서 응급 인지·용량 미언급·
     # 언어 혼입 0건을 모두 통과한 모델 중 답변 품질이 가장 좋았다. 비용을 더 줄이려면 gpt-4o-mini(안전성은 통과, 말투·개인화는 약함).
-    openai_chat_model: str = Field(default="gpt-5.6-luna", alias="OPENAI_CHAT_MODEL")
+    # 2026-09-25 사용자 결정으로 OCR 과 같은 gpt-5.4 로 통일(그 전 gpt-5.6-luna).
+    openai_chat_model: str = Field(default="gpt-5.4", alias="OPENAI_CHAT_MODEL")
     # gpt-5 계열(추론 모델)에만 쓰인다: none/minimal/low/medium/high. 상담 답변은 깊은 추론보다
     # 지연·비용이 중요해 낮게 둔다. 모델이 지원하지 않는 값이면 빼고 다시 호출한다.
     openai_chat_reasoning_effort: str = Field(default="low", alias="OPENAI_CHAT_REASONING_EFFORT")

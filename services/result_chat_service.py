@@ -761,7 +761,7 @@ class ResultChatService:
             return llm_backend.complete_chat(convo, backend=backend, model=model, max_tokens=700,
                                              temperature=0.3,
                                              reasoning_effort=reasoning_effort or _s.ollama_chat_reasoning)
-        model = model or getattr(settings, "openai_chat_model", None) or "gpt-5.6-luna"
+        model = model or getattr(settings, "openai_chat_model", None) or "gpt-5.4"
         if not self._is_reasoning_model(model):
             return self.client.chat.completions.create(
                 model=model, messages=convo, temperature=0.3, max_tokens=700)
