@@ -507,13 +507,19 @@ def normalize_class_token(value) -> Optional[int]:
     영어 보고서는 'Class 3' 로 쓴다. 숫자만 받으면 중국어 양성 결과가 등급 없음으로
     떨어져 음성처럼 취급된다.
 
-    받는 표기: 3 · '3' · '3.0' · 'Class 3' · '3급' · '3级' · '+++' · 'Ⅲ'
+    받는 표기: 3 · '3' · '3.0' · 'Class 3' · '3급' · '3级' · '+++' · 'Ⅲ' · '阴性'(0)
     """
     if value is None:
         return None
     token = str(value).strip()
     if not token:
         return None
+
+    # 음성 판정어를 등급 칸에 적는 결과지·모델이 있다(중국 면역블롯 '阴性' = 0급).
+    # 예전에는 None 이 되어 등급이 비었다 — 판정은 음성으로 남았지만 class 가 사라졌다.
+    # 양성 판정어(阳性·양성)는 등급을 알 수 없으므로 None 그대로 둔다.
+    if token.lower() in ("阴性", "陰性", "음성", "negative", "neg", "-"):
+        return 0
 
     # '+' 개수 = 등급 (중국 면역블롯 관행: + 는 1급, ++ 는 2급 …)
     plus = token.replace(" ", "")

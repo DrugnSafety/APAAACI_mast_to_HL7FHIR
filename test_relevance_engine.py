@@ -1641,6 +1641,16 @@ def test_llm_backend_selection_and_no_secret_leak():
     print("✓ AI 엔진 선택(OpenAI/Ollama)·키 비노출·gpt-5 계열 파라미터")
 
 
+def test_class_token_negative_words_map_to_zero():
+    """중국어 결과지에서 모델이 등급 칸에 '阴性'을 적으면 class 가 비던 문제(gpt-5.4 재측정에서 발견)."""
+    from models.schemas import normalize_class_token
+    for tok in ("阴性", "陰性", "음성", "Negative", "-"):
+        assert normalize_class_token(tok) == 0, tok
+    assert normalize_class_token("阳性") is None and normalize_class_token("양성") is None
+    assert normalize_class_token("+++") == 3 and normalize_class_token("Class 2") == 2
+    print("✓ 등급 칸의 음성 판정어 → class 0")
+
+
 if __name__ == "__main__":
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     failed = 0
