@@ -32,10 +32,10 @@ class TestCoverage:
         """148종 전부가 개별 KB 또는 템플릿으로 답이 나와야 한다."""
         missing = []
         for r in REGISTRY:
-            hit = (ks.lookup(r.get("canonical_name")) or ks.lookup(r.get("korean_name"))
-                   or ks.lookup_generated(r.get("canonical_name"))
-                   or ks.lookup_generated(r.get("korean_name")))
-            if not hit:
+            # 화면·리포트가 쓰는 경로(get_backdata)로 본다 — 레지스트리의 kb_ref 로 이어지는 항원
+            # ('Cockroach, Mix' → 바퀴 지식)은 이름이 닮아서가 아니라 레지스트리가 그렇게 정해서 이어진다.
+            hit = ks.get_backdata(r.get("canonical_name"), None, r.get("korean_name"))
+            if hit.get("source") == "category_default":
                 missing.append(r.get("canonical_name"))
         assert not missing, f"지식이 없는 항원: {missing[:10]}"
 
@@ -61,11 +61,15 @@ class TestCoverage:
         assert not (cats - have - {"other"}), f"템플릿 없는 카테고리: {cats - have}"
 
     def test_non_control_entries_have_actionable_advice(self, ks):
-        """대조 항목을 뺀 모든 항원은 회피 수칙과 노출 환경이 있어야 한다(예전엔 전부 비어 있었다)."""
+        """대조 항목을 뺀 모든 항원은 회피 수칙과 노출 환경이 있어야 한다(예전엔 전부 비어 있었다).
+        약물은 예외다 — 노출 환경은 있지만 회피 수칙은 일부러 두지 않는다(피할지·다시 쓸지는 진료에서 정한다)."""
         thin = [e["canonical_name"] for e in ks.generated
                 if not e.get("is_control")
-                and (not e.get("avoidance_control_ko") or not e.get("exposure_environment_ko"))]
+                and ((not e.get("avoidance_control_ko") and e["category"] != "drug")
+                     or not e.get("exposure_environment_ko"))]
         assert not thin, f"조언이 비어 있는 항원: {thin[:10]}"
+        drugs = [e for e in ks.generated if e["category"] == "drug"]
+        assert drugs and all(e["avoidance_control_ko"] == [] for e in drugs), "약물에는 회피 수칙을 싣지 않는다"
 
 
 class TestProfiles:

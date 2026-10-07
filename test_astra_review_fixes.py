@@ -20,8 +20,10 @@ PROFILES = json.loads((DATA / "allergen_category_profiles.json").read_text(encod
 KOREA = json.loads((DATA / "pollen_season_korea.json").read_text(encoding="utf-8"))
 REGIONAL = json.loads((DATA / "pollen_calendar_regional.json").read_text(encoding="utf-8"))
 
-CEDAR = SimpleNamespace(category="pollen_tree", allergen_name="Japanese cedar", korean_name="삼나무")
-RAGWEED = SimpleNamespace(category="pollen_weed", allergen_name="Ragweed pollen", korean_name="돼지풀")
+CEDAR = SimpleNamespace(category="pollen_tree", allergen_name="Japanese cedar", korean_name="삼나무",
+                        relevance="clinically_relevant")
+RAGWEED = SimpleNamespace(category="pollen_weed", allergen_name="Ragweed pollen", korean_name="돼지풀",
+                          relevance="clinically_relevant")
 
 
 @pytest.fixture
@@ -215,7 +217,7 @@ class TestCalendarScope:
         """미국 거주자에게 한국 달을 쓰면 '악화 시기가 어긋난다'는 엉뚱한 경고까지 만든다."""
         svc = PollenForecastService(api_key="")
         mold = SimpleNamespace(category="mold", allergen_name="Alternaria alternata",
-                               korean_name="얼터나리아",
+                               korean_name="얼터나리아", relevance="clinically_relevant",
                                kb={"indoor_outdoor": "outdoor", "peak_months_korea": [8, 9, 10],
                                    "season_label_ko": "여름~가을"})
         us = svc.seasonality([mold], ScreeningProfile(residence_country="US", residence_region="AK"))

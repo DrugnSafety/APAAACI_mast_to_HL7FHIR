@@ -109,7 +109,7 @@ class TestModelParams:
 
     def test_default_model_is_the_benchmarked_one(self):
         from config.settings import Settings
-        assert Settings.model_fields["openai_chat_model"].default == "gpt-5.6-luna"
+        assert Settings.model_fields["openai_chat_model"].default == "gpt-5.4"
 
 
 class TestSystemPrompt:

@@ -11,7 +11,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from models.schemas import ScreeningProfile
+from models.schemas import ClinicalRelevance, ScreeningProfile
 from services.pollen_forecast_service import (GOOGLE_PLANT_TO_ANTIGEN, PollenForecastService)
 
 
@@ -20,8 +20,9 @@ def svc() -> PollenForecastService:
     return PollenForecastService(api_key="")      # 실시간 예보 끔
 
 
-def _pollen(cat, name, kr):
-    return SimpleNamespace(category=cat, allergen_name=name, korean_name=kr)
+def _pollen(cat, name, kr, relevance="clinically_relevant"):
+    # 계절 안내는 감작과 증상이 함께 확인된 항원만 다룬다 — 기본 픽스처는 '증상 확인됨'
+    return SimpleNamespace(category=cat, allergen_name=name, korean_name=kr, relevance=relevance)
 
 
 RAGWEED = _pollen("pollen_weed", "Ragweed pollen", "돼지풀 꽃가루")
@@ -145,7 +146,10 @@ class TestScreeningReachesOutputs:
         from server import ocr_demo
         import json as _json
         ocr = OCRResult(**_json.loads(ocr_demo().body))
-        return ocr, get_relevance_service().build_assessments(ocr, None)
+        res = get_relevance_service().build_assessments(ocr, None)
+        for a in res.assessments:      # 계절 안내는 증상이 확인된 항원만 다룬다
+            a.relevance = ClinicalRelevance.CLINICALLY_RELEVANT
+        return ocr, res
 
     def test_cardnews_reflects_diseases_and_symptoms(self):
         """이전에는 screening 을 받기만 하고 어떤 카드에도 쓰지 않았다."""
@@ -158,6 +162,11 @@ class TestScreeningReachesOutputs:
         assert "처음 알려주신 정보" in html
         assert "천식" in html and "아토피 피부염" in html
         assert "하기도" in html
+        # 항히스타민제의 위음성 주의는 피부반응검사(SPT)에만 해당한다 — 혈액검사(MAST) 결과에는 싣지 않는다
+        from models.schemas import TestType as _TestType
+        assert res.test_type == _TestType.MAST and "위음성" not in html
+        res.test_type = _TestType.SPT
+        html = get_cardnews_service().generate_html(res, {"name": "테스트"}, screening=scr)
         assert "위음성" in html, "항히스타민 복용 시 SPT 주의가 나와야 한다"
 
     def test_cardnews_without_screening_skips_the_card(self):
@@ -255,9 +264,15 @@ class TestSeasonality:
     def test_works_without_a_region(self, svc):
         """계절성은 알러젠 자체의 성질이라 거주지를 몰라도 말할 수 있다."""
         from models.schemas import SymptomSeasonPattern
-        out = svc.seasonality([RAGWEED], self._screening(
+        # 시기는 항원 자신의 지식(kb)에서 온다. kb 없는 픽스처는 '환자가 계절성이라고 답했다'는 이유만으로
+        # 통과하고 있었는데, 그 경로는 알릴 시기 없이 절만 찍던 결함이라 없앴다.
+        ragweed = SimpleNamespace(**vars(RAGWEED), kb={
+            "peak_months_korea": [8, 9, 10], "season_label_ko": "가을 (8~10월)", "source": "knowledge_base"})
+        out = svc.seasonality([ragweed], self._screening(
             season_pattern=SymptomSeasonPattern.SEASONAL))
-        assert out["available"] is True
+        assert out["available"] is True and out["predicted_months"] == [8, 9, 10]
+        assert svc.seasonality([RAGWEED], self._screening(
+            season_pattern=SymptomSeasonPattern.SEASONAL))["available"] is False
 
     def test_report_and_cardnews_have_one_seasonality_section(self):
         """예전엔 계절성 절과 지역 절이 같은 말을 두 번 했다."""
@@ -271,6 +286,8 @@ class TestSeasonality:
         scr = ScreeningProfile(residence_country="US", residence_postal_code="78701",
                                season_pattern=SymptomSeasonPattern.SEASONAL, worse_months=[9])
         res = get_relevance_service().build_assessments(ocr, scr)
+        for a in res.assessments:      # 계절 안내는 증상이 확인된 항원만 다룬다
+            a.relevance = ClinicalRelevance.CLINICALLY_RELEVANT
         md = get_report_service().build_patient_report_markdown(res, {"name": "t"}, scr)
         assert md.count("증상의 계절성") == 1
         assert "거주 지역 기준 꽃가루 시기" not in md

@@ -546,8 +546,8 @@ def test_crossreact_gating_reactivation_and_other_fallthrough():
 
     # 리포트: 원인 항원별 그룹 + 확대 가능성 경고(R-1/R-2)
     md = get_report_service().build_patient_report_markdown(res, {"name": "복합"}, None)
-    assert "앞으로 주의해서 관찰할 음식" in md, "교차반응 관찰 섹션 누락"
-    assert "「고양이 비듬」과" in md, "원인 항원별 그룹 헤더 누락"
+    assert "## 🍽️ 교차반응 — 알아 둘 음식" in md, "교차반응 관찰 섹션 누락"
+    assert "「고양이 비듬」과 교차반응이 보고된 음식" in md, "원인 항원별 그룹 헤더 누락"
     assert "확대 가능성" in md, "OAS/교차반응 확대 경고(R-2) 누락"
 
     # Q-1: 미분류(other) 양성 항원도 증상 질문을 받고 판정됨
@@ -587,8 +587,13 @@ def test_crossreact_risk_vs_confirmed_item1():
     celery = res.assessments[0]
     assert "당근" in celery.crossreact_confirmed, f"confirmed 에 당근 없음: {celery.crossreact_confirmed}"
     assert "당근" not in celery.crossreact_risk, "당근이 risk 에 중복"
-    assert celery.crossreact_risk, f"risk 후보가 비어있음: {celery.crossreact_risk}"
-    assert "사과" in celery.crossreact_risk, f"미선택 후보(사과)가 risk 에 없음: {celery.crossreact_risk}"
+    # 증상이 없는 후보는 보고된 교차반응 증후군이 있는 음식만 risk(알아 둘 음식)로 남긴다. 샐러리와 사과는
+    # 성분(PR-10·프로필린)을 공유할 뿐이라 싣지 않는다 — 문항 후보로는 계속 묻는다.
+    assert "사과" not in celery.crossreact_risk, f"성분만 공유하는 후보가 risk 에 있음: {celery.crossreact_risk}"
+    q = eng.build(res, None)
+    opts = [o["label"] for s in q["sections"] for qq in s["questions"] if qq["id"] == QP_CROSSREACT + _key(0)
+            for o in qq["options"]]
+    assert "사과" in opts, "문진의 교차반응 후보에서는 빠지지 않는다"
 
     # FHIR note: confirmed/risk 각각 문구 반영
     bundles = FHIRService().build_bundles_from_relevance(
@@ -597,7 +602,21 @@ def test_crossreact_risk_vs_confirmed_item1():
     celery_ai = next(r for r in ai if "샐러리" in r["code"]["text"] and r["code"]["text"] != "당근")
     note = " ".join(n["text"] for n in celery_ai.get("note", []))
     assert "교차반응(확인됨)" in note and "당근" in note, f"FHIR confirmed 노트 누락: {note}"
-    assert "교차반응 가능(미확인)" in note and "사과" in note, f"FHIR risk 노트 누락: {note}"
+    assert "사과" not in note, f"성분만 공유하는 후보가 FHIR note 에 실림: {note}"
+
+    # 보고된 교차반응이 있는 조합(새우 → 같은 갑각류)은 risk 로 남고 FHIR note 에도 실린다
+    ocr_s = OCRResult(test_type=TestType.MAST, patient=PatientInfo(name="갑각", test_date="2026-07-13"),
+                      results=[_mast("Shrimp", "새우", 5.0, 3, AllergenCategory.FOOD, idx=1)])
+    res_s = rs.build_assessments(ocr_s, None)
+    ans_s = {QP_CROSSREACT + _key(0): ["Crab"]}
+    eng.classify(res_s, ans_s, None)
+    shrimp = res_s.assessments[0]
+    assert shrimp.crossreact_confirmed == ["게"] and "바닷가재" in shrimp.crossreact_risk
+    assert "아니사키스" not in shrimp.crossreact_risk and "게" not in shrimp.crossreact_risk
+    note_s = " ".join(n["text"] for e in FHIRService().build_bundles_from_relevance(
+        ocr_s, res_s, None, eng.crossreactive_food_items(res_s.assessments, ans_s))["allergy_intolerance_bundle"]["entry"]
+        if "Shrimp" in e["resource"]["code"]["text"] for n in e["resource"].get("note", []))
+    assert "교차반응 가능(미확인)" in note_s and "바닷가재" in note_s, f"FHIR risk 노트 누락: {note_s}"
     # 확인된 교차반응(당근)은 별도 AllergyIntolerance 로 존재
     assert any(r["code"]["text"] == "당근" for r in ai), "확인된 교차반응(당근) 별도 항목 누락"
 
@@ -813,7 +832,7 @@ def test_cardnews_quest_theme():
     html = get_cardnews_service().generate_html(res, {"name": "테스트", "test_date": "2026-06-01"})
     assert "알러젠 탐험 리포트" in html, "표지 서사 문구 누락"
     assert 'class="stamp-verdict' in html and "진범 확정" in html, "진범 확정 도장 누락"
-    assert "무혐의 · 감작만" in html and "감작은 남아 있어 추적 필요" in html, "무혐의 도장/추적 부연 누락"
+    assert "무혐의 · 감작만" in html and "감작은 남아 있어 추적이 필요" in html, "무혐의 도장/추적 부연 누락"
     assert 'class="cat-stamp' in html and "<svg" in html, "카테고리 스탬프 SVG 누락"
     assert "Do+Hyeon" in html, "디스플레이 폰트 링크 누락"
     for c in ("mite", "animal", "pollen_tree", "pollen_grass", "pollen_weed", "mold", "insect", "food", "other"):
@@ -988,13 +1007,24 @@ def test_real_sctid_coverage_expanded():
                 json.loads((root / "data" / "snomed_ct_unmapped.json").read_text())["items"]}
     m = get_allergen_mapper()
 
-    covered, omop = [], []
+    # 2026-10 에 레지스트리에 올린 항원(집먼지 추출물·약물 5종)은 아직 코드를 붙이지 않았다 — tx.fhir.org 로
+    # 확인한 코드만 넣는다는 규칙 때문이다. 코드 없는 항원이 이 목록 밖에서 생기면 실패한다.
+    uncoded_expected = {"House dust", "Penicillin G", "Penicillin V", "Ampicillin", "Amoxicillin", "Cefaclor"}
+    covered, omop, uncoded = [], [], set()
     for a in reg:
         c = m.get_coding(a["canonical_name"], a.get("korean_name") or "")
-        assert c, f"코딩 없음: {a['canonical_name']}"
+        if not c:
+            uncoded.add(a["canonical_name"])
+            continue
         (covered if c["system"] == "http://snomed.info/sct" else omop).append(a["canonical_name"])
-    assert len(covered) == 147 and len(omop) == 1, \
-        f"SCTID/OMOP 분포가 바뀜: SCTID {len(covered)} · OMOP {len(omop)} (기대 147·1)"
+    assert uncoded == uncoded_expected, f"코딩 없음: {sorted(uncoded ^ uncoded_expected)}"
+    # 2026-10: 벌독 5종(꿀벌·땅벌·쌍살벌·말벌 2종)을 tx.fhir.org $lookup 으로 확인한 SCTID 와 함께 더했다(147 → 152)
+    assert len(covered) == 152 and len(omop) == 1, \
+        f"SCTID/OMOP 분포가 바뀜: SCTID {len(covered)} · OMOP {len(omop)} (기대 152·1)"
+    venom_codes = {a["canonical_name"]: a["coding"]["snomed_ct"] for a in reg if a["category"] == "venom"}
+    assert venom_codes == {"Honey bee venom": "256439001", "Yellow jacket venom": "260193001",
+                           "Paper wasp venom": "260194007", "White-faced hornet venom": "260191004",
+                           "Yellow hornet venom": "260195008"}
     # 미매핑 목록은 실제 매퍼 결과와 정확히 일치해야 한다.
     # 한쪽만 고치면 문서가 코드와 어긋난다(실제로 cornflour 가 유령 항목으로 남아 있었다).
     assert set(omop) == unmapped, (
@@ -1107,9 +1137,10 @@ def test_server_content_translation():
     q = {"id": "mite_dust", "type": "single", "title": ko_src,
          "options": [{"value": "yes", "label": ko_src}]}
     svc._cache[svc._key(ko_src, "en")] = "WASHED"
-    svc.translate_obj(q, "en", {"title", "label"})
-    assert q["title"] == "WASHED" and q["options"][0]["label"] == "WASHED"
-    assert q["id"] == "mite_dust" and q["options"][0]["value"] == "yes", "식별자가 번역됨"
+    tr = svc.translate_obj(q, "en", {"title", "label"})
+    assert tr["title"] == "WASHED" and tr["options"][0]["label"] == "WASHED"
+    assert tr["id"] == "mite_dust" and tr["options"][0]["value"] == "yes", "식별자가 번역됨"
+    assert q["title"] == ko_src and q["options"][0]["label"] == ko_src, "입력 원본이 제자리에서 바뀜"
 
     # 5) HTML: 태그·스타일은 그대로, 텍스트만. <b> 는 마크다운으로 오갔다가 복원된다
     src_sentence = "검사 양성이면서 **노출 시 증상이 나타나는** 항목입니다."
