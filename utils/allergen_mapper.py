@@ -16,6 +16,90 @@ from models.schemas import AllergenMapping, AllergenDatabase
 logger = logging.getLogger(__name__)
 
 
+# 항원 이름에 붙는 일반 낱말. 이것만으로 된 이름('Mix', 'Pollen', '혼합')은 어떤 항원도 가리키지 않는다 —
+# 부분·퍼지 매칭에 넘기면 'Mix' 가 'Cockroach, Mix' 에 붙는다.
+GENERIC_NAME_TOKENS = frozenset({
+    "mix", "mixed", "mixture", "혼합", "믹스", "pollen", "pollens", "꽃가루", "dander", "비듬", "epithelium",
+    "epithelia", "상피", "hair", "fur", "털", "feather", "feathers", "깃털", "dust", "먼지", "mold", "mould",
+    "곰팡이", "extract", "추출물", "allergen", "protein", "tree", "grass", "weed", "나무", "잔디", "잡초",
+    "food", "음식", "indoor", "outdoor", "실내", "실외", "house", "sp", "spp", "species",
+})
+
+
+def _name_tokens(text: str) -> List[str]:
+    return [t for t in re.split(r"[\s,;/()·\-]+", (text or "").lower()) if t]
+
+
+def is_generic_name(text: str) -> bool:
+    """일반 낱말(과 숫자)만으로 된 이름인가."""
+    tokens = _name_tokens(text)
+    return bool(tokens) and all(t in GENERIC_NAME_TOKENS or t.isdigit() for t in tokens)
+
+
+# ---------------------------------------------------------------------------
+# 같은 항원인가 — 이름이 닮았다는 것만으로 다른 항원의 지식·코드를 붙이지 않는다
+# ---------------------------------------------------------------------------
+# 항원의 정체를 바꾸지 않는 수식어: 'Birch' = 'Birch pollen', 'Cat' = 'Cat dander' = 'Cat epithelium'.
+# GENERIC_NAME_TOKENS 보다 좁다 — 'grass'·'tree'·'mix'·'feather'·'dust' 는 정체를 바꾼다
+# ('Oat grass' ≠ 'Oat', 'Walnut tree' ≠ 'Walnut', 'House dust' ≠ 'House dust mite').
+IDENTITY_QUALIFIERS = frozenset({
+    "pollen", "pollens", "꽃가루", "dander", "비듬", "epithelium", "epithelia", "상피", "hair", "fur", "털",
+    "allergen", "extract", "추출물", "sp", "spp", "species",
+})
+_LONG_QUALIFIERS = tuple(q for q in IDENTITY_QUALIFIERS if q.isascii() and len(q) >= 5)
+_IDENTITY_TOKEN = re.compile(r"[a-z0-9가-힣一-鿿]+")
+
+
+@lru_cache(maxsize=50000)
+def identity_tokens(text: str) -> Tuple[str, ...]:
+    """이름의 정체를 이루는 낱말(소문자, 구두점 제거, 수식어 제외). 수식어의 오타('polen')도 수식어로 본다."""
+    return tuple(t for t in _IDENTITY_TOKEN.findall((text or "").lower()) if not _is_qualifier(t))
+
+
+@lru_cache(maxsize=50000)
+def _is_qualifier(token: str) -> bool:
+    return token in IDENTITY_QUALIFIERS or any(_one_typo(token, q) for q in _LONG_QUALIFIERS)
+
+
+@lru_cache(maxsize=200000)
+def _one_typo(a: str, b: str) -> bool:
+    """두 낱말이 OCR 오타 한 번(글자 하나 바뀜·빠짐·더해짐, 이웃한 두 글자 뒤바뀜) 차이인가.
+
+    5글자 미만은 오타로 잇지 않는다 — 짧은 이름은 한 글자 차이가 다른 항원이다(oat/oak, pea/pear, cod/cow).
+    12글자 이상의 학명(Dermatophagoides·pteronyssinus)만 두 번까지 봐준다."""
+    if min(len(a), len(b)) < 5 or abs(len(a) - len(b)) > 2:
+        return False
+    limit = 2 if min(len(a), len(b)) >= 12 else 1
+    prev2, prev = None, list(range(len(b) + 1))
+    for i, ca in enumerate(a, 1):
+        cur = [i] + [0] * len(b)
+        for j, cb in enumerate(b, 1):
+            cur[j] = min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (ca != cb))
+            if prev2 is not None and i > 1 and j > 1 and ca == b[j - 2] and a[i - 2] == cb:
+                cur[j] = min(cur[j], prev2[j - 2] + 1)
+        prev2, prev = prev, cur
+    return prev[-1] <= limit
+
+
+def same_antigen_name(a: str, b: str, allow_typo: bool = True) -> bool:
+    """두 이름이 같은 항원을 가리키는가 — 낱말 단위로만 본다.
+
+    같다: 수식어만 다르다('Birch' / 'Birch pollen'), 띄어쓰기·낱말 순서만 다르다('Ryegrass' / 'Rye grass',
+    'German cockroach' / 'Cockroach, German'), 낱말 수가 같고 5글자 이상 낱말에서 오타 한 번('Altenaria').
+    다르다: 낱말이 통째로 더 있거나 없다('Cow' / 'Cow milk', 'Rice weevil' / 'Rice'), 글자만 겹친다
+    ('Pea' / 'Peanut', 'Eggplant' / 'Egg white', 'Cattle' / 'Cat', 'Milkweed' / 'Milk').
+    예전의 부분 문자열·전체 문자열 유사도 매칭은 뒤의 것들을 같은 항원으로 보아, 완두콩에 땅콩의
+    아나필락시스 경고가, 가지에 난백의 설명이, 소 상피에 고양이 비듬의 설명이 붙었다."""
+    ta, tb = identity_tokens(a), identity_tokens(b)
+    if not ta or not tb:
+        return False
+    if "".join(ta) == "".join(tb) or sorted(ta) == sorted(tb):
+        return True
+    if not allow_typo or len(ta) != len(tb):
+        return False
+    return all(x == y or _one_typo(x, y) for x, y in zip(ta, tb))
+
+
 class AllergenMapper:
     """알레르겐 매핑 및 정규화 클래스"""
     
@@ -299,11 +383,18 @@ class AllergenMapper:
             'chicken feathers': 'chicken',
             'guinea pig hair': 'guinea pig',
             'hamster': 'hamster',
-            'honey bee': 'bee',
-            'yellow jacket': 'wasp',
-            'wasp': 'wasp'
         }
+        # 벌독(꿀벌·말벌 등)은 이 표에 없다. 예전에는 'honey bee' 를 'bee' 로 줄인 뒤 아래 부분 문자열
+        # 매칭이 'Beech'(너도밤나무)에 붙여, 벌독이 수목 꽃가루로 분류됐다. 줄이지 않고 그대로 찾는다.
         
+        # 인쇄된 그대로 맞는 이름이 있으면 그것이다. 정규화는 마침표와 노이즈 낱말(histamine·saline)을
+        # 지우므로, 먼저 정규화하면 'Histamine control' 이 'control'(음성 대조)이 되고 'D.f.' 는 어디에도 안 맞는다.
+        raw = " ".join((name or "").split())
+        hit = (self.canonical_lookup.get(raw.lower()) or self.korean_lookup.get(raw)
+               or self.alias_lookup.get(raw.lower()))
+        if hit:
+            return hit
+
         # 정규화 전에 특별 매핑 확인
         name_lower = name.lower().strip()
         for pattern, replacement in special_mappings.items():
@@ -315,6 +406,12 @@ class AllergenMapper:
         # 정규화
         normalized = self.normalize_text(name)
         normalized_lower = normalized.lower()
+        # 노이즈 토큰만으로 된 이름('Histamine' 등)은 정규화하면 빈 문자열이 된다. 빈 문자열은
+        # 모든 이름의 부분 문자열이라 첫 항목(점박이응애)에 붙었다. 원래 이름으로 정확 매칭만 본다.
+        if not normalized:
+            raw = name.strip()
+            return (self.canonical_lookup.get(raw.lower()) or self.korean_lookup.get(raw)
+                    or self.alias_lookup.get(raw.lower()))
         
         # 1. 정확한 매칭 시도
         if normalized_lower in self.canonical_lookup:
@@ -340,15 +437,20 @@ class AllergenMapper:
             if hit:
                 return hit
 
-        # 5. 부분 매칭 시도
-        for entry in self.database.entries:
-            # 부분 문자열 매칭
-            if normalized_lower in entry.canonical_name.lower():
-                return entry
-            if entry.korean_name and normalized in entry.korean_name:
-                return entry
-        
-        # 6. 퍼지 매칭 (편집 거리)
+        # 일반 낱말만으로 된 이름('Mix'·'Pollen'·'혼합')은 정확 매칭까지만 본다. 부분 매칭으로 넘기면
+        # 'Mix' 가 'Cockroach, Mix'(바퀴)에 붙는다.
+        if is_generic_name(normalized):
+            logger.warning(f"알레르겐 매핑 실패(일반 낱말뿐인 이름): {name}")
+            return None
+
+        # 5. 같은 항원의 다른 표기 — 수식어·띄어쓰기·낱말 순서만 다른 이름('Birch pollen' → Birch).
+        #    예전에는 낱말이 이어서 들어 있기만 하면 붙여('Cow' → 'Cow milk', 'Rye' → 'Rye grass, perennial',
+        #    'Egg' → 'Egg white'), 덜 구체적인 이름이 목록에서 먼저 나온 항원으로 풀렸다.
+        hit = self._same_antigen(normalized_lower, allow_typo=False)
+        if hit:
+            return hit
+
+        # 6. OCR 오타 구제 — 낱말 수가 같고, 5글자 이상 낱말에서 글자 하나만 다른 경우만
         best_match = self._fuzzy_match(normalized_lower)
         if best_match:
             return best_match
@@ -392,37 +494,27 @@ class AllergenMapper:
                 or self.korean_lookup.get(normalized)
                 or self.alias_lookup.get(low))
 
-    def _fuzzy_match(self, text: str, threshold: float = 0.8) -> Optional[AllergenMapping]:
-        """
-        편집 거리 기반 퍼지 매칭
-        
-        Args:
-            text: 검색할 텍스트
-            threshold: 유사도 임계값 (0-1)
-        """
-        from difflib import SequenceMatcher
-        
-        best_score = 0
-        best_match = None
-        
-        # 모든 항목과 비교
+    def _same_antigen(self, text: str, allow_typo: bool) -> Optional[AllergenMapping]:
+        """이름·한글명·별칭·OCR 변형 가운데 text 와 같은 항원인 것(same_antigen_name). 둘 이상의 항원에
+        걸리면 어느 것인지 알 수 없으므로 None."""
+        found = None
         for entry in self.database.entries:
-            # Canonical name과 비교
-            score = SequenceMatcher(None, text, entry.canonical_name.lower()).ratio()
-            if score > best_score and score >= threshold:
-                best_score = score
-                best_match = entry
-            
-            # Aliases와 비교
-            for alias in entry.aliases + entry.ocr_aliases:
-                score = SequenceMatcher(None, text, alias.lower()).ratio()
-                if score > best_score and score >= threshold:
-                    best_score = score
-                    best_match = entry
-        
+            names = [entry.canonical_name, entry.korean_name] + entry.aliases + entry.ocr_aliases
+            if any(n and same_antigen_name(text, n, allow_typo=allow_typo) for n in names):
+                if found is not None and found is not entry:
+                    return None
+                found = entry
+        return found
+
+    def _fuzzy_match(self, text: str, threshold: float = 0.8) -> Optional[AllergenMapping]:
+        """OCR 오타 구제. 낱말 수가 같고, 5글자 이상 낱말에서 글자 하나만 다를 때만 같은 항원으로 본다
+        (same_antigen_name). threshold 는 예전 호출과의 호환을 위해 받기만 한다.
+
+        예전에는 전체 문자열의 유사도(0.8)로 견줘, 낱말 하나가 통째로 다른 이름까지 붙였다:
+        'Cattle epithelium' → 쥐 상피, 'Catfish' → 가재, 'Chickpea' → 닭, 'Maple' → 사과."""
+        best_match = self._same_antigen(text, allow_typo=True)
         if best_match:
-            logger.info(f"퍼지 매칭 성공: {text} -> {best_match.canonical_name} (score: {best_score:.2f})")
-        
+            logger.info(f"퍼지 매칭 성공: {text} -> {best_match.canonical_name}")
         return best_match
     
     def get_snomed_code(self, allergen_name: str) -> Optional[str]:

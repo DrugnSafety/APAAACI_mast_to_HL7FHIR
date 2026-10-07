@@ -224,10 +224,10 @@
     },
     {
       "canonical_name": "Bean",
-      "korean_name": "콩",
+      "korean_name": "콩류",
       "aliases": [
         "Bean",
-        "콩"
+        "콩류"
       ],
       "ocr_aliases": [
         "8ean"
@@ -284,6 +284,10 @@
       "korean_name": "자작나무",
       "aliases": [
         "Birch",
+        "White birch",
+        "Silver birch",
+        "Common silver birch",
+        "Betula verrucosa",
         "자작나무"
       ],
       "ocr_aliases": [
@@ -351,12 +355,11 @@
       "aliases": [
         "Cat",
         "Cat dander",
-        "고양이 표피"
-      ],
-      "ocr_aliases": [
+        "고양이 표피",
         "고양이",
         "고양이 비듬"
       ],
+      "ocr_aliases": [],
       "category": "Animal",
       "subcategory": null,
       "snomed": "4125384"
@@ -435,13 +438,12 @@
         "Cockroach",
         "Cockroach protein",
         "바퀴벌레",
-        "Cockroach, Mix"
-      ],
-      "ocr_aliases": [
+        "Cockroach, Mix",
         "바퀴벌레 혼합",
         "Cockroach mix",
         "바퀴벌레믹스"
       ],
+      "ocr_aliases": [],
       "category": "Insect",
       "subcategory": "Cockroach",
       "snomed": "46273916"
@@ -464,7 +466,11 @@
       "aliases": [
         "Control",
         "Negative control",
-        "음성 대조용 생리식염수"
+        "음성 대조용 생리식염수",
+        "Saline",
+        "생리식염수",
+        "음성 대조",
+        "음성대조"
       ],
       "ocr_aliases": [
         "Contro1"
@@ -494,7 +500,6 @@
       "korean_name": "귀리",
       "aliases": [
         "Cultivated oat",
-        "oat",
         "귀리"
       ],
       "ocr_aliases": [
@@ -558,14 +563,13 @@
       "aliases": [
         "Dog dander",
         "Dog epithelium",
-        "개 표피"
-      ],
-      "ocr_aliases": [
+        "개 표피",
         "Dog",
         "개",
         "개 비듬",
         "Dog hair"
       ],
+      "ocr_aliases": [],
       "category": "Animal",
       "subcategory": null,
       "snomed": "4128602"
@@ -674,7 +678,11 @@
       "aliases": [
         "Histamine",
         "Positive control",
-        "양성 대조용 0.1% 히스타민 용액"
+        "양성 대조용 0.1% 히스타민 용액",
+        "Histamine control",
+        "히스타민",
+        "양성 대조",
+        "양성대조"
       ],
       "ocr_aliases": [],
       "category": "Control",
@@ -849,7 +857,7 @@
         "라텍스"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Latex",
       "subcategory": null,
       "snomed": "4008070"
     },
@@ -1342,6 +1350,9 @@
       "korean_name": "돼지풀",
       "aliases": [
         "Ragweed",
+        "Short ragweed",
+        "Common ragweed",
+        "Ambrosia artemisiifolia",
         "돼지풀"
       ],
       "ocr_aliases": [],
@@ -1354,6 +1365,9 @@
       "korean_name": "돼지풀",
       "aliases": [
         "Ragweed",
+        "Short ragweed",
+        "Common ragweed",
+        "Ambrosia artemisiifolia",
         "돼지풀"
       ],
       "ocr_aliases": [],
@@ -1434,7 +1448,6 @@
       "canonical_name": "Rye grass, perennial",
       "korean_name": "호밀풀",
       "aliases": [
-        "Rye",
         "Rye grass",
         "호밀풀",
         "Rye grass, perennial"
@@ -2090,24 +2103,37 @@
       "korean_name": "소 비듬",
       "aliases": [
         "Bos d 2",
-        "소 상피"
+        "소 상피",
+        "Cow",
+        "Cow epithelium",
+        "Cow hair",
+        "Cattle",
+        "Cattle dander",
+        "Cattle epithelium",
+        "소"
       ],
       "ocr_aliases": [],
       "category": "Animal",
       "subcategory": "Indoor",
-      "snomed": null
+      "snomed": null,
+      "provenance": "added_2026_10: aliases Cow / Cow epithelium / Cow hair / Cattle / Cattle dander / Cattle epithelium / 소 (ImmunoCAP e4) — unverified against the clinic's actual panel"
     },
     {
       "canonical_name": "Horse dander",
       "korean_name": "말 비듬",
       "aliases": [
         "Equ c",
-        "말 상피"
+        "말 상피",
+        "Horse",
+        "Horse epithelium",
+        "Horse hair",
+        "말"
       ],
       "ocr_aliases": [],
       "category": "Animal",
       "subcategory": "Indoor",
-      "snomed": null
+      "snomed": null,
+      "provenance": "added_2026_10: aliases Horse / Horse epithelium / Horse hair / 말 (ImmunoCAP e3) — unverified against the clinic's actual panel"
     },
     {
       "canonical_name": "Cherry",
@@ -2146,6 +2172,173 @@
       "category": "Food",
       "subcategory": null,
       "snomed": null
+    },
+    {
+      "canonical_name": "House dust",
+      "korean_name": "집먼지",
+      "aliases": [
+        "House dust",
+        "Housedust",
+        "집먼지"
+      ],
+      "ocr_aliases": [],
+      "category": "Other",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Penicillin G",
+      "korean_name": "페니실린 G",
+      "aliases": [
+        "Penicillin G",
+        "Penicilloyl G",
+        "Penicillin",
+        "페니실린",
+        "페니실린 G"
+      ],
+      "ocr_aliases": [],
+      "category": "Drug",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Penicillin V",
+      "korean_name": "페니실린 V",
+      "aliases": [
+        "Penicillin V",
+        "Penicilloyl V",
+        "페니실린 V"
+      ],
+      "ocr_aliases": [],
+      "category": "Drug",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Ampicillin",
+      "korean_name": "암피실린",
+      "aliases": [
+        "Ampicillin",
+        "Ampicilloyl",
+        "암피실린"
+      ],
+      "ocr_aliases": [],
+      "category": "Drug",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Amoxicillin",
+      "korean_name": "아목시실린",
+      "aliases": [
+        "Amoxicillin",
+        "Amoxicilloyl",
+        "아목시실린"
+      ],
+      "ocr_aliases": [],
+      "category": "Drug",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Cefaclor",
+      "korean_name": "세파클러",
+      "aliases": [
+        "Cefaclor",
+        "세파클러"
+      ],
+      "ocr_aliases": [],
+      "category": "Drug",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Honey bee venom",
+      "korean_name": "꿀벌 독",
+      "aliases": [
+        "Honey bee",
+        "Honeybee",
+        "Honeybee venom",
+        "Bee venom",
+        "Apis mellifera",
+        "꿀벌",
+        "꿀벌독"
+      ],
+      "ocr_aliases": [],
+      "category": "Venom",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_code": "i1",
+      "provenance": "added_2026_10: unverified against the clinic's actual panel"
+    },
+    {
+      "canonical_name": "Yellow jacket venom",
+      "korean_name": "땅벌 독(Yellow jacket)",
+      "aliases": [
+        "Yellow jacket",
+        "Yellowjacket",
+        "Yellowjacket venom",
+        "Common wasp",
+        "Common wasp venom",
+        "Wasp venom",
+        "Wasp",
+        "Vespula",
+        "땅벌",
+        "땅벌독",
+        "땅벌 독"
+      ],
+      "ocr_aliases": [],
+      "category": "Venom",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_code": "i3",
+      "provenance": "added_2026_10: unverified against the clinic's actual panel"
+    },
+    {
+      "canonical_name": "Paper wasp venom",
+      "korean_name": "쌍살벌 독",
+      "aliases": [
+        "Paper wasp",
+        "Polistes",
+        "쌍살벌",
+        "쌍살벌독"
+      ],
+      "ocr_aliases": [],
+      "category": "Venom",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_code": "i4",
+      "provenance": "added_2026_10: unverified against the clinic's actual panel"
+    },
+    {
+      "canonical_name": "White-faced hornet venom",
+      "korean_name": "말벌 독(White-faced hornet)",
+      "aliases": [
+        "White-faced hornet",
+        "White faced hornet",
+        "White faced hornet venom",
+        "Dolichovespula maculata"
+      ],
+      "ocr_aliases": [],
+      "category": "Venom",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_code": "i2",
+      "provenance": "added_2026_10: unverified against the clinic's actual panel"
+    },
+    {
+      "canonical_name": "Yellow hornet venom",
+      "korean_name": "말벌 독(Yellow hornet)",
+      "aliases": [
+        "Yellow hornet",
+        "Dolichovespula arenaria"
+      ],
+      "ocr_aliases": [],
+      "category": "Venom",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_code": "i5",
+      "provenance": "added_2026_10: unverified against the clinic's actual panel"
     }
   ]
 }

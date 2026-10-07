@@ -120,6 +120,10 @@ def build_entry(item, profiles, seasons) -> dict:
     for f in KNOWLEDGE_FIELDS:
         if f in prof:
             entry[f] = prof[f]
+    # 템플릿의 overrides: 항원(대표 이름)별로 값을 덮어쓴다(벌독의 종류별 소개문 등)
+    for f, v in ((prof.get("overrides") or {}).get(name) or {}).items():
+        if f in KNOWLEDGE_FIELDS:
+            entry[f] = v
 
     # 꽃가루는 종별 시기로 덮어쓴다 — 카테고리 기본값(3~5월 등)보다 정확하다
     sp = (seasons.get("species") or {}).get(name)

@@ -1,0 +1,674 @@
+{
+  "version": "1.0",
+  "compiled_on": "2026-10-06",
+  "review_status": "candidate — 알레르기 전문의 검토 전",
+  "note_ko": "항원 단위 알레르겐 면역치료(AIT) 가능 목록. registry_ids 는 data/allergens.json 의 id 와 맞춘다. 국내 가용성은 KAAACI 2023 면역치료 진료지침 Table 3(국내 허가 SCIT·SLIT 제품의 항원 구성)과 KAAACI 2024 설하면역치료 지침 Table 2 에서만 옮겼고, 지침 발간 이후의 허가·공급 변동은 반영하지 못했다. 출처로 확인하지 못한 항원은 넣지 않았거나 needs_review 로 표시했다. needs_review=true 인 항목은 환자용 리포트·카드뉴스에 노출하지 않는다. sources 의 content_verified=false 문헌은 서지만 확인했으므로 항목의 근거(sources)가 아니라 further_reading 으로만 연결했다. evidence_note_ko 는 환자용 화면에 나가므로 그 항원 자신에 대한 말만 적고, 다른 항원과의 관계는 clinician_note_ko(화면에 내보내지 않음)에 둔다 — 환자가 증상 없는 다른 꽃가루 이름을 자기 치료 대상으로 오해하지 않게 하기 위해서다.",
+  "evidence_levels": {
+    "established": "KAAACI 2023 지침 본문이 '이중맹검 위약대조시험으로 효과가 확인된 항원'으로 그 항원을 직접 이름 붙여 적었거나, 권고문에서 근거수준 High 로 명시한 경우.",
+    "supported": "KAAACI 2023 지침이 면역치료 대상 항원군으로 들고 국내 허가 추출물이 있으나, 그 항원 단독의 위약대조시험을 지침이 이름 붙여 인용하지는 않은 경우(교차반응 항원 대표 선택 원칙 포함)."
+  },
+  "sources": {
+    "kaaaci_ait_2023": {
+      "citation": "Lee HY, Lee SM, Kang SY, et al. KAAACI Guidelines for Allergen Immunotherapy. Allergy Asthma Immunol Res. 2023;15(6):725-756.",
+      "pmid": "37957792",
+      "doi": "10.4168/aair.2023.15.6.725",
+      "url": "https://doi.org/10.4168/aair.2023.15.6.725",
+      "content_verified": true,
+      "verification_note_ko": "PMC 전문을 내려받아 해당 문장·표를 직접 확인함."
+    },
+    "kaaaci_slit_2024": {
+      "citation": "Min JY, Jee HM, Lee HY, et al. The KAAACI Guidelines for Sublingual Immunotherapy. Allergy Asthma Immunol Res. 2024;16(1):9-21.",
+      "pmid": "38262388",
+      "doi": "10.4168/aair.2024.16.1.9",
+      "url": "https://doi.org/10.4168/aair.2024.16.1.9",
+      "content_verified": true,
+      "verification_note_ko": "PMC 전문을 내려받아 해당 문장·표를 직접 확인함."
+    },
+    "eaaci_arc_2018": {
+      "citation": "Roberts G, et al. EAACI Guidelines on Allergen Immunotherapy: Allergic rhinoconjunctivitis. Allergy. 2018;73(4):765-798.",
+      "pmid": "28940458",
+      "doi": "10.1111/all.13317",
+      "url": "https://doi.org/10.1111/all.13317",
+      "content_verified": false,
+      "verification_note_ko": "PubMed 서지(제목·저널·DOI)만 확인함. 본문은 열람하지 못해 개별 항목의 근거로 쓰지 않고 참고 문헌으로만 둔다."
+    },
+    "eaaci_hdm_asthma_2019": {
+      "citation": "Agache I, et al. EAACI Guidelines on Allergen Immunotherapy: House dust mite-driven allergic asthma. Allergy. 2019;74(5):855-873.",
+      "pmid": "31095767",
+      "doi": "10.1111/all.13749",
+      "url": "https://doi.org/10.1111/all.13749",
+      "content_verified": false,
+      "verification_note_ko": "PubMed 서지(제목·저널·DOI)만 확인함. 본문은 열람하지 못해 개별 항목의 근거로 쓰지 않고 참고 문헌으로만 둔다."
+    },
+    "eaaci_venom_2018": {
+      "citation": "Sturm GJ, Varga EM, Roberts G, et al. EAACI guidelines on allergen immunotherapy: Hymenoptera venom allergy. Allergy. 2018;73(4):744-764.",
+      "pmid": "28748641",
+      "doi": "10.1111/all.13262",
+      "url": "https://doi.org/10.1111/all.13262",
+      "content_verified": false,
+      "verification_note_ko": "PubMed 서지(제목·저널·DOI)만 확인함. 본문은 열람하지 못해 개별 항목의 근거로 쓰지 않고 참고 문헌으로만 둔다."
+    },
+    "eaaci_food_2018": {
+      "citation": "Pajno GB, et al. EAACI Guidelines on allergen immunotherapy: IgE-mediated food allergy. Allergy. 2018;73(4):799-815.",
+      "pmid": "29205393",
+      "doi": "10.1111/all.13319",
+      "url": "https://doi.org/10.1111/all.13319",
+      "content_verified": false,
+      "verification_note_ko": "PubMed 서지(제목·저널·DOI)만 확인함. 본문은 열람하지 못해 개별 항목의 근거로 쓰지 않고 참고 문헌으로만 둔다."
+    }
+  },
+  "entries": [
+    {
+      "key": "house_dust_mite",
+      "label_ko": "집먼지진드기",
+      "registry_ids": [
+        "dermatophagoides_farinae",
+        "dermatophagoides_pteronyssinus"
+      ],
+      "match_names": [
+        "Dermatophagoides farinae",
+        "Dermatophagoides pteronyssinus",
+        "House dust mite",
+        "집먼지진드기"
+      ],
+      "routes": [
+        "SCIT",
+        "SLIT"
+      ],
+      "korea": {
+        "scit": "available",
+        "slit": "available",
+        "note_ko": "국내 허가 피하 추출물(Tyrosine S, Novo-Helisen Depot, Hollister-Stier)과 설하 제제(Staloral 액, Actair 정, Acarizax 정, Lais 정)가 있습니다. 국내 설하면역치료 제품은 모두 집먼지진드기용입니다."
+      },
+      "evidence": "established",
+      "evidence_note_ko": "KAAACI 2023: 알레르기 비염·천식에 효과(High), 집먼지진드기에 감작된 아토피피부염에도 효과(Moderate). 국내에서 가장 많이 쓰이고 임상 자료가 가장 많은 항원.",
+      "sources": [
+        "kaaaci_ait_2023",
+        "kaaaci_slit_2024"
+      ],
+      "needs_review": false,
+      "further_reading": [
+        "eaaci_arc_2018",
+        "eaaci_hdm_asthma_2019"
+      ]
+    },
+    {
+      "key": "birch",
+      "label_ko": "자작나무 꽃가루",
+      "registry_ids": [
+        "birch"
+      ],
+      "match_names": [
+        "Birch",
+        "Birch pollen",
+        "자작나무",
+        "자작나무 꽃가루"
+      ],
+      "routes": [
+        "SCIT"
+      ],
+      "korea": {
+        "scit": "available",
+        "slit": "not_available",
+        "note_ko": "국내 허가 피하 추출물(Tyrosine S, Allergovit, Hollister-Stier)이 있습니다. 설하 제제는 해외에 있으나 국내에는 집먼지진드기용만 들어와 있습니다."
+      },
+      "evidence": "established",
+      "evidence_note_ko": "KAAACI 2023: 이중맹검 위약대조시험으로 효과가 확인된 꽃가루로 자작나무를 명시했습니다.",
+      "sources": [
+        "kaaaci_ait_2023"
+      ],
+      "needs_review": false,
+      "further_reading": [
+        "eaaci_arc_2018"
+      ],
+      "clinician_note_ko": "오리나무·개암나무 등 자작나무과끼리는 교차항원성이 강해 면역치료 항원으로는 보통 자작나무 하나를 고른다(KAAACI 2023)."
+    },
+    {
+      "key": "alder",
+      "label_ko": "오리나무 꽃가루",
+      "registry_ids": [
+        "alder"
+      ],
+      "match_names": [
+        "Alder",
+        "Alder pollen",
+        "오리나무",
+        "오리나무 꽃가루"
+      ],
+      "routes": [
+        "SCIT"
+      ],
+      "korea": {
+        "scit": "available",
+        "slit": "not_available",
+        "note_ko": "국내 허가 피하 추출물(Tyrosine S, Allergovit 혼합, Hollister-Stier)에 포함됩니다."
+      },
+      "evidence": "supported",
+      "evidence_note_ko": "KAAACI 2023: 자작나무와 교차항원성이 강해 면역치료 항원으로는 보통 자작나무를 대표로 고릅니다. 오리나무 단독 위약대조시험은 지침이 인용하지 않았습니다.",
+      "sources": [
+        "kaaaci_ait_2023"
+      ],
+      "needs_review": false,
+      "further_reading": []
+    },
+    {
+      "key": "hazel",
+      "label_ko": "개암나무 꽃가루",
+      "registry_ids": [
+        "hazel"
+      ],
+      "match_names": [
+        "Hazel",
+        "Hazel pollen",
+        "개암나무",
+        "개암나무 꽃가루"
+      ],
+      "routes": [
+        "SCIT"
+      ],
+      "korea": {
+        "scit": "available",
+        "slit": "not_available",
+        "note_ko": "국내 허가 피하 추출물(Tyrosine S, Allergovit 혼합)에 포함됩니다."
+      },
+      "evidence": "supported",
+      "evidence_note_ko": "KAAACI 2023: 자작나무과 교차반응 꽃가루는 같은 속·아과에서 하나를 대표로 고르면 충분하다고 봅니다(Moderate). 개암나무 단독 시험은 지침이 인용하지 않았습니다.",
+      "sources": [
+        "kaaaci_ait_2023"
+      ],
+      "needs_review": false,
+      "further_reading": []
+    },
+    {
+      "key": "oak",
+      "label_ko": "참나무 꽃가루",
+      "registry_ids": [
+        "oak"
+      ],
+      "match_names": [
+        "Oak",
+        "Oak pollen",
+        "참나무",
+        "참나무 꽃가루"
+      ],
+      "routes": [
+        "SCIT"
+      ],
+      "korea": {
+        "scit": "available",
+        "slit": "not_available",
+        "note_ko": "국내 허가 피하 추출물(Tyrosine S, Hollister-Stier)이 있습니다."
+      },
+      "evidence": "supported",
+      "evidence_note_ko": "KAAACI 2023: 참나무는 국내 주요 꽃가루 항원이며 면역치료 대상에 듭니다. 다만 참나무 추출물 면역치료는 사과 알레르기 환자의 구강알레르기증후군 증상을 유의하게 줄이지 못했다고 적었습니다.",
+      "sources": [
+        "kaaaci_ait_2023"
+      ],
+      "needs_review": false,
+      "further_reading": []
+    },
+    {
+      "key": "beech",
+      "label_ko": "너도밤나무 꽃가루",
+      "registry_ids": [
+        "beech"
+      ],
+      "match_names": [
+        "Beech",
+        "Beech pollen",
+        "너도밤나무"
+      ],
+      "routes": [
+        "SCIT"
+      ],
+      "korea": {
+        "scit": "available",
+        "slit": "not_available",
+        "note_ko": "국내 허가 피하 추출물(Tyrosine S, Hollister-Stier)에 포함됩니다."
+      },
+      "evidence": "supported",
+      "evidence_note_ko": "KAAACI 2023 Table 3 에 국내 허가 추출물로 실려 있습니다. 너도밤나무 단독의 효과 근거는 지침이 따로 다루지 않았습니다.",
+      "sources": [
+        "kaaaci_ait_2023"
+      ],
+      "needs_review": true,
+      "review_reason_ko": "추출물 가용성만 확인됨. 항원 단독 효과 근거를 지침에서 확인하지 못했습니다.",
+      "further_reading": []
+    },
+    {
+      "key": "ash",
+      "label_ko": "물푸레나무 꽃가루",
+      "registry_ids": [
+        "white_ash"
+      ],
+      "match_names": [
+        "White ash",
+        "Ash",
+        "Ash pollen",
+        "물푸레나무"
+      ],
+      "routes": [
+        "SCIT"
+      ],
+      "korea": {
+        "scit": "available",
+        "slit": "not_available",
+        "note_ko": "국내 허가 피하 추출물(Tyrosine S 의 Ash pollen, Hollister-Stier 수목 혼합의 White Ash)에 포함됩니다."
+      },
+      "evidence": "supported",
+      "evidence_note_ko": "KAAACI 2023 Table 3 에 국내 허가 추출물로 실려 있습니다. 단독 효과 근거는 지침이 따로 다루지 않았습니다.",
+      "sources": [
+        "kaaaci_ait_2023"
+      ],
+      "needs_review": true,
+      "review_reason_ko": "추출물 가용성만 확인됨. Tyrosine S 의 'Ash' 가 레지스트리의 White ash 와 같은 종인지 확인이 필요합니다.",
+      "further_reading": []
+    },
+    {
+      "key": "grass",
+      "label_ko": "잔디(화본과) 꽃가루",
+      "registry_ids": [
+        "grass",
+        "timothy",
+        "orchard_grass",
+        "kentucky_blue_grass",
+        "meadow_fescue",
+        "rye_grass_perennial",
+        "velvet_grass"
+      ],
+      "match_names": [
+        "Grass",
+        "Timothy",
+        "Timothy grass pollen",
+        "Orchard grass",
+        "Kentucky blue grass",
+        "Meadow fescue",
+        "Rye grass, perennial",
+        "Velvet grass",
+        "큰조아재비(티모시) 꽃가루"
+      ],
+      "routes": [
+        "SCIT"
+      ],
+      "korea": {
+        "scit": "available",
+        "slit": "not_available",
+        "note_ko": "국내 허가 피하 추출물은 잔디 혼합(Tyrosine S, Allergovit, Hollister-Stier)입니다. 해외에는 설하정이 있으나 국내 설하 제제는 집먼지진드기용뿐입니다."
+      },
+      "evidence": "established",
+      "evidence_note_ko": "KAAACI 2023: 이중맹검 위약대조시험으로 효과가 확인된 꽃가루로 잔디를 명시했습니다(혼합 추출물 시험).",
+      "sources": [
+        "kaaaci_ait_2023",
+        "kaaaci_slit_2024"
+      ],
+      "needs_review": false,
+      "further_reading": [
+        "eaaci_arc_2018"
+      ],
+      "clinician_note_ko": "우산잔디(Bermuda grass)는 다른 잔디와 교차항원성이 없어 이 항목에 넣지 않았다(KAAACI 2023)."
+    },
+    {
+      "key": "ragweed",
+      "label_ko": "돼지풀 꽃가루",
+      "registry_ids": [
+        "ragweed"
+      ],
+      "match_names": [
+        "Ragweed",
+        "Ragweed pollen",
+        "돼지풀",
+        "돼지풀 꽃가루"
+      ],
+      "routes": [
+        "SCIT"
+      ],
+      "korea": {
+        "scit": "available",
+        "slit": "not_available",
+        "note_ko": "국내 허가 피하 추출물(Tyrosine S, Hollister-Stier)이 있습니다. 해외에는 설하정이 있으나 국내에는 들어와 있지 않습니다."
+      },
+      "evidence": "established",
+      "evidence_note_ko": "KAAACI 2023: 이중맹검 위약대조시험으로 효과가 확인된 꽃가루로 돼지풀을 명시했습니다.",
+      "sources": [
+        "kaaaci_ait_2023",
+        "kaaaci_slit_2024"
+      ],
+      "needs_review": false,
+      "further_reading": [
+        "eaaci_arc_2018"
+      ],
+      "clinician_note_ko": "쑥과는 교차항원성이 없어 따로 판단한다(KAAACI 2023)."
+    },
+    {
+      "key": "mugwort",
+      "label_ko": "쑥 꽃가루",
+      "registry_ids": [
+        "mugwort"
+      ],
+      "match_names": [
+        "Mugwort",
+        "Mugwort pollen",
+        "쑥",
+        "쑥 꽃가루"
+      ],
+      "routes": [
+        "SCIT"
+      ],
+      "korea": {
+        "scit": "available",
+        "slit": "not_available",
+        "note_ko": "국내 허가 피하 추출물(Tyrosine S, Allergovit 혼합, Hollister-Stier)이 있습니다."
+      },
+      "evidence": "supported",
+      "evidence_note_ko": "KAAACI 2023: 쑥은 국내 주요 잡초 꽃가루이며 면역치료 대상에 듭니다. 지침의 위약대조시험 목록에는 쑥이 이름으로 올라 있지 않습니다.",
+      "sources": [
+        "kaaaci_ait_2023"
+      ],
+      "needs_review": false,
+      "further_reading": []
+    },
+    {
+      "key": "cat",
+      "label_ko": "고양이",
+      "registry_ids": [
+        "cat_dander"
+      ],
+      "match_names": [
+        "Cat dander",
+        "Cat",
+        "Cat epithelium",
+        "고양이",
+        "고양이 비듬",
+        "고양이 표피"
+      ],
+      "routes": [
+        "SCIT"
+      ],
+      "korea": {
+        "scit": "available",
+        "slit": "not_available",
+        "note_ko": "국내 허가 피하 추출물(Tyrosine S, Novo-Helisen Depot, Hollister-Stier)이 있습니다."
+      },
+      "evidence": "established",
+      "evidence_note_ko": "KAAACI 2023: 반려동물 비듬은 위약대조시험으로 효과가 확인된 항원에 포함되고, 고양이 비듬(Fel d 1)은 유효 용량 시험이 여럿 인용됩니다. 소아에서는 반려동물 비듬 면역치료 근거가 제한적이라고 적었습니다.",
+      "sources": [
+        "kaaaci_ait_2023"
+      ],
+      "needs_review": false,
+      "further_reading": [
+        "eaaci_arc_2018"
+      ]
+    },
+    {
+      "key": "dog",
+      "label_ko": "개",
+      "registry_ids": [
+        "dog_dander"
+      ],
+      "match_names": [
+        "Dog dander",
+        "Dog",
+        "Dog epithelium",
+        "개",
+        "개 비듬",
+        "개 표피"
+      ],
+      "routes": [
+        "SCIT"
+      ],
+      "korea": {
+        "scit": "available",
+        "slit": "not_available",
+        "note_ko": "국내 허가 피하 추출물(Tyrosine S, Novo-Helisen Depot, Hollister-Stier)이 있습니다."
+      },
+      "evidence": "supported",
+      "evidence_note_ko": "KAAACI 2023: 반려동물 비듬을 면역치료 항원으로 들고 개 비듬(Can f 1) 유효 용량 시험을 1건 인용합니다. 고양이보다 근거가 적고, 소아 근거는 제한적입니다.",
+      "sources": [
+        "kaaaci_ait_2023"
+      ],
+      "needs_review": false,
+      "further_reading": []
+    },
+    {
+      "key": "horse",
+      "label_ko": "말",
+      "registry_ids": [
+        "horse_dander"
+      ],
+      "match_names": [
+        "Horse dander",
+        "Horse",
+        "말 비듬"
+      ],
+      "routes": [
+        "SCIT"
+      ],
+      "korea": {
+        "scit": "available",
+        "slit": "not_available",
+        "note_ko": "국내 허가 피하 추출물 가운데 Tyrosine S 에만 말 털(Horse hair) 항원이 있습니다."
+      },
+      "evidence": "supported",
+      "evidence_note_ko": "KAAACI 2023 Table 3 에 국내 허가 추출물로 실려 있습니다. 말 항원 단독의 효과 근거는 지침이 따로 다루지 않았습니다.",
+      "sources": [
+        "kaaaci_ait_2023"
+      ],
+      "needs_review": true,
+      "review_reason_ko": "추출물 가용성만 확인됨. 항원 단독 효과 근거를 지침에서 확인하지 못했습니다.",
+      "further_reading": []
+    },
+    {
+      "key": "alternaria",
+      "label_ko": "알테르나리아 곰팡이",
+      "registry_ids": [
+        "alternaria_alternata"
+      ],
+      "match_names": [
+        "Alternaria alternata",
+        "Alternaria",
+        "얼터나리아",
+        "알테르나리아 곰팡이"
+      ],
+      "routes": [
+        "SCIT"
+      ],
+      "korea": {
+        "scit": "available",
+        "slit": "not_available",
+        "note_ko": "국내 허가 피하 추출물(Tyrosine S, Novo-Helisen Depot, Hollister-Stier)이 있습니다. 곰팡이 추출물은 단백분해효소 때문에 다른 항원과 따로 조제합니다."
+      },
+      "evidence": "established",
+      "evidence_note_ko": "KAAACI 2023: 위약대조시험으로 효과가 확인된 곰팡이로 알테르나리아를 명시했습니다. 다만 국내 곰팡이 면역치료 임상 연구는 아직 드물고, 소아 근거는 제한적이라고 적었습니다.",
+      "sources": [
+        "kaaaci_ait_2023"
+      ],
+      "needs_review": false,
+      "further_reading": []
+    },
+    {
+      "key": "cladosporium",
+      "label_ko": "클라도스포리움 곰팡이",
+      "registry_ids": [
+        "cladosporium_herbarum"
+      ],
+      "match_names": [
+        "Cladosporium herbarum",
+        "Cladosporium",
+        "클라도스포리움 헤르바룸"
+      ],
+      "routes": [
+        "SCIT"
+      ],
+      "korea": {
+        "scit": "available",
+        "slit": "not_available",
+        "note_ko": "국내 허가 피하 추출물 가운데 Tyrosine S 에 Cladosporium 항원이 있습니다."
+      },
+      "evidence": "established",
+      "evidence_note_ko": "KAAACI 2023: 위약대조시험으로 효과가 확인된 곰팡이로 클라도스포리움을 명시했습니다. 국내 임상 연구는 드뭅니다.",
+      "sources": [
+        "kaaaci_ait_2023"
+      ],
+      "needs_review": false,
+      "further_reading": []
+    },
+    {
+      "key": "cockroach",
+      "label_ko": "바퀴",
+      "registry_ids": [
+        "cockroach_german",
+        "cockroach_american",
+        "cockroach_mix"
+      ],
+      "match_names": [
+        "Cockroach, German",
+        "Cockroach, American",
+        "Cockroach, Mix",
+        "German cockroach",
+        "Cockroach",
+        "바퀴벌레",
+        "독일바퀴",
+        "미국바퀴"
+      ],
+      "routes": [
+        "SCIT"
+      ],
+      "korea": {
+        "scit": "available",
+        "slit": "not_available",
+        "note_ko": "국내 허가 피하 추출물(Tyrosine S, Hollister-Stier)에 바퀴 항원이 있습니다."
+      },
+      "evidence": "supported",
+      "evidence_note_ko": "KAAACI 2023 권고 요약문은 바퀴를 효과가 입증된 대상 항원에 넣었지만, 본문의 위약대조시험 확인 항원 목록과 유효 용량 표에는 바퀴가 없고 소아 근거는 제한적이라고 적었습니다.",
+      "sources": [
+        "kaaaci_ait_2023"
+      ],
+      "needs_review": true,
+      "review_reason_ko": "같은 지침 안에서 요약문(High)과 본문 근거 목록이 어긋납니다. 환자에게 내보내기 전에 전문의 확인이 필요합니다.",
+      "further_reading": []
+    },
+    {
+      "key": "hymenoptera_venom",
+      "label_ko": "벌독(꿀벌·말벌)",
+      "registry_ids": [
+        "honey_bee_venom",
+        "yellow_jacket_venom",
+        "paper_wasp_venom",
+        "white_faced_hornet_venom",
+        "yellow_hornet_venom"
+      ],
+      "match_names": [
+        "Honey bee venom",
+        "Honeybee venom",
+        "Bee venom",
+        "Wasp venom",
+        "Yellow jacket venom",
+        "Hornet venom",
+        "Paper wasp venom",
+        "꿀벌 독",
+        "말벌 독",
+        "벌독"
+      ],
+      "routes": [
+        "SCIT"
+      ],
+      "korea": {
+        "scit": "not_approved",
+        "slit": "not_available",
+        "note_ko": "KAAACI 2023 지침 작성 시점에 벌독 면역치료 제품은 식품의약품안전처 허가를 받지 못했고 공급도 안정적이지 않았습니다. 국내에서 받을 수 있는지는 진료에서 확인해야 합니다."
+      },
+      "evidence": "established",
+      "evidence_note_ko": "KAAACI 2023: 벌독 알레르기에 면역치료가 효과적(High). 벌에 쏘인 뒤 전신 반응이 있었고 벌독 특이 IgE 가 확인된 환자가 대상입니다.",
+      "sources": [
+        "kaaaci_ait_2023"
+      ],
+      "needs_review": false,
+      "requires": "systemic_sting_reaction",
+      "requires_note_ko": "벌에 쏘인 뒤 전신 반응이 있었다고 문진(sting_reaction=systemic)에서 확인된 환자에게만 보여준다. 벌독 감작만으로는, 또는 쏘인 자리의 국소·대국소 반응만으로는 보여주지 않는다.",
+      "registry_note_ko": "data/allergens.json 레지스트리(MAST·SPT 패널)에는 벌독 항원이 없습니다. 결과지에 벌독이 인쇄돼 있으면 match_names 로 연결됩니다.",
+      "further_reading": [
+        "eaaci_venom_2018"
+      ],
+      "clinician_note_ko": "바퀴 같은 실내 곤충 흡입 알레르기와는 전혀 다른 적응증이다. 기존 카테고리 표가 'insect' 전체를 대상 아님으로 묶었던 것을 바로잡는다."
+    }
+  ],
+  "not_listed": [
+    {
+      "key": "japanese_hop",
+      "registry_ids": [
+        "japanese_hop"
+      ],
+      "reason_ko": "국내 주요 잡초 꽃가루이지만 KAAACI 2023 은 환삼덩굴 면역치료 추출물이 국내에 없다고 명시했습니다. 쑥·돼지풀과 교차항원성도 없어 대체할 수 없습니다.",
+      "sources": [
+        "kaaaci_ait_2023"
+      ],
+      "needs_review": false
+    },
+    {
+      "key": "bermuda_grass",
+      "registry_ids": [
+        "bermuda_grass"
+      ],
+      "reason_ko": "KAAACI 2023: 우산잔디는 다른 잔디 꽃가루와 교차항원성이 없습니다. 국내 허가 잔디 혼합 추출물의 구성에도 들어 있지 않습니다.",
+      "sources": [
+        "kaaaci_ait_2023"
+      ],
+      "needs_review": false
+    },
+    {
+      "key": "japanese_cedar",
+      "registry_ids": [
+        "japanese_cedar"
+      ],
+      "reason_ko": "KAAACI 2023 Table 3 의 국내 허가 추출물에 삼나무가 없습니다. 일본에서 쓰이는 삼나무 면역치료 제제의 근거와 국내 도입 여부는 이번에 출처로 확인하지 못했습니다.",
+      "sources": [
+        "kaaaci_ait_2023"
+      ],
+      "needs_review": true
+    },
+    {
+      "key": "other_mites_molds_animals",
+      "registry_ids": [
+        "tyrophagus_putrescentiae",
+        "2_spotted_spider_mite",
+        "aspergillus_fumigatus",
+        "aspergillus_niger",
+        "penicillium",
+        "candida_albicans",
+        "fusarium",
+        "mucor_racemosus",
+        "neurospora",
+        "rabbit_epithelium",
+        "hamster",
+        "guinea_pig",
+        "mouse",
+        "rat_epithelium",
+        "cow_dander",
+        "chicken"
+      ],
+      "reason_ko": "KAAACI 2023 Table 3 의 국내 허가 추출물과 지침 본문의 효과 확인 항원 목록 어디에도 없어 넣지 않았습니다.",
+      "sources": [
+        "kaaaci_ait_2023"
+      ],
+      "needs_review": false
+    },
+    {
+      "key": "food_oral_immunotherapy",
+      "registry_ids": [
+        "cow_milk",
+        "egg_white",
+        "egg_yolk",
+        "hen_s_egg",
+        "peanut"
+      ],
+      "reason_ko": "음식은 피하·설하 면역치료 대상이 아닙니다. KAAACI 2023: 구강알레르기증후군 외의 음식 알레르기에 SCIT·SLIT 가 유용하다는 근거가 없습니다. 우유·계란·땅콩의 경구면역치료(OIT)는 반응 역치를 올리지만 중단 후 장기 효과는 확인되지 않았다고 적었습니다. 이 앱은 음식을 면역치료 후보로 안내하지 않습니다.",
+      "sources": [
+        "kaaaci_ait_2023"
+      ],
+      "needs_review": false,
+      "further_reading": [
+        "eaaci_food_2018"
+      ]
+    }
+  ]
+}

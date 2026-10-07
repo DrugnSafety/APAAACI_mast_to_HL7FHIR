@@ -95,5 +95,77 @@
       {"ko": "오징어·문어", "en": "cephalopod"}
     ]
   },
-  "shellfish_food_names": ["shrimp", "crab", "lobster", "prawn", "새우", "게", "랍스터", "가재", "대하", "꽃게"]
+  "shellfish_food_names": ["shrimp", "crab", "lobster", "prawn", "새우", "게", "랍스터", "가재", "대하", "꽃게"],
+  "evidence_links": {
+    "review_status": "candidate — 알레르기 전문의 검토 전",
+    "note_ko": "리포트의 ‘교차반응 — 알아 둘 음식’과 FHIR note 의 ‘성분 교차반응 가능(미확인)’에 싣는 기준. 성분(단백질 family)을 공유한다는 것만으로는 싣지 않고, 임상 증후군으로 보고된 연결만 싣는다: (1) 꽃가루는 위 pollen_food(큐레이션 PFAS), (2) 항원군별 by_lead_category, (3) 항원별 by_lead, (4) 같은 음식군 안의 교차(food_groups — 그 군의 음식이 양성일 때 같은 군의 다른 음식). 문진의 교차반응 ‘질문’ 후보는 이보다 넓다(물어보는 것은 해가 없고, 증상이 있었다고 답한 음식은 근거 목록과 무관하게 ‘현재 반응 확인’으로 싣는다). 값은 레지스트리(data/allergens.json)의 대표 이름이다. 2026-10 이전에는 성분만 공유하면 모두 실어 고양이에 소고기·우유가, 집먼지진드기에 아니사키스(기생충)·전복이 올랐다.",
+    "basis_ko": "docs/crd_cross_reactivity_research.md 의 정리(EAACI Molecular Allergology User's Guide 2.0, Dramburg 2023 doi:10.1111/pai.13854): 트로포마이오신(집먼지진드기 Der p 10 ↔ 갑각류), 혈청 알부민(pork-cat 증후군: 고양이 Fel d 2 ↔ 돼지고기, 고양이 감작자의 일부에서만), 파브알부민(어류 사이), 라텍스-과일 증후군. 개별 문헌을 이번에 다시 읽어 확인한 것은 아니다.",
+    "by_lead_category": {
+      "mite": {
+        "label_ko": "집먼지진드기–갑각류(트로포마이오신)",
+        "foods": [
+          "Shrimp",
+          "Prawn",
+          "Crab",
+          "Lobster",
+          "Crayfish"
+        ]
+      },
+      "latex": {
+        "label_ko": "라텍스-과일 증후군",
+        "foods": [
+          "Banana",
+          "Avocado",
+          "Kiwi",
+          "Chestnut"
+        ]
+      }
+    },
+    "by_lead": {
+      "Cat dander": {
+        "label_ko": "돼지고기-고양이 증후군(혈청 알부민)",
+        "foods": [
+          "Pork"
+        ]
+      }
+    },
+    "food_groups": {
+      "crustacean": {
+        "label_ko": "갑각류",
+        "foods": [
+          "Shrimp",
+          "Prawn",
+          "Crab",
+          "Lobster",
+          "Crayfish",
+          "Krill"
+        ]
+      },
+      "mollusc": {
+        "label_ko": "연체류(조개·오징어류)",
+        "foods": [
+          "Squid",
+          "Octopus",
+          "Oyster",
+          "Mussel",
+          "Clam",
+          "Abalone",
+          "Snail"
+        ]
+      },
+      "fish": {
+        "label_ko": "어류(파브알부민)",
+        "foods": [
+          "Cod",
+          "Salmon",
+          "Mackerel",
+          "Tuna",
+          "Carp",
+          "Herring",
+          "Sardine",
+          "Pollock"
+        ]
+      }
+    }
+  }
 }

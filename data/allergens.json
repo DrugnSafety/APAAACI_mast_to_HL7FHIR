@@ -2,7 +2,7 @@
  "version": "1.0",
  "generated_by": "scripts/build_allergen_registry.py (P0 read-only merge)",
  "note_ko": "4개 사일로 병합 단일 항원 레지스트리. 아직 앱에 연결되지 않음(P2+에서 위임). 성분 태깅은 data/component_membership.json 에서 관리.",
- "count": 148,
+ "count": 159,
  "antigens": [
   {
    "id": "2_spotted_spider_mite",
@@ -18,12 +18,12 @@
    "category": "mite",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "106854009",
     "omop_concept_id": "37022204",
     "snomed": "37022204",
     "vocabulary": "LOINC",
-    "coding_source": "cdm",
-    "concept_name": "2-spotted spider mite (Tetranychus urticae)"
+    "coding_source": "snomed_ct",
+    "concept_name": "Family Tetranychidae"
    },
    "kb_ref": null,
    "components": []
@@ -68,12 +68,12 @@
    "category": "pollen_tree",
    "subcategory": "Tree",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "472727005",
     "omop_concept_id": "43020816",
     "snomed": "43020816",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "False acacia pollen"
+    "coding_source": "snomed_ct",
+    "concept_name": "Robinia pseudoacacia pollen"
    },
    "kb_ref": null,
    "components": []
@@ -92,11 +92,11 @@
    "category": "pollen_tree",
    "subcategory": "Tree",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256261008",
     "omop_concept_id": "4115937",
     "snomed": "4115937",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Alder pollen"
    },
    "kb_ref": "Alder pollen",
@@ -120,11 +120,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256350002",
     "omop_concept_id": "4104630",
     "snomed": "4104630",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Almond"
    },
    "kb_ref": null,
@@ -150,14 +150,60 @@
    "category": "mold",
    "subcategory": "Outdoor",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "36703000",
     "omop_concept_id": "46272803",
     "snomed": "46272803",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Alternaria alternata protein antigen"
+    "coding_source": "snomed_ct",
+    "concept_name": "Alternaria alternata"
    },
    "kb_ref": "Alternaria alternata",
+   "components": []
+  },
+  {
+   "id": "amoxicillin",
+   "canonical_name": "Amoxicillin",
+   "korean_name": "아목시실린",
+   "aliases": [
+    "Amoxicillin",
+    "Amoxicilloyl",
+    "아목시실린"
+   ],
+   "ocr_aliases": [],
+   "category": "drug",
+   "subcategory": null,
+   "coding": {
+    "snomed_ct": null,
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": []
+  },
+  {
+   "id": "ampicillin",
+   "canonical_name": "Ampicillin",
+   "korean_name": "암피실린",
+   "aliases": [
+    "Ampicillin",
+    "Ampicilloyl",
+    "암피실린"
+   ],
+   "ocr_aliases": [],
+   "category": "drug",
+   "subcategory": null,
+   "coding": {
+    "snomed_ct": null,
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
    "components": []
   },
   {
@@ -198,11 +244,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "735215001",
     "omop_concept_id": "42536408",
     "snomed": "42536408",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Apple"
    },
    "kb_ref": null,
@@ -253,12 +299,12 @@
    "category": "mold",
    "subcategory": "Indoor",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "32684000",
     "omop_concept_id": "46272804",
     "snomed": "46272804",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Aspergillus fumigatus protein antigen"
+    "coding_source": "snomed_ct",
+    "concept_name": "Aspergillus fumigatus"
    },
    "kb_ref": "Aspergillus fumigatus",
    "components": []
@@ -278,12 +324,12 @@
    "category": "mold",
    "subcategory": "Indoor",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "89354002",
     "omop_concept_id": "46272805",
     "snomed": "46272805",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Aspergillus niger protein antigen"
+    "coding_source": "snomed_ct",
+    "concept_name": "Aspergillus niger"
    },
    "kb_ref": null,
    "components": []
@@ -300,11 +346,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "735249009",
     "omop_concept_id": "42536428",
     "snomed": "42536428",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Avocado"
    },
    "kb_ref": null,
@@ -324,11 +370,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256307007",
     "omop_concept_id": "4106295",
     "snomed": "4106295",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Banana"
    },
    "kb_ref": null,
@@ -353,11 +399,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "735124003",
     "omop_concept_id": "42539513",
     "snomed": "42539513",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Barley"
    },
    "kb_ref": null,
@@ -366,10 +412,10 @@
   {
    "id": "bean",
    "canonical_name": "Bean",
-   "korean_name": "콩",
+   "korean_name": "콩류",
    "aliases": [
     "Bean",
-    "콩"
+    "콩류"
    ],
    "ocr_aliases": [
     "8ean"
@@ -377,11 +423,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256354006",
     "omop_concept_id": "4103602",
     "snomed": "4103602",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Bean"
    },
    "kb_ref": null,
@@ -401,11 +447,11 @@
    "category": "pollen_tree",
    "subcategory": "Tree",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256265004",
     "omop_concept_id": "4116683",
     "snomed": "4116683",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Beech pollen"
    },
    "kb_ref": null,
@@ -454,11 +500,11 @@
    "category": "pollen_grass",
    "subcategory": "Grass",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "260089005",
     "omop_concept_id": "4126502",
     "snomed": "4126502",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Bermuda grass pollen"
    },
    "kb_ref": null,
@@ -473,6 +519,10 @@
    "korean_name": "자작나무",
    "aliases": [
     "Birch",
+    "White birch",
+    "Silver birch",
+    "Common silver birch",
+    "Betula verrucosa",
     "자작나무"
    ],
    "ocr_aliases": [
@@ -481,12 +531,12 @@
    "category": "pollen_tree",
    "subcategory": "Tree",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256262001",
     "omop_concept_id": "765811",
     "snomed": "765811",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Birch pollen"
+    "coding_source": "snomed_ct",
+    "concept_name": "European white birch pollen"
    },
    "kb_ref": "Birch pollen",
    "components": [
@@ -507,11 +557,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "735108004",
     "omop_concept_id": "42536335",
     "snomed": "42536335",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Cabbage"
    },
    "kb_ref": null,
@@ -532,12 +582,12 @@
    "category": "mold",
    "subcategory": "Indoor",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "53326005",
     "omop_concept_id": "46272808",
     "snomed": "46272808",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Candida albicans protein antigen"
+    "coding_source": "snomed_ct",
+    "concept_name": "Candida albicans"
    },
    "kb_ref": null,
    "components": []
@@ -577,11 +627,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256319004",
     "omop_concept_id": "4106300",
     "snomed": "4106300",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Carrot"
    },
    "kb_ref": null,
@@ -603,12 +653,12 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "50593009",
     "omop_concept_id": "4177499",
     "snomed": "4177499",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": null
+    "coding_source": "snomed_ct",
+    "concept_name": "Casein"
    },
    "kb_ref": null,
    "components": []
@@ -654,11 +704,11 @@
    "category": "animal",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "260152009",
     "omop_concept_id": "4125384",
     "snomed": "4125384",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Cat dander"
    },
    "kb_ref": "Cat dander",
@@ -666,6 +716,28 @@
     "serum_albumin",
     "lipocalin"
    ]
+  },
+  {
+   "id": "cefaclor",
+   "canonical_name": "Cefaclor",
+   "korean_name": "세파클러",
+   "aliases": [
+    "Cefaclor",
+    "세파클러"
+   ],
+   "ocr_aliases": [],
+   "category": "drug",
+   "subcategory": null,
+   "coding": {
+    "snomed_ct": null,
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": []
   },
   {
    "id": "celery",
@@ -681,11 +753,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256326004",
     "omop_concept_id": "4104625",
     "snomed": "4104625",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Celery"
    },
    "kb_ref": null,
@@ -733,12 +805,12 @@
    "category": "animal",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "260165000",
     "omop_concept_id": "35627007",
     "snomed": "35627007",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Chicken"
+    "coding_source": "snomed_ct",
+    "concept_name": "Chicken feathers"
    },
    "kb_ref": null,
    "components": []
@@ -756,11 +828,11 @@
    "category": "pollen_weed",
    "subcategory": "Weed",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256289006",
     "omop_concept_id": "4106288",
     "snomed": "4106288",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Chrysanthemum pollen"
    },
    "kb_ref": null,
@@ -779,11 +851,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "102259006",
     "omop_concept_id": "4008005",
     "snomed": "4008005",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Citrus fruit"
    },
    "kb_ref": null,
@@ -804,12 +876,12 @@
    "category": "mold",
    "subcategory": "Outdoor",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "3459008",
     "omop_concept_id": "46272811",
     "snomed": "46272811",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Cladosporium herbarum protein antigen"
+    "coding_source": "snomed_ct",
+    "concept_name": "Cladosporium herbarum"
    },
    "kb_ref": null,
    "components": []
@@ -853,11 +925,11 @@
    "category": "insect",
    "subcategory": "Cockroach",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "710937009",
     "omop_concept_id": "46273915",
     "snomed": "46273915",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "American cockroach protein"
    },
    "kb_ref": null,
@@ -881,11 +953,11 @@
    "category": "insect",
    "subcategory": "Cockroach",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "710930006",
     "omop_concept_id": "46272547",
     "snomed": "46272547",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "German cockroach protein"
    },
    "kb_ref": "German cockroach",
@@ -912,11 +984,11 @@
    "category": "insect",
    "subcategory": "Cockroach",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "710943006",
     "omop_concept_id": "46273916",
     "snomed": "46273916",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Cockroach protein"
    },
    "kb_ref": "German cockroach",
@@ -937,11 +1009,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "735245003",
     "omop_concept_id": "42536425",
     "snomed": "42536425",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Cod"
    },
    "kb_ref": null,
@@ -956,7 +1028,11 @@
    "aliases": [
     "Control",
     "Negative control",
-    "음성 대조용 생리식염수"
+    "음성 대조용 생리식염수",
+    "Saline",
+    "생리식염수",
+    "음성 대조",
+    "음성대조"
    ],
    "ocr_aliases": [
     "Contro1"
@@ -990,12 +1066,12 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "2911006",
     "omop_concept_id": "4041339",
     "snomed": "4041339",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Cornflour"
+    "coding_source": "snomed_ct",
+    "concept_name": "Zea mays - corn"
    },
    "kb_ref": null,
    "components": []
@@ -1006,7 +1082,14 @@
    "korean_name": "소 비듬",
    "aliases": [
     "Bos d 2",
-    "소 상피"
+    "소 상피",
+    "Cow",
+    "Cow epithelium",
+    "Cow hair",
+    "Cattle",
+    "Cattle dander",
+    "Cattle epithelium",
+    "소"
    ],
    "ocr_aliases": [],
    "category": "animal",
@@ -1023,7 +1106,8 @@
    "components": [
     "lipocalin",
     "serum_albumin"
-   ]
+   ],
+   "provenance": "added_2026_10: aliases Cow / Cow epithelium / Cow hair / Cattle / Cattle dander / Cattle epithelium / 소 (ImmunoCAP e4) — unverified against the clinic's actual panel"
   },
   {
    "id": "cow_milk",
@@ -1040,12 +1124,12 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "3718001",
     "omop_concept_id": null,
     "snomed": null,
     "vocabulary": "SNOMED",
-    "coding_source": "none",
-    "concept_name": null
+    "coding_source": "snomed_ct",
+    "concept_name": "Cow's milk"
    },
    "kb_ref": "Cow milk",
    "components": [
@@ -1068,12 +1152,12 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "736159005",
     "omop_concept_id": null,
     "snomed": null,
     "vocabulary": "SNOMED",
-    "coding_source": "none",
-    "concept_name": null
+    "coding_source": "snomed_ct",
+    "concept_name": "Crab"
    },
    "kb_ref": null,
    "components": [
@@ -1094,12 +1178,12 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "735972003",
     "omop_concept_id": null,
     "snomed": null,
     "vocabulary": "SNOMED",
-    "coding_source": "none",
-    "concept_name": null
+    "coding_source": "snomed_ct",
+    "concept_name": "Crayfish"
    },
    "kb_ref": null,
    "components": [
@@ -1113,7 +1197,6 @@
    "korean_name": "귀리",
    "aliases": [
     "Cultivated oat",
-    "oat",
     "귀리"
    ],
    "ocr_aliases": [
@@ -1122,12 +1205,12 @@
    "category": "pollen_grass",
    "subcategory": "Grass",
    "coding": {
-    "snomed_ct": null,
-    "omop_concept_id": "4303810",
+    "snomed_ct": "260098008",
+    "omop_concept_id": null,
     "snomed": "4128476",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Oat"
+    "coding_source": "snomed_ct",
+    "concept_name": "Cultivated oat pollen"
    },
    "kb_ref": null,
    "components": []
@@ -1146,11 +1229,11 @@
    "category": "pollen_weed",
    "subcategory": "Weed",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256297004",
     "omop_concept_id": "4104621",
     "snomed": "4104621",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Dandelion pollen"
    },
    "kb_ref": null,
@@ -1175,12 +1258,12 @@
    "category": "mite",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "112476003",
     "omop_concept_id": "46273588",
     "snomed": "46273588",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Dermatophagoides farinae protein"
+    "coding_source": "snomed_ct",
+    "concept_name": "Dermatophagoides farinae"
    },
    "kb_ref": "Dermatophagoides farinae",
    "components": [
@@ -1203,11 +1286,11 @@
    "category": "mite",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "711094007",
     "omop_concept_id": "46272684",
     "snomed": "46272684",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Dermatophagoides pteronyssinus protein"
    },
    "kb_ref": "Dermatophagoides pteronyssinus",
@@ -1233,11 +1316,11 @@
    "category": "animal",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "260154005",
     "omop_concept_id": "4128602",
     "snomed": "4128602",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Dog dander"
    },
    "kb_ref": "Dog dander",
@@ -1258,11 +1341,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256443002",
     "omop_concept_id": "4103922",
     "snomed": "4103922",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Egg white"
    },
    "kb_ref": "Egg white",
@@ -1282,11 +1365,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256442007",
     "omop_concept_id": "4103921",
     "snomed": "4103921",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Egg yolk"
    },
    "kb_ref": null,
@@ -1306,11 +1389,11 @@
    "category": "pollen_tree",
    "subcategory": "Tree",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "289948005",
     "omop_concept_id": "4128340",
     "snomed": "4128340",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Elder pollen"
    },
    "kb_ref": null,
@@ -1330,11 +1413,11 @@
    "category": "pollen_tree",
    "subcategory": "Tree",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256272003",
     "omop_concept_id": "4115941",
     "snomed": "4115941",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Elm pollen"
    },
    "kb_ref": null,
@@ -1355,11 +1438,11 @@
    "category": "pollen_weed",
    "subcategory": "Weed",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256294006",
     "omop_concept_id": "4104620",
     "snomed": "4104620",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "English plantain pollen"
    },
    "kb_ref": null,
@@ -1379,12 +1462,12 @@
    "category": "mold",
    "subcategory": "Outdoor",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "35238009",
     "omop_concept_id": "46272814",
     "snomed": "46272814",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Fusarium moniliforme protein antigen"
+    "coding_source": "snomed_ct",
+    "concept_name": "Fusarium"
    },
    "kb_ref": null,
    "components": []
@@ -1404,11 +1487,11 @@
    "category": "pollen_weed",
    "subcategory": "Weed",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "710907000",
     "omop_concept_id": "46272528",
     "snomed": "46272528",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Goldenrod pollen"
    },
    "kb_ref": null,
@@ -1426,12 +1509,12 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256317002",
     "omop_concept_id": "4106299",
     "snomed": "4106299",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Grape"
+    "coding_source": "snomed_ct",
+    "concept_name": "Grapes"
    },
    "kb_ref": null,
    "components": [
@@ -1451,12 +1534,12 @@
    "category": "pollen_grass",
    "subcategory": "Grass",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256277009",
     "omop_concept_id": null,
     "snomed": "4117479",
     "vocabulary": "SNOMED",
-    "coding_source": "snomed",
-    "concept_name": null
+    "coding_source": "snomed_ct",
+    "concept_name": "Grass pollen"
    },
    "kb_ref": null,
    "components": []
@@ -1474,12 +1557,12 @@
    "category": "animal",
    "subcategory": "Indoor",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "703927007",
     "omop_concept_id": null,
     "snomed": null,
     "vocabulary": "SNOMED",
-    "coding_source": "none",
-    "concept_name": null
+    "coding_source": "snomed_ct",
+    "concept_name": "Guinea pig dander"
    },
    "kb_ref": null,
    "components": [
@@ -1500,12 +1583,12 @@
    "category": "animal",
    "subcategory": "Indoor",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "260164001",
     "omop_concept_id": null,
     "snomed": null,
     "vocabulary": "SNOMED",
-    "coding_source": "none",
-    "concept_name": null
+    "coding_source": "snomed_ct",
+    "concept_name": "Hamster epithelium"
    },
    "kb_ref": null,
    "components": [
@@ -1526,11 +1609,11 @@
    "category": "pollen_tree",
    "subcategory": "Tree",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256263006",
     "omop_concept_id": "4117473",
     "snomed": "4117473",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Hazel pollen"
    },
    "kb_ref": null,
@@ -1554,12 +1637,12 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256353000",
     "omop_concept_id": null,
     "snomed": null,
     "vocabulary": "SNOMED",
-    "coding_source": "none",
-    "concept_name": null
+    "coding_source": "snomed_ct",
+    "concept_name": "Hazelnut"
    },
    "kb_ref": null,
    "components": [
@@ -1581,11 +1664,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "286550009",
     "omop_concept_id": "4120251",
     "snomed": "4120251",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Hen's egg"
    },
    "kb_ref": null,
@@ -1621,21 +1704,54 @@
    "aliases": [
     "Histamine",
     "Positive control",
-    "양성 대조용 0.1% 히스타민 용액"
+    "양성 대조용 0.1% 히스타민 용액",
+    "Histamine control",
+    "히스타민",
+    "양성 대조",
+    "양성대조"
    ],
    "ocr_aliases": [],
    "category": "control",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "54235008",
     "omop_concept_id": "36703747",
     "snomed": "36703747",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Generic Positive Control 0.1% Histamine solution for skin prick test"
+    "coding_source": "snomed_ct",
+    "concept_name": "Histamine"
    },
    "kb_ref": null,
    "components": []
+  },
+  {
+   "id": "honey_bee_venom",
+   "canonical_name": "Honey bee venom",
+   "korean_name": "꿀벌 독",
+   "aliases": [
+    "Honey bee",
+    "Honeybee",
+    "Honeybee venom",
+    "Bee venom",
+    "Apis mellifera",
+    "꿀벌",
+    "꿀벌독"
+   ],
+   "ocr_aliases": [],
+   "category": "venom",
+   "subcategory": null,
+   "coding": {
+    "snomed_ct": "256439001",
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "snomed_ct",
+    "concept_name": "Honey bee venom (substance)"
+   },
+   "kb_ref": null,
+   "components": [],
+   "provenance": "added_2026_10: unverified against the clinic's actual panel",
+   "immunocap_code": "i1"
   },
   {
    "id": "hornbeam",
@@ -1649,12 +1765,12 @@
    "category": "pollen_tree",
    "subcategory": "Tree",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256302001",
     "omop_concept_id": null,
     "snomed": null,
     "vocabulary": "SNOMED",
-    "coding_source": "none",
-    "concept_name": null
+    "coding_source": "snomed_ct",
+    "concept_name": "Hornbeam pollen"
    },
    "kb_ref": null,
    "components": [
@@ -1667,7 +1783,11 @@
    "korean_name": "말 비듬",
    "aliases": [
     "Equ c",
-    "말 상피"
+    "말 상피",
+    "Horse",
+    "Horse epithelium",
+    "Horse hair",
+    "말"
    ],
    "ocr_aliases": [],
    "category": "animal",
@@ -1684,7 +1804,31 @@
    "components": [
     "lipocalin",
     "serum_albumin"
-   ]
+   ],
+   "provenance": "added_2026_10: aliases Horse / Horse epithelium / Horse hair / 말 (ImmunoCAP e3) — unverified against the clinic's actual panel"
+  },
+  {
+   "id": "house_dust",
+   "canonical_name": "House dust",
+   "korean_name": "집먼지",
+   "aliases": [
+    "House dust",
+    "Housedust",
+    "집먼지"
+   ],
+   "ocr_aliases": [],
+   "category": "other",
+   "subcategory": null,
+   "coding": {
+    "snomed_ct": null,
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": []
   },
   {
    "id": "indoor_mold_mixture",
@@ -1701,12 +1845,12 @@
    "category": "mold",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "722071008",
     "omop_concept_id": "4224654",
     "snomed": "4224654",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Mold"
+    "coding_source": "snomed_ct",
+    "concept_name": "Mold antigen"
    },
    "kb_ref": null,
    "components": []
@@ -1724,11 +1868,11 @@
    "category": "pollen_tree",
    "subcategory": "Tree",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "260130000",
     "omop_concept_id": "4128600",
     "snomed": "4128600",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Japanese cedar pollen"
    },
    "kb_ref": null,
@@ -1749,11 +1893,11 @@
    "category": "pollen_weed",
    "subcategory": "Weed",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "260119003",
     "omop_concept_id": "4128484",
     "snomed": "4128484",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Japanese hop pollen"
    },
    "kb_ref": "Japanese hop pollen",
@@ -1776,11 +1920,11 @@
    "category": "pollen_grass",
    "subcategory": "Grass",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256286004",
     "omop_concept_id": "4103765",
     "snomed": "4103765",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Kentucky blue grass pollen"
    },
    "kb_ref": null,
@@ -1799,11 +1943,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "260176001",
     "omop_concept_id": "4128608",
     "snomed": "4128608",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Kiwi fruit"
    },
    "kb_ref": null,
@@ -1852,11 +1996,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "102697003",
     "omop_concept_id": "4010500",
     "snomed": "4010500",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Lactalbumin"
    },
    "kb_ref": null,
@@ -1874,12 +2018,12 @@
    "category": "pollen_weed",
    "subcategory": "Weed",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "260110004",
     "omop_concept_id": null,
     "snomed": "4125373",
     "vocabulary": "SNOMED",
-    "coding_source": "snomed",
-    "concept_name": null
+    "coding_source": "snomed_ct",
+    "concept_name": "Lamb's quarters pollen"
    },
    "kb_ref": null,
    "components": [
@@ -1897,14 +2041,14 @@
     "라텍스"
    ],
    "ocr_aliases": [],
-   "category": "other",
+   "category": "latex",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "111088007",
     "omop_concept_id": "4008070",
     "snomed": "4008070",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Latex"
    },
    "kb_ref": null,
@@ -1925,11 +2069,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "227350006",
     "omop_concept_id": "4025400",
     "snomed": "4025400",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Lentils"
    },
    "kb_ref": null,
@@ -1949,11 +2093,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "736162008",
     "omop_concept_id": "42537051",
     "snomed": "42537051",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Lobster"
    },
    "kb_ref": null,
@@ -1976,11 +2120,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "735043001",
     "omop_concept_id": "42536299",
     "snomed": "42536299",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Mackerel"
    },
    "kb_ref": null,
@@ -2005,12 +2149,12 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "2911006",
     "omop_concept_id": "4041339",
     "snomed": "4041339",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Cornflour"
+    "coding_source": "snomed_ct",
+    "concept_name": "Zea mays - corn"
    },
    "kb_ref": null,
    "components": [
@@ -2031,11 +2175,11 @@
    "category": "pollen_grass",
    "subcategory": "Grass",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256279007",
     "omop_concept_id": "4116689",
     "snomed": "4116689",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Meadow fescue pollen"
    },
    "kb_ref": null,
@@ -2055,11 +2199,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "260177005",
     "omop_concept_id": "4125392",
     "snomed": "4125392",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Melon"
    },
    "kb_ref": null,
@@ -2080,12 +2224,12 @@
    "category": "animal",
    "subcategory": "Indoor",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256419000",
     "omop_concept_id": null,
     "snomed": null,
     "vocabulary": "SNOMED",
-    "coding_source": "none",
-    "concept_name": null
+    "coding_source": "snomed_ct",
+    "concept_name": "Mouse epithelium"
    },
    "kb_ref": null,
    "components": [
@@ -2105,12 +2249,12 @@
    "category": "mold",
    "subcategory": "Indoor",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "29589005",
     "omop_concept_id": "46272818",
     "snomed": "46272818",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Mucor racemosus protein antigen"
+    "coding_source": "snomed_ct",
+    "concept_name": "Mucor racemosus"
    },
    "kb_ref": null,
    "components": []
@@ -2127,11 +2271,11 @@
    "category": "pollen_weed",
    "subcategory": "Weed",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256293000",
     "omop_concept_id": "4106289",
     "snomed": "4106289",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Mugwort pollen"
    },
    "kb_ref": "Mugwort pollen",
@@ -2154,12 +2298,12 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "227355001",
     "omop_concept_id": null,
     "snomed": null,
     "vocabulary": "SNOMED",
-    "coding_source": "none",
-    "concept_name": null
+    "coding_source": "snomed_ct",
+    "concept_name": "Mung beans"
    },
    "kb_ref": null,
    "components": [
@@ -2181,12 +2325,12 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "735045008",
     "omop_concept_id": null,
     "snomed": null,
     "vocabulary": "SNOMED",
-    "coding_source": "none",
-    "concept_name": null
+    "coding_source": "snomed_ct",
+    "concept_name": "Mushroom"
    },
    "kb_ref": null,
    "components": []
@@ -2205,11 +2349,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "227150003",
     "omop_concept_id": "4026892",
     "snomed": "4026892",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Mussel"
    },
    "kb_ref": null,
@@ -2229,11 +2373,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "51905005",
     "omop_concept_id": "4202198",
     "snomed": "4202198",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Mustard"
    },
    "kb_ref": null,
@@ -2255,11 +2399,11 @@
    "category": "pollen_weed",
    "subcategory": "Weed",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256298009",
     "omop_concept_id": "4103768",
     "snomed": "4103768",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Nettle pollen"
    },
    "kb_ref": null,
@@ -2277,11 +2421,11 @@
    "category": "mold",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "708254003",
     "omop_concept_id": "45769569",
     "snomed": "45769569",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Neurospora"
    },
    "kb_ref": null,
@@ -2301,11 +2445,11 @@
    "category": "pollen_tree",
    "subcategory": "Tree",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256270006",
     "omop_concept_id": "4116684",
     "snomed": "4116684",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Oak pollen"
    },
    "kb_ref": "Oak pollen",
@@ -2329,11 +2473,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "418504009",
     "omop_concept_id": "4303810",
     "snomed": "4303810",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Oat"
    },
    "kb_ref": null,
@@ -2353,11 +2497,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "735979007",
     "omop_concept_id": "42536930",
     "snomed": "42536930",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Octopus"
    },
    "kb_ref": null,
@@ -2378,12 +2522,12 @@
    "category": "pollen_tree",
    "subcategory": "Tree",
    "coding": {
-    "snomed_ct": "227436000",
+    "snomed_ct": "260126003",
     "omop_concept_id": null,
     "snomed": null,
     "vocabulary": "SNOMED",
     "coding_source": "snomed_ct",
-    "concept_name": "Olives (substance)"
+    "concept_name": "Olive pollen"
    },
    "kb_ref": null,
    "components": [
@@ -2406,11 +2550,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "735047000",
     "omop_concept_id": "42539479",
     "snomed": "42539479",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Onion"
    },
    "kb_ref": null,
@@ -2431,11 +2575,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256306003",
     "omop_concept_id": "4106294",
     "snomed": "4106294",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Orange - fruit"
    },
    "kb_ref": null,
@@ -2458,12 +2602,12 @@
    "category": "pollen_grass",
    "subcategory": "Grass",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256278004",
     "omop_concept_id": "4116688",
     "snomed": "4116688",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Orchard grass pollen"
+    "coding_source": "snomed_ct",
+    "concept_name": "Dactylis (orchardgrass) pollen"
    },
    "kb_ref": null,
    "components": []
@@ -2483,12 +2627,12 @@
    "category": "mold",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "722071008",
     "omop_concept_id": "4224654",
     "snomed": "4224654",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Mold"
+    "coding_source": "snomed_ct",
+    "concept_name": "Mold antigen"
    },
    "kb_ref": null,
    "components": []
@@ -2507,17 +2651,43 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "736031006",
     "omop_concept_id": "42536963",
     "snomed": "42536963",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Oyster"
    },
    "kb_ref": null,
    "components": [
     "tropomyosin"
    ]
+  },
+  {
+   "id": "paper_wasp_venom",
+   "canonical_name": "Paper wasp venom",
+   "korean_name": "쌍살벌 독",
+   "aliases": [
+    "Paper wasp",
+    "Polistes",
+    "쌍살벌",
+    "쌍살벌독"
+   ],
+   "ocr_aliases": [],
+   "category": "venom",
+   "subcategory": null,
+   "coding": {
+    "snomed_ct": "260194007",
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "snomed_ct",
+    "concept_name": "Paper wasp venom (substance)"
+   },
+   "kb_ref": null,
+   "components": [],
+   "provenance": "added_2026_10: unverified against the clinic's actual panel",
+   "immunocap_code": "i4"
   },
   {
    "id": "peach",
@@ -2531,11 +2701,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "735049002",
     "omop_concept_id": "42536304",
     "snomed": "42536304",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Peach"
    },
    "kb_ref": null,
@@ -2558,11 +2728,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "762952008",
     "omop_concept_id": "42538933",
     "snomed": "42538933",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Peanut"
    },
    "kb_ref": "Peanut",
@@ -2585,11 +2755,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "735050002",
     "omop_concept_id": "42536305",
     "snomed": "42536305",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Pear"
    },
    "kb_ref": null,
@@ -2622,6 +2792,54 @@
    ]
   },
   {
+   "id": "penicillin_g",
+   "canonical_name": "Penicillin G",
+   "korean_name": "페니실린 G",
+   "aliases": [
+    "Penicillin G",
+    "Penicilloyl G",
+    "Penicillin",
+    "페니실린",
+    "페니실린 G"
+   ],
+   "ocr_aliases": [],
+   "category": "drug",
+   "subcategory": null,
+   "coding": {
+    "snomed_ct": null,
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": []
+  },
+  {
+   "id": "penicillin_v",
+   "canonical_name": "Penicillin V",
+   "korean_name": "페니실린 V",
+   "aliases": [
+    "Penicillin V",
+    "Penicilloyl V",
+    "페니실린 V"
+   ],
+   "ocr_aliases": [],
+   "category": "drug",
+   "subcategory": null,
+   "coding": {
+    "snomed_ct": null,
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "none",
+    "concept_name": null
+   },
+   "kb_ref": null,
+   "components": []
+  },
+  {
    "id": "penicillium",
    "canonical_name": "Penicillium",
    "korean_name": "페니실리움",
@@ -2635,11 +2853,11 @@
    "category": "mold",
    "subcategory": "Indoor",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "42993004",
     "omop_concept_id": "4180730",
     "snomed": "4180730",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Penicillium"
    },
    "kb_ref": null,
@@ -2658,12 +2876,12 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "1137359008",
     "omop_concept_id": "4026321",
     "snomed": "4026321",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Pepper"
+    "coding_source": "snomed_ct",
+    "concept_name": "Bell pepper"
    },
    "kb_ref": null,
    "components": []
@@ -2680,11 +2898,11 @@
    "category": "pollen_tree",
    "subcategory": "Tree",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256267007",
     "omop_concept_id": "4115940",
     "snomed": "4115940",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Pine pollen"
    },
    "kb_ref": null,
@@ -2704,11 +2922,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256313003",
     "omop_concept_id": "4106297",
     "snomed": "4106297",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Pineapple"
    },
    "kb_ref": null,
@@ -2753,11 +2971,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "227083008",
     "omop_concept_id": "4025228",
     "snomed": "4025228",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Plaice"
    },
    "kb_ref": null,
@@ -2777,11 +2995,11 @@
    "category": "pollen_tree",
    "subcategory": "Tree",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256268002",
     "omop_concept_id": "4117475",
     "snomed": "4117475",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Plane pollen"
    },
    "kb_ref": null,
@@ -2850,11 +3068,11 @@
    "category": "pollen_tree",
    "subcategory": "Tree",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256269005",
     "omop_concept_id": "4117476",
     "snomed": "4117476",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Poplar pollen"
    },
    "kb_ref": null,
@@ -2872,11 +3090,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "226934003",
     "omop_concept_id": "4037243",
     "snomed": "4037243",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Pork"
    },
    "kb_ref": null,
@@ -2896,12 +3114,12 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "1590002",
     "omop_concept_id": "42536307",
     "snomed": "42536307",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Potato"
+    "coding_source": "snomed_ct",
+    "concept_name": "Irish potato"
    },
    "kb_ref": null,
    "components": [
@@ -2948,11 +3166,11 @@
    "category": "animal",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256421005",
     "omop_concept_id": "4103623",
     "snomed": "4103623",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Rabbit epithelium"
    },
    "kb_ref": null,
@@ -2966,17 +3184,20 @@
    "korean_name": "돼지풀",
    "aliases": [
     "Ragweed",
+    "Short ragweed",
+    "Common ragweed",
+    "Ambrosia artemisiifolia",
     "돼지풀"
    ],
    "ocr_aliases": [],
    "category": "pollen_weed",
    "subcategory": "Weed",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256303006",
     "omop_concept_id": "4103592",
     "snomed": "4103592",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Ragweed pollen"
    },
    "kb_ref": "Ragweed pollen",
@@ -3001,11 +3222,11 @@
    "category": "animal",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256422003",
     "omop_concept_id": "4105508",
     "snomed": "4105508",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Rat epithelium"
    },
    "kb_ref": null,
@@ -3026,11 +3247,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "67324005",
     "omop_concept_id": "4284846",
     "snomed": "4284846",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Rice"
    },
    "kb_ref": null,
@@ -3050,11 +3271,11 @@
    "category": "pollen_weed",
    "subcategory": "Weed",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "260111000",
     "omop_concept_id": "4125374",
     "snomed": "4125374",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Russian thistle pollen"
    },
    "kb_ref": null,
@@ -3074,11 +3295,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "229940009",
     "omop_concept_id": "4047298",
     "snomed": "4047298",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Rye flour"
    },
    "kb_ref": null,
@@ -3097,12 +3318,12 @@
    "category": "pollen_grass",
    "subcategory": "Grass",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "1264573001",
     "omop_concept_id": "4117480",
     "snomed": "4117480",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Rye grass pollen"
+    "coding_source": "snomed_ct",
+    "concept_name": "Perennial rye grass pollen"
    },
    "kb_ref": null,
    "components": []
@@ -3121,12 +3342,12 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "39947003",
     "omop_concept_id": "42536274",
     "snomed": "42536274",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Salmon"
+    "coding_source": "snomed_ct",
+    "concept_name": "Salmo salar"
    },
    "kb_ref": null,
    "components": [
@@ -3147,12 +3368,12 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "227136008",
     "omop_concept_id": "4026887",
     "snomed": "4026887",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": null
+    "coding_source": "snomed_ct",
+    "concept_name": "Sardine"
    },
    "kb_ref": null,
    "components": [
@@ -3197,12 +3418,12 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "226942002",
     "omop_concept_id": "42594570",
     "snomed": "42594570",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": null
+    "coding_source": "snomed_ct",
+    "concept_name": "Lamb"
    },
    "kb_ref": null,
    "components": []
@@ -3219,11 +3440,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "278840001",
     "omop_concept_id": "4150599",
     "snomed": "4150599",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Shrimp"
    },
    "kb_ref": "Shrimp",
@@ -3271,12 +3492,12 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "76068006",
     "omop_concept_id": "4103602",
     "snomed": "4103602",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Bean"
+    "coding_source": "snomed_ct",
+    "concept_name": "Soybean"
    },
    "kb_ref": null,
    "components": [
@@ -3297,11 +3518,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256329006",
     "omop_concept_id": "4103779",
     "snomed": "4103779",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Spinach"
    },
    "kb_ref": null,
@@ -3319,11 +3540,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "735006003",
     "omop_concept_id": "42536271",
     "snomed": "42536271",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Squid"
    },
    "kb_ref": null,
@@ -3343,11 +3564,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "102261002",
     "omop_concept_id": "4008942",
     "snomed": "4008942",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Strawberry"
    },
    "kb_ref": null,
@@ -3368,11 +3589,11 @@
    "category": "pollen_grass",
    "subcategory": "Grass",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256281009",
     "omop_concept_id": "4116690",
     "snomed": "4116690",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Timothy grass pollen"
    },
    "kb_ref": "Timothy grass pollen",
@@ -3394,11 +3615,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "734881000",
     "omop_concept_id": "42536194",
     "snomed": "42536194",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Tomato"
    },
    "kb_ref": null,
@@ -3421,12 +3642,12 @@
    "category": "pollen_tree",
    "subcategory": "Tree",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "782576004",
     "omop_concept_id": null,
     "snomed": "36684363",
     "vocabulary": "SNOMED",
-    "coding_source": "snomed",
-    "concept_name": null
+    "coding_source": "snomed_ct",
+    "concept_name": "Tree pollen"
    },
    "kb_ref": null,
    "components": []
@@ -3443,12 +3664,12 @@
    "category": "pollen_tree",
    "subcategory": "Tree",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "782576004",
     "omop_concept_id": null,
     "snomed": "36684363",
     "vocabulary": "SNOMED",
-    "coding_source": "snomed",
-    "concept_name": null
+    "coding_source": "snomed_ct",
+    "concept_name": "Tree pollen"
    },
    "kb_ref": null,
    "components": []
@@ -3465,11 +3686,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "735034005",
     "omop_concept_id": "42536291",
     "snomed": "42536291",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Trout"
    },
    "kb_ref": null,
@@ -3487,11 +3708,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "260175002",
     "omop_concept_id": "4037433",
     "snomed": "4037433",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Tuna"
    },
    "kb_ref": null,
@@ -3513,11 +3734,11 @@
    "category": "mite",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "711098005",
     "omop_concept_id": "46272688",
     "snomed": "46272688",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Tyrophagus putrescentiae protein"
    },
    "kb_ref": null,
@@ -3538,11 +3759,11 @@
    "category": "pollen_grass",
    "subcategory": "Grass",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256282002",
     "omop_concept_id": "4117481",
     "snomed": "4117481",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Velvet grass pollen"
    },
    "kb_ref": null,
@@ -3562,12 +3783,12 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256352005",
     "omop_concept_id": "4103782",
     "snomed": "4103782",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
-    "concept_name": "Walnut"
+    "coding_source": "snomed_ct",
+    "concept_name": "Walnut - nut"
    },
    "kb_ref": null,
    "components": [
@@ -3614,12 +3835,12 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "412071004",
     "omop_concept_id": null,
     "snomed": "4047302",
     "vocabulary": "SNOMED",
-    "coding_source": "snomed",
-    "concept_name": null
+    "coding_source": "snomed_ct",
+    "concept_name": "Wheat"
    },
    "kb_ref": null,
    "components": [
@@ -3640,11 +3861,11 @@
    "category": "pollen_tree",
    "subcategory": "Tree",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "260128002",
     "omop_concept_id": "4125375",
     "snomed": "4125375",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "White ash pollen"
    },
    "kb_ref": null,
@@ -3652,6 +3873,32 @@
     "ole_e_1",
     "polcalcin"
    ]
+  },
+  {
+   "id": "white_faced_hornet_venom",
+   "canonical_name": "White-faced hornet venom",
+   "korean_name": "말벌 독(White-faced hornet)",
+   "aliases": [
+    "White-faced hornet",
+    "White faced hornet",
+    "White faced hornet venom",
+    "Dolichovespula maculata"
+   ],
+   "ocr_aliases": [],
+   "category": "venom",
+   "subcategory": null,
+   "coding": {
+    "snomed_ct": "260191004",
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "snomed_ct",
+    "concept_name": "White faced hornet venom (substance)"
+   },
+   "kb_ref": null,
+   "components": [],
+   "provenance": "added_2026_10: unverified against the clinic's actual panel",
+   "immunocap_code": "i2"
   },
   {
    "id": "wholemeal_flour",
@@ -3668,11 +3915,11 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "229954001",
     "omop_concept_id": "4047302",
     "snomed": "4047302",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Wholemeal flour"
    },
    "kb_ref": null,
@@ -3693,11 +3940,11 @@
    "category": "pollen_tree",
    "subcategory": "Tree",
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "256271005",
     "omop_concept_id": "4116685",
     "snomed": "4116685",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Willow pollen"
    },
    "kb_ref": null,
@@ -3716,15 +3963,72 @@
    "category": "food",
    "subcategory": null,
    "coding": {
-    "snomed_ct": null,
+    "snomed_ct": "412534006",
     "omop_concept_id": "4132477",
     "snomed": "4132477",
     "vocabulary": "SNOMED",
-    "coding_source": "cdm",
+    "coding_source": "snomed_ct",
     "concept_name": "Yeast"
    },
    "kb_ref": null,
    "components": []
+  },
+  {
+   "id": "yellow_hornet_venom",
+   "canonical_name": "Yellow hornet venom",
+   "korean_name": "말벌 독(Yellow hornet)",
+   "aliases": [
+    "Yellow hornet",
+    "Dolichovespula arenaria"
+   ],
+   "ocr_aliases": [],
+   "category": "venom",
+   "subcategory": null,
+   "coding": {
+    "snomed_ct": "260195008",
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "snomed_ct",
+    "concept_name": "Yellow hornet venom (substance)"
+   },
+   "kb_ref": null,
+   "components": [],
+   "provenance": "added_2026_10: unverified against the clinic's actual panel",
+   "immunocap_code": "i5"
+  },
+  {
+   "id": "yellow_jacket_venom",
+   "canonical_name": "Yellow jacket venom",
+   "korean_name": "땅벌 독(Yellow jacket)",
+   "aliases": [
+    "Yellow jacket",
+    "Yellowjacket",
+    "Yellowjacket venom",
+    "Common wasp",
+    "Common wasp venom",
+    "Wasp venom",
+    "Wasp",
+    "Vespula",
+    "땅벌",
+    "땅벌독",
+    "땅벌 독"
+   ],
+   "ocr_aliases": [],
+   "category": "venom",
+   "subcategory": null,
+   "coding": {
+    "snomed_ct": "260193001",
+    "omop_concept_id": null,
+    "snomed": null,
+    "vocabulary": "SNOMED",
+    "coding_source": "snomed_ct",
+    "concept_name": "Common wasp venom (substance)"
+   },
+   "kb_ref": null,
+   "components": [],
+   "provenance": "added_2026_10: unverified against the clinic's actual panel",
+   "immunocap_code": "i3"
   }
  ]
 }

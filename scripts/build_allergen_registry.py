@@ -32,6 +32,9 @@ CATEGORY_MAP = {
     ("insect", None): "insect",
     ("food", None): "food",
     ("control", None): "control",
+    ("latex", None): "latex",
+    ("drug", None): "drug",
+    ("venom", None): "venom",
     ("mixture", None): "other",
 }
 POLLEN_SUB = {"tree": "pollen_tree", "grass": "pollen_grass", "weed": "pollen_weed",
@@ -48,7 +51,8 @@ def unify_category(cat, sub):
     if c == "pollen":
         return POLLEN_SUB.get(s, "pollen_tree")
     return CATEGORY_MAP.get((c, None), c if c in
-                            {"mite", "animal", "mold", "insect", "food", "control"} else "other")
+                            {"mite", "animal", "mold", "insect", "venom", "food", "control", "latex", "drug"}
+                            else "other")
 
 
 def slugify(name: str) -> str:
@@ -131,6 +135,10 @@ def main():
             "kb_ref": None,
             "components": [],
         }
+        # 원본에 적어 둔 출처 표시(예: 2026-10 에 더한 항원 — 실제 패널과 대조하지 않았다)는 그대로 옮긴다
+        for extra in ("provenance", "immunocap_code"):
+            if e.get(extra):
+                rec[extra] = e[extra]
         # kb_ref 연결
         for nm in [cn, korean] + aliases:
             if norm(nm) in kb_index:

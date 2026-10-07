@@ -6,7 +6,8 @@
     "월 단위 근사이며 해마다 1~3주 차이가 납니다.",
     "실시간 예보(Google Pollen API 등)가 연결되면 그 값이 이 표보다 우선합니다.",
     "임상 확정 전 담당 의료진 검토를 권합니다.",
-    "중국은 권역별 근거가 충분치 않아 제외했습니다. 한국·미국만 지원합니다."
+    "중국은 권역별 근거가 충분치 않아 제외했습니다. 한국·미국만 지원합니다.",
+    "notable_applies_to 는 notable_ko 를 누구에게 보여줄지 정합니다. 항원 이름이면 그 항원에 증상이 확인된 환자에게, tree/grass/weed 이면 그 분류군 달력으로 추정한 시기를 받은 환자에게 보여줍니다. 종별 시기를 받은 다른 항원 환자에게는 보여주지 않습니다."
   ],
   "countries": {
     "KR": {
@@ -44,6 +45,7 @@
             "label_ko": "늦여름~가을 (8~10월)"
           },
           "notable_ko": "삼나무는 제주·남부에서 2~4월에 두드러져 수목 시즌이 2월부터 시작될 수 있습니다. 중부는 3월 이후가 중심입니다.",
+          "notable_applies_to": ["Japanese cedar", "tree"],
           "species_table": "pollen_season_korea.json"
         }
       }
@@ -92,6 +94,7 @@
             "label_ko": "늦여름~가을 (8~10월)"
           },
           "notable_ko": "자작나무·참나무가 봄철 주요 수목이고, 가을에는 돼지풀이 두드러집니다.",
+          "notable_applies_to": ["Birch pollen", "Oak pollen", "Ragweed pollen"],
           "notable_plants": [
             "Birch pollen",
             "Oak pollen",
@@ -146,6 +149,7 @@
             "label_ko": "늦여름~늦가을 (8~11월)"
           },
           "notable_ko": "수목 시즌이 1월에 시작될 만큼 이르고, 잔디 시즌이 반년 넘게 이어집니다. 플로리다 남부는 난지형 잔디로 사실상 연중 노출이라 아래 월 범위를 하한으로 보세요.",
+          "notable_applies_to": ["tree", "grass"],
           "notable_plants": [
             "Oak pollen",
             "Ragweed pollen"
@@ -192,6 +196,7 @@
             "label_ko": "늦여름~가을 (8~10월)"
           },
           "notable_ko": "돼지풀 농도가 미국에서 가장 높은 지역에 속합니다. 첫서리가 내릴 때까지 이어집니다.",
+          "notable_applies_to": ["Ragweed pollen"],
           "notable_plants": [
             "Ragweed pollen"
           ]
@@ -233,6 +238,7 @@
             "label_ko": "늦여름~늦가을 (8~11월)"
           },
           "notable_ko": "겨울에 정점을 찍는 '마운틴 시더(Mountain cedar, Juniperus ashei)' 시즌이 12~2월에 있습니다. 검사 패널의 '삼나무(Japanese cedar, Cryptomeria japonica)'와는 다른 식물이지만 같은 측백나무과라 교차반응이 보고됩니다.",
+          "notable_applies_to": ["Japanese cedar", "tree"],
           "notable_plants": [
             "Ragweed pollen"
           ]
@@ -274,6 +280,7 @@
             "label_ko": "여름~가을 (7~10월)"
           },
           "notable_ko": "고도가 높아 시즌이 저지대보다 늦게 시작하고 짧게 끝납니다.",
+          "notable_applies_to": ["tree", "grass", "weed"],
           "notable_plants": [
             "Ragweed pollen",
             "Mugwort pollen"
@@ -316,6 +323,7 @@
             "label_ko": "늦여름~가을 (8~10월)"
           },
           "notable_ko": "도시 조경으로 심은 올리브·뽕나무가 봄철 주요 원인이 되는 지역이 있습니다. 건조해 시즌이 길게 이어집니다.",
+          "notable_applies_to": ["Olive", "tree"],
           "notable_plants": [
             "Olive"
           ]
@@ -351,6 +359,7 @@
             "label_ko": "늦여름 (8~9월)"
           },
           "notable_ko": "오리나무가 2월부터 날려 수목 시즌이 이릅니다. 잔디 꽃가루 농도가 높은 지역으로 알려져 있습니다.",
+          "notable_applies_to": ["Alder", "grass"],
           "notable_plants": [
             "Alder",
             "Birch pollen"
@@ -394,6 +403,7 @@
             "label_ko": "늦여름~가을 (8~10월)"
           },
           "notable_ko": "겨울이 온화해 수목 시즌이 1월에 시작하고, 올리브·참나무로 6월까지 이어지기도 합니다. 버뮤다그래스 같은 난지형 잔디는 여름·가을까지 꽃가루를 냅니다.",
+          "notable_applies_to": ["Olive", "Oak pollen", "Bermuda grass"],
           "notable_plants": [
             "Olive",
             "Oak pollen"
@@ -428,6 +438,7 @@
             "label_ko": "한여름 (7~8월)"
           },
           "notable_ko": "자작나무가 압도적인 주요 수목이며 시즌이 짧고 강합니다.",
+          "notable_applies_to": ["Birch pollen"],
           "notable_plants": [
             "Birch pollen"
           ]
@@ -489,6 +500,7 @@
             "label_ko": "연중"
           },
           "notable_ko": "뚜렷한 계절이 없어 잔디 꽃가루에 연중 노출됩니다.",
+          "notable_applies_to": ["grass"],
           "notable_plants": []
         }
       }

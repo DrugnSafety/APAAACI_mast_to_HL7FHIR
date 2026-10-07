@@ -2,9 +2,9 @@
  "version": "1.0",
  "locale": "ko-KR",
  "generated_by": "scripts/build_allergen_knowledge.py",
- "generated_at": "2026-09-18T15:38:50.167171+00:00",
+ "generated_at": "2026-10-07T05:05:35.421408+00:00",
  "description": "카테고리·성분군 템플릿 + 국내 꽃가루 시기로 만든 항원 지식. biology_ko 가 candidate 인 항목은 검토 전까지 환자에게 노출되지 않는다.",
- "count": 128,
+ "count": 139,
  "llm_candidates": 0,
  "entries": [
   {
@@ -192,6 +192,54 @@
    "biology_ko_status": "candidate",
    "biology_ko_model": "gpt-5.6-luna",
    "biology_ko_generated_at": "2026-09-18T05:02:22.535122+00:00"
+  },
+  {
+   "canonical_name": "Amoxicillin",
+   "korean_name": "아목시실린",
+   "aliases": [
+    "Amoxicillin",
+    "Amoxicilloyl",
+    "아목시실린"
+   ],
+   "category": "drug",
+   "profile_key": "drug",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "이 약(같은 계열의 약 포함)을 먹거나 주사로 맞을 때 노출됩니다.",
+   "season_label_ko": "",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [],
+   "avoidance_control_ko": [],
+   "relevance_probes_ko": [
+    "이 약을 쓴 뒤 두드러기·얼굴 부기·숨참 같은 반응이 있었나요?"
+   ],
+   "clinical_pearl_ko": "약물 특이 IgE 양성만으로는 약물 알레르기라고 하지 않습니다. 약을 쓴 뒤 실제로 반응이 있었는지와 함께 진료에서 판단하며, 그 약을 피할지 다시 써도 되는지도 진료에서 정합니다."
+  },
+  {
+   "canonical_name": "Ampicillin",
+   "korean_name": "암피실린",
+   "aliases": [
+    "Ampicillin",
+    "Ampicilloyl",
+    "암피실린"
+   ],
+   "category": "drug",
+   "profile_key": "drug",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "이 약(같은 계열의 약 포함)을 먹거나 주사로 맞을 때 노출됩니다.",
+   "season_label_ko": "",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [],
+   "avoidance_control_ko": [],
+   "relevance_probes_ko": [
+    "이 약을 쓴 뒤 두드러기·얼굴 부기·숨참 같은 반응이 있었나요?"
+   ],
+   "clinical_pearl_ko": "약물 특이 IgE 양성만으로는 약물 알레르기라고 하지 않습니다. 약을 쓴 뒤 실제로 반응이 있었는지와 함께 진료에서 판단하며, 그 약을 피할지 다시 써도 되는지도 진료에서 정합니다."
   },
   {
    "canonical_name": "Anisakis",
@@ -507,10 +555,10 @@
   },
   {
    "canonical_name": "Bean",
-   "korean_name": "콩",
+   "korean_name": "콩류",
    "aliases": [
     "Bean",
-    "콩"
+    "콩류"
    ],
    "category": "food",
    "profile_key": "food",
@@ -958,6 +1006,29 @@
    "biology_ko_generated_at": "2026-09-18T05:02:45.663244+00:00"
   },
   {
+   "canonical_name": "Cefaclor",
+   "korean_name": "세파클러",
+   "aliases": [
+    "Cefaclor",
+    "세파클러"
+   ],
+   "category": "drug",
+   "profile_key": "drug",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "이 약(같은 계열의 약 포함)을 먹거나 주사로 맞을 때 노출됩니다.",
+   "season_label_ko": "",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [],
+   "avoidance_control_ko": [],
+   "relevance_probes_ko": [
+    "이 약을 쓴 뒤 두드러기·얼굴 부기·숨참 같은 반응이 있었나요?"
+   ],
+   "clinical_pearl_ko": "약물 특이 IgE 양성만으로는 약물 알레르기라고 하지 않습니다. 약을 쓴 뒤 실제로 반응이 있었는지와 함께 진료에서 판단하며, 그 약을 피할지 다시 써도 되는지도 진료에서 정합니다."
+  },
+  {
    "canonical_name": "Celery",
    "korean_name": "샐러리",
    "aliases": [
@@ -1369,7 +1440,11 @@
    "aliases": [
     "Control",
     "Negative control",
-    "음성 대조용 생리식염수"
+    "음성 대조용 생리식염수",
+    "Saline",
+    "생리식염수",
+    "음성 대조",
+    "음성대조"
    ],
    "category": "control",
    "profile_key": "control",
@@ -1434,7 +1509,14 @@
    "korean_name": "소 비듬",
    "aliases": [
     "Bos d 2",
-    "소 상피"
+    "소 상피",
+    "Cow",
+    "Cow epithelium",
+    "Cow hair",
+    "Cattle",
+    "Cattle dander",
+    "Cattle epithelium",
+    "소"
    ],
    "category": "animal",
    "profile_key": "animal",
@@ -1578,7 +1660,6 @@
    "korean_name": "귀리",
    "aliases": [
     "Cultivated oat",
-    "oat",
     "귀리"
    ],
    "category": "pollen_grass",
@@ -2323,7 +2404,11 @@
    "aliases": [
     "Histamine",
     "Positive control",
-    "양성 대조용 0.1% 히스타민 용액"
+    "양성 대조용 0.1% 히스타민 용액",
+    "Histamine control",
+    "히스타민",
+    "양성 대조",
+    "양성대조"
    ],
    "category": "control",
    "profile_key": "control",
@@ -2339,6 +2424,46 @@
    "relevance_probes_ko": [],
    "clinical_pearl_ko": "음성 대조(생리식염수)는 반응이 없어야 정상이고, 양성 대조(히스타민)는 반응이 나와야 검사가 유효합니다. 회피 대상이 아닙니다.",
    "is_control": true
+  },
+  {
+   "canonical_name": "Honey bee venom",
+   "korean_name": "꿀벌 독",
+   "aliases": [
+    "Honey bee",
+    "Honeybee",
+    "Honeybee venom",
+    "Bee venom",
+    "Apis mellifera",
+    "꿀벌",
+    "꿀벌독"
+   ],
+   "category": "venom",
+   "profile_key": "venom",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "biology_ko": "꿀벌(Apis mellifera)이 쏠 때 몸에 넣는 독입니다. 꿀벌은 쏜 뒤 침이 피부에 남는 경우가 많습니다.",
+   "exposure_environment_ko": "벌에 쏘일 때 독이 몸에 들어옵니다. 숨으로 들이마시거나 먹어서 생기는 알레르기가 아닙니다. 등산·벌초·성묘·캠핑 같은 야외 활동과 벌집 근처에서 쏘이는 일이 많습니다.",
+   "season_label_ko": "",
+   "seasonality_pattern": "episodic",
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "말벌류(땅벌·말벌·쌍살벌)의 독은 서로 교차반응이 흔하고, 꿀벌 독은 성분이 달라 따로 봅니다. 여러 벌독에 함께 양성이면 각각에 감작된 것인지 교차반응인지는 진료에서 가립니다.",
+   "typical_symptoms_ko": [
+    "쏘인 자리의 통증·부기(누구에게나 생기는 반응)",
+    "쏘인 자리를 넘어 넓게 붓는 반응",
+    "온몸 두드러기",
+    "숨참·쌕쌕거림",
+    "어지럼·실신"
+   ],
+   "avoidance_control_ko": [
+    "벌집 근처에 가지 않기, 벌이 다가오면 팔을 휘두르지 말고 천천히 자리 피하기",
+    "야외에서는 긴 옷을 입고 향이 강한 향수·화장품 피하기",
+    "야외에서 단 음료·음식은 뚜껑을 덮어 두기",
+    "쏘인 뒤 온몸 두드러기·숨참·어지럼이 오면 바로 119에 연락하기"
+   ],
+   "relevance_probes_ko": [
+    "벌에 쏘인 적이 있나요? 쏘였을 때 쏘인 자리만 부었나요, 온몸에 반응이 있었나요?"
+   ],
+   "clinical_pearl_ko": "벌독 검사 양성은 감작을 뜻합니다. 벌에 쏘인 뒤 쏘인 자리를 벗어난 온몸 반응이 있었는지가 판단의 기준입니다."
   },
   {
    "canonical_name": "Hornbeam",
@@ -2394,7 +2519,11 @@
    "korean_name": "말 비듬",
    "aliases": [
     "Equ c",
-    "말 상피"
+    "말 상피",
+    "Horse",
+    "Horse epithelium",
+    "Horse hair",
+    "말"
    ],
    "category": "animal",
    "profile_key": "animal",
@@ -2435,6 +2564,40 @@
    "biology_ko_status": "candidate",
    "biology_ko_model": "gpt-5.6-luna",
    "biology_ko_generated_at": "2026-09-18T05:03:28.562491+00:00"
+  },
+  {
+   "canonical_name": "House dust",
+   "korean_name": "집먼지",
+   "aliases": [
+    "House dust",
+    "Housedust",
+    "집먼지"
+   ],
+   "category": "other",
+   "profile_key": "other",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "생활·직업 환경에서 접촉하는 알레르겐입니다. 노출되는 상황이 사람마다 달라 개별 확인이 필요합니다.",
+   "season_label_ko": "연중",
+   "seasonality_pattern": "perennial",
+   "indoor_outdoor": "both",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [
+    "두드러기",
+    "가려움",
+    "재채기",
+    "콧물",
+    "호흡기 증상"
+   ],
+   "avoidance_control_ko": [
+    "어떤 상황에서 증상이 생기는지 기록해 노출원을 좁히세요.",
+    "확인된 노출은 가능한 범위에서 피하고, 대체품이 있는지 확인하세요."
+   ],
+   "relevance_probes_ko": [
+    "어떤 상황·장소에서 증상이 생기나요?",
+    "노출을 피했을 때 증상이 줄었나요?"
+   ],
+   "clinical_pearl_ko": "노출 상황이 개인마다 달라, 증상 일지가 판정에 큰 도움이 됩니다."
   },
   {
    "canonical_name": "Indoor mold mixture",
@@ -2767,31 +2930,31 @@
     "Latex",
     "라텍스"
    ],
-   "category": "other",
-   "profile_key": "other",
+   "category": "latex",
+   "profile_key": "latex",
    "source": "category_profile",
    "review_status": "curated_template",
-   "exposure_environment_ko": "생활·직업 환경에서 접촉하는 알레르겐입니다. 노출되는 상황이 사람마다 달라 개별 확인이 필요합니다.",
-   "season_label_ko": "연중",
-   "seasonality_pattern": "perennial",
-   "indoor_outdoor": "both",
-   "cross_reactivity_ko": "",
+   "exposure_environment_ko": "천연고무(라텍스)로 만든 제품에 닿을 때 노출됩니다. 고무장갑·풍선·콘돔, 그리고 병원·치과에서 쓰는 장갑·카테터 같은 의료기기가 대표적입니다. 꽃가루처럼 계절을 타지 않습니다.",
+   "season_label_ko": "",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "라텍스에 감작된 사람 일부는 바나나·아보카도·키위·밤을 먹을 때도 증상이 생깁니다(라텍스-과일 증후군). 이 과일들을 문제없이 드시고 있다면 미리 끊을 필요는 없습니다.",
    "typical_symptoms_ko": [
-    "두드러기",
-    "가려움",
-    "재채기",
-    "콧물",
-    "호흡기 증상"
+    "닿은 자리의 두드러기·가려움",
+    "입술·얼굴 부기",
+    "재채기·콧물",
+    "숨참·쌕쌕거림"
    ],
    "avoidance_control_ko": [
-    "어떤 상황에서 증상이 생기는지 기록해 노출원을 좁히세요.",
-    "확인된 노출은 가능한 범위에서 피하고, 대체품이 있는지 확인하세요."
+    "병원·치과 진료나 시술 전에 라텍스에 반응한 적이 있다고 미리 알리기",
+    "고무장갑·풍선처럼 라텍스로 만든 제품은 라텍스가 없는 제품(니트릴·비닐)으로 바꾸기"
    ],
    "relevance_probes_ko": [
-    "어떤 상황·장소에서 증상이 생기나요?",
-    "노출을 피했을 때 증상이 줄었나요?"
+    "고무장갑·풍선·콘돔 같은 라텍스 제품에 닿은 뒤 그 자리가 가렵거나 부은 적이 있나요?",
+    "치과·병원 진료 뒤 입술·얼굴이 붓거나 숨이 찬 적이 있나요?",
+    "바나나·아보카도·키위·밤을 먹고 입이 가렵거나 부은 적이 있나요?"
    ],
-   "clinical_pearl_ko": "노출 상황이 개인마다 달라, 증상 일지가 판정에 큰 도움이 됩니다.",
+   "clinical_pearl_ko": "라텍스 검사 양성은 감작을 뜻합니다. 라텍스 제품에 닿았을 때 실제로 증상이 있었는지가 판단의 기준입니다.",
    "biology_ko": "라텍스는 고무나무 수액으로 만든 천연고무예요. 장갑, 풍선, 고무줄 같은 제품에서 만날 수 있어요.",
    "biology_ko_status": "candidate",
    "biology_ko_model": "gpt-5.6-luna",
@@ -3794,6 +3957,43 @@
    "biology_ko_generated_at": "2026-09-18T05:04:08.687399+00:00"
   },
   {
+   "canonical_name": "Paper wasp venom",
+   "korean_name": "쌍살벌 독",
+   "aliases": [
+    "Paper wasp",
+    "Polistes",
+    "쌍살벌",
+    "쌍살벌독"
+   ],
+   "category": "venom",
+   "profile_key": "venom",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "biology_ko": "쌍살벌(Polistes 속, 영어로 paper wasp)이 쏠 때 몸에 넣는 독입니다. 처마 밑이나 나뭇가지에 종이 같은 집을 짓습니다.",
+   "exposure_environment_ko": "벌에 쏘일 때 독이 몸에 들어옵니다. 숨으로 들이마시거나 먹어서 생기는 알레르기가 아닙니다. 등산·벌초·성묘·캠핑 같은 야외 활동과 벌집 근처에서 쏘이는 일이 많습니다.",
+   "season_label_ko": "",
+   "seasonality_pattern": "episodic",
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "말벌류(땅벌·말벌·쌍살벌)의 독은 서로 교차반응이 흔하고, 꿀벌 독은 성분이 달라 따로 봅니다. 여러 벌독에 함께 양성이면 각각에 감작된 것인지 교차반응인지는 진료에서 가립니다.",
+   "typical_symptoms_ko": [
+    "쏘인 자리의 통증·부기(누구에게나 생기는 반응)",
+    "쏘인 자리를 넘어 넓게 붓는 반응",
+    "온몸 두드러기",
+    "숨참·쌕쌕거림",
+    "어지럼·실신"
+   ],
+   "avoidance_control_ko": [
+    "벌집 근처에 가지 않기, 벌이 다가오면 팔을 휘두르지 말고 천천히 자리 피하기",
+    "야외에서는 긴 옷을 입고 향이 강한 향수·화장품 피하기",
+    "야외에서 단 음료·음식은 뚜껑을 덮어 두기",
+    "쏘인 뒤 온몸 두드러기·숨참·어지럼이 오면 바로 119에 연락하기"
+   ],
+   "relevance_probes_ko": [
+    "벌에 쏘인 적이 있나요? 쏘였을 때 쏘인 자리만 부었나요, 온몸에 반응이 있었나요?"
+   ],
+   "clinical_pearl_ko": "벌독 검사 양성은 감작을 뜻합니다. 벌에 쏘인 뒤 쏘인 자리를 벗어난 온몸 반응이 있었는지가 판단의 기준입니다."
+  },
+  {
    "canonical_name": "Peach",
    "korean_name": "복숭아",
    "aliases": [
@@ -3930,6 +4130,56 @@
    "biology_ko_status": "candidate",
    "biology_ko_model": "gpt-5.6-luna",
    "biology_ko_generated_at": "2026-09-18T05:04:11.843701+00:00"
+  },
+  {
+   "canonical_name": "Penicillin G",
+   "korean_name": "페니실린 G",
+   "aliases": [
+    "Penicillin G",
+    "Penicilloyl G",
+    "Penicillin",
+    "페니실린",
+    "페니실린 G"
+   ],
+   "category": "drug",
+   "profile_key": "drug",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "이 약(같은 계열의 약 포함)을 먹거나 주사로 맞을 때 노출됩니다.",
+   "season_label_ko": "",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [],
+   "avoidance_control_ko": [],
+   "relevance_probes_ko": [
+    "이 약을 쓴 뒤 두드러기·얼굴 부기·숨참 같은 반응이 있었나요?"
+   ],
+   "clinical_pearl_ko": "약물 특이 IgE 양성만으로는 약물 알레르기라고 하지 않습니다. 약을 쓴 뒤 실제로 반응이 있었는지와 함께 진료에서 판단하며, 그 약을 피할지 다시 써도 되는지도 진료에서 정합니다."
+  },
+  {
+   "canonical_name": "Penicillin V",
+   "korean_name": "페니실린 V",
+   "aliases": [
+    "Penicillin V",
+    "Penicilloyl V",
+    "페니실린 V"
+   ],
+   "category": "drug",
+   "profile_key": "drug",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "exposure_environment_ko": "이 약(같은 계열의 약 포함)을 먹거나 주사로 맞을 때 노출됩니다.",
+   "season_label_ko": "",
+   "seasonality_pattern": "none",
+   "indoor_outdoor": "n/a",
+   "cross_reactivity_ko": "",
+   "typical_symptoms_ko": [],
+   "avoidance_control_ko": [],
+   "relevance_probes_ko": [
+    "이 약을 쓴 뒤 두드러기·얼굴 부기·숨참 같은 반응이 있었나요?"
+   ],
+   "clinical_pearl_ko": "약물 특이 IgE 양성만으로는 약물 알레르기라고 하지 않습니다. 약을 쓴 뒤 실제로 반응이 있었는지와 함께 진료에서 판단하며, 그 약을 피할지 다시 써도 되는지도 진료에서 정합니다."
   },
   {
    "canonical_name": "Penicillium",
@@ -5651,6 +5901,43 @@
    "biology_ko_generated_at": "2026-09-18T05:05:01.848285+00:00"
   },
   {
+   "canonical_name": "White-faced hornet venom",
+   "korean_name": "말벌 독(White-faced hornet)",
+   "aliases": [
+    "White-faced hornet",
+    "White faced hornet",
+    "White faced hornet venom",
+    "Dolichovespula maculata"
+   ],
+   "category": "venom",
+   "profile_key": "venom",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "biology_ko": "White-faced hornet(Dolichovespula maculata)의 독입니다. 북미에 사는 말벌류로, 검사에서는 말벌류 독에 대한 감작을 보는 항원으로 쓰입니다.",
+   "exposure_environment_ko": "벌에 쏘일 때 독이 몸에 들어옵니다. 숨으로 들이마시거나 먹어서 생기는 알레르기가 아닙니다. 등산·벌초·성묘·캠핑 같은 야외 활동과 벌집 근처에서 쏘이는 일이 많습니다.",
+   "season_label_ko": "",
+   "seasonality_pattern": "episodic",
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "말벌류(땅벌·말벌·쌍살벌)의 독은 서로 교차반응이 흔하고, 꿀벌 독은 성분이 달라 따로 봅니다. 여러 벌독에 함께 양성이면 각각에 감작된 것인지 교차반응인지는 진료에서 가립니다.",
+   "typical_symptoms_ko": [
+    "쏘인 자리의 통증·부기(누구에게나 생기는 반응)",
+    "쏘인 자리를 넘어 넓게 붓는 반응",
+    "온몸 두드러기",
+    "숨참·쌕쌕거림",
+    "어지럼·실신"
+   ],
+   "avoidance_control_ko": [
+    "벌집 근처에 가지 않기, 벌이 다가오면 팔을 휘두르지 말고 천천히 자리 피하기",
+    "야외에서는 긴 옷을 입고 향이 강한 향수·화장품 피하기",
+    "야외에서 단 음료·음식은 뚜껑을 덮어 두기",
+    "쏘인 뒤 온몸 두드러기·숨참·어지럼이 오면 바로 119에 연락하기"
+   ],
+   "relevance_probes_ko": [
+    "벌에 쏘인 적이 있나요? 쏘였을 때 쏘인 자리만 부었나요, 온몸에 반응이 있었나요?"
+   ],
+   "clinical_pearl_ko": "벌독 검사 양성은 감작을 뜻합니다. 벌에 쏘인 뒤 쏘인 자리를 벗어난 온몸 반응이 있었는지가 판단의 기준입니다."
+  },
+  {
    "canonical_name": "Wholemeal flour",
    "korean_name": "통밀가루",
    "aliases": [
@@ -5782,6 +6069,85 @@
    "biology_ko_status": "candidate",
    "biology_ko_model": "gpt-5.6-luna",
    "biology_ko_generated_at": "2026-09-18T05:05:05.884472+00:00"
+  },
+  {
+   "canonical_name": "Yellow hornet venom",
+   "korean_name": "말벌 독(Yellow hornet)",
+   "aliases": [
+    "Yellow hornet",
+    "Dolichovespula arenaria"
+   ],
+   "category": "venom",
+   "profile_key": "venom",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "biology_ko": "Yellow hornet(Dolichovespula arenaria)의 독입니다. 북미에 사는 말벌류로, 검사에서는 말벌류 독에 대한 감작을 보는 항원으로 쓰입니다.",
+   "exposure_environment_ko": "벌에 쏘일 때 독이 몸에 들어옵니다. 숨으로 들이마시거나 먹어서 생기는 알레르기가 아닙니다. 등산·벌초·성묘·캠핑 같은 야외 활동과 벌집 근처에서 쏘이는 일이 많습니다.",
+   "season_label_ko": "",
+   "seasonality_pattern": "episodic",
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "말벌류(땅벌·말벌·쌍살벌)의 독은 서로 교차반응이 흔하고, 꿀벌 독은 성분이 달라 따로 봅니다. 여러 벌독에 함께 양성이면 각각에 감작된 것인지 교차반응인지는 진료에서 가립니다.",
+   "typical_symptoms_ko": [
+    "쏘인 자리의 통증·부기(누구에게나 생기는 반응)",
+    "쏘인 자리를 넘어 넓게 붓는 반응",
+    "온몸 두드러기",
+    "숨참·쌕쌕거림",
+    "어지럼·실신"
+   ],
+   "avoidance_control_ko": [
+    "벌집 근처에 가지 않기, 벌이 다가오면 팔을 휘두르지 말고 천천히 자리 피하기",
+    "야외에서는 긴 옷을 입고 향이 강한 향수·화장품 피하기",
+    "야외에서 단 음료·음식은 뚜껑을 덮어 두기",
+    "쏘인 뒤 온몸 두드러기·숨참·어지럼이 오면 바로 119에 연락하기"
+   ],
+   "relevance_probes_ko": [
+    "벌에 쏘인 적이 있나요? 쏘였을 때 쏘인 자리만 부었나요, 온몸에 반응이 있었나요?"
+   ],
+   "clinical_pearl_ko": "벌독 검사 양성은 감작을 뜻합니다. 벌에 쏘인 뒤 쏘인 자리를 벗어난 온몸 반응이 있었는지가 판단의 기준입니다."
+  },
+  {
+   "canonical_name": "Yellow jacket venom",
+   "korean_name": "땅벌 독(Yellow jacket)",
+   "aliases": [
+    "Yellow jacket",
+    "Yellowjacket",
+    "Yellowjacket venom",
+    "Common wasp",
+    "Common wasp venom",
+    "Wasp venom",
+    "Wasp",
+    "Vespula",
+    "땅벌",
+    "땅벌독",
+    "땅벌 독"
+   ],
+   "category": "venom",
+   "profile_key": "venom",
+   "source": "category_profile",
+   "review_status": "curated_template",
+   "biology_ko": "땅벌(Vespula 속, 영어로 yellow jacket·common wasp)이 쏠 때 몸에 넣는 독입니다. 땅속이나 덤불에 집을 지어 벌초·성묘·등산 때 쏘이는 일이 많습니다.",
+   "exposure_environment_ko": "벌에 쏘일 때 독이 몸에 들어옵니다. 숨으로 들이마시거나 먹어서 생기는 알레르기가 아닙니다. 등산·벌초·성묘·캠핑 같은 야외 활동과 벌집 근처에서 쏘이는 일이 많습니다.",
+   "season_label_ko": "",
+   "seasonality_pattern": "episodic",
+   "indoor_outdoor": "outdoor",
+   "cross_reactivity_ko": "말벌류(땅벌·말벌·쌍살벌)의 독은 서로 교차반응이 흔하고, 꿀벌 독은 성분이 달라 따로 봅니다. 여러 벌독에 함께 양성이면 각각에 감작된 것인지 교차반응인지는 진료에서 가립니다.",
+   "typical_symptoms_ko": [
+    "쏘인 자리의 통증·부기(누구에게나 생기는 반응)",
+    "쏘인 자리를 넘어 넓게 붓는 반응",
+    "온몸 두드러기",
+    "숨참·쌕쌕거림",
+    "어지럼·실신"
+   ],
+   "avoidance_control_ko": [
+    "벌집 근처에 가지 않기, 벌이 다가오면 팔을 휘두르지 말고 천천히 자리 피하기",
+    "야외에서는 긴 옷을 입고 향이 강한 향수·화장품 피하기",
+    "야외에서 단 음료·음식은 뚜껑을 덮어 두기",
+    "쏘인 뒤 온몸 두드러기·숨참·어지럼이 오면 바로 119에 연락하기"
+   ],
+   "relevance_probes_ko": [
+    "벌에 쏘인 적이 있나요? 쏘였을 때 쏘인 자리만 부었나요, 온몸에 반응이 있었나요?"
+   ],
+   "clinical_pearl_ko": "벌독 검사 양성은 감작을 뜻합니다. 벌에 쏘인 뒤 쏘인 자리를 벗어난 온몸 반응이 있었는지가 판단의 기준입니다."
   }
  ],
  "reviewed_at": "2026-09-18T15:39:24.543170+00:00"

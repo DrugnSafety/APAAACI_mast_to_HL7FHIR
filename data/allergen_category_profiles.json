@@ -7,7 +7,9 @@
     "회피 수칙·노출 환경·문진 프로브는 실제로 카테고리 단위로 동일하다(진드기 2종, 곰팡이 9종은 같은 조언).",
     "음식은 이름이 아니라 **성분군**으로 묶는다. 교차반응과 위험도가 성분을 따라가기 때문이다.",
     "여기에는 '이 환자' 정보가 없다. 개별 판정은 검사 결과와 문진에서 나온다.",
-    "국내 꽃가루 시기는 data/pollen_season_korea.json 에서 종별로 덮어쓴다."
+    "국내 꽃가루 시기는 data/pollen_season_korea.json 에서 종별로 덮어쓴다.",
+    "latex·drug 템플릿은 2026-10 에 추가했고 알레르기 전문의 검토 전이다. 약물에는 회피 수칙을 두지 않는다(피할지·다시 쓸지는 진료에서 정한다).",
+    "venom(벌독) 템플릿은 2026-10 에 추가했고 알레르기 전문의 검토 전이다. overrides 는 항원(대표 이름)별로 템플릿의 값을 덮어쓴다(벌 종류별 소개문). 벌독은 꽃가루가 아니므로 시기를 두지 않는다."
   ],
   "profiles": {
     "mite": {
@@ -225,6 +227,66 @@
       "cross_reactivity_ko": "",
       "relevance_probes_ko": [],
       "clinical_pearl_ko": "음성 대조(생리식염수)는 반응이 없어야 정상이고, 양성 대조(히스타민)는 반응이 나와야 검사가 유효합니다. 회피 대상이 아닙니다."
+    },
+    "venom": {
+      "indoor_outdoor": "outdoor",
+      "seasonality_pattern": "episodic",
+      "season_label_ko": "",
+      "biology_ko": "벌이 쏠 때 몸에 넣는 독입니다. 숨으로 들이마시거나 먹어서 생기는 알레르기가 아니라, 쏘였을 때의 반응이 문제입니다.",
+      "exposure_environment_ko": "벌에 쏘일 때 독이 몸에 들어옵니다. 숨으로 들이마시거나 먹어서 생기는 알레르기가 아닙니다. 등산·벌초·성묘·캠핑 같은 야외 활동과 벌집 근처에서 쏘이는 일이 많습니다.",
+      "typical_symptoms_ko": ["쏘인 자리의 통증·부기(누구에게나 생기는 반응)", "쏘인 자리를 넘어 넓게 붓는 반응", "온몸 두드러기", "숨참·쌕쌕거림", "어지럼·실신"],
+      "avoidance_control_ko": [
+        "벌집 근처에 가지 않기, 벌이 다가오면 팔을 휘두르지 말고 천천히 자리 피하기",
+        "야외에서는 긴 옷을 입고 향이 강한 향수·화장품 피하기",
+        "야외에서 단 음료·음식은 뚜껑을 덮어 두기",
+        "쏘인 뒤 온몸 두드러기·숨참·어지럼이 오면 바로 119에 연락하기"
+      ],
+      "cross_reactivity_ko": "말벌류(땅벌·말벌·쌍살벌)의 독은 서로 교차반응이 흔하고, 꿀벌 독은 성분이 달라 따로 봅니다. 여러 벌독에 함께 양성이면 각각에 감작된 것인지 교차반응인지는 진료에서 가립니다.",
+      "relevance_probes_ko": ["벌에 쏘인 적이 있나요? 쏘였을 때 쏘인 자리만 부었나요, 온몸에 반응이 있었나요?"],
+      "clinical_pearl_ko": "벌독 검사 양성은 감작을 뜻합니다. 벌에 쏘인 뒤 쏘인 자리를 벗어난 온몸 반응이 있었는지가 판단의 기준입니다.",
+      "overrides": {
+        "Honey bee venom": {"biology_ko": "꿀벌(Apis mellifera)이 쏠 때 몸에 넣는 독입니다. 꿀벌은 쏜 뒤 침이 피부에 남는 경우가 많습니다."},
+        "Yellow jacket venom": {"biology_ko": "땅벌(Vespula 속, 영어로 yellow jacket·common wasp)이 쏠 때 몸에 넣는 독입니다. 땅속이나 덤불에 집을 지어 벌초·성묘·등산 때 쏘이는 일이 많습니다."},
+        "Paper wasp venom": {"biology_ko": "쌍살벌(Polistes 속, 영어로 paper wasp)이 쏠 때 몸에 넣는 독입니다. 처마 밑이나 나뭇가지에 종이 같은 집을 짓습니다."},
+        "White-faced hornet venom": {"biology_ko": "White-faced hornet(Dolichovespula maculata)의 독입니다. 북미에 사는 말벌류로, 검사에서는 말벌류 독에 대한 감작을 보는 항원으로 쓰입니다."},
+        "Yellow hornet venom": {"biology_ko": "Yellow hornet(Dolichovespula arenaria)의 독입니다. 북미에 사는 말벌류로, 검사에서는 말벌류 독에 대한 감작을 보는 항원으로 쓰입니다."}
+      }
+    },
+    "latex": {
+      "indoor_outdoor": "n/a",
+      "seasonality_pattern": "none",
+      "season_label_ko": "",
+      "exposure_environment_ko": "천연고무(라텍스)로 만든 제품에 닿을 때 노출됩니다. 고무장갑·풍선·콘돔, 그리고 병원·치과에서 쓰는 장갑·카테터 같은 의료기기가 대표적입니다. 꽃가루처럼 계절을 타지 않습니다.",
+      "typical_symptoms_ko": [
+        "닿은 자리의 두드러기·가려움",
+        "입술·얼굴 부기",
+        "재채기·콧물",
+        "숨참·쌕쌕거림"
+      ],
+      "avoidance_control_ko": [
+        "병원·치과 진료나 시술 전에 라텍스에 반응한 적이 있다고 미리 알리기",
+        "고무장갑·풍선처럼 라텍스로 만든 제품은 라텍스가 없는 제품(니트릴·비닐)으로 바꾸기"
+      ],
+      "cross_reactivity_ko": "라텍스에 감작된 사람 일부는 바나나·아보카도·키위·밤을 먹을 때도 증상이 생깁니다(라텍스-과일 증후군). 이 과일들을 문제없이 드시고 있다면 미리 끊을 필요는 없습니다.",
+      "relevance_probes_ko": [
+        "고무장갑·풍선·콘돔 같은 라텍스 제품에 닿은 뒤 그 자리가 가렵거나 부은 적이 있나요?",
+        "치과·병원 진료 뒤 입술·얼굴이 붓거나 숨이 찬 적이 있나요?",
+        "바나나·아보카도·키위·밤을 먹고 입이 가렵거나 부은 적이 있나요?"
+      ],
+      "clinical_pearl_ko": "라텍스 검사 양성은 감작을 뜻합니다. 라텍스 제품에 닿았을 때 실제로 증상이 있었는지가 판단의 기준입니다."
+    },
+    "drug": {
+      "indoor_outdoor": "n/a",
+      "seasonality_pattern": "none",
+      "season_label_ko": "",
+      "exposure_environment_ko": "이 약(같은 계열의 약 포함)을 먹거나 주사로 맞을 때 노출됩니다.",
+      "typical_symptoms_ko": [],
+      "avoidance_control_ko": [],
+      "cross_reactivity_ko": "",
+      "relevance_probes_ko": [
+        "이 약을 쓴 뒤 두드러기·얼굴 부기·숨참 같은 반응이 있었나요?"
+      ],
+      "clinical_pearl_ko": "약물 특이 IgE 양성만으로는 약물 알레르기라고 하지 않습니다. 약을 쓴 뒤 실제로 반응이 있었는지와 함께 진료에서 판단하며, 그 약을 피할지 다시 써도 되는지도 진료에서 정합니다."
     },
     "other": {
       "indoor_outdoor": "both",

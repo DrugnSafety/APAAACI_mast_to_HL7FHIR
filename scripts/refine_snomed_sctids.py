@@ -31,6 +31,7 @@ SKIP_IDS = {"control"}
 MANUAL = {
     # 꽃가루 — 식물이 아니라 'X pollen' 개념을 쓴다
     "birch": "256262001",             # European white birch pollen (자작나무)
+    "acacia": "472727005",            # Robinia pseudoacacia pollen (아까시나무) — Acacia pollen(260132008)은 다른 속
     "hornbeam": "256302001",          # Hornbeam pollen (서어나무)
     "orchard_grass": "256278004",     # Dactylis (orchardgrass) pollen (오리새)
     "grass": "256277009",             # Grass pollen (잔디 꽃가루 혼합)

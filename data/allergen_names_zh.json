@@ -1,6 +1,6 @@
 {
  "note_ko": "중국어 검사 결과지의 항원 표기 → 레지스트리 항원 대응표. 중국 결과지는 항원명을 중국어로만 쓰기 때문에 이 표가 없으면 OCR 이 제대로 읽어도 지식베이스 조회·감별 판정·SNOMED 코딩이 전부 실패한다. 출처: 德国 敏筛(AllergyScreen) 조합 항목표 + 중국 임상검사 보고서 통용 표기. 포괄적 표기(鱼·贝类 등)는 오매핑 위험이 커서 넣지 않았다. 임상 전문가 검수 대상.",
- "count": 53,
+ "count": 61,
  "map": {
   "Dermatophagoides pteronyssinus": {
    "id": "dermatophagoides_pteronyssinus",
@@ -397,7 +397,66 @@
     "黄豆",
     "大豆"
    ]
+  },
+  "House dust": {
+   "id": "house_dust",
+   "korean_name": "집먼지",
+   "zh": [
+    "屋尘"
+   ]
+  },
+  "Histamine": {
+   "id": "histamine",
+   "korean_name": "양성 대조용 0.1% 히스타민 용액",
+   "zh": [
+    "组胺",
+    "阳性对照"
+   ]
+  },
+  "Control": {
+   "id": "control",
+   "korean_name": "음성 대조용 생리식염수",
+   "zh": [
+    "阴性对照",
+    "生理盐水"
+   ]
+  },
+  "Penicillin G": {
+   "id": "penicillin_g",
+   "korean_name": "페니실린 G",
+   "zh": [
+    "青霉素G",
+    "青霉素"
+   ]
+  },
+  "Penicillin V": {
+   "id": "penicillin_v",
+   "korean_name": "페니실린 V",
+   "zh": [
+    "青霉素V"
+   ]
+  },
+  "Ampicillin": {
+   "id": "ampicillin",
+   "korean_name": "암피실린",
+   "zh": [
+    "氨苄西林"
+   ]
+  },
+  "Amoxicillin": {
+   "id": "amoxicillin",
+   "korean_name": "아목시실린",
+   "zh": [
+    "阿莫西林"
+   ]
+  },
+  "Cefaclor": {
+   "id": "cefaclor",
+   "korean_name": "세파클러",
+   "zh": [
+    "头孢克洛"
+   ]
   }
  },
- "missing_from_registry_ko": "중국 결과지에 흔한 다음 항원이 레지스트리에 없어 대응표를 만들 수 없다: House dust(屋尘·집먼지), Buckwheat(荞麦·메밀), Mango(芒果·망고). 셋 다 한국 MAST 패널에도 등장하므로 레지스트리 확장 검토가 필요하다."
+ "missing_from_registry_ko": "중국 결과지에 흔한 다음 항원이 레지스트리에 없어 대응표를 만들 수 없다: Buckwheat(荞麦·메밀), Mango(芒果·망고). 둘 다 한국 MAST 패널에도 등장하므로 레지스트리 확장 검토가 필요하다."
 }

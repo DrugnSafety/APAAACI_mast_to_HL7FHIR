@@ -276,12 +276,29 @@ class ClinicalRelevance(str, Enum):
     - CLINICALLY_RELEVANT: 감작 + 노출 시 실제 증상 유발 → 진짜 알레르기
     - SENSITIZED_ONLY: 감작은 되어 있으나 노출에도 증상 없음 → 임상적으로 무의미
     - INDETERMINATE: 노출 경험/증상 정보가 불충분하여 판정 보류
+    - CLINICIAN_REVIEW: 약물 항원 — 이 앱이 판정하지 않는다('진료 확인 필요').
+      약물 특이 IgE 양성은 반응 병력이 있어도 그것만으로 약물 알레르기라고 하지 않고, 반응이 없었어도
+      '써도 된다'고 하지 않는다. 그 약을 피할지·다시 쓸지는 진료에서 정한다.
+      API 의 `relevance` 필드는 기존 소비자가 아는 세 값만 내보내므로 이 값은 'indeterminate' 로 나가고,
+      새 필드 `verdict` 에 'clinician_review' 로 실린다(public_relevance 참고).
     - NOT_ASSESSED: 아직 평가하지 않음
     """
     CLINICALLY_RELEVANT = "clinically_relevant"
     SENSITIZED_ONLY = "sensitized_only"
     INDETERMINATE = "indeterminate"
+    CLINICIAN_REVIEW = "clinician_review"
     NOT_ASSESSED = "not_assessed"
+
+
+# 판정별 표시 이름 — 리포트·카드뉴스·상담·FHIR note·API(verdict_label_ko)가 같은 글자를 쓴다.
+CLINICIAN_REVIEW_LABEL_KO = "진료 확인 필요"
+
+
+def public_relevance(relevance) -> str:
+    """API·저장소로 나가는 `relevance` 값. 기존 소비자(화면·관리자 통계·저장된 세션)가 아는 값만 쓴다:
+    '진료 확인 필요'(약물)는 확정도 무혐의도 아닌 'indeterminate' 로 내보내고, 정확한 판정은 `verdict` 로 준다."""
+    value = getattr(relevance, "value", relevance) or "not_assessed"
+    return "indeterminate" if value == ClinicalRelevance.CLINICIAN_REVIEW.value else value
 
 
 class SymptomSeasonPattern(str, Enum):
@@ -402,6 +419,15 @@ class AllergenAssessment(BaseModel):
     crossreact_severity: Optional[str] = None
     # 문진에서 보고된 실제 증상(노출 시 발현) — FHIR reaction.manifestation.text 로 사용
     reported_symptoms: List[str] = Field(default_factory=list)
+    # 문진에서 확인된 증상의 부위(ORGAN_SYSTEM_OPTIONS 코드). None = 부위를 따로 묻지 않았다(항원군의 기본 부위로
+    # 본다), [] = 물었고 해당 부위가 없다(입·목 증상만 등). '주증상별 안내'가 이 값으로 알러젠을 잇는다.
+    symptom_sites: Optional[List[str]] = None
+    # 판정을 미룬 항목에서, 이 항원에 해당하는 문진 문항 가운데 아직 답이 없거나 '잘 모르겠어요'인 것의 제목.
+    # None = 적응형 문진을 거치지 않았다(예전 3문항 경로). 리포트의 '확인 포인트'는 이 목록에서만 나온다 —
+    # 이미 답한 것을 다시 묻지 않는다.
+    open_questions_ko: Optional[List[str]] = None
+    # 같은 임상 그룹(집먼지진드기 두 종 등)에서 이번에 양성으로 나온 항원 수. None = 세지 않았다.
+    clinical_group_count: Optional[int] = None
     # 증상 중증도: none/mild/moderate/severe/anaphylaxis — FHIR reaction.severity·criticality 로 사용
     severity: Optional[str] = None
     # 판정
@@ -427,13 +453,33 @@ class TestedNegative(BaseModel):
     size_text: Optional[str] = None
 
 
+class TestControl(BaseModel):
+    """검사 대조(양성: 히스타민 / 음성: 생리식염수). 알러젠이 아니다 —
+    판정(assessments)에도 '검사한 음성 항원'(tested_negatives)에도 넣지 않는다."""
+    # positive / negative / unspecified('Control' 처럼 어느 쪽인지 알 수 없는 표기)
+    kind: str
+    name: str                      # 결과지·입력에 적힌 이름(행이 아니라 환자 정보 칸에서 왔으면 표준 이름)
+    korean_name: Optional[str] = None
+    value: Optional[float] = None  # SPT 팽진 평균(mm) 또는 MAST 수치
+    unit: Optional[str] = None
+    class_value: Optional[Union[int, str]] = None
+    size_text: Optional[str] = None
+    # 같은 검사의 판정 기준으로 본 반응: positive / negative / equivocal / unknown
+    status: str = "unknown"
+
+
 class RelevanceAssessmentResult(BaseModel):
     """전체 양성 알레르겐 감별 결과"""
     patient_name: Optional[str] = None
     test_date: Optional[str] = None
+    # 검사 종류(MAST/UNICAP/SPT). 피부반응검사에만 해당하는 주의(항히스타민제 위음성)를 가리는 데 쓴다.
+    test_type: Optional[TestType] = None
     assessments: List[AllergenAssessment] = Field(default_factory=list)
     # 검사했지만 양성이 아닌 항원 — 음성도 결과다
     tested_negatives: List[TestedNegative] = Field(default_factory=list)
+    # 검사 대조 값과, 그것으로 본 검사 해석 가능 여부(RelevanceService.control_check)
+    controls: List[TestControl] = Field(default_factory=list)
+    control_check: Optional[Dict[str, Any]] = None
     created_at: datetime = Field(default_factory=datetime.now)
 
     def by_relevance(self, relevance: ClinicalRelevance) -> List[AllergenAssessment]:
