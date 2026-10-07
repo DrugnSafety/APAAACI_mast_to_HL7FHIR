@@ -150,6 +150,15 @@ MONTH_LABELS_KO = ["1월", "2월", "3월", "4월", "5월", "6월",
                    "7월", "8월", "9월", "10월", "11월", "12월"]
 
 
+def skin_test_caution_applies(test_type) -> bool:
+    """피부반응검사(SPT)에만 해당하는 주의(항히스타민제·전신 스테로이드로 인한 위음성)를 낼 것인가.
+
+    혈액검사(MAST·UniCAP)의 특이 IgE 수치는 항히스타민제의 영향을 받지 않는다 — 혈액검사 결과지에 이 주의를
+    실으면 환자가 음성 결과를 의심하게 된다. 검사 종류를 모를 때(문진만 요약할 때)는 낸다."""
+    value = getattr(test_type, "value", test_type)
+    return value is None or str(value).upper() == "SPT"
+
+
 class ScreeningService:
     """스크리닝 문진 도우미"""
 
@@ -186,18 +195,21 @@ class ScreeningService:
             pass
         return f"{country}{(' · ' + region) if region else ''}"
 
-    def summarize(self, profile: ScreeningProfile) -> Dict[str, Any]:
-        """스크리닝 요약 + 임상적 주의사항(flags) 생성."""
+    def summarize(self, profile: ScreeningProfile, test_type=None) -> Dict[str, Any]:
+        """스크리닝 요약 + 임상적 주의사항(flags) 생성.
+        test_type: 이번 검사의 종류(MAST/UNICAP/SPT). 피부반응검사에만 해당하는 주의는 SPT 일 때(또는 검사
+        종류를 모를 때)만 낸다."""
         flags: List[str] = []
 
-        # 항히스타민제 복용은 SPT 위음성을 유발할 수 있음
-        if profile.antihistamine_recent or ("antihistamine" in profile.current_medications):
-            flags.append(
-                "최근 항히스타민제를 복용했다면 피부반응검사(SPT)에서 위음성(실제 양성인데 음성)이 "
-                "나올 수 있습니다. 결과 해석 시 주의가 필요합니다."
-            )
-        if "systemic_steroid" in profile.current_medications:
-            flags.append("전신 스테로이드 복용은 피부반응검사 결과에 영향을 줄 수 있습니다.")
+        if skin_test_caution_applies(test_type):
+            # 항히스타민제 복용은 SPT 위음성을 유발할 수 있음
+            if profile.antihistamine_recent or ("antihistamine" in profile.current_medications):
+                flags.append(
+                    "최근 항히스타민제를 복용했다면 피부반응검사(SPT)에서 위음성(실제 양성인데 음성)이 "
+                    "나올 수 있습니다. 결과 해석 시 주의가 필요합니다."
+                )
+            if "systemic_steroid" in profile.current_medications:
+                flags.append("전신 스테로이드 복용은 피부반응검사 결과에 영향을 줄 수 있습니다.")
 
         # 증상-질환 정합성
         diseases = [DISEASE_LABELS_KO.get(d, d) for d in profile.allergic_diseases if d != "none"]

@@ -1,34 +1,38 @@
 # 웹 서비스(FastAPI) 런타임 의존성 — Dockerfile 이 이 파일만 설치한다.
 # 레거시 Streamlit 앱(app.py)을 쓰려면 requirements-legacy.txt 도 함께 설치한다.
 # Python 3.12 검증 완료(3.13 도 호환 목표).
+# 버전은 검증한 환경(.venv)에 깔린 것으로 고정한다 — 올릴 때는 테스트를 돌린 뒤 이 파일을 함께 고친다.
 
 # Web app
-fastapi
-uvicorn
-python-multipart
-jinja2
+fastapi==0.142.2
+uvicorn==0.50.2
+python-multipart==0.0.32
+Jinja2==3.1.6
 
 # LLM (OCR·리포트 내러티브·상담 챗봇·번역)
-openai
-python-dotenv
+openai==2.44.0
+python-dotenv==1.2.2
 
 # Image processing
-Pillow
+pillow==12.3.0
 
 # 온톨로지 RAG (질환 일반지식 스냅샷 → RDF 그래프 + SPARQL)
-rdflib
+rdflib==7.6.0
 
 # Data processing
-pandas
-numpy
-pydantic
-pydantic-settings
+pandas==3.0.3
+numpy==2.5.1
+pydantic==2.13.4
+pydantic-settings==2.14.2
 
 # PDF generation
-markdown
-reportlab
+Markdown==3.10.2
+# 환자용 리포트 PDF(HTML → PDF). 시스템 라이브러리 Pango 가 필요하다: Dockerfile 참고, macOS 는 `brew install pango`.
+weasyprint==70.0
+# 레거시 Streamlit 앱의 예비 PDF 경로(utils/pdf_generator.py)
+reportlab==5.0.0
 
 # Additional utilities
-httpx
-aiofiles
-python-dateutil
+httpx==0.28.1
+aiofiles==25.1.0
+python-dateutil==2.9.0.post0

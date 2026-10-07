@@ -13,20 +13,25 @@
 """
 from __future__ import annotations
 
+import copy
 import hashlib
+import html as html_lib
 import json
 import logging
 import os
 import re
 import threading
+from contextlib import contextmanager
+from contextvars import ContextVar
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional
+from typing import Any, Dict, Iterable, Iterator, List, Optional, Tuple
 
 from config.settings import BASE_DIR, settings
 
 logger = logging.getLogger(__name__)
 
-CACHE_PATH = BASE_DIR / "data" / "i18n_cache.json"
+# I18N_CACHE_PATH 로 캐시 파일을 바꿀 수 있다. 테스트(conftest.py)가 실제 캐시를 읽거나 쓰지 않게 하는 데 쓴다.
+CACHE_PATH = Path(os.getenv("I18N_CACHE_PATH") or BASE_DIR / "data" / "i18n_cache.json")
 SUPPORTED = ("ko", "en", "zh")
 LANG_NAME = {"en": "English", "zh": "Simplified Chinese (简体中文)"}
 BATCH_CHARS = 3500          # 한 번에 보낼 최대 문자 수
@@ -42,8 +47,9 @@ _SYSTEM = (
     "text inside parentheses that is already English or Latin, and emoji.\n"
     "3. Preserve inline markup exactly: **bold**, `code`, <b>, <br/>, markdown headings/lists, and any "
     "leading list markers or numbering.\n"
-    "3b. Placeholders like ⟦0⟧ ⟦12⟧ are markup. Keep every one of them, unchanged, and keep them in "
-    "positions that make sense for the translated sentence. Never drop, merge or renumber them.\n"
+    "3b. Placeholders like ⟦0⟧ ⟦12⟧ ⟦P0⟧ ⟦P3⟧ are markup or values filled in later (a name, a date, "
+    "a number). Keep every one of them, unchanged, and keep them in positions that make sense for the "
+    "translated sentence. Never drop, merge, renumber or translate them.\n"
     "4. Do not translate proper allergen brand/test names (MAST, UniCAP, ImmunoCAP, SPT, FHIR, SNOMED).\n"
     "3c. Keep personal names exactly as written in the source script. Do not transliterate or "
     "localize a patient's name.\n"
@@ -54,6 +60,164 @@ _SYSTEM = (
     "array. One input string maps to one output string, even if it contains newlines: never split a "
     "multi-line string into several array items, and never merge two inputs into one."
 )
+
+
+# ============================================================
+# 사용자 값 보호 + 미번역 집계
+# ============================================================
+# 환자가 입력했거나 결과지에서 읽은 값(이름·기관·자유 기재·레지스트리에 없는 항원명)은 일반 문장과 같은
+# 번역 요청·같은 영구 캐시에 넣지 않는다. 번역 전에 ⟦P0⟧ 같은 자리표시자로 바꾸고 번역 뒤에 되돌린다.
+#   - 캐시 키와 캐시 값에는 자리표시자만 남는다(환자 식별 정보가 추적 중인 캐시 파일로 가지 않는다).
+#   - 일반 문장을 번역하는 LLM 요청에 공격자가 고른 문자열이 섞이지 않는다(캐시 오염 방지).
+#   - 자유 기재 값은 따로 묶어 번역하고 캐시하지 않는다. 이름·기관명은 번역하지 않고 그대로 둔다.
+# 날짜(YYYY-MM-DD)는 범위 밖에서도 항상 자리표시자로 바꾼다 — 검사일이 캐시에 남지 않고, 작성일이
+# 바뀔 때마다 같은 문장을 다시 번역하지도 않는다.
+_SLOT = re.compile(r"⟦P(\d+)⟧")
+_DATE = r"(?<!\d)\d{4}[-./]\d{1,2}[-./]\d{1,2}(?!\d)"
+_SEX_LABEL = {"남성": {"en": "Male", "zh": "男性"}, "여성": {"en": "Female", "zh": "女性"}}
+_HANGUL = re.compile(r"[가-힣]")
+MIN_PROTECTED_LEN = 2
+
+# 자리(slot): (종류, 원문에 있던 표기, 값, HTML 이스케이프된 표기였는가)
+#   keep = 그대로 되돌림(이름·날짜·나이) / sex = 언어별 표기로 되돌림 / free = 따로 번역한 값으로 되돌림
+Slot = Tuple[str, str, str, bool]
+
+
+class TranslationScope:
+    """한 요청(한 환자)의 번역 범위. 보호할 값과, 번역하지 못한 문장 집계를 담는다."""
+
+    def __init__(self, identity: Iterable[Any] = (), free_text: Iterable[Any] = (), age: Any = None):
+        self.total = 0                       # 번역 대상이었던 문장 수
+        self.untranslated: List[str] = []    # 번역하지 못한 문장(자리표시자로 가린 형태)
+        self.errors = 0                      # 번역기 밖에서 난 실패(호출부가 올린다)
+        self._free_tr: Dict[str, Dict[str, str]] = {}
+        self._lits: Dict[str, Tuple[str, str, bool]] = {}
+        for kind, values in (("free", free_text), ("keep", identity)):     # 겹치면 identity 가 이긴다
+            for v in values:
+                v = str(v).strip() if v is not None else ""
+                if len(v) < MIN_PROTECTED_LEN:
+                    continue
+                for variant in (v, html_lib.escape(v, quote=False), html_lib.escape(v, quote=True)):
+                    self._lits[variant] = (kind, v, variant != v)
+        parts = []
+        if self._lits:
+            parts.append("(?P<lit>" + "|".join(
+                re.escape(k) for k in sorted(self._lits, key=len, reverse=True)) + ")")
+        parts.append(f"(?P<date>{_DATE})")
+        if isinstance(age, int) and not isinstance(age, bool) and 0 <= age < 150:
+            parts.append(rf"(?P<age>(?<!\d){age}(?=\s?세))")
+        self._rx = re.compile("|".join(parts))
+
+    def mask(self, text: str) -> Tuple[str, List[Slot]]:
+        slots: List[Slot] = []
+        index: Dict[str, int] = {}
+
+        def put(kind: str, token: str, value: str, escaped: bool) -> str:
+            if token not in index:
+                index[token] = len(slots)
+                slots.append((kind, token, value, escaped))
+            return f"⟦P{index[token]}⟧"
+
+        def sub(m):
+            token = m.group(0)
+            if m.lastgroup == "lit":
+                kind, value, escaped = self._lits[token]
+                return put(kind, token, value, escaped)
+            return put("keep", token, token, False)
+
+        masked = self._rx.sub(sub, text)
+        # 성별은 이름·나이와 같은 줄(인적사항 줄)에서만 가린다. 다른 문장의 '남성/여성' 은 일반 어휘다.
+        if any(kind == "keep" and not re.fullmatch(_DATE, token) for kind, token, _v, _e in slots):
+            for label in _SEX_LABEL:
+                if label in masked:
+                    masked = masked.replace(label, put("sex", label, label, False))
+        return masked, slots
+
+    def resolve_free(self, values: List[str], lang: str, svc: "TranslationService") -> Dict[str, str]:
+        """자유 기재 값의 번역. 이 범위 안에서 값마다 한 번만 부르고, 캐시에는 넣지 않는다."""
+        done = self._free_tr.setdefault(lang, {})
+        todo = [v for v in values if v not in done]
+        if todo:
+            done.update({v: "" for v in todo})
+            done.update(svc._translate_uncached(todo, lang))
+        return {v: t for v, t in done.items() if t}
+
+
+_PLAIN = TranslationScope()          # 범위 밖 호출용(날짜만 가린다). 집계에는 쓰지 않는다.
+_scope: ContextVar[Optional[TranslationScope]] = ContextVar("translation_scope", default=None)
+
+
+@contextmanager
+def translation_scope(identity: Iterable[Any] = (), free_text: Iterable[Any] = (),
+                      age: Any = None) -> Iterator[TranslationScope]:
+    """이 블록 안의 번역은 identity/free_text 값을 가리고, 번역하지 못한 문장을 scope 에 모은다."""
+    scope = TranslationScope(identity, free_text, age)
+    token = _scope.set(scope)
+    try:
+        yield scope
+    finally:
+        _scope.reset(token)
+
+
+def current_scope() -> Optional[TranslationScope]:
+    return _scope.get()
+
+
+def _slots_ok(text: str, slots: List[Slot]) -> bool:
+    """번역문에 자리표시자가 빠짐없이, 없는 번호 없이 들어 있는가."""
+    return {int(n) for n in _SLOT.findall(text)} == set(range(len(slots)))
+
+
+def _restore(text: str, slots: List[Slot], lang: str, free_tr: Dict[str, str]) -> str:
+    def sub(m):
+        i = int(m.group(1))
+        if i >= len(slots):
+            return m.group(0)
+        kind, token, value, escaped = slots[i]
+        if kind == "sex":
+            return _SEX_LABEL[token].get(lang, token)
+        if kind == "free" and free_tr.get(value):
+            return html_lib.escape(free_tr[value]) if escaped else free_tr[value]
+        return token
+    return _SLOT.sub(sub, text)
+
+
+_TAG = re.compile(r"</?[A-Za-z][^<>]*>")
+_TAG_START = re.compile(r"<(?=[A-Za-z/!?])")
+_BARE_AMP = re.compile(r"&(?!#?\w+;)")
+# 링크 목적지: 인라인 `](목적지` 와 참조 정의 `[이름]: 목적지`(인용문·목록 안에서도 정의로 읽힌다).
+_LINK_DEST = re.compile(r"\]\(\s*<?([^\s<>)]*)|\[[^\]\n]+\]:[ \t]*\n?[ \t]*<?([^\s<>]*)")
+_WEB_LINK = re.compile(r"https?://", re.I)
+_ATTR_BRACE = str.maketrans({"{": "&#123;", "}": "&#125;"})
+
+
+def _link_dests(md: str) -> set:
+    return {a or b for a, b in _LINK_DEST.findall(md)}
+
+
+def _adds_unsafe_link(src: str, translated: str) -> bool:
+    """번역문에 원문에 없던 링크 목적지가 생겼고, 그것이 평범한 웹 주소가 아닌가.
+
+    위험한 스킴을 골라내는 방식은 엔티티(`&#106;avascript:`, `java&Tab;script:`, `&colon;`)나
+    `<javascript:…>` 표기로 빠져나간다. 그래서 새 목적지는 http(s) 로 시작할 때만 받아들인다."""
+    return any(not _WEB_LINK.match(d) for d in _link_dests(translated) - _link_dests(src))
+
+
+def _escape_text_node(text: str) -> str:
+    """번역문을 HTML 텍스트 노드에 넣기 전 이스케이프한다. 원문에 있던 엔티티(&amp; 등)는 그대로 둔다."""
+    return _BARE_AMP.sub("&amp;", text).replace("<", "&lt;").replace(">", "&gt;")
+
+
+def _neutralize_new_markup(src: str, translated: str) -> str:
+    """마크다운 블록 번역문에서 원문에 없던 HTML 태그를 글자로 바꾼다(원문의 태그는 그대로 둔다)."""
+    allowed = set(_TAG.findall(src))
+    out, pos = [], 0
+    for m in _TAG.finditer(translated):
+        out.append(_TAG_START.sub("&lt;", translated[pos:m.start()]))
+        out.append(m.group(0) if m.group(0) in allowed else html_lib.escape(m.group(0), quote=False))
+        pos = m.end()
+    out.append(_TAG_START.sub("&lt;", translated[pos:]))
+    return "".join(out)
 
 
 class TranslationService:
@@ -120,39 +284,83 @@ class TranslationService:
     def _needs_translation(text: Any) -> bool:
         return isinstance(text, str) and bool(re.search(r"[가-힣]", text))
 
+    def _llm_ready(self) -> bool:
+        from services import llm_backend
+        return bool(self.client) or (llm_backend.active() == "ollama" and llm_backend.is_available("ollama"))
+
     def translate_batch(self, texts: List[str], lang: str) -> List[str]:
-        """한국어 문자열 목록을 번역. 캐시 우선, 없는 것만 LLM 으로 채운다."""
+        """한국어 문자열 목록을 번역. 캐시 우선, 없는 것만 LLM 으로 채운다.
+
+        사용자 값은 자리표시자로 가린 뒤에 캐시를 찾고 번역한다(위 '사용자 값 보호' 참고).
+        번역하지 못한 문장은 원문 그대로 돌려주고, 번역 범위(translation_scope)가 있으면 거기에 적는다."""
         if lang not in ("en", "zh") or not texts:
             return list(texts)
+        scope = _scope.get()
+        masker = scope or _PLAIN
         out = list(texts)
-        misses: List[int] = []
+        work: Dict[int, Tuple[str, List[Slot]]] = {}
+        free_vals = set()
         for i, t in enumerate(texts):
-            if not self._needs_translation(t):
+            if not isinstance(t, str) or not t:
                 continue
-            hit = self._cache.get(self._key(t, lang))
-            if hit is not None:
-                out[i] = hit
+            masked, slots = masker.mask(t)
+            free = {v for kind, _tok, v, _e in slots if kind == "free" and self._needs_translation(v)}
+            if self._needs_translation(masked) or free:
+                work[i] = (masked, slots)
+                free_vals |= free
+        if not work:
+            return out
+        free_tr = masker.resolve_free(sorted(free_vals), lang, self) if free_vals else {}
+
+        misses: List[int] = []
+        for i, (masked, slots) in work.items():
+            if not self._needs_translation(masked):      # 사용자 값만 한국어인 문장
+                out[i] = _restore(masked, slots, lang, free_tr)
+                continue
+            if scope is not None:
+                scope.total += 1
+            hit = self._cache.get(self._key(masked, lang))
+            if hit is not None and _slots_ok(hit, slots):
+                out[i] = _restore(hit, slots, lang, free_tr)
             else:
                 misses.append(i)
-        if not misses:
-            return out
-        from services import llm_backend
-        use_ollama = llm_backend.active() == "ollama" and llm_backend.is_available("ollama")
-        if not self.client and not use_ollama:
-            return out          # 키 없음 → 원문 유지
 
-        for chunk in self._chunks(misses, texts):
-            src = [texts[i] for i in chunk]
-            got = self._call_exact(src, lang)
-            if not got:
-                continue
-            with self._lock:
+        done = set()
+        if misses and self._llm_ready():
+            sources = {i: work[i][0] for i in misses}
+            for chunk in self._chunks(misses, sources):
+                got = self._call_exact([sources[i] for i in chunk], lang)
+                if not got:
+                    continue
                 for idx, translated in zip(chunk, got):
-                    if isinstance(translated, str) and translated.strip():
-                        out[idx] = translated
-                        self._cache[self._key(texts[idx], lang)] = translated
-                        self._dirty = True
-        self.save()
+                    masked, slots = work[idx]
+                    # 원문을 그대로 돌려준 응답, 자리표시자를 잃은 응답은 번역으로 치지 않는다(캐시에도 안 넣는다)
+                    if (isinstance(translated, str) and translated.strip() and translated != masked
+                            and _slots_ok(translated, slots)):
+                        with self._lock:
+                            self._cache[self._key(masked, lang)] = translated
+                            self._dirty = True
+                        out[idx] = _restore(translated, slots, lang, free_tr)
+                        done.add(idx)
+            self.save()
+        if scope is not None:
+            scope.untranslated.extend(work[i][0] for i in misses if i not in done)
+        return out
+
+    def _translate_uncached(self, values: List[str], lang: str) -> Dict[str, str]:
+        """사용자가 넣은 값만 따로 묶어 번역한다. 일반 문장과 한 요청에 섞지 않고, 캐시에 쓰지 않는다."""
+        out: Dict[str, str] = {}
+        if not values or not self._llm_ready():
+            return out
+        for chunk in self._chunks(list(range(len(values))), values):
+            got = self._call_exact([values[i] for i in chunk], lang)
+            for idx, translated in zip(chunk, got or []):
+                src = values[idx]
+                if not isinstance(translated, str) or not translated.strip() or translated == src:
+                    continue
+                translated = translated.replace("⟦", "[").replace("⟧", "]").strip()
+                if len(translated) <= 3 * len(src) + 60:     # 값 하나의 번역이 문단으로 불어나면 버린다
+                    out[src] = translated
         return out
 
     def _call_exact(self, src: List[str], lang: str, depth: int = 0) -> Optional[List[Optional[str]]]:
@@ -185,7 +393,7 @@ class TranslationService:
         return left + right
 
     @staticmethod
-    def _chunks(indices: List[int], texts: List[str]):
+    def _chunks(indices: List[int], texts):
         cur, size = [], 0
         for i in indices:
             n = len(texts[i])
@@ -234,9 +442,15 @@ class TranslationService:
 
     # ---------------- 구조 번역 헬퍼 ----------------
     def translate_obj(self, obj: Any, lang: str, keys: Iterable[str]) -> Any:
-        """중첩 dict/list 에서 지정한 키의 문자열 값만 번역한다(구조·식별자는 건드리지 않음)."""
+        """중첩 dict/list 에서 지정한 키의 문자열 값만 번역한다(구조·식별자는 건드리지 않음).
+
+        **입력을 고치지 않고 번역된 사본을 돌려준다.** 예전에는 제자리에서 고쳤는데, 응답 dict 가
+        프로세스 공용 객체(지식베이스 항목의 `avoidance_control_ko` 리스트, 문진 선택지 상수 YNU 등)를
+        그대로 참조하고 있어서 영어 요청 한 번이 그 원본을 영어로 바꿔 버렸다. 그 뒤로는 한국어
+        요청에도 영어가 나오고, 세 언어를 차례로 만드는 백그라운드 작업도 서로 오염됐다."""
         if lang not in ("en", "zh"):
             return obj
+        obj = copy.deepcopy(obj)
         keys = set(keys)
         targets: List[Any] = []          # (container, key) 쌍 — key 는 dict 키 또는 리스트 인덱스
         texts: List[str] = []
@@ -287,6 +501,8 @@ class TranslationService:
         번역문에서 자리표시자가 유실되면 그 문장만 원문을 유지한다(마크업 파손 방지)."""
         if lang not in ("en", "zh") or not html:
             return html
+        # ⟦ ⟧ 는 아래에서 자리표시자로 쓴다. 입력에 섞여 온 것(사용자 값)은 미리 평범한 괄호로 바꾼다.
+        html = html.replace("⟦", "[").replace("⟧", "]")
 
         # <style>/<script> 안은 번역 대상이 아니다(주석의 한국어까지 건드리면 CSS 가 깨진다)
         blocks: List[str] = []
@@ -316,18 +532,29 @@ class TranslationService:
         table = {}
         if uniq:
             for src, tr in zip(uniq, self.translate_batch(uniq, lang)):
+                if tr == src:
+                    continue
                 if sorted(self._PH.findall(src)) != sorted(self._PH.findall(tr)):
                     logger.warning("번역문에서 줄바꿈 자리표시자가 유실되어 원문을 유지합니다.")
+                    self._note_untranslated(src)
                     continue
                 if tr.count("**") % 2:      # 굵게 표기가 깨졌으면 강조만 버린다
                     tr = tr.replace("**", "")
-                table[src] = tr
+                # 번역문은 태그 사이에 그대로 끼워 넣는다 — 번역기가 만든 <, > 가 마크업이 되지 않게 한다
+                table[src] = _escape_text_node(tr)
 
         out = self._TEXT_NODE.sub(lambda m: ">" + table.get(m.group(1), m.group(1)) + "<", masked)
         out = self._MD_BOLD.sub(lambda m: f"<b>{m.group(1)}</b>", out)
         out = out.replace("**", "")         # 짝이 남지 않은 표기 정리
-        out = self._PH.sub(lambda m: void[int(m.group(1))], out)
-        return re.sub(r"<!--K(\d+)-->", lambda m: blocks[int(m.group(1))], out)
+        out = self._PH.sub(lambda m: void[int(m.group(1))] if int(m.group(1)) < len(void) else "", out)
+        return re.sub(r"<!--K(\d+)-->",
+                      lambda m: blocks[int(m.group(1))] if int(m.group(1)) < len(blocks) else "", out)
+
+    @staticmethod
+    def _note_untranslated(src: str) -> None:
+        scope = _scope.get()
+        if scope is not None:
+            scope.untranslated.append(scope.mask(src)[0])
 
     def translate_markdown(self, md: str, lang: str) -> str:
         """마크다운을 빈 줄 기준 블록으로 나눠 번역. 블록 단위라 캐시 재사용이 잘 된다."""
@@ -339,7 +566,19 @@ class TranslationService:
             return md
         translated = self.translate_batch([blocks[i] for i in idx], lang)
         for i, t in zip(idx, translated):
-            blocks[i] = t
+            src = blocks[i]
+            if t == src:
+                continue
+            # 마크다운은 원시 HTML 과 링크를 그대로 통과시킨다. 번역문이 원문에 없던 태그·스크립트 링크를
+            # 들고 오면 태그는 글자로 바꾸고, 스크립트 링크가 생긴 블록은 원문을 유지한다.
+            if _adds_unsafe_link(src, t):
+                logger.warning("번역문에 스크립트 링크가 생겨 원문을 유지합니다.")
+                self._note_untranslated(src)
+                continue
+            t = _neutralize_new_markup(src, t)
+            # attr_list(`{: onclick=…}`, 코드 펜스의 `{ .x onclick=… }`)는 태그 없이도 속성을 만든다.
+            # 리포트 원문은 그 문법을 쓰지 않으므로, 번역문의 중괄호는 글자로만 보이게 한다.
+            blocks[i] = t.translate(_ATTR_BRACE)
         return "\n\n".join(blocks)
 
 

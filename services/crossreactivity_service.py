@@ -62,27 +62,44 @@ class CrossreactivityService:
             self.antigens = reg.get("antigens", [])
             fam_raw = json.loads((_DATA / "allergen_components.json").read_text(encoding="utf-8"))["families"]
             self.families = {f["id"]: f for f in fam_raw} if isinstance(fam_raw, list) else fam_raw
+            # 대표 이름 → 한글 이름 → 별칭 순으로 등록한다. 한 번에 돌면 앞 항목의 별칭이 뒤 항목의
+            # 대표 이름을 가린다(귀리 꽃가루의 별칭 "oat" 가 음식 Oat 를 가렸다).
+            # OCR 변형('8irch'·'A1der')도 그 항원의 이름이다 — 빠지면 지식·카테고리 조회가 퍼지 매칭으로 넘어간다.
+            for names_of in (lambda a: [a.get("canonical_name")], lambda a: [a.get("korean_name")],
+                             lambda a: a.get("aliases", []), lambda a: a.get("ocr_aliases", [])):
+                for a in self.antigens:
+                    for nm in names_of(a):
+                        if nm:
+                            self.by_name.setdefault(_norm(nm), a)
+                            core = _strip_qualifiers(nm)
+                            if core:
+                                self.by_core.setdefault(core, a)
             for a in self.antigens:
-                for nm in [a.get("canonical_name"), a.get("korean_name")] + a.get("aliases", []):
-                    if nm:
-                        self.by_name.setdefault(_norm(nm), a)
-                        core = _strip_qualifiers(nm)
-                        if core:
-                            self.by_core.setdefault(core, a)
                 for c in a.get("components", []):
                     self.comp_to_antigens[c].append(a)
             logger.info(f"교차반응 서비스 로드: 항원 {len(self.antigens)}, family {len(self.families)}")
         except Exception as e:
             logger.warning(f"교차반응 데이터 로드 실패(교차반응 문진 비활성): {e}")
 
-    def find(self, name: str, korean: str = "") -> Optional[Dict[str, Any]]:
-        # 1) 정확 일치(정규화)
+    def find_exact(self, name: str, korean: str = "") -> Optional[Dict[str, Any]]:
+        """레지스트리의 이름·한글명·별칭·OCR 변형과 (대소문자·공백·구두점만 빼고) 똑같은 항원."""
         for cand in (name, korean):
             a = self.by_name.get(_norm(cand))
             if a:
                 return a
+        return None
+
+    def find(self, name: str, korean: str = "") -> Optional[Dict[str, Any]]:
+        # 1) 정확 일치(정규화)
+        a = self.find_exact(name, korean)
+        if a:
+            return a
         # 2) 수식어 제거 후 핵심명 일치("Birch pollen"→"Birch", "자작나무 꽃가루"→"자작나무")
+        #    일반 낱말만으로 된 이름('House'·'Mix')은 건너뛴다 — 'House' 가 'House dust' 의 핵심명과 같아진다.
+        from utils.allergen_mapper import is_generic_name
         for cand in (name, korean):
+            if not cand or is_generic_name(cand):
+                continue
             core = _strip_qualifiers(cand)
             if core and core in self.by_core:
                 return self.by_core[core]

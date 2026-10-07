@@ -3,6 +3,7 @@ Report Service
 GPT 기반 맞춤형 알레르기 관리 리포트 생성 서비스
 """
 
+import html
 import json
 import logging
 import re
@@ -19,14 +20,35 @@ from models.schemas import (
     ScreeningProfile,
 )
 from services.screening_service import get_screening_service
-from utils.text_utils import trim_sentences
+from utils.text_utils import josa, trim_sentences
 from services.knowledge_service import normalize_category, get_knowledge_service
+from services.exposure_guidance_service import (
+    NO_RELEVANT_NOTE_KO, allocated_tips, animal_guidance, exposure_links)
+from services import care_guidance_service as care_guidance
 
 # 로거 설정
 logger = logging.getLogger(__name__)
 
 # 교차반응 증상 범위 순위(강한 것 우선 표기)
 _CR_SEV_RANK = {"oral": 1, "systemic": 2, "anaphylaxis": 3}
+
+# Markdown 에서 서식·링크·속성으로 해석되는 글자. 백슬래시 대신 숫자 엔티티로 바꾼다 —
+# 어떤 Markdown 렌더러에서도 글자 그대로 보이고, 표 칸 구분(|)이나 attr_list({: ...})로도 읽히지 않는다.
+_MD_ENTITY = {"\\": "&#92;", "`": "&#96;", "*": "&#42;", "_": "&#95;", "[": "&#91;", "]": "&#93;",
+              "{": "&#123;", "}": "&#125;", "|": "&#124;"}
+
+
+def md_text(value: Any) -> str:
+    """환자·OCR 에서 온 값을 리포트 Markdown 에 넣기 전에 글자 그대로 보이게 만든다.
+
+    리포트 Markdown 은 python-markdown 으로 HTML 이 되는데 원시 HTML 을 그대로 통과시킨다.
+    이름 칸에 `<img src=x onerror=…>` 를 넣으면 리포트·인쇄용 문서·메일 첨부에 그대로 실렸다.
+    HTML 특수문자는 엔티티로, Markdown 메타문자(링크 `[..](javascript:…)`, 속성 `{: onclick=…}`,
+    표 구분 `|` 등)도 엔티티로 바꾸고, 줄바꿈은 공백으로 접어 새 블록을 열지 못하게 한다.
+    """
+    text = re.sub(r"\s+", " ", str("" if value is None else value)).strip()
+    text = html.escape(text, quote=False)
+    return "".join(_MD_ENTITY.get(ch, ch) for ch in text)
 
 
 class ReportService:
@@ -526,7 +548,11 @@ class ReportService:
         "pollen_weed": "가을철 야외 노출 주의",
         "mold": "실내 습도 낮추고 곰팡이 제거",
         "insect": "주방·서식처 위생 관리",
+        "venom": "벌에 쏘이지 않기 · 응급 대처 계획 확인",
         "food": "해당 음식 섭취 주의(전신 반응 시 응급)",
+        "latex": "라텍스 제품 접촉 줄이기 · 진료·시술 전에 알리기",
+        # 약물에는 회피 지시를 쓰지 않는다 — 피할지·다시 쓸지는 진료에서 정한다
+        "drug": "이 약의 사용은 진료에서 확인(스스로 끊거나 다시 쓰지 않기)",
     }
 
     # 알러젠 블록 '결론' 문장(완결형) — 짧게, 행동을 먼저
@@ -538,7 +564,11 @@ class ReportService:
         "pollen_weed": "가을에는 야외 활동을 줄이세요.",
         "mold": "실내 습도를 낮추고 곰팡이를 제거하세요.",
         "insect": "주방과 서식처 위생을 관리하세요.",
+        "venom": "벌에 쏘이지 않도록 하고, 응급 대처 계획을 담당 의료진과 정해 두세요.",
         "food": "그 음식은 피하세요. 온몸 반응이 있었다면 응급 계획이 필요합니다.",
+        "latex": "라텍스로 만든 제품과의 접촉을 줄이고, 진료·시술을 받기 전에 미리 알리세요.",
+        "drug": "이 약을 계속 피할지, 다시 써도 되는지는 진료에서 정합니다. 처방·조제를 받을 때 이 결과와 "
+                "겪은 반응을 알리세요.",
     }
 
     # 교차반응 증상 범위 배지 — 항원 노출 중증도와 구분해서 표기
@@ -556,9 +586,13 @@ class ReportService:
     _ENV_GROUP = {
         "mite": "indoor", "insect": "indoor", "mold": "indoor", "animal": "indoor",
         "pollen_tree": "outdoor", "pollen_grass": "outdoor", "pollen_weed": "outdoor",
+        "venom": "sting",     # 벌독은 들이마시는 항원이 아니다 — 실내·실외(계절성) 어느 쪽에도 넣지 않는다
+        "latex": "contact",   # 닿아서 들어온다
+        "drug": "drug",
     }
     _ENV_LABEL = {"indoor": "🏠 실내 항원", "outdoor": "🌳 실외(계절성) 항원",
-                  "food": "🍽️ 음식 항원", "other": "기타 항원"}
+                  "sting": "🐝 곤충 독(쏘임)", "food": "🍽️ 음식 항원", "contact": "🧤 접촉 항원(라텍스)",
+                  "drug": "💊 약물", "other": "기타 항원"}
 
     def _severity_badge(self, a) -> str:
         return self._SEVERITY_BADGE.get(getattr(a, "severity", None) or "", "")
@@ -569,13 +603,26 @@ class ReportService:
             return "food"
         return self._ENV_GROUP.get(cat, "other")
 
-    def _display_name(self, a, detail: bool = False) -> str:
-        """임상 그룹(Df/Dp 등)은 통합 라벨로 표시(A1)."""
+    def _raw_display_name(self, a, detail: bool = False) -> str:
+        """임상 그룹(Df/Dp 등)은 통합 라벨로 표시(A1). 이스케이프 전 값 — 비교용."""
         try:
             from services.clinical_group_service import get_clinical_group_service
             return get_clinical_group_service().label_of(a, detail=detail)
         except Exception:
             return a.korean_name or a.allergen_name
+
+    def _display_name(self, a, detail: bool = False) -> str:
+        """리포트에 쓰는 항원 이름. 항원명은 OCR·사용자 입력에서 오므로 여기서 이스케이프한다."""
+        return md_text(self._raw_display_name(a, detail))
+
+    @staticmethod
+    def _season_label(a, screening=None) -> str:
+        """이 항원의 시기 라벨 — 계절성 절·카드뉴스와 같은 값 한 가지."""
+        try:
+            from services.pollen_forecast_service import get_pollen_forecast_service
+            return get_pollen_forecast_service().season_label(a, screening)
+        except Exception:  # noqa: BLE001
+            return (getattr(a, "kb", None) or {}).get("season_label_ko", "") or ""
 
     def _collapse(self, items):
         """임상 그룹 단위로 접어 중복 서술 제거(A1). 반환: [(대표 assessment, 그룹정보)]"""
@@ -586,12 +633,15 @@ class ReportService:
         except Exception:
             return [(a, None) for a in items]
 
-    def _one_line_relevant(self, a) -> str:
+    def _one_line_relevant(self, a, screening=None) -> str:
         """실제 주의 알러젠 한 줄 요약 (한눈에 보기용)."""
         nm = self._display_name(a)
         cat = normalize_category(a.category)
         action = self._ONE_LINE_ACTION.get(cat, "노출 상황 관리 필요")
-        season = (a.kb or {}).get("season_label_ko", "")
+        animal = animal_guidance(a, screening)
+        if animal and animal["one_line"]:
+            action = animal["one_line"]   # 함께 사는지에 따라 할 일이 다르다
+        season = md_text(self._season_label(a, screening))
         seg = f" · {season}" if season and cat.startswith("pollen") else ""
         sev = self._severity_badge(a)
         sev_seg = f" · {sev}" if sev else ""
@@ -606,7 +656,7 @@ class ReportService:
             # 음식 경고는 '교차반응 자체의 증상 범위'를 쓴다(항원 노출 증상과 별개)
             sev = getattr(a, "crossreact_severity", None)
             for f in (getattr(a, "oas_foods", None) or []) + (getattr(a, "crossreact_confirmed", None) or []):
-                e = by_food.setdefault(f, {"triggers": [], "severity": sev})
+                e = by_food.setdefault(md_text(f), {"triggers": [], "severity": sev})
                 if src not in e["triggers"]:
                     e["triggers"].append(src)
                 if _CR_SEV_RANK.get(sev, 0) > _CR_SEV_RANK.get(e.get("severity"), 0):
@@ -619,18 +669,25 @@ class ReportService:
         patient_info: Dict[str, Any],
         screening: Optional["ScreeningProfile"] = None,
         lang: str = "ko",
+        include_header: bool = True,
     ) -> str:
         """지식베이스+감별결과로 환자용 리포트 Markdown을 결정론적으로 구성(API 불필요).
-        lang 이 ko 가 아니면 마지막에 블록 단위로 번역한다(캐시 사용)."""
-        name = patient_info.get("name") or relevance_result.patient_name or "환자"
-        age = patient_info.get("age")
-        gender = self._format_gender(patient_info.get("gender"))
-        test_date = patient_info.get("test_date") or relevance_result.test_date or "-"
+        lang 이 ko 가 아니면 마지막에 블록 단위로 번역한다(캐시 사용).
+        include_header=False 면 제목과 환자 정보 줄(이름·나이·성별·검사일·작성일)을 뺀다 — 인쇄용 문서는
+        표지에 같은 내용이 있어, 넣으면 첫 쪽에 환자 정보가 두 번 나온다."""
+        # 이름·나이·성별·검사일은 결과지 OCR 과 사용자 입력에서 온다 — 여기서 한 번 이스케이프해 아래 전부에 쓴다
+        name = md_text(patient_info.get("name") or relevance_result.patient_name or "환자")
+        age = md_text(patient_info.get("age")) if patient_info.get("age") else ""
+        gender = md_text(self._format_gender(patient_info.get("gender")))
+        test_date = md_text(patient_info.get("test_date") or relevance_result.test_date or "-")
         today = datetime.now().strftime("%Y-%m-%d")
 
         relevant = relevance_result.by_relevance(ClinicalRelevance.CLINICALLY_RELEVANT)
         sensitized = relevance_result.by_relevance(ClinicalRelevance.SENSITIZED_ONLY)
         indeterminate = relevance_result.by_relevance(ClinicalRelevance.INDETERMINATE)
+        # 약물 항원 — 위 세 가지 어디에도 넣지 않는다('진료 확인 필요')
+        review = relevance_result.by_relevance(ClinicalRelevance.CLINICIAN_REVIEW)
+        drug = care_guidance.drug_review(relevance_result.assessments, screening)
 
         tested = list(getattr(relevance_result, "tested_negatives", None) or [])
         negatives = [n for n in tested if n.status == "negative"]
@@ -641,35 +698,57 @@ class ReportService:
             return ", ".join(self._display_name(a) for a, _g in self._collapse(items)) or "없음"
 
         md: List[str] = []
-        md.append(f"# 🌿 {name}님 맞춤 알레르기 검사 결과 리포트")
-        info = f"**{name}**"
-        if age:
-            info += f" · {age}세"
-        if gender and gender != "미제공":
-            info += f" · {gender}"
-        md.append(info + f"  \n**검사일:** {test_date}  \n**리포트 작성일:** {today}")
-        md.append("\n---\n")
+        if include_header:
+            md.append(f"# 🌿 {name}님 맞춤 알레르기 검사 결과 리포트")
+            info = f"**{name}**"
+            if age:
+                info += f" · {age}세"
+            if gender and gender != "미제공":
+                info += f" · {gender}"
+            md.append(info + f"  \n**검사일:** {test_date}  \n**리포트 작성일:** {today}")
+            md.append("\n---\n")
 
         # 0. 핵심 요약 (구조화)
-        total = len(relevant) + len(sensitized) + len(indeterminate)
+        # 개수는 이름 목록과 같은 단위(임상 그룹)로 센다. 검사 항목 수로 세면 유럽·미국 집먼지진드기가
+        # 2개로 세어져 '4개'라고 쓰고 이름은 3개만 적게 된다.
+        total = len(relevant) + len(sensitized) + len(indeterminate) + len(review)
+        n_rel, n_sens, n_ind, n_rev = (len(self._collapse(x)) for x in (relevant, sensitized, indeterminate, review))
+        grouped_note = ("" if n_rel + n_sens + n_ind + n_rev == total else
+                        " 아래 개수는 임상적으로 같은 항원(집먼지진드기 두 종 등)을 하나로 묶어 센 것입니다.")
+        review_note = (f" 약물 항원 {n_rev}개는 이 리포트가 판정하지 않고 ‘{md_text(drug['label'])}’로 따로 두었습니다."
+                       if drug else "")
         md.append("## 0️⃣ 한눈에 보기")
         md.append(
             f"> **{name}님**은 이번 검사에서 총 **{total}개** 항목에 양성(감작)으로 나왔고, "
-            f"그중 문진 결과 **실제로 증상을 일으키는 것으로 확인된 알러젠은 {len(relevant)}개**입니다."
+            f"그중 문진 결과 **실제로 증상을 일으키는 것으로 확인된 알러젠은 {n_rel}개**입니다."
+            f"{review_note}{grouped_note}"
         )
         md.append(
             "| 구분 | 개수 | 의미 | 대상 |\n"
             "|---|---|---|---|\n"
-            f"| 🔴 실제 주의 | **{len(relevant)}** | 노출 시 실제 증상 유발 → 적극 관리 | {names(relevant)} |\n"
-            f"| ⚪ 감작만 | {len(sensitized)} | 검사만 양성, 증상 없음 → 과도한 회피 불필요 | {names(sensitized)} |\n"
-            f"| 🟡 관찰 필요 | {len(indeterminate)} | 노출·정보 부족 → 경과 관찰 | {names(indeterminate)} |"
+            f"| 🔴 실제 주의 | **{n_rel}** | 노출 시 실제 증상 유발 → 적극 관리 | {names(relevant)} |\n"
+            f"| ⚪ 감작만 | {n_sens} | 검사만 양성, 증상 없음 → 과도한 회피 불필요 · 지켜보기 | {names(sensitized)} |\n"
+            f"| 🟡 관찰 필요 | {n_ind} | 판정 보류 → 경과 관찰 | {names(indeterminate)} |"
+            # 약물은 '실제 주의'도 '감작만'도 아니다 — 피할지·다시 쓸지는 진료에서 정한다
+            + (f"\n| 🩺 {md_text(drug['label'])} | {n_rev} | 약물 — 이 리포트가 판정하지 않음 · 피할지, 다시 써도 "
+               f"되는지는 진료에서 결정 | {names(review)} |" if drug else "")
             + (f"\n| ⚫ 음성 | {len(negatives)} | 검사했고 감작 없음 | {self._negative_names(negatives, 12)} |"
                if negatives else "")
         )
+        # 검사 대조(히스타민·생리식염수)는 알러젠이 아니라 위 표에 넣지 않는다. 검사를 읽을 수 있는지만 한 줄로 적는다.
+        check = getattr(relevance_result, "control_check", None)
+        if check and check.get("line_ko"):
+            icon = "⚠️" if check.get("status") == "caution" else "🧪"
+            md.append(f"- {icon} {md_text(check['line_ko'])}")
         if relevant:
             md.append("**🔴 지금 우선 관리할 알러젠 요약**")
             for a, _g in self._collapse(relevant):   # Df/Dp 등은 한 번만(A1)
-                md.append(f"- {self._one_line_relevant(a)}")
+                md.append(f"- {self._one_line_relevant(a, screening)}")
+        if drug:
+            md.append(f"**🩺 {md_text(drug['label'])} — 약물**")
+            for it in drug["items"]:
+                sev = f" · {it['severity_label']}" if it["severity_label"] else ""
+                md.append(f"- **{md_text(it['label'])}**{sev} — {md_text(it['one_line'])}")
         # 🍽️ 확인된 교차반응·OAS 음식 — 검사 양성 알러젠과 '동급'으로 경고(C)
         alerts = self._confirmed_food_alerts(relevance_result)
         if alerts:
@@ -683,20 +762,35 @@ class ReportService:
                 md.append(f"- 🚫 **{food}** — {', '.join(info['triggers'])} 교차반응{sev_seg}")
             md.append(
                 "  - 외식·가공식품에서는 **원재료 표시를 반드시 확인**하고, 조리 과정에서 섞여 들어갈 수 있음을 "
-                "알려주세요. 전신 증상(호흡곤란·어지럼) 병력이 있으면 응급약 처방을 상의하세요.")
+                "알려주세요.")
+            if any(info.get("severity") in ("systemic", "anaphylaxis") for info in alerts.values()):
+                # 카드뉴스의 '반드시 주의할 음식' 카드와 같은 문장
+                md.append("  - 🚨 **전신 반응 병력이 있습니다.** 반드시 피하시고, 응급약·응급 대처 계획을 "
+                          "담당 의료진과 상의하세요.")
 
         # 스크리닝 요약
         if screening is not None:
-            sc = get_screening_service().summarize(screening)
+            sc = get_screening_service().summarize(
+                screening, test_type=getattr(relevance_result, "test_type", None))
+            listed = lambda xs: ", ".join(md_text(x) for x in xs)  # noqa: E731 — 코드값도 사용자 입력이다
             if sc["diseases_ko"]:
-                md.append(f"- 🩺 진단/의심 질환: {', '.join(sc['diseases_ko'])}")
-            if sc["season_pattern_ko"]:
-                extra = f" (악화 시기: {', '.join(sc['worse_months_ko'])})" if sc["worse_months_ko"] else ""
-                md.append(f"- 📆 증상 패턴: {sc['season_pattern_ko']}{extra}")
+                md.append(f"- 🩺 진단/의심 질환: {listed(sc['diseases_ko'])}")
+            if care_guidance.has_anaphylaxis_history(screening):
+                # 두 카드뉴스의 '치료와 연결하기' 카드와 같은 문장 — 응급 안내는 문서마다 달라지면 안 된다
+                head, body = care_guidance.ANAPHYLAXIS_HISTORY_KO
+                md.append(f"- 🚨 **{head}** {body}")
+            # 패턴이 none 이면 줄을 쓰지 않는다. none 은 '답하지 않음'의 기본값이기도 해서, 증상이 확인된
+            # 환자에게 '뚜렷한 패턴 없음 / 증상 없음'이라고 찍히던 자리다.
+            pattern = getattr(getattr(screening, "season_pattern", None), "value", None)
+            if sc["season_pattern_ko"] and pattern != "none":
+                extra = f" (악화 시기: {listed(sc['worse_months_ko'])})" if sc["worse_months_ko"] else ""
+                md.append(f"- 📆 증상 패턴: {md_text(sc['season_pattern_ko'])}{extra}")
+            elif sc["worse_months_ko"]:
+                md.append(f"- 📆 증상이 심해지는 시기: {listed(sc['worse_months_ko'])}")
             if sc["organ_systems_ko"]:
-                md.append(f"- 👃 주로 나타나는 부위: {', '.join(sc['organ_systems_ko'])}")
+                md.append(f"- 👃 주로 나타나는 부위: {listed(sc['organ_systems_ko'])}")
             if sc.get("residence_ko"):
-                md.append(f"- 📍 거주 지역: {sc['residence_ko']} (꽃가루 시기 안내의 기준)")
+                md.append(f"- 📍 거주 지역: {md_text(sc['residence_ko'])} (꽃가루 시기 안내의 기준)")
             for flag in sc["flags"]:
                 md.append(f"- ⚠️ {flag}")
 
@@ -723,37 +817,57 @@ class ReportService:
                       "증상이 있을 때 어떤 상황이었는지 기록해 두면 다음 평가에 도움이 됩니다.")
         else:
             # 실내/실외/음식으로 묶어 노출 관리 방식이 같은 것끼리 설명(C)
-            for env in ("indoor", "outdoor", "food", "other"):
+            for env in ("indoor", "outdoor", "sting", "food", "contact", "drug", "other"):
                 bucket = [a for a in relevant if self._env_group_of(a) == env]
                 if not bucket:
                     continue
                 md.append(f"### {self._ENV_LABEL[env]}")
                 for a, _g in self._collapse(bucket):   # Df/Dp 등은 한 번만 설명(A1)
-                    md.append(self._allergen_detail_md(a, detailed=True, lang=lang))
+                    md.append(self._allergen_detail_md(a, detailed=True, lang=lang, screening=screening))
+
+        # 약물 — '실제 주의'에도 '감작만'에도 '관찰 필요'에도 넣지 않는다
+        drug_md = care_guidance.drug_review_md(relevance_result.assessments, screening)
+        if drug_md:
+            md.append("\n---\n")
+            md.append(drug_md)
 
         md.append("\n---\n")
 
         # 2. 감작만 된 알러젠
-        md.append("## 2️⃣ ⚪ 감작만 된 알러젠 (과도한 회피 불필요)")
+        # 입장은 한 가지다(data/sensitization_prevention.json 의 stance_note_ko): 진단이 아니고 과도한 회피는
+        # 필요 없다 + 부담이 적은 범위의 노출 줄이기는 도움이 될 수 있다(증명되지는 않음) + 증상이 생기면 재평가.
+        # 예전에는 이 절이 "지금은 피하지 않아도 됩니다", 바로 아래 절이 "노출은 줄여 두세요"라고 했다.
+        md.append("## 2️⃣ ⚪ 감작만 된 알러젠 (과도한 회피 불필요 · 예방과 관찰)")
         if not sensitized:
             md.append("감작만 된 항목은 없습니다.")
         else:
-            md.append("검사는 양성이지만 **노출해도 증상이 없는** 항목입니다. 지금은 피하지 않아도 됩니다. "
-                      "새 증상이 생기면 다시 평가하세요.")
+            md.append(" ".join(md_text(x) for x in care_guidance.sensitized_lead(
+                relevance_result.assessments, screening)))
             for a, _g in self._collapse(sensitized):
                 nm = self._display_name(a, detail=True)
-                md.append(f"- **{nm}** — {a.rationale_ko or '노출에도 증상이 없어 감작만 된 상태로 판단됩니다.'}")
+                md.append(f"- **{nm}** — "
+                          f"{md_text(a.rationale_ko) or '노출에도 증상이 없어 감작만 된 상태로 판단됩니다.'}")
+            # 항목별 예방과 관찰(실제 주의·음성 항원에는 나오지 않는다)
+            prevention_md = care_guidance.prevention_md(relevance_result.assessments, screening)
+            if prevention_md:
+                md.append(prevention_md)
 
         # 3. 관찰 필요
         if indeterminate:
             md.append("\n---\n")
             md.append("## 🟡 관찰이 필요한 알러젠")
-            md.append("노출 경험이 없거나 정보가 부족해 판정을 보류한 항목입니다. 노출 시 증상 발생 여부를 관찰하세요.")
+            # 미룬 이유는 항목마다 다르다(노출 경험이 없음 / 답이 없음 / 답은 있지만 그것만으로 가를 수 없음).
+            # 예전에는 '노출 경험이 없거나 정보가 부족해'라고 한 가지로 적어, 벌에 쏘인 자리만 부었다고 답한
+            # 환자의 벌독 항목에도 그렇게 실렸다.
+            md.append(md_text(care_guidance.observation_intro()))
             for a, _g in self._collapse(indeterminate):
                 nm = self._display_name(a, detail=True)
-                probes = (a.kb or {}).get("relevance_probes_ko", [])
-                probe = f" (확인 포인트: {probes[0]})" if probes else ""
-                md.append(f"- **{nm}** — {a.rationale_ko or '노출-증상 관계 관찰이 필요합니다.'}{probe}")
+                md.append(f"- **{nm}** — {md_text(a.rationale_ko) or '노출-증상 관계 관찰이 필요합니다.'}"
+                          f"{self._open_point(a)}")
+            # 판정을 미룬 항목은 '감작만'이 아니다 — 지켜볼 증상은 이 절에 적는다
+            observation_md = care_guidance.observation_md(relevance_result.assessments, screening)
+            if observation_md:
+                md.append(observation_md)
 
         # 음성·경계 — 음성도 결과다. '검사 안 함'과 구분되도록 무엇을 검사해서 음성이었는지 남긴다
         if negatives or equivocal:
@@ -783,6 +897,20 @@ class ReportService:
         plan = self._prevention_plan_md(relevant, screening)
         md.append(plan)
 
+        # 문진에서 고른 주증상·쓰는 약에 맞춘 안내(고르지 않은 것은 말하지 않는다)
+        symptoms_md = care_guidance.symptoms_md(relevance_result.assessments, screening)
+        if symptoms_md:
+            md.append(symptoms_md)
+        medication_md = care_guidance.medication_md(relevance_result.assessments, screening)
+        if medication_md:
+            md.append("\n---\n")
+            md.append(medication_md)
+
+        imt_md = self._immunotherapy_md(relevance_result.assessments, screening)
+        if imt_md:
+            md.append("\n---\n")
+            md.append(imt_md)
+
         md.append("\n---\n")
 
         # 질환 일반 정보(온톨로지) — 환자가 고른 기저 질환 기준. 검사 결과와 섞이지 않게 따로 둔다
@@ -795,7 +923,7 @@ class ReportService:
         md.append("## 4️⃣ 📅 추적 관리")
         md.append(
             "- **증상 일지**: 증상이 있던 날의 날짜, 장소나 계절, 닿았던 것, 심한 정도(0~10)를 적어 두세요.\n"
-            "- **재평가**: 증상이 새로 생기거나 달라지면 담당 의료진을 다시 만나세요. 변화가 없어도 6~12개월마다 점검하면 좋습니다.\n"
+            "- **재평가**: 증상이 새로 생기거나 달라지면 담당 의료진을 다시 만나세요. 변화가 없을 때의 정기 점검 간격은 진료에서 정합니다.\n"
             "- **응급 상황**: 호흡곤란, 온몸 두드러기, 어지럼이 오면 아나필락시스일 수 있습니다. 바로 병원에 가세요."
         )
 
@@ -823,16 +951,16 @@ class ReportService:
         from services.report_design import render_report_document
         from services.relevance_service import RelevanceService
 
-        md = self.build_patient_report_markdown(relevance_result, patient_info, screening, lang)
+        # 표지에 이름·나이·성별·검사일이 있으므로 본문에서는 제목과 환자 정보 줄을 뺀다. 예전에는 제목(H1)만
+        # 지워서, 표지 바로 아래에 이름·나이·성별·검사일이 한 번 더 나왔다.
+        md = self.build_patient_report_markdown(relevance_result, patient_info, screening, lang,
+                                                include_header=False)
         # 본문 마크다운 → HTML (표지·요약 타일은 문서 템플릿이 별도로 그림)
         try:
             import markdown as md_lib
             body_html = md_lib.markdown(md, extensions=["extra", "sane_lists", "nl2br"])
         except Exception:
             body_html = "<pre>" + md + "</pre>"
-        # 표지 헤더에 이미 이름/검사일이 있으므로 본문 첫 H1(제목)은 중복 제거
-        import re
-        body_html = re.sub(r"<h1>.*?</h1>", "", body_html, count=1, flags=re.S)
 
         name = patient_info.get("name") or relevance_result.patient_name or "환자"
         meta = {
@@ -842,14 +970,36 @@ class ReportService:
             "test_date": patient_info.get("test_date") or relevance_result.test_date,
             "facility": patient_info.get("facility"),
             "report_date": patient_info.get("report_date"),
+            "created": datetime.now().strftime("%Y-%m-%d"),
         }
         summary = RelevanceService.summarize(relevance_result)
+        # 표지 타일은 판정 그대로 센다(약물은 '진료 확인 필요'로 따로) — 본문 표와 같은 단위(임상 그룹)로
+        by = relevance_result.by_relevance
+        grouped = {
+            "clinically_relevant": len(self._collapse(by(ClinicalRelevance.CLINICALLY_RELEVANT))),
+            "sensitized_only": len(self._collapse(by(ClinicalRelevance.SENSITIZED_ONLY))),
+            "indeterminate": len(self._collapse(by(ClinicalRelevance.INDETERMINATE))),
+            "clinician_review": len(self._collapse(by(ClinicalRelevance.CLINICIAN_REVIEW))),
+        }
+        summary = dict(summary, counts=grouped, review_label=care_guidance.drug_review_label(),
+                       grouped=sum(grouped.values()) != summary["total_positive"])
         doc = render_report_document(f"{name}님 맞춤 알레르기 리포트", meta, summary, body_html)
         if (lang or "ko") != "ko":
             # 본문은 이미 번역됐고, 표지·타일·안내문 등 문서 템플릿의 고정 문구만 남는다(캐시 적중률 높음)
             from services.translation_service import get_translation_service
             doc = get_translation_service().translate_html(doc, lang)
         return doc
+
+    @staticmethod
+    def _open_point(a) -> str:
+        """판정을 미룬 항목의 '확인 포인트' 한 가지 — 문진에서 아직 답이 없는 문항만.
+
+        open_questions_ko 가 None 이면 적응형 문진을 거치지 않은 평가(예전 3문항 경로)라 지식베이스의 일반
+        질문을 쓴다. 빈 목록이면 물을 것을 이미 다 물은 것이므로 아무것도 적지 않는다 — 답한 것을 다시 묻지 않는다."""
+        open_q = getattr(a, "open_questions_ko", None)
+        if open_q is None:
+            open_q = (a.kb or {}).get("relevance_probes_ko", [])
+        return f" (확인 포인트: {md_text(open_q[0])})" if open_q else ""
 
     @staticmethod
     def _disease_knowledge_md(screening) -> str:
@@ -888,10 +1038,12 @@ class ReportService:
         """음성·경계 항목 이름 나열. 같은 한글명(예: 진드기 두 종)은 영문을 붙여 구분한다."""
         out: List[str] = []
         for n in items:
-            nm = n.korean_name or n.allergen_name
+            # 이름·수치·class 는 모두 OCR 이 읽은 글자다
+            nm = md_text(n.korean_name or n.allergen_name)
             if with_value:
-                val = n.size_text or n.value_text or (f"{n.test_value}" if n.test_value is not None else "")
-                cls = f", class {n.class_value}" if n.class_value not in (None, "") else ""
+                val = md_text(n.size_text or n.value_text
+                              or (f"{n.test_value}" if n.test_value is not None else ""))
+                cls = f", class {md_text(n.class_value)}" if n.class_value not in (None, "") else ""
                 if val or cls:
                     nm += f" ({val}{cls})".replace("(, ", "(")
             if nm not in out:
@@ -910,15 +1062,15 @@ class ReportService:
         return trim_sentences(text, max_len, max_sentences=n)
 
     def _allergen_detail_md(self, a: "AllergenAssessment", detailed: bool = True,
-                            lang: str = "ko") -> str:
+                            lang: str = "ko", screening=None) -> str:
         """알러젠 1건의 리포트 블록. 읽는 순서를 강제한다:
         ① 이름 + 배지(칩) → ② 한 줄 결론 → ③ 지금 할 일(최대 3개) → ④ 더 알아보기(근거·특성·교차반응·면역치료).
         문장은 짧게, 쉼표는 줄이고, 행동을 먼저 쓴다(humanizer 원칙)."""
         kb = a.kb or {}
         grp_label = self._display_name(a, detail=True)
         nm = a.korean_name or a.allergen_name
-        grouped = grp_label != nm
-        en = "" if grouped else (a.allergen_name if a.allergen_name != nm else "")
+        grouped = self._raw_display_name(a, detail=True) != nm
+        en = "" if grouped else (md_text(a.allergen_name) if a.allergen_name != nm else "")
         # 비한국어 리포트에서는 제목의 영문 병기를 뺀다. 한글 이름이 번역되면 같은 영문이
         # 두 번 나와 "Birch pollen (Birch pollen)" 이 된다.
         if (lang or "ko") != "ko":
@@ -934,8 +1086,9 @@ class ReportService:
         sev = self._severity_badge(a)
         if sev:
             chips.append(f"`증상 {sev.replace('**', '')}`")
-        if kb.get("season_label_ko"):
-            chips.append(f"`{kb['season_label_ko']}`")
+        season = self._season_label(a, screening)
+        if season:
+            chips.append(f"`{md_text(season)}`")
         if kb.get("indoor_outdoor"):
             io = {"indoor": "🏠 실내", "outdoor": "🌳 실외", "both": "실내·외"}.get(kb["indoor_outdoor"], "")
             if io:
@@ -946,25 +1099,50 @@ class ReportService:
 
         # ② 한 줄 결론 — 무엇이 문제이고 무엇을 하면 되는지 한 문장씩
         action = self._ACTION_SENTENCE.get(cat, "노출되는 상황을 줄이는 것이 우선입니다.")
-        lines.append(f"**결론.** 노출될 때 증상이 실제로 나타나는 알러젠입니다. {action}")
-        if getattr(a, "severity", None) in ("severe", "anaphylaxis"):
-            lines.append("- 🚨 **중증 반응 병력:** 노출을 적극적으로 피하세요. 응급약과 병원 동선은 담당 의료진과 미리 정해 두세요.")
+        # 동물 항원은 함께 사는지에 따라 관리가 전혀 다르다 — 문진의 반려동물 답으로 맞춘다
+        animal = animal_guidance(a, screening)
+        if animal and animal["action_sentence"]:
+            action = animal["action_sentence"]
+        if cat == "drug":
+            # 약물: 검사 양성 + 환자가 말한 반응. 확정도 회피 지시도 여기서 하지 않는다.
+            lines.append(f"**결론.** 검사가 양성이고, 이 약을 쓴 뒤 반응이 있었다고 답하신 약물입니다. {action}")
+            if getattr(a, "severity", None) in ("severe", "anaphylaxis"):
+                lines.append("- 🚨 **중증 반응 병력:** 빠른 시일 안에 진료를 받아 이 약에 대한 평가와 응급 대처 계획을 상의하세요.")
+        else:
+            lines.append(f"**결론.** 노출될 때 증상이 실제로 나타나는 알러젠입니다. {action}")
+            if getattr(a, "severity", None) in ("severe", "anaphylaxis"):
+                lines.append("- 🚨 **중증 반응 병력:** 노출을 적극적으로 피하세요. 응급약과 병원 동선은 담당 의료진과 미리 정해 두세요.")
 
         # ③ 지금 할 일 — 회피 수칙 중 앞 3개만 번호로
         avoid = [t.strip() for t in kb.get("avoidance_control_ko", []) if t and t.strip()]
-        if avoid:
+        if animal and animal["steps"]:
+            lines.append(f"**지금 할 일 — {animal['headline']}**")
+            for i, step in enumerate(animal["steps"], 1):
+                lines.append(f"{i}. {step['text']}")
+            for text in animal["extra"]:
+                lines.append(f"- {text}")
+            if animal["caveat"]:
+                lines.append(f"- {animal['caveat']}")
+            work = animal.get("occupational")
+            if work:      # 일하면서 다루는 동물 — 직장 노출 안내를 따로 적는다
+                lines.append(f"**{work['headline']}**")
+                for i, step in enumerate(work["steps"], 1):
+                    lines.append(f"{i}. {step['text']}")
+            avoid = []   # 일반 수칙('침실 출입 금지' 등)은 위 안내가 대신한다
+        elif avoid:
             lines.append("**지금 할 일**")
             for i, tip in enumerate(avoid[:3], 1):
-                lines.append(f"{i}. {tip}")
+                lines.append(f"{i}. {md_text(tip)}")
         if getattr(a, "oas_foods", None):
             lines.append(
-                f"- 🍎 **입·목 증상이 있었던 음식:** {', '.join(a.oas_foods)}. 생으로 먹을 때 주의하세요. "
+                f"- 🍎 **입·목 증상이 있었던 음식:** {', '.join(md_text(f) for f in a.oas_foods)}. 생으로 먹을 때 주의하세요. "
                 f"익히면 대개 괜찮아지지만 목이나 호흡기까지 번지면 바로 진료를 받으세요.")
 
         # ④ 더 알아보기 — 근거와 배경. 본문 흐름을 끊지 않도록 보조 블록으로 묶는다
         more: List[str] = []
         if a.rationale_ko:
-            more.append(f"- **왜 이렇게 판단했나:** {a.rationale_ko}")
+            # 판정 근거 문장에는 항원 이름(OCR)이 들어 있다
+            more.append(f"- **왜 이렇게 판단했나:** {md_text(a.rationale_ko)}")
         if grouped:
             try:
                 from services.clinical_group_service import get_clinical_group_service
@@ -973,20 +1151,25 @@ class ReportService:
                     more.append(f"- **왜 하나로 묶었나:** {note}")
             except Exception:
                 pass
+        # 지식 문장은 대부분 사람이 쓴 자료지만, 레지스트리에 없는 항원은 외부(Wikipedia) 요약과
+        # 항원 이름이 섞인 기본 문장이 들어온다 — 같은 규칙으로 이스케이프한다
         if kb.get("biology_ko"):
-            more.append(f"- **어떤 알러젠인가:** {self._first_sentences(kb['biology_ko'])}")
+            more.append(f"- **어떤 알러젠인가:** {md_text(self._first_sentences(kb['biology_ko']))}")
         if kb.get("exposure_environment_ko"):
-            more.append(f"- **어디서 노출되나:** {self._first_sentences(kb['exposure_environment_ko'], 1, 90)}")
+            more.append("- **어디서 노출되나:** "
+                        f"{md_text(self._first_sentences(kb['exposure_environment_ko'], 1, 90))}")
         if kb.get("cross_reactivity_ko"):
-            more.append(f"- **교차반응:** {self._first_sentences(kb['cross_reactivity_ko'], 2, 120)}")
+            more.append(f"- **교차반응:** {md_text(self._first_sentences(kb['cross_reactivity_ko'], 2, 120))}")
         if not getattr(a, "oas_foods", None) and kb.get("oral_allergy_syndrome_ko"):
-            more.append(f"- **구강알레르기증후군:** {self._first_sentences(kb['oral_allergy_syndrome_ko'], 1, 100)}")
+            more.append("- **구강알레르기증후군:** "
+                        f"{md_text(self._first_sentences(kb['oral_allergy_syndrome_ko'], 1, 100))}")
         if len(avoid) > 3:
-            more.append("- **그 밖의 관리 수칙:** " + " / ".join(avoid[3:6]))
+            more.append("- **그 밖의 관리 수칙:** " + " / ".join(md_text(t) for t in avoid[3:6]))
         try:
-            imt = get_knowledge_service().immunotherapy_info(a.category, a.allergen_name)
+            imt = get_knowledge_service().immunotherapy_info(
+                a.category, a.allergen_name, a.korean_name or "", assessment=a)
             if imt.get("eligible"):
-                more.append("- **💉 면역치료 가능:** 3~5년 꾸준히 받으면 증상과 약 사용이 줄어듭니다. 회피와 약으로 부족하면 담당 의료진과 상의하세요.")
+                more.append("- **💉 면역치료:** 진료에서 상의할 수 있는 선택지입니다. 아래 '면역치료' 절에 정리했습니다.")
         except Exception:
             pass
         if more:
@@ -1001,26 +1184,31 @@ class ReportService:
         개별 음식을 흩어 나열하지 않고, 어떤 항원과 엮여 있는지를 중심으로 배치한다."""
         groups = []
         for a, _g in self._collapse(relevance_result.assessments):   # Df/Dp 등은 한 번만(A1)
-            confirmed = list(dict.fromkeys(
-                (getattr(a, "oas_foods", None) or []) + (getattr(a, "crossreact_confirmed", None) or [])))
-            risk = getattr(a, "crossreact_risk", None) or []
+            confirmed = [md_text(f) for f in dict.fromkeys(
+                (getattr(a, "oas_foods", None) or []) + (getattr(a, "crossreact_confirmed", None) or []))]
+            risk = [md_text(f) for f in (getattr(a, "crossreact_risk", None) or [])]
             if confirmed or risk:
                 groups.append((a, confirmed, risk))
         if not groups:
             return []
-        md = ["\n---\n", "## 🍽️ 앞으로 주의해서 관찰할 음식 (교차반응)"]
+        # 이 절의 음식은 '지금 알레르기가 있는 음식'이 아니다. 예전 제목('앞으로 주의해서 관찰할 음식')과 문구는
+        # 증상이 없는 후보까지 주의 대상처럼 읽혔고, 성분만 공유하는 음식(고양이–소고기·우유, 진드기–아니사키스)도
+        # 실었다. 지금은 보고된 교차반응 증후군이 있는 음식만 싣고(questionnaire_service._evidence_backed),
+        # 증상이 확인된 음식과 '알아만 둘' 음식을 문장으로 가른다.
+        only_watch = not any(confirmed for _a, confirmed, _r in groups)
+        md = ["\n---\n", "## 🍽️ 교차반응 — 알아 둘 음식" + (" (지금 알레르기가 있다는 뜻이 아닙니다)" if only_watch else "")]
         md.append(
-            "아래는 **감작된 항원과 성분(단백질)을 공유해 교차반응이 나타날 수 있는 음식**을 "
-            "원인 항원별로 정리한 것입니다. 개별 음식을 하나씩 외우기보다 **‘어떤 항원과 엮여 있는지’**로 "
-            "기억하면 관리가 쉽습니다. (성분 공유는 *가능성*이며, 실제 반응은 증상으로 확인됩니다.)")
+            "아래는 이번 검사에서 양성으로 나온 항원과 **교차반응이 보고된 음식**을 원인 항원별로 정리한 것입니다. "
+            "‘알아 둘 음식’으로 적은 것은 **지금 알레르기가 있다는 뜻이 아니며, 문제없이 드시고 있다면 끊을 필요가 "
+            "없습니다.** 먹은 뒤 입·목 가려움이나 두드러기가 새로 생기면 그때 그 음식을 적어 진료에서 알려 주세요.")
         for a, confirmed, risk in groups:
             nm = self._display_name(a)
-            md.append(f"**🔗 「{nm}」과(와) 교차반응 가능**")
+            md.append(f"**🔗 「{nm}」{josa(self._raw_display_name(a), '과와')} 교차반응이 보고된 음식**")
             if confirmed:
                 md.append(f"- ✅ **현재 반응 확인:** {', '.join(confirmed)} — 함께 주의하세요.")
             if risk:
                 shown = ", ".join(risk[:8]) + (" 등" if len(risk) > 8 else "")
-                md.append(f"- 👀 **같은 계열(관찰 대상):** {shown} — 아직 증상은 없지만 같은 성분을 공유합니다.")
+                md.append(f"- 👀 **알아 둘 음식(증상 없음 · 관찰만):** {shown} — 지금 반응이 있는 음식이 아닙니다.")
             # R-2: 확대 가능성 경고(최우선 서술) — 지금 반응 음식은 일부일 뿐, 같은 계열로 확대될 수 있음
             if confirmed:
                 if risk:
@@ -1078,12 +1266,21 @@ class ReportService:
         md = ["\n## 🍂 증상의 계절성"]
         region = f" ({s['region_label_ko']} 기준)" if s.get("region_label_ko") else ""
         if s.get("items"):
-            md.append(f"검사에서 확인된 알러젠 중 **계절을 타는 것**이 있습니다{region}.")
+            md.append(f"검사에서 양성이고 **그 시기에 증상도 확인된** 알러젠 가운데 "
+                      f"계절을 타는 것이 있습니다{region}.")
             md.append("")
             md.append("| 알러젠 | 시기 |")
             md.append("|---|---|")
             for it in s["items"]:
-                md.append(f"| {it['name']} | {it['season_label_ko'] or '-'} |")
+                md.append(f"| {md_text(it['name'])} | {md_text(it['season_label_ko']) or '-'} |")
+            if s.get("category_estimate"):
+                md.append("\n‘전체 기준 추정’이라고 적은 시기는 그 식물만의 자료가 없어, 같은 분류군"
+                          "(수목·잔디·잡초) 전체의 범위로 대신한 값입니다. 실제 시기는 더 짧을 수 있습니다.")
+
+        if s.get("excluded"):
+            # 감작만 된 계절성 알러젠은 달력에 넣지 않는다 — 넣지 않았다는 사실은 분명히 적는다
+            md.append(f"\n{', '.join(md_text(x) for x in s['excluded'])}{josa(s['excluded'][-1], '은는')} "
+                      "검사만 양성이고 그 시기의 증상이 확인되지 않아 여기에 넣지 않았습니다.")
 
         months = s.get("predicted_months") or []
         if months:
@@ -1094,7 +1291,7 @@ class ReportService:
 
         if s.get("in_season_now"):
             md.append(f"\n**지금({s['month_labels_ko'][s['current_month'] - 1]})은 "
-                      f"{', '.join(s['in_season_now'])} 시즌입니다.**")
+                      f"{', '.join(md_text(x) for x in s['in_season_now'])} 시즌입니다.**")
 
         reported = s.get("reported_months") or []
         if reported:
@@ -1111,33 +1308,17 @@ class ReportService:
             md.append("\n> 증상이 계절을 탄다고 답하셨습니다. 어느 달에 심한지 기록해 두면 "
                       "다음 진료에서 원인을 좁히는 데 도움이 됩니다.")
 
-        notable = self._region_notable(screening)
-        if notable:
-            md.append(f"\n> {notable}")
+        # 지역 메모는 그 메모가 말하는 식물에 이 환자의 증상이 확인됐을 때만 온다(seasonality 가 가린다)
+        if s.get("notable_ko"):
+            md.append(f"\n> {s['notable_ko']}")
 
-        md.append("\n**시즌 대비:** 증상이 시작되고 나서 약을 쓰기보다, 예년에 심해지던 달의 "
-                  "**2주 전부터** 준비하는 편이 조절에 유리합니다. 어떤 약을 언제 시작할지는 "
-                  "담당 의료진과 정하세요.")
+        # 시즌 전에 약을 미리 쓰는 방법 — 출처가 있는 문장(data/treatment_guidance.json) 한 가지를 근거수준과 함께
+        # 쓴다. 예전에는 여기('조절에 유리합니다')와 카드('조절이 쉬워요'), 약 안내('근거수준은 매우 낮음')가
+        # 같은 내용을 서로 다른 확신으로 적었다.
+        prophylaxis = care_guidance.treatment_text("pollen_prophylaxis_general_ko")
+        if prophylaxis:
+            md.append(f"\n**시즌 대비:** {md_text(prophylaxis)}")
         return "\n".join(md)
-
-    @staticmethod
-    def _region_notable(screening) -> str:
-        """그 지역에서 특별히 알아둘 점(예: 텍사스의 한겨울 마운틴 시더)."""
-        if screening is None or not getattr(screening, "residence_country", None):
-            return ""
-        try:
-            from services.pollen_forecast_service import get_pollen_forecast_service
-            svc = get_pollen_forecast_service()
-            region = getattr(screening, "residence_region", None)
-            r = svc.resolve_region(getattr(screening, "residence_country", None), region)
-            if r is None:
-                z = svc.lookup_zip(getattr(screening, "residence_country", None),
-                                   getattr(screening, "residence_postal_code", None))
-                if z.get("ok"):
-                    r = svc.resolve_region("US", z["state"])
-            return (r or {}).get("notable_ko") or ""
-        except Exception:  # noqa: BLE001
-            return ""
 
     def _regional_season_md(self, assessments, screening) -> str:
         """거주 지역 기준 꽃가루 시기. 지역을 모르면 아무 말도 하지 않는다."""
@@ -1160,7 +1341,7 @@ class ReportService:
         md = [f"\n## 🗓️ 거주 지역 기준 꽃가루 시기 — {out.get('region_label_ko') or ''}"]
         now = out.get("in_season_now") or []
         if now:
-            md.append(f"**지금은 {', '.join(i.get('korean_name') or '' for i in now)} 시즌입니다.**")
+            md.append(f"**지금은 {', '.join(md_text(i.get('korean_name') or '') for i in now)} 시즌입니다.**")
         else:
             md.append("지금은 해당하는 꽃가루 시즌이 아닙니다.")
         md.append("")
@@ -1168,8 +1349,9 @@ class ReportService:
         md.append("|---|---|---|---|")
         for i in out["items"]:
             mark = "🔴 시즌" if i.get("in_season") else ("⚪ 비시즌" if i.get("in_season") is False else "–")
-            label = i.get("season_label_ko") or (f"실시간 {i.get('level')}" if i.get("level") else "–")
-            md.append(f"| {i.get('korean_name') or i.get('allergen_name')} | {i.get('type_ko')} | {label} | {mark} |")
+            label = md_text(i.get("season_label_ko") or (f"실시간 {i.get('level')}" if i.get("level") else "–"))
+            md.append(f"| {md_text(i.get('korean_name') or i.get('allergen_name'))} | {i.get('type_ko')} "
+                      f"| {label} | {mark} |")
         if out.get("notable_ko"):
             md.append(f"\n> {out['notable_ko']}")
         if out.get("live"):
@@ -1182,52 +1364,84 @@ class ReportService:
         self, relevant: List["AllergenAssessment"], screening: Optional["ScreeningProfile"]
     ) -> str:
         blocks: List[str] = []
-        # 알러젠별 회피 수칙 통합
-        tips: List[str] = []
-        seen = set()
-        for a in relevant:
-            for tip in (a.kb or {}).get("avoidance_control_ko", []):
-                key = tip.strip()
-                if key and key not in seen:
-                    seen.add(key)
-                    tips.append(tip)
+        link_md = self._exposure_link_md(relevant, screening)
+        if link_md:
+            blocks.append(link_md)
+        # 알러젠별 회피 수칙 — 실제 주의 알러젠마다 돌아가며 뽑고, 표현만 다른 같은 수칙은 한 번만
+        tips = allocated_tips([(self._display_name(a), a) for a, _g in self._collapse(relevant)],
+                              screening, limit=10)
         if tips:
             blocks.append("### 🎯 우선 실천 회피 수칙")
-            blocks.append("\n".join(f"- {t}" for t in tips[:10]))
+            blocks.append("\n".join(f"- **{t['label']}:** {md_text(t['tip'])}" for t in tips))
         else:
-            blocks.append("### 🎯 기본 생활 수칙")
-            blocks.append(
-                "- 침구는 주 1회 55~60℃ 뜨거운 물로 세탁하고 진드기 차단 커버를 사용하세요.\n"
-                "- 실내 습도는 50% 이하로 유지하세요.\n"
-                "- 꽃가루가 많은 날에는 외출·환기를 줄이고, 외출 후 샤워·세안하세요."
-            )
+            blocks.append("### 🎯 지금 꼭 지켜야 할 회피 수칙은 없습니다")
+            # 증상 기록·재평가는 바로 아래 '추적 관리' 절에 있으므로 여기서 되풀이하지 않는다
+            blocks.append(NO_RELEVANT_NOTE_KO)
 
-        # 질환 기반 약제/치료 안내
-        diseases = set(screening.allergic_diseases) if screening else set()
-        med_lines = ["### 💊 증상 관리(의료진과 상담 후 사용)"]
-        med_lines.append("- **비염(재채기·콧물·코막힘):** 경구 항히스타민제, 코막힘 위주면 비강 스테로이드 스프레이")
-        med_lines.append("- **눈 증상:** 항히스타민 점안액")
-        if "asthma" in diseases:
-            med_lines.append("- **천식:** 흡입 스테로이드 등 조절제의 꾸준한 사용이 중요합니다(임의 중단 금지).")
-        if "atopic_dermatitis" in diseases or "chronic_urticaria" in diseases:
-            med_lines.append("- **피부 증상:** 보습제 기본 관리, 필요 시 국소 스테로이드/항히스타민제")
-        blocks.append("\n".join(med_lines))
-
-        # 면역치료 안내 (강한 감작 + 임상적 의미 있는 흡입 알러젠)
-        strong_inhalant = [
-            a for a in relevant
-            if a.category in ("mite", "pollen_tree", "pollen_grass", "pollen_weed", "animal", "mold")
-            and (a.strength in ("moderate", "strong"))
-        ]
-        if strong_inhalant:
-            names = ", ".join(self._display_name(a) for a, _g in self._collapse(strong_inhalant))
-            blocks.append(
-                "### 💉 면역치료(알레르기 주사/설하) 고려\n"
-                f"증상을 유발하는 흡입 알러젠({names})에 대해, 회피와 약물로 조절이 어렵다면 "
-                "**알레르겐 면역치료(3~5년)**를 담당 의료진과 상의해볼 수 있습니다. "
-                "장기적으로 증상 완화와 천식 예방 효과가 보고됩니다."
-            )
+        # 약물 안내는 여기에 두지 않는다. 예전의 '증상 관리' 목록은 질환도 증상도 없는 환자에게까지 비염·눈
+        # 약을 적었고, 바로 뒤의 '주증상별 안내'(고른 증상의 약물 선택지)·'지금 쓰는 약'(고른 약)과 겹쳤다.
         return "\n\n".join(blocks)
+
+    def _exposure_link_md(self, relevant, screening) -> str:
+        """노출 → 증상 → 질환. 환자가 알려준 질환·증상을 알러젠 노출 상황과 잇는다."""
+        out = exposure_links([(self._display_name(a), a) for a, _g in self._collapse(relevant)],
+                             screening)
+        if not out["links"]:
+            return ""
+        md = ["### 🔗 노출 → 증상 → 질환, 이렇게 이어집니다",
+              "증상은 알러젠에 노출될 때 생깁니다. 처음에 알려주신 질환과 증상을, "
+              "문진에서 확인된 노출 상황과 이어 보았습니다."]
+        for ln in out["links"]:
+            # label 은 _display_name 에서 이미 이스케이프됐다. 나머지 문장에는 항원 이름(OCR)과
+            # 환자가 직접 적은 글(유발 요인·기타 질환)이 들어 있다.
+            rows = [f"**{ln['label']}**\n", f"- 노출되는 상황: {md_text(ln['exposure'])}"]
+            if ln["targets"]:
+                rows.append(f"- 이 노출로 생기거나 심해질 수 있는 것(처음에 알려주신 질환·증상): "
+                            f"{', '.join(ln['targets'])}")
+            if ln["confirmed"]:
+                rows.append(f"- 문진에서 확인된 내용: {md_text(ln['confirmed'])}")
+            for note in ln["notes"]:
+                rows.append(f"- {md_text(note)}")
+            md.append("\n".join(rows))
+        for text in out["free_text"]:
+            md.append(f"- {md_text(text)}")
+        return "\n\n".join(md)
+
+    _IMT_ROUTE_KO = {"SCIT": "피하주사(SCIT)", "SLIT": "설하(SLIT)"}
+    _IMT_EVIDENCE_KO = {"established": "효과 확립", "supported": "근거 있음(항원 단독 시험은 적음)"}
+
+    def _immunotherapy_md(self, assessments, screening) -> str:
+        """💉 면역치료 절. 감작과 증상이 함께 확인된 항원 중 면역치료 가능 항원이 있을 때만 만든다.
+        권고가 아니라 '진료에서 상의할 수 있는 선택지'로만 적는다."""
+        ks = get_knowledge_service()
+        rows = ks.immunotherapy_candidates(assessments)
+        if not rows:
+            return ""
+        md = ["## 💉 면역치료 — 진료에서 상의할 수 있는 선택지",
+              "검사에서 양성이고 **노출될 때 증상도 확인된** 알러젠 가운데, 알레르겐 면역치료가 "
+              "가능한 항원이 있습니다. 면역치료는 원인 알러젠을 조금씩 늘려 투여해 몸이 덜 반응하게 "
+              "만드는 치료이고, 보통 3년 이상 이어 갑니다. 아래는 치료를 시작하라는 권고가 아닙니다. "
+              "시작할지는 증상의 정도, 약으로 조절되는 정도, 천식 조절 상태를 보고 "
+              "**담당 의료진이 판단**합니다.",
+              "| 알러젠 | 방법 | 국내 사용 | 근거 |\n|---|---|---|---|"]
+        for r in rows:
+            e = r["entry"]
+            routes = " · ".join(self._IMT_ROUTE_KO.get(x, x) for x in e.get("routes", []))
+            md[-1] += (f"\n| **{e['label_ko']}** | {routes} | {e['korea']['note_ko']} | "
+                       f"{self._IMT_EVIDENCE_KO.get(e.get('evidence'), '')}. {e.get('evidence_note_ko', '')} |")
+        notes = []
+        diseases = set(getattr(screening, "allergic_diseases", None) or [])
+        if "asthma" in diseases:
+            notes.append("- 천식이 있다고 하셨습니다. 조절되지 않는 중증 천식에서는 면역치료를 하지 않으므로, "
+                         "천식 조절 상태를 먼저 확인합니다.")
+        if "immunotherapy" in (getattr(screening, "current_medications", None) or []):
+            notes.append("- 이미 면역치료를 받고 있다고 하셨습니다. 치료 중인 항원이 위와 같은지 진료에서 확인하세요.")
+        if notes:
+            md.append("\n".join(notes))
+        cites = "; ".join(f"{x['citation']} doi:{x['doi']}" for x in
+                          ks.immunotherapy_sources([r["entry"] for r in rows]))
+        md.append(f"*출처: {cites}. 국내 사용 가능 여부는 지침 발간 시점 기준이며 이후 달라졌을 수 있습니다.*")
+        return "\n\n".join(md)
 
     def generate_patient_report(
         self,

@@ -14,6 +14,7 @@ from models.schemas import (
     SymptomFeedback, ExposureStatus, FHIRBundle, normalize_class_token
 )
 from utils.allergen_mapper import get_allergen_mapper
+from utils.text_utils import josa
 
 # 로거 설정
 logger = logging.getLogger(__name__)
@@ -328,8 +329,17 @@ class FHIRService:
             }
             
             # 각 알레르겐 결과를 Observation으로 변환
+            # 검사 대조(히스타민·생리식염수) 행은 알러젠 검사 Observation 으로 내보내지 않는다. 양성 대조 값은
+            # 기존 설계대로 각 항원 Observation 의 A/H 비 component 에 쓴다(환자 정보 칸에 없으면 대조 행에서 가져온다).
+            from services.category_resolver import control_kind
+            kinds = [control_kind(r.allergen_name, r.korean_name or "", r.category) for r in ocr_result.results]
             hist = getattr(ocr_result.patient, "histamine_mean_mm", None)
-            for allergen_result in ocr_result.results:
+            if hist is None and ocr_result.test_type == TestType.SPT:
+                hist = next((r.mean_mm if r.mean_mm is not None else r.value
+                             for r, kind in zip(ocr_result.results, kinds) if kind == "positive"), None)
+            for allergen_result, kind in zip(ocr_result.results, kinds):
+                if kind:
+                    continue
                 observation = self.create_observation(
                     allergen_result=allergen_result,
                     patient_id=patient_id,
@@ -430,6 +440,8 @@ class FHIRService:
                 "Mold": "environment",
                 "Animal": "environment",
                 "Insect": "environment",
+                "Latex": "environment",
+                "Drug": "medication",
                 "Other": "environment"
             }
             allergy["category"] = [category_map.get(category, "environment")]
@@ -508,7 +520,10 @@ class FHIRService:
             }
             
             # 증상이 있는 알레르겐들에 대해 AllergyIntolerance 생성
+            from services.category_resolver import control_kind
             for allergen_name in symptom_feedback.exposure_feedback.get("symptomatic", []):
+                if control_kind(allergen_name):
+                    continue      # 검사 대조(히스타민·생리식염수)는 알레르기가 아니다
                 allergy = self.create_allergy_intolerance(
                     allergen_name=allergen_name,
                     patient_id=symptom_feedback.patient_id,
@@ -536,6 +551,8 @@ class FHIRService:
         cat = (cat or "").lower()
         if cat == "food":
             return "food"
+        if cat == "drug":
+            return "medication"
         return "environment"
 
     def _lookup_mapping(self, name: str, korean: str = ""):
@@ -559,9 +576,12 @@ class FHIRService:
         extra_note: Optional[str] = None,
     ) -> Dict[str, Any]:
         """AllergenAssessment(감별 결과)를 AllergyIntolerance 로 변환.
-        - verificationStatus: confirmed(임상적 유의) / unconfirmed(감작만·미확정=의심)
-        - criticality: high(전신·아나필락시스·강감작) / low / unable-to-assess(미확정)
+        - verificationStatus: confirmed(임상적 유의) / unconfirmed(감작만·미확정=의심·약물)
+        - criticality: high(전신·아나필락시스·강감작) / low / unable-to-assess(미확정·약물)
         - clinicalStatus: active
+        약물 항원('진료 확인 필요')은 언제나 unconfirmed + unable-to-assess 다. 환자가 문진에서 말한 반응은
+        reaction 에 '환자 보고'로 남기되(중증도 포함), 그것만으로 criticality=high 를 단정하지 않는다 —
+        리포트가 '진료에서 확인'이라고 말하는 것과 같은 수준으로 적는다.
         """
         from models.schemas import ClinicalRelevance
         name = a.allergen_name
@@ -572,14 +592,19 @@ class FHIRService:
         rel = a.relevance
         severity = getattr(a, "severity", None)
         has_symptoms = bool(getattr(a, "reported_symptoms", None))
-        if rel == ClinicalRelevance.CLINICALLY_RELEVANT:
+        # 약물은 특이 IgE 양성과 환자가 말한 반응만으로 확정하지 않는다 — 약물 알레르기 진단과 그 약을 피할지는
+        # 진료에서 정한다. 반응 병력이 있어도 unconfirmed 로 남긴다.
+        is_drug = cat == "medication" or rel == ClinicalRelevance.CLINICIAN_REVIEW
+        if rel == ClinicalRelevance.CLINICALLY_RELEVANT and not is_drug:
             verification = ("confirmed", "Confirmed")
-        else:  # sensitized_only / indeterminate → 의심(미확인)
+        else:  # sensitized_only / indeterminate / 약물(진료 확인 필요) → 의심(미확인)
             verification = ("unconfirmed", "Unconfirmed")
 
         # criticality: 중증도 기반. 증상이 없었던(감작만) 알러젠은 low, 미확정은 평가불가.
         # 중증·아나필락시스만 high 로 격상한다.
-        if rel == ClinicalRelevance.INDETERMINATE:
+        # 약물은 문진만으로 위험도를 단정하지 않는다. 예전에는 환자가 고른 중증도(또는 다른 항원의 아나필락시스
+        # 병력)만으로 unconfirmed 약물에 criticality=high 를 붙여, '진료에서 확인'이라는 리포트와 어긋났다.
+        if rel == ClinicalRelevance.INDETERMINATE or is_drug:
             criticality = "unable-to-assess"
         elif severity in ("severe", "anaphylaxis") or high_criticality:
             criticality = "high"
@@ -613,7 +638,12 @@ class FHIRService:
         notes = []
         if a.rationale_ko:
             notes.append(a.rationale_ko)
-        if rel != ClinicalRelevance.CLINICALLY_RELEVANT:
+        if is_drug:
+            from services.care_guidance_service import drug_review_label
+            notes.append(f"판정: {drug_review_label()}. 약물 특이 IgE 양성. 약물 알레르기 여부와 회피·재투여는 진료에서 판단 — "
+                         "verificationStatus=unconfirmed, criticality=unable-to-assess"
+                         "(환자가 문진에서 말한 반응은 reaction 에 환자 보고로 기록).")
+        elif rel != ClinicalRelevance.CLINICALLY_RELEVANT:
             notes.append("검사 양성이나 임상적 유발은 미확인(감작/의심) 상태 — verificationStatus=unconfirmed.")
         # OAS: 이 꽃가루 감작이 원인이 되어 아래 음식에 교차반응이 나타남을 관련 꽃가루 note 에 명시
         if getattr(a, "oas_foods", None):
@@ -630,6 +660,14 @@ class FHIRService:
             notes.append(
                 f"성분 교차반응 가능(미확인): {', '.join(a.crossreact_risk)} 등과 성분을 공유해 교차반응 가능성이 있으나 "
                 f"증상은 확인되지 않았습니다. 섭취 시 증상 발현 여부에 주의하세요.")
+        # 동물 항원: 문진에서 답한 노출 상황(함께 사는지·접촉 빈도·직업 노출)
+        try:
+            from services.exposure_guidance_service import animal_exposure_note
+            exposure = animal_exposure_note(a)
+            if exposure:
+                notes.append(f"노출 상황(환자 문진): {exposure}.")
+        except Exception:  # noqa: BLE001
+            pass
         if kb.get("season_label_ko"):
             notes.append(f"주요 시기: {kb['season_label_ko']}.")
         if kb.get("exposure_environment_ko"):
@@ -639,8 +677,10 @@ class FHIRService:
             notes.append("회피·관리: " + "; ".join(av[:3]) + ".")
         try:
             from services.knowledge_service import get_knowledge_service
-            imt = get_knowledge_service().immunotherapy_info(a.category, a.allergen_name)
-            if imt.get("eligible"):
+            # 리포트와 같은 조건: 증상이 확인된 항원이고, 항원 단위 목록·병력 조건(벌독=전신 반응)을 만족할 때만
+            imt = get_knowledge_service().immunotherapy_info(
+                a.category, a.allergen_name, korean or "", assessment=a)
+            if rel == ClinicalRelevance.CLINICALLY_RELEVANT and imt.get("eligible"):
                 notes.append("면역치료(SCIT/SLIT) 고려 가능 대상.")
         except Exception:
             pass
@@ -651,11 +691,12 @@ class FHIRService:
 
         # 문진에서 실제 증상이 확인된 경우에만 reaction 을 기록(감작만/미확정은 reaction 없음)
         manifestations = getattr(a, "reported_symptoms", None) or []
-        if rel == ClinicalRelevance.CLINICALLY_RELEVANT and manifestations:
+        if (rel == ClinicalRelevance.CLINICALLY_RELEVANT or is_drug) and manifestations:
             reaction = {
                 "manifestation": [{"text": m} for m in manifestations],
                 "severity": self._fhir_reaction_severity(severity),
-                "description": "환자 문진에서 확인된 노출 시 증상",
+                "description": ("환자가 문진에서 보고한 약물 사용 뒤 반응(확인되지 않음 — 진료에서 평가)" if is_drug
+                                else "환자 문진에서 확인된 노출 시 증상"),
             }
             if severity == "anaphylaxis":
                 reaction["manifestation"].append({"text": "아나필락시스 병력(응급)"})
@@ -729,7 +770,7 @@ class FHIRService:
                 manifestation = f"새우·게(갑각류) {sym_txt}"
             elif source == "component":
                 trigger = f.get("trigger") or "교차반응 항원"
-                note = (f"교차반응 원인 항원: {trigger}. {trigger}와(과) 공통 단백질 성분을 공유해 교차반응하며, "
+                note = (f"교차반응 원인 항원: {trigger}. {trigger}{josa(trigger, '과와')} 공통 단백질 성분을 공유해 교차반응하며, "
                         f"{ko or en} 섭취 시 증상이 발생했습니다(성분 기반 교차반응). "
                         f"열·소화에 안정한 성분은 조리해도 반응이 남을 수 있어 주의가 필요합니다.")
                 manifestation = f"{ko or en} {sym_txt}(교차반응)"

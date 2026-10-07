@@ -20,3 +20,9 @@ docs/superpowers
 .DS_Store
 node_modules
 tests/fixtures
+# 저장소(SQLite, 건강정보) — 이미지에 넣지 않는다. 운영에서는 볼륨/디스크를 붙인다.
+data/store/
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+*.db

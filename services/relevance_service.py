@@ -28,8 +28,11 @@ from models.schemas import (
     ClinicalRelevance,
     ScreeningProfile,
     TestedNegative,
+    TestControl,
     normalize_class_token,
+    public_relevance,
 )
+from services.category_resolver import control_kind
 from services.knowledge_service import get_knowledge_service, normalize_category
 
 logger = logging.getLogger(__name__)
@@ -131,8 +134,8 @@ class RelevanceService:
             return "strong"
         return None
 
-    # 대조액·총 IgE 는 항원이 아니므로 '음성 항원' 목록에 넣지 않는다
-    _NON_ALLERGEN = re.compile(r"histamine|saline|히스타민|생리식염수|식염수|total\s*ige|총\s*ige|총ige", re.I)
+    # 총 IgE 는 항원이 아니므로 '음성 항원' 목록에 넣지 않는다(검사 대조는 build_assessments 가 먼저 걸러 낸다)
+    _NON_ALLERGEN = re.compile(r"total\s*ige|총\s*ige|총ige", re.I)
 
     @classmethod
     def result_status(cls, r: AllergenResult, test_type: TestType) -> str:
@@ -187,6 +190,87 @@ class RelevanceService:
             size_text=r.size_text,
         )
 
+    # ---------- 검사 대조 ----------
+    _CONTROL_NAME_KO = {"positive": "양성 대조(히스타민)", "negative": "음성 대조(생리식염수)", "unspecified": "대조"}
+
+    def _controls(self, ocr_result: OCRResult) -> List[TestControl]:
+        """검사 대조 값 — 결과 행으로 온 것과, SPT 결과지에서 환자 정보 칸으로 읽어 온 것(OCR 관례)."""
+        tt = ocr_result.test_type
+        out: List[TestControl] = []
+        for r in ocr_result.results:
+            kind = control_kind(r.allergen_name, r.korean_name or "", r.category)
+            if not kind:
+                continue
+            value = r.mean_mm if (tt == TestType.SPT and r.mean_mm is not None) else r.value
+            has_value = value is not None or r.class_value is not None or bool(r.size_text or r.value_text)
+            out.append(TestControl(
+                kind=kind, name=r.allergen_name or r.korean_name or "", korean_name=r.korean_name,
+                value=value, unit=r.unit or ("mm" if tt == TestType.SPT else None),
+                class_value=r.class_value, size_text=r.size_text,
+                # 값이 없는 MAST 대조 행은 '음성'이 아니라 '읽지 못함'이다
+                status=self.result_status(r, tt) if (has_value or tt == TestType.SPT) else "unknown"))
+        if tt == TestType.SPT:
+            patient = ocr_result.patient
+            for kind, mm in (("positive", patient.histamine_mean_mm), ("negative", patient.negative_control_mean_mm)):
+                if mm is None or any(c.kind == kind for c in out):
+                    continue
+                row = AllergenResult(index=0, raw_text="", allergen_name=self._CONTROL_NAME_KO[kind], mean_mm=mm)
+                out.append(TestControl(kind=kind, name="Histamine" if kind == "positive" else "Saline",
+                                       korean_name=self._CONTROL_NAME_KO[kind], value=mm, unit="mm",
+                                       status=self.result_status(row, tt)))
+        return out
+
+    @staticmethod
+    def _control_value_text(c: TestControl) -> str:
+        if c.value is not None:
+            return f"{c.value:g}{c.unit or ''}"
+        if c.class_value is not None:
+            return f"class {c.class_value}"
+        return c.size_text or ""
+
+    @classmethod
+    def control_check(cls, controls: List[TestControl], test_type: TestType) -> Optional[Dict[str, Any]]:
+        """검사 대조로 본 검사 해석 가능 여부.
+
+        SPT 는 양성 대조(히스타민)에 반응이 나오고 음성 대조(생리식염수)에 반응이 없어야 결과를 읽을 수 있다.
+        기준은 항원 행과 같은 것만 쓴다(result_status: 3mm 이상 양성, 2mm 미만 음성) — 새 기준을 두지 않는다.
+        MAST/UniCAP 대조 행은 판단하지 않고 값만 보여 준다.
+        반환: {"status": "ok"|"caution"|"shown", "line_ko": 한 줄, "items": [{kind, label_ko, value_text, status}]}
+        대조 값이 하나도 없는 MAST/UniCAP 은 None."""
+        # 히스타민·생리식염수는 피부반응검사의 대조액이다. 혈액검사(MAST·UniCAP)의 대조는 그렇게 부르지 않는다.
+        labels = cls._CONTROL_NAME_KO if test_type == TestType.SPT else {
+            "positive": "양성 대조", "negative": "음성 대조", "unspecified": "대조"}
+        items = [{"kind": c.kind, "label_ko": labels.get(c.kind, "대조"),
+                  "name": c.name, "value_text": cls._control_value_text(c), "status": c.status} for c in controls]
+        if test_type != TestType.SPT:
+            if not items:
+                return None
+            shown = " · ".join(f"{i['label_ko']} {i['value_text']}".strip() for i in items)
+            return {"status": "shown", "items": items,
+                    "line_ko": f"검사 대조: {shown}. 검사가 제대로 되었는지 보는 항목이며 알레르기 결과가 아닙니다."}
+        pos = [c for c in controls if c.kind == "positive"]
+        neg = [c for c in controls if c.kind == "negative"]
+        other = [c for c in controls if c.kind == "unspecified"]
+        ok, caution = [], []
+        if not pos:
+            caution.append("양성 대조(히스타민) 값이 기록되지 않았습니다")
+        elif all(c.status == "positive" for c in pos):
+            ok.append(f"양성 대조 반응 확인({cls._control_value_text(pos[0])})")
+        else:
+            caution.append(f"양성 대조(히스타민) 반응이 약하거나 없습니다({cls._control_value_text(pos[0]) or '값 없음'}). "
+                           "항히스타민제 복용 등으로 피부 반응이 줄었을 수 있어 음성 결과를 그대로 믿기 어렵습니다")
+        if neg:
+            if all(c.status == "negative" for c in neg):
+                ok.append(f"음성 대조 음성({cls._control_value_text(neg[0]) or '반응 없음'})")
+            else:
+                caution.append(f"음성 대조에도 반응이 있습니다({cls._control_value_text(neg[0])}). 피부묘기증처럼 "
+                               "긁히기만 해도 부푸는 피부에서는 양성 결과가 실제보다 크게 보일 수 있습니다")
+        extra = [f"대조 {cls._control_value_text(c)}".strip() for c in other]
+        if caution:
+            line = "검사 대조: " + " / ".join(caution + ok + extra) + " — 검사 해석에 주의, 진료에서 확인하세요."
+            return {"status": "caution", "items": items, "line_ko": line}
+        return {"status": "ok", "items": items, "line_ko": "검사 대조: " + " / ".join(ok + extra) + "."}
+
     @staticmethod
     def _is_positive(r: AllergenResult, test_type: TestType) -> bool:
         # 명시적 양성/음성만 신뢰; UNKNOWN/EQUIVOCAL 은 아래 수치 기반으로 재판정
@@ -224,10 +308,14 @@ class RelevanceService:
         assessments: List[AllergenAssessment] = []
         negatives: List[TestedNegative] = []
         worse_months = screening.worse_months if screening else []
+        controls = self._controls(ocr_result)
 
         for r in ocr_result.results:
             # 이름이 비어 있는 행(빈 추가 행 등)은 감별 대상에서 제외
             if not (r.allergen_name or "").strip() and not (r.korean_name or "").strip():
+                continue
+            # 검사 대조(히스타민·생리식염수)는 알러젠이 아니다 — 양성으로도 음성 항원으로도 세지 않는다
+            if control_kind(r.allergen_name, r.korean_name or "", r.category):
                 continue
             if not self._is_positive(r, ocr_result.test_type):
                 neg = self._tested_negative(r, ocr_result.test_type)
@@ -262,11 +350,24 @@ class RelevanceService:
             self.apply_screening_suggestion(assessment, screening)
             assessments.append(assessment)
 
+        # 같은 임상 그룹(집먼지진드기 두 종 등)에서 이번에 양성으로 나온 항원 수 — 한 종만 양성인데
+        # '집먼지진드기(유럽·미국 두 종)'이라고 부르지 않기 위해서다(clinical_group_service.label_of).
+        try:
+            from services.clinical_group_service import get_clinical_group_service
+            for grp in get_clinical_group_service().collapse(assessments):
+                for _i, member in grp["members"]:
+                    member.clinical_group_count = len(grp["members"])
+        except Exception:  # noqa: BLE001
+            pass
+
         return RelevanceAssessmentResult(
             patient_name=ocr_result.patient.name,
             test_date=ocr_result.patient.test_date,
+            test_type=ocr_result.test_type,
             assessments=assessments,
             tested_negatives=negatives,
+            controls=controls,
+            control_check=self.control_check(controls, ocr_result.test_type),
         )
 
     # ---------- 질문 생성 ----------
@@ -324,6 +425,15 @@ class RelevanceService:
         cat = normalize_category(assessment.category)
         name = assessment.korean_name or assessment.allergen_name
 
+        if cat == "drug":
+            # 약물 항원은 이 앱이 판정하지 않는다(적응형 문진의 _classify_drug 와 같은 입장)
+            assessment.relevance = ClinicalRelevance.CLINICIAN_REVIEW
+            assessment.rationale_ko = (
+                f"{name} 검사는 양성입니다. 검사 양성만으로 약물 알레르기라고 하지 않으며, 약을 쓴 뒤 반응이 "
+                "있었더라도 그 약 때문인지는 진료에서 확인합니다. 이 약을 계속 피할지, 다시 써도 되는지는 "
+                "진료에서 정합니다.")
+            return assessment
+
         if symptom == ANSWER_YES:
             assessment.relevance = ClinicalRelevance.CLINICALLY_RELEVANT
             extra = ""
@@ -372,18 +482,34 @@ class RelevanceService:
     # ---------- 요약 ----------
     @staticmethod
     def summarize(result: RelevanceAssessmentResult) -> Dict[str, Any]:
+        """판정별 이름과 개수.
+
+        `counts` 와 이름 목록 세 가지는 API 의 `relevance` 와 같은 낱말(세 값)로 센다 — 기존 화면·저장된 세션이
+        그대로 읽는다. 약물('진료 확인 필요')은 거기서는 indeterminate 에 들어간다.
+        `verdict_counts`·`clinician_review` 는 판정 그대로다: 약물을 따로 세고, indeterminate 에서 뺀다.
+        리포트·카드뉴스·문서 표지는 verdict_counts 를 쓴다."""
+        names = lambda items: [a.korean_name or a.allergen_name for a in items]  # noqa: E731
         rel = result.by_relevance(ClinicalRelevance.CLINICALLY_RELEVANT)
         sens = result.by_relevance(ClinicalRelevance.SENSITIZED_ONLY)
         ind = result.by_relevance(ClinicalRelevance.INDETERMINATE)
+        review = result.by_relevance(ClinicalRelevance.CLINICIAN_REVIEW)
+        legacy_ind = [a for a in result.assessments if public_relevance(a.relevance) == "indeterminate"]
         return {
             "total_positive": len(result.assessments),
-            "clinically_relevant": [a.korean_name or a.allergen_name for a in rel],
-            "sensitized_only": [a.korean_name or a.allergen_name for a in sens],
-            "indeterminate": [a.korean_name or a.allergen_name for a in ind],
+            "clinically_relevant": names(rel),
+            "sensitized_only": names(sens),
+            "indeterminate": names(legacy_ind),
+            "clinician_review": names(review),
             "counts": {
                 "clinically_relevant": len(rel),
                 "sensitized_only": len(sens),
+                "indeterminate": len(legacy_ind),
+            },
+            "verdict_counts": {
+                "clinically_relevant": len(rel),
+                "sensitized_only": len(sens),
                 "indeterminate": len(ind),
+                "clinician_review": len(review),
             },
         }
 

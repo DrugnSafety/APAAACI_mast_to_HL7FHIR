@@ -22,12 +22,18 @@ from html import escape
 
 BRAND = "#6d5efb"
 
+# 리포트 문서는 내려받아 열거나 메일 첨부로 받는 자체 완결 HTML 이다. 본문에는 결과지 OCR 과 환자 입력이
+# 들어가므로, 이스케이프가 한 군데 빠져도 스크립트가 돌지 않도록 문서 자체가 스크립트를 금지한다.
+# 스크립트·외부 요청·폼 전송·<base> 를 모두 막고, 문서에 박아 넣은 스타일과 data: 이미지만 허용한다.
+REPORT_CSP = ("default-src 'none'; style-src 'unsafe-inline'; img-src data:; font-src data:; "
+              "base-uri 'none'; form-action 'none'")
+
 
 def _meta_row(meta: Dict[str, Any]) -> str:
     items = []
     order = [
         ("name", "👤 이름"), ("test_date", "🗓️ 검사일"), ("facility", "🏥 검사기관"),
-        ("age", "🎂 나이"), ("gender", "⚧ 성별"), ("report_date", "📄 보고일"),
+        ("age", "🎂 나이"), ("gender", "⚧ 성별"), ("report_date", "📄 보고일"), ("created", "📝 리포트 작성일"),
     ]
     for key, label in order:
         v = meta.get(key)
@@ -45,15 +51,23 @@ def _tiles(summary: Dict[str, Any]) -> str:
         ("sensitized", "⚪ 감작만", c.get("sensitized_only", 0), "양성이나 과도한 회피 불필요"),
         ("indeterminate", "🟡 관찰 필요", c.get("indeterminate", 0), "추가 관찰로 판정"),
     ]
+    if c.get("clinician_review"):
+        # 약물 항원 — 위 세 가지 어디에도 세지 않는다. 약물이 양성일 때만 네 번째 타일로 보인다.
+        defs.append(("review", f"🩺 {(summary or {}).get('review_label') or '진료 확인 필요'}",
+                     c["clinician_review"], "약물 — 진료에서 결정"))
     cells = []
     for cls, label, n, sub in defs:
         cells.append(
-            f'<div class="tile {cls}"><div class="tile-n">{n}</div>'
+            f'<div class="tile {cls}"><div class="tile-n">{escape(str(n))}</div>'
             f'<div class="tile-l">{escape(label)}</div>'
             f'<div class="tile-s">{escape(sub)}</div></div>')
     total = (summary or {}).get("total_positive", 0)
-    return (f'<div class="tiles" role="group" aria-label="감별 요약">{"".join(cells)}</div>'
-            f'<p class="tiles-cap">검사 양성 {total}개를 증상 문진과 대조해 감별했습니다. '
+    # 타일 숫자를 임상 그룹으로 묶어 셌으면(집먼지진드기 두 종 → 1) 합이 양성 항목 수와 달라진다 — 그 이유를 적는다
+    grouped = (' 위 숫자는 임상적으로 같은 항원(집먼지진드기 두 종 등)을 하나로 묶어 센 것입니다.'
+               if (summary or {}).get("grouped") else "")
+    cols = f' style="grid-template-columns:repeat({len(defs)},1fr)"' if len(defs) != 3 else ""
+    return (f'<div class="tiles"{cols} role="group" aria-label="감별 요약">{"".join(cells)}</div>'
+            f'<p class="tiles-cap">검사 양성 {escape(str(total))}개 항목을 증상 문진과 대조해 감별했습니다.{grouped} '
             f'양성(감작)이 곧 알레르기는 아닙니다 — 실제 증상 유발 여부로 구분합니다.</p>')
 
 
@@ -84,6 +98,7 @@ body{ font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',system-ui,-
 .tile.relevant{ background:var(--rel-bg); } .tile.relevant .tile-n{ color:var(--rel); }
 .tile.sensitized{ background:var(--sens-bg); } .tile.sensitized .tile-n{ color:var(--sens); }
 .tile.indeterminate{ background:var(--ind-bg); } .tile.indeterminate .tile-n{ color:#a97b00; }
+.tile.review{ background:#eaf2fb; } .tile.review .tile-n{ color:#2f6fb0; }
 .tiles-cap{ font-size:12.5px; color:var(--ink-2); background:var(--soft); border-radius:10px; padding:10px 13px; margin:12px 0 20px; }
 .content h2{ font-size:18.5px; font-weight:800; margin:26px 0 10px; padding-bottom:7px; border-bottom:2px solid var(--line); letter-spacing:-.01em; page-break-after:avoid; }
 .content h3{ font-size:15.5px; font-weight:700; margin:18px 0 8px; color:var(--ink); page-break-after:avoid; }
@@ -105,8 +120,7 @@ body{ font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',system-ui,-
 .foot{ text-align:center; color:var(--ink-3); font-size:11.5px; margin-top:20px; }
 .print-hint{ position:sticky; top:0; z-index:5; display:flex; gap:10px; align-items:center; justify-content:flex-end;
   background:#fff; border:1px solid var(--line); border-radius:12px; padding:9px 12px; margin:0 auto 14px; max-width:820px; }
-.print-hint button{ font:inherit; font-weight:700; font-size:13px; cursor:pointer; border-radius:9px; padding:8px 14px; border:1px solid var(--line); background:#fff; color:var(--ink); }
-.print-hint button.primary{ background:var(--brand); border-color:var(--brand); color:#fff; }
+.print-hint kbd{ font:inherit; font-weight:700; font-size:12px; border:1px solid var(--line); border-radius:6px; padding:2px 7px; background:var(--soft); color:var(--ink); }
 @media (max-width:640px){ .tiles{ grid-template-columns:1fr; } .cover,.body{ padding-left:20px; padding-right:20px; } }
 @media print{
   @page{ size:A4; margin:14mm 12mm; }
@@ -134,14 +148,18 @@ def render_report_document(
     """맞춤 리포트를 인쇄(PDF)·화면 겸용의 자체 완결형 HTML 문서로 렌더링."""
     name = meta.get("name") or "환자"
     test_date = meta.get("test_date") or ""
+    # 이 문서는 스크립트를 쓰지 않는다(아래 CSP). 인쇄는 브라우저 메뉴·단축키로 한다 —
+    # 예전의 onclick="window.print()" 버튼은 CSP 아래에서 동작하지 않으므로 안내 문구로 바꿨다.
     hint = (
         '<div class="print-hint no-print">'
-        '<span style="margin-right:auto;font-size:12.5px;color:#8a90a2">PDF로 저장하려면 인쇄 → 대상을 ‘PDF로 저장’</span>'
-        '<button onclick="window.print()" class="primary">🖨️ PDF로 저장 / 인쇄</button>'
+        '<span style="margin-right:auto;font-size:12.5px;color:#8a90a2">PDF로 저장하려면 브라우저 인쇄에서 '
+        '대상을 ‘PDF로 저장’으로 고르세요</span>'
+        '<span style="font-size:12.5px;color:#4b5162">🖨️ <kbd>Ctrl</kbd> / <kbd>⌘</kbd> + <kbd>P</kbd></span>'
         '</div>'
     ) if print_hint else ""
     return f"""<!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="{REPORT_CSP}">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{escape(title)}</title>
 <style>{REPORT_CSS}</style></head>
@@ -161,7 +179,7 @@ def render_report_document(
 {body_html}
     </div>
     <div class="disclaimer">본 리포트는 교육용 참고 자료이며 의학적 진단·치료를 대체하지 않습니다.
-      정확한 판단과 치료는 담당 의료진과 상담하세요. 약물 알레르기는 본 리포트 범위 밖입니다.</div>
+      정확한 판단과 치료는 담당 의료진과 상담하세요. 약물 항원은 이 리포트가 판정하지 않으며 진료에서 확인합니다.</div>
     <div class="foot">APAAACI · MAST/SPT/UniCAP → 환자 맞춤 리포트 &amp; HL7 FHIR</div>
   </div>
 </div>

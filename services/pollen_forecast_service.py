@@ -53,10 +53,25 @@ GOOGLE_PLANT_RELATED = {
 }
 
 TYPE_LABEL_KO = {"tree": "수목", "grass": "잔디", "weed": "잡초"}
+# 종별 자료가 없어 분류군(수목·잔디·잡초) 달력으로 답할 때 시기 뒤에 붙이는 말
+CATEGORY_ESTIMATE_KO = {"tree": "수목 꽃가루 전체 기준 추정", "grass": "잔디 꽃가루 전체 기준 추정",
+                        "weed": "잡초 꽃가루 전체 기준 추정"}
+# 지식베이스의 시기가 그 항원(종) 자신의 값이 아니라 카테고리 기본값인 출처
+_CATEGORY_LEVEL_SOURCES = {"category_default", "category_profile", "wikipedia"}
 UPI_CATEGORY_KO = {
     "NONE": "없음", "VERY_LOW": "매우 낮음", "LOW": "낮음",
     "MODERATE": "보통", "HIGH": "높음", "VERY_HIGH": "매우 높음",
 }
+
+
+def _is_clinically_relevant(a) -> bool:
+    """감작과 증상 발생이 함께 확인된 항원인가.
+
+    검사 양성(감작)만으로는 그 꽃가루 시즌이 이 환자에게 의미가 있다고 말할 수 없다.
+    '감작만'·'판정 보류'·아직 판정하지 않은 항원은 계절 안내에서 뺀다.
+    """
+    rel = getattr(a, "relevance", None)
+    return getattr(rel, "value", rel) == "clinically_relevant"
 
 
 def _stronger(a: Dict[str, Any], b: Dict[str, Any]) -> bool:
@@ -181,6 +196,89 @@ class PollenForecastService:
         return (today or date.today()).month in (months or [])
 
     # ------------------------------------------------------------------
+    # 항원 한 건의 시기 — 리포트·카드뉴스·달력이 모두 이 값 하나를 쓴다
+    # ------------------------------------------------------------------
+    def residence(self, screening) -> tuple:
+        """문진의 거주지 → (국가, 지역). 지역을 못 찾으면 우편번호로 주(州)를 보탠다."""
+        country = getattr(screening, "residence_country", None)
+        region = getattr(screening, "residence_region", None)
+        postal = getattr(screening, "residence_postal_code", None)
+        if country and not self.resolve_region(country, region) and postal:
+            z = self.lookup_zip(country, postal)
+            if z.get("ok"):
+                region = z["state"]
+        return country, region
+
+    def allergen_season(self, a, country: Optional[str] = None,
+                        region: Optional[str] = None) -> Optional[Dict[str, Any]]:
+        """이 항원의 시기. 계절성 항원(꽃가루·실외 곰팡이)이 아니거나 알 수 없으면 None.
+
+        반환: {"months", "label_ko"(화면에 쓰는 말), "level": "species" | "category"}
+
+        한국 거주자는 종별 시기(data/pollen_season_korea.json 과 개별 지식베이스)를 먼저 쓴다.
+        예전에는 지역 달력의 분류군 범위(수목 2~5월)를 종에 그대로 붙여, 자작나무만 있는 환자에게
+        삼나무 때문에 넓어진 2월까지 '주의할 달'로 칠했고 같은 리포트 안에서 시기가 세 가지로 나왔다.
+        종별 자료가 없거나 한국 밖이면 분류군 달력으로 답하되 추정이라고 밝힌다. 한국 달력을
+        다른 나라 거주자에게 쓰지는 않는다.
+        """
+        cat = getattr(a, "category", None) or ""
+        kb = getattr(a, "kb", None) or {}
+        korea = (country or "KR").upper() == "KR"
+        months = list(kb.get("peak_months_korea") or [])
+        label = (kb.get("season_label_ko") or "").strip()
+        if cat in CATEGORY_TO_TYPE:
+            t = CATEGORY_TO_TYPE[cat]
+            if korea and months and kb.get("source") not in _CATEGORY_LEVEL_SOURCES:
+                return {"months": months, "label_ko": label, "level": "species"}
+            regional = self.season_for(cat, country, region) if country else None
+            if regional and regional.get("months"):
+                months, label = list(regional["months"]), (regional.get("label_ko") or "").strip()
+            elif not (korea and months):
+                return None
+            est = CATEGORY_ESTIMATE_KO[t]
+            return {"months": months, "label_ko": f"{label} · {est}" if label else est,
+                    "level": "category"}
+        if cat == "mold" and korea and (kb.get("indoor_outdoor") or "") == "outdoor" and months:
+            return {"months": months, "label_ko": label, "level": "species"}
+        return None
+
+    def season_label(self, a, screening=None) -> str:
+        """칩·한 줄 요약·노출 문장에 쓰는 시기 라벨. 꽃가루는 allergen_season 과 같은 값이다."""
+        if (getattr(a, "category", None) or "") in CATEGORY_TO_TYPE:
+            season = self.allergen_season(a, *self.residence(screening))
+            return season["label_ko"] if season else ""
+        return ((getattr(a, "kb", None) or {}).get("season_label_ko") or "").strip()
+
+    def regional_note(self, assessments, country: Optional[str], region: Optional[str]) -> str:
+        """그 지역에서 알아둘 점 — 이 환자에게 **증상까지 확인된** 항원에 해당할 때만.
+
+        달력의 notable_ko 는 특정 식물 이야기다(한국: 삼나무). 돼지풀이나 자작나무에만 증상이 있는
+        환자에게 삼나무 안내를 붙이지 않도록 notable_applies_to 로 가린다. 값은 두 가지다.
+          - 항원 이름: 그 항원에 증상이 확인된 환자에게 보여준다.
+          - tree/grass/weed: 그 분류군 달력으로 **추정한** 시기를 받은 환자에게 보여준다. 메모가 그
+            추정 범위가 왜 그런지(텍사스 수목 달력의 겨울은 마운틴 시더)를 설명하기 때문이다.
+            종별 시기를 받은 항원에는 해당하지 않는다.
+        """
+        r = self.resolve_region(country, region) if country else None
+        if not r or not r.get("notable_ko"):
+            return ""
+        applies = {str(x).lower().replace(" pollen", "") for x in (r.get("notable_applies_to") or [])}
+        if not applies:
+            return ""
+        for a in assessments or []:
+            cat = getattr(a, "category", None) or ""
+            if cat not in CATEGORY_TO_TYPE or not _is_clinically_relevant(a):
+                continue
+            names = {getattr(a, "allergen_name", None), (getattr(a, "kb", None) or {}).get("canonical_name")}
+            keys = {str(n).lower().replace(" pollen", "") for n in names if n}
+            season = self.allergen_season(a, country, region)
+            if season and season["level"] == "category":
+                keys.add(CATEGORY_TO_TYPE[cat])
+            if keys & applies:
+                return r["notable_ko"]
+        return ""
+
+    # ------------------------------------------------------------------
     # 실시간 예보 (Google Pollen API)
     # ------------------------------------------------------------------
     @property
@@ -243,13 +341,15 @@ class PollenForecastService:
                     lat: Optional[float] = None, lon: Optional[float] = None,
                     today: Optional[date] = None,
                     postal_code: Optional[str] = None) -> Dict[str, Any]:
-        """이 환자가 양성인 꽃가루만 골라 '지금 시즌인지'를 붙인다.
+        """이 환자에게 **증상까지 확인된** 꽃가루만 골라 '지금 시즌인지'를 붙인다.
+        검사만 양성인 꽃가루를 넣으면 증상과 무관한 시즌을 '지금 조심할 꽃가루'로 안내하게 된다.
 
         실시간 예보가 있으면 그 값을 쓰고, 없으면 지역 달력으로 답한다.
         지역 정보가 아예 없으면 available=False — 화면에서 이 블록을 숨기면 된다.
         """
         pollens = [a for a in (assessments or [])
-                   if CATEGORY_TO_TYPE.get(getattr(a, "category", None) or "")]
+                   if CATEGORY_TO_TYPE.get(getattr(a, "category", None) or "")
+                   and _is_clinically_relevant(a)]
         if not pollens:
             return {"available": False, "reason": "no_pollen_allergen"}
 
@@ -304,12 +404,14 @@ class PollenForecastService:
                         f"검사한 식물이 아니라 같은 과(科)인 {hit.get('display_name') or ''} 예보입니다. "
                         "교차반응 가능성을 참고하는 용도입니다.")
             else:
-                season = self.season_for(cat, country, region)
+                season = self.allergen_season(a, country, region)
                 if season:
-                    entry.update({"source": "regional_calendar",
-                                  "in_season": self.in_season(season.get("months") or [], today),
-                                  "season_label_ko": season.get("label_ko"),
-                                  "months": season.get("months")})
+                    entry.update({"source": ("species_calendar" if season["level"] == "species"
+                                             else "regional_calendar"),
+                                  "in_season": self.in_season(season["months"], today),
+                                  "season_label_ko": season["label_ko"],
+                                  "season_level": season["level"],
+                                  "months": season["months"]})
                 else:
                     entry.update({"source": "unknown", "in_season": None})
             items.append(entry)
@@ -322,7 +424,7 @@ class PollenForecastService:
             "country": (country or "").upper() or None,
             "region_code": region_info.get("code") if region_info else None,
             "region_label_ko": region_info.get("label_ko") if region_info else None,
-            "notable_ko": region_info.get("notable_ko") if region_info else None,
+            "notable_ko": self.regional_note(pollens, country, region) or None,
             "live": bool(live),
             "live_types": live_types,
             "items": items,
@@ -340,52 +442,45 @@ class PollenForecastService:
         """이 환자의 증상이 계절을 타는지, 탄다면 어느 달인지.
 
         세 가지를 합친다.
-          1) 계절성 알러젠(꽃가루·실외 곰팡이)의 시기 — 거주 지역이 있으면 지역 달력, 없으면 기본값
+          1) **증상까지 확인된** 계절성 알러젠(꽃가루·실외 곰팡이)의 시기
+             — 거주 지역이 있으면 지역 달력, 없으면 기본값
           2) 환자가 문진에서 답한 증상 패턴·악화 월
           3) 둘의 일치 여부 — 어긋나면 그 사실을 알려준다(다른 원인이 섞였을 수 있다)
 
-        계절성 알러젠이 없고 환자도 계절성을 말하지 않았으면 available=False.
+        시기는 항원마다 allergen_season() 한 곳에서 정한다(종별 자료 우선, 없으면 분류군 추정).
+
+        검사만 양성이고 그 시기에 증상이 확인되지 않은 계절성 알러젠은 달력에 넣지 않고
+        excluded 로 따로 돌려준다. 자작나무에만 증상이 있는 환자에게 감작만 된 돼지풀의
+        가을 시즌을 '지금 시즌'이라고 안내하던 오류가 여기서 나왔다.
+
+        증상이 확인된 계절성 알러젠이 없으면 available=False — 환자가 계절성을 말했더라도 그렇다.
+        알릴 시기가 없는데 절만 남으면 지역 메모와 '시즌 대비' 문장만 덩그러니 인쇄된다.
         """
-        country = getattr(screening, "residence_country", None)
-        region = getattr(screening, "residence_region", None)
-        postal = getattr(screening, "residence_postal_code", None)
-        if country and not self.resolve_region(country, region) and postal:
-            z = self.lookup_zip(country, postal)
-            if z.get("ok"):
-                region = z["state"]
+        country, region = self.residence(screening)
 
         months: Dict[int, List[str]] = {}
         items = []
+        excluded: List[str] = []
         for a in (assessments or []):
             cat = getattr(a, "category", None) or ""
             name = getattr(a, "korean_name", None) or getattr(a, "allergen_name", None)
-            m: List[int] = []
-            label = ""
-            # 한국 달력(peak_months_korea)은 한국 거주자에게만 쓴다. 거주국이 다르면 시기를
-            # 모른다고 두는 편이 낫다 — 미국 환자에게 한국 달을 들이대면 '악화 시기가 어긋난다'는
-            # 엉뚱한 경고까지 만들어낸다.
-            korea_ok = (country or "KR").upper() == "KR"
-            kb = getattr(a, "kb", None) or {}
-            if cat in CATEGORY_TO_TYPE:
-                season = self.season_for(cat, country, region)
-                if season:
-                    m, label = list(season.get("months") or []), season.get("label_ko") or ""
-                elif korea_ok:
-                    m = list(kb.get("peak_months_korea") or [])
-                    label = kb.get("season_label_ko") or ""
-            elif cat == "mold" and korea_ok:
-                if (kb.get("indoor_outdoor") or "") == "outdoor":
-                    m, label = list(kb.get("peak_months_korea") or []), kb.get("season_label_ko") or ""
-            if not m:
+            season = self.allergen_season(a, country, region)
+            if not season:
                 continue
-            items.append({"name": name, "category": cat, "months": m, "season_label_ko": label})
+            if not _is_clinically_relevant(a):
+                if name not in excluded:
+                    excluded.append(name)
+                continue
+            m = season["months"]
+            items.append({"name": name, "category": cat, "months": m,
+                          "season_label_ko": season["label_ko"], "season_level": season["level"]})
             for mm in m:
                 months.setdefault(mm, []).append(name)
 
         reported_pattern = getattr(getattr(screening, "season_pattern", None), "value", None)
         reported_months = sorted(set(getattr(screening, "worse_months", None) or []))
 
-        if not items and reported_pattern not in ("seasonal", "both"):
+        if not items:
             return {"available": False, "reason": "not_seasonal"}
 
         predicted = sorted(months)
@@ -395,6 +490,7 @@ class PollenForecastService:
         return {
             "available": True,
             "items": items,
+            "excluded": excluded,
             "months": {m: months[m] for m in predicted},
             "predicted_months": predicted,
             "reported_pattern": reported_pattern,
@@ -404,6 +500,8 @@ class PollenForecastService:
             "current_month": now,
             "in_season_now": sorted(set(months.get(now, []))),
             "region_label_ko": (self.resolve_region(country, region) or {}).get("label_ko"),
+            "notable_ko": self.regional_note(assessments, country, region),
+            "category_estimate": any(i["season_level"] == "category" for i in items),
             "month_labels_ko": self.MONTH_KO,
         }
 

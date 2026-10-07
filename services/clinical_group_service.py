@@ -54,16 +54,27 @@ class ClinicalGroupService:
                             getattr(a, "korean_name", "") or "")
         return gid or _norm(getattr(a, "allergen_name", "") or getattr(a, "korean_name", "") or "")
 
+    @staticmethod
+    def _single(a) -> bool:
+        """이 그룹에서 이번에 양성으로 나온 항원이 이것 하나뿐인가(세지 않았으면 False — 예전 동작)."""
+        return getattr(a, "clinical_group_count", None) == 1
+
     def label_of(self, a, detail: bool = False) -> str:
-        """표시용 이름. 그룹이면 통합 라벨(detail=True 면 '집먼지진드기(유럽·미국 두 종)')."""
+        """표시용 이름. 그룹이면 통합 라벨(detail=True 면 '집먼지진드기(유럽·미국 두 종)').
+        그룹의 항원이 하나만 양성이면 detail 은 그 항원의 이름을 쓴다('집먼지진드기(미국집먼지진드기)') —
+        검사하지 않았거나 음성인 종까지 '두 종'이라고 부르지 않는다."""
         g = self.group_of(a)
+        own = getattr(a, "korean_name", None) or getattr(a, "allergen_name", "") or ""
         if g:
+            if detail and self._single(a) and g.get("detail_single_tpl_ko") and own:
+                return own if own == g.get("label_ko") else g["detail_single_tpl_ko"].replace("{name}", own)
             return (g.get("detail_ko") if detail else g.get("label_ko")) or g.get("label_ko") or ""
-        return getattr(a, "korean_name", None) or getattr(a, "allergen_name", "") or ""
+        return own
 
     def note_of(self, a) -> str:
+        """그룹으로 묶은 이유('두 종이 함께 양성인 경우가 흔하며…'). 하나만 양성이면 묶은 것이 없으므로 비운다."""
         g = self.group_of(a)
-        return (g or {}).get("note_ko", "")
+        return "" if self._single(a) else (g or {}).get("note_ko", "")
 
     def collapse(self, assessments) -> List[Dict[str, Any]]:
         """assessment 리스트를 임상 그룹 단위로 접는다.
@@ -79,7 +90,7 @@ class ClinicalGroupService:
                     "label": self.label_of(a),
                     "detail_label": self.label_of(a, detail=True),
                     "note": self.note_of(a),
-                    "grouped": self.group_of(a) is not None,
+                    "grouped": self.group_of(a) is not None and not self._single(a),
                     "members": [],
                     "lead": a,
                 }
