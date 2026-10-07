@@ -381,7 +381,7 @@ table.grid td.num input { text-align: right; font-variant-numeric: tabular-nums;
 .report-render code { background: var(--bg-subtle); padding: 1px 5px; border-radius: 4px; font-size: .9em; }
 .report-render hr { border: none; border-top: 1px solid var(--border); margin: 18px 0; }
 
-.cardnews-frame { width: 100%; height: 560px; border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--bg-subtle); }
+.cardnews-frame { width: 100%; height: 660px; border: 1px solid var(--border); border-radius: var(--r-lg); background: var(--bg-subtle); }
 .report-frame { width: 100%; height: 760px; border: 1px solid var(--border); border-radius: var(--r-lg); background: #fff; }
 
 .download-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
@@ -461,13 +461,16 @@ table.grid td.num input { text-align: right; font-variant-numeric: tabular-nums;
 
   /* 결과 탭도 모바일에서 스크롤 편하게 */
   .report-frame { height: 68vh; }
-  .cardnews-frame { height: 62vh; }
+  .cardnews-frame { height: min(78vh, 680px); }
 }
 
 /* 듀얼 UI 전환 링크 (클래식 ↔ 탐험 퀘스트) */
 .ui-switch { font-size: 12.5px; font-weight: 700; color: var(--text-2); border: 1px solid var(--border-strong); border-radius: var(--r-pill); padding: 7px 11px; text-decoration: none; margin-right: 8px; white-space: nowrap; }
 .ui-switch:hover { background: var(--bg-subtle); color: var(--text); }
 .lang-sel { font-size: 12.5px; font-weight: 700; color: var(--text-2); background: var(--bg-elev); border: 1px solid var(--border-strong); border-radius: var(--r-pill); padding: 6px 10px; font-family: inherit; min-height: 34px; margin-right: 8px; }
+/* 쓸 수 없는 AI 엔진 — 고를 수 없고, 흐리게·점선으로 구분한다 */
+.lang-sel.unavail { color: var(--text-3); border-style: dashed; opacity: 1; }
+.lang-sel:disabled { cursor: not-allowed; }
 @media (max-width: 640px) { .ui-switch { display: none; } }
 
 /* ---------- 결과 상담 챗봇 ---------- */
@@ -493,3 +496,80 @@ tr.row-flag td { background: rgba(255, 176, 32, .13); }
 tr.row-flag td:first-child { box-shadow: inset 3px 0 0 #e8a33d; }
 .rv-gate { display: block; }
 .rv-gate b { font-weight: 800; }
+
+/* ---------- 알러젠 자동완성(표 입력 칸의 제안 목록) ----------
+   body 에 붙는 position:fixed 목록 — 가로 스크롤되는 .tbl-wrap 에 잘리지 않는다. 위치·너비는 web/shared.js(acPlace)가 정한다. */
+.ac-list { position: fixed; z-index: 45; margin: 0; padding: 4px; list-style: none; overflow-y: auto; overscroll-behavior: contain;
+  background: var(--bg-elev); border: 1.5px solid var(--brand); border-radius: var(--r-md); box-shadow: var(--shadow-lg); }
+.ac-list li { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px; border-radius: var(--r-sm); cursor: pointer; }
+.ac-list li:hover { background: var(--bg-subtle); }
+.ac-list li[aria-selected="true"] { background: var(--brand-soft); box-shadow: inset 3px 0 0 var(--brand-strong); }
+.ac-main { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font-size: 14px; color: var(--text); }
+.ac-main span { color: var(--text-2); font-size: 13.5px; }
+.ac-sub { font-size: 12px; color: var(--text-3); }
+.ac-hint { margin: 8px 0 0; }
+.ac-hint, .mail-panel > .hint { color: var(--text-3); font-size: 12.5px; }
+.ctl-note { font-size: 11.5px; color: var(--text-2); margin-top: 3px; }   /* 검토 표의 검사 대조 행 안내 */
+.unk-note { font-size: 11.5px; color: var(--text-2); margin-top: 3px; }   /* 등록 목록에 없는 알러젠 이름 — 막지 않는 안내 */
+
+/* ---------- 결과 이메일 받기 ---------- */
+.mail-panel { margin-top: 18px; }
+.mail-panel h2 { font-size: 17px; margin: 0 0 4px; }
+.mail-panel .q-help { margin-bottom: 12px; }
+.mail-kinds { border: 0; padding: 0; margin: 0 0 12px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.mail-kinds legend, .mail-label { display: block; padding: 0; font-weight: 800; font-size: 13.5px; margin-bottom: 8px; color: var(--text); }
+.mail-kind { display: inline-flex; align-items: center; gap: 8px; border: 1.5px solid var(--border-strong); background: var(--bg-elev); color: var(--text);
+  border-radius: var(--r-pill); padding: 8px 14px; font-size: 13.5px; font-weight: 700; cursor: pointer; }
+.mail-kind:has(input:checked) { border-color: var(--brand-strong); background: var(--brand-soft); }
+.mail-kind:has(input:focus-visible) { outline: 2px solid var(--brand); outline-offset: 2px; }
+.mail-kind input { width: 18px; height: 18px; accent-color: var(--brand-strong); }
+.mail-row { display: flex; gap: 8px; align-items: stretch; }
+.mail-row .input { flex: 1 1 auto; min-width: 0; }
+.mail-row .input[aria-invalid="true"] { border-color: var(--relevant); }
+.mail-row .btn { flex: none; white-space: nowrap; justify-content: center; }
+#mailMsg .notice { margin-top: 12px; }
+#pdfMsg .notice { margin-top: 10px; }
+.mail-files { margin-top: 4px; font-size: 12.5px; overflow-wrap: anywhere; }
+.mail-files ul { list-style: none; margin: 2px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 6px; }
+.mail-files code { display: inline-block; max-width: 100%; margin: 2px 0; background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--r-sm); padding: 1px 6px; }
+.mail-panel > .hint { margin: 12px 0 0; }
+@media (max-width: 640px) {
+  .ac-list li { padding: 11px 10px; }
+  .ac-main { font-size: 15px; }
+  .mail-kind { min-height: 44px; }
+  .mail-row { flex-direction: column; }
+  .mail-row .btn { min-height: 48px; }
+}
+
+/* 결과 화면 — 화면 언어의 결과를 준비하는 중/준비하지 못함 안내 */
+#langSync:empty { display: none; }
+.lang-sync { margin: 0 0 14px; align-items: center; }
+.lang-sync .spinner { flex: none; }
+.lang-sync .btn { margin-left: auto; flex: none; }
+
+/* 결과 상담 — 일반 지식 출처 · 화면 언어로 오지 않은 답변 표시 */
+.chat-tr { font-size: 11.5px; color: var(--indet); margin-top: 2px; }
+.kb-src { margin-top: 6px; font-size: 11.5px; color: var(--text-2); }
+.kb-src summary { cursor: pointer; opacity: .8; }
+.kb-src summary:hover { opacity: 1; }
+.kb-src .src-item { margin: 6px 0 0 2px; line-height: 1.5; }
+.kb-src .src-item a { color: var(--brand); text-decoration: underline; }
+.kb-src .src-note { margin-top: 6px; opacity: .75; font-style: italic; }
+.kb-src .src-list { margin: 4px 0 0; padding-left: 16px; }
+.kb-src .src-list li { margin: 4px 0; }
+.kb-src .src-pred { font-weight: 700; opacity: .85; }
+.kb-src .src-quote { margin: 2px 0 0; padding-left: 8px; border-left: 2px solid var(--border-strong); opacity: .85; }
+.kb-src .src-ids { font-size: 10.5px; opacity: .6; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; word-break: break-all; }
+.kb-src .src-map { font-size: 10.5px; opacity: .7; }
+
+/* 좁은 화면(390px): 머리글이 화면 밖으로 밀리지 않게 하고, 결과 탭 다섯 개는 옆으로 밀어 볼 수 있게 한다 */
+@media (max-width: 640px) {
+  .app-header .bar { padding: 10px 12px; gap: 6px; }
+  .logo { min-width: 0; gap: 8px; }
+  .logo small { display: none; }
+  .lang-sel { margin-right: 0; padding: 6px 6px; max-width: 96px; }
+  #engineSel.unavail { max-width: 128px; }
+  .theme-toggle { flex: none; width: 34px; height: 34px; }
+  .result-tabs { overflow-x: auto; scrollbar-width: thin; }
+  .result-tabs button { flex: none; white-space: nowrap; }
+}

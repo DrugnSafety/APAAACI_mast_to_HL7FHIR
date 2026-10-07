@@ -8,6 +8,7 @@
 function fmtErr(detail, fallback) {
   if (!detail) return fallback;
   if (typeof detail === 'string') return detail;
+  if (typeof detail.message === 'string') return detail.message;   // {code, message} 형식
   if (Array.isArray(detail)) {
     return detail.map(e => {
       const loc = Array.isArray(e.loc) ? e.loc.slice(-2).join('.') : '';
@@ -17,22 +18,33 @@ function fmtErr(detail, fallback) {
   try { return JSON.stringify(detail); } catch (_) { return fallback; }
 }
 
+// 서버 오류는 {detail: {code, message}} — 화면이 코드별 안내문을 고를 수 있게 code·status·Retry-After(초)를 함께 넘긴다
+async function apiError(r, fallback) {
+  const e = await r.json().catch(() => ({}));
+  return Object.assign(new Error(fmtErr(e.detail, fallback)), {
+    status: r.status, code: (e.detail && e.detail.code) || null, retryAfter: parseInt(r.headers.get('Retry-After'), 10) || null });
+}
+
 const API = {
-  async health() { return (await fetch('/api/health', { headers: llmHeaders() })).json(); },
+  async health(lang) { return (await fetch('/api/health?lang=' + encodeURIComponent(lang || 'ko'), { headers: llmHeaders() })).json(); },
   async demo() { return (await fetch('/api/ocr/demo')).json(); },
   async allergen(name) { return (await fetch('/api/allergen?name=' + encodeURIComponent(name))).json(); },
+  async allergens() { const r = await fetch('/api/allergens'); if (!r.ok) throw new Error('/api/allergens ' + r.status); return r.json(); },
   async ocr(file) {
     const fd = new FormData(); fd.append('file', file);
     const r = await fetch('/api/ocr', { method: 'POST', body: fd, headers: llmHeaders() });
-    if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(fmtErr(e.detail, 'OCR 실패')); }
+    if (!r.ok) throw await apiError(r, 'OCR 실패');
     return r.json();
   },
   async post(path, body) {
     const r = await fetch(path, { method: 'POST', headers: llmHeaders({ 'Content-Type': 'application/json' }), body: JSON.stringify(body) });
-    if (!r.ok) { const e = await r.json().catch(() => ({})); throw new Error(fmtErr(e.detail, path + ' 실패')); }
+    if (!r.ok) throw await apiError(r, path + ' 실패');
     return r.json();
   },
 };
+
+const UI_NAME = 'classic';   // 서버에 보내는 ui 값 — 함께 쓰는 코드(web/shared.js)가 읽는다
+// 알러젠 자동완성·결과 언어 맞추기·이메일 받기·결과 상담·언어 전환·카드뉴스 체크 저장은 퀘스트 UI 와 함께 쓴다 → web/shared.js
 
 const S = {
   step: 0,
@@ -44,22 +56,40 @@ const S = {
   answers: {},
   classify: null,
   chat: { messages: [], suggestions: null, busy: false, hasKey: null },  // 결과 상담
+  qLang: null, qState: null,   // 문진을 받아 온 언어와 그 번역 상태('ok' | 'partial' | 'none')
+  sessionId: null,   // 서버 저장 세션 — 판정(classify)이 발급하고, 이후 재판정·상담·메일이 같은 id 를 쓴다. 새 결과지를 올리면 비운다
+  mail: newMail(),   // 결과 이메일 받기 패널 상태
+  outputs: {},       // 이번 판정의 언어별 산출물(lang → classify 모양). S.classify 는 지금 화면에 보이는 언어의 것
+  langSync: null,    // 화면 언어의 결과를 아직 못 받았을 때: { lang, state: 'preparing' | 'failed' }
 };
 
 let REVIEW_TAB = 'measured';  // OCR 검토 표 탭: 'measured'(수치>0) / 'zero'(수치 0·미측정)
 const t = (k, v) => I18N.t(k, v);   // 화면 문구 번역 (web/i18n.js). 서버 생성 콘텐츠는 한국어.
 const STEPS = () => [0, 1, 2, 3, 4].map(i => t(`c.step.${i}`));
 const catLabel = (c) => { const k = `cat.${c}`; const v = t(k); return v === k ? (c || '') : v; };
-const partialNotice = () => I18N.getLang() === 'ko' ? '' : `<div class="notice info" style="margin-bottom:14px">${t('notice.partial')}</div>`;
-const CAT_EMOJI = { mite: '🛏️', animal: '🐾', pollen_tree: '🌳', pollen_grass: '🌾', pollen_weed: '🍂', mold: '🍄', insect: '🪳', food: '🍽️', other: '•' };
+// 비한국어 화면의 번역 안내. '기계 번역했다'는 문구는 실제로 번역됐을 때만 쓴다 — 문진(scope 'q')은 받아 온 문항의
+// 번역 상태(S.qState)로, 아직 받은 내용이 없는 화면은 번역 엔진을 쓸 수 있는지(/api/health has_api_key)로 고른다.
+function partialNotice(scope) {
+  const lang = I18N.getLang();
+  let state = null, shown = 'ko';
+  if (scope === 'q' && S.questionnaire && S.qLang) {
+    if (S.qLang === lang) state = S.qState || 'ok';
+    else { state = 'none'; shown = S.qState === 'none' ? 'ko' : S.qLang; }   // 문항은 받아 온 언어 그대로다
+  }
+  const key = I18N.noticeKey(lang, state, !!(S.options && S.options.has_api_key));
+  if (!key) return '';
+  return `<div class="notice ${key === 'notice.partial' ? 'info' : 'warn'}" id="trNotice" data-tr="${key.split('.')[1]}" style="margin-bottom:14px">${t(key, { target: esc(langName(lang)), shown: esc(langName(shown)) })}</div>`;
+}
+const CAT_EMOJI = { mite: '🛏️', animal: '🐾', pollen_tree: '🌳', pollen_grass: '🌾', pollen_weed: '🍂', mold: '🍄', insect: '🪳', venom: '🐝', food: '🍽️', latex: '🧤', drug: '💊', control: '🧪', other: '•' };
 const REL_LABEL = { clinically_relevant: '실제 주의', sensitized_only: '감작만', indeterminate: '관찰 필요', not_assessed: '미평가' };
-const CAT_LABEL = { mite: '집먼지진드기', animal: '동물', pollen_tree: '나무 꽃가루', pollen_grass: '잔디 꽃가루', pollen_weed: '잡초 꽃가루', mold: '곰팡이', insect: '곤충', food: '음식', other: '기타' };
+const CAT_LABEL = { mite: '집먼지진드기', animal: '동물', pollen_tree: '나무 꽃가루', pollen_grass: '잔디 꽃가루', pollen_weed: '잡초 꽃가루', mold: '곰팡이', insect: '곤충', venom: '벌독', food: '음식', latex: '라텍스', drug: '약물', control: '검사 대조', other: '기타' };
 
 /* ---------------- utils ---------------- */
 const $ = (s, r = document) => r.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const view = () => $('#view');
-function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 2200); }
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), Math.min(8000, Math.max(2200, String(msg).length * 70))); }   // 긴 안내(대기 시간 등)는 읽을 만큼 더 띄운다
+const fmtRich = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');   // 서버 문구의 **굵게** 만 허용
 function download(name, text, type = 'application/json') {
   const blob = new Blob([text], { type }); const url = URL.createObjectURL(blob);
   const a = document.createElement('a'); a.href = url; a.download = name; a.click(); URL.revokeObjectURL(url);
@@ -92,12 +122,6 @@ function valueToClass(v) {
 }
 // 검사종류별 기본 단위
 function defaultUnit(testType) { return testType === 'SPT' ? 'mm' : 'kU/L'; }
-// 검토 탭 분류: 수치>0 이면 measured, 그 외(0/빈값)는 zero
-function rowIsZero(r) {
-  const v = parseFloat(r.value);
-  return isNaN(v) || v === 0;
-}
-
 /* ---------------- AI 엔진 선택 (OpenAI / 연구실 Ollama) ----------------
    선택은 브라우저에 기억하고, 모든 API 호출에 X-LLM-Backend 헤더로 보낸다.
    서버는 이 헤더로 OCR(비전 모델)·상담·번역(텍스트 모델)의 백엔드를 고른다. */
@@ -107,12 +131,20 @@ function initEngine() {
   const sel = document.getElementById('engineSel');
   const llm = S.options && S.options.llm;
   if (!sel || !llm) { if (sel) sel.classList.add('hidden'); return; }
-  const cur = getEngine() || llm.default;
+  const usable = (k) => !!(llm.backends[k] && llm.backends[k].available);
+  const cur = usable(getEngine()) ? getEngine() : llm.default;   // 골라 둔 엔진을 쓸 수 없으면 서버가 실제로 쓰는 쪽을 보인다
+  const anyUsable = Object.keys(llm.backends).some(usable);
+  // 쓸 수 없는 엔진은 모델 이름 대신 '사용 불가'로 적고 고를 수 없게 한다
   sel.innerHTML = Object.entries(llm.backends).map(([k, b]) =>
     `<option value="${k}" ${k === cur ? 'selected' : ''} ${b.available ? '' : 'disabled'}>` +
-    `${esc(k === 'ollama' ? t('eng.ollama') : 'OpenAI')} · ${esc(b.vision_model)}${b.encrypted ? '' : ' ⚠️'}</option>`).join('');
+    `${esc(k === 'ollama' ? t('eng.ollama') : 'OpenAI')}` +
+    (b.available ? ` · ${esc(b.vision_model)}${b.encrypted ? '' : ' ⚠️'}` : ` (${t('eng.unavailable')})`) + `</option>`).join('');
   const b = llm.backends[cur];
-  sel.title = b ? `${t('eng.label')}: OCR ${b.vision_model} / ${t('eng.chat')} ${b.chat_model}` + (b.encrypted ? '' : `\n${t('eng.insecure')}`) : '';
+  sel.disabled = !anyUsable;
+  sel.classList.toggle('unavail', !usable(cur));
+  sel.title = !usable(cur) ? t('eng.none')
+    : `${t('eng.label')}: OCR ${b.vision_model} / ${t('eng.chat')} ${b.chat_model}` + (b.encrypted ? '' : `\n${t('eng.insecure')}`);
+  sel.setAttribute('aria-label', usable(cur) ? t('eng.label') : `${t('eng.label')}: ${t('eng.unavailable')}`);
   if (!sel._bound) {
     sel._bound = true;
     sel.addEventListener('change', () => {
@@ -127,6 +159,7 @@ function initEngine() {
 /* ---------------- navigation ---------------- */
 function goto(step) {
   S.step = step; S.maxReached = Math.max(S.maxReached, step);
+  if (step === 3) reloadQuestionnaire();   // 다른 언어로 받아 둔 문진이면 화면 언어로 다시 받는다
   window.scrollTo({ top: 0, behavior: 'smooth' });
   render();
 }
@@ -143,9 +176,34 @@ function renderStepper() {
     s.addEventListener('click', () => goto(parseInt(s.dataset.step))));
 }
 function render() {
+  acClose();
   renderStepper();
   document.body.setAttribute('data-appstep', S.step);  // 모바일 전용 UI(스크리닝=2/문진=3) 스코프용
-  [renderUpload, renderReview, renderScreening, renderQuestionnaire, renderResults][S.step]();
+  const draw = [renderUpload, renderReview, renderScreening, renderQuestionnaire, renderResults][S.step];
+  // 문진을 보던 중에 다시 그릴 때(언어 전환 등)는 보던 문항이 화면의 같은 자리에 남게 한다
+  if (S.step === 3 && view().querySelector('.q-block[data-qid]')) keepPlace(draw); else { PLACE = null; draw(); }
+}
+// 화면 위쪽에 보이던 문항을 기억했다가, 다시 그린 뒤 그 문항이 같은 높이에 오도록 스크롤을 맞춘다.
+// (문항 문구가 다른 언어로 바뀌면 길이가 달라져, 그대로 두면 보던 문항이 밀려난다)
+let PLACE = null;   // 언어를 바꾸기 직전에 잡아 둔 자리 — 머리글 문구가 바뀌어 화면이 밀리기 전의 위치다
+function markPlace() {
+  const blocks = [...view().querySelectorAll('.q-block[data-qid]:not(.hidden)')];
+  // 기준 문항: 머리글(80px) 아래에서 제목이 보이는 첫 문항. 긴 문항 하나가 화면을 다 덮고 있으면 그 문항.
+  const cur = blocks.find(b => viewTop(b) >= 80 && viewTop(b) < window.innerHeight * .6) || blocks.find(b => b.getBoundingClientRect().bottom > 80);
+  return cur ? { qid: cur.dataset.qid, top: viewTop(cur) } : null;
+}
+// 화면에서의 세로 위치. 다시 그린 직후에는 패널이 떠오르는 등장 애니메이션(translateY) 중이라
+// getBoundingClientRect 가 아직 움직이는 위치를 준다 — 패널에 걸려 있는 이동분을 빼서 자리 잡을 위치를 구한다.
+function viewTop(el) {
+  const panel = el.closest('.panel');
+  const moved = panel ? new DOMMatrixReadOnly(getComputedStyle(panel).transform).m42 : 0;
+  return el.getBoundingClientRect().top - moved;
+}
+function keepPlace(draw) {
+  const place = PLACE || markPlace(); PLACE = null;
+  draw();
+  const again = place && [...view().querySelectorAll('.q-block[data-qid]')].find(b => b.dataset.qid === place.qid);
+  if (again) window.scrollBy({ top: viewTop(again) - place.top, behavior: 'instant' });
 }
 
 /* =========================================================================
@@ -190,21 +248,26 @@ async function handleFile(f) {
   msg.innerHTML = `<div class="notice info" style="margin-top:16px"><span class="spinner" style="border-color:var(--brand-soft);border-top-color:var(--brand)"></span> ${t('s0.ocr_reading')}</div>`;
   try {
     const ocr = await API.ocr(f);
-    S.ocr = normalizeOcr(ocr);
+    S.ocr = normalizeOcr(ocr); resetSession();
     S.ocrConfirmed = false;
     REVIEW_TAB = flaggedCount() ? 'flag' : 'measured';
     goto(1);
   } catch (e) {
-    msg.innerHTML = `<div class="notice warn" style="margin-top:16px">⚠️ ${esc(e.message)}<br/>${t('s0.ocr_fail_hint')}</div>`;
+    // 잠시 뒤 다시 보낼 수 있는 오류(요청 과다)는 고른 파일을 그대로 다시 보내는 버튼을 준다
+    msg.innerHTML = `<div class="notice warn" style="margin-top:16px"><div>⚠️ ${esc(I18N.errText(e) || e.message)}<br/>${t('s0.ocr_fail_hint')}
+      ${e.code === 'rate_limited' ? `<div style="margin-top:8px"><button type="button" class="btn subtle sm" id="ocrRetry">${t('err.retry')}</button></div>` : ''}</div></div>`;
+    const rb = $('#ocrRetry'); if (rb) rb.addEventListener('click', () => handleFile(f));
   }
 }
 async function loadDemo() {
-  try { S.ocr = normalizeOcr(await API.demo()); toast(t('s0.demo_loaded')); goto(1); }
+  try { S.ocr = normalizeOcr(await API.demo()); resetSession(); REVIEW_TAB = 'measured'; toast(t('s0.demo_loaded')); goto(1); }
   catch (e) { toast(t('s0.demo_fail') + e.message); }
 }
 function startManual() {
   S.ocr = { test_type: 'MAST', patient: { name: '', age: null, gender: 'M', test_date: '' }, results: [] };
-  addRow(); goto(1);
+  // 새 행은 수치가 비어 있어 '수치 0 항목' 탭에 들어간다 — 그 탭을 열고 알러젠 이름 칸에서 바로 입력을 시작하게 한다
+  resetSession(); addRow(); REVIEW_TAB = 'zero'; goto(1);
+  const inp = view().querySelector('#tbody input[data-f="allergen_name"]'); if (inp) inp.focus({ preventScroll: true });
 }
 function normalizeOcr(ocr) {
   ocr.patient = ocr.patient || {};
@@ -235,7 +298,8 @@ function addRow(data = {}) {
     interpretation: 'Positive',
   });
 }
-function posCount() { return S.ocr.results.filter(r => isPositive(r, S.ocr.test_type)).length; }
+// 양성 수 — 빈 행(직접 입력으로 막 추가한 행)과 검사 대조(양성·음성 대조선)는 세지 않는다
+function posCount() { return S.ocr.results.filter(r => !rowBlank(r) && !isControl(r) && isPositive(r, S.ocr.test_type)).length; }
 
 // 검사지에서 추출된 기관/날짜/환자정보를 정보카드로 표시 (있을 때만)
 function renderExtractedMeta(p) {
@@ -267,6 +331,7 @@ function refreshReviewSummary() {
   const ps = $('#posSummary');
   if (ps) ps.innerHTML = n ? `<div class="pos-summary">${t('c.s1.pos_summary', { n })}</div>` : '';
   const nx = $('#next'); if (nx) nx.disabled = !n || !reviewGateOpen();
+  refreshRowNotes();
 }
 
 /* ---------------- OCR 확인 화면(필수) ----------------
@@ -309,12 +374,12 @@ function flagCellHtml(r) {
 }
 
 function renderReview() {
+  acClose(); loadAllergenRegistry();
   const tt = S.ocr.test_type;
   const isSPT = tt === 'SPT';
   const valueLabel = isSPT ? t('s1.col_value_spt') : t('s1.col_value_ige');
   const allRows = S.ocr.results.map((r, i) => ({ r, i }));
-  const zeroN = allRows.filter(({ r }) => rowIsZero(r)).length;
-  const measuredN = allRows.length - zeroN;
+  const { measured: measuredN, zero: zeroN } = reviewCounts(S.ocr.results);
   const flagN = allRows.filter(({ r }) => (r.review_flags || []).length).length;
   if (REVIEW_TAB === 'flag' && !flagN) REVIEW_TAB = 'measured';
   const shown = allRows.filter(({ r }) => REVIEW_TAB === 'flag' ? (r.review_flags || []).length
@@ -328,8 +393,8 @@ function renderReview() {
     const flagged = (r.review_flags || []).length > 0;
     return `<tr data-i="${i}" class="${flagged ? 'row-flag' : ''}">
       <td style="color:var(--text-3);width:34px">${i + 1}</td>
-      <td><input data-f="allergen_name" value="${esc(r.allergen_name)}" placeholder="${t('s1.ph_allergen')}" />${flagCellHtml(r)}</td>
-      <td><input data-f="korean_name" value="${esc(r.korean_name)}" placeholder="${t('s1.ph_korean')}" /></td>
+      <td><input data-f="allergen_name" value="${esc(r.allergen_name)}" placeholder="${t('s1.ph_allergen')}" aria-label="${t('s1.th_allergen')}" ${AC_ATTRS} />${flagCellHtml(r)}${rowNotesHtml(r)}</td>
+      <td><input data-f="korean_name" value="${esc(r.korean_name)}" placeholder="${t('s1.ph_korean')}" aria-label="${t('s1.th_korean')}" ${AC_ATTRS} /></td>
       <td class="num" style="width:96px"><input data-f="value" type="number" step="0.01" value="${r.value ?? ''}" /></td>
       <td style="width:78px"><input data-f="unit" value="${esc(r.unit || '')}" /></td>
       ${classCell}
@@ -382,6 +447,7 @@ function renderReview() {
         <span class="spacer"></span>
         <span class="hint">${t('s1.pos_count')} <span class="badge-count" id="posN">${posCount()}</span></span>
       </div>
+      <p class="hint ac-hint">${t('s1.ac_hint')}</p>
 
       <div id="posSummary">${posCount() ? `<div class="pos-summary">${t('c.s1.pos_summary', { n: posCount() })}</div>` : ''}</div>
 
@@ -421,6 +487,11 @@ function renderReview() {
     }
     if (f === 'class_value') v = v === '' ? null : v;
     S.ocr.results[i][f] = v;
+    if (AC_FIELDS.includes(f)) {
+      if (f === 'allergen_name') { S.ocr.results[i].category = null; UNKNOWN_NAMES.delete(S.ocr.results[i]); }   // 이름을 직접 고치면 이전 분류·'목록에 없는 이름' 안내는 더 이상 맞지 않을 수 있다
+      acUpdate(e.target);
+      refreshReviewSummary();   // 빈 행에 이름이 들어가면 양성 수에 잡힌다
+    }
     // 수치 수정 → (MAST/UniCAP) Class 자동 계산 + 판정 재계산. Class 직접 수정 → 판정만 재계산.
     if (['value', 'class_value', 'mean_mm'].includes(f)) {
       const r = S.ocr.results[i];
@@ -436,14 +507,13 @@ function renderReview() {
       refreshReviewSummary();
     }
   });
-  $('#tbody').addEventListener('blur', async e => {
+  $('#tbody').addEventListener('keydown', acKeydown);
+  $('#tbody').addEventListener('blur', e => {
+    // 제안 목록은 mousedown 을 막아 두었으므로(acListEl) 목록을 누를 때는 blur 가 오지 않는다 — 여기 오면 정말 칸을 떠난 것이다.
+    if (e.target === AC.input) acClose();
     if (e.target.dataset.f === 'allergen_name' && e.target.value.trim()) {
-      const tr = e.target.closest('tr'); const i = +tr.dataset.i;
-      if (!S.ocr.results[i].korean_name) {
-        try { const kb = await API.allergen(e.target.value.trim());
-          if (kb.korean_name) { S.ocr.results[i].korean_name = kb.korean_name; S.ocr.results[i].category = kb.category; renderReview(); }
-        } catch (_) {}
-      }
+      const tr = e.target.closest('tr');
+      lookupAllergenName(S.ocr.results[+tr.dataset.i], e.target.value.trim());   // 한글명 채우기·목록에 없는 이름 안내 → web/shared.js
     }
   }, true);
   $('#tbody').addEventListener('click', e => {
@@ -463,7 +533,7 @@ function renderReview() {
   if (rvc) rvc.addEventListener('change', () => { S.ocrConfirmed = rvc.checked; refreshReviewGate(); });
   refreshReviewGate();
   $('#back').addEventListener('click', () => goto(0));
-  $('#next').addEventListener('click', () => goto(2));
+  $('#next').addEventListener('click', () => { S.ocr.results = S.ocr.results.filter(r => !rowBlank(r)); goto(2); });
 }
 
 /* =========================================================================
@@ -476,6 +546,7 @@ function guessCategory(name, korean) {
   if (/(pollen|birch|oak|alder|ragweed|mugwort|hop|timothy|grass|자작|참나무|오리나무|돼지풀|쑥|환삼|잔디|꽃가루)/.test(s)) return 'pollen';
   if (/(cat|dog|dander|고양이|개 |비듬|animal|반려)/.test(s)) return 'animal';
   if (/(alternaria|aspergillus|cladosporium|mold|penicillium|곰팡이)/.test(s)) return 'mold';
+  if (/(venom|\bbee\b|honey ?bee|bumble ?bee|wasp|hornet|yellow ?jacket|vespula|polistes|apis mellifera|fire ant|벌독|벌 독|꿀벌|말벌|땅벌|쌍살벌|불개미)/.test(s)) return 'venom';   // 서버 data/category_rules.json 의 벌독 규칙과 같은 낱말
   if (/(cockroach|바퀴|roach)/.test(s)) return 'insect';
   if (/(shrimp|crab|lobster|prawn|새우|게|랍스터|가재|대하|꽃게)/.test(s)) return 'shellfish';
   if (/(egg|milk|peanut|wheat|soy|nut|fish|계란|우유|땅콩|밀|콩|견과|생선|food|음식|과일|fruit)/.test(s)) return 'food';
@@ -485,7 +556,7 @@ const SCREEN_CAT_LABEL = (c) => t(`scat.${c}`);
 const SCREEN_HINTS = (c) => { const k = `shint.${c}`; const v = t(k); return v === k ? '' : v; };
 function screeningContext() {
   const tt = S.ocr.test_type;
-  const pos = (S.ocr.results || []).filter(r => isPositive(r, tt));
+  const pos = (S.ocr.results || []).filter(r => isPositive(r, tt) && !isControl(r));
   const cats = {};
   pos.forEach(r => { const c = guessCategory(r.allergen_name, r.korean_name); (cats[c] = cats[c] || []).push(r.korean_name || r.allergen_name); });
   return { pos, cats };
@@ -497,13 +568,15 @@ function regionOptions(sc) {
   const country = (S.pollenRegions || []).find(c => c.code === sc.residence_country);
   if (!country) return `<option value="">${t('s2.region_none')}</option>`;
   if (country.single_region) {
-    return `<option value="">${esc(country.regions[0] ? country.regions[0].label_ko : '')}</option>`;
+    return `<option value="">${esc(country.regions[0] ? placeLabel('region', country.regions[0].code, country.regions[0].label_ko) : '')}</option>`;
   }
   return `<option value="">${t('s2.region_none')}</option>` + country.regions.map(r => {
     const states = (r.states || []).length ? ` (${r.states.join(', ')})` : '';
-    return `<option value="${esc(r.code)}" ${sc.residence_region === r.code ? 'selected' : ''}>${esc(r.label_ko)}${esc(states)}</option>`;
+    return `<option value="${esc(r.code)}" ${sc.residence_region === r.code ? 'selected' : ''}>${esc(placeLabel('region', r.code, r.label_ko))}${esc(states)}</option>`;
   }).join('');
 }
+// 서버는 국가·권역 이름을 한국어(label_ko)로만 준다 — 코드로 사전에서 찾고, 사전에 없는 코드만 서버 이름을 쓴다.
+function placeLabel(kind, code, fallback) { const k = `${kind}.${code}`; const v = t(k); return v === k ? (fallback || code || '') : v; }
 async function loadPollenRegions() {
   try {
     const r = await fetch('/api/pollen/regions');
@@ -529,7 +602,7 @@ function bindResidence(sc) {
       const d = await r.json();
       if (!d.ok) { msg.textContent = t('s2.zip_bad'); return; }
       sc.residence_region = d.state; sc.residence_lat = d.lat; sc.residence_lon = d.lon;
-      msg.textContent = t('s2.zip_ok', { region: d.region_label_ko || d.state });
+      msg.textContent = t('s2.zip_ok', { region: placeLabel('region', d.region_code, d.region_label_ko || d.state) });
       if (resR) resR.innerHTML = regionOptions(sc);
     } catch (_) { msg.textContent = t('s2.zip_bad'); }
   });
@@ -587,7 +660,7 @@ function renderScreening() {
           <div class="field"><label>${t('s2.country')}</label>
             <select class="input" id="resCountry">
               <option value="">${t('s2.region_none')}</option>
-              ${(S.pollenRegions || []).map(c => `<option value="${esc(c.code)}" ${sc.residence_country === c.code ? 'selected' : ''}>${esc(c.label_ko)}</option>`).join('')}
+              ${(S.pollenRegions || []).map(c => `<option value="${esc(c.code)}" ${sc.residence_country === c.code ? 'selected' : ''}>${esc(placeLabel('country', c.code, c.label_ko))}</option>`).join('')}
             </select></div>
           <div class="field"><label>${t('s2.region')}</label>
             <select class="input" id="resRegion">${regionOptions(sc)}</select></div>
@@ -646,6 +719,12 @@ function renderScreening() {
     $('#ahWarn').innerHTML = `<div class="notice flag" style="margin-top:10px">${t('s2.ah_warn')}</div>`;
 
   bindResidence(sc);
+  // 입력 즉시 상태에 반영 — 이 화면에서 언어를 바꿔 다시 그려도 적어 둔 값이 남는다
+  $('#pName').addEventListener('input', e => { p.name = e.target.value; });
+  $('#pAge').addEventListener('input', e => { p.age = e.target.value ? parseInt(e.target.value) : null; });
+  $('#pGender').addEventListener('change', e => { p.gender = e.target.value; });
+  $('#pDate').addEventListener('change', e => { p.test_date = e.target.value || null; });
+  const petsOther = $('#petsOther'); if (petsOther) petsOther.addEventListener('input', () => { sc.pets_other = petsOther.value; });
   $('#back').addEventListener('click', () => goto(1));
   $('#next').addEventListener('click', submitScreening);
 }
@@ -663,11 +742,13 @@ async function submitScreening() {
   const po = $('#petsOther'); sc.pets_other = (po && sc.pets.includes('other')) ? po.value.trim() : null;
   const btn = $('#next'); btn.disabled = true; btn.innerHTML = `<span class="spinner"></span> ${t('s2.preparing')}`;
   try {
-    const res = await API.post('/api/questionnaire', { ocr: S.ocr, screening: sc, lang: I18N.getLang() });
+    const lang = I18N.getLang();
+    const res = await API.post('/api/questionnaire', { ocr: S.ocr, screening: sc, lang });
     S.questionnaire = res.questionnaire; S.assessments = res.assessments;
+    S.qLang = lang; S.qState = I18N.questionnaireState(lang, res);   // 문항이 실제로 번역됐는지 — 번역 안내문을 고른다
     S.answers = Object.assign({}, res.questionnaire.answer_prefill || {});
     goto(3);
-  } catch (e) { toast(t('s2.q_fail') + e.message); btn.disabled = false; btn.textContent = t('c.s2.btn_next'); }
+  } catch (e) { toast(I18N.errText(e) || t('s2.q_fail') + e.message); btn.disabled = false; btn.textContent = t('c.s2.btn_next'); }
 }
 
 /* =========================================================================
@@ -685,19 +766,20 @@ function condMet(cond) {
 }
 function renderQuestionnaire() {
   const q = S.questionnaire; const idx = q.allergen_index;
+  const qById = {}; q.sections.forEach(sec => sec.questions.forEach(qq => { qById[qq.id] = qq; }));
   const applyTags = (arr) => (arr && arr.length)
-    ? `<div class="q-applies">${arr.map(k => `<span class="tag">${CAT_EMOJI[idx[k].category] || '•'} ${esc(idx[k].korean_name || idx[k].name)}</span>`).join('')}</div>` : '';
+    ? `<div class="q-applies">${arr.filter(k => idx[k]).map(k => `<span class="tag">${CAT_EMOJI[refineCategory(idx[k].category, idx[k].name, idx[k].korean_name)] || '•'} ${esc(idx[k].korean_name || idx[k].name)}</span>`).join('')}</div>` : '';
 
   const questionHtml = (qq) => {
     const val = S.answers[qq.id];
     let control;
     if (qq.type === 'multi') {
       control = `<div class="chips" data-multi="${qq.id}">` +
-        qq.options.map(o => `<button type="button" class="chip-opt ${(val || []).includes(o.value) ? 'sel' : ''}" data-v="${o.value}">${esc(o.label)}</button>`).join('') + `</div>`;
+        qq.options.map(o => `<button type="button" aria-pressed="${(val || []).includes(o.value)}" class="chip-opt ${(val || []).includes(o.value) ? 'sel' : ''}" data-v="${esc(o.value)}">${esc(o.label)}</button>`).join('') + `</div>`;
     } else {
       const rowClass = qq.options.length <= 3 && qq.options.every(o => o.label.length <= 12) ? 'choice-row' : 'choice-list';
-      control = `<div class="${rowClass}" data-single="${qq.id}">` +
-        qq.options.map(o => `<button type="button" class="choice ${val === o.value ? 'sel' : ''}" data-v="${o.value}">
+      control = `<div class="${rowClass}" role="radiogroup" data-single="${qq.id}">` +
+        qq.options.map(o => `<button type="button" role="radio" aria-checked="${val === o.value}" class="choice ${val === o.value ? 'sel' : ''}" data-v="${esc(o.value)}">
           <span class="radio"></span><span class="body"><span class="t">${esc(o.label)}</span>${o.hint ? `<span class="h">${esc(o.hint)}</span>` : ''}</span></button>`).join('') + `</div>`;
     }
     // reveal 조건: reveal_if({question, equals|any|includes_any}) 또는 reveal_if_any([...])
@@ -707,9 +789,9 @@ function renderQuestionnaire() {
       revealAttr = ` data-reveal='${esc(JSON.stringify(cond))}'`;
       if (!condMet(cond)) hiddenCls = ' hidden';
     }
-    return `<div class="q-block${hiddenCls}"${revealAttr}>
-      <div class="q-title">${esc(qq.title)}</div>
-      ${qq.help ? `<div class="q-help">${esc(qq.help)}</div>` : ''}
+    return `<div class="q-block${hiddenCls}" data-qid="${esc(qq.id)}"${revealAttr}>
+      <div class="q-title">${fmtRich(qq.title)}</div>
+      ${qq.help ? `<div class="q-help">${fmtRich(qq.help)}</div>` : ''}
       ${applyTags(qq.applies_to)}
       ${control}</div>`;
   };
@@ -746,7 +828,7 @@ function renderQuestionnaire() {
   };
 
   const sections = q.sections.map(sec => `
-    <div class="q-section">
+    <div class="q-section" data-sec="${esc(sec.id || '')}">
       <div class="q-shead"><h2>${esc(sec.title)}</h2></div>
       ${sec.subtitle ? `<div class="q-sub">${esc(sec.subtitle)}</div>` : ''}
       ${sec.questions.map(questionHtml).join('')}
@@ -759,7 +841,7 @@ function renderQuestionnaire() {
         <h1>${t('c.s3.h1')}</h1>
         <p>${t('c.s3.p')}</p>
       </div>
-      ${partialNotice()}
+      ${partialNotice('q')}
       ${sections}
       <div class="actions">
         <button class="btn secondary" id="back">${t('common.back')}</button>
@@ -771,16 +853,15 @@ function renderQuestionnaire() {
   view().querySelectorAll('[data-single]').forEach(g => g.addEventListener('click', e => {
     const b = e.target.closest('.choice'); if (!b) return;
     S.answers[g.dataset.single] = b.dataset.v;
-    g.querySelectorAll('.choice').forEach(c => c.classList.toggle('sel', c === b));
+    g.querySelectorAll('.choice').forEach(c => { c.classList.toggle('sel', c === b); c.setAttribute('aria-checked', c === b); });
     applyReveals(); refreshFoodGeneralOptions();
   }));
   view().querySelectorAll('[data-multi]').forEach(g => g.addEventListener('click', e => {
     const b = e.target.closest('.chip-opt'); if (!b) return;
-    const id = g.dataset.multi, v = b.dataset.v; let arr = S.answers[id] || [];
-    if (v === 'none' || v === 'no') arr = arr.includes(v) ? [] : [v];
-    else { arr = arr.filter(x => x !== 'none' && x !== 'no'); arr = arr.includes(v) ? arr.filter(x => x !== v) : [...arr, v]; }
+    const id = g.dataset.multi, v = b.dataset.v;
+    const arr = toggleMulti((qById[id] || {}).options, S.answers[id], v);   // 단독 선택지('해당 없음')는 다른 선택을 지운다 → web/shared.js
     S.answers[id] = arr;
-    g.querySelectorAll('.chip-opt').forEach(c => c.classList.toggle('sel', arr.includes(c.dataset.v)));
+    g.querySelectorAll('.chip-opt').forEach(c => { const on = arr.includes(c.dataset.v); c.classList.toggle('sel', on); c.setAttribute('aria-pressed', on); });
     applyReveals(); refreshFoodGeneralOptions();
   }));
   refreshFoodGeneralOptions();
@@ -790,9 +871,14 @@ function renderQuestionnaire() {
 async function submitClassify() {
   const btn = $('#next'); btn.disabled = true; btn.innerHTML = `<span class="spinner"></span> ${t('c.s3.analyzing')}`;
   try {
-    S.classify = await API.post('/api/classify', { ocr: S.ocr, screening: S.screening, answers: S.answers, ui: 'classic', lang: I18N.getLang() });
+    const lang = I18N.getLang();
+    const out = await API.post('/api/classify', { ocr: S.ocr, screening: S.screening, answers: S.answers, ui: UI_NAME, lang, session_id: S.sessionId || undefined });
+    out.lang = out.lang || lang; normalizeResult(out);
+    S.classify = out; S.outputs = { [out.lang]: out };
+    S.sessionId = out.session_id || S.sessionId;   // 같은 결과지의 재판정은 같은 세션에 덮어쓴다
+    syncResultLang();   // 판정을 기다리는 사이 언어를 바꿨다면 그 언어의 저장분을 이어서 받는다
     goto(4);
-  } catch (e) { toast(t('s3.classify_fail') + e.message); btn.disabled = false; btn.textContent = t('c.s3.btn_next'); }
+  } catch (e) { toast(I18N.errText(e) || t('s3.classify_fail') + e.message); btn.disabled = false; btn.textContent = t('c.s3.btn_next'); }
 }
 
 /* =========================================================================
@@ -800,17 +886,19 @@ async function submitClassify() {
    ========================================================================= */
 let RESULT_TAB = 'allergens';
 function renderResults() {
-  const c = S.classify; const cnt = c.summary.counts; const p = S.ocr.patient;
+  const c = S.classify; const rs = resultSummary(c); const cnt = rs.counts; const p = S.ocr.patient;   // 검사 대조는 개수에서 뺀다
   view().innerHTML = `
     <div class="result-hero">
       <h1>${t('c.s4.h1', { name: esc(p.name || t('c.patient')) })}</h1>
-      <p>${t('c.s4.p', { date: esc(p.test_date || '-'), n: c.summary.total_positive })}</p>
+      <p>${t('c.s4.p', { date: esc(p.test_date || '-'), n: rs.total })}</p>
       <div class="stat-row">
         <div class="stat"><div class="n">${cnt.clinically_relevant}</div><div class="l">${t('c.s4.stat_rel')}</div></div>
         <div class="stat"><div class="n">${cnt.sensitized_only}</div><div class="l">${t('c.s4.stat_sens')}</div></div>
         <div class="stat"><div class="n">${cnt.indeterminate}</div><div class="l">${t('c.s4.stat_indet')}</div></div>
       </div>
     </div>
+
+    <div id="langSync" role="status" aria-live="polite">${langSyncHtml()}</div>
 
     <div class="result-tabs">
       <button data-tab="allergens" class="${RESULT_TAB === 'allergens' ? 'active' : ''}">${t('c.s4.tab_allergens')}</button>
@@ -820,6 +908,7 @@ function renderResults() {
       <button data-tab="fhir" class="${RESULT_TAB === 'fhir' ? 'active' : ''}">${t('s4.tab_fhir')}</button>
     </div>
     <div id="tabBody"></div>
+    <div id="mailBox"></div>
 
     <div class="actions">
       <button class="btn secondary" id="back">${t('s4.back_edit')}</button>
@@ -829,37 +918,50 @@ function renderResults() {
 
   view().querySelectorAll('.result-tabs button').forEach(b => b.addEventListener('click', () => { RESULT_TAB = b.dataset.tab; renderResults(); }));
   $('#back').addEventListener('click', () => goto(3));
-  $('#restart').addEventListener('click', () => { S.ocr = null; S.screening = null; S.questionnaire = null; S.answers = {}; S.classify = null; S.maxReached = 0;
-    S.chat = { messages: [], suggestions: null, busy: false, hasKey: null }; goto(0); });
+  bindLangRetry();
+  $('#restart').addEventListener('click', () => { S.ocr = null; S.screening = null; S.questionnaire = null; S.answers = {}; S.classify = null; S.maxReached = 0; resetSession();
+    RESULT_TAB = 'allergens'; S.chat = { messages: [], suggestions: null, busy: false, hasKey: null }; goto(0); });
   renderResultTab();
+  renderMailPanel();
 }
 
 const ORDER = { clinically_relevant: 0, indeterminate: 1, sensitized_only: 2, not_assessed: 3 };
+const relRank = (a) => a.category === 'control' ? 9 : (ORDER[a.relevance] ?? 3);   // 검사 대조는 판정 대상이 아니라 맨 뒤
 function renderResultTab() {
   const body = $('#tabBody'); const c = S.classify;
   if (RESULT_TAB === 'allergens') {
-    const sorted = [...c.assessments].sort((a, b) => ORDER[a.relevance] - ORDER[b.relevance]);
+    const sorted = [...c.assessments].sort((a, b) => relRank(a) - relRank(b));
     body.innerHTML = sorted.map(cardForAllergen).join('') || `<p class="q-help">${t('c.s4.empty')}</p>`;
     body.querySelectorAll('.ac-head').forEach(h => h.addEventListener('click', () => h.closest('.allergen-card').classList.toggle('open')));
   } else if (RESULT_TAB === 'report') {
     const doc = c.report_document_html || `<div class="report-render">${c.report_html}</div>`;
-    body.innerHTML = `<iframe class="report-frame" id="rpt"></iframe>
+    // 리포트는 스크립트가 필요 없다 — 스크립트를 막고(allow-scripts 없음), 부모가 인쇄만 부를 수 있게 둔다
+    body.innerHTML = `<iframe class="report-frame" id="rpt" sandbox="allow-same-origin allow-modals" title="${esc(t('s4.tab_report'))}"></iframe>
       <div class="download-row">
-        <button class="btn primary sm" id="dlPdf">${t('s4.dl_pdf')}</button>
+        ${pdfButtonsHtml()}
         <button class="btn subtle sm" id="dlHtml">${t('s4.dl_html')}</button>
         <button class="btn subtle sm" id="dlMd">${t('s4.dl_md')}</button>
-      </div>`;
+      </div>
+      <div id="pdfMsg" role="status" aria-live="polite"></div>`;
     const nm = (S.ocr.patient.name || 'patient');
-    $('#rpt').srcdoc = doc;
-    // PDF: 리포트 iframe 자체를 인쇄(대상 'PDF로 저장') → HTML 과 100% 동일 레이아웃
-    $('#dlPdf').addEventListener('click', () => {
-      const f = $('#rpt'); if (f && f.contentWindow) { f.contentWindow.focus(); f.contentWindow.print(); }
+    // 'PDF 받기'(#dlPdfFile)는 서버가 만든 PDF 를 받는다(web/shared.js). 인쇄(#dlPdf)는 리포트 iframe 자체를 인쇄한다 → HTML 과 100% 동일 레이아웃
+    const printReport = () => { const f = $('#rpt'); if (f && f.contentWindow) { f.contentWindow.focus(); f.contentWindow.print(); } };
+    // 문서 안의 인쇄 버튼(onclick="window.print()")은 sandbox 가 막는다 — 같은 동작을 부모 쪽에서 붙여 준다
+    $('#rpt').addEventListener('load', e => {
+      const d = e.target.contentDocument;
+      if (d) d.querySelectorAll('[onclick*="print"]').forEach(b => b.addEventListener('click', printReport));
     });
+    $('#rpt').srcdoc = doc;
+    $('#dlPdf').addEventListener('click', printReport);
+    bindReportPdf();
     $('#dlHtml').addEventListener('click', () => download(`${nm}_allergy_report.html`, doc, 'text/html'));
     $('#dlMd').addEventListener('click', () => download(`${nm}_allergy_report.md`, c.report_markdown, 'text/markdown'));
   } else if (RESULT_TAB === 'cardnews') {
-    body.innerHTML = `<iframe class="cardnews-frame" id="cn"></iframe>
+    // 카드뉴스는 넘기기용 인라인 스크립트가 필요하다 — 실행은 허용하되 앱과 다른 출처(불투명 출처)에 가둔다.
+    // 그 안에서는 localStorage 가 막히므로 '내 실천 체크'는 앱이 대신 들고 있는다(mountDeckBridge — web/shared.js).
+    body.innerHTML = `<iframe class="cardnews-frame" id="cn" sandbox="allow-scripts" title="${esc(t('s4.tab_cardnews'))}"></iframe>
       <div class="download-row"><button class="btn subtle sm" id="dlCn">${t('s4.dl_cardnews')}</button></div>`;
+    mountDeckBridge($('#cn'));
     $('#cn').srcdoc = c.cardnews_html;
     $('#dlCn').addEventListener('click', () => download(`${(S.ocr.patient.name || 'patient')}_cardnews.html`, c.cardnews_html, 'text/html'));
   } else if (RESULT_TAB === 'chat') {
@@ -881,83 +983,12 @@ function renderResultTab() {
     loadFhir();
   }
 }
-/* ---------------- 결과 상담 챗봇 (퀘스트 UI 와 동일 API·동일 근거) ---------------- */
-function renderChat(body) {
-  const c = S.chat;
-  const bubbles = c.messages.map(m => `
-    <div class="chat-msg ${m.role}">
-      <div class="chat-who">${m.role === 'user' ? t('chat.you') : t('chat.bot')}</div>
-      <div class="chat-bubble">${m.role === 'user' ? esc(m.content) : mdLite(m.content)}</div>
-    </div>`).join('');
-  const sugg = (c.suggestions || []).map((sg, i) =>
-    `<button type="button" class="chip-opt" data-sg="${i}">${esc(sg.text)}</button>`).join('');
-  body.innerHTML = `<div class="card soft chat-panel">
-      <p class="q-help" style="margin-bottom:10px">${t('chat.intro')}</p>
-      ${c.hasKey === false ? `<div class="notice warn" style="margin-bottom:10px">${t('chat.nokey')}</div>` : ''}
-      ${sugg ? `<div class="chat-sugg"><div class="chat-sugg-t">${t('chat.suggested')}</div><div class="chips">${sugg}</div></div>` : ''}
-      <div class="chat-log" id="chatLog" aria-live="polite">${bubbles}
-        ${c.busy ? `<div class="chat-msg assistant"><div class="chat-who">${t('chat.bot')}</div><div class="chat-bubble"><span class="spinner"></span> ${t('chat.thinking')}</div></div>` : ''}
-      </div>
-      <div class="chat-input">
-        <input class="input" id="chatQ" placeholder="${t('chat.placeholder')}" ${c.busy ? 'disabled' : ''} />
-        <button class="btn primary sm" id="chatSend" ${c.busy ? 'disabled' : ''}>${t('chat.send')}</button>
-      </div>
-      <div class="chat-foot">
-        <span>${t('app.disclaimer')}</span>
-        ${c.messages.length ? `<button class="btn subtle sm" id="chatReset">${t('chat.reset')}</button>` : ''}
-      </div>
-    </div>`;
-  const log = $('#chatLog'); if (log) log.scrollTop = log.scrollHeight;
-  const send = () => {
-    const inp = $('#chatQ'); const v = (inp.value || '').trim();
-    if (!v || c.busy) return;
-    inp.value = ''; askChat(v);
-  };
-  $('#chatSend').addEventListener('click', send);
-  $('#chatQ').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); send(); } });
-  const rst = $('#chatReset');
-  if (rst) rst.addEventListener('click', () => { c.messages = []; renderChat(body); });
-  body.querySelectorAll('[data-sg]').forEach(b => b.addEventListener('click', () => {
-    const sg = (c.suggestions || [])[parseInt(b.dataset.sg)];
-    if (!sg) return;
-    if (sg.answer) {
-      c.messages.push({ role: 'user', content: sg.text });
-      c.messages.push({ role: 'assistant', content: sg.answer });
-      renderChat(body);
-    } else { askChat(sg.text); }
-  }));
-  if (c.suggestions === null && !c.busy) askChat(null);
-}
-
-function mdLite(txt) {
-  return esc(txt).split('\n').map(l => l.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')).join('<br/>');
-}
-
-async function askChat(question) {
-  const c = S.chat; const body = $('#tabBody');
-  if (question) c.messages.push({ role: 'user', content: question });
-  c.busy = true; renderChat(body);
-  try {
-    const r = await API.post('/api/chat', {
-      ocr: S.ocr, screening: S.screening, answers: S.answers, ui: 'classic', lang: I18N.getLang(),
-      messages: c.messages.filter(m => m.role === 'user' || m.role === 'assistant'),
-    });
-    c.suggestions = r.suggestions || [];
-    c.hasKey = !!r.has_api_key;
-    if (question) c.messages.push({ role: 'assistant', content: r.reply });
-  } catch (e) {
-    if (question) c.messages.push({ role: 'assistant', content: t('chat.fail') + e.message });
-    c.suggestions = c.suggestions || [];
-  } finally {
-    c.busy = false; renderChat($('#tabBody'));
-  }
-}
-
 function cardForAllergen(a) {
   const hasOas = (a.oas_foods && a.oas_foods.length);
   const kb = [];
   if (a.season_label_ko) kb.push([t('dex.season'), esc(a.season_label_ko)]);
   if (hasOas) kb.push([t('dex.oas_foods'), esc(a.oas_foods.join(', ')) + t('dex.oas_note')]);
+  if (a.crossreact_confirmed && a.crossreact_confirmed.length) kb.push([t('dex.crossreact_confirmed'), esc(a.crossreact_confirmed.join(', '))]);
   if (a.biology_ko) kb.push([t('dex.biology'), esc(a.biology_ko)]);
   if (a.exposure_environment_ko) kb.push([t('dex.exposure'), esc(a.exposure_environment_ko)]);
   if (a.cross_reactivity_ko) kb.push([t('dex.crossreact'), esc(a.cross_reactivity_ko)]);
@@ -967,20 +998,23 @@ function cardForAllergen(a) {
     (av.length ? `<div class="kb-item"><div class="k">${t('dex.avoidance')}</div><ul>${av.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>` : '');
   const srcTag = a.source && a.source !== 'knowledge_base' ? `<span class="src-tag">${t('dex.source')}${a.source === 'wikipedia' ? 'Wikipedia' : t('dex.source_default')}</span>` : '';
   const oasBadge = hasOas ? `<span class="rel-badge" style="background:var(--indet-soft);color:var(--indet);border:1px solid var(--indet-border)">🍎 OAS</span>` : '';
-  return `<div class="allergen-card">
+  const sev = a.severity && a.severity !== 'none' && a.severity !== 'mild' ? t('dex.severity', { s: ({ moderate: t('dex.sev_moderate'), severe: t('dex.sev_severe'), anaphylaxis: t('dex.sev_ana') })[a.severity] || esc(a.severity) }) : '';
+  // 검사 대조(양성·음성 대조선)는 알러젠이 아니다 — 서버가 판정을 붙여 보내도 판정 대신 그 사실을 적는다
+  const control = a.category === 'control';
+  return `<div class="allergen-card${control ? ' is-control' : ''}" data-cat="${esc(a.category || 'other')}">
     <div class="ac-head">
       <span class="emoji">${CAT_EMOJI[a.category] || '•'}</span>
       <div class="ac-title">
         <div class="nm">${esc(a.korean_name || a.allergen_name)}</div>
-        <div class="meta">${catLabel(a.category)} · ${a.test_value ?? '-'}${a.test_unit ? ' ' + esc(a.test_unit) : ''}${a.class_value != null ? ` · class ${esc(a.class_value)}` : ''}${a.strength ? ` · ${t('dex.strength', { s: t(`strength.${a.strength}`) })}` : ''}${srcTag}</div>
+        <div class="meta">${catLabel(a.category)} · ${a.test_value ?? '-'}${a.test_unit ? ' ' + esc(a.test_unit) : ''}${a.class_value != null ? ` · class ${esc(a.class_value)}` : ''}${a.strength && !control ? ` · ${t('dex.strength', { s: t(`strength.${a.strength}`) })}` : ''}${control ? '' : sev}${srcTag}</div>
       </div>
-      ${oasBadge}
-      <span class="rel-badge ${a.relevance}">${t(`c.rel.${a.relevance}`)}</span>
+      ${control ? '' : oasBadge}
+      ${control ? `<span class="rel-badge not_assessed">${t('verdict.control.stamp')}</span>` : `<span class="rel-badge ${esc(a.relevance)}">${t(`c.rel.${a.verdict === 'clinician_review' ? a.verdict : a.relevance}`)}</span>`}
       <span class="chevron">▾</span>
     </div>
     <div class="ac-body">
-      <div class="rationale">${esc(a.rationale_ko || '')}</div>
-      <div class="kb-grid">${kbHtml}</div>
+      ${control ? `<div class="rationale">${t('dex.control_back')}</div>` : `<div class="rationale">${esc(a.rationale_ko || '')}</div>
+      <div class="kb-grid">${kbHtml}</div>`}
     </div>
   </div>`;
 }
@@ -1016,7 +1050,7 @@ async function loadFhir() {
     $('#dlAllergy').addEventListener('click', () => download(`${(S.ocr.patient.name || 'patient')}_allergyintolerance.json`, JSON.stringify(f.allergy_intolerance_bundle, null, 2)));
     // 문진(기저 질환·증상) — 문진을 건너뛰면 서버가 번들을 만들지 않는다
     $('#dlScreening')?.addEventListener('click', () => download(`${(S.ocr.patient.name || 'patient')}_screening.json`, JSON.stringify(f.screening_bundle || { resourceType: 'Bundle', type: 'collection', entry: [] }, null, 2)));
-  } catch (e) { const el = $('#fhirPreview'); if (el) el.textContent = t('s4.fhir_fail') + e.message; }
+  } catch (e) { const el = $('#fhirPreview'); if (el) el.textContent = I18N.errText(e) || t('s4.fhir_fail') + e.message; }
 }
 
 /* ---------------- theme ---------------- */
@@ -1042,14 +1076,14 @@ function initLang() {
   const sel = $('#langSel');
   if (sel) {
     sel.innerHTML = I18N.LANGS.map(l => `<option value="${l.code}" ${l.code === I18N.getLang() ? 'selected' : ''}>${l.label}</option>`).join('');
-    sel.addEventListener('change', () => { I18N.setLang(sel.value); render(); });
+    // 사전 문구는 바로 바뀌고, 서버가 만든 내용(선택지·문진 문항·추천 질문·결과 저장분)은 새 언어로 다시 받는다 → web/shared.js
+    sel.addEventListener('change', () => { PLACE = S.step === 3 ? markPlace() : null; changeLang(sel.value); });
   }
 }
 
 (async function () {
   initTheme(); initLang();
-  try { S.options = await API.health(); } catch (_) { S.options = { has_api_key: false, screening_options: { diseases: [], medications: [], organ_systems: [] } }; }
-  await loadPollenRegions();
+  await Promise.all([loadOptions(), loadPollenRegions()]);
   initEngine();
   render();
 })();

@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232f8f5b'/%3E%3Cpath d='M16 26V14' stroke='%23fff' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M16 18c0-6-4-9-9.5-9 0 6 3.5 9 9.5 9z' fill='%23fff'/%3E%3Cpath d='M16 14.5c0-4.5 3-7 8.5-7 0 5-3 7.5-8.5 7z' fill='%23d6f0df'/%3E%3C/svg%3E" />
 <title>항원 소개문 검토</title>
 <style>
   :root { --bg:#f7f8fa; --card:#fff; --line:#e3e6ea; --text:#1b1f24; --text2:#5b6572;
@@ -50,19 +51,44 @@
            color:#fff; padding:9px 16px; border-radius:999px; font-size:13.5px; opacity:0;
            transition:opacity .2s; pointer-events:none; }
   .toast.on { opacity:1; }
+  [hidden] { display:none !important; }
+  .gate { max-width:380px; margin:48px auto; padding:0 16px; }
+  .gate .item { display:grid; gap:10px; }
+  .gate h2 { margin:0; font-size:16px; }
+  .gate label { display:grid; gap:4px; font-size:13px; color:var(--text2); }
+  .gate input { padding:9px 10px; border:1px solid var(--line); border-radius:8px; background:transparent;
+                color:var(--text); font:inherit; }
+  .gate .err { color:var(--danger); font-size:13px; min-height:1.2em; margin:0; }
+  .link { border:0; background:none; color:var(--brand); cursor:pointer; font:inherit; font-size:13px; padding:0; }
 </style>
 </head>
 <body>
 <header>
   <h1>항원 소개문 검토</h1>
   <div class="sub" id="counts">불러오는 중…</div>
-  <div class="bar">
+  <div class="bar" id="bar">
     <button class="pill on" data-filter="candidate">검토 대기</button>
     <button class="pill" data-filter="approved">승인됨</button>
     <button class="pill" data-filter="all">전체</button>
     <span class="sub" style="margin-left:auto">승인 전에는 환자 화면에 나오지 않습니다</span>
+    <button class="link" id="logout" type="button" hidden>로그아웃</button>
   </div>
 </header>
+<section class="gate" id="gate" hidden>
+  <form class="item" id="loginForm" hidden>
+    <h2>관리자 로그인</h2>
+    <p class="sub" style="margin:0">항원 소개문 검토는 관리자만 할 수 있습니다.</p>
+    <label>아이디 <input id="loginUser" autocomplete="username" autocapitalize="off" spellcheck="false" required /></label>
+    <label>비밀번호 <input id="loginPass" type="password" autocomplete="current-password" required /></label>
+    <p class="err" id="loginError" role="alert"></p>
+    <button class="act ok" type="submit" id="loginBtn">로그인</button>
+  </form>
+  <div class="item" id="disabledNote" hidden>
+    <h2>관리자 기능이 꺼져 있습니다</h2>
+    <p class="sub" style="margin:0">이 서버에는 관리자 비밀번호(<code>ADMIN_PASSWORD</code>)가 설정되어 있지 않아 검토 화면을 열 수 없습니다.
+      서버 환경 변수에 비밀번호를 설정하고 다시 시작한 뒤 새로고침하세요.</p>
+  </div>
+</section>
 <main id="list"><div class="empty">불러오는 중…</div></main>
 <div class="toast" id="toast"></div>
 
@@ -77,9 +103,52 @@ function toast(msg) {
   setTimeout(() => t.classList.remove('on'), 1800);
 }
 
+// 검토 API 는 관리자 로그인(쿠키 admin_session) 뒤에 있다. 401 이면 로그인 폼을, 503 admin_disabled 면 안내를 띄운다.
+async function api(path, opts = {}) {
+  const r = await fetch(path, { credentials: 'same-origin', ...opts });
+  let data = null;
+  try { data = await r.json(); } catch (_) { /* 본문 없음 */ }
+  if (!r.ok) {
+    const detail = data && data.detail;
+    const err = new Error((detail && detail.message) || (typeof detail === 'string' ? detail : `요청 실패 (${r.status})`));
+    err.status = r.status;
+    err.code = (detail && detail.code) || null;
+    throw err;
+  }
+  return data;
+}
+// mode: 'login' | 'disabled' | null(검토 화면)
+function showGate(mode) {
+  $('#gate').hidden = !mode;
+  $('#loginForm').hidden = mode !== 'login';
+  $('#disabledNote').hidden = mode !== 'disabled';
+  $('#list').hidden = !!mode;
+  $('#bar').hidden = !!mode;
+  if (mode) { $('#logout').hidden = true; $('#counts').textContent = mode === 'login' ? '로그인이 필요합니다' : '관리자 기능 꺼짐'; }
+  if (mode === 'login') $('#loginUser').focus();
+}
+// 인증 문제면 그에 맞는 화면으로 바꾸고 true 를 돌려준다
+function gateFor(err) {
+  if (err.status === 401) { showGate('login'); return true; }
+  if (err.status === 503 && err.code === 'admin_disabled') { showGate('disabled'); return true; }
+  return false;
+}
+
 async function load() {
-  const r = await fetch('/api/knowledge/candidates?status=' + filter);
-  const d = await r.json();
+  let d;
+  try {
+    // 로그인 여부를 먼저 묻는다(인증이 필요 없는 조회) — 로그인 전에 검토 API 를 불러 401 을 내지 않는다
+    const st = await api('/api/admin/status');
+    if (!st.enabled) return showGate('disabled');
+    if (!st.authenticated) return showGate('login');
+    d = await api('/api/knowledge/candidates?status=' + encodeURIComponent(filter));
+  }
+  catch (err) {
+    if (!gateFor(err)) { $('#counts').textContent = ''; $('#list').innerHTML = `<div class="empty">불러오지 못했습니다: ${esc(err.message)}</div>`; }
+    return;
+  }
+  showGate(null);
+  $('#logout').hidden = false;
   $('#counts').textContent =
     `검토 대기 ${d.counts.candidate}건 · 승인 ${d.counts.approved}건 · 템플릿 적용 항원 ${d.total_generated}종`;
   const list = $('#list');
@@ -116,13 +185,13 @@ async function load() {
 }
 
 document.addEventListener('click', async e => {
-  const pill = e.target.closest('.pill');
+  const pill = e.target.closest('.pill[data-filter]');
   if (pill) {
-    document.querySelectorAll('.pill').forEach(p => p.classList.toggle('on', p === pill));
+    document.querySelectorAll('.pill[data-filter]').forEach(p => p.classList.toggle('on', p === pill));
     filter = pill.dataset.filter;
     return load();
   }
-  const btn = e.target.closest('button.act');
+  const btn = e.target.closest('#list button.act');   // 로그인 폼의 버튼도 .act 모양을 쓴다 — 목록 안의 버튼만 검토 동작이다
   if (!btn) return;
   const item = btn.closest('.item');
   const name = item.dataset.name;
@@ -131,15 +200,34 @@ document.addEventListener('click', async e => {
   if (action === 'edit') body.text = item.querySelector('textarea').value;
   item.querySelectorAll('button.act').forEach(b => b.disabled = true);
   try {
-    const r = await fetch('/api/knowledge/review', {
+    await api('/api/knowledge/review', {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-    if (!r.ok) throw new Error((await r.json()).detail || r.statusText);
     toast({ approve: '승인했습니다', edit: '수정하고 승인했습니다', reject: '문장을 삭제했습니다' }[action]);
     load();
   } catch (err) {
+    if (gateFor(err)) return;   // 세션이 만료됐다 — 다시 로그인하면 목록부터 새로 받는다
     toast('실패: ' + err.message);
     item.querySelectorAll('button.act').forEach(b => b.disabled = false);
   }
+});
+
+$('#loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  $('#loginError').textContent = '';
+  $('#loginBtn').disabled = true;
+  try {
+    await api('/api/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: $('#loginUser').value, password: $('#loginPass').value }) });
+    $('#loginPass').value = '';
+    await load();
+  } catch (err) {
+    if (err.status === 503 && err.code === 'admin_disabled') showGate('disabled');
+    else $('#loginError').textContent = err.message;
+  } finally { $('#loginBtn').disabled = false; }
+});
+$('#logout').addEventListener('click', async () => {
+  try { await api('/api/admin/logout', { method: 'POST' }); } catch (_) { /* 무시 */ }
+  showGate('login');
 });
 
 load();

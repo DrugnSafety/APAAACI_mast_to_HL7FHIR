@@ -104,8 +104,94 @@ test('VERDICT and STAMPS coverage', () => {
   assert.equal(Game.VERDICT.sensitized_only.stamp, '무혐의 · 감작만');
   assert.equal(Game.VERDICT.sensitized_only.note, '감작은 남아 있어 추적 필요');
   assert.equal(Game.VERDICT.indeterminate.stamp, '관찰 대상');
-  for (const c of ['mite', 'animal', 'pollen_tree', 'pollen_grass', 'pollen_weed', 'mold', 'insect', 'food', 'other'])
+  // 약물 항원의 판정 — 진범 확정도 무혐의도 아닌 자기 도장
+  assert.equal(Game.VERDICT.clinician_review.stamp, '진료 확인 필요');
+  assert.equal(Game.VERDICT.clinician_review.tone, 'indet');
+  for (const c of ['mite', 'animal', 'pollen_tree', 'pollen_grass', 'pollen_weed', 'mold', 'insect', 'venom', 'food', 'latex', 'drug', 'control', 'other'])
     assert.ok(Game.STAMPS[c].startsWith('<svg'), c);
   assert.ok(Game.stampSvg('unknown').startsWith('<svg'));
+  assert.equal(Game.stampSvg('unknown'), Game.STAMPS.other);
+  for (const c of ['latex', 'drug', 'control']) assert.notEqual(Game.STAMPS[c], Game.STAMPS.other, `${c} has its own stamp`);
   assert.equal(Game.starsHtml(2), '<span class="stars" aria-label="감작 강도 2/3">★★<i>★</i></span>');
+});
+
+test('completeStage: 5xp once per stage, independent of what was chosen', () => {
+  const g = Game.createState();
+  assert.equal(Game.completeStage(g, 'profile.id'), 5);
+  assert.equal(Game.completeStage(g, 'profile.id'), 0);
+  assert.equal(Game.completeStage(g, 'profile.place'), 5);
+  assert.equal(g.xp, 10);
+});
+
+test('discover: keeps test values for the card and uses catOf when the row has no category', () => {
+  const g = Game.createState();
+  Game.discover(g, [{ allergen_name: 'Cat dander', korean_name: '고양이 비듬', value: 1.4, unit: 'kU/L', class_value: 2 }], 'MAST', () => 'animal');
+  assert.deepEqual(g.discovered['Cat dander'], { name: '고양이 비듬', category: 'animal', stars: 1, verdict: null, en: 'Cat dander', value: 1.4, unit: 'kU/L', cls: 2, no: 1 });
+});
+
+test('recordGrade: foil follows record completeness, never positivity or strength', () => {
+  const full = { test_value: 17.6, class_value: 4, season_label_ko: '연중', exposure_environment_ko: '침실', avoidance_control_ko: ['세탁'], cross_reactivity_ko: '새우' };
+  // 진범 확정과 무혐의(감작만)는 같은 등급 — 양성 결과가 더 '좋은 카드'가 되지 않는다
+  assert.equal(Game.recordGrade({ ...full, relevance: 'clinically_relevant' }).grade, 2);
+  assert.equal(Game.recordGrade({ ...full, relevance: 'sensitized_only' }).grade, 2);
+  // 수치·class·강도는 등급을 바꾸지 않는다
+  assert.equal(Game.recordGrade({ ...full, relevance: 'sensitized_only', class_value: 1, test_value: 0.4, strength: 'weak' }).grade,
+               Game.recordGrade({ ...full, relevance: 'sensitized_only', class_value: 6, test_value: 120, strength: 'strong' }).grade);
+  assert.equal(Game.recordGrade({ ...full, relevance: 'indeterminate' }).grade, 1);
+  assert.equal(Game.recordGrade({ ...full, relevance: 'not_assessed' }).grade, 0);
+  assert.equal(Game.recordGrade({ test_value: 3, relevance: 'clinically_relevant' }).grade, 0);
+  assert.deepEqual(Game.recordGrade({}).facets, { measured: false, verdict: false, season: false, exposure: false, guidance: false, cross: false });
+});
+
+test('levelPips: class 0-6, SPT wheal 1-3, otherwise strength', () => {
+  assert.deepEqual(Game.levelPips({ class_value: 4 }, 'MAST'), { n: 4, max: 6, kind: 'class' });
+  assert.deepEqual(Game.levelPips({ class_value: '9' }, 'MAST'), { n: 6, max: 6, kind: 'class' });
+  assert.deepEqual(Game.levelPips({ test_value: 6, test_unit: 'mm' }, 'SPT'), { n: 2, max: 3, kind: 'wheal' });
+  assert.deepEqual(Game.levelPips({ strength: 'strong' }, 'UniCAP'), { n: 3, max: 3, kind: 'strength' });
+  assert.deepEqual(Game.levelPips({}, 'MAST'), { n: 1, max: 3, kind: 'strength' });
+});
+
+test('sortCards and dexSummary', () => {
+  const list = [
+    { allergen_name: 'B', korean_name: '나', category: 'food', relevance: 'sensitized_only', class_value: 5 },
+    { allergen_name: 'A', korean_name: '가', category: 'mite', relevance: 'clinically_relevant', class_value: 2 },
+    { allergen_name: 'C', korean_name: '다', category: 'animal', relevance: 'indeterminate', class_value: 3 },
+  ];
+  const names = (m) => Game.sortCards(list, m).map(a => a.allergen_name).join('');
+  assert.equal(names('verdict'), 'ACB');
+  assert.equal(names('strength'), 'BCA');
+  assert.equal(names('name'), 'ABC');
+  assert.equal(names('category'), 'ACB');
+  assert.equal(list[0].allergen_name, 'B', 'does not mutate the input');
+  const s = Game.dexSummary(list);
+  assert.equal(s.total, 3); assert.equal(s.resolved, 2);
+  assert.deepEqual(s.byCategory.map(c => c.category), ['mite', 'animal', 'food']);
+  assert.deepEqual(s.byVerdict, { clinically_relevant: 1, sensitized_only: 1, indeterminate: 1, not_assessed: 0 });
+});
+
+test('control lines: own verdict stamp, never counted or graded, sorted and bound last', () => {
+  assert.equal(Game.VERDICT.control.tone, 'na');
+  assert.equal(Game.VERDICT.control.stamp, '검사 대조');
+  const full = { test_value: 5, class_value: 3, season_label_ko: '해당 없음', exposure_environment_ko: 'x', avoidance_control_ko: ['y'], cross_reactivity_ko: 'z' };
+  assert.equal(Game.recordGrade({ ...full, relevance: 'clinically_relevant', category: 'control' }).grade, 0);
+  const list = [
+    { allergen_name: 'Histamine', category: 'control', relevance: 'clinically_relevant', class_value: 6 },
+    { allergen_name: 'Latex', category: 'latex', relevance: 'indeterminate', class_value: 2 },
+    { allergen_name: 'Amoxicillin', category: 'drug', relevance: 'sensitized_only', class_value: 1 },
+    { allergen_name: 'Mystery', category: 'other', relevance: 'not_assessed' },
+    { allergen_name: 'Egg', category: 'food', relevance: 'clinically_relevant', class_value: 3 },
+  ];
+  const s = Game.dexSummary(list);
+  assert.equal(s.total, 4, 'the control line is not a registered allergen');
+  assert.equal(s.controls, 1);
+  assert.equal(s.resolved, 2);
+  assert.deepEqual(s.byVerdict, { clinically_relevant: 1, sensitized_only: 1, indeterminate: 1, not_assessed: 1 });
+  assert.deepEqual(s.byCategory.map(c => c.category), ['food', 'latex', 'drug', 'other', 'control']);
+  assert.equal(Game.sortCards(list, 'verdict').map(a => a.allergen_name).join(','), 'Egg,Latex,Amoxicillin,Mystery,Histamine');
+  assert.equal(Game.sortCards(list, 'category').map(a => a.allergen_name).join(','), 'Egg,Latex,Amoxicillin,Mystery,Histamine');
+});
+
+test('pending verdict exists for cards registered before the questionnaire', () => {
+  assert.equal(Game.VERDICT.pending.stamp, '판정 대기');
+  assert.equal(Game.VERDICT.pending.tone, 'na');
 });

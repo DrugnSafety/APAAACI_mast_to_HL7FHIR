@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232f8f5b'/%3E%3Cpath d='M16 26V14' stroke='%23fff' stroke-width='2.6' stroke-linecap='round'/%3E%3Cpath d='M16 18c0-6-4-9-9.5-9 0 6 3.5 9 9.5 9z' fill='%23fff'/%3E%3Cpath d='M16 14.5c0-4.5 3-7 8.5-7 0 5-3 7.5-8.5 7z' fill='%23d6f0df'/%3E%3C/svg%3E" />
+  <title>관리자 대시보드 — 알레르기 검사 리포트</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+  <link rel="stylesheet" href="/admin/admin.css" />
+  <script>
+    // 본 화면과 같은 테마 설정을 쓴다(첫 페인트 전에 적용)
+    try { var t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (_) {}
+  </script>
+</head>
+<body>
+  <!-- 로그인 / 비활성 안내 -->
+  <section id="gate" class="gate hidden" aria-live="polite">
+    <div class="gate-card">
+      <div class="gate-mark" aria-hidden="true">🌿</div>
+      <h1>관리자 대시보드</h1>
+      <p class="gate-sub">알레르기 검사 리포트 플랫폼</p>
+
+      <form id="loginForm" class="hidden" autocomplete="on">
+        <label>아이디
+          <input id="loginUser" name="username" autocomplete="username" required />
+        </label>
+        <label>비밀번호
+          <input id="loginPass" name="password" type="password" autocomplete="current-password" required />
+        </label>
+        <p id="loginError" class="form-error" role="alert"></p>
+        <button class="btn primary" type="submit">로그인</button>
+      </form>
+
+      <div id="disabledNote" class="hidden note">
+        <b>관리자 기능이 꺼져 있습니다.</b>
+        <p>서버 환경변수 <code>ADMIN_PASSWORD</code> 를 설정하고 다시 시작하면 로그인할 수 있습니다.
+          아이디는 <code>ADMIN_USERNAME</code>(기본 <code>admin</code>)입니다.</p>
+      </div>
+      <a class="gate-back" href="/">← 서비스 화면으로</a>
+    </div>
+  </section>
+
+  <!-- 대시보드 -->
+  <div id="app" class="hidden">
+    <header class="topbar">
+      <div class="topbar-in">
+        <div class="brand"><span class="brand-mark" aria-hidden="true">🌿</span>
+          <div><b>관리자 대시보드</b><small>알레르기 검사 리포트</small></div>
+        </div>
+        <div class="seg" id="rangeSeg" role="group" aria-label="집계 기간">
+          <button data-days="7">7일</button>
+          <button data-days="30" class="on">30일</button>
+          <button data-days="90">90일</button>
+        </div>
+        <button class="btn icon" id="refreshBtn" title="새로고침" aria-label="새로고침">↻</button>
+        <button class="btn icon" id="themeBtn" title="라이트/다크 전환" aria-label="테마 전환">◐</button>
+        <button class="btn" id="logoutBtn">로그아웃</button>
+      </div>
+    </header>
+
+    <main>
+      <p id="pageError" class="banner hidden" role="alert"></p>
+
+      <section class="kpis" id="kpis" aria-label="핵심 지표"></section>
+
+      <section class="grid two">
+        <article class="card fill">
+          <header class="card-head">
+            <div><h2>일별 세션</h2><p id="seriesSub" class="sub"></p></div>
+            <button class="btn ghost small" id="seriesTableBtn" aria-expanded="false">표로 보기</button>
+          </header>
+          <div class="chart" id="seriesChart" role="img" aria-label="일별 세션 수 막대 그래프"></div>
+          <div class="table-wrap hidden" id="seriesTable"></div>
+        </article>
+        <article class="card">
+          <header class="card-head"><div><h2>언어</h2><p class="sub">세션을 만든 화면 언어</p></div></header>
+          <div id="langSplit"></div>
+          <header class="card-head sub-head"><div><h2>판정 분포</h2><p class="sub">양성 항원의 감별 결과</p></div></header>
+          <div id="relSplit"></div>
+        </article>
+      </section>
+
+      <section class="grid two">
+        <article class="card">
+          <header class="card-head"><div><h2>양성이 많은 항원</h2><p class="sub">해당 항원이 양성으로 나온 세션 수 · 상위 10개</p></div></header>
+          <div id="topAllergens"></div>
+        </article>
+        <article class="card">
+          <header class="card-head"><div><h2>번역 산출물</h2><p class="sub">ko · en · zh 저장 상태(전체 기간)</p></div></header>
+          <div id="i18nStatus"></div>
+          <header class="card-head sub-head"><div><h2>메일 발송</h2><p class="sub">전체 기간</p></div></header>
+          <div id="mailStatus"></div>
+        </article>
+      </section>
+
+      <section class="card">
+        <header class="card-head wrap">
+          <div class="seg" id="listSeg" role="tablist" aria-label="목록 종류">
+            <button role="tab" data-list="users" class="on" aria-selected="true">사용자</button>
+            <button role="tab" data-list="anonymous" aria-selected="false">익명 세션</button>
+            <button role="tab" data-list="sessions" aria-selected="false">전체 세션</button>
+          </div>
+          <label class="search"><span class="sr-only">검색</span>
+            <input id="searchInput" type="search" placeholder="이메일 검색" autocomplete="off" />
+          </label>
+        </header>
+        <div class="table-wrap" id="listTable"></div>
+        <footer class="pager" id="pager"></footer>
+      </section>
+    </main>
+  </div>
+
+  <!-- 상세 서랍 -->
+  <div id="scrim" class="scrim hidden"></div>
+  <aside id="drawer" class="drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" tabindex="-1">
+    <header class="drawer-head">
+      <div class="drawer-title"><h2 id="drawerTitle"></h2><p id="drawerSub" class="sub"></p></div>
+      <button class="btn icon" id="drawerClose" aria-label="닫기">✕</button>
+    </header>
+    <div class="drawer-body" id="drawerBody"></div>
+  </aside>
+
+  <div id="tooltip" class="tooltip hidden" role="status"></div>
+  <script src="/admin/admin.js"></script>
+</body>
+</html>

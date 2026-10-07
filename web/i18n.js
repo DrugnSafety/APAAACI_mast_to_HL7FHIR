@@ -20,6 +20,9 @@
     'app.lang': '언어',
     'app.disclaimer': '본 서비스는 교육용 참고 자료이며 의학적 진단·치료를 대체하지 않습니다. 정확한 판단은 담당 의료진과 상담하세요.',
     'notice.partial': '문진 문항·리포트·카드뉴스 본문은 한국어 원문을 기계 번역한 것입니다. 의학적 판단은 담당 의료진과 확인하세요.',
+    'notice.mixed': '문진 문항 가운데 일부는 {target}(으)로 번역하지 못해 한국어로 남아 있습니다. 나머지는 한국어 원문을 기계 번역한 것입니다. 의학적 판단은 담당 의료진과 확인하세요.',
+    'notice.untranslated': '지금은 {target} 번역을 쓸 수 없어 아래 내용은 {shown}로 보입니다. 의학적 판단은 담당 의료진과 확인하세요.',
+    'notice.unavailable': '지금은 기계 번역을 쓸 수 없습니다. 문진 문항·리포트·카드뉴스 본문이 한국어 원문으로 보일 수 있습니다.',
     'common.back': '← 이전',
     'common.patient': '탐험가',
     'common.loading': '불러오는 중…',
@@ -61,6 +64,8 @@
     'eng.label': 'AI 엔진', 'eng.chat': '상담', 'eng.ollama': '연구실 서버',
     'eng.insecure': '연구실 서버 연결은 현재 암호화되지 않았습니다(http). 실제 환자 결과지는 암호화 연결 후 사용하세요',
     'eng.switched': 'AI 엔진을 {name}(으)로 바꿨어요',
+    'eng.unavailable': '사용 불가',
+    'eng.none': '지금 쓸 수 있는 AI 엔진이 없습니다. 사진 판독·자유 질문·번역은 쓸 수 없고, 데모와 직접 입력은 그대로 쓸 수 있습니다',
     'rv.title': '🔎 원본과 대조가 필요해요',
     'rv.remaining': '확인할 행 {n}개가 남았어요. 표시된 행은 원본 결과지와 비교해 고치거나 [확인]을 눌러 주세요.',
     'rv.confirm': '원본 결과지와 대조해 값·환자정보를 확인했습니다',
@@ -113,12 +118,32 @@
     's2.test_date': '검사일',
     's2.residence': '거주 지역',
     's2.residence_hint': '꽃가루 시기가 지역마다 달라서 물어봐요 (선택)',
+    'country.KR': '대한민국', 'country.US': '미국',
+    'region.ALL': '전국', 'region.NORTHEAST': '북동부·중부 대서양', 'region.SOUTHEAST': '남동부', 'region.MIDWEST': '중서부',
+    'region.SOUTH_CENTRAL': '남중부 (텍사스·오클라호마)', 'region.MOUNTAIN': '산악 지대', 'region.SOUTHWEST': '남서부 (사막 지대)',
+    'region.PACIFIC_NORTHWEST': '태평양 북서부', 'region.CALIFORNIA': '캘리포니아', 'region.ALASKA': '알래스카', 'region.HAWAII': '하와이',
+    'lang.preparing': '<b>{target}</b> 결과를 준비하고 있습니다. 준비되면 자동으로 바뀌며, 그동안 아래 결과는 <b>{shown}</b>로 보입니다.',
+    'lang.failed': '<b>{target}</b> 결과를 준비하지 못했습니다. 아래 리포트·카드뉴스·도감은 <b>{shown}</b>로 보입니다.',
+    'lang.retry': '다시 시도', 'lang.switched': '결과를 {target}(으)로 바꿨습니다.',
+    'lang.partial': '결과의 일부를 <b>{target}</b>(으)로 번역하지 못했습니다. 아래 리포트·카드뉴스·도감의 일부는 <b>{shown}</b>로 남아 있습니다.',
+    'lang.retry_fail': '{target} 결과를 다시 만들지 못했습니다. 잠시 후 다시 시도해 주세요.',
+    'lang.q_fail': '문진 문항을 새 언어로 불러오지 못했습니다. 문항은 이전 언어로 보입니다.',
+    'err.rate_limited': '요청이 너무 잦습니다. {s}초 뒤에 다시 시도해 주세요. 입력한 내용은 그대로 남아 있습니다.',
+    'err.rate_limited_soon': '요청이 너무 잦습니다. 잠시 후 다시 시도해 주세요. 입력한 내용은 그대로 남아 있습니다.',
+    'err.file_too_large': '파일이 너무 큽니다. 사진을 잘라 내거나 해상도를 낮춰 더 작은 이미지로 다시 올려 주세요.',
+    'err.unsupported_file': '이미지 파일(JPEG·PNG·WEBP·GIF·BMP·TIFF)만 올릴 수 있습니다. PDF 는 사진이나 화면 캡처로 바꿔 올려 주세요.',
+    'err.chat_full': '이 결과에 저장할 수 있는 상담 기록이 가득 찼습니다. 상담은 계속할 수 있지만 이후 대화는 기록에 남지 않습니다.',
+    'err.retry': '다시 시도',
+    'chat.too_long': '질문이 너무 깁니다. {n}자까지 보낼 수 있습니다(지금 {len}자). 줄여서 다시 보내 주세요.',
+    'mail.err.rate_limited_wait': '메일을 너무 자주 요청했습니다. {s}초 뒤에 다시 시도해 주세요. 입력한 주소는 그대로 남아 있습니다.',
+    'mail.err.recipient_mismatch': '이 결과는 이미 다른 이메일 주소에 연결되어 있어 그 주소로만 보낼 수 있습니다. 처음 연결한 주소를 입력해 주세요. 다른 주소로 받으려면 ‘{restart}’ 버튼으로 결과를 새로 만들거나, 아래 탭에서 자료를 직접 저장해 주세요.',
+    'mail.err.email_already_bound': '이 결과는 이미 다른 이메일 주소에 연결되어 있어 주소를 바꿀 수 없습니다. 처음 연결한 주소를 입력해 주세요. 다른 주소에 연결하려면 ‘{restart}’ 버튼으로 결과를 새로 만들어 주세요.',
     's2.country': '국가', 's2.region': '지역', 's2.region_none': '선택 안 함',
     's2.zip': '우편번호', 's2.zip_ph': '예: 78701',
     's2.zip_hint': '우편번호를 넣으면 지역이 자동으로 정해져요',
     's2.zip_ok': '{region} 으로 설정했어요', 's2.zip_bad': '찾을 수 없는 우편번호예요',
     's2.diseases': '진단받았거나 앓고 있는 알레르기 질환', 's2.meds': '최근 복용 중인 약',
-    's2.organs': '알레르기 증상이 나타나는 부위', 's2.pets': '반려동물을 키우거나 자주 접촉하나요?',
+    's2.organs': '알레르기 증상이 나타나는 부위', 's2.pets': '집에서 함께 사는 동물',
     's2.multi': '(복수 선택)',
     's2.cat': '🐱 고양이', 's2.dog': '🐶 강아지', 's2.other': '기타', 's2.none': '키우지 않음',
     's2.pets_other_ph': '기타 동물을 입력하세요 (예: 햄스터, 토끼, 새)',
@@ -126,7 +151,7 @@
     's2.preparing': '문진 준비 중…', 's2.q_fail': '문진 생성 실패: ',
     's2.btn_next': '진범 감별 퀘스트로 →',
     'scat.mite': '집먼지진드기', 'scat.pollen': '꽃가루', 'scat.animal': '동물', 'scat.mold': '곰팡이',
-    'scat.insect': '곤충(바퀴)', 'scat.shellfish': '갑각류', 'scat.food': '음식', 'scat.other': '기타',
+    'scat.insect': '곤충(바퀴)', 'scat.venom': '벌독', 'scat.shellfish': '갑각류', 'scat.food': '음식', 'scat.other': '기타',
     'shint.pollen': '🌳 꽃가루 양성 — 증상이 <b>특정 계절</b>에 심해지는지가 핵심입니다. 다음 단계에서 시즌별로 확인합니다.',
     'shint.mite': '🛏️ 집먼지진드기 양성 — <b>연중·아침·먼지 노출</b> 시 증상, 그리고 <b>새우·게 교차반응</b>을 다음 단계에서 확인합니다.',
     'shint.animal': '🐾 동물 양성 — 해당 동물 <b>접촉 시 증상</b> 여부가 중요합니다.',
@@ -134,6 +159,7 @@
     'shint.food': '🍽️ 음식 양성 — 먹었을 때 <b>어떤 증상</b>(입·목/피부/소화기/호흡/전신)이 나오는지 확인합니다.',
     'shint.mold': '🍄 곰팡이 양성 — <b>습한 환경</b>에서 악화되는지 확인합니다.',
     'shint.insect': '🪳 바퀴 양성 — 실내 환경과의 연관을 확인합니다.',
+    'shint.venom': '🐝 벌독 양성 — 벌에 쏘였을 때의 반응을 확인합니다(계절·실내 환경과는 무관).',
 
     's3.eyebrow': 'QUEST 4 · 진범 감별',
     's3.h1': '흔적 중 진짜 범인을 가려냅니다',
@@ -173,6 +199,7 @@
     'verdict.clinically_relevant.stamp': '진범 확정', 'verdict.clinically_relevant.note': '노출 시 증상이 재현되는 알러젠',
     'verdict.sensitized_only.stamp': '무혐의 · 감작만', 'verdict.sensitized_only.note': '감작은 남아 있어 추적 필요',
     'verdict.indeterminate.stamp': '관찰 대상', 'verdict.indeterminate.note': '노출 시 증상을 기록해 확인',
+    'verdict.clinician_review.stamp': '진료 확인 필요', 'verdict.clinician_review.note': '약물 — 피할지, 다시 써도 되는지는 진료에서 결정', 'c.rel.clinician_review': '진료 확인 필요',
     'verdict.not_assessed.stamp': '미확인', 'verdict.not_assessed.note': '',
 
     'badge.finisher.name': '완주', 'badge.finisher.desc': '다섯 단계를 모두 마쳤어요',
@@ -183,7 +210,7 @@
     'badge.dex.name': '도감 완성', 'badge.dex.desc': '모든 양성 알러젠에 판정이 붙었어요',
 
     'cat.mite': '집먼지진드기', 'cat.animal': '동물', 'cat.pollen_tree': '나무 꽃가루', 'cat.pollen_grass': '잔디 꽃가루',
-    'cat.pollen_weed': '잡초 꽃가루', 'cat.mold': '곰팡이', 'cat.insect': '곤충', 'cat.food': '음식', 'cat.other': '기타',
+    'cat.pollen_weed': '잡초 꽃가루', 'cat.mold': '곰팡이', 'cat.insect': '곤충', 'cat.venom': '벌독', 'cat.food': '음식', 'cat.other': '기타',
     // ---- 클래식 UI 전용(c.*) — 같은 문구는 s*.* 키 재사용
     'c.title': '알레르기 리포트', 'c.tagline': '검사 결과를 쉽게 · 감작 vs 실제 알레르기 감별',
     'c.doc_title': '알레르기 검사 결과 리포트 (클래식 UI)', 'c.quest': '🧭 탐험 퀘스트 UI',
@@ -222,6 +249,95 @@
     'chat.src_mapping': '용어 매핑 검토: {s} (임상 주장 검토와 별개)',
     'chat.nokey': '자유 질문에는 서버 API 키가 필요합니다. 추천 질문은 키 없이도 답해 드립니다.',
     'chat.reset': '대화 지우기',
+    // ---- 스테이지(퀘스트 안의 작은 단계)·브리핑 ----
+    'stage.aria': '{quest} 퀘스트의 단계', 'stage.done': '완료',
+    'dexchip.label': '내 도감 {n}', 'dexchip.aria': '내 도감 열기 — 등록된 카드 {n}장',
+    's0.st.brief': '임무 브리핑', 's0.st.upload': '결과지 가져오기',
+    's0.brief.h1': '검사지의 흔적에서 진짜 원인을 가려내는 탐험',
+    's0.brief.p': '검사에서 양성으로 나왔다고 모두 알레르기는 아닙니다. 실제로 증상을 일으키는 것만이 <b>진범</b>입니다. 세 걸음이면 가려낼 수 있어요.',
+    's0.brief.b1.t': '흔적 모으기', 's0.brief.b1.d': '검사지의 양성 항목 하나하나가 <b>도감 카드</b> 한 장으로 등록됩니다.',
+    's0.brief.b2.t': '단서로 가려내기', 's0.brief.b2.d': '언제·어디서 증상이 나는지 한 번에 한 문항씩 답하면, 흔적과 증상이 연결됩니다.',
+    's0.brief.b3.t': '판정 도장 받기', 's0.brief.b3.d': '카드마다 <b>진범 확정</b> · <b>무혐의·감작만</b> · <b>관찰 대상</b> 도장이 찍힙니다.',
+    's0.brief.get': '탐험을 마치면 받는 것',
+    's0.brief.get1': '알러젠 도감', 's0.brief.get2': '맞춤 리포트', 's0.brief.get3': '카드뉴스',
+    's0.brief.get_note': '진료 때 그대로 보여 줄 수 있어요. 점수(XP)는 진행한 만큼만 쌓이며, 무엇을 답했는지나 결과의 좋고 나쁨과는 무관합니다.',
+    's0.brief.start': '탐험 시작 →',
+    's1.st.check': '흔적 대조', 's1.st.register': '도감 등록',
+    's2.next': '다음 →',
+    's2.st.id.label': '탐험가 수첩', 's2.st.id.h': '누구의 탐험인지 적어 주세요', 's2.st.id.p': '리포트와 카드뉴스에 들어갈 기본 정보입니다.',
+    's2.st.place.label': '탐험 지역', 's2.st.place.h': '어디에 살고 계세요?', 's2.st.place.p': '꽃가루가 날리는 시기는 지역마다 다릅니다. 고르지 않고 넘어가도 됩니다.',
+    's2.st.disease.label': '앓는 질환', 's2.st.disease.h': '진단받았거나 앓고 있는 알레르기 질환이 있나요?', 's2.st.disease.p': '해당하는 것을 모두 고르세요. 이후 질문과 리포트가 여기에 맞춰집니다.',
+    's2.st.meds.label': '쓰는 약', 's2.st.meds.h': '최근에 쓰고 있는 약이 있나요?', 's2.st.meds.p': '약은 검사 결과와 증상을 읽는 방법에 영향을 줍니다.',
+    's2.st.organs.label': '증상 부위', 's2.st.organs.h': '증상은 주로 어디에 나타나나요?', 's2.st.organs.p': '이 부위의 증상이 알러젠 노출과 함께 움직이는지가 판정의 핵심 단서입니다.',
+    's2.st.pets.label': '함께 사는 동물', 's2.st.pets.h': '집에서 함께 사는 동물이 있나요?', 's2.st.pets.p': '함께 사는 동물만 골라 주세요. 검사에서 양성으로 나온 동물은 얼마나 자주 접촉하는지 다음 단계에서 따로 여쭤봅니다.',
+    's3.clue_n': '단서 {i} / {n}',
+    's3.next_clue': '다음 단서 →', 's3.skip': '건너뛰기 →', 's3.to_summary': '단서 정리로 →',
+    's3.tip': '아는 만큼만 답하세요. ‘잘 모르겠어요’도 소중한 단서입니다.',
+    's3.new_clues': '🔎 이 답으로 새 단서 {n}개가 열렸어요',
+    's3.chapter_done': '챕터 완료 — {title}',
+    's3.chapters_aria': '감별 챕터',
+    's3.sum.label': '단서 정리', 's3.sum.h1': '모은 단서를 확인하세요',
+    's3.sum.p': '답을 고치려면 항목을 누르세요. 확인이 끝나면 카드마다 판정 도장을 찍습니다.',
+    's3.sum.unanswered': '미응답', 's3.sum.edit': '수정', 's3.sum.count': '응답 {a} / {v}',
+    's3.sum.missing': '아직 답하지 않은 단서가 <b>{n}개</b> 있습니다. 그대로 진행할 수 있지만, 답할수록 판정이 정확해집니다.',
+    's3.sum.all': '모든 단서에 답했습니다.',
+    's4.got': '탐험으로 얻은 것', 's4.got_dex': '도감 카드 {n}장', 's4.got_report': '맞춤 리포트', 's4.got_cardnews': '카드뉴스',
+    // ---- 도감 카드 ----
+    'verdict.pending.stamp': '판정 대기', 'verdict.pending.note': '단서를 모으는 중',
+    'dex.view_aria': '도감 보기 방식', 'dex.view_cards': '카드', 'dex.view_binder': '바인더',
+    'dex.sort': '정렬', 'dex.sort.verdict': '판정 순', 'dex.sort.strength': '감작 강도 순', 'dex.sort.name': '이름 순', 'dex.sort.category': '종류 순',
+    'dex.cat_all': '모든 종류',
+    'dex.stat_level': '감작 강도', 'dex.stat_value': '검사 수치', 'dex.stat_season': '시즌', 'dex.stat_cross': '증상 확인 음식',
+    'dex.none': '없음', 'dex.level_class': 'class {n}', 'dex.pips_aria': '감작 강도 {n} / {max}', 'dex.no': 'No.{n}',
+    'dex.grade.0': '기본 기록', 'dex.grade.1': '조사 기록', 'dex.grade.2': '완성 기록', 'dex.grade_aria': '기록 등급: {label}',
+    'dex.legend': '카드의 광택(◆)은 <b>기록이 얼마나 채워졌는지</b>를 나타냅니다. 알레르기가 심하다거나 좋다는 뜻이 아닙니다. 판정은 카드 아래 <b>도장</b>으로 확인하세요.',
+    'dex.flip_back': '↺ 앞면 보기', 'dex.rationale': '판정 근거',
+    'dex.pending_back': '아직 단서를 모으는 중입니다. 진범 감별 퀘스트를 마치면 판정 근거와 관리 수칙이 이 면에 채워집니다.',
+    'dex.progress': '등록 {n}장 · 판정 완료 {r}장',
+    'dex.overlay_title': '내 알러젠 도감', 'dex.close': '닫기', 'dex.back_to_binder': '← 도감으로',
+    'dex.binder_hint': '카드를 누르면 크게 볼 수 있습니다.', 'dex.prev': '이전 카드', 'dex.next': '다음 카드',
+    // ---- 알러젠 자동완성 · 결과 이메일 받기 ----
+    's1.ac_hint': '알러젠 이름(영문·한글)을 입력하면 등록된 알러젠을 제안합니다. 목록에 없는 이름은 입력한 그대로 쓰입니다.',
+    'ac.aria': '등록된 알러젠 제안', 'ac.count': '제안 {n}개. 위아래 화살표로 고르고 Enter 로 선택하세요.',
+    'mail.jump': '✉️ 이메일로 받기', 'mail.title': '✉️ 결과를 이메일로 받기',
+    'mail.desc': '맞춤 리포트·카드뉴스·HL7 FHIR 를 첨부 파일로 보내드립니다.',
+    'mail.include': '보낼 자료', 'mail.kind.report': '맞춤 리포트', 'mail.kind.cardnews': '카드뉴스', 'mail.kind.fhir': 'HL7 FHIR',
+    'mail.label': '받을 이메일 주소', 'mail.send': '이메일로 보내기', 'mail.sending': '보내는 중…',
+    'mail.note': '결과는 서버에 저장되며, 메일은 여기에 직접 입력한 주소로만 보냅니다. 건강정보가 담겨 있으니 본인 주소를 입력하세요.',
+    'mail.sent': '<b>{to}</b> 주소로 보냈습니다.', 'mail.sent_files': '첨부 파일',
+    'mail.sent_lang': '요청한 {asked} 자료가 아직 준비되지 않아 {lang} 자료를 대신 보냈습니다.',
+    'mail.link_jump': '✉️ 이메일로 기록 연결', 'mail.link_title': '✉️ 이메일로 기록 연결',
+    'mail.link_desc': '이메일을 남기면 기록이 계정에 연결됩니다. 지금은 메일 발송이 꺼져 있어 자료를 보내지는 않습니다.',
+    'mail.link_send': '기록 연결', 'mail.linking': '연결하는 중…',
+    'mail.link_note': '결과는 서버에 저장되며, 입력한 주소는 이 기록을 계정에 연결하는 데에만 씁니다.',
+    'mail.linked': '이번 기록을 <b>{to}</b> 계정에 연결했습니다.',
+    'mail.err.invalid_email': '이메일 주소 형식이 올바르지 않습니다. 다시 확인해 주세요.',
+    'mail.err.nothing_to_send': '보낼 자료를 하나 이상 골라 주세요.',
+    'mail.err.rate_limited': '메일을 너무 자주 요청했습니다. 잠시 후 다시 시도해 주세요.',
+    'mail.err.not_ready': '보낼 결과가 아직 준비되지 않았습니다. 잠시 후 다시 시도해 주세요.',
+    'mail.err.send_failed': '메일을 보내지 못했습니다. 잠시 후 다시 시도해 주세요.',
+    'mail.err.email_not_configured': '지금은 메일 발송을 사용할 수 없습니다. 아래 탭에서 자료를 직접 저장해 주세요.',
+    'mail.err.storage_disabled': '결과 저장 기능이 꺼져 있어 메일로 보낼 수 없습니다. 아래 탭에서 자료를 직접 저장해 주세요.',
+    'mail.err.session_not_found': '저장된 결과를 찾을 수 없습니다. ‘문진 수정’으로 돌아가 판정을 다시 받은 뒤 시도해 주세요.',
+    'mail.err.network': '서버에 연결하지 못했습니다. 인터넷 연결을 확인하고 다시 시도해 주세요.',
+    'mail.err.unknown': '요청을 처리하지 못했습니다. 잠시 후 다시 시도해 주세요.',
+    // ---- 라텍스·약물·검사 대조(알러젠 종류) · 상담 답변의 번역 상태 ----
+    'cat.latex': '라텍스', 'cat.drug': '약물', 'cat.control': '검사 대조',
+    'verdict.control.stamp': '검사 대조', 'verdict.control.note': '알러젠이 아닌 검사 확인용 항목',
+    'dex.control_back': '양성·음성 대조는 검사가 제대로 이루어졌는지 확인하는 기준선입니다. 알러젠이 아니므로 판정하거나 피해야 할 대상이 아닙니다.',
+    's1.control_note': '🧪 검사 대조 항목 — 알러젠이 아니므로 양성 수에 세지 않습니다.',
+    's1.unknown_note': '목록에 없는 이름 — 그대로 진행할 수 있어요',
+    's4.dl_pdf_file': '📄 PDF 받기', 's4.print': '🖨️ 인쇄', 's4.pdf_making': 'PDF 만드는 중…',
+    'pdf.err.not_ready': '{target} 리포트를 아직 만드는 중이라 PDF 를 받을 수 없습니다. 잠시 후 다시 시도해 주세요.',
+    'pdf.err.lang_unavailable': '{target} 리포트가 준비되지 않아 PDF 를 받을 수 없습니다. 다른 언어의 PDF 는 화면 언어를 그 언어로 바꾸면 받을 수 있습니다.',
+    'pdf.err.pdf_unavailable': '이 서버에서는 PDF 를 만들 수 없습니다. ‘인쇄’ 버튼으로 PDF 로 저장해 주세요.',
+    'pdf.err.session_not_found': '저장된 결과를 찾을 수 없어 PDF 를 받을 수 없습니다. ‘인쇄’ 버튼으로 PDF 로 저장할 수 있습니다.',
+    'pdf.err.network': '서버에 연결하지 못했습니다. 인터넷 연결을 확인하고 다시 시도해 주세요.',
+    'pdf.err.unknown': 'PDF 를 받지 못했습니다. 잠시 후 다시 시도해 주세요.',
+    'mail.desc_pdf': '맞춤 리포트(PDF와 HTML)·카드뉴스·HL7 FHIR 를 첨부 파일로 보내드립니다.', 'mail.kind.report_pdf': '맞춤 리포트 (PDF + HTML)',
+    'chat.tr_notice': '추천 질문과 준비된 답변 가운데 일부는 {target}(으)로 번역되지 않아 한국어로 보일 수 있습니다.',
+    'chat.tr_partial': '이 답변의 일부는 {target}(으)로 번역되지 않아 {shown}로 남아 있습니다.',
+    'chat.tr_none': '이 답변은 {target}(으)로 번역되지 않아 {shown} 원문으로 보입니다.',
   };
 
   const en = {
@@ -234,6 +350,9 @@
     'app.lang': 'Language',
     'app.disclaimer': 'This service is educational reference material and does not replace medical diagnosis or treatment. Consult your physician for decisions.',
     'notice.partial': 'Questionnaire items, the report and card news are machine-translated from the Korean original. Confirm clinical decisions with your physician.',
+    'notice.mixed': 'Some questionnaire items could not be translated into {target} and remain in Korean. The rest is machine-translated from the Korean original. Confirm clinical decisions with your physician.',
+    'notice.untranslated': 'Translation into {target} is not available right now, so the items below are shown in {shown}. Confirm clinical decisions with your physician.',
+    'notice.unavailable': 'Machine translation is currently unavailable. Questionnaire items, the report and card news may be shown in the Korean original.',
     'common.back': '← Back',
     'common.patient': 'Explorer',
     'common.loading': 'Loading…',
@@ -275,6 +394,8 @@
     'eng.label': 'AI engine', 'eng.chat': 'chat', 'eng.ollama': 'Lab server',
     'eng.insecure': 'The lab server connection is not encrypted (http). Do not send real patient sheets until it is',
     'eng.switched': 'AI engine switched to {name}',
+    'eng.unavailable': 'unavailable',
+    'eng.none': 'No AI engine is available right now. Photo reading, free-text questions and translation are off; the demo and manual entry still work',
     'rv.title': '🔎 Please check against the original',
     'rv.remaining': '{n} row(s) left to check. Compare each highlighted row with the original sheet, then correct it or press [OK].',
     'rv.confirm': 'I compared the values and patient details with the original sheet',
@@ -323,12 +444,32 @@
     's2.test_date': 'Test date',
     's2.residence': 'Where you live',
     's2.residence_hint': 'Pollen seasons differ by region (optional)',
+    'country.KR': 'South Korea', 'country.US': 'United States',
+    'region.ALL': 'Nationwide', 'region.NORTHEAST': 'Northeast & Mid-Atlantic', 'region.SOUTHEAST': 'Southeast', 'region.MIDWEST': 'Midwest',
+    'region.SOUTH_CENTRAL': 'South Central (Texas, Oklahoma)', 'region.MOUNTAIN': 'Mountain', 'region.SOUTHWEST': 'Southwest (desert)',
+    'region.PACIFIC_NORTHWEST': 'Pacific Northwest', 'region.CALIFORNIA': 'California', 'region.ALASKA': 'Alaska', 'region.HAWAII': 'Hawaii',
+    'lang.preparing': 'Preparing your results in <b>{target}</b>. They will switch automatically when ready; until then the results below are shown in <b>{shown}</b>.',
+    'lang.failed': 'Your results could not be prepared in <b>{target}</b>. The report, card news and dex below are shown in <b>{shown}</b>.',
+    'lang.retry': 'Try again', 'lang.switched': 'Results switched to {target}.',
+    'lang.partial': 'Some parts of your results could not be translated into <b>{target}</b>. Parts of the report, card news and dex below remain in <b>{shown}</b>.',
+    'lang.retry_fail': 'Your results could not be prepared in {target} again. Please try again in a moment.',
+    'lang.q_fail': 'Could not load the questions in the new language. They are shown in the previous language.',
+    'err.rate_limited': 'Too many requests. Please try again in {s} seconds. What you entered is still here.',
+    'err.rate_limited_soon': 'Too many requests. Please try again in a moment. What you entered is still here.',
+    'err.file_too_large': 'The file is too large. Crop the photo or lower its resolution and upload a smaller image.',
+    'err.unsupported_file': 'Only image files (JPEG, PNG, WEBP, GIF, BMP, TIFF) can be uploaded. For a PDF, upload a photo or screenshot instead.',
+    'err.chat_full': 'The saved chat history for these results is full. You can keep asking, but further messages will not be saved.',
+    'err.retry': 'Try again',
+    'chat.too_long': 'Your question is too long. You can send up to {n} characters (currently {len}). Please shorten it and send again.',
+    'mail.err.rate_limited_wait': 'Too many email requests. Please try again in {s} seconds. The address you entered is still here.',
+    'mail.err.recipient_mismatch': 'These results are already linked to a different email address and can only be sent there. Enter the address you linked first. To use another address, create new results with ‘{restart}’, or save the materials from the tabs below.',
+    'mail.err.email_already_bound': 'These results are already linked to a different email address, which cannot be changed. Enter the address you linked first. To link another address, create new results with ‘{restart}’.',
     's2.country': 'Country', 's2.region': 'Region', 's2.region_none': 'Not specified',
     's2.zip': 'ZIP code', 's2.zip_ph': 'e.g. 78701',
     's2.zip_hint': 'Enter a ZIP and we set the region for you',
     's2.zip_ok': 'Set to {region}', 's2.zip_bad': 'ZIP code not found',
     's2.diseases': 'Diagnosed or current allergic conditions', 's2.meds': 'Medications taken recently',
-    's2.organs': 'Where do allergy symptoms appear?', 's2.pets': 'Do you keep or often contact pets?',
+    's2.organs': 'Where do allergy symptoms appear?', 's2.pets': 'Animals living in your home',
     's2.multi': '(multiple choice)',
     's2.cat': '🐱 Cat', 's2.dog': '🐶 Dog', 's2.other': 'Other', 's2.none': 'No pets',
     's2.pets_other_ph': 'Other animals (e.g. hamster, rabbit, bird)',
@@ -336,7 +477,7 @@
     's2.preparing': 'Preparing the questionnaire…', 's2.q_fail': 'Questionnaire failed: ',
     's2.btn_next': 'To the culprit quest →',
     'scat.mite': 'House dust mite', 'scat.pollen': 'Pollen', 'scat.animal': 'Animal', 'scat.mold': 'Mold',
-    'scat.insect': 'Insect (cockroach)', 'scat.shellfish': 'Shellfish', 'scat.food': 'Food', 'scat.other': 'Other',
+    'scat.insect': 'Insect (cockroach)', 'scat.venom': 'Bee/wasp venom', 'scat.shellfish': 'Shellfish', 'scat.food': 'Food', 'scat.other': 'Other',
     'shint.pollen': '🌳 Pollen positive — the key is whether symptoms worsen in a <b>specific season</b>; checked per season next.',
     'shint.mite': '🛏️ Dust mite positive — symptoms with <b>year-round, morning or dust exposure</b>, plus <b>shrimp/crab cross-reactivity</b>, are checked next.',
     'shint.animal': '🐾 Animal positive — whether symptoms occur <b>on contact</b> matters most.',
@@ -344,6 +485,7 @@
     'shint.food': '🍽️ Food positive — <b>which symptoms</b> (mouth/throat, skin, gut, breathing, systemic) occur when eaten.',
     'shint.mold': '🍄 Mold positive — checked for worsening in <b>damp environments</b>.',
     'shint.insect': '🪳 Cockroach positive — checked against the indoor environment.',
+    'shint.venom': '🐝 Venom positive — we ask how you reacted to stings (not tied to season or indoor environment).',
 
     's3.eyebrow': 'QUEST 4 · Find the culprit',
     's3.h1': 'Pick the true culprits among the traces',
@@ -383,6 +525,7 @@
     'verdict.clinically_relevant.stamp': 'CONFIRMED', 'verdict.clinically_relevant.note': 'Symptoms recur on exposure',
     'verdict.sensitized_only.stamp': 'CLEARED · sensitized', 'verdict.sensitized_only.note': 'Sensitization remains; keep monitoring',
     'verdict.indeterminate.stamp': 'UNDER WATCH', 'verdict.indeterminate.note': 'Record symptoms on exposure to confirm',
+    'verdict.clinician_review.stamp': 'CHECK WITH CLINICIAN', 'verdict.clinician_review.note': 'Drug — your clinician decides whether to avoid it or use it again', 'c.rel.clinician_review': 'Check with clinician',
     'verdict.not_assessed.stamp': 'UNKNOWN', 'verdict.not_assessed.note': '',
 
     'badge.finisher.name': 'Finisher', 'badge.finisher.desc': 'Completed all five steps',
@@ -393,7 +536,7 @@
     'badge.dex.name': 'Dex Complete', 'badge.dex.desc': 'Every positive allergen received a verdict',
 
     'cat.mite': 'House dust mite', 'cat.animal': 'Animal', 'cat.pollen_tree': 'Tree pollen', 'cat.pollen_grass': 'Grass pollen',
-    'cat.pollen_weed': 'Weed pollen', 'cat.mold': 'Mold', 'cat.insect': 'Insect', 'cat.food': 'Food', 'cat.other': 'Other',
+    'cat.pollen_weed': 'Weed pollen', 'cat.mold': 'Mold', 'cat.insect': 'Insect', 'cat.venom': 'Bee/wasp venom', 'cat.food': 'Food', 'cat.other': 'Other',
     'c.title': 'Allergy Report', 'c.tagline': 'Test results made simple · sensitization vs true allergy',
     'c.doc_title': 'Allergy Test Report (Classic UI)', 'c.quest': '🧭 Quest UI',
     'c.quest_title': 'Switch to the gamified Allergen Exploration Quest UI (same data, same API)',
@@ -430,6 +573,95 @@
     'chat.src_mapping': 'Terminology mapping review: {s} (separate from clinical claims)',
     'chat.nokey': 'Free-text questions need a server API key. Suggested questions work without one.',
     'chat.reset': 'Clear chat',
+    // ---- stages & briefing ----
+    'stage.aria': 'Stages of the {quest} quest', 'stage.done': 'done',
+    'dexchip.label': 'My dex {n}', 'dexchip.aria': 'Open my dex — {n} card(s) registered',
+    's0.st.brief': 'Briefing', 's0.st.upload': 'Bring your results',
+    's0.brief.h1': 'An expedition to find the real cause among the traces on your test sheet',
+    's0.brief.p': 'A positive test does not always mean an allergy. Only what actually causes your symptoms is the <b>true culprit</b>. Three steps will sort it out.',
+    's0.brief.b1.t': 'Collect traces', 's0.brief.b1.d': 'Each positive item on your sheet is registered as one <b>dex card</b>.',
+    's0.brief.b2.t': 'Sort them with clues', 's0.brief.b2.d': 'Answer one question at a time about when and where symptoms appear, and traces get linked to symptoms.',
+    's0.brief.b3.t': 'Get the verdict stamps', 's0.brief.b3.d': 'Every card is stamped <b>Culprit confirmed</b> · <b>Cleared · sensitized only</b> · <b>Under watch</b>.',
+    's0.brief.get': 'What you get at the end',
+    's0.brief.get1': 'Allergen dex', 's0.brief.get2': 'Personal report', 's0.brief.get3': 'Card news',
+    's0.brief.get_note': 'You can show them as they are at your appointment. Points (XP) only track how far you have gone — never what you answered or how the results turn out.',
+    's0.brief.start': 'Start the expedition →',
+    's1.st.check': 'Check traces', 's1.st.register': 'Register cards',
+    's2.next': 'Next →',
+    's2.st.id.label': 'Notebook', 's2.st.id.h': 'Whose expedition is this?', 's2.st.id.p': 'Basic details that go on the report and card news.',
+    's2.st.place.label': 'Region', 's2.st.place.h': 'Where do you live?', 's2.st.place.p': 'Pollen seasons differ by region. You can skip this.',
+    's2.st.disease.label': 'Conditions', 's2.st.disease.h': 'Do you have any diagnosed or ongoing allergic conditions?', 's2.st.disease.p': 'Choose all that apply. Later questions and the report adapt to this.',
+    's2.st.meds.label': 'Medication', 's2.st.meds.h': 'Are you taking any medication recently?', 's2.st.meds.p': 'Medication affects how test results and symptoms are read.',
+    's2.st.organs.label': 'Symptom sites', 's2.st.organs.h': 'Where do your symptoms mainly appear?', 's2.st.organs.p': 'Whether symptoms at these sites move together with allergen exposure is the key clue for the verdict.',
+    's2.st.pets.label': 'Animals', 's2.st.pets.h': 'Do any animals live in your home?', 's2.st.pets.p': 'Choose only the animals you live with. For animals that tested positive, the next step asks separately how often you are in contact.',
+    's3.clue_n': 'Clue {i} / {n}',
+    's3.next_clue': 'Next clue →', 's3.skip': 'Skip →', 's3.to_summary': 'Review clues →',
+    's3.tip': 'Answer only what you know. “Not sure” is a valuable clue too.',
+    's3.new_clues': '🔎 This answer opened {n} new clue(s)',
+    's3.chapter_done': 'Chapter complete — {title}',
+    's3.chapters_aria': 'Chapters',
+    's3.sum.label': 'Clue review', 's3.sum.h1': 'Check the clues you collected',
+    's3.sum.p': 'Tap an item to change an answer. When you are done, each card gets its verdict stamp.',
+    's3.sum.unanswered': 'Unanswered', 's3.sum.edit': 'Edit', 's3.sum.count': 'answered {a} / {v}',
+    's3.sum.missing': '<b>{n}</b> clue(s) are still unanswered. You can continue, but the more you answer, the more accurate the verdict.',
+    's3.sum.all': 'You answered every clue.',
+    's4.got': 'What the expedition earned you', 's4.got_dex': '{n} dex card(s)', 's4.got_report': 'Personal report', 's4.got_cardnews': 'Card news',
+    // ---- dex cards ----
+    'verdict.pending.stamp': 'Awaiting verdict', 'verdict.pending.note': 'collecting clues',
+    'dex.view_aria': 'Dex view', 'dex.view_cards': 'Cards', 'dex.view_binder': 'Binder',
+    'dex.sort': 'Sort', 'dex.sort.verdict': 'By verdict', 'dex.sort.strength': 'By sensitization', 'dex.sort.name': 'By name', 'dex.sort.category': 'By type',
+    'dex.cat_all': 'All types',
+    'dex.stat_level': 'Sensitization', 'dex.stat_value': 'Test value', 'dex.stat_season': 'Season', 'dex.stat_cross': 'Foods with symptoms',
+    'dex.none': 'none', 'dex.level_class': 'class {n}', 'dex.pips_aria': 'Sensitization {n} / {max}', 'dex.no': 'No.{n}',
+    'dex.grade.0': 'Basic record', 'dex.grade.1': 'Investigated record', 'dex.grade.2': 'Complete record', 'dex.grade_aria': 'Record grade: {label}',
+    'dex.legend': 'A card’s shine (◆) shows <b>how complete its record is</b>. It does not mean the allergy is severe or good. Read the verdict from the <b>stamp</b> at the bottom of the card.',
+    'dex.flip_back': '↺ Front', 'dex.rationale': 'Why this verdict',
+    'dex.pending_back': 'Clues are still being collected. Once you finish the culprit quest, the reasoning and care tips appear on this side.',
+    'dex.progress': '{n} registered · {r} with a verdict',
+    'dex.overlay_title': 'My allergen dex', 'dex.close': 'Close', 'dex.back_to_binder': '← Back to dex',
+    'dex.binder_hint': 'Tap a card to see it larger.', 'dex.prev': 'Previous card', 'dex.next': 'Next card',
+    // ---- allergen autocomplete · email results ----
+    's1.ac_hint': 'Type an allergen name (English or Korean) to see registered allergens. A name that is not on the list is kept exactly as typed.',
+    'ac.aria': 'Registered allergen suggestions', 'ac.count': '{n} suggestions. Use the up and down arrows to choose, Enter to select.',
+    'mail.jump': '✉️ Get by email', 'mail.title': '✉️ Get your results by email',
+    'mail.desc': 'We send the personal report, card news and HL7 FHIR as attachments.',
+    'mail.include': 'What to send', 'mail.kind.report': 'Personal report', 'mail.kind.cardnews': 'Card news', 'mail.kind.fhir': 'HL7 FHIR',
+    'mail.label': 'Your email address', 'mail.send': 'Send email', 'mail.sending': 'Sending…',
+    'mail.note': 'Your results are stored on the server, and the email goes only to the address you enter here. It contains health information, so use your own address.',
+    'mail.sent': 'Sent to <b>{to}</b>.', 'mail.sent_files': 'Attachments',
+    'mail.sent_lang': 'The {asked} materials you asked for were not ready yet, so we sent the {lang} version instead.',
+    'mail.link_jump': '✉️ Link record to email', 'mail.link_title': '✉️ Link this record to your email',
+    'mail.link_desc': 'Leave your email and this record is linked to your account. Email delivery is turned off right now, so nothing will be sent.',
+    'mail.link_send': 'Link record', 'mail.linking': 'Linking…',
+    'mail.link_note': 'Your results are stored on the server, and the address you enter is used only to link this record to your account.',
+    'mail.linked': 'This record is now linked to <b>{to}</b>.',
+    'mail.err.invalid_email': 'That email address does not look right. Please check it.',
+    'mail.err.nothing_to_send': 'Choose at least one item to send.',
+    'mail.err.rate_limited': 'Too many email requests. Please try again later.',
+    'mail.err.not_ready': 'The results are not ready to send yet. Please try again in a moment.',
+    'mail.err.send_failed': 'We could not send the email. Please try again in a moment.',
+    'mail.err.email_not_configured': 'Email delivery is not available right now. Please save the materials from the tabs below.',
+    'mail.err.storage_disabled': 'Result storage is turned off, so we cannot email them. Please save the materials from the tabs below.',
+    'mail.err.session_not_found': 'We could not find the saved results. Go back with ‘Edit answers’, get the verdict again, then retry.',
+    'mail.err.network': 'Could not reach the server. Check your connection and try again.',
+    'mail.err.unknown': 'We could not complete the request. Please try again in a moment.',
+    // ---- latex · drug · test control (allergen kinds) · translation state of chat answers ----
+    'cat.latex': 'Latex', 'cat.drug': 'Drug', 'cat.control': 'Test control',
+    'verdict.control.stamp': 'Test control', 'verdict.control.note': 'a test check line, not an allergen',
+    'dex.control_back': 'Positive and negative controls are reference lines that show the test itself worked. They are not allergens, so there is nothing to judge or avoid.',
+    's1.control_note': '🧪 Test control line — not an allergen, so it is not counted as a positive.',
+    's1.unknown_note': 'Not on our list — you can continue with this name as it is',
+    's4.dl_pdf_file': '📄 Download PDF', 's4.print': '🖨️ Print', 's4.pdf_making': 'Preparing PDF…',
+    'pdf.err.not_ready': 'The {target} report is still being prepared, so its PDF cannot be downloaded yet. Please try again in a moment.',
+    'pdf.err.lang_unavailable': 'The {target} report is not available, so its PDF cannot be downloaded. To get the PDF in another language, switch the screen to that language.',
+    'pdf.err.pdf_unavailable': 'This server cannot create PDFs. Use the ‘Print’ button and save as PDF instead.',
+    'pdf.err.session_not_found': 'We could not find the saved results, so the PDF cannot be downloaded. You can still use the ‘Print’ button and save as PDF.',
+    'pdf.err.network': 'Could not reach the server. Check your connection and try again.',
+    'pdf.err.unknown': 'The PDF could not be downloaded. Please try again in a moment.',
+    'mail.desc_pdf': 'We send the personal report (as PDF and HTML), card news and HL7 FHIR as attachments.', 'mail.kind.report_pdf': 'Personal report (PDF + HTML)',
+    'chat.tr_notice': 'Some suggested questions and prepared answers could not be translated into {target} and may appear in Korean.',
+    'chat.tr_partial': 'Part of this answer could not be translated into {target} and remains in {shown}.',
+    'chat.tr_none': 'This answer could not be translated into {target}; it is shown in the {shown} original.',
   };
 
   const zh = {
@@ -442,6 +674,9 @@
     'app.lang': '语言',
     'app.disclaimer': '本服务为教育参考资料，不能替代医学诊断与治疗。请与主治医生商议后做出判断。',
     'notice.partial': '问卷题目、报告与卡片新闻正文由韩文原文机器翻译而成。临床判断请与主治医生确认。',
+    'notice.mixed': '部分问卷题目未能翻译成{target}，仍以韩文显示；其余部分由韩文原文机器翻译而成。临床判断请与主治医生确认。',
+    'notice.untranslated': '目前无法提供{target}翻译，以下内容以{shown}显示。临床判断请与主治医生确认。',
+    'notice.unavailable': '目前无法使用机器翻译，问卷题目、报告与卡片新闻正文可能以韩文原文显示。',
     'common.back': '← 上一步',
     'common.patient': '探险者',
     'common.loading': '加载中…',
@@ -483,6 +718,8 @@
     'eng.label': 'AI 引擎', 'eng.chat': '咨询', 'eng.ollama': '实验室服务器',
     'eng.insecure': '实验室服务器连接目前未加密(http)。加密前请勿发送真实患者报告',
     'eng.switched': 'AI 引擎已切换为 {name}',
+    'eng.unavailable': '不可用',
+    'eng.none': '目前没有可用的 AI 引擎。无法使用照片识别、自由提问和翻译；演示和手动输入仍可使用',
     'rv.title': '🔎 请与原始报告核对',
     'rv.remaining': '还有 {n} 行需要确认。请将标记的行与原始报告对照，修改或点击[确认]。',
     'rv.confirm': '我已将数值和患者信息与原始报告核对',
@@ -531,12 +768,32 @@
     's2.test_date': '检测日期',
     's2.residence': '居住地区',
     's2.residence_hint': '花粉季节因地区而异（选填）',
+    'country.KR': '韩国', 'country.US': '美国',
+    'region.ALL': '全国', 'region.NORTHEAST': '东北部与大西洋中部', 'region.SOUTHEAST': '东南部', 'region.MIDWEST': '中西部',
+    'region.SOUTH_CENTRAL': '中南部（得克萨斯、俄克拉何马）', 'region.MOUNTAIN': '山区', 'region.SOUTHWEST': '西南部（沙漠地带）',
+    'region.PACIFIC_NORTHWEST': '太平洋西北地区', 'region.CALIFORNIA': '加利福尼亚', 'region.ALASKA': '阿拉斯加', 'region.HAWAII': '夏威夷',
+    'lang.preparing': '正在准备<b>{target}</b>版结果，准备好后会自动切换；在此之前，下方结果以<b>{shown}</b>显示。',
+    'lang.failed': '未能准备<b>{target}</b>版结果。下方的报告、卡片新闻和图鉴以<b>{shown}</b>显示。',
+    'lang.retry': '重试', 'lang.switched': '结果已切换为{target}。',
+    'lang.partial': '结果中有一部分未能翻译成<b>{target}</b>。下方的报告、卡片新闻和图鉴中有部分内容仍以<b>{shown}</b>显示。',
+    'lang.retry_fail': '未能重新生成{target}版结果，请稍后重试。',
+    'lang.q_fail': '未能以新语言加载问卷题目，题目仍以之前的语言显示。',
+    'err.rate_limited': '请求过于频繁，请在 {s} 秒后重试。您输入的内容仍然保留。',
+    'err.rate_limited_soon': '请求过于频繁，请稍后重试。您输入的内容仍然保留。',
+    'err.file_too_large': '文件过大。请裁剪照片或降低分辨率后，上传更小的图片。',
+    'err.unsupported_file': '只能上传图片文件（JPEG、PNG、WEBP、GIF、BMP、TIFF）。PDF 请改为照片或截图后上传。',
+    'err.chat_full': '此结果可保存的咨询记录已满。您可以继续提问，但之后的对话不会被保存。',
+    'err.retry': '重试',
+    'chat.too_long': '问题过长。最多可发送 {n} 个字符（当前 {len} 个）。请缩短后重新发送。',
+    'mail.err.rate_limited_wait': '邮件请求过于频繁，请在 {s} 秒后重试。您输入的地址仍然保留。',
+    'mail.err.recipient_mismatch': '此结果已关联到另一个邮箱地址，只能发送到该地址。请输入最初关联的地址。如需发送到其他地址，请点击“{restart}”重新生成结果，或在下方标签页中直接保存资料。',
+    'mail.err.email_already_bound': '此结果已关联到另一个邮箱地址，无法更改。请输入最初关联的地址。如需关联其他地址，请点击“{restart}”重新生成结果。',
     's2.country': '国家', 's2.region': '地区', 's2.region_none': '不指定',
     's2.zip': '邮政编码', 's2.zip_ph': '例：78701',
     's2.zip_hint': '输入邮编即可自动确定地区',
     's2.zip_ok': '已设置为{region}', 's2.zip_bad': '找不到该邮政编码',
     's2.diseases': '已确诊或正患有的过敏性疾病', 's2.meds': '近期服用的药物',
-    's2.organs': '过敏症状出现的部位', 's2.pets': '是否饲养或经常接触宠物？',
+    's2.organs': '过敏症状出现的部位', 's2.pets': '家中同住的动物',
     's2.multi': '（可多选）',
     's2.cat': '🐱 猫', 's2.dog': '🐶 狗', 's2.other': '其他', 's2.none': '未饲养',
     's2.pets_other_ph': '请输入其他动物（例：仓鼠、兔子、鸟）',
@@ -544,7 +801,7 @@
     's2.preparing': '正在准备问卷…', 's2.q_fail': '问卷生成失败：',
     's2.btn_next': '前往元凶鉴别任务 →',
     'scat.mite': '屋尘螨', 'scat.pollen': '花粉', 'scat.animal': '动物', 'scat.mold': '霉菌',
-    'scat.insect': '昆虫（蟑螂）', 'scat.shellfish': '甲壳类', 'scat.food': '食物', 'scat.other': '其他',
+    'scat.insect': '昆虫（蟑螂）', 'scat.venom': '蜂毒', 'scat.shellfish': '甲壳类', 'scat.food': '食物', 'scat.other': '其他',
     'shint.pollen': '🌳 花粉阳性 — 关键在于症状是否在<b>特定季节</b>加重，下一步按季节确认。',
     'shint.mite': '🛏️ 屋尘螨阳性 — 下一步确认<b>全年·晨起·接触灰尘</b>时的症状，以及<b>虾蟹交叉反应</b>。',
     'shint.animal': '🐾 动物阳性 — 重点是<b>接触时是否出现症状</b>。',
@@ -552,6 +809,7 @@
     'shint.food': '🍽️ 食物阳性 — 确认食用时出现<b>哪些症状</b>（口咽/皮肤/消化道/呼吸/全身）。',
     'shint.mold': '🍄 霉菌阳性 — 确认在<b>潮湿环境</b>中是否加重。',
     'shint.insect': '🪳 蟑螂阳性 — 确认与室内环境的关联。',
+    'shint.venom': '🐝 蜂毒阳性 — 确认被蜇后的反应（与季节、室内环境无关）。',
 
     's3.eyebrow': '任务 4 · 锁定元凶',
     's3.h1': '从线索中找出真正的元凶',
@@ -591,6 +849,7 @@
     'verdict.clinically_relevant.stamp': '元凶确认', 'verdict.clinically_relevant.note': '暴露时症状会再现的过敏原',
     'verdict.sensitized_only.stamp': '排除 · 仅致敏', 'verdict.sensitized_only.note': '致敏仍存在，需继续追踪',
     'verdict.indeterminate.stamp': '观察对象', 'verdict.indeterminate.note': '暴露时记录症状以便确认',
+    'verdict.clinician_review.stamp': '需就诊确认', 'verdict.clinician_review.note': '药物 — 是否避免或能否再次使用由医生决定', 'c.rel.clinician_review': '需就诊确认',
     'verdict.not_assessed.stamp': '未确认', 'verdict.not_assessed.note': '',
 
     'badge.finisher.name': '全程完成', 'badge.finisher.desc': '完成了全部五个步骤',
@@ -601,7 +860,7 @@
     'badge.dex.name': '图鉴完成', 'badge.dex.desc': '所有阳性过敏原都已获得判定',
 
     'cat.mite': '屋尘螨', 'cat.animal': '动物', 'cat.pollen_tree': '树木花粉', 'cat.pollen_grass': '草类花粉',
-    'cat.pollen_weed': '杂草花粉', 'cat.mold': '霉菌', 'cat.insect': '昆虫', 'cat.food': '食物', 'cat.other': '其他',
+    'cat.pollen_weed': '杂草花粉', 'cat.mold': '霉菌', 'cat.insect': '昆虫', 'cat.venom': '蜂毒', 'cat.food': '食物', 'cat.other': '其他',
     'c.title': '过敏报告', 'c.tagline': '轻松看懂检测结果 · 致敏 vs 真正过敏',
     'c.doc_title': '过敏检测结果报告（经典界面）', 'c.quest': '🧭 探险任务界面',
     'c.quest_title': '切换到游戏化的过敏原探险任务界面（同一数据、同一 API）',
@@ -638,6 +897,95 @@
     'chat.src_mapping': '术语映射审核：{s}（与临床主张审核分开）',
     'chat.nokey': '自由提问需要服务器 API 密钥。推荐问题无需密钥即可作答。',
     'chat.reset': '清除对话',
+    // ---- 阶段与任务简报 ----
+    'stage.aria': '{quest}任务的阶段', 'stage.done': '已完成',
+    'dexchip.label': '我的图鉴 {n}', 'dexchip.aria': '打开我的图鉴 — 已登记 {n} 张卡片',
+    's0.st.brief': '任务简报', 's0.st.upload': '带来检查单',
+    's0.brief.h1': '从检查单上的线索中找出真正原因的探险',
+    's0.brief.p': '检查呈阳性并不都意味着过敏。只有真正引起症状的才是<b>元凶</b>。三步就能分辨。',
+    's0.brief.b1.t': '收集线索', 's0.brief.b1.d': '检查单上的每一个阳性项目都会登记为一张<b>图鉴卡片</b>。',
+    's0.brief.b2.t': '用证据甄别', 's0.brief.b2.d': '每次只回答一个问题：症状在何时何地出现，线索就会与症状连接起来。',
+    's0.brief.b3.t': '盖上判定印章', 's0.brief.b3.d': '每张卡片都会盖上<b>元凶确认</b> · <b>排除·仅致敏</b> · <b>待观察</b>印章。',
+    's0.brief.get': '探险结束后您将获得',
+    's0.brief.get1': '过敏原图鉴', 's0.brief.get2': '个性化报告', 's0.brief.get3': '卡片新闻',
+    's0.brief.get_note': '就诊时可以直接出示。积分（XP）只反映进度，与您回答了什么、结果好坏无关。',
+    's0.brief.start': '开始探险 →',
+    's1.st.check': '核对线索', 's1.st.register': '登记图鉴',
+    's2.next': '下一步 →',
+    's2.st.id.label': '探险手册', 's2.st.id.h': '请填写这是谁的探险', 's2.st.id.p': '将写入报告和卡片新闻的基本信息。',
+    's2.st.place.label': '探险地区', 's2.st.place.h': '您住在哪里？', 's2.st.place.p': '花粉飘散的时期因地区而异。可以不选直接跳过。',
+    's2.st.disease.label': '所患疾病', 's2.st.disease.h': '是否有已确诊或正在患的过敏性疾病？', 's2.st.disease.p': '请选择所有符合的项目。之后的问题和报告会据此调整。',
+    's2.st.meds.label': '用药', 's2.st.meds.h': '最近是否在用药？', 's2.st.meds.p': '药物会影响检查结果和症状的解读方式。',
+    's2.st.organs.label': '症状部位', 's2.st.organs.h': '症状主要出现在哪里？', 's2.st.organs.p': '这些部位的症状是否随过敏原暴露而变化，是判定的关键证据。',
+    's2.st.pets.label': '同住的动物', 's2.st.pets.h': '家中是否有同住的动物？', 's2.st.pets.p': '请只选择与您同住的动物。对于检测呈阳性的动物，下一步会另行询问接触频率。',
+    's3.clue_n': '证据 {i} / {n}',
+    's3.next_clue': '下一条证据 →', 's3.skip': '跳过 →', 's3.to_summary': '整理证据 →',
+    's3.tip': '只回答您知道的。“不太确定”也是宝贵的证据。',
+    's3.new_clues': '🔎 这个回答开启了 {n} 条新证据',
+    's3.chapter_done': '章节完成 — {title}',
+    's3.chapters_aria': '鉴别章节',
+    's3.sum.label': '证据整理', 's3.sum.h1': '请确认收集到的证据',
+    's3.sum.p': '点击项目即可修改回答。确认后，每张卡片都会盖上判定印章。',
+    's3.sum.unanswered': '未回答', 's3.sum.edit': '修改', 's3.sum.count': '已回答 {a} / {v}',
+    's3.sum.missing': '还有 <b>{n} 条</b>证据未回答。可以直接继续，但回答越多，判定越准确。',
+    's3.sum.all': '所有证据都已回答。',
+    's4.got': '探险的收获', 's4.got_dex': '图鉴卡片 {n} 张', 's4.got_report': '个性化报告', 's4.got_cardnews': '卡片新闻',
+    // ---- 图鉴卡片 ----
+    'verdict.pending.stamp': '等待判定', 'verdict.pending.note': '正在收集证据',
+    'dex.view_aria': '图鉴查看方式', 'dex.view_cards': '卡片', 'dex.view_binder': '卡册',
+    'dex.sort': '排序', 'dex.sort.verdict': '按判定', 'dex.sort.strength': '按致敏强度', 'dex.sort.name': '按名称', 'dex.sort.category': '按种类',
+    'dex.cat_all': '全部种类',
+    'dex.stat_level': '致敏强度', 'dex.stat_value': '检查数值', 'dex.stat_season': '季节', 'dex.stat_cross': '已确认症状的食物',
+    'dex.none': '无', 'dex.level_class': 'class {n}', 'dex.pips_aria': '致敏强度 {n} / {max}', 'dex.no': 'No.{n}',
+    'dex.grade.0': '基础记录', 'dex.grade.1': '调查记录', 'dex.grade.2': '完整记录', 'dex.grade_aria': '记录等级：{label}',
+    'dex.legend': '卡片的光泽（◆）表示<b>记录的完整程度</b>，并不代表过敏严重或结果好坏。判定请看卡片下方的<b>印章</b>。',
+    'dex.flip_back': '↺ 查看正面', 'dex.rationale': '判定依据',
+    'dex.pending_back': '仍在收集证据。完成元凶鉴别任务后，判定依据和管理要点会显示在这一面。',
+    'dex.progress': '已登记 {n} 张 · 已判定 {r} 张',
+    'dex.overlay_title': '我的过敏原图鉴', 'dex.close': '关闭', 'dex.back_to_binder': '← 返回图鉴',
+    'dex.binder_hint': '点击卡片可放大查看。', 'dex.prev': '上一张卡片', 'dex.next': '下一张卡片',
+    // ---- 过敏原自动补全 · 邮件接收结果 ----
+    's1.ac_hint': '输入过敏原名称（英文或韩文）即可看到已登记的过敏原建议。列表中没有的名称会按原样保留。',
+    'ac.aria': '已登记过敏原建议', 'ac.count': '{n} 条建议。用上下方向键选择，按 Enter 确认。',
+    'mail.jump': '✉️ 邮件接收', 'mail.title': '✉️ 通过邮件接收结果',
+    'mail.desc': '个性化报告、卡片新闻和 HL7 FHIR 将作为附件发送给您。',
+    'mail.include': '发送内容', 'mail.kind.report': '个性化报告', 'mail.kind.cardnews': '卡片新闻', 'mail.kind.fhir': 'HL7 FHIR',
+    'mail.label': '接收邮箱地址', 'mail.send': '发送邮件', 'mail.sending': '发送中…',
+    'mail.note': '结果会保存在服务器上，邮件只会发送到您在此处输入的地址。其中包含健康信息，请填写您本人的邮箱。',
+    'mail.sent': '已发送至 <b>{to}</b>。', 'mail.sent_files': '附件',
+    'mail.sent_lang': '您请求的{asked}版资料尚未准备好，已改为发送{lang}版本。',
+    'mail.link_jump': '✉️ 用邮箱关联记录', 'mail.link_title': '✉️ 用邮箱关联本次记录',
+    'mail.link_desc': '留下邮箱后，本次记录会关联到您的账户。目前邮件发送功能已关闭，不会发送资料。',
+    'mail.link_send': '关联记录', 'mail.linking': '关联中…',
+    'mail.link_note': '结果会保存在服务器上，您输入的地址仅用于将本次记录关联到您的账户。',
+    'mail.linked': '本次记录已关联到 <b>{to}</b>。',
+    'mail.err.invalid_email': '邮箱地址格式不正确，请检查后重试。',
+    'mail.err.nothing_to_send': '请至少选择一项要发送的内容。',
+    'mail.err.rate_limited': '邮件请求过于频繁，请稍后再试。',
+    'mail.err.not_ready': '要发送的结果尚未准备好，请稍后再试。',
+    'mail.err.send_failed': '邮件发送失败，请稍后再试。',
+    'mail.err.email_not_configured': '目前无法使用邮件发送功能。请在下方标签页中直接保存资料。',
+    'mail.err.storage_disabled': '结果保存功能已关闭，无法通过邮件发送。请在下方标签页中直接保存资料。',
+    'mail.err.session_not_found': '找不到已保存的结果。请点击“修改问卷”返回，重新获取判定后再试。',
+    'mail.err.network': '无法连接服务器。请检查网络连接后重试。',
+    'mail.err.unknown': '请求未能完成，请稍后再试。',
+    // ---- 乳胶·药物·检测对照（过敏原种类）· 咨询回答的翻译状态 ----
+    'cat.latex': '乳胶', 'cat.drug': '药物', 'cat.control': '检测对照',
+    'verdict.control.stamp': '检测对照', 'verdict.control.note': '用于确认检测的项目，不是过敏原',
+    'dex.control_back': '阳性对照和阴性对照是用来确认检测本身是否有效的基准线。它们不是过敏原，因此无需判定，也无需回避。',
+    's1.control_note': '🧪 检测对照项目 — 不是过敏原，不计入阳性数。',
+    's1.unknown_note': '列表中没有该名称 — 可以按原样继续',
+    's4.dl_pdf_file': '📄 下载 PDF', 's4.print': '🖨️ 打印', 's4.pdf_making': '正在生成 PDF…',
+    'pdf.err.not_ready': '{target}报告仍在生成中，暂时无法下载 PDF。请稍后再试。',
+    'pdf.err.lang_unavailable': '{target}报告未能准备好，无法下载 PDF。如需其他语言的 PDF，请先将界面切换为该语言。',
+    'pdf.err.pdf_unavailable': '此服务器无法生成 PDF。请使用“打印”按钮另存为 PDF。',
+    'pdf.err.session_not_found': '找不到已保存的结果，无法下载 PDF。您仍可使用“打印”按钮另存为 PDF。',
+    'pdf.err.network': '无法连接服务器。请检查网络连接后重试。',
+    'pdf.err.unknown': '未能下载 PDF，请稍后再试。',
+    'mail.desc_pdf': '个性化报告（PDF 和 HTML）、卡片新闻和 HL7 FHIR 将作为附件发送给您。', 'mail.kind.report_pdf': '个性化报告（PDF + HTML）',
+    'chat.tr_notice': '部分推荐问题和预设回答未能翻译成{target}，可能以韩文显示。',
+    'chat.tr_partial': '此回答有一部分未能翻译成{target}，仍以{shown}显示。',
+    'chat.tr_none': '此回答未能翻译成{target}，以{shown}原文显示。',
   };
 
   const DICT = { ko, en, zh };
@@ -683,6 +1031,87 @@
     return s;
   }
   function init() { current = detect(); return current; }
+  // 어느 화면에서나 같은 안내를 쓰는 서버 오류 코드의 문구. err 는 { code, retryAfter(초) }. 모르는 코드면 null.
+  function errText(err) {
+    const code = err && err.code;
+    if (code === 'rate_limited') {
+      const s = Math.ceil(Number(err.retryAfter));
+      return s > 0 ? t('err.rate_limited', { s }) : t('err.rate_limited_soon');
+    }
+    if (code === 'payload_too_large') return t('err.file_too_large');   // 요청 본문 한도에 먼저 걸린 큰 파일
+    if (code === 'file_too_large' || code === 'unsupported_file' || code === 'chat_full') return t('err.' + code);
+    return null;
+  }
 
-  return { DICT, LANGS, t, setLang, getLang, init, detect };
+  /* ---------------- 서버가 만든 내용이 화면 언어로 실제 번역됐는지 ----------------
+     'ok'(전부 번역) | 'partial'(일부가 한국어로 남음) | 'none'(번역되지 않아 한국어 원문 그대로).
+     요청한 언어(lang)가 아니라 서버가 센 번역 수와 저장 상태로 판단한다. */
+  const HANGUL = /[가-힣]/;
+  // /api/classify 응답의 translation {segments, untranslated, errors} 와 i18n[lang] 상태
+  function translationState(lang, tr, status) {
+    if (!lang || lang === 'ko') return 'ok';
+    const seg = Number(tr && tr.segments) || 0, miss = Number(tr && tr.untranslated) || 0;
+    if (miss > 0) return miss >= seg ? 'none' : 'partial';
+    if (Number(tr && tr.errors) > 0) return 'partial';
+    if (status === 'skipped') return 'none';            // 번역 엔진이 없어 건너뛰었다
+    return (status === 'failed' || status === 'partial') ? 'partial' : 'ok';
+  }
+  // 번역 수를 알려 주지 않는 응답: 화면에 보일 문장에 한글이 남았는지로 판단한다
+  function textState(lang, strings) {
+    if (!lang || lang === 'ko') return 'ok';
+    const list = (strings || []).filter(s => typeof s === 'string' && s.trim());
+    const left = list.filter(s => HANGUL.test(s)).length;
+    return !left ? 'ok' : (left >= list.length ? 'none' : 'partial');
+  }
+  // 상담 답변 하나가 화면 언어로 왔는지. 서버가 번역 수(tr)를 실어 주면 그것을 먼저 믿는다 — 전부 번역됐다면 남은 한글은
+  // 알러젠 이름 같은 고유명사다. 번역 수가 없거나 일부만 번역됐으면 그 답의 글자로 판단한다(절반 이상이 한글이면 원문 그대로).
+  function answerState(lang, text, tr) {
+    if (!lang || lang === 'ko') return 'ok';
+    const s = String(text == null ? '' : text);
+    const hangul = (s.match(/[가-힣]/g) || []).length;
+    if (!hangul) return 'ok';
+    const mostly = hangul * 2 >= (s.match(/\p{L}/gu) || []).length;
+    const server = tr ? translationState(lang, tr) : null;
+    if (server === 'ok') return mostly ? 'none' : 'ok';
+    if (server === 'none') return 'none';
+    return mostly ? 'none' : 'partial';
+  }
+  function questionnaireTexts(q) {
+    const out = [];
+    ((q && q.sections) || []).forEach(s => {
+      out.push(s.title, s.subtitle);
+      (s.questions || []).forEach(qq => {
+        out.push(qq.title, qq.help);
+        (qq.options || []).forEach(o => out.push(o.label, o.hint));
+      });
+    });
+    return out;
+  }
+  // /api/questionnaire 응답. translation 이 실려 오면 그 수를 쓰고, 없으면 문항 문장으로 판단한다
+  function questionnaireState(lang, res) {
+    if (res && res.translation) return translationState(lang, res.translation);
+    return textState(lang, questionnaireTexts(res && res.questionnaire));
+  }
+  // /api/chat 의 추천 질문 묶음. 질문마다 번역 수(suggestion.translation)가 실려 오면 그것을 합쳐 쓰고,
+  // 없으면 응답 전체의 번역 수(tr), 그것도 없으면 문장에 남은 한글로 판단한다
+  function suggestionsState(lang, suggestions, tr) {
+    const list = suggestions || [];
+    const own = list.map(sg => sg && sg.translation).filter(Boolean);
+    if (list.length && own.length === list.length) {   // 질문 단위로 본다 — 번역할 것이 없던 질문(0/0)은 번역된 것이다
+      const each = own.map(c => translationState(lang, c));
+      return each.every(x => x === 'ok') ? 'ok' : (each.every(x => x === 'none') ? 'none' : 'partial');
+    }
+    if (tr) return translationState(lang, tr);
+    return textState(lang, list.flatMap(sg => [sg && sg.text, sg && sg.answer]));
+  }
+  // 비한국어 화면의 번역 안내문 키. state 가 null 이면 아직 받은 내용이 없다(엔진 사용 가능 여부만 안다)
+  function noticeKey(lang, state, engineOk) {
+    if (!lang || lang === 'ko') return null;
+    if (state === 'none') return 'notice.untranslated';
+    if (state === 'partial') return 'notice.mixed';
+    return (state == null && !engineOk) ? 'notice.unavailable' : 'notice.partial';
+  }
+
+  return { DICT, LANGS, t, setLang, getLang, init, detect, errText,
+    translationState, textState, answerState, questionnaireTexts, questionnaireState, suggestionsState, noticeKey };
 });
