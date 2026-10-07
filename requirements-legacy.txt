@@ -1,0 +1,6 @@
+# 레거시 Streamlit 앱(app.py · utils/session_manager.py · utils/error_handler.py) 전용.
+# 웹 서비스(server.py)와 회귀 테스트는 이 패키지가 없어도 동작하므로,
+# 컨테이너 이미지에는 넣지 않는다(site-packages 418MB → 186MB).
+#   pip install -r requirements.txt -r requirements-legacy.txt
+-r requirements.txt
+streamlit

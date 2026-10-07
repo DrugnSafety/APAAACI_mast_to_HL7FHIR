@@ -61,3 +61,16 @@ output/
 # Temporary files
 *.tmp
 *.temp
+
+# local agent/skill dirs
+.agents/
+.claude/
+.gstack/
+.omc/
+
+# 저장소(SQLite) — 사용자 검사결과·상담 대화 등 건강정보. 절대 커밋하지 않는다.
+data/store/
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+*.db

@@ -1,0 +1,18 @@
+{
+ "note_ko": "실제 SNOMED CT SCTID 로 해석되지 않아 OMOP(Athena) 코딩으로 폴백하는 항원. utils/allergen_mapper.AllergenMapper.get_coding 의 실제 결과로 생성한다. 혼합 항원은 구성 종을 알 수 없어 성분 분해가 불가능하므로 더 넓지만 실재하는 SNOMED 개념(Tree pollen·Mold antigen)으로 코딩했고, 여기에는 남지 않는다.",
+ "generated_from": "utils/allergen_mapper.AllergenMapper.get_coding",
+ "count": 1,
+ "items": [
+  {
+   "id": "control",
+   "canonical_name": "Control",
+   "korean_name": "음성 대조용 생리식염수",
+   "fallback": {
+    "system": "https://athena.ohdsi.org/search-terms/terms",
+    "code": "4076975",
+    "display": "Control"
+   },
+   "reason_ko": "음성 대조(생리식염수)는 알러젠이 아니다. Sodium chloride solution(373757009) 이 존재하지만 대조 행에 물질 코드를 달면 수신 측이 검사 항원으로 오해할 수 있어 붙이지 않는다."
+  }
+ ]
+}

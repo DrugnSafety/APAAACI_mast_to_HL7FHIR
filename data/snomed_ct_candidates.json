@@ -1,0 +1,5848 @@
+{
+ "generated_by": "scripts/lookup_snomed_sctids.py",
+ "source": "tx.fhir.org $expand/$lookup · SNOMED CT International",
+ "note": "confidence: high=완전일치, medium/low=검토 필요, already-mapped=snomed_ct_map.json 에 존재",
+ "results": [
+  {
+   "id": "2_spotted_spider_mite",
+   "canonical_name": "2-spotted spider mite",
+   "korean_name": "점박이응애",
+   "category": "mite",
+   "existing": false,
+   "queries": [
+    "Tetranychus urticae",
+    "2-spotted spider mite"
+   ],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "none"
+  },
+  {
+   "id": "abalone",
+   "canonical_name": "Abalone",
+   "korean_name": "전복",
+   "category": "food",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "acacia",
+   "canonical_name": "Acacia",
+   "korean_name": "아까시나무",
+   "category": "pollen_tree",
+   "existing": false,
+   "queries": [
+    "False acacia",
+    "Robinia pseudoacacia",
+    "Acacia"
+   ],
+   "candidates": [
+    {
+     "code": "43987000",
+     "display": "Acacia",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Acacia",
+     "fsn": "Acacia",
+     "inactive": false
+    },
+    {
+     "code": "23545004",
+     "display": "Acacia",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Acacia"
+    },
+    {
+     "code": "472727005",
+     "display": "Robinia pseudoacacia pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Robinia pseudoacacia"
+    },
+    {
+     "code": "260132008",
+     "display": "Acacia pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Acacia"
+    },
+    {
+     "code": "136008",
+     "display": "Acacia erioloba",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Acacia"
+    }
+   ],
+   "chosen": {
+    "code": "43987000",
+    "display": "Acacia",
+    "hierarchy": "substance",
+    "matched_query": "Acacia"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "alder",
+   "canonical_name": "Alder",
+   "korean_name": "오리나무",
+   "category": "pollen_tree",
+   "existing": false,
+   "queries": [
+    "Alder",
+    "Alder pollen"
+   ],
+   "candidates": [
+    {
+     "code": "256261008",
+     "display": "Alder pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Alder pollen",
+     "fsn": "Alder pollen",
+     "inactive": false
+    },
+    {
+     "code": "710722000",
+     "display": "Gray alder pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Alder pollen"
+    }
+   ],
+   "chosen": {
+    "code": "256261008",
+    "display": "Alder pollen",
+    "hierarchy": "substance",
+    "matched_query": "Alder pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "almond",
+   "canonical_name": "Almond",
+   "korean_name": "아몬드",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Almond"
+   ],
+   "candidates": [
+    {
+     "code": "256350002",
+     "display": "Almond",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Almond",
+     "fsn": "Almond",
+     "inactive": false
+    },
+    {
+     "code": "227827006",
+     "display": "Almond curry",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Almond"
+    },
+    {
+     "code": "391737006",
+     "display": "Almond oil",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Almond"
+    },
+    {
+     "code": "413480003",
+     "display": "Almond product",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Almond"
+    },
+    {
+     "code": "43419004",
+     "display": "Bitter almond oil",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Almond"
+    }
+   ],
+   "chosen": {
+    "code": "256350002",
+    "display": "Almond",
+    "hierarchy": "substance",
+    "matched_query": "Almond"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "alternaria_alternata",
+   "canonical_name": "Alternaria alternata",
+   "korean_name": "얼터나리아",
+   "category": "mold",
+   "existing": false,
+   "queries": [
+    "Alternaria alternata"
+   ],
+   "candidates": [
+    {
+     "code": "36703000",
+     "display": "Alternaria alternata",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Alternaria alternata",
+     "fsn": "Alternaria alternata",
+     "inactive": false
+    },
+    {
+     "code": "711234000",
+     "display": "Alternaria alternata protein antigen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Alternaria alternata"
+    }
+   ],
+   "chosen": {
+    "code": "36703000",
+    "display": "Alternaria alternata",
+    "hierarchy": "organism",
+    "matched_query": "Alternaria alternata"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "anisakis",
+   "canonical_name": "Anisakis",
+   "korean_name": "아니사키스",
+   "category": "food",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "apple",
+   "canonical_name": "Apple",
+   "korean_name": "사과",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Apple"
+   ],
+   "candidates": [
+    {
+     "code": "735215001",
+     "display": "Apple",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Apple",
+     "fsn": "Apple",
+     "inactive": false
+    },
+    {
+     "code": "226491003",
+     "display": "Apple juice",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Apple"
+    },
+    {
+     "code": "227542003",
+     "display": "Apple chutney",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Apple"
+    },
+    {
+     "code": "229775001",
+     "display": "Apple flavor",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Apple"
+    },
+    {
+     "code": "412055004",
+     "display": "Apple pectin",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Apple"
+    }
+   ],
+   "chosen": {
+    "code": "735215001",
+    "display": "Apple",
+    "hierarchy": "substance",
+    "matched_query": "Apple"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "apricot",
+   "canonical_name": "Apricot",
+   "korean_name": "살구",
+   "category": "food",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "aspergillus_fumigatus",
+   "canonical_name": "Aspergillus fumigatus",
+   "korean_name": "아스페르길루스 푸미가투스",
+   "category": "mold",
+   "existing": false,
+   "queries": [
+    "Aspergillus fumigatus"
+   ],
+   "candidates": [
+    {
+     "code": "32684000",
+     "display": "Aspergillus fumigatus",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Aspergillus fumigatus",
+     "fsn": "Aspergillus fumigatus",
+     "inactive": false
+    },
+    {
+     "code": "115322005",
+     "display": "Aspergillus fumigatus 1 antigen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Aspergillus fumigatus"
+    },
+    {
+     "code": "115324006",
+     "display": "Aspergillus fumigatus 2 antigen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Aspergillus fumigatus"
+    },
+    {
+     "code": "115325007",
+     "display": "Aspergillus fumigatus 3 antigen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Aspergillus fumigatus"
+    },
+    {
+     "code": "121012000",
+     "display": "Aspergillus fumigatus antigen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Aspergillus fumigatus"
+    }
+   ],
+   "chosen": {
+    "code": "32684000",
+    "display": "Aspergillus fumigatus",
+    "hierarchy": "organism",
+    "matched_query": "Aspergillus fumigatus"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "aspergillus_niger",
+   "canonical_name": "Aspergillus niger",
+   "korean_name": "아스페르길루스 니거",
+   "category": "mold",
+   "existing": false,
+   "queries": [
+    "Aspergillus niger"
+   ],
+   "candidates": [
+    {
+     "code": "89354002",
+     "display": "Aspergillus niger",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Aspergillus niger",
+     "fsn": "Aspergillus niger",
+     "inactive": false
+    },
+    {
+     "code": "710367005",
+     "display": "Aspergillus niger IgG",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Aspergillus niger"
+    },
+    {
+     "code": "711236003",
+     "display": "Aspergillus niger protein antigen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Aspergillus niger"
+    },
+    {
+     "code": "243494006",
+     "display": "Aspergillus niger group",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Aspergillus niger"
+    },
+    {
+     "code": "719037004",
+     "display": "Aspergillus species, not Aspergillus fumigatus and not Aspergillus niger",
+     "score": 0.88,
+     "hierarchy": "organism",
+     "query": "Aspergillus niger"
+    }
+   ],
+   "chosen": {
+    "code": "89354002",
+    "display": "Aspergillus niger",
+    "hierarchy": "organism",
+    "matched_query": "Aspergillus niger"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "avocado",
+   "canonical_name": "Avocado",
+   "korean_name": "아보카도",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Avocado"
+   ],
+   "candidates": [
+    {
+     "code": "735249009",
+     "display": "Avocado",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Avocado",
+     "fsn": "Avocado",
+     "inactive": false
+    },
+    {
+     "code": "763054003",
+     "display": "Avocado oil unsaponifiables",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Avocado"
+    }
+   ],
+   "chosen": {
+    "code": "735249009",
+    "display": "Avocado",
+    "hierarchy": "substance",
+    "matched_query": "Avocado"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "banana",
+   "canonical_name": "Banana",
+   "korean_name": "바나나",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Banana"
+   ],
+   "candidates": [
+    {
+     "code": "256307007",
+     "display": "Banana",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Banana",
+     "fsn": "Banana",
+     "inactive": false
+    },
+    {
+     "code": "227711005",
+     "display": "Banana split",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Banana"
+    },
+    {
+     "code": "227450005",
+     "display": "Dried banana",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Banana"
+    },
+    {
+     "code": "84106001",
+     "display": "Salmonella Banana",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Banana"
+    },
+    {
+     "code": "256749004",
+     "display": "Banana skin flap",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Banana"
+    }
+   ],
+   "chosen": {
+    "code": "256307007",
+    "display": "Banana",
+    "hierarchy": "substance",
+    "matched_query": "Banana"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "barley",
+   "canonical_name": "Barley",
+   "korean_name": "보리가루",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Barley flour",
+    "Barley"
+   ],
+   "candidates": [
+    {
+     "code": "735124003",
+     "display": "Barley",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Barley",
+     "fsn": "Barley",
+     "inactive": false
+    },
+    {
+     "code": "412429009",
+     "display": "Barley malt extract",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Barley"
+    },
+    {
+     "code": "710715008",
+     "display": "Barley pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Barley"
+    },
+    {
+     "code": "1296982009",
+     "display": "Barley coffee",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Barley"
+    },
+    {
+     "code": "226721008",
+     "display": "Pearl barley",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Barley"
+    }
+   ],
+   "chosen": {
+    "code": "735124003",
+    "display": "Barley",
+    "hierarchy": "substance",
+    "matched_query": "Barley"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "bean",
+   "canonical_name": "Bean",
+   "korean_name": "콩",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Bean"
+   ],
+   "candidates": [
+    {
+     "code": "256354006",
+     "display": "Bean",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Bean",
+     "fsn": "Bean",
+     "inactive": false
+    },
+    {
+     "code": "227770003",
+     "display": "Bean loaf",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Bean"
+    },
+    {
+     "code": "227922004",
+     "display": "Bean rissole",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Bean"
+    },
+    {
+     "code": "227928000",
+     "display": "Bean salad",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Bean"
+    },
+    {
+     "code": "7852009",
+     "display": "Lima bean",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Bean"
+    }
+   ],
+   "chosen": {
+    "code": "256354006",
+    "display": "Bean",
+    "hierarchy": "substance",
+    "matched_query": "Bean"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "beech",
+   "canonical_name": "Beech",
+   "korean_name": "너도밤나무",
+   "category": "pollen_tree",
+   "existing": false,
+   "queries": [
+    "Beech",
+    "Beech pollen"
+   ],
+   "candidates": [
+    {
+     "code": "256265004",
+     "display": "Beech pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Beech pollen",
+     "fsn": "Beech pollen",
+     "inactive": false
+    },
+    {
+     "code": "256188007",
+     "display": "Beech tar",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Beech"
+    },
+    {
+     "code": "260124000",
+     "display": "American beech pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Beech pollen"
+    },
+    {
+     "code": "33206002",
+     "display": "Hemoglobin F-Beech Island",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Beech"
+    }
+   ],
+   "chosen": {
+    "code": "256265004",
+    "display": "Beech pollen",
+    "hierarchy": "substance",
+    "matched_query": "Beech pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "beef",
+   "canonical_name": "Beef",
+   "korean_name": "소고기",
+   "category": "food",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "bermuda_grass",
+   "canonical_name": "Bermuda grass",
+   "korean_name": "우산잔디",
+   "category": "pollen_grass",
+   "existing": false,
+   "queries": [
+    "Bermuda grass",
+    "Bermuda grass pollen"
+   ],
+   "candidates": [
+    {
+     "code": "260089005",
+     "display": "Bermuda grass pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Bermuda grass pollen",
+     "fsn": "Bermuda grass pollen",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "260089005",
+    "display": "Bermuda grass pollen",
+    "hierarchy": "substance",
+    "matched_query": "Bermuda grass pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "birch",
+   "canonical_name": "Birch",
+   "korean_name": "자작나무",
+   "category": "pollen_tree",
+   "existing": false,
+   "queries": [
+    "Birch",
+    "Birch pollen"
+   ],
+   "candidates": [
+    {
+     "code": "256187002",
+     "display": "Birch tar",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Birch",
+     "fsn": "Birch tar",
+     "inactive": false
+    },
+    {
+     "code": "1268325003",
+     "display": "Gray birch pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Birch pollen"
+    },
+    {
+     "code": "256262001",
+     "display": "European white birch pollen",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Birch pollen"
+    },
+    {
+     "code": "3906002",
+     "display": "Rectified birch tar oil",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Birch"
+    }
+   ],
+   "chosen": {
+    "code": "256187002",
+    "display": "Birch tar",
+    "hierarchy": "substance",
+    "matched_query": "Birch"
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "cabbage",
+   "canonical_name": "Cabbage",
+   "korean_name": "양배추",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Cabbage"
+   ],
+   "candidates": [
+    {
+     "code": "735108004",
+     "display": "Cabbage",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Cabbage",
+     "fsn": "Cabbage",
+     "inactive": false
+    },
+    {
+     "code": "227774007",
+     "display": "Cabbage bhaji",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Cabbage"
+    },
+    {
+     "code": "227836005",
+     "display": "Cabbage curry",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Cabbage"
+    },
+    {
+     "code": "227225005",
+     "display": "Chinese cabbage",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Cabbage"
+    },
+    {
+     "code": "227226006",
+     "display": "Red cabbage",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Cabbage"
+    }
+   ],
+   "chosen": {
+    "code": "735108004",
+    "display": "Cabbage",
+    "hierarchy": "substance",
+    "matched_query": "Cabbage"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "candida_albicans",
+   "canonical_name": "Candida albicans",
+   "korean_name": "칸디다 알비칸스",
+   "category": "mold",
+   "existing": false,
+   "queries": [
+    "Candida albicans"
+   ],
+   "candidates": [
+    {
+     "code": "53326005",
+     "display": "Candida albicans",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Candida albicans",
+     "fsn": "Candida albicans",
+     "inactive": false
+    },
+    {
+     "code": "121075005",
+     "display": "Candida albicans antigen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Candida albicans"
+    },
+    {
+     "code": "706991009",
+     "display": "Candida albicans IgA",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Candida albicans"
+    },
+    {
+     "code": "708211008",
+     "display": "Candida albicans DNA",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Candida albicans"
+    },
+    {
+     "code": "399776009",
+     "display": "Candida albicans IgG",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Candida albicans"
+    }
+   ],
+   "chosen": {
+    "code": "53326005",
+    "display": "Candida albicans",
+    "hierarchy": "organism",
+    "matched_query": "Candida albicans"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "carp",
+   "canonical_name": "Carp",
+   "korean_name": "잉어",
+   "category": "food",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "carrot",
+   "canonical_name": "Carrot",
+   "korean_name": "당근",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Carrot"
+   ],
+   "candidates": [
+    {
+     "code": "256319004",
+     "display": "Carrot",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Carrot",
+     "fsn": "Carrot",
+     "inactive": false
+    },
+    {
+     "code": "229894003",
+     "display": "Carrot halva",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Carrot"
+    },
+    {
+     "code": "11112003",
+     "display": "Carrot mottle virus",
+     "score": 0.92,
+     "hierarchy": "organism",
+     "query": "Carrot"
+    },
+    {
+     "code": "227778005",
+     "display": "Carrot potato and pea bhaji",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Carrot"
+    },
+    {
+     "code": "227931004",
+     "display": "Carrot and nut salad with mayonnaise",
+     "score": 0.84,
+     "hierarchy": "substance",
+     "query": "Carrot"
+    }
+   ],
+   "chosen": {
+    "code": "256319004",
+    "display": "Carrot",
+    "hierarchy": "substance",
+    "matched_query": "Carrot"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "casein",
+   "canonical_name": "Casein",
+   "korean_name": "암소건락소-치즈원료",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Cow casein",
+    "Casein"
+   ],
+   "candidates": [
+    {
+     "code": "50593009",
+     "display": "Casein",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Casein",
+     "fsn": "Casein",
+     "inactive": false
+    },
+    {
+     "code": "284458003",
+     "display": "Casein-based baby milk",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Casein"
+    }
+   ],
+   "chosen": {
+    "code": "50593009",
+    "display": "Casein",
+    "hierarchy": "substance",
+    "matched_query": "Casein"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "cashew",
+   "canonical_name": "Cashew",
+   "korean_name": "캐슈넛",
+   "category": "food",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "cat_dander",
+   "canonical_name": "Cat dander",
+   "korean_name": "고양이 표피",
+   "category": "animal",
+   "existing": false,
+   "queries": [
+    "Cat dander"
+   ],
+   "candidates": [
+    {
+     "code": "260152009",
+     "display": "Cat dander",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Cat dander",
+     "fsn": "Cat dander",
+     "inactive": false
+    },
+    {
+     "code": "260153004",
+     "display": "Cow dander",
+     "score": 0.5,
+     "hierarchy": "substance",
+     "query": "Cat dander"
+    }
+   ],
+   "chosen": {
+    "code": "260152009",
+    "display": "Cat dander",
+    "hierarchy": "substance",
+    "matched_query": "Cat dander"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "celery",
+   "canonical_name": "Celery",
+   "korean_name": "샐러리",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Celery"
+   ],
+   "candidates": [
+    {
+     "code": "256326004",
+     "display": "Celery",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Celery",
+     "fsn": "Celery",
+     "inactive": false
+    },
+    {
+     "code": "227383004",
+     "display": "Celery seed",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Celery"
+    },
+    {
+     "code": "53175000",
+     "display": "Oil of celery",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Celery"
+    },
+    {
+     "code": "227912005",
+     "display": "Potato leek and celery bake",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Celery"
+    }
+   ],
+   "chosen": {
+    "code": "256326004",
+    "display": "Celery",
+    "hierarchy": "substance",
+    "matched_query": "Celery"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "cherry",
+   "canonical_name": "Cherry",
+   "korean_name": "체리",
+   "category": "food",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "chicken",
+   "canonical_name": "Chicken",
+   "korean_name": "닭",
+   "category": "animal",
+   "existing": false,
+   "queries": [
+    "Chicken"
+   ],
+   "candidates": [
+    {
+     "code": "226955001",
+     "display": "Chicken - meat",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Chicken",
+     "fsn": "Chicken - meat",
+     "inactive": false
+    },
+    {
+     "code": "227008001",
+     "display": "Chicken burger",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Chicken"
+    },
+    {
+     "code": "227032008",
+     "display": "Chicken roll",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Chicken"
+    },
+    {
+     "code": "227657004",
+     "display": "Chicken pie",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Chicken"
+    },
+    {
+     "code": "227670008",
+     "display": "Chicken curry",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Chicken"
+    }
+   ],
+   "chosen": {
+    "code": "226955001",
+    "display": "Chicken - meat",
+    "hierarchy": "substance",
+    "matched_query": "Chicken"
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "chrysanthemum",
+   "canonical_name": "Chrysanthemum",
+   "korean_name": "국화",
+   "category": "pollen_weed",
+   "existing": false,
+   "queries": [
+    "Chrysanthemum"
+   ],
+   "candidates": [
+    {
+     "code": "256334005",
+     "display": "Chrysanthemum",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Chrysanthemum",
+     "fsn": "Chrysanthemum",
+     "inactive": false
+    },
+    {
+     "code": "256289006",
+     "display": "Chrysanthemum pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Chrysanthemum"
+    },
+    {
+     "code": "256084006",
+     "display": "Chrysanthemum cinerariaefolium",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Chrysanthemum"
+    },
+    {
+     "code": "297277006",
+     "display": "Chrysanthemum cinerariaefolium allergen patch test substance",
+     "score": 0.84,
+     "hierarchy": "substance",
+     "query": "Chrysanthemum"
+    }
+   ],
+   "chosen": {
+    "code": "256334005",
+    "display": "Chrysanthemum",
+    "hierarchy": "organism",
+    "matched_query": "Chrysanthemum"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "citrus_fruit",
+   "canonical_name": "Citrus fruit",
+   "korean_name": "귤",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Citrus fruit"
+   ],
+   "candidates": [
+    {
+     "code": "102259006",
+     "display": "Citrus fruit",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Citrus fruit",
+     "fsn": "Citrus fruit",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "102259006",
+    "display": "Citrus fruit",
+    "hierarchy": "substance",
+    "matched_query": "Citrus fruit"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "cladosporium_herbarum",
+   "canonical_name": "Cladosporium herbarum",
+   "korean_name": "클라도스포리움 헤르바룸",
+   "category": "mold",
+   "existing": false,
+   "queries": [
+    "Cladosporium herbarum"
+   ],
+   "candidates": [
+    {
+     "code": "3459008",
+     "display": "Cladosporium herbarum",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Cladosporium herbarum",
+     "fsn": "Cladosporium herbarum",
+     "inactive": false
+    },
+    {
+     "code": "711242004",
+     "display": "Cladosporium herbarum protein antigen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Cladosporium herbarum"
+    },
+    {
+     "code": "30651000087100",
+     "display": "Cladosporium macrocarpum",
+     "score": 0.5,
+     "hierarchy": "organism",
+     "query": "Cladosporium herbarum"
+    }
+   ],
+   "chosen": {
+    "code": "3459008",
+    "display": "Cladosporium herbarum",
+    "hierarchy": "organism",
+    "matched_query": "Cladosporium herbarum"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "clam",
+   "canonical_name": "Clam",
+   "korean_name": "조개",
+   "category": "food",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "cockroach_american",
+   "canonical_name": "Cockroach, American",
+   "korean_name": "미국바퀴",
+   "category": "insect",
+   "existing": false,
+   "queries": [
+    "American cockroach"
+   ],
+   "candidates": [
+    {
+     "code": "710937009",
+     "display": "American cockroach protein",
+     "score": 0.99,
+     "hierarchy": "substance",
+     "query": "American cockroach",
+     "fsn": "American cockroach protein",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "710937009",
+    "display": "American cockroach protein",
+    "hierarchy": "substance",
+    "matched_query": "American cockroach"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "cockroach_german",
+   "canonical_name": "Cockroach, German",
+   "korean_name": "독일바퀴",
+   "category": "insect",
+   "existing": false,
+   "queries": [
+    "German cockroach"
+   ],
+   "candidates": [
+    {
+     "code": "710930006",
+     "display": "German cockroach protein",
+     "score": 0.99,
+     "hierarchy": "substance",
+     "query": "German cockroach",
+     "fsn": "German cockroach protein",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "710930006",
+    "display": "German cockroach protein",
+    "hierarchy": "substance",
+    "matched_query": "German cockroach"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "cockroach_mix",
+   "canonical_name": "Cockroach, Mix",
+   "korean_name": "바퀴벌레",
+   "category": "insect",
+   "existing": false,
+   "queries": [
+    "Cockroach protein"
+   ],
+   "candidates": [
+    {
+     "code": "710943006",
+     "display": "Cockroach protein",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Cockroach protein",
+     "fsn": "Cockroach protein",
+     "inactive": false
+    },
+    {
+     "code": "710930006",
+     "display": "German cockroach protein",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Cockroach protein"
+    },
+    {
+     "code": "710931005",
+     "display": "Oriental cockroach protein",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Cockroach protein"
+    },
+    {
+     "code": "710937009",
+     "display": "American cockroach protein",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Cockroach protein"
+    }
+   ],
+   "chosen": {
+    "code": "710943006",
+    "display": "Cockroach protein",
+    "hierarchy": "substance",
+    "matched_query": "Cockroach protein"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "cod",
+   "canonical_name": "Cod",
+   "korean_name": "대구",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Cod"
+   ],
+   "candidates": [
+    {
+     "code": "735245003",
+     "display": "Cod",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Cod",
+     "fsn": "Cod",
+     "inactive": false
+    },
+    {
+     "code": "260174003",
+     "display": "Cod",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Cod"
+    },
+    {
+     "code": "126082008",
+     "display": "Cod liver oil",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Cod"
+    },
+    {
+     "code": "227053004",
+     "display": "Cod in batter baked in the oven",
+     "score": 0.84,
+     "hierarchy": "substance",
+     "query": "Cod"
+    }
+   ],
+   "chosen": {
+    "code": "735245003",
+    "display": "Cod",
+    "hierarchy": "substance",
+    "matched_query": "Cod"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "control",
+   "canonical_name": "Control",
+   "korean_name": "음성 대조용 생리식염수",
+   "category": "control",
+   "existing": false,
+   "queries": [
+    "Negative control",
+    "Control"
+   ],
+   "candidates": [
+    {
+     "code": "386095009",
+     "display": "Test control",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Control",
+     "fsn": "Test control",
+     "inactive": false
+    },
+    {
+     "code": "301064003",
+     "display": "Patch test control substance",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Control"
+    },
+    {
+     "code": "256219002",
+     "display": "Control - white petrolatum 100 percent",
+     "score": 0.84,
+     "hierarchy": "substance",
+     "query": "Control"
+    }
+   ],
+   "chosen": {
+    "code": "386095009",
+    "display": "Test control",
+    "hierarchy": "substance",
+    "matched_query": "Control"
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "cornflour",
+   "canonical_name": "Cornflour",
+   "korean_name": "옥수수가루",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Corn flour",
+    "Cornflour"
+   ],
+   "candidates": [
+    {
+     "code": "229936000",
+     "display": "Corn starch",
+     "score": 0.5,
+     "hierarchy": "substance",
+     "query": "Corn flour"
+    }
+   ],
+   "chosen": null,
+   "confidence": "none"
+  },
+  {
+   "id": "cow_dander",
+   "canonical_name": "Cow dander",
+   "korean_name": "소 비듬",
+   "category": "animal",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "cow_milk",
+   "canonical_name": "Cow milk",
+   "korean_name": "우유",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Bos d",
+    "Cow milk"
+   ],
+   "candidates": [
+    {
+     "code": "3718001",
+     "display": "Cow's milk",
+     "score": 0.99,
+     "hierarchy": "substance",
+     "query": "Cow milk",
+     "fsn": "Cow's milk",
+     "inactive": false
+    },
+    {
+     "code": "264295007",
+     "display": "Cow's milk protein",
+     "score": 0.99,
+     "hierarchy": "substance",
+     "query": "Cow milk"
+    },
+    {
+     "code": "226762002",
+     "display": "Flavored cow's milk",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Cow milk"
+    },
+    {
+     "code": "226776001",
+     "display": "Dried cow's milk",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Cow milk"
+    },
+    {
+     "code": "226778000",
+     "display": "Dried skimmed cow's milk",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Cow milk"
+    }
+   ],
+   "chosen": {
+    "code": "3718001",
+    "display": "Cow's milk",
+    "hierarchy": "substance",
+    "matched_query": "Cow milk"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "crab",
+   "canonical_name": "Crab",
+   "korean_name": "게",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Blue crab",
+    "Cha f",
+    "Crab"
+   ],
+   "candidates": [
+    {
+     "code": "736159005",
+     "display": "Crab",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Crab",
+     "fsn": "Crab",
+     "inactive": false
+    },
+    {
+     "code": "7197003",
+     "display": "Rhabdovirus of blue crab",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Blue crab"
+    },
+    {
+     "code": "227206007",
+     "display": "Crab canned in brine",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Crab"
+    }
+   ],
+   "chosen": {
+    "code": "736159005",
+    "display": "Crab",
+    "hierarchy": "substance",
+    "matched_query": "Crab"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "crayfish",
+   "canonical_name": "Crayfish",
+   "korean_name": "가재",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Crayfish"
+   ],
+   "candidates": [
+    {
+     "code": "735972003",
+     "display": "Crayfish",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Crayfish",
+     "fsn": "Crayfish",
+     "inactive": false
+    },
+    {
+     "code": "243678009",
+     "display": "Crayfish",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Crayfish"
+    }
+   ],
+   "chosen": {
+    "code": "735972003",
+    "display": "Crayfish",
+    "hierarchy": "substance",
+    "matched_query": "Crayfish"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "cultivated_oat",
+   "canonical_name": "Cultivated oat",
+   "korean_name": "귀리",
+   "category": "pollen_grass",
+   "existing": false,
+   "queries": [
+    "Cultivated oat"
+   ],
+   "candidates": [
+    {
+     "code": "9424004",
+     "display": "Cultivated oat",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Cultivated oat",
+     "fsn": "Cultivated oat",
+     "inactive": false
+    },
+    {
+     "code": "260098008",
+     "display": "Cultivated oat pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Cultivated oat"
+    }
+   ],
+   "chosen": {
+    "code": "9424004",
+    "display": "Cultivated oat",
+    "hierarchy": "organism",
+    "matched_query": "Cultivated oat"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "dandelion",
+   "canonical_name": "Dandelion",
+   "korean_name": "서양민들레",
+   "category": "pollen_weed",
+   "existing": false,
+   "queries": [
+    "Dandelion"
+   ],
+   "candidates": [
+    {
+     "code": "256087004",
+     "display": "Dandelion",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Dandelion",
+     "fsn": "Dandelion",
+     "inactive": false
+    },
+    {
+     "code": "412134004",
+     "display": "Dandelion extract",
+     "score": 0.99,
+     "hierarchy": "substance",
+     "query": "Dandelion"
+    },
+    {
+     "code": "256297004",
+     "display": "Dandelion pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Dandelion"
+    },
+    {
+     "code": "720023002",
+     "display": "Dandelion root",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Dandelion"
+    },
+    {
+     "code": "297271007",
+     "display": "Dandelion allergen patch test substance",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Dandelion"
+    }
+   ],
+   "chosen": {
+    "code": "256087004",
+    "display": "Dandelion",
+    "hierarchy": "organism",
+    "matched_query": "Dandelion"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "dermatophagoides_farinae",
+   "canonical_name": "Dermatophagoides farinae",
+   "korean_name": "미국집먼지진드기",
+   "category": "mite",
+   "existing": false,
+   "queries": [
+    "Der f",
+    "Dermatophagoides farina",
+    "Dermatophagoides farinae"
+   ],
+   "candidates": [
+    {
+     "code": "112476003",
+     "display": "Dermatophagoides farinae",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Dermatophagoides farinae",
+     "fsn": "Dermatophagoides farinae",
+     "inactive": false
+    },
+    {
+     "code": "711092006",
+     "display": "Dermatophagoides farinae protein",
+     "score": 0.99,
+     "hierarchy": "substance",
+     "query": "Dermatophagoides farinae"
+    }
+   ],
+   "chosen": {
+    "code": "112476003",
+    "display": "Dermatophagoides farinae",
+    "hierarchy": "organism",
+    "matched_query": "Dermatophagoides farinae"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "dermatophagoides_pteronyssinus",
+   "canonical_name": "Dermatophagoides pteronyssinus",
+   "korean_name": "유럽 집먼지진드기",
+   "category": "mite",
+   "existing": false,
+   "queries": [
+    "Der p",
+    "Dermatophagoides pteronyssinus"
+   ],
+   "candidates": [
+    {
+     "code": "711094007",
+     "display": "Dermatophagoides pteronyssinus protein",
+     "score": 0.99,
+     "hierarchy": "substance",
+     "query": "Dermatophagoides pteronyssinus",
+     "fsn": "Dermatophagoides pteronyssinus protein",
+     "inactive": false
+    },
+    {
+     "code": "264401009",
+     "display": "Dermatophagoides pteronyssimus",
+     "score": 0.5,
+     "hierarchy": "organism",
+     "query": "Dermatophagoides pteronyssinus"
+    }
+   ],
+   "chosen": {
+    "code": "711094007",
+    "display": "Dermatophagoides pteronyssinus protein",
+    "hierarchy": "substance",
+    "matched_query": "Dermatophagoides pteronyssinus"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "dog_dander",
+   "canonical_name": "Dog dander",
+   "korean_name": "개 표피",
+   "category": "animal",
+   "existing": false,
+   "queries": [
+    "Dog dander"
+   ],
+   "candidates": [
+    {
+     "code": "260154005",
+     "display": "Dog dander",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Dog dander",
+     "fsn": "Dog dander",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "260154005",
+    "display": "Dog dander",
+    "hierarchy": "substance",
+    "matched_query": "Dog dander"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "egg_white",
+   "canonical_name": "Egg white",
+   "korean_name": "계란흰자",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Egg white"
+   ],
+   "candidates": [
+    {
+     "code": "256443002",
+     "display": "Egg white",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Egg white",
+     "fsn": "Egg white",
+     "inactive": false
+    },
+    {
+     "code": "229955000",
+     "display": "Dried egg white",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Egg white"
+    }
+   ],
+   "chosen": {
+    "code": "256443002",
+    "display": "Egg white",
+    "hierarchy": "substance",
+    "matched_query": "Egg white"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "egg_yolk",
+   "canonical_name": "Egg yolk",
+   "korean_name": "계란노른자",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Egg yolk"
+   ],
+   "candidates": [
+    {
+     "code": "256442007",
+     "display": "Egg yolk",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Egg yolk",
+     "fsn": "Egg yolk",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "256442007",
+    "display": "Egg yolk",
+    "hierarchy": "substance",
+    "matched_query": "Egg yolk"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "elder",
+   "canonical_name": "Elder",
+   "korean_name": "딱총나무",
+   "category": "pollen_tree",
+   "existing": false,
+   "queries": [
+    "Elder",
+    "Elder pollen"
+   ],
+   "candidates": [
+    {
+     "code": "289948005",
+     "display": "Elder pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Elder pollen",
+     "fsn": "Elder pollen",
+     "inactive": false
+    },
+    {
+     "code": "260122001",
+     "display": "Box elder pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Elder pollen"
+    },
+    {
+     "code": "25773002",
+     "display": "Blood group antigen Elder",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Elder"
+    },
+    {
+     "code": "260115009",
+     "display": "Rough marshelder pollen",
+     "score": 0.46,
+     "hierarchy": "substance",
+     "query": "Elder pollen"
+    }
+   ],
+   "chosen": {
+    "code": "289948005",
+    "display": "Elder pollen",
+    "hierarchy": "substance",
+    "matched_query": "Elder pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "elm",
+   "canonical_name": "Elm",
+   "korean_name": "느릅나무",
+   "category": "pollen_tree",
+   "existing": false,
+   "queries": [
+    "Elm",
+    "Elm pollen"
+   ],
+   "candidates": [
+    {
+     "code": "256272003",
+     "display": "Elm pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Elm pollen",
+     "fsn": "Elm pollen",
+     "inactive": false
+    },
+    {
+     "code": "256257002",
+     "display": "Elm wood",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Elm"
+    },
+    {
+     "code": "1264510006",
+     "display": "American elm pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Elm pollen"
+    },
+    {
+     "code": "1268867004",
+     "display": "Siberian elm pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Elm pollen"
+    },
+    {
+     "code": "1285422007",
+     "display": "Cedar elm pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Elm pollen"
+    }
+   ],
+   "chosen": {
+    "code": "256272003",
+    "display": "Elm pollen",
+    "hierarchy": "substance",
+    "matched_query": "Elm pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "english_plantain",
+   "canonical_name": "English plantain",
+   "korean_name": "질경이",
+   "category": "pollen_weed",
+   "existing": false,
+   "queries": [
+    "English plantain"
+   ],
+   "candidates": [
+    {
+     "code": "256357004",
+     "display": "English plantain",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "English plantain",
+     "fsn": "English plantain",
+     "inactive": false
+    },
+    {
+     "code": "256294006",
+     "display": "English plantain pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "English plantain"
+    }
+   ],
+   "chosen": {
+    "code": "256357004",
+    "display": "English plantain",
+    "hierarchy": "organism",
+    "matched_query": "English plantain"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "fusarium",
+   "canonical_name": "Fusarium",
+   "korean_name": "푸사리움 모닐리포르메",
+   "category": "mold",
+   "existing": false,
+   "queries": [
+    "Fusarium"
+   ],
+   "candidates": [
+    {
+     "code": "35238009",
+     "display": "Fusarium",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Fusarium",
+     "fsn": "Fusarium",
+     "inactive": false
+    },
+    {
+     "code": "7626000",
+     "display": "Fusarium sporotrichioides",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Fusarium"
+    },
+    {
+     "code": "11090009",
+     "display": "Fusarium graminearum",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Fusarium"
+    },
+    {
+     "code": "15773001",
+     "display": "Fusarium culmorum",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Fusarium"
+    },
+    {
+     "code": "29238009",
+     "display": "Fusarium semitectum",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Fusarium"
+    }
+   ],
+   "chosen": {
+    "code": "35238009",
+    "display": "Fusarium",
+    "hierarchy": "organism",
+    "matched_query": "Fusarium"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "goldenrod",
+   "canonical_name": "Goldenrod",
+   "korean_name": "미역취",
+   "category": "pollen_weed",
+   "existing": false,
+   "queries": [
+    "Goldenrod",
+    "Goldenrod pollen"
+   ],
+   "candidates": [
+    {
+     "code": "710907000",
+     "display": "Goldenrod pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Goldenrod pollen",
+     "fsn": "Goldenrod pollen",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "710907000",
+    "display": "Goldenrod pollen",
+    "hierarchy": "substance",
+    "matched_query": "Goldenrod pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "grape",
+   "canonical_name": "Grape",
+   "korean_name": "포도",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Grape"
+   ],
+   "candidates": [
+    {
+     "code": "226492005",
+     "display": "Grape juice",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Grape",
+     "fsn": "Grape juice",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "226492005",
+    "display": "Grape juice",
+    "hierarchy": "substance",
+    "matched_query": "Grape"
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "grass",
+   "canonical_name": "Grass",
+   "korean_name": "잔디 꽃가루 혼합",
+   "category": "pollen_grass",
+   "existing": false,
+   "queries": [
+    "Grass mixture",
+    "Grass"
+   ],
+   "candidates": [
+    {
+     "code": "256344007",
+     "display": "Grass seed mixture",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Grass mixture",
+     "fsn": "Grass seed mixture",
+     "inactive": false
+    },
+    {
+     "code": "256277009",
+     "display": "Grass pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Grass"
+    },
+    {
+     "code": "4982007",
+     "display": "Grass warbler",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Grass"
+    },
+    {
+     "code": "256345008",
+     "display": "Grass and cereal seed mixture",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Grass mixture"
+    },
+    {
+     "code": "8450009",
+     "display": "Oil of lemon grass",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Grass"
+    }
+   ],
+   "chosen": {
+    "code": "256344007",
+    "display": "Grass seed mixture",
+    "hierarchy": "substance",
+    "matched_query": "Grass mixture"
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "guinea_pig",
+   "canonical_name": "Guinea pig",
+   "korean_name": "기니피그",
+   "category": "animal",
+   "existing": false,
+   "queries": [
+    "Cav p",
+    "Guinea pig"
+   ],
+   "candidates": [
+    {
+     "code": "703927007",
+     "display": "Guinea pig dander",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Guinea pig",
+     "fsn": "Guinea pig dander",
+     "inactive": false
+    },
+    {
+     "code": "256415006",
+     "display": "Guinea-pig epithelium",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Guinea pig"
+    },
+    {
+     "code": "143501000146101",
+     "display": "Domestic Guinea pig protein",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Guinea pig"
+    },
+    {
+     "code": "125076001",
+     "display": "Domestic Guinea pig",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Guinea pig"
+    },
+    {
+     "code": "31891002",
+     "display": "Peruvian guinea pig",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Guinea pig"
+    }
+   ],
+   "chosen": {
+    "code": "703927007",
+    "display": "Guinea pig dander",
+    "hierarchy": "substance",
+    "matched_query": "Guinea pig"
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "hamster",
+   "canonical_name": "Hamster",
+   "korean_name": "햄스터",
+   "category": "animal",
+   "existing": false,
+   "queries": [
+    "Pho s",
+    "Hamster"
+   ],
+   "candidates": [
+    {
+     "code": "392390005",
+     "display": "Hamster",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Hamster",
+     "fsn": "Hamster",
+     "inactive": false
+    },
+    {
+     "code": "146661000146109",
+     "display": "Hamster protein",
+     "score": 0.99,
+     "hierarchy": "substance",
+     "query": "Hamster"
+    },
+    {
+     "code": "260164001",
+     "display": "Hamster epithelium",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Hamster"
+    },
+    {
+     "code": "5209000",
+     "display": "Hamster polyomavirus",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Hamster"
+    }
+   ],
+   "chosen": {
+    "code": "392390005",
+    "display": "Hamster",
+    "hierarchy": "organism",
+    "matched_query": "Hamster"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "hazel",
+   "canonical_name": "Hazel",
+   "korean_name": "개암나무",
+   "category": "pollen_tree",
+   "existing": false,
+   "queries": [
+    "Hazel",
+    "Hazel pollen"
+   ],
+   "candidates": [
+    {
+     "code": "256263006",
+     "display": "Hazel pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Hazel pollen",
+     "fsn": "Hazel pollen",
+     "inactive": false
+    },
+    {
+     "code": "88811007",
+     "display": "Witch hazel",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Hazel"
+    }
+   ],
+   "chosen": {
+    "code": "256263006",
+    "display": "Hazel pollen",
+    "hierarchy": "substance",
+    "matched_query": "Hazel pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "hazelnut",
+   "canonical_name": "Hazelnut",
+   "korean_name": "헤이즐넛",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Cor a"
+   ],
+   "candidates": [
+    {
+     "code": "446073008",
+     "display": "Cor a 8",
+     "score": 0.99,
+     "hierarchy": "substance",
+     "query": "Cor a",
+     "fsn": "Cor a 8",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "446073008",
+    "display": "Cor a 8",
+    "hierarchy": "substance",
+    "matched_query": "Cor a"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "hen_s_egg",
+   "canonical_name": "Hen's egg",
+   "korean_name": "달걀 전체",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Hen's egg"
+   ],
+   "candidates": [
+    {
+     "code": "286550009",
+     "display": "Hen's egg",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Hen's egg",
+     "fsn": "Hen's egg",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "286550009",
+    "display": "Hen's egg",
+    "hierarchy": "substance",
+    "matched_query": "Hen's egg"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "herring",
+   "canonical_name": "Herring",
+   "korean_name": "청어",
+   "category": "food",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "histamine",
+   "canonical_name": "Histamine",
+   "korean_name": "양성 대조용 0.1% 히스타민 용액",
+   "category": "control",
+   "existing": false,
+   "queries": [
+    "Positive control",
+    "Histamine"
+   ],
+   "candidates": [
+    {
+     "code": "54235008",
+     "display": "Histamine",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Histamine",
+     "fsn": "Histamine",
+     "inactive": false
+    },
+    {
+     "code": "18124001",
+     "display": "Histamine methyltransferase",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Histamine"
+    },
+    {
+     "code": "52282002",
+     "display": "Histamine receptor",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Histamine"
+    },
+    {
+     "code": "62666006",
+     "display": "Histamine phosphate",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Histamine"
+    },
+    {
+     "code": "1217222003",
+     "display": "Histamine dihydrochloride",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Histamine"
+    }
+   ],
+   "chosen": {
+    "code": "54235008",
+    "display": "Histamine",
+    "hierarchy": "substance",
+    "matched_query": "Histamine"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "hornbeam",
+   "canonical_name": "Hornbeam",
+   "korean_name": "서어나무",
+   "category": "pollen_tree",
+   "existing": false,
+   "queries": [
+    "Car b",
+    "Hornbeam"
+   ],
+   "candidates": [
+    {
+     "code": "370574008",
+     "display": "CAR bacillus",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Car b",
+     "fsn": "CAR bacillus",
+     "inactive": false
+    },
+    {
+     "code": "256302001",
+     "display": "Hornbeam pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Hornbeam"
+    }
+   ],
+   "chosen": {
+    "code": "370574008",
+    "display": "CAR bacillus",
+    "hierarchy": "organism",
+    "matched_query": "Car b"
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "horse_dander",
+   "canonical_name": "Horse dander",
+   "korean_name": "말 비듬",
+   "category": "animal",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "indoor_mold_mixture",
+   "canonical_name": "Indoor mold mixture",
+   "korean_name": "실내 곰팡이 혼합",
+   "category": "mold",
+   "existing": false,
+   "queries": [
+    "Indoor mold mixture",
+    "Mold"
+   ],
+   "candidates": [
+    {
+     "code": "84489001",
+     "display": "Mold",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Mold",
+     "fsn": "Mold",
+     "inactive": false
+    },
+    {
+     "code": "311951009",
+     "display": "Mold killer",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mold"
+    },
+    {
+     "code": "722071008",
+     "display": "Mold antigen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mold"
+    },
+    {
+     "code": "243565002",
+     "display": "Slime mold",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Mold"
+    },
+    {
+     "code": "226854001",
+     "display": "Soft mold ripened cheese",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Mold"
+    }
+   ],
+   "chosen": {
+    "code": "84489001",
+    "display": "Mold",
+    "hierarchy": "organism",
+    "matched_query": "Mold"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "japanese_cedar",
+   "canonical_name": "Japanese cedar",
+   "korean_name": "삼나무",
+   "category": "pollen_tree",
+   "existing": false,
+   "queries": [
+    "Japanese cedar",
+    "Japanese cedar pollen"
+   ],
+   "candidates": [
+    {
+     "code": "260130000",
+     "display": "Japanese cedar pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Japanese cedar pollen",
+     "fsn": "Japanese cedar pollen",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "260130000",
+    "display": "Japanese cedar pollen",
+    "hierarchy": "substance",
+    "matched_query": "Japanese cedar pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "japanese_hop",
+   "canonical_name": "Japanese hop",
+   "korean_name": "환삼덩굴",
+   "category": "pollen_weed",
+   "existing": false,
+   "queries": [
+    "Hop j",
+    "Japanese hop",
+    "Japanese hop pollen"
+   ],
+   "candidates": [
+    {
+     "code": "260119003",
+     "display": "Japanese hop pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Japanese hop pollen",
+     "fsn": "Japanese hop pollen",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "260119003",
+    "display": "Japanese hop pollen",
+    "hierarchy": "substance",
+    "matched_query": "Japanese hop pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "kentucky_blue_grass",
+   "canonical_name": "Kentucky blue grass",
+   "korean_name": "왕포아풀",
+   "category": "pollen_grass",
+   "existing": false,
+   "queries": [
+    "Kentucky blue grass",
+    "Kentucky blue grass pollen"
+   ],
+   "candidates": [
+    {
+     "code": "256286004",
+     "display": "Kentucky blue grass pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Kentucky blue grass pollen",
+     "fsn": "Kentucky blue grass pollen",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "256286004",
+    "display": "Kentucky blue grass pollen",
+    "hierarchy": "substance",
+    "matched_query": "Kentucky blue grass pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "kiwi",
+   "canonical_name": "Kiwi",
+   "korean_name": "키위",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Kiwi fruit"
+   ],
+   "candidates": [
+    {
+     "code": "260176001",
+     "display": "Kiwi fruit",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Kiwi fruit",
+     "fsn": "Kiwi fruit",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "260176001",
+    "display": "Kiwi fruit",
+    "hierarchy": "substance",
+    "matched_query": "Kiwi fruit"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "krill",
+   "canonical_name": "Krill",
+   "korean_name": "크릴",
+   "category": "food",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "lactalbumin",
+   "canonical_name": "Lactalbumin",
+   "korean_name": "락토알부민",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Lactalbumin"
+   ],
+   "candidates": [
+    {
+     "code": "102697003",
+     "display": "Lactalbumin",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Lactalbumin",
+     "fsn": "Lactalbumin",
+     "inactive": false
+    },
+    {
+     "code": "712685000",
+     "display": "Lactalbumin hydrolysate",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Lactalbumin"
+    },
+    {
+     "code": "102698008",
+     "display": "Alpha-lactalbumin",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Lactalbumin"
+    },
+    {
+     "code": "102699000",
+     "display": "Beta-lactalbumin",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Lactalbumin"
+    },
+    {
+     "code": "121046004",
+     "display": "Alpha lactalbumin antigen",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Lactalbumin"
+    }
+   ],
+   "chosen": {
+    "code": "102697003",
+    "display": "Lactalbumin",
+    "hierarchy": "substance",
+    "matched_query": "Lactalbumin"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "lamb_s_quarters",
+   "canonical_name": "Lamb's quarters",
+   "korean_name": "명아주",
+   "category": "pollen_weed",
+   "existing": false,
+   "queries": [
+    "Lamb's quarters"
+   ],
+   "candidates": [
+    {
+     "code": "260110004",
+     "display": "Lamb's quarters pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Lamb's quarters",
+     "fsn": "Lamb's quarters pollen",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "260110004",
+    "display": "Lamb's quarters pollen",
+    "hierarchy": "substance",
+    "matched_query": "Lamb's quarters"
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "latex",
+   "canonical_name": "Latex",
+   "korean_name": "라텍스",
+   "category": "other",
+   "existing": false,
+   "queries": [
+    "Latex"
+   ],
+   "candidates": [
+    {
+     "code": "111088007",
+     "display": "Latex",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Latex",
+     "fsn": "Latex",
+     "inactive": false
+    },
+    {
+     "code": "1003753006",
+     "display": "Guayule latex",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Latex"
+    },
+    {
+     "code": "1003751008",
+     "display": "Hevea brasiliensis latex",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Latex"
+    },
+    {
+     "code": "1003752001",
+     "display": "Hevea brasiliensis latex protein",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Latex"
+    },
+    {
+     "code": "1003754000",
+     "display": "Natural rubber latex",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Latex"
+    }
+   ],
+   "chosen": {
+    "code": "111088007",
+    "display": "Latex",
+    "hierarchy": "substance",
+    "matched_query": "Latex"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "lentil",
+   "canonical_name": "Lentil",
+   "korean_name": "렌즈콩",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Lentil",
+    "Lentils"
+   ],
+   "candidates": [
+    {
+     "code": "227350006",
+     "display": "Lentils",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Lentils",
+     "fsn": "Lentils",
+     "inactive": false
+    },
+    {
+     "code": "227849000",
+     "display": "Lentil curry",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Lentil"
+    },
+    {
+     "code": "227877009",
+     "display": "Lentil dishes",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Lentil"
+    },
+    {
+     "code": "227878004",
+     "display": "Lentil cutlet",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Lentil"
+    },
+    {
+     "code": "227879007",
+     "display": "Lentil pie",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Lentil"
+    }
+   ],
+   "chosen": {
+    "code": "227350006",
+    "display": "Lentils",
+    "hierarchy": "substance",
+    "matched_query": "Lentils"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "lobster",
+   "canonical_name": "Lobster",
+   "korean_name": "바닷가재",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Lobster"
+   ],
+   "candidates": [
+    {
+     "code": "736162008",
+     "display": "Lobster",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Lobster",
+     "fsn": "Lobster",
+     "inactive": false
+    },
+    {
+     "code": "9907001",
+     "display": "Lobster",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Lobster"
+    },
+    {
+     "code": "710185006",
+     "display": "Spiny lobster",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Lobster"
+    },
+    {
+     "code": "260185001",
+     "display": "Spiny lobster",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Lobster"
+    }
+   ],
+   "chosen": {
+    "code": "736162008",
+    "display": "Lobster",
+    "hierarchy": "substance",
+    "matched_query": "Lobster"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "mackerel",
+   "canonical_name": "Mackerel",
+   "korean_name": "고등어",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Mackerel"
+   ],
+   "candidates": [
+    {
+     "code": "735043001",
+     "display": "Mackerel",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Mackerel",
+     "fsn": "Mackerel",
+     "inactive": false
+    },
+    {
+     "code": "302368009",
+     "display": "Mackerel",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Mackerel"
+    },
+    {
+     "code": "227126000",
+     "display": "Fried mackerel",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mackerel"
+    },
+    {
+     "code": "227127009",
+     "display": "Grilled mackerel",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mackerel"
+    },
+    {
+     "code": "227128004",
+     "display": "Smoked mackerel",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mackerel"
+    }
+   ],
+   "chosen": {
+    "code": "735043001",
+    "display": "Mackerel",
+    "hierarchy": "substance",
+    "matched_query": "Mackerel"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "maize_corn",
+   "canonical_name": "Maize (corn)",
+   "korean_name": "옥수수",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Zea mays",
+    "Zea m",
+    "Maize (corn)",
+    "Cornflour"
+   ],
+   "candidates": [
+    {
+     "code": "472744009",
+     "display": "Zea mays pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Zea mays",
+     "fsn": "Zea mays pollen",
+     "inactive": false
+    },
+    {
+     "code": "2911006",
+     "display": "Zea mays - corn",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Zea mays"
+    },
+    {
+     "code": "2447002",
+     "display": "Zea - corn",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Zea m"
+    },
+    {
+     "code": "13111004",
+     "display": "Diplodia zea",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Zea m"
+    }
+   ],
+   "chosen": {
+    "code": "472744009",
+    "display": "Zea mays pollen",
+    "hierarchy": "substance",
+    "matched_query": "Zea mays"
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "meadow_fescue",
+   "canonical_name": "Meadow fescue",
+   "korean_name": "넓은김의털",
+   "category": "pollen_grass",
+   "existing": false,
+   "queries": [
+    "Meadow fescue",
+    "Meadow fescue pollen"
+   ],
+   "candidates": [
+    {
+     "code": "256279007",
+     "display": "Meadow fescue pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Meadow fescue pollen",
+     "fsn": "Meadow fescue pollen",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "256279007",
+    "display": "Meadow fescue pollen",
+    "hierarchy": "substance",
+    "matched_query": "Meadow fescue pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "melon",
+   "canonical_name": "Melon",
+   "korean_name": "멜론",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Melon"
+   ],
+   "candidates": [
+    {
+     "code": "260177005",
+     "display": "Melon",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Melon",
+     "fsn": "Melon",
+     "inactive": false
+    },
+    {
+     "code": "227504009",
+     "display": "Melon seed",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Melon"
+    }
+   ],
+   "chosen": {
+    "code": "260177005",
+    "display": "Melon",
+    "hierarchy": "substance",
+    "matched_query": "Melon"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "mouse",
+   "canonical_name": "Mouse",
+   "korean_name": "생쥐",
+   "category": "animal",
+   "existing": false,
+   "queries": [
+    "Mus musculus",
+    "Mus m",
+    "Mouse"
+   ],
+   "candidates": [
+    {
+     "code": "82968002",
+     "display": "Mouse",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Mouse",
+     "fsn": "Mouse",
+     "inactive": false
+    },
+    {
+     "code": "256419000",
+     "display": "Mouse epithelium",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mouse"
+    },
+    {
+     "code": "146681000146101",
+     "display": "House mouse protein",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mouse"
+    },
+    {
+     "code": "28522007",
+     "display": "Mouse adenovirus",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Mouse"
+    },
+    {
+     "code": "260156007",
+     "display": "Mouse urine proteins",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Mouse"
+    }
+   ],
+   "chosen": {
+    "code": "82968002",
+    "display": "Mouse",
+    "hierarchy": "organism",
+    "matched_query": "Mouse"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "mucor_racemosus",
+   "canonical_name": "Mucor racemosus",
+   "korean_name": "뮤코르 라세모수스",
+   "category": "mold",
+   "existing": false,
+   "queries": [
+    "Mucor racemosus"
+   ],
+   "candidates": [
+    {
+     "code": "29589005",
+     "display": "Mucor racemosus",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Mucor racemosus",
+     "fsn": "Mucor racemosus",
+     "inactive": false
+    },
+    {
+     "code": "711249008",
+     "display": "Mucor racemosus protein antigen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mucor racemosus"
+    },
+    {
+     "code": "770969002",
+     "display": "Mucor lusitanicus",
+     "score": 0.5,
+     "hierarchy": "organism",
+     "query": "Mucor racemosus"
+    }
+   ],
+   "chosen": {
+    "code": "29589005",
+    "display": "Mucor racemosus",
+    "hierarchy": "organism",
+    "matched_query": "Mucor racemosus"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "mugwort",
+   "canonical_name": "Mugwort",
+   "korean_name": "쑥",
+   "category": "pollen_weed",
+   "existing": false,
+   "queries": [
+    "Mugwort"
+   ],
+   "candidates": [
+    {
+     "code": "256340003",
+     "display": "Mugwort",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Mugwort",
+     "fsn": "Mugwort",
+     "inactive": false
+    },
+    {
+     "code": "256293000",
+     "display": "Mugwort pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mugwort"
+    }
+   ],
+   "chosen": {
+    "code": "256340003",
+    "display": "Mugwort",
+    "hierarchy": "organism",
+    "matched_query": "Mugwort"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "mung_bean",
+   "canonical_name": "Mung bean",
+   "korean_name": "녹두",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Vigna radiata",
+    "Mung bean"
+   ],
+   "candidates": [
+    {
+     "code": "227356000",
+     "display": "Mung bean dahl",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mung bean",
+     "fsn": "Mung bean dahl",
+     "inactive": false
+    },
+    {
+     "code": "227851001",
+     "display": "Mung bean curry",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mung bean"
+    },
+    {
+     "code": "227852008",
+     "display": "Mung bean dahl curry",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Mung bean"
+    },
+    {
+     "code": "227853003",
+     "display": "Mung bean dahl and spinach curry",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Mung bean"
+    },
+    {
+     "code": "227854009",
+     "display": "Mung bean dahl and tomato curry",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Mung bean"
+    }
+   ],
+   "chosen": {
+    "code": "227356000",
+    "display": "Mung bean dahl",
+    "hierarchy": "substance",
+    "matched_query": "Mung bean"
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "mushroom",
+   "canonical_name": "Mushroom",
+   "korean_name": "버섯",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Edible mushroom",
+    "Mushroom"
+   ],
+   "candidates": [
+    {
+     "code": "735045008",
+     "display": "Mushroom",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Mushroom",
+     "fsn": "Mushroom",
+     "inactive": false
+    },
+    {
+     "code": "42159002",
+     "display": "Mushroom poison",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mushroom"
+    },
+    {
+     "code": "227634005",
+     "display": "Mushroom quiche",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mushroom"
+    },
+    {
+     "code": "227785009",
+     "display": "Mushroom bhaji",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mushroom"
+    },
+    {
+     "code": "227889006",
+     "display": "Mushroom dopiaza",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mushroom"
+    }
+   ],
+   "chosen": {
+    "code": "735045008",
+    "display": "Mushroom",
+    "hierarchy": "substance",
+    "matched_query": "Mushroom"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "mussel",
+   "canonical_name": "Mussel",
+   "korean_name": "홍합",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Mussel"
+   ],
+   "candidates": [
+    {
+     "code": "227150003",
+     "display": "Mussel",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Mussel",
+     "fsn": "Mussel",
+     "inactive": false
+    },
+    {
+     "code": "77188000",
+     "display": "Mussel",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Mussel"
+    },
+    {
+     "code": "710182009",
+     "display": "Blue mussel",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mussel"
+    },
+    {
+     "code": "260173009",
+     "display": "Blue mussel",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Mussel"
+    }
+   ],
+   "chosen": {
+    "code": "227150003",
+    "display": "Mussel",
+    "hierarchy": "substance",
+    "matched_query": "Mussel"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "mustard",
+   "canonical_name": "Mustard",
+   "korean_name": "겨자",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Mustard"
+   ],
+   "candidates": [
+    {
+     "code": "51905005",
+     "display": "Mustard",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Mustard",
+     "fsn": "Mustard",
+     "inactive": false
+    },
+    {
+     "code": "76533004",
+     "display": "Mustard gas",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mustard"
+    },
+    {
+     "code": "80743002",
+     "display": "Mustard black",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mustard"
+    },
+    {
+     "code": "90677004",
+     "display": "Mustard white",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mustard"
+    },
+    {
+     "code": "227253005",
+     "display": "Mustard leaf",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mustard"
+    }
+   ],
+   "chosen": {
+    "code": "51905005",
+    "display": "Mustard",
+    "hierarchy": "substance",
+    "matched_query": "Mustard"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "nettle",
+   "canonical_name": "Nettle",
+   "korean_name": "쐐기풀",
+   "category": "pollen_weed",
+   "existing": false,
+   "queries": [
+    "Nettle",
+    "Nettle pollen"
+   ],
+   "candidates": [
+    {
+     "code": "256298009",
+     "display": "Nettle pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Nettle pollen",
+     "fsn": "Nettle pollen",
+     "inactive": false
+    },
+    {
+     "code": "107570009",
+     "display": "Family Urticaceae - nettle",
+     "score": 0.92,
+     "hierarchy": "organism",
+     "query": "Nettle"
+    }
+   ],
+   "chosen": {
+    "code": "256298009",
+    "display": "Nettle pollen",
+    "hierarchy": "substance",
+    "matched_query": "Nettle pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "neurospora",
+   "canonical_name": "Neurospora",
+   "korean_name": "뉴로스포라",
+   "category": "mold",
+   "existing": false,
+   "queries": [
+    "Neurospora"
+   ],
+   "candidates": [
+    {
+     "code": "708254003",
+     "display": "Neurospora",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Neurospora",
+     "fsn": "Neurospora",
+     "inactive": false
+    },
+    {
+     "code": "792924005",
+     "display": "Neurospora tetrasperma",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Neurospora"
+    },
+    {
+     "code": "28921000284102",
+     "display": "Neurospora crassa",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Neurospora"
+    },
+    {
+     "code": "531722621000087102",
+     "display": "Neurospora sitophila",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Neurospora"
+    }
+   ],
+   "chosen": {
+    "code": "708254003",
+    "display": "Neurospora",
+    "hierarchy": "organism",
+    "matched_query": "Neurospora"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "oak",
+   "canonical_name": "Oak",
+   "korean_name": "참나무",
+   "category": "pollen_tree",
+   "existing": false,
+   "queries": [
+    "Oak"
+   ],
+   "candidates": [
+    {
+     "code": "53347009",
+     "display": "Oak",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Oak",
+     "fsn": "Oak",
+     "inactive": false
+    },
+    {
+     "code": "256270006",
+     "display": "Oak pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Oak"
+    },
+    {
+     "code": "58291008",
+     "display": "Oak toad",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Oak"
+    },
+    {
+     "code": "256022007",
+     "display": "Oak moss absolute",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Oak"
+    },
+    {
+     "code": "1268406002",
+     "display": "Oak wood dust",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Oak"
+    }
+   ],
+   "chosen": {
+    "code": "53347009",
+    "display": "Oak",
+    "hierarchy": "organism",
+    "matched_query": "Oak"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "oat",
+   "canonical_name": "Oat",
+   "korean_name": "귀리가루",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Oat flour",
+    "Oat"
+   ],
+   "candidates": [
+    {
+     "code": "418504009",
+     "display": "Oat",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Oat",
+     "fsn": "Oat",
+     "inactive": false
+    },
+    {
+     "code": "412452008",
+     "display": "Oat extract",
+     "score": 0.99,
+     "hierarchy": "substance",
+     "query": "Oat"
+    },
+    {
+     "code": "9424004",
+     "display": "Cultivated oat",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Oat"
+    },
+    {
+     "code": "226616004",
+     "display": "Oat and wheat bran",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Oat"
+    }
+   ],
+   "chosen": {
+    "code": "418504009",
+    "display": "Oat",
+    "hierarchy": "substance",
+    "matched_query": "Oat"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "octopus",
+   "canonical_name": "Octopus",
+   "korean_name": "문어",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Octopus"
+   ],
+   "candidates": [
+    {
+     "code": "735979007",
+     "display": "Octopus",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Octopus",
+     "fsn": "Octopus",
+     "inactive": false
+    },
+    {
+     "code": "88093005",
+     "display": "Octopus",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Octopus"
+    },
+    {
+     "code": "1252766005",
+     "display": "Blue-ringed octopus venom",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Octopus"
+    },
+    {
+     "code": "16474003",
+     "display": "Octopus vulgaris disease virus",
+     "score": 0.88,
+     "hierarchy": "organism",
+     "query": "Octopus"
+    }
+   ],
+   "chosen": {
+    "code": "735979007",
+    "display": "Octopus",
+    "hierarchy": "substance",
+    "matched_query": "Octopus"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "olive",
+   "canonical_name": "Olive",
+   "korean_name": "올리브",
+   "category": "pollen_tree",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "onion",
+   "canonical_name": "Onion",
+   "korean_name": "양파",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Onion"
+   ],
+   "candidates": [
+    {
+     "code": "735047000",
+     "display": "Onion",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Onion",
+     "fsn": "Onion",
+     "inactive": false
+    },
+    {
+     "code": "227524008",
+     "display": "Onion sauce",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Onion"
+    },
+    {
+     "code": "227788006",
+     "display": "Onion bhaji",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Onion"
+    },
+    {
+     "code": "227255003",
+     "display": "Spring onion",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Onion"
+    },
+    {
+     "code": "227763003",
+     "display": "Stuffing sage and onion",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Onion"
+    }
+   ],
+   "chosen": {
+    "code": "735047000",
+    "display": "Onion",
+    "hierarchy": "substance",
+    "matched_query": "Onion"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "orange",
+   "canonical_name": "Orange",
+   "korean_name": "오렌지",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Orange",
+    "Orange - fruit"
+   ],
+   "candidates": [
+    {
+     "code": "256306003",
+     "display": "Orange - fruit",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Orange - fruit",
+     "fsn": "Orange - fruit",
+     "inactive": false
+    },
+    {
+     "code": "47677002",
+     "display": "Orange oil",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Orange"
+    },
+    {
+     "code": "54221006",
+     "display": "Orange G stain",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Orange"
+    },
+    {
+     "code": "226496008",
+     "display": "Orange juice",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Orange"
+    },
+    {
+     "code": "227130002",
+     "display": "Orange roughy",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Orange"
+    }
+   ],
+   "chosen": {
+    "code": "256306003",
+    "display": "Orange - fruit",
+    "hierarchy": "substance",
+    "matched_query": "Orange - fruit"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "orchard_grass",
+   "canonical_name": "Orchard grass",
+   "korean_name": "오리새",
+   "category": "pollen_grass",
+   "existing": false,
+   "queries": [
+    "Orchard grass",
+    "Orchard grass pollen"
+   ],
+   "candidates": [
+    {
+     "code": "256278004",
+     "display": "Dactylis (orchardgrass) pollen",
+     "score": 0.333,
+     "hierarchy": "substance",
+     "query": "Orchard grass pollen"
+    },
+    {
+     "code": "256284001",
+     "display": "Cocksfoot pollen",
+     "score": 0.333,
+     "hierarchy": "substance",
+     "query": "Orchard grass pollen"
+    }
+   ],
+   "chosen": null,
+   "confidence": "none"
+  },
+  {
+   "id": "outdoor_mold_mixture",
+   "canonical_name": "Outdoor mold mixture",
+   "korean_name": "실외 곰팡이 혼합",
+   "category": "mold",
+   "existing": false,
+   "queries": [
+    "Outdoor mold mixture",
+    "Mold"
+   ],
+   "candidates": [
+    {
+     "code": "84489001",
+     "display": "Mold",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Mold",
+     "fsn": "Mold",
+     "inactive": false
+    },
+    {
+     "code": "311951009",
+     "display": "Mold killer",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mold"
+    },
+    {
+     "code": "722071008",
+     "display": "Mold antigen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Mold"
+    },
+    {
+     "code": "243565002",
+     "display": "Slime mold",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Mold"
+    },
+    {
+     "code": "226854001",
+     "display": "Soft mold ripened cheese",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Mold"
+    }
+   ],
+   "chosen": {
+    "code": "84489001",
+    "display": "Mold",
+    "hierarchy": "organism",
+    "matched_query": "Mold"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "oyster",
+   "canonical_name": "Oyster",
+   "korean_name": "굴",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Oyster"
+   ],
+   "candidates": [
+    {
+     "code": "736031006",
+     "display": "Oyster",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Oyster",
+     "fsn": "Oyster",
+     "inactive": false
+    },
+    {
+     "code": "90014002",
+     "display": "Oyster",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Oyster"
+    },
+    {
+     "code": "1268404004",
+     "display": "Oyster mushroom",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Oyster"
+    },
+    {
+     "code": "49647004",
+     "display": "Oyster mushroom",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Oyster"
+    }
+   ],
+   "chosen": {
+    "code": "736031006",
+    "display": "Oyster",
+    "hierarchy": "substance",
+    "matched_query": "Oyster"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "peach",
+   "canonical_name": "Peach",
+   "korean_name": "복숭아",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Peach"
+   ],
+   "candidates": [
+    {
+     "code": "735049002",
+     "display": "Peach",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Peach",
+     "fsn": "Peach",
+     "inactive": false
+    },
+    {
+     "code": "227717009",
+     "display": "Peach melba",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Peach"
+    },
+    {
+     "code": "227458003",
+     "display": "Dried peach",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Peach"
+    }
+   ],
+   "chosen": {
+    "code": "735049002",
+    "display": "Peach",
+    "hierarchy": "substance",
+    "matched_query": "Peach"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "peanut",
+   "canonical_name": "Peanut",
+   "korean_name": "땅콩",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Peanut"
+   ],
+   "candidates": [
+    {
+     "code": "762952008",
+     "display": "Peanut",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Peanut",
+     "fsn": "Peanut",
+     "inactive": false
+    },
+    {
+     "code": "102260001",
+     "display": "Peanut butter",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Peanut"
+    },
+    {
+     "code": "229889003",
+     "display": "Peanut brittle",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Peanut"
+    },
+    {
+     "code": "116995004",
+     "display": "Peanut agglutinin antigen",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Peanut"
+    },
+    {
+     "code": "227507002",
+     "display": "Smooth peanut butter",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Peanut"
+    }
+   ],
+   "chosen": {
+    "code": "762952008",
+    "display": "Peanut",
+    "hierarchy": "substance",
+    "matched_query": "Peanut"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "pear",
+   "canonical_name": "Pear",
+   "korean_name": "배",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Pear"
+   ],
+   "candidates": [
+    {
+     "code": "735050002",
+     "display": "Pear",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Pear",
+     "fsn": "Pear",
+     "inactive": false
+    },
+    {
+     "code": "25352004",
+     "display": "Pear",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Pear"
+    },
+    {
+     "code": "227459006",
+     "display": "Dried pear",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Pear"
+    },
+    {
+     "code": "1284920003",
+     "display": "Pear tree pollen",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Pear"
+    }
+   ],
+   "chosen": {
+    "code": "735050002",
+    "display": "Pear",
+    "hierarchy": "substance",
+    "matched_query": "Pear"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "pecan",
+   "canonical_name": "Pecan",
+   "korean_name": "피칸",
+   "category": "food",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "penicillium",
+   "canonical_name": "Penicillium",
+   "korean_name": "페니실리움",
+   "category": "mold",
+   "existing": false,
+   "queries": [
+    "Penicillium"
+   ],
+   "candidates": [
+    {
+     "code": "42993004",
+     "display": "Penicillium",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Penicillium",
+     "fsn": "Penicillium",
+     "inactive": false
+    },
+    {
+     "code": "5516003",
+     "display": "Penicillium glaucum",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Penicillium"
+    },
+    {
+     "code": "15501001",
+     "display": "Penicillium cyclopium",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Penicillium"
+    },
+    {
+     "code": "23755002",
+     "display": "Penicillium islandicum",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Penicillium"
+    },
+    {
+     "code": "24476004",
+     "display": "Penicillium chrysogenum",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Penicillium"
+    }
+   ],
+   "chosen": {
+    "code": "42993004",
+    "display": "Penicillium",
+    "hierarchy": "organism",
+    "matched_query": "Penicillium"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "pepper",
+   "canonical_name": "Pepper",
+   "korean_name": "피망",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Sweet pepper",
+    "Pepper"
+   ],
+   "candidates": [
+    {
+     "code": "227563001",
+     "display": "Pepper - seasoning",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Pepper",
+     "fsn": "Pepper - seasoning",
+     "inactive": false
+    },
+    {
+     "code": "71430004",
+     "display": "Oil of pepper",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Pepper"
+    },
+    {
+     "code": "1883000",
+     "display": "Piper - pepper",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Pepper"
+    },
+    {
+     "code": "14299001",
+     "display": "Capsicum - pepper",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Pepper"
+    },
+    {
+     "code": "227905001",
+     "display": "Pepper stuffed with rice",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Pepper"
+    }
+   ],
+   "chosen": {
+    "code": "227563001",
+    "display": "Pepper - seasoning",
+    "hierarchy": "substance",
+    "matched_query": "Pepper"
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "pine",
+   "canonical_name": "Pine",
+   "korean_name": "소나무",
+   "category": "pollen_tree",
+   "existing": false,
+   "queries": [
+    "Pine",
+    "Pine pollen"
+   ],
+   "candidates": [
+    {
+     "code": "256267007",
+     "display": "Pine pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Pine pollen",
+     "fsn": "Pine pollen",
+     "inactive": false
+    },
+    {
+     "code": "32050003",
+     "display": "Pine oil",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Pine"
+    },
+    {
+     "code": "69522000",
+     "display": "Pine tar",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Pine"
+    },
+    {
+     "code": "227511008",
+     "display": "Pine nut",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Pine"
+    },
+    {
+     "code": "256258007",
+     "display": "Pine wood",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Pine"
+    }
+   ],
+   "chosen": {
+    "code": "256267007",
+    "display": "Pine pollen",
+    "hierarchy": "substance",
+    "matched_query": "Pine pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "pineapple",
+   "canonical_name": "Pineapple",
+   "korean_name": "파인애플",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Pineapple"
+   ],
+   "candidates": [
+    {
+     "code": "256313003",
+     "display": "Pineapple",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Pineapple",
+     "fsn": "Pineapple",
+     "inactive": false
+    },
+    {
+     "code": "226497004",
+     "display": "Pineapple juice",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Pineapple"
+    },
+    {
+     "code": "229777009",
+     "display": "Pineapple flavor",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Pineapple"
+    },
+    {
+     "code": "227460001",
+     "display": "Dried pineapple",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Pineapple"
+    },
+    {
+     "code": "227483003",
+     "display": "Tinned pineapple",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Pineapple"
+    }
+   ],
+   "chosen": {
+    "code": "256313003",
+    "display": "Pineapple",
+    "hierarchy": "substance",
+    "matched_query": "Pineapple"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "pistachio",
+   "canonical_name": "Pistachio",
+   "korean_name": "피스타치오",
+   "category": "food",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "plaice",
+   "canonical_name": "Plaice",
+   "korean_name": "넙치, 가자미류",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Plaice"
+   ],
+   "candidates": [
+    {
+     "code": "227083008",
+     "display": "Plaice",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Plaice",
+     "fsn": "Plaice",
+     "inactive": false
+    },
+    {
+     "code": "227084002",
+     "display": "Poached plaice",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Plaice"
+    },
+    {
+     "code": "227085001",
+     "display": "Fried plaice",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Plaice"
+    },
+    {
+     "code": "227086000",
+     "display": "Fried plaice in batter",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Plaice"
+    },
+    {
+     "code": "227087009",
+     "display": "Fried plaice in breadcrumbs",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Plaice"
+    }
+   ],
+   "chosen": {
+    "code": "227083008",
+    "display": "Plaice",
+    "hierarchy": "substance",
+    "matched_query": "Plaice"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "plane",
+   "canonical_name": "Plane",
+   "korean_name": "양버즘나무",
+   "category": "pollen_tree",
+   "existing": false,
+   "queries": [
+    "Plane",
+    "Plane pollen"
+   ],
+   "candidates": [
+    {
+     "code": "256268002",
+     "display": "Plane pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Plane pollen",
+     "fsn": "Plane pollen",
+     "inactive": false
+    },
+    {
+     "code": "710731000",
+     "display": "London plane pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Plane pollen"
+    }
+   ],
+   "chosen": {
+    "code": "256268002",
+    "display": "Plane pollen",
+    "hierarchy": "substance",
+    "matched_query": "Plane pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "plum",
+   "canonical_name": "Plum",
+   "korean_name": "자두",
+   "category": "food",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "pollock",
+   "canonical_name": "Pollock",
+   "korean_name": "명태",
+   "category": "food",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "poplar",
+   "canonical_name": "Poplar",
+   "korean_name": "포플러나무",
+   "category": "pollen_tree",
+   "existing": false,
+   "queries": [
+    "Poplar",
+    "Poplar pollen"
+   ],
+   "candidates": [
+    {
+     "code": "256269005",
+     "display": "Poplar pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Poplar pollen",
+     "fsn": "Poplar pollen",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "256269005",
+    "display": "Poplar pollen",
+    "hierarchy": "substance",
+    "matched_query": "Poplar pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "pork",
+   "canonical_name": "Pork",
+   "korean_name": "돼지고기",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Pork"
+   ],
+   "candidates": [
+    {
+     "code": "226934003",
+     "display": "Pork",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Pork",
+     "fsn": "Pork",
+     "inactive": false
+    },
+    {
+     "code": "67296003",
+     "display": "Pork insulin",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Pork"
+    },
+    {
+     "code": "227006002",
+     "display": "Pork burger",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Pork"
+    },
+    {
+     "code": "227025004",
+     "display": "Pork sausage",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Pork"
+    },
+    {
+     "code": "227676002",
+     "display": "Pork pie",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Pork"
+    }
+   ],
+   "chosen": {
+    "code": "226934003",
+    "display": "Pork",
+    "hierarchy": "substance",
+    "matched_query": "Pork"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "potato",
+   "canonical_name": "Potato",
+   "korean_name": "감자",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Potato"
+   ],
+   "candidates": [
+    {
+     "code": "226711000",
+     "display": "Potato scone",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Potato",
+     "fsn": "Potato scone",
+     "inactive": false
+    },
+    {
+     "code": "1590002",
+     "display": "Irish potato",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Potato"
+    },
+    {
+     "code": "423418004",
+     "display": "Potato virus X",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Potato"
+    },
+    {
+     "code": "227295001",
+     "display": "Potato mashed with butter",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Potato"
+    },
+    {
+     "code": "227296000",
+     "display": "Potato mashed with margarine",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Potato"
+    }
+   ],
+   "chosen": {
+    "code": "226711000",
+    "display": "Potato scone",
+    "hierarchy": "substance",
+    "matched_query": "Potato"
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "prawn",
+   "canonical_name": "Prawn",
+   "korean_name": "대하",
+   "category": "food",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "rabbit_epithelium",
+   "canonical_name": "Rabbit epithelium",
+   "korean_name": "토끼 상피",
+   "category": "animal",
+   "existing": false,
+   "queries": [
+    "Rabbit epithelium"
+   ],
+   "candidates": [
+    {
+     "code": "256421005",
+     "display": "Rabbit epithelium",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Rabbit epithelium",
+     "fsn": "Rabbit epithelium",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "256421005",
+    "display": "Rabbit epithelium",
+    "hierarchy": "substance",
+    "matched_query": "Rabbit epithelium"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "ragweed",
+   "canonical_name": "Ragweed",
+   "korean_name": "돼지풀",
+   "category": "pollen_weed",
+   "existing": false,
+   "queries": [
+    "Ragweed",
+    "Ragweed pollen"
+   ],
+   "candidates": [
+    {
+     "code": "256303006",
+     "display": "Ragweed pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Ragweed pollen",
+     "fsn": "Ragweed pollen",
+     "inactive": false
+    },
+    {
+     "code": "260106002",
+     "display": "Giant ragweed pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Ragweed pollen"
+    },
+    {
+     "code": "260107006",
+     "display": "False ragweed pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Ragweed pollen"
+    },
+    {
+     "code": "698721004",
+     "display": "Ambrosia artemisiifolia pollen",
+     "score": 0.46,
+     "hierarchy": "substance",
+     "query": "Ragweed pollen"
+    },
+    {
+     "code": "698724007",
+     "display": "Ambrosia psilostachya pollen",
+     "score": 0.46,
+     "hierarchy": "substance",
+     "query": "Ragweed pollen"
+    }
+   ],
+   "chosen": {
+    "code": "256303006",
+    "display": "Ragweed pollen",
+    "hierarchy": "substance",
+    "matched_query": "Ragweed pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "rat_epithelium",
+   "canonical_name": "Rat epithelium",
+   "korean_name": "쥐 상피",
+   "category": "animal",
+   "existing": false,
+   "queries": [
+    "Rat epithelium"
+   ],
+   "candidates": [
+    {
+     "code": "256422003",
+     "display": "Rat epithelium",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Rat epithelium",
+     "fsn": "Rat epithelium",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "256422003",
+    "display": "Rat epithelium",
+    "hierarchy": "substance",
+    "matched_query": "Rat epithelium"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "rice",
+   "canonical_name": "Rice",
+   "korean_name": "쌀가루",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Rice flour",
+    "Rice"
+   ],
+   "candidates": [
+    {
+     "code": "67324005",
+     "display": "Rice",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Rice",
+     "fsn": "Rice",
+     "inactive": false
+    },
+    {
+     "code": "227917004",
+     "display": "Rice dishes",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Rice"
+    },
+    {
+     "code": "227918009",
+     "display": "Rice and beans",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Rice"
+    },
+    {
+     "code": "227924003",
+     "display": "Rice rissole",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Rice"
+    },
+    {
+     "code": "227944009",
+     "display": "Rice salad",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Rice"
+    }
+   ],
+   "chosen": {
+    "code": "67324005",
+    "display": "Rice",
+    "hierarchy": "substance",
+    "matched_query": "Rice"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "russian_thistle",
+   "canonical_name": "Russian thistle",
+   "korean_name": "러시안 엉겅퀴",
+   "category": "pollen_weed",
+   "existing": false,
+   "queries": [
+    "Russian thistle",
+    "Russian thistle pollen"
+   ],
+   "candidates": [
+    {
+     "code": "260111000",
+     "display": "Russian thistle pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Russian thistle pollen",
+     "fsn": "Russian thistle pollen",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "260111000",
+    "display": "Russian thistle pollen",
+    "hierarchy": "substance",
+    "matched_query": "Russian thistle pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "rye_flour",
+   "canonical_name": "Rye flour",
+   "korean_name": "호밀가루",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Rye flour"
+   ],
+   "candidates": [
+    {
+     "code": "229940009",
+     "display": "Rye flour",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Rye flour",
+     "fsn": "Rye flour",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "229940009",
+    "display": "Rye flour",
+    "hierarchy": "substance",
+    "matched_query": "Rye flour"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "rye_grass_perennial",
+   "canonical_name": "Rye grass, perennial",
+   "korean_name": "호밀풀",
+   "category": "pollen_grass",
+   "existing": false,
+   "queries": [
+    "Rye grass",
+    "Rye grass, perennial",
+    "Rye grass pollen"
+   ],
+   "candidates": [
+    {
+     "code": "256280005",
+     "display": "Rye grass pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Rye grass pollen",
+     "fsn": "Rye grass pollen",
+     "inactive": false
+    },
+    {
+     "code": "260103005",
+     "display": "Wild rye grass pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Rye grass pollen"
+    },
+    {
+     "code": "1264573001",
+     "display": "Perennial rye grass pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Rye grass pollen"
+    },
+    {
+     "code": "8033002",
+     "display": "Perennial rye grass",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Rye grass"
+    }
+   ],
+   "chosen": {
+    "code": "256280005",
+    "display": "Rye grass pollen",
+    "hierarchy": "substance",
+    "matched_query": "Rye grass pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "salmon",
+   "canonical_name": "Salmon",
+   "korean_name": "연어",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Salmon"
+   ],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "none"
+  },
+  {
+   "id": "sardine",
+   "canonical_name": "Sardine",
+   "korean_name": "정어리",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Sardine"
+   ],
+   "candidates": [
+    {
+     "code": "227136008",
+     "display": "Sardine",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Sardine",
+     "fsn": "Sardine",
+     "inactive": false
+    },
+    {
+     "code": "227137004",
+     "display": "Grilled sardine",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Sardine"
+    },
+    {
+     "code": "227138009",
+     "display": "Fried sardine",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Sardine"
+    }
+   ],
+   "chosen": {
+    "code": "227136008",
+    "display": "Sardine",
+    "hierarchy": "substance",
+    "matched_query": "Sardine"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "sesame",
+   "canonical_name": "Sesame",
+   "korean_name": "참깨",
+   "category": "food",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "sheep",
+   "canonical_name": "Sheep",
+   "korean_name": "양고기",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Sheep"
+   ],
+   "candidates": [
+    {
+     "code": "226791004",
+     "display": "Sheep milk",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Sheep",
+     "fsn": "Sheep milk",
+     "inactive": false
+    },
+    {
+     "code": "260162002",
+     "display": "Sheep epithelium",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Sheep"
+    },
+    {
+     "code": "260206005",
+     "display": "Sheep wool",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Sheep"
+    },
+    {
+     "code": "311723005",
+     "display": "Sheep dip",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Sheep"
+    },
+    {
+     "code": "226879003",
+     "display": "Sheep's milk yogurt",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Sheep"
+    }
+   ],
+   "chosen": {
+    "code": "226791004",
+    "display": "Sheep milk",
+    "hierarchy": "substance",
+    "matched_query": "Sheep"
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "shrimp",
+   "canonical_name": "Shrimp",
+   "korean_name": "새우",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Shrimp"
+   ],
+   "candidates": [
+    {
+     "code": "278840001",
+     "display": "Shrimp",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Shrimp",
+     "fsn": "Shrimp",
+     "inactive": false
+    },
+    {
+     "code": "227159002",
+     "display": "Fried shrimp",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Shrimp"
+    },
+    {
+     "code": "227160007",
+     "display": "Dried shrimp",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Shrimp"
+    },
+    {
+     "code": "711315003",
+     "display": "Brine shrimp protein",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Shrimp"
+    }
+   ],
+   "chosen": {
+    "code": "278840001",
+    "display": "Shrimp",
+    "hierarchy": "substance",
+    "matched_query": "Shrimp"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "snail",
+   "canonical_name": "Snail",
+   "korean_name": "달팽이",
+   "category": "food",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "soybean",
+   "canonical_name": "Soybean",
+   "korean_name": "대두",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Glycine max",
+    "Gly m",
+    "Soybean"
+   ],
+   "candidates": [
+    {
+     "code": "76068006",
+     "display": "Soybean",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Soybean",
+     "fsn": "Soybean",
+     "inactive": false
+    },
+    {
+     "code": "7791007",
+     "display": "Soybean protein",
+     "score": 0.99,
+     "hierarchy": "substance",
+     "query": "Soybean"
+    },
+    {
+     "code": "226793001",
+     "display": "Soybean milk",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Soybean"
+    },
+    {
+     "code": "226842001",
+     "display": "Soybean cheese",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Soybean"
+    },
+    {
+     "code": "226911007",
+     "display": "Soybean oil",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Soybean"
+    }
+   ],
+   "chosen": {
+    "code": "76068006",
+    "display": "Soybean",
+    "hierarchy": "organism",
+    "matched_query": "Soybean"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "spinach",
+   "canonical_name": "Spinach",
+   "korean_name": "시금치",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Spinach"
+   ],
+   "candidates": [
+    {
+     "code": "256329006",
+     "display": "Spinach",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Spinach",
+     "fsn": "Spinach",
+     "inactive": false
+    },
+    {
+     "code": "227797005",
+     "display": "Spinach bhaji",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Spinach"
+    },
+    {
+     "code": "227864000",
+     "display": "Spinach curry",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Spinach"
+    },
+    {
+     "code": "227926001",
+     "display": "Roulade spinach",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Spinach"
+    },
+    {
+     "code": "227799008",
+     "display": "Spinach and potato bhaji",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Spinach"
+    }
+   ],
+   "chosen": {
+    "code": "256329006",
+    "display": "Spinach",
+    "hierarchy": "substance",
+    "matched_query": "Spinach"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "squid",
+   "canonical_name": "Squid",
+   "korean_name": "오징어",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Squid"
+   ],
+   "candidates": [
+    {
+     "code": "735006003",
+     "display": "Squid",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Squid",
+     "fsn": "Squid",
+     "inactive": false
+    },
+    {
+     "code": "68951001",
+     "display": "Squid",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Squid"
+    },
+    {
+     "code": "227164003",
+     "display": "Dried squid",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Squid"
+    },
+    {
+     "code": "227165002",
+     "display": "Fried squid",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Squid"
+    },
+    {
+     "code": "1263989003",
+     "display": "Japanese flying squid",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Squid"
+    }
+   ],
+   "chosen": {
+    "code": "735006003",
+    "display": "Squid",
+    "hierarchy": "substance",
+    "matched_query": "Squid"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "strawberry",
+   "canonical_name": "Strawberry",
+   "korean_name": "딸기",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Strawberry"
+   ],
+   "candidates": [
+    {
+     "code": "102261002",
+     "display": "Strawberry",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Strawberry",
+     "fsn": "Strawberry",
+     "inactive": false
+    },
+    {
+     "code": "226716005",
+     "display": "Strawberry tartlet",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Strawberry"
+    }
+   ],
+   "chosen": {
+    "code": "102261002",
+    "display": "Strawberry",
+    "hierarchy": "substance",
+    "matched_query": "Strawberry"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "timothy",
+   "canonical_name": "Timothy",
+   "korean_name": "티모시",
+   "category": "pollen_grass",
+   "existing": false,
+   "queries": [
+    "Timothy grass",
+    "Timothy",
+    "Timothy grass pollen"
+   ],
+   "candidates": [
+    {
+     "code": "256281009",
+     "display": "Timothy grass pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Timothy grass pollen",
+     "fsn": "Timothy grass pollen",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "256281009",
+    "display": "Timothy grass pollen",
+    "hierarchy": "substance",
+    "matched_query": "Timothy grass pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "tomato",
+   "canonical_name": "Tomato",
+   "korean_name": "토마토",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Tomato"
+   ],
+   "candidates": [
+    {
+     "code": "734881000",
+     "display": "Tomato",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Tomato",
+     "fsn": "Tomato",
+     "inactive": false
+    },
+    {
+     "code": "226498009",
+     "display": "Tomato juice",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Tomato"
+    },
+    {
+     "code": "227274006",
+     "display": "Tomato puree",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Tomato"
+    },
+    {
+     "code": "227536002",
+     "display": "Tomato sauce",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Tomato"
+    },
+    {
+     "code": "227544002",
+     "display": "Tomato chutney",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Tomato"
+    }
+   ],
+   "chosen": {
+    "code": "734881000",
+    "display": "Tomato",
+    "hierarchy": "substance",
+    "matched_query": "Tomato"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "tree_mixture_1",
+   "canonical_name": "Tree mixture 1",
+   "korean_name": "나무 꽃가루 혼합-1",
+   "category": "pollen_tree",
+   "existing": false,
+   "queries": [
+    "Tree mixture 1"
+   ],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "none"
+  },
+  {
+   "id": "tree_mixture_2",
+   "canonical_name": "Tree mixture 2",
+   "korean_name": "나무 꽃가루 혼합-2",
+   "category": "pollen_tree",
+   "existing": false,
+   "queries": [
+    "Tree mixture 2"
+   ],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "none"
+  },
+  {
+   "id": "trout",
+   "canonical_name": "Trout",
+   "korean_name": "송어",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Trout"
+   ],
+   "candidates": [
+    {
+     "code": "735034005",
+     "display": "Trout",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Trout",
+     "fsn": "Trout",
+     "inactive": false
+    },
+    {
+     "code": "227141000",
+     "display": "Fried trout",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Trout"
+    },
+    {
+     "code": "227142007",
+     "display": "Baked trout",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Trout"
+    },
+    {
+     "code": "227143002",
+     "display": "Smoked trout",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Trout"
+    }
+   ],
+   "chosen": {
+    "code": "735034005",
+    "display": "Trout",
+    "hierarchy": "substance",
+    "matched_query": "Trout"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "tuna",
+   "canonical_name": "Tuna",
+   "korean_name": "참치",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Tuna"
+   ],
+   "candidates": [
+    {
+     "code": "260175002",
+     "display": "Tuna",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Tuna",
+     "fsn": "Tuna",
+     "inactive": false
+    },
+    {
+     "code": "227144008",
+     "display": "Tuna fish",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Tuna"
+    },
+    {
+     "code": "227204005",
+     "display": "Tuna canned in brine",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Tuna"
+    },
+    {
+     "code": "227205006",
+     "display": "Tuna canned in oil",
+     "score": 0.88,
+     "hierarchy": "substance",
+     "query": "Tuna"
+    }
+   ],
+   "chosen": {
+    "code": "260175002",
+    "display": "Tuna",
+    "hierarchy": "organism",
+    "matched_query": "Tuna"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "tyrophagus_putrescentiae",
+   "canonical_name": "Tyrophagus putrescentiae",
+   "korean_name": "긴털가루진드기",
+   "category": "mite",
+   "existing": false,
+   "queries": [
+    "Tyrophagus putrescentiae protein"
+   ],
+   "candidates": [
+    {
+     "code": "711098005",
+     "display": "Tyrophagus putrescentiae protein",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Tyrophagus putrescentiae protein",
+     "fsn": "Tyrophagus putrescentiae protein",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "711098005",
+    "display": "Tyrophagus putrescentiae protein",
+    "hierarchy": "substance",
+    "matched_query": "Tyrophagus putrescentiae protein"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "velvet_grass",
+   "canonical_name": "Velvet grass",
+   "korean_name": "잔디",
+   "category": "pollen_grass",
+   "existing": false,
+   "queries": [
+    "Velvet grass",
+    "Velvet grass pollen"
+   ],
+   "candidates": [
+    {
+     "code": "256282002",
+     "display": "Velvet grass pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Velvet grass pollen",
+     "fsn": "Velvet grass pollen",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "256282002",
+    "display": "Velvet grass pollen",
+    "hierarchy": "substance",
+    "matched_query": "Velvet grass pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "walnut",
+   "canonical_name": "Walnut",
+   "korean_name": "호두",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Walnut"
+   ],
+   "candidates": [
+    {
+     "code": "256352005",
+     "display": "Walnut - nut",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Walnut",
+     "fsn": "Walnut - nut",
+     "inactive": false
+    },
+    {
+     "code": "229929001",
+     "display": "Walnut oil",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Walnut"
+    },
+    {
+     "code": "260127007",
+     "display": "Walnut pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Walnut"
+    },
+    {
+     "code": "255709003",
+     "display": "Walnut tree dust",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Walnut"
+    },
+    {
+     "code": "1264473004",
+     "display": "English walnut pollen",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Walnut"
+    }
+   ],
+   "chosen": {
+    "code": "256352005",
+    "display": "Walnut - nut",
+    "hierarchy": "substance",
+    "matched_query": "Walnut"
+   },
+   "confidence": "medium"
+  },
+  {
+   "id": "watermelon",
+   "canonical_name": "Watermelon",
+   "korean_name": "수박",
+   "category": "food",
+   "existing": true,
+   "queries": [],
+   "candidates": [],
+   "chosen": null,
+   "confidence": "already-mapped"
+  },
+  {
+   "id": "wheat",
+   "canonical_name": "Wheat",
+   "korean_name": "밀",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Tri a",
+    "Wheat"
+   ],
+   "candidates": [
+    {
+     "code": "412071004",
+     "display": "Wheat",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Wheat",
+     "fsn": "Wheat",
+     "inactive": false
+    },
+    {
+     "code": "229944000",
+     "display": "Wheat flour",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Wheat"
+    },
+    {
+     "code": "412533000",
+     "display": "Wheat bran",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Wheat"
+    },
+    {
+     "code": "415842005",
+     "display": "Wheat product",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Wheat"
+    },
+    {
+     "code": "6788000",
+     "display": "Triticum - wheat",
+     "score": 0.96,
+     "hierarchy": "organism",
+     "query": "Wheat"
+    }
+   ],
+   "chosen": {
+    "code": "412071004",
+    "display": "Wheat",
+    "hierarchy": "substance",
+    "matched_query": "Wheat"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "white_ash",
+   "canonical_name": "White ash",
+   "korean_name": "물푸레나무",
+   "category": "pollen_tree",
+   "existing": false,
+   "queries": [
+    "White ash",
+    "White ash pollen"
+   ],
+   "candidates": [
+    {
+     "code": "260128002",
+     "display": "White ash pollen",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "White ash pollen",
+     "fsn": "White ash pollen",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "260128002",
+    "display": "White ash pollen",
+    "hierarchy": "substance",
+    "matched_query": "White ash pollen"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "wholemeal_flour",
+   "canonical_name": "Wholemeal flour",
+   "korean_name": "통밀가루",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Whole wheat flour",
+    "Wholemeal flour"
+   ],
+   "candidates": [
+    {
+     "code": "229954001",
+     "display": "Wholemeal flour",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Wholemeal flour",
+     "fsn": "Wholemeal flour",
+     "inactive": false
+    }
+   ],
+   "chosen": {
+    "code": "229954001",
+    "display": "Wholemeal flour",
+    "hierarchy": "substance",
+    "matched_query": "Wholemeal flour"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "willow",
+   "canonical_name": "Willow",
+   "korean_name": "버드나무",
+   "category": "pollen_tree",
+   "existing": false,
+   "queries": [
+    "Willow tree",
+    "Willow"
+   ],
+   "candidates": [
+    {
+     "code": "256255005",
+     "display": "Willow",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Willow",
+     "fsn": "Willow",
+     "inactive": false
+    },
+    {
+     "code": "256271005",
+     "display": "Willow pollen",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Willow"
+    },
+    {
+     "code": "1264511005",
+     "display": "Black willow pollen",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Willow"
+    },
+    {
+     "code": "1268370006",
+     "display": "White willow pollen",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Willow"
+    },
+    {
+     "code": "1285307003",
+     "display": "Pussy willow pollen",
+     "score": 0.92,
+     "hierarchy": "substance",
+     "query": "Willow"
+    }
+   ],
+   "chosen": {
+    "code": "256255005",
+    "display": "Willow",
+    "hierarchy": "organism",
+    "matched_query": "Willow"
+   },
+   "confidence": "high"
+  },
+  {
+   "id": "yeast",
+   "canonical_name": "Yeast",
+   "korean_name": "맥주용효모",
+   "category": "food",
+   "existing": false,
+   "queries": [
+    "Yeast"
+   ],
+   "candidates": [
+    {
+     "code": "412534006",
+     "display": "Yeast",
+     "score": 1.0,
+     "hierarchy": "substance",
+     "query": "Yeast",
+     "fsn": "Yeast",
+     "inactive": false
+    },
+    {
+     "code": "62093005",
+     "display": "Yeast",
+     "score": 1.0,
+     "hierarchy": "organism",
+     "query": "Yeast"
+    },
+    {
+     "code": "54005009",
+     "display": "Yeast ribonuclease",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Yeast"
+    },
+    {
+     "code": "425433005",
+     "display": "Yeast cell extract",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Yeast"
+    },
+    {
+     "code": "426063001",
+     "display": "Yeast plasmolysate",
+     "score": 0.96,
+     "hierarchy": "substance",
+     "query": "Yeast"
+    }
+   ],
+   "chosen": {
+    "code": "412534006",
+    "display": "Yeast",
+    "hierarchy": "substance",
+    "matched_query": "Yeast"
+   },
+   "confidence": "high"
+  }
+ ]
+}

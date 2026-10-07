@@ -1,0 +1,1508 @@
+{
+ "source": "255a467b CDM_SPT_Mapping.xlsx (institution OMOP CDM pre-mapping)",
+ "note": "concept_id = OMOP concept identifier; vocabulary marks SNOMED (153) or LOINC (2). Authoritative per-allergen code + display for FHIR coding.",
+ "qualifiers": {
+  "major_axis": {
+   "concept_id": "4037344",
+   "display": "Major Axis (팽진 장축)"
+  },
+  "minor_axis": {
+   "concept_id": "4038107",
+   "display": "Minor Axis (팽진 단축)"
+  },
+  "average": {
+   "concept_id": "45880776",
+   "display": "Average (평균값)"
+  },
+  "ah_ratio": {
+   "concept_id": "4187346",
+   "display": "A/H Ratio (Allergen/Histamine)"
+  }
+ },
+ "spt_method": {
+  "concept_id": "36703747",
+  "display": "Skin prick test histamine positive control"
+ },
+ "entries": [
+  {
+   "source_value": "Histamine",
+   "concept_id": "36703747",
+   "concept_name": "Generic Positive Control 0.1% Histamine solution for skin prick test",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Control",
+   "concept_id": "4076975",
+   "concept_name": "Control",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "D.pteronyssinus",
+   "concept_id": "46272684",
+   "concept_name": "Dermatophagoides pteronyssinus protein",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "D.farinae",
+   "concept_id": "46273588",
+   "concept_name": "Dermatophagoides farinae protein",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Alternaria alternate",
+   "concept_id": "46272803",
+   "concept_name": "Alternaria alternata protein antigen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Alternaria tenuis",
+   "concept_id": "46272803",
+   "concept_name": "Alternaria alternata protein antigen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Oak",
+   "concept_id": "4116684",
+   "concept_name": "Oak pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Alder",
+   "concept_id": "4115937",
+   "concept_name": "Alder pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Ragweed",
+   "concept_id": "4103592",
+   "concept_name": "Ragweed pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Mugwort",
+   "concept_id": "4106289",
+   "concept_name": "Mugwort pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Rye grass",
+   "concept_id": "4117480",
+   "concept_name": "Rye grass pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Hazel",
+   "concept_id": "4117473",
+   "concept_name": "Hazel pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Aspergillus fumigatus",
+   "concept_id": "46272804",
+   "concept_name": "Aspergillus fumigatus protein antigen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Cochroach",
+   "concept_id": "46273916",
+   "concept_name": "Cockroach protein",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Negative control",
+   "concept_id": "4076975",
+   "concept_name": "Control",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Cladosporium",
+   "concept_id": "46272811",
+   "concept_name": "Cladosporium herbarum protein antigen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "HOP.japonicus(환삼덩굴)",
+   "concept_id": "4128484",
+   "concept_name": "Japanese hop pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Timothy",
+   "concept_id": "4116690",
+   "concept_name": "Timothy grass pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Birch",
+   "concept_id": "765811",
+   "concept_name": "Birch pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Beech",
+   "concept_id": "4116683",
+   "concept_name": "Beech pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "T putres. (긴털가루진드기)",
+   "concept_id": "46272688",
+   "concept_name": "Tyrophagus putrescentiae protein",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Two-spotted spider mite(점박이응애)",
+   "concept_id": "37022204",
+   "concept_name": "2-spotted spider mite (Tetranychus urticae)",
+   "domain": "Observation",
+   "vocabulary": "LOINC"
+  },
+  {
+   "source_value": "Outdoor mold mixture",
+   "concept_id": "4224654",
+   "concept_name": "Mold",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Fusarium",
+   "concept_id": "46272814",
+   "concept_name": "Fusarium moniliforme protein antigen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Asp.nigar",
+   "concept_id": "46272805",
+   "concept_name": "Aspergillus niger protein antigen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Candida albicans",
+   "concept_id": "46272808",
+   "concept_name": "Candida albicans protein antigen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Indoor mold mixture",
+   "concept_id": "4224654",
+   "concept_name": "Mold",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Asp.fumigatus",
+   "concept_id": "46272804",
+   "concept_name": "Aspergillus fumigatus protein antigen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Mucor",
+   "concept_id": "46272818",
+   "concept_name": "Mucor racemosus protein antigen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Neurospora",
+   "concept_id": "45769569",
+   "concept_name": "Neurospora",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Penicillium notatum",
+   "concept_id": "4180730",
+   "concept_name": "Penicillium",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Cat hair",
+   "concept_id": "4125384",
+   "concept_name": "Cat dander",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Dog",
+   "concept_id": "4128602",
+   "concept_name": "Dog dander",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Dog hair",
+   "concept_id": "4128602",
+   "concept_name": "Dog dander",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Rat",
+   "concept_id": "4105508",
+   "concept_name": "Rat epithelium",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Chicken feathers",
+   "concept_id": "35627007",
+   "concept_name": "Chicken",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Rabbit fur",
+   "concept_id": "4103623",
+   "concept_name": "Rabbit epithelium",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "German cockroach",
+   "concept_id": "46272547",
+   "concept_name": "German cockroach protein",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "American cockroach",
+   "concept_id": "46273915",
+   "concept_name": "American cockroach protein",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Tree mixtureⅠ",
+   "concept_id": "36684363",
+   "concept_name": "Tree pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Alder (오리나무)",
+   "concept_id": "4115937",
+   "concept_name": "Alder pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Hazal (개암나무)",
+   "concept_id": "4117473",
+   "concept_name": "Hazel pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Poplar (포플러나무)",
+   "concept_id": "4117476",
+   "concept_name": "Poplar pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Elm (느릅나무)",
+   "concept_id": "4115941",
+   "concept_name": "Elm pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Willow(버드나무)",
+   "concept_id": "4116685",
+   "concept_name": "Willow pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Ash (물푸레나무)",
+   "concept_id": "4125375",
+   "concept_name": "White ash pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Elder (딱총나무)",
+   "concept_id": "4128340",
+   "concept_name": "Elder pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Tree mixtureⅡ",
+   "concept_id": "36684363",
+   "concept_name": "Tree pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Birch (자작나무)",
+   "concept_id": "765811",
+   "concept_name": "Birch pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Beech (너도밤나무)",
+   "concept_id": "4116683",
+   "concept_name": "Beech pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Oak (참나무)",
+   "concept_id": "4116684",
+   "concept_name": "Oak pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Plane(양버즘나무)",
+   "concept_id": "4117475",
+   "concept_name": "Plane pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Plan(양버즘나무)",
+   "concept_id": "4117475",
+   "concept_name": "Plane pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Japanese ceder (삼나무)",
+   "concept_id": "4128600",
+   "concept_name": "Japanese cedar pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "False Acacia (아까시나무)",
+   "concept_id": "43020816",
+   "concept_name": "False acacia pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Pine (소나무)",
+   "concept_id": "4115940",
+   "concept_name": "Pine pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Grass pollen mixture",
+   "concept_id": "4117479",
+   "concept_name": "Grass pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Velvet (잔디)",
+   "concept_id": "4117481",
+   "concept_name": "Velvet grass pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Orchard (오리새)",
+   "concept_id": "4116688",
+   "concept_name": "Orchard grass pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Rye (호밀풀)",
+   "concept_id": "4117480",
+   "concept_name": "Rye grass pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Timothy grass(큰조아재비)",
+   "concept_id": "4116690",
+   "concept_name": "Timothy grass pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Kentucky (왕포아풀)",
+   "concept_id": "4103765",
+   "concept_name": "Kentucky blue grass pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Meadow (넓은김의털)",
+   "concept_id": "4116689",
+   "concept_name": "Meadow fescue pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Nettle (쐐기풀)",
+   "concept_id": "4103768",
+   "concept_name": "Nettle pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Bermuda (우산잔디)",
+   "concept_id": "4126502",
+   "concept_name": "Bermuda grass pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Ragweed (돼지풀)",
+   "concept_id": "4103592",
+   "concept_name": "Ragweed pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Mugwort (쑥)",
+   "concept_id": "4106289",
+   "concept_name": "Mugwort pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "HOP.Japonicus(환삼덩굴)",
+   "concept_id": "4128484",
+   "concept_name": "Japanese hop pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Chrysanthemum (국화)",
+   "concept_id": "4106288",
+   "concept_name": "Chrysanthemum pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Dandelion (서양민들레)",
+   "concept_id": "4104621",
+   "concept_name": "Dandelion pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Golden Rod (미역취)",
+   "concept_id": "46272528",
+   "concept_name": "Goldenrod pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Plantain (질경이)",
+   "concept_id": "4104620",
+   "concept_name": "English plantain pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Latex",
+   "concept_id": "4008070",
+   "concept_name": "Latex",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Fat hen",
+   "concept_id": "4125373",
+   "concept_name": "Lamb's quarters pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "oat pollen",
+   "concept_id": "4128476",
+   "concept_name": "Cultivated oat pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Russian Thistle",
+   "concept_id": "4125374",
+   "concept_name": "Russian thistle pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Histamine (wheal/flare)",
+   "concept_id": "36703747",
+   "concept_name": "Generic Positive Control 0.1% Histamine solution for skin prick test",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "암소건락소-치즈원료(Cow casein)",
+   "concept_id": "4177499",
+   "concept_name": null,
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "달걀 전체(Egg)",
+   "concept_id": "4120251",
+   "concept_name": "Hen's egg",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "소고기(Beef)",
+   "concept_id": "4037235",
+   "concept_name": "Beef",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "돼지고기(Pork)",
+   "concept_id": "4037243",
+   "concept_name": "Pork",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "닭고기(Chicken meat)",
+   "concept_id": "4024192",
+   "concept_name": "Chicken - meat",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "양고기(Sheep)",
+   "concept_id": "42594570",
+   "concept_name": null,
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "홍합(Mussel)",
+   "concept_id": "4026892",
+   "concept_name": "Mussel",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "새우(Shrimp)",
+   "concept_id": "4150599",
+   "concept_name": "Shrimp",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "바닷가재(Lobster)",
+   "concept_id": "42537051",
+   "concept_name": "Lobster",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "굴(Oyster)",
+   "concept_id": "42536963",
+   "concept_name": "Oyster",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "생선 혼합(Ele,Sardine~)",
+   "concept_id": "4026887",
+   "concept_name": null,
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "연어(Salmon)",
+   "concept_id": "42536274",
+   "concept_name": "Salmon",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "송어(Trout)",
+   "concept_id": "42536291",
+   "concept_name": "Trout",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "참치(Tuna)",
+   "concept_id": "4037433",
+   "concept_name": "Tuna",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "대구(Cod)",
+   "concept_id": "42536425",
+   "concept_name": "Cod",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "대구(Cod fish)",
+   "concept_id": "42536425",
+   "concept_name": "Cod",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "넙치, 가자미류(Plaice)",
+   "concept_id": "4025228",
+   "concept_name": "Plaice",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "고등어(Mackerel )",
+   "concept_id": "42536299",
+   "concept_name": "Mackerel",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "오징어(Cuttle fish)",
+   "concept_id": "42536271",
+   "concept_name": "Squid",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "쌀가루(Rice flour)",
+   "concept_id": "4284846",
+   "concept_name": "Rice",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "통밀가루(Whole wheat flour)",
+   "concept_id": "4047302",
+   "concept_name": "Wholemeal flour",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "옥수수가루(Corn flour)",
+   "concept_id": "4041339",
+   "concept_name": "Cornflour",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "보리가루(Barley flour)",
+   "concept_id": "42539513",
+   "concept_name": "Barley",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "귀리가루(Oat flour)",
+   "concept_id": "4303810",
+   "concept_name": "Oat",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "렌즈콩(Lentil)",
+   "concept_id": "4025400",
+   "concept_name": "Lentils",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "호두(Walnut)",
+   "concept_id": "4103782",
+   "concept_name": "Walnut",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "땅콩(Peanut)",
+   "concept_id": "42538933",
+   "concept_name": "Peanut",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "콩(Soy)",
+   "concept_id": "4103602",
+   "concept_name": "Bean",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "아몬드(Almond)",
+   "concept_id": "4104630",
+   "concept_name": "Almond",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "감자(Potato)",
+   "concept_id": "42536307",
+   "concept_name": "Potato",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "시금치(Spinach)",
+   "concept_id": "4103779",
+   "concept_name": "Spinach",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "토마토(Tomato)",
+   "concept_id": "42536194",
+   "concept_name": "Tomato",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "양배추(Cabbage)",
+   "concept_id": "42536335",
+   "concept_name": "Cabbage",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "당근(Carrot)",
+   "concept_id": "4106300",
+   "concept_name": "Carrot",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "샐러리(Celery)",
+   "concept_id": "4104625",
+   "concept_name": "Celery",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "양파(Onion)",
+   "concept_id": "42539479",
+   "concept_name": "Onion",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "피망(Sweet pepper)",
+   "concept_id": "4026321",
+   "concept_name": "Pepper",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "고추(Pepper)",
+   "concept_id": "4026321",
+   "concept_name": "Pepper",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "겨자(Mustard)",
+   "concept_id": "4202198",
+   "concept_name": "Mustard",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "달걀흰자(Egg white)",
+   "concept_id": "4103922",
+   "concept_name": "Egg white",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "달걀 노른자(Egg yolk)",
+   "concept_id": "4103921",
+   "concept_name": "Egg yolk",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "락토알부민(Cow lactoalbumin)",
+   "concept_id": "4010500",
+   "concept_name": "Lactalbumin",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "맥주용효모(Brewer's yeast)",
+   "concept_id": "4132477",
+   "concept_name": "Yeast",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "멜론(Melon)",
+   "concept_id": "4125392",
+   "concept_name": "Melon",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "바나나(Banana)",
+   "concept_id": "4106295",
+   "concept_name": "Banana",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "배(Pear)",
+   "concept_id": "42536305",
+   "concept_name": "Pear",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "복숭아(Peach)",
+   "concept_id": "42536304",
+   "concept_name": "Peach",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "사과(Apple)",
+   "concept_id": "42536408",
+   "concept_name": "Apple",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "오렌지(Orange)",
+   "concept_id": "4106294",
+   "concept_name": "Orange - fruit",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "파인애플(Pineapple)",
+   "concept_id": "4106297",
+   "concept_name": "Pineapple",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "딸기(Strawberry)",
+   "concept_id": "4008942",
+   "concept_name": "Strawberry",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "키위(Kiwi)",
+   "concept_id": "4128608",
+   "concept_name": "Kiwi fruit",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "아보카도(Avocado)",
+   "concept_id": "42536428",
+   "concept_name": "Avocado",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "귤(Citrus)",
+   "concept_id": "4008005",
+   "concept_name": "Citrus fruit",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "포도(Grape)",
+   "concept_id": "4106299",
+   "concept_name": "Grape",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Octopus",
+   "concept_id": "42536930",
+   "concept_name": "Octopus",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Rye flour",
+   "concept_id": "4047298",
+   "concept_name": "Rye flour",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "T utricae (점박이응애)",
+   "concept_id": "37022204",
+   "concept_name": "2-spotted spider mite (Tetranychus urticae)",
+   "domain": "Observation",
+   "vocabulary": "LOINC"
+  },
+  {
+   "source_value": "Alternaria",
+   "concept_id": "46272803",
+   "concept_name": "Alternaria alternata protein antigen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "A. niger",
+   "concept_id": "46272805",
+   "concept_name": "Aspergillus niger protein antigen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "C. albicans",
+   "concept_id": "46272808",
+   "concept_name": "Candida albicans protein antigen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "A fumigatus",
+   "concept_id": "46272804",
+   "concept_name": "Aspergillus fumigatus protein antigen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Penicillium",
+   "concept_id": "4180730",
+   "concept_name": "Penicillium",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Cat",
+   "concept_id": "4125384",
+   "concept_name": "Cat dander",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Chicken",
+   "concept_id": "35627007",
+   "concept_name": "Chicken",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Rabbit",
+   "concept_id": "4103623",
+   "concept_name": "Rabbit epithelium",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Tree pollen mixture 1",
+   "concept_id": "36684363",
+   "concept_name": "Tree pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Hazel (개암나무)",
+   "concept_id": "4117473",
+   "concept_name": "Hazel pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Willow tree (버드나무)",
+   "concept_id": "4116685",
+   "concept_name": "Willow pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Tree pollen mixture 2",
+   "concept_id": "36684363",
+   "concept_name": "Tree pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Plane (양버즘나무)",
+   "concept_id": "4117475",
+   "concept_name": "Plane pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "J ceder (삼나무)",
+   "concept_id": "4128600",
+   "concept_name": "Japanese cedar pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Timothy (큰조아재비)",
+   "concept_id": "4116690",
+   "concept_name": "Timothy grass pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Hop j (환삼덩굴)",
+   "concept_id": "4128484",
+   "concept_name": "Japanese hop pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "Chrysan (국화)",
+   "concept_id": "4106288",
+   "concept_name": "Chrysanthemum pollen",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "달걀 전체(Hen's egg)",
+   "concept_id": "4120251",
+   "concept_name": "Hen's egg",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "고등어(Mackerel)",
+   "concept_id": "42536299",
+   "concept_name": "Mackerel",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  },
+  {
+   "source_value": "오징어(Squid)",
+   "concept_id": "42536271",
+   "concept_name": "Squid",
+   "domain": "Observation",
+   "vocabulary": "SNOMED"
+  }
+ ],
+ "lookup": {
+  "histamine": 0,
+  "genericpositivecontrol01histaminesolutionforskinpricktest": 0,
+  "control": 1,
+  "dpteronyssinus": 2,
+  "dermatophagoidespteronyssinusprotein": 2,
+  "dfarinae": 3,
+  "dermatophagoidesfarinaeprotein": 3,
+  "alternariaalternate": 4,
+  "alternariaalternataproteinantigen": 4,
+  "alternariatenuis": 5,
+  "oak": 6,
+  "oakpollen": 6,
+  "alder": 7,
+  "alderpollen": 7,
+  "ragweed": 8,
+  "ragweedpollen": 8,
+  "mugwort": 9,
+  "mugwortpollen": 9,
+  "ryegrass": 10,
+  "ryegrasspollen": 10,
+  "hazel": 11,
+  "hazelpollen": 11,
+  "aspergillusfumigatus": 12,
+  "aspergillusfumigatusproteinantigen": 12,
+  "cochroach": 13,
+  "cockroachprotein": 13,
+  "negativecontrol": 14,
+  "cladosporium": 15,
+  "cladosporiumherbarumproteinantigen": 15,
+  "hopjaponicus환삼덩굴": 16,
+  "japanesehoppollen": 16,
+  "환삼덩굴": 16,
+  "hopjaponicus": 16,
+  "timothy": 17,
+  "timothygrasspollen": 17,
+  "birch": 18,
+  "birchpollen": 18,
+  "beech": 19,
+  "beechpollen": 19,
+  "tputres긴털가루진드기": 20,
+  "tyrophagusputrescentiaeprotein": 20,
+  "긴털가루진드기": 20,
+  "tputres": 20,
+  "twospottedspidermite점박이응애": 21,
+  "2spottedspidermitetetranychusurticae": 21,
+  "점박이응애": 21,
+  "twospottedspidermite": 21,
+  "outdoormoldmixture": 22,
+  "mold": 22,
+  "outdoormold": 22,
+  "fusarium": 23,
+  "fusariummoniliformeproteinantigen": 23,
+  "aspnigar": 24,
+  "aspergillusnigerproteinantigen": 24,
+  "candidaalbicans": 25,
+  "candidaalbicansproteinantigen": 25,
+  "indoormoldmixture": 26,
+  "indoormold": 26,
+  "aspfumigatus": 27,
+  "mucor": 28,
+  "mucorracemosusproteinantigen": 28,
+  "neurospora": 29,
+  "penicilliumnotatum": 30,
+  "penicillium": 30,
+  "cathair": 31,
+  "catdander": 31,
+  "dog": 32,
+  "dogdander": 32,
+  "doghair": 33,
+  "rat": 34,
+  "ratepithelium": 34,
+  "chickenfeathers": 35,
+  "chicken": 35,
+  "rabbitfur": 36,
+  "rabbitepithelium": 36,
+  "germancockroach": 37,
+  "germancockroachprotein": 37,
+  "americancockroach": 38,
+  "americancockroachprotein": 38,
+  "treemixture": 39,
+  "treepollen": 39,
+  "alder오리나무": 40,
+  "오리나무": 40,
+  "hazal개암나무": 41,
+  "개암나무": 41,
+  "hazal": 41,
+  "poplar포플러나무": 42,
+  "poplarpollen": 42,
+  "포플러나무": 42,
+  "poplar": 42,
+  "elm느릅나무": 43,
+  "elmpollen": 43,
+  "느릅나무": 43,
+  "elm": 43,
+  "willow버드나무": 44,
+  "willowpollen": 44,
+  "버드나무": 44,
+  "willow": 44,
+  "ash물푸레나무": 45,
+  "whiteashpollen": 45,
+  "물푸레나무": 45,
+  "ash": 45,
+  "elder딱총나무": 46,
+  "elderpollen": 46,
+  "딱총나무": 46,
+  "elder": 46,
+  "birch자작나무": 48,
+  "자작나무": 48,
+  "beech너도밤나무": 49,
+  "너도밤나무": 49,
+  "oak참나무": 50,
+  "참나무": 50,
+  "plane양버즘나무": 51,
+  "planepollen": 51,
+  "양버즘나무": 51,
+  "plane": 51,
+  "plan양버즘나무": 52,
+  "plan": 52,
+  "japaneseceder삼나무": 53,
+  "japanesecedarpollen": 53,
+  "삼나무": 53,
+  "japaneseceder": 53,
+  "falseacacia아까시나무": 54,
+  "falseacaciapollen": 54,
+  "아까시나무": 54,
+  "falseacacia": 54,
+  "pine소나무": 55,
+  "pinepollen": 55,
+  "소나무": 55,
+  "pine": 55,
+  "grasspollenmixture": 56,
+  "grasspollen": 56,
+  "velvet잔디": 57,
+  "velvetgrasspollen": 57,
+  "잔디": 57,
+  "velvet": 57,
+  "orchard오리새": 58,
+  "orchardgrasspollen": 58,
+  "오리새": 58,
+  "orchard": 58,
+  "rye호밀풀": 59,
+  "호밀풀": 59,
+  "rye": 59,
+  "timothygrass큰조아재비": 60,
+  "큰조아재비": 60,
+  "timothygrass": 60,
+  "kentucky왕포아풀": 61,
+  "kentuckybluegrasspollen": 61,
+  "왕포아풀": 61,
+  "kentucky": 61,
+  "meadow넓은김의털": 62,
+  "meadowfescuepollen": 62,
+  "넓은김의털": 62,
+  "meadow": 62,
+  "nettle쐐기풀": 63,
+  "nettlepollen": 63,
+  "쐐기풀": 63,
+  "nettle": 63,
+  "bermuda우산잔디": 64,
+  "bermudagrasspollen": 64,
+  "우산잔디": 64,
+  "bermuda": 64,
+  "ragweed돼지풀": 65,
+  "돼지풀": 65,
+  "mugwort쑥": 66,
+  "쑥": 66,
+  "chrysanthemum국화": 68,
+  "chrysanthemumpollen": 68,
+  "국화": 68,
+  "chrysanthemum": 68,
+  "dandelion서양민들레": 69,
+  "dandelionpollen": 69,
+  "서양민들레": 69,
+  "dandelion": 69,
+  "goldenrod미역취": 70,
+  "goldenrodpollen": 70,
+  "미역취": 70,
+  "goldenrod": 70,
+  "plantain질경이": 71,
+  "englishplantainpollen": 71,
+  "질경이": 71,
+  "plantain": 71,
+  "latex": 72,
+  "fathen": 73,
+  "lambsquarterspollen": 73,
+  "oatpollen": 74,
+  "cultivatedoatpollen": 74,
+  "russianthistle": 75,
+  "russianthistlepollen": 75,
+  "histaminewhealflare": 76,
+  "whealflare": 76,
+  "암소건락소치즈원료cowcasein": 77,
+  "cowcasein": 77,
+  "암소건락소치즈원료": 77,
+  "달걀전체egg": 78,
+  "hensegg": 78,
+  "egg": 78,
+  "달걀전체": 78,
+  "소고기beef": 79,
+  "beef": 79,
+  "소고기": 79,
+  "돼지고기pork": 80,
+  "pork": 80,
+  "돼지고기": 80,
+  "닭고기chickenmeat": 81,
+  "chickenmeat": 81,
+  "닭고기": 81,
+  "양고기sheep": 82,
+  "sheep": 82,
+  "양고기": 82,
+  "홍합mussel": 83,
+  "mussel": 83,
+  "홍합": 83,
+  "새우shrimp": 84,
+  "shrimp": 84,
+  "새우": 84,
+  "바닷가재lobster": 85,
+  "lobster": 85,
+  "바닷가재": 85,
+  "굴oyster": 86,
+  "oyster": 86,
+  "굴": 86,
+  "생선혼합elesardine": 87,
+  "elesardine": 87,
+  "생선혼합": 87,
+  "연어salmon": 88,
+  "salmon": 88,
+  "연어": 88,
+  "송어trout": 89,
+  "trout": 89,
+  "송어": 89,
+  "참치tuna": 90,
+  "tuna": 90,
+  "참치": 90,
+  "대구cod": 91,
+  "cod": 91,
+  "대구": 91,
+  "대구codfish": 92,
+  "codfish": 92,
+  "넙치가자미류plaice": 93,
+  "plaice": 93,
+  "넙치가자미류": 93,
+  "고등어mackerel": 94,
+  "mackerel": 94,
+  "고등어": 94,
+  "오징어cuttlefish": 95,
+  "squid": 95,
+  "cuttlefish": 95,
+  "오징어": 95,
+  "쌀가루riceflour": 96,
+  "rice": 96,
+  "riceflour": 96,
+  "쌀가루": 96,
+  "통밀가루wholewheatflour": 97,
+  "wholemealflour": 97,
+  "wholewheatflour": 97,
+  "통밀가루": 97,
+  "옥수수가루cornflour": 98,
+  "cornflour": 98,
+  "옥수수가루": 98,
+  "보리가루barleyflour": 99,
+  "barley": 99,
+  "barleyflour": 99,
+  "보리가루": 99,
+  "귀리가루oatflour": 100,
+  "oat": 100,
+  "oatflour": 100,
+  "귀리가루": 100,
+  "렌즈콩lentil": 101,
+  "lentils": 101,
+  "lentil": 101,
+  "렌즈콩": 101,
+  "호두walnut": 102,
+  "walnut": 102,
+  "호두": 102,
+  "땅콩peanut": 103,
+  "peanut": 103,
+  "땅콩": 103,
+  "콩soy": 104,
+  "bean": 104,
+  "soy": 104,
+  "콩": 104,
+  "아몬드almond": 105,
+  "almond": 105,
+  "아몬드": 105,
+  "감자potato": 106,
+  "potato": 106,
+  "감자": 106,
+  "시금치spinach": 107,
+  "spinach": 107,
+  "시금치": 107,
+  "토마토tomato": 108,
+  "tomato": 108,
+  "토마토": 108,
+  "양배추cabbage": 109,
+  "cabbage": 109,
+  "양배추": 109,
+  "당근carrot": 110,
+  "carrot": 110,
+  "당근": 110,
+  "샐러리celery": 111,
+  "celery": 111,
+  "샐러리": 111,
+  "양파onion": 112,
+  "onion": 112,
+  "양파": 112,
+  "피망sweetpepper": 113,
+  "pepper": 113,
+  "sweetpepper": 113,
+  "피망": 113,
+  "고추pepper": 114,
+  "고추": 114,
+  "겨자mustard": 115,
+  "mustard": 115,
+  "겨자": 115,
+  "달걀흰자eggwhite": 116,
+  "eggwhite": 116,
+  "달걀흰자": 116,
+  "달걀노른자eggyolk": 117,
+  "eggyolk": 117,
+  "달걀노른자": 117,
+  "락토알부민cowlactoalbumin": 118,
+  "lactalbumin": 118,
+  "cowlactoalbumin": 118,
+  "락토알부민": 118,
+  "맥주용효모brewersyeast": 119,
+  "yeast": 119,
+  "brewersyeast": 119,
+  "맥주용효모": 119,
+  "멜론melon": 120,
+  "melon": 120,
+  "멜론": 120,
+  "바나나banana": 121,
+  "banana": 121,
+  "바나나": 121,
+  "배pear": 122,
+  "pear": 122,
+  "배": 122,
+  "복숭아peach": 123,
+  "peach": 123,
+  "복숭아": 123,
+  "사과apple": 124,
+  "apple": 124,
+  "사과": 124,
+  "오렌지orange": 125,
+  "orangefruit": 125,
+  "orange": 125,
+  "오렌지": 125,
+  "파인애플pineapple": 126,
+  "pineapple": 126,
+  "파인애플": 126,
+  "딸기strawberry": 127,
+  "strawberry": 127,
+  "딸기": 127,
+  "키위kiwi": 128,
+  "kiwifruit": 128,
+  "kiwi": 128,
+  "키위": 128,
+  "아보카도avocado": 129,
+  "avocado": 129,
+  "아보카도": 129,
+  "귤citrus": 130,
+  "citrusfruit": 130,
+  "citrus": 130,
+  "귤": 130,
+  "포도grape": 131,
+  "grape": 131,
+  "포도": 131,
+  "octopus": 132,
+  "ryeflour": 133,
+  "tutricae점박이응애": 134,
+  "tutricae": 134,
+  "alternaria": 135,
+  "aniger": 136,
+  "calbicans": 137,
+  "afumigatus": 138,
+  "cat": 140,
+  "rabbit": 142,
+  "treepollenmixture1": 143,
+  "treepollenmixture": 143,
+  "hazel개암나무": 144,
+  "willowtree버드나무": 145,
+  "willowtree": 145,
+  "treepollenmixture2": 146,
+  "jceder삼나무": 148,
+  "jceder": 148,
+  "timothy큰조아재비": 149,
+  "hopj환삼덩굴": 150,
+  "hopj": 150,
+  "chrysan국화": 151,
+  "chrysan": 151,
+  "달걀전체hensegg": 152,
+  "오징어squid": 154
+ }
+}

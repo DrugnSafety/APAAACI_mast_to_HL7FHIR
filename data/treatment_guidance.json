@@ -1,0 +1,298 @@
+{
+  "version": "1.1",
+  "compiled_on": "2026-10-06",
+  "review_status": "candidate — 알레르기 전문의 검토 전",
+  "note_ko": "문진의 '쓰고 있는 약'(current_medications)과 '주증상 부위'(organ_systems)에 붙이는 안내 문장. 모든 문장은 일반 정보이고, 약을 시작·중단·증감하라는 지시는 넣지 않는다(진료에서 상의). 각 문장의 basis 는 근거의 종류다: guideline = sources 의 지침 본문에서 확인, study = sources 의 연구 초록에서 확인, expert_practice = 널리 쓰이는 진료 관행이지만 이번에 읽은 문헌으로 확인하지는 않음(전문의 검토 필요). needs_review=true 인 문장은 환자 화면에 내보내지 않는다. 문장에 disease 가 붙어 있으면 환자가 그 질환을 알려 준 경우에만 낸다. 증상 안내의 drugs 는 약물 선택지(이름 name_ko + 설명 text_ko)만 담고, 선택지가 아닌 주의 문장은 drug_notes 에 따로 둔다. 문진 선택지에 없는 약(에피네프린 자가주사기, 바르는 약, 점안액, 증상 완화 흡입제)은 약 항목으로 다루지 못하고 증상 안내의 일반 정보로만 언급한다.",
+  "sources": {
+    "kaaaci_ar_pharm_2023": {
+      "citation": "Yang SI, Lee IH, Kim M, et al. KAAACI Allergic Rhinitis Guidelines: Part 1. Update in Pharmacotherapy. Allergy Asthma Immunol Res. 2023;15(1):19-31.",
+      "short": "Yang SI, et al. KAAACI 알레르기 비염 지침 1부(약물치료). Allergy Asthma Immunol Res. 2023;15(1):19-31.",
+      "pmid": "36693355", "doi": "10.4168/aair.2023.15.1.19", "read": "PMC 전문",
+      "finding_ko": "비강 스테로이드는 중등도 이상·지속성 알레르기 비염의 1차 치료다. 효과는 며칠 안에 나타나고 통년성 비염에서는 몇 주 뒤 최대가 되며, 2시간 안에는 효과가 없다. 항히스타민제는 간헐성·경증 지속성 비염의 선택지이고 빠르게 듣는다. 먹는 항히스타민제를 비강 스테로이드에 더해도 전체 코 증상은 더 줄지 않았고(콧물만 차이) 졸음은 늘었다. 투여 경로가 다른 약을 함께 쓰면 순응도가 떨어질 수 있다. 류코트리엔 조절제는 천식이 있는 비염 환자의 코 증상을 줄였으나 효과 크기가 작고, 천식에서는 흡입 스테로이드보다 항염 효과가 약하며, 2020년 미국 FDA 가 신경정신계 이상반응을 경고했다. 꽃가루 비염은 꽃가루가 날리기 약 2주 전부터 미리 쓰는 방법을 제안한다(근거수준 매우 낮음, 일본 삼나무 연구 중심). 비강 스테로이드 사용자의 코피 빈도는 1,000명당 약 18명."
+    },
+    "kaaaci_ar_nonpharm_2023": {
+      "citation": "Park DY, Lee YJ, Kim DK, et al. KAAACI Allergic Rhinitis Guidelines: Part 2. Update in Non-pharmacological Management. Allergy Asthma Immunol Res. 2023;15(2):145-159.",
+      "short": "Park DY, et al. KAAACI 알레르기 비염 지침 2부(비약물 치료). Allergy Asthma Immunol Res. 2023;15(2):145-159.",
+      "pmid": "37021502", "doi": "10.4168/aair.2023.15.2.145", "read": "PMC 전문",
+      "finding_ko": "식염수 코 세척은 약과 함께 또는 단독으로 비염 증상을 줄이지만 비강 스테로이드보다 효과가 작아 보조 치료로 권한다(근거수준 낮음). 오염된 물로 세척하면 드물게 심각한 감염이 생길 수 있어 멸균 식염수와 올바른 방법을 교육한다. 면역치료는 최대 효과를 얻으려면 3년 이상(3~5년) 꾸준히 이어 가야 하고, 알레르기 비염 환자의 천식 발생을 줄였다(RR 0.50)."
+    },
+    "aria_eaaci_2025": {
+      "citation": "Sousa-Pinto B, Bousquet J, Vieira RJ, et al. Allergic Rhinitis and Its Impact on Asthma (ARIA)-EAACI Guidelines-2024-2025 Revision: Part I-Guidelines on Intranasal Treatments. Allergy. 2026;81(4):954-976. Epub 2025 Dec 1.",
+      "citation_check_ko": "2026-10-07 PubMed(PMID 41324154) 확인: 권 81, 호 4, 쪽 954-976, doi 10.1111/all.70131, 온라인 게재일 2025-12-01. 예전 표기 '2025;81(4)'는 온라인 게재 연도와 인쇄 권호를 섞은 것이다. 인쇄 연도 2026 은 PubMed 기록에 따로 나오지 않아 권 번호(Allergy 81권 = 2026년)로 적었다 — 학술지 목차로 다시 확인하지는 않았다.",
+      "short": "Sousa-Pinto B, et al. ARIA-EAACI 지침 2024-2025(비강 치료). Allergy. 2026;81(4):954-976(온라인 게재 2025-12).",
+      "pmid": "41324154", "doi": "10.1111/all.70131", "read": "PMC 전문 일부(권고문과 충혈완화제·순응도 문단)",
+      "finding_ko": "코에 뿌리는 충혈완화제를 5일 넘게 이어 쓰는 것을 제안하지 않는다(조건부 권고, 근거 확실성 매우 낮음). 임신부·소아·고령자에게는 코 충혈완화제를 제안하지 않는다. 권고는 코 스프레이를 올바르게 쓴다는 전제이며, 잘못 쓰면 효과가 떨어지고 안전 문제가 생길 수 있다. 약을 매일 쓸지 필요할 때만 쓸지는 이 지침의 다음 문서에서 다룰 예정이라고 적었다."
+    },
+    "gina_2021": {
+      "citation": "Reddel HK, Bacharier LB, Bateman ED, et al. Global Initiative for Asthma Strategy 2021: executive summary and rationale for key changes. Eur Respir J. 2022;59(1):2102730.",
+      "short": "Reddel HK, et al. GINA 2021 요약. Eur Respir J. 2022;59(1):2102730.",
+      "pmid": "34667060", "doi": "10.1183/13993003.02730-2021", "read": "PMC 전문 일부(치료 원칙·순응도·단계 조정 문단)",
+      "finding_ko": "성인·청소년 천식은 증상 완화 흡입제(SABA)만으로 치료하지 않는다. 중증 악화를 줄이고 증상을 조절하기 위해 모든 환자가 흡입 스테로이드가 든 치료를 받는다 — 매일 규칙적으로, 또는 경증에서는 증상이 있을 때 흡입 스테로이드-포르모테롤로. 증상이 드문 환자도 심한 악화를 겪을 수 있다. 증상이 드물어도 조절제 순응을 격려하고, 흡입기 사용법과 순응도를 자주 확인한다. 조절이 2~3개월 유지되면 단계를 낮추는 것을 고려하되 흡입 스테로이드를 완전히 끊지는 않는다. 치료를 올리기 전에 흡입기 사용법, 순응도, 계속되는 알레르겐 노출, 동반 질환을 먼저 확인한다. 중증 천식에는 염증 표현형에 따라 생물학적 제제를 추가한다. 금연 조언과 유발 요인 회피 같은 비약물 전략을 함께 고려한다."
+    },
+    "suissa_2000": {
+      "citation": "Suissa S, Ernst P, Benayoun S, et al. Low-dose inhaled corticosteroids and the prevention of death from asthma. N Engl J Med. 2000;343(5):332-6.",
+      "short": "Suissa S, et al. N Engl J Med. 2000;343(5):332-6.",
+      "pmid": "10922423", "doi": "10.1056/NEJM200008033430504", "read": "PubMed 초록",
+      "finding_ko": "캐나다 인구 기반 코호트(30,569명)의 환자-대조군 분석. 저용량 흡입 스테로이드를 규칙적으로 쓸수록 천식 사망이 적었고(한 해 한 통 더 쓸 때마다 21% 감소), 흡입 스테로이드를 끊은 뒤 첫 3개월의 천식 사망률은 계속 쓴 사람보다 높았다. 관찰 연구다."
+    },
+    "melani_2011": {
+      "citation": "Melani AS, Bonavia M, Cilenti V, et al. Inhaler mishandling remains common in real life and is associated with reduced disease control. Respir Med. 2011;105(6):930-8.",
+      "short": "Melani AS, et al. Respir Med. 2011;105(6):930-8.",
+      "pmid": "21367593", "doi": "10.1016/j.rmed.2011.01.005", "read": "PubMed 초록",
+      "finding_ko": "흡입기를 쓰는 외래 환자 1,664명 단면 연구. 치명적 사용 오류가 흡입기 종류에 따라 12~44%에서 보였고, 오류는 입원·응급실 방문·먹는 스테로이드 사용 증가, 조절 불량과 연관됐다. 의료진의 사용법 교육이 유일하게 바꿀 수 있는 요인이었다."
+    }
+  },
+  "further_reading": {
+    "urticaria_2022": {
+      "citation": "Zuberbier T, Abdul Latiff AH, Abuzakouk M, et al. The international EAACI/GA²LEN/EuroGuiDerm/APAAACI guideline for the definition, classification, diagnosis, and management of urticaria. Allergy. 2022;77(3):734-766.",
+      "pmid": "34536239", "doi": "10.1111/all.15090",
+      "note_ko": "초록에 치료 권고 문장이 없고 본문을 읽지 못했다. 만성 두드러기의 항히스타민제 문장은 expert_practice 로 표시했다."
+    }
+  },
+  "medication_text": {
+    "title_ko": "지금 쓰는 약 — 왜 꾸준히 써야 할까",
+    "title_short_course_ko": "지금 쓰는 약 — 어떻게 쓰는 약일까",
+    "title_no_med_ko": "약물 치료 — 진료에서 확인할 것",
+    "intro_ko": "문진에서 알려 주신 약을, 알려 주신 질환과 이번 검사에서 증상과 연결된 알러젠에 이어 설명합니다. 일반 정보이며 처방을 대신하지 않습니다.",
+    "intro_no_med_ko": "쓰는 약을 고르지 않으셨으므로 약 설명은 싣지 않았습니다. 일반 정보이며 처방을 대신하지 않습니다.",
+    "closing_ko": "약을 새로 쓰거나, 그만 쓰거나, 양을 바꾸는 일은 스스로 정하지 말고 진료에서 상의하세요.",
+    "exposure_note_ko": "약이 조절하는 증상은 환자가 알려 준 질환과 주증상 부위로만 적는다. 질환은 있지만 그 부위를 주증상으로 고르지 않았으면 '그 질환에서 일반적으로 생기는 증상'으로 적고 환자의 증상이라고 쓰지 않는다(exposure_general_tpl_ko).",
+    "exposure_reported_tpl_ko": "이번 검사에서 증상과 연결된 {allergens}에 노출될 때 생기는 {symptoms_obj} {subject} 조절합니다.",
+    "exposure_general_tpl_ko": "{disease}에서는 이번 검사에서 증상과 연결된 {allergens} 같은 흡입 알러젠에 노출되면 {symptoms_subj} 생기거나 심해질 수 있고, {subject} 그런 증상을 조절합니다. 주증상으로 고르신 증상은 아니므로 지금 겪고 계신다는 뜻은 아닙니다.",
+    "exposure_tail_ko": "노출 줄이기는 약을 대신하지 않고 약과 함께 하는 관리입니다. 증상이 잘 조절되지 않으면 약을 바꾸기 전에 알러젠 노출이 이어지고 있는지부터 진료에서 확인합니다.",
+    "exposure_tail_basis": {
+      "basis": "guideline",
+      "sources": ["gina_2021"],
+      "basis_note_ko": "GINA 2021: 치료를 올리기 전에 흡입기 사용법·순응도·계속되는 알레르겐 노출·동반 질환을 먼저 확인하고, 유발 요인 회피 같은 비약물 전략을 함께 고려한다(천식). 비염에는 같은 원칙을 옮겨 적용한 진료 관행이다. 2026-10 이전 문장 '노출을 줄이는 일과 함께 갈 때 약이 더 잘 듣습니다'와 카드뉴스의 '노출을 줄이는 것이 약물 효과를 높입니다'·'약만큼 중요해요'는 읽은 문헌에 근거가 없어 지웠다(KAAACI 2023 은 환경 관리가 실내 알레르겐은 줄였지만 전체 코 증상과 구제약 사용은 줄이지 못했다고 적는다)."
+    },
+    "review_interval_ko": "증상 변화와 약물 반응은 담당 의료진과 정기적으로 재평가하세요. 간격은 진료에서 정합니다.",
+    "review_interval_note_ko": "정기 점검 간격은 숫자로 적지 않는다. 예전에는 카드뉴스가 '3~12개월 간격', 리포트가 '6~12개월마다'라고 서로 다르게 적었고 어느 쪽도 이 파일의 출처로 확인한 값이 아니었다.",
+    "exposure_brief_note_ko": "리포트에서는 알러젠 이름을 첫 약에서만 적고, 그 뒤의 약에는 아래 brief 문장을 쓴다.",
+    "exposure_reported_brief_tpl_ko": "위와 같은 알러젠에 노출될 때 생기는 {symptoms_obj} {subject} 조절합니다.",
+    "exposure_general_brief_tpl_ko": "{disease}에서는 위와 같은 알러젠에 노출되면 {symptoms_subj} 생기거나 심해질 수 있고, {subject} 그런 증상을 조절합니다. 주증상으로 고르신 증상은 아니므로 지금 겪고 계신다는 뜻은 아닙니다.",
+    "no_allergen_brief_ko": "이 약이 조절하는 증상과 연결된 흡입 알러젠도 이번 검사에서 확인되지 않았습니다.",
+    "exposure_diseases": {
+      "asthma": {"organ": "lower_airway", "symptom_ko": "기침·쌕쌕거림·숨참"},
+      "allergic_rhinitis": {"organ": "nasal", "symptom_ko": "코 증상"},
+      "allergic_conjunctivitis": {"organ": "ocular", "symptom_ko": "눈 증상"}
+    },
+    "no_allergen_ko": "이번 검사에서 이 약이 조절하는 증상과 연결된 흡입 알러젠은 확인되지 않았습니다. 증상의 원인은 진료에서 확인하세요.",
+    "unmatched_ko": "알려 주신 질환 가운데 이 약이 흔히 쓰이는 질환이 없어, 어떤 증상 때문에 쓰시는지는 문진만으로 알 수 없습니다. 쓰는 이유를 진료에서 확인하세요.",
+    "unmatched_brief_ko": "이 약도 알려 주신 질환 가운데 흔히 쓰이는 질환이 없었습니다. 쓰는 이유를 진료에서 확인하세요.",
+    "note_tpl_ko": "약에 대해 직접 적어 주신 내용: “{note}”. 이 내용은 해석하지 않고 그대로 옮겼습니다. 진료 때 보여 주세요.",
+    "no_med_tpl_ko": "{diseases} 진단을 받았다고 하셨고, 지금 쓰는 약은 고르지 않으셨습니다. 증상이 이어지거나 생활에 지장이 있으면 어떤 치료가 맞는지 진료에서 상의하세요.",
+    "pollen_prophylaxis_ko": "꽃가루가 원인일 때는 꽃가루가 날리기 약 2주 전부터 미리 쓰는 방법을 국내 지침이 제안합니다(근거수준은 매우 낮음). 언제부터 쓸지는 진료에서 정하세요.",
+    "pollen_prophylaxis_general_ko": "꽃가루 비염 약은 꽃가루가 날리기 약 2주 전부터 미리 쓰는 방법을 국내 지침이 제안합니다(근거수준은 매우 낮음). 어떤 약을 언제부터 쓸지는 진료에서 정하세요.",
+    "pollen_prophylaxis_note_ko": "시즌 전에 미리 쓰는 방법은 이 두 문장으로만 말한다(pollen_prophylaxis_ko 는 환자가 고른 약 이름 뒤에, pollen_prophylaxis_general_ko 는 리포트의 '증상의 계절성' 절과 카드뉴스의 계절성 카드에). 출처는 kaaaci_ar_pharm_2023 이고 근거수준이 매우 낮다는 점을 같은 문장에 적는다. 2026-10 이전에는 리포트('2주 전부터 준비하는 편이 조절에 유리합니다')·카드('시즌 2주 전부터 준비하면 조절이 쉬워요')·카드 퀴즈(정답 '시즌 2주 전부터')가 근거수준 없이 단정했다.",
+    "pollen_prophylaxis_sources": ["kaaaci_ar_pharm_2023"],
+    "pollen_prophylaxis_meds": ["antihistamine", "nasal_steroid", "leukotriene"],
+    "asthma_controller_card_ko": "조절제는 처방받은 방식대로 이어 가는 약이에요. 매일 쓰는 처방도 있고 증상이 있을 때 쓰는 처방도 있으니, 스스로 그만두지 말고 진료에서 상의하세요.",
+    "asthma_controller_basis": {"basis": "guideline", "sources": ["gina_2021"]},
+    "card_groups_note_ko": "카드뉴스에서는 같은 묶음의 약이 둘 이상이면 한 장에 모은다(약마다 한 줄: 종류 + consistency.card_ko). 하나뿐이면 그 약의 카드를 그대로 쓴다. 리포트는 약마다 따로 적는다.",
+    "card_groups": [
+      {"key": "airway", "emoji": "🫁", "title_ko": "조절 약(흡입제·먹는 약)", "meds": ["inhaled_steroid", "leukotriene"]},
+      {"key": "symptom", "emoji": "👃", "title_ko": "증상 약과 코 스프레이", "meds": ["nasal_steroid", "antihistamine", "decongestant"]},
+      {"key": "other", "emoji": "💉", "title_ko": "주사·면역치료·먹는 스테로이드", "meds": ["immunotherapy", "biologics", "systemic_steroid"]}
+    ]
+  },
+  "medications": {
+    "antihistamine": {
+      "label_ko": "항히스타민제", "emoji": "💊", "type_ko": "증상을 빠르게 가라앉히는 약",
+      "target": "nasal_eye",
+      "diseases": {
+        "allergic_rhinitis": {"text_ko": "알레르기 비염에서는 알러젠에 닿을 때 나오는 히스타민의 작용을 막아 재채기·콧물·가려움을 빠르게 줄입니다. 코막힘에는 효과가 약한 편입니다.", "symptom_ko": "재채기·콧물·가려움", "basis": "guideline", "sources": ["kaaaci_ar_pharm_2023"], "basis_note_ko": "'코막힘에는 약한 편'은 진료 관행(expert_practice)."},
+        "allergic_conjunctivitis": {"text_ko": "알레르기 결막염에서는 눈 가려움과 충혈을 줄입니다.", "symptom_ko": "눈 가려움·충혈", "basis": "expert_practice", "sources": []},
+        "chronic_urticaria": {"text_ko": "만성 두드러기에서는 팽진과 가려움을 줄이는 기본 약입니다.", "basis": "expert_practice", "sources": []}
+      },
+      "consistency": {"text_ko": "빨리 듣지만 원인인 알레르기 염증을 없애는 약은 아닙니다. 그래서 증상이 이어지는 시기에는 처방받은 대로 이어서 쓰고, 좋아졌다고 스스로 그만두기 전에 진료에서 상의하세요.", "card_ko": "빨리 듣지만 알레르기 염증을 없애는 약은 아닙니다. 증상이 이어지는 시기에는 처방받은 대로 이어서 씁니다.", "basis": "expert_practice", "sources": ["kaaaci_ar_pharm_2023"]},
+      "extra": [
+        {"text_ko": "졸릴 수 있습니다. 운전이나 기계 작업에 지장이 있으면 진료에서 알려 주세요.", "basis": "guideline", "sources": ["kaaaci_ar_pharm_2023"]}
+      ],
+      "removed_note_ko": "피부반응검사 전 항히스타민제 주의 문장은 여기서 뺐다 — 같은 내용이 리포트 '한눈에 보기'의 주의사항과 카드뉴스 '처음 알려주신 정보' 카드에 이미 있다(문서마다 한 번만)."
+    },
+    "nasal_steroid": {
+      "label_ko": "비강 스테로이드 스프레이", "emoji": "👃", "type_ko": "코 점막의 염증을 가라앉히는 조절 약",
+      "target": "nasal_eye",
+      "diseases": {
+        "allergic_rhinitis": {"text_ko": "알레르기 비염에서는 코 점막의 알레르기 염증 자체를 가라앉힙니다. 중등도 이상이거나 오래 이어지는 비염의 1차 치료로, 코막힘에도 효과가 있습니다.", "symptom_ko": "코막힘·콧물·재채기", "basis": "guideline", "sources": ["kaaaci_ar_pharm_2023"]}
+      },
+      "consistency": {"text_ko": "뿌린 직후에 듣는 약이 아닙니다. 효과는 며칠에 걸쳐 나타나고 몇 주 뒤에 가장 커집니다. 그래서 처방받은 기간에는 증상이 덜한 날에도 거르지 않는 것이 중요합니다. 얼마나 오래 쓸지는 진료에서 정합니다.", "card_ko": "뿌린 직후에 듣는 약이 아니라 며칠에 걸쳐 효과가 나타납니다. 처방받은 기간에는 증상이 덜한 날에도 거르지 않는 것이 중요합니다.", "basis": "guideline", "sources": ["kaaaci_ar_pharm_2023", "aria_eaaci_2025"], "basis_note_ko": "효과 발현 시간은 지침 본문. '거르지 않는다'는 그 약리에서 끌어낸 진료 관행이며, ARIA 2024-2025 는 매일 쓸지 필요할 때만 쓸지를 아직 권고로 정리하지 않았다."},
+      "extra": [
+        {"text_ko": "올바르게 뿌려야 효과가 납니다. 고개를 약간 숙이고 분사구를 코 가운데 벽이 아닌 바깥쪽(같은 쪽 눈 방향)으로 향하게 하세요. 사용법은 진료나 약국에서 한 번 확인받으세요.", "basis": "expert_practice", "sources": ["aria_eaaci_2025"], "basis_note_ko": "올바른 사용이 전제라는 점은 ARIA 본문. 분사 방향은 진료 관행."},
+        {"text_ko": "코피가 나거나 코 안이 헐면 진료에서 알려 주세요.", "basis": "guideline", "sources": ["kaaaci_ar_pharm_2023"]}
+      ]
+    },
+    "inhaled_steroid": {
+      "label_ko": "흡입 스테로이드", "emoji": "🫁", "type_ko": "기도의 염증을 가라앉히는 조절제",
+      "target": "airway",
+      "diseases": {
+        "asthma": {"text_ko": "천식에서는 기도의 염증을 가라앉혀 증상을 줄이고 심한 악화를 막습니다. 국제 천식 지침은 성인·청소년 천식 환자 모두가 흡입 스테로이드가 든 치료를 받도록 권합니다.", "symptom_ko": "기침·쌕쌕거림·숨참", "basis": "guideline", "sources": ["gina_2021"]}
+      },
+      "consistency": {"disease": "asthma", "text_ko": "증상이 드문 사람도 심한 악화를 겪을 수 있습니다. 그래서 증상이 없는 날에도 처방받은 방식대로 이어 가는 것이 중요합니다. 매일 쓰는 처방도 있고 증상이 있을 때 쓰는 처방도 있으니, 내 처방이 어느 쪽인지 진료에서 확인하세요.", "card_ko": "증상이 없는 날에도 처방받은 방식대로 이어 가는 것이 중요합니다. 매일 쓰는 처방도 있고 증상이 있을 때 쓰는 처방도 있으니, 내 처방이 어느 쪽인지 진료에서 확인하세요.", "basis": "guideline", "sources": ["gina_2021"], "basis_note_ko": "천식에 관한 문장이라 천식을 알려 준 환자에게만 낸다."},
+      "consistency_unmatched": {"text_ko": "처방받은 방식대로 이어 가는 것이 중요합니다. 매일 쓰는 처방도 있고 증상이 있을 때 쓰는 처방도 있으니, 내 처방이 어느 쪽인지 진료에서 확인하세요.", "basis": "expert_practice", "sources": [], "basis_note_ko": "천식을 알려 주지 않은 사용자에게 내는 문장. 천식의 악화·사망에 관한 문장은 붙이지 않는다."},
+      "extra": [
+        {"text_ko": "흡입기는 사용법이 틀리면 약이 기도에 닿지 않습니다. 사용 오류는 흔하고 조절 불량과 이어집니다. 진료 때마다 사용법을 확인받으세요.", "basis": "guideline", "sources": ["gina_2021", "melani_2011"]},
+        {"text_ko": "흡입한 뒤에는 물로 입을 헹구세요.", "basis": "expert_practice", "sources": []},
+        {"disease": "asthma", "text_ko": "조절이 잘 되면 약을 줄이는 것은 진료에서 정합니다. 지침은 조절이 잘 되어도 흡입 스테로이드를 완전히 끊지는 않도록 권합니다.", "basis": "guideline", "sources": ["gina_2021"]},
+        {"disease": "asthma", "text_ko": "캐나다의 관찰 연구 한 건에서, 저용량 흡입 스테로이드를 규칙적으로 쓴 천식 환자는 천식으로 인한 사망이 적었고, 끊은 뒤 첫 3개월의 천식 사망률은 계속 쓴 사람보다 높았습니다. 관찰 연구여서 원인과 결과를 증명한 것은 아닙니다.", "basis": "study", "sources": ["suissa_2000"], "basis_note_ko": "지침 문장이 아니라 관찰 연구 한 건(Suissa 2000, PubMed 초록)이다. 천식을 알려 준 환자에게만, 리포트에만 낸다."}
+      ]
+    },
+    "leukotriene": {
+      "label_ko": "류코트리엔 조절제", "emoji": "💊", "type_ko": "매일 먹는 조절 약",
+      "target": "airway_nasal",
+      "diseases": {
+        "asthma": {"text_ko": "천식에서는 기도를 좁히고 붓게 하는 류코트리엔의 작용을 막습니다. 흡입 스테로이드보다 항염 효과는 약합니다.", "symptom_ko": "기침·쌕쌕거림·숨참", "basis": "guideline", "sources": ["kaaaci_ar_pharm_2023"]},
+        "allergic_rhinitis": {"text_ko": "알레르기 비염에서는 코 증상을 줄입니다. 효과 크기는 크지 않으며, 천식이 함께 있을 때 두 질환을 같이 조절하는 데 쓰입니다.", "symptom_ko": "코 증상", "basis": "guideline", "sources": ["kaaaci_ar_pharm_2023"]}
+      },
+      "consistency": {"text_ko": "증상이 있을 때만 먹는 약이 아니라 매일 먹어 증상을 미리 줄이는 약입니다. 처방받은 대로 이어 가고, 그만 먹을지는 진료에서 상의하세요.", "card_ko": "증상이 있을 때만 먹는 약이 아니라 매일 먹어 증상을 미리 줄이는 약입니다.", "basis": "expert_practice", "sources": []},
+      "extra": [
+        {"text_ko": "드물게 수면 문제, 초조함, 우울한 기분 같은 변화가 보고됐습니다. 그런 변화가 느껴지면 바로 의료진에게 알리세요.", "basis": "guideline", "sources": ["kaaaci_ar_pharm_2023"]}
+      ]
+    },
+    "systemic_steroid": {
+      "label_ko": "먹는/주사 스테로이드", "emoji": "💊", "type_ko": "심한 악화 때 짧게 쓰는 약", "consistency_head_ko": "쓰는 방법", "short_course": true,
+      "target": "general",
+      "general": {"text_ko": "증상이 심하게 나빠졌을 때 전신의 염증을 빠르게 가라앉히는 약입니다. 평소 조절용으로 오래 쓰는 약은 아닙니다.", "basis": "expert_practice", "sources": []},
+      "consistency": {"text_ko": "처방받은 기간과 방법 그대로 쓰는 것이 중요합니다. 스스로 기간을 늘리거나 중간에 그만두지 말고, 달라져야 할 것 같으면 진료에서 상의하세요.", "card_ko": "처방받은 기간과 방법 그대로 쓰는 것이 중요합니다. 평소 조절용으로 오래 쓰는 약은 아닙니다.", "basis": "expert_practice", "sources": []},
+      "extra": [
+        {"text_ko": "이 약이 자주 필요하다면 평소 조절 치료와 알러젠 노출을 다시 점검할 신호입니다. 진료에서 알려 주세요.", "basis": "expert_practice", "sources": ["gina_2021"], "basis_note_ko": "GINA 는 치료를 올리기 전에 사용법·순응도·계속되는 알레르겐 노출을 확인하라고 적었다. 먹는 스테로이드 빈도를 신호로 삼는 문장 자체는 진료 관행."}
+      ]
+    },
+    "immunotherapy": {
+      "label_ko": "면역치료(설하/피하)", "emoji": "💉", "type_ko": "원인 알러젠에 대한 반응을 줄이는 치료",
+      "target": "general",
+      "general": {"text_ko": "원인 알러젠을 꾸준히 투여해 몸이 그 알러젠에 덜 반응하게 만드는 치료입니다. 증상 약과 달리 병의 경과를 바꾸는 것이 목표입니다.", "basis": "guideline", "sources": ["kaaaci_ar_nonpharm_2023"]},
+      "consistency": {"text_ko": "최대 효과를 얻으려면 3년 이상(3~5년) 꾸준히 이어 가야 합니다. 그래서 주사 일정이나 설하제 복용을 거르지 않는 것이 중요합니다. 빠뜨렸을 때 어떻게 할지는 스스로 정하지 말고 치료받는 곳에 물어보세요.", "card_ko": "최대 효과를 얻으려면 3년 이상(3~5년) 꾸준히 이어 가야 합니다. 일정을 거르지 않는 것이 중요합니다.", "basis": "guideline", "sources": ["kaaaci_ar_nonpharm_2023"], "basis_note_ko": "'최대 효과를 얻으려면 3년 이상(3~5년)'은 지침 본문 그대로. 빠뜨렸을 때의 대응은 진료 관행."},
+      "extra": [
+        {"text_ko": "치료 중인 항원이 이번 결과의 ‘실제 주의’ 알러젠과 같은지 진료에서 확인하세요. 면역치료 중에도 증상 약은 처방대로 함께 씁니다.", "basis": "expert_practice", "sources": []}
+      ]
+    },
+    "biologics": {
+      "label_ko": "생물학적 제제(주사)", "emoji": "💉", "type_ko": "정해진 간격으로 맞는 주사 치료",
+      "target": "general",
+      "general": {"text_ko": "알레르기 염증을 일으키는 특정 물질을 겨냥해 막는 주사입니다. 기존 치료로 조절되지 않는 중증 질환에 추가합니다.", "basis": "guideline", "sources": ["gina_2021"], "basis_note_ko": "GINA 는 중증 천식에 대해 적었다. 다른 질환(만성 두드러기·아토피피부염)에 대한 문장은 읽은 문헌으로 확인하지 않았다."},
+      "consistency": {"text_ko": "정해진 간격을 지켜 맞는 것이 중요합니다. 주사를 맞는 동안에도 함께 처방된 흡입제나 다른 약은 의료진이 정리해 주기 전까지 그대로 이어 갑니다.", "card_ko": "정해진 간격을 지켜 맞는 것이 중요합니다. 함께 처방된 약은 의료진이 정리해 주기 전까지 그대로 이어 갑니다.", "basis": "guideline", "sources": ["gina_2021"], "basis_note_ko": "GINA: 처방된 흡입 스테로이드와 생물학적 제제를 계속 쓰도록 조언한다."},
+      "extra": []
+    },
+    "decongestant": {
+      "label_ko": "충혈완화제(코 스프레이/먹는약)", "emoji": "👃", "type_ko": "코막힘을 잠깐 풀어 주는 약", "consistency_head_ko": "쓰는 기간", "short_course": true,
+      "target": "nasal_eye",
+      "diseases": {
+        "allergic_rhinitis": {"text_ko": "알레르기 비염에서는 부은 코 점막의 혈관을 수축시켜 코막힘을 빠르게 풀어 줍니다. 알레르기 염증을 가라앉히는 약은 아닙니다.", "symptom_ko": "코막힘", "basis": "expert_practice", "sources": ["aria_eaaci_2025"]},
+        "sinusitis": {"text_ko": "부비동염에서도 코막힘을 잠깐 덜어 주는 용도로 씁니다.", "basis": "expert_practice", "sources": []}
+      },
+      "consistency": {"text_ko": "이 약은 꾸준히 쓰는 약이 아니라 짧게 쓰는 약입니다. 국제 지침(ARIA-EAACI 2024-2025)은 코에 뿌리는 충혈완화제를 5일 넘게 이어 쓰지 않도록 제안합니다(조건부 권고, 근거 확실성은 매우 낮음). 그보다 오래 필요하다면 코막힘을 다스릴 다른 방법을 진료에서 상의하세요.", "card_ko": "꾸준히 쓰는 약이 아니라 짧게 쓰는 약입니다. 국제 지침은 코에 뿌리는 충혈완화제를 5일 넘게 이어 쓰지 않도록 제안합니다(조건부 권고, 근거 확실성은 매우 낮음).", "basis": "guideline", "sources": ["aria_eaaci_2025"], "basis_note_ko": "원문은 '제안하지 않는다(조건부 권고, 근거 확실성 매우 낮음)'이다. '권하지 않는다'로 줄여 쓰지 않는다."},
+      "extra": []
+    }
+  },
+  "symptom_text": {
+    "title_ko": "주증상별 안내",
+    "intro_ko": "처음에 ‘주로 나타나는 부위’로 고르신 증상만 다룹니다. 약에 관한 내용은 일반 정보이며, 어떤 약을 쓸지는 진료에서 정합니다.",
+    "main_rule_ko": "주증상 = 문진의 '주로 나타나는 부위'(organ_systems)에서 환자가 고른 항목 전부. 문진에는 부위별 심한 정도나 순위가 없어 더 좁히지 않는다. 표시 순서는 하기도 → 코 → 눈 → 피부 → 소화기 → 전신. 이어질 수 있는 '실제 주의' 알러젠이 같은 부위는 한 묶음(카드 한 장)으로 모으고, 알러젠과 노출 줄이기는 묶음마다 한 번만 적는다.",
+    "linked_tpl_ko": "이번 검사에서 증상과 연결된 알러젠 가운데 이 증상과 이어질 수 있는 것: {allergens}.",
+    "unlinked_ko": "이번 검사에서 이 증상과 연결된 알러젠은 확인되지 않았습니다. 알레르기가 아닌 원인일 수 있으니 진료에서 확인하세요.",
+    "link_rule_ko": "이어지는 알러젠은 '실제 주의'로 판정된 항원 가운데 문진에서 확인된 증상 부위가 이 부위인 것이다(exposure_guidance_service.organ_sites). 음식·라텍스·기타·벌독은 문진에서 고른 증상의 부위 그대로, 흡입 알러젠은 항원군의 기본 부위로 본다. 약물은 '실제 주의'가 아니므로 이 목록에 넣지 않고, 쓴 뒤 이 부위에 반응이 있었다고 답한 경우에만 drug_reported_tpl_ko 를 덧붙인다 — 그때는 '알레르기가 아닌 원인일 수 있으니'라고 쓰지 않는다.",
+    "drug_reported_tpl_ko": "{drugs} 사용 뒤 이 부위에 반응이 있었다고 답하셨습니다. 약물 때문인지는 진료에서 확인합니다.",
+    "unlinked_besides_drug_ko": "약물 외에 이 증상과 연결된 알러젠은 이번 검사에서 확인되지 않았습니다.",
+    "avoid_note_ko": "노출 줄이기 줄은 '우선 실천 수칙'의 문장을 그대로 되풀이하지 않고, 이어진 알러젠마다 핵심 한 줄로 적는다.",
+    "avoid_more_report_ko": "자세한 수칙은 위 ‘우선 실천 회피 수칙’에 있습니다.",
+    "taking_ko": "지금 사용 중",
+    "taking_report_ko": "지금 사용 중",
+    "taking_intro_report_ko": "지금 쓰고 계신 약은 이름만 적었습니다. 설명은 아래 ‘지금 쓰는 약’ 절에 있습니다.",
+    "drugs_closing_card_ko": "어떤 약을 쓸지는 진료에서 정해요."
+  },
+  "symptoms": {
+    "lower_airway": {
+      "label_ko": "기침·쌕쌕거림·숨참", "short_ko": "기관지", "emoji": "🫁",
+      "how": {"text_ko": "들이마신 알러젠이 기도에 닿으면 기도 점막에 알레르기 염증이 생기고 기도가 좁아져 기침, 쌕쌕거림, 숨참이 나타납니다.", "card_ko": "들이마신 알러젠이 기도에 닿으면 염증이 생기고 기도가 좁아져 나타납니다.", "basis": "expert_practice", "sources": []},
+      "selfcare": [
+        {"text_ko": "증상이 생긴 날짜와 그때의 장소·상황을 적어 두세요. 원인 노출을 찾는 가장 좋은 자료입니다.", "basis": "expert_practice", "sources": []},
+        {"text_ko": "담배 연기를 피하세요. 흡연 중이라면 금연이 치료의 일부입니다.", "basis": "guideline", "sources": ["gina_2021"]},
+        {"text_ko": "흡입기를 쓰고 있다면 사용법을 진료 때 확인받으세요.", "basis": "guideline", "sources": ["gina_2021", "melani_2011"]}
+      ],
+      "drugs": [
+        {"med": "inhaled_steroid", "name_ko": "흡입 스테로이드가 든 흡입제", "text_ko": "천식 치료의 기본입니다. 매일 쓰는 방식과 증상이 있을 때 쓰는 방식이 있습니다.", "basis": "guideline", "sources": ["gina_2021"]},
+        {"med": null, "name_ko": "증상을 빨리 풀어 주는 흡입제", "text_ko": "이것만으로 천식을 치료하지는 않습니다.", "basis": "guideline", "sources": ["gina_2021"]},
+        {"med": "leukotriene", "name_ko": "류코트리엔 조절제", "text_ko": "먹는 약입니다. 흡입 스테로이드보다 항염 효과는 약합니다.", "basis": "guideline", "sources": ["kaaaci_ar_pharm_2023"]},
+        {"med": "biologics", "name_ko": "생물학적 제제", "text_ko": "기존 치료로 조절되지 않는 중증 천식에 추가하는 주사입니다.", "basis": "guideline", "sources": ["gina_2021"]}
+      ],
+      "drug_notes": [],
+      "no_asthma_ko": "천식 진단은 없다고 하셨습니다. 이 증상이 천식 때문인지는 이 검사로 알 수 없으므로, 여기 적은 약들은 천식 진단이 확인된 뒤의 이야기입니다.",
+      "urgent_ko": "말하기 힘들 만큼 숨이 차거나 증상 완화 흡입제가 듣지 않으면 바로 응급실로 가세요."
+    },
+    "nasal": {
+      "label_ko": "코 증상(재채기·콧물·코막힘)", "short_ko": "코", "emoji": "👃",
+      "how": {"text_ko": "알러젠이 코 점막에 닿으면 몇 분 안에 히스타민이 나와 재채기와 맑은 콧물, 가려움이 생깁니다. 노출이 이어지면 점막의 염증이 계속되어 코막힘이 남습니다.", "card_ko": "알러젠이 코 점막에 닿으면 히스타민이 나와 재채기·콧물이 생기고, 노출이 이어지면 코막힘이 남습니다.", "basis": "expert_practice", "sources": []},
+      "selfcare": [
+        {"text_ko": "식염수 코 세척이 증상을 덜어 줍니다. 약을 대신하지는 못하는 보조 수단입니다. 수돗물을 그대로 쓰지 말고 멸균 식염수를 쓰세요.", "basis": "guideline", "sources": ["kaaaci_ar_nonpharm_2023"]},
+        {"text_ko": "증상이 심한 날의 장소와 상황을 적어 두면 원인 노출을 좁히는 데 도움이 됩니다.", "basis": "expert_practice", "sources": []}
+      ],
+      "drugs": [
+        {"med": "nasal_steroid", "name_ko": "비강 스테로이드 스프레이", "text_ko": "중등도 이상이거나 오래 이어지는 비염의 1차 치료입니다. 며칠에 걸쳐 효과가 나타납니다.", "basis": "guideline", "sources": ["kaaaci_ar_pharm_2023"]},
+        {"med": "antihistamine", "name_ko": "항히스타민제(먹는 약 또는 코 스프레이)", "text_ko": "재채기·콧물·가려움에 빠르게 듣습니다.", "basis": "guideline", "sources": ["kaaaci_ar_pharm_2023"]},
+        {"med": "leukotriene", "name_ko": "류코트리엔 조절제", "text_ko": "천식이 함께 있을 때 고려합니다.", "basis": "guideline", "sources": ["kaaaci_ar_pharm_2023"]},
+        {"med": "decongestant", "name_ko": "충혈완화제", "text_ko": "코막힘을 잠깐 풀어 주지만 며칠 이상 이어 쓰는 약이 아닙니다.", "basis": "guideline", "sources": ["aria_eaaci_2025"]},
+        {"med": "immunotherapy", "name_ko": "알레르겐 면역치료", "text_ko": "약으로 조절되지 않을 때 진료에서 상의할 수 있는 선택지입니다.", "basis": "guideline", "sources": ["kaaaci_ar_nonpharm_2023"]}
+      ],
+      "drug_notes": [],
+      "urgent_ko": ""
+    },
+    "ocular": {
+      "label_ko": "눈 증상(가려움·충혈·눈물)", "short_ko": "눈", "emoji": "👁️",
+      "how": {"text_ko": "공기 중의 알러젠이 눈의 결막에 닿으면 히스타민이 나와 가려움, 충혈, 눈물이 생깁니다. 코 증상과 함께 오는 경우가 많습니다.", "card_ko": "공기 중의 알러젠이 결막에 닿으면 히스타민이 나와 생깁니다. 코 증상과 함께 오는 경우가 많습니다.", "basis": "expert_practice", "sources": []},
+      "selfcare": [
+        {"text_ko": "눈을 비비지 마세요. 비비면 더 가렵고 부습니다.", "basis": "expert_practice", "sources": []},
+        {"text_ko": "차가운 찜질과 인공눈물이 가려움을 덜고 알러젠을 씻어 내는 데 도움이 됩니다.", "basis": "expert_practice", "sources": []}
+      ],
+      "drugs": [
+        {"med": null, "name_ko": "항히스타민 점안액", "text_ko": "눈 증상에 직접 씁니다.", "basis": "expert_practice", "sources": []},
+        {"med": "antihistamine", "name_ko": "먹는 항히스타민제", "text_ko": "코와 눈 증상을 함께 줄입니다.", "basis": "expert_practice", "sources": []}
+      ],
+      "drug_notes": [],
+      "urgent_ko": "눈이 아프거나 시야가 흐려지면 알레르기가 아닐 수 있으니 안과 진료를 받으세요."
+    },
+    "skin": {
+      "label_ko": "피부 증상(두드러기·가려움·습진)", "short_ko": "피부", "emoji": "🧴",
+      "how": {"text_ko": "알러젠이 피부에 닿거나 음식으로 몸에 들어오면 피부의 비만세포에서 히스타민이 나와 두드러기와 가려움이 생길 수 있습니다. 습진은 피부 장벽이 약해진 상태에서 여러 자극이 겹쳐 나빠집니다.", "card_ko": "알러젠이 피부에 닿거나 음식으로 들어오면 두드러기와 가려움이 생길 수 있습니다. 습진은 여러 자극이 겹쳐 나빠집니다.", "basis": "expert_practice", "sources": []},
+      "selfcare": [
+        {"text_ko": "보습제를 매일 바르세요. 습진 관리의 기본입니다.", "basis": "expert_practice", "sources": []},
+        {"text_ko": "긁지 않도록 손톱을 짧게 하고, 뜨거운 물보다 미지근한 물로 짧게 씻으세요.", "basis": "expert_practice", "sources": []},
+        {"text_ko": "두드러기가 난 날 먹은 것과 닿은 것을 적어 두세요.", "basis": "expert_practice", "sources": []}
+      ],
+      "drugs": [
+        {"med": "antihistamine", "name_ko": "항히스타민제", "text_ko": "두드러기와 가려움에 씁니다.", "basis": "expert_practice", "sources": []},
+        {"med": null, "name_ko": "바르는 스테로이드 등 국소 치료", "text_ko": "습진에 씁니다. 어떤 약을 어디에 얼마나 바를지는 진료에서 정합니다.", "basis": "expert_practice", "sources": []}
+      ],
+      "drug_notes": [],
+      "urgent_ko": "두드러기와 함께 숨이 차거나 입술·혀가 부으면 바로 응급실로 가세요."
+    },
+    "gi": {
+      "label_ko": "소화기 증상(복통·설사·구토)", "short_ko": "소화기", "emoji": "🍽️",
+      "how": {"text_ko": "음식 알레르기에서는 원인 음식을 먹고 대개 2시간 안에 구토, 복통, 설사가 생깁니다. 소화기 증상은 알레르기가 아닌 원인이 훨씬 흔합니다.", "card_ko": "음식 알레르기라면 먹고 대개 2시간 안에 생깁니다. 소화기 증상은 알레르기가 아닌 원인이 훨씬 흔합니다.", "basis": "expert_practice", "sources": []},
+      "selfcare": [
+        {"text_ko": "무엇을 먹고 얼마 뒤에 증상이 났는지 적어 두세요. 음식과의 시간 관계가 판단의 핵심입니다.", "basis": "expert_practice", "sources": []},
+        {"text_ko": "검사 수치만 보고 음식을 끊지 마세요. 먹어도 괜찮은 음식까지 줄이게 됩니다.", "basis": "expert_practice", "sources": []}
+      ],
+      "drugs": [],
+      "drug_notes": [
+        {"med": null, "text_ko": "소화기 증상만을 겨냥한 알레르기 약은 따로 없습니다. 원인 음식을 확인하는 것이 먼저입니다.", "basis": "expert_practice", "sources": []}
+      ],
+      "urgent_ko": "먹은 뒤 구토와 함께 두드러기·숨참·어지럼이 오면 바로 응급실로 가세요."
+    },
+    "systemic": {
+      "label_ko": "전신 증상(어지럼·아나필락시스)", "short_ko": "전신", "emoji": "🚨",
+      "how": {"text_ko": "알러젠이 음식이나 벌 쏘임처럼 한꺼번에 몸 안으로 들어오면 피부, 호흡기, 순환기에 동시에 반응이 일어날 수 있습니다. 이것이 아나필락시스입니다.", "card_ko": "알러젠이 한꺼번에 몸 안으로 들어와 피부·호흡기·순환기에 동시에 반응이 일어나는 것이 아나필락시스입니다.", "basis": "expert_practice", "sources": []},
+      "selfcare": [
+        {"text_ko": "어떤 상황에서 반응이 있었는지(먹은 것, 쏘인 것, 약)를 적어 진료 때 알려 주세요.", "basis": "expert_practice", "sources": []},
+        {"text_ko": "응급 대처 계획을 진료에서 받아 두고 가족에게도 알려 주세요.", "basis": "expert_practice", "sources": []}
+      ],
+      "drugs": [
+        {"med": null, "name_ko": "에피네프린 자가주사기", "text_ko": "아나필락시스의 응급 치료제입니다. 처방이 필요한지 진료에서 확인하세요.", "basis": "expert_practice", "sources": []}
+      ],
+      "drug_notes": [
+        {"med": "antihistamine", "text_ko": "항히스타민제는 가려움과 두드러기를 덜어 줄 뿐, 아나필락시스의 치료를 대신하지 못합니다.", "basis": "expert_practice", "sources": [], "basis_note_ko": "약물 선택지가 아니라 주의 문장이다. 환자가 항히스타민제를 쓰고 있어도 이 증상에 '해당하는 약'으로 표시하지 않는다."}
+      ],
+      "urgent_ko": "온몸 두드러기, 숨참, 어지럼이 함께 오면 바로 119를 부르거나 응급실로 가세요."
+    }
+  }
+}

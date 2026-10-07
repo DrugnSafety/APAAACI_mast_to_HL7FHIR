@@ -54,9 +54,12 @@ def check_required_packages() -> Tuple[bool, List[str]]:
     """필수 패키지 확인"""
     missing = []
     
+    # 웹 서비스(server.py) 런타임 필수 패키지. streamlit 은 레거시 앱 전용이라 제외한다
+    # (requirements-legacy.txt). 없다고 해서 설정이 잘못된 것이 아니다.
     required_packages = [
         "openai",
-        "streamlit",
+        "fastapi",
+        "uvicorn",
         "pydantic",
         "pandas",
         "numpy",
@@ -230,7 +233,10 @@ def main():
     if all_success:
         print(f"{Colors.GREEN}✅ 모든 설정이 완료되었습니다!{Colors.ENDC}")
         print(f"\n다음 명령으로 애플리케이션을 실행하세요:")
-        print(f"  {Colors.BLUE}streamlit run app.py{Colors.ENDC}")
+        print(f"  {Colors.BLUE}uvicorn server:app --reload --port 8787{Colors.ENDC}")
+        print(f"  탐험 퀘스트 UI http://127.0.0.1:8787/  ·  클래식 UI http://127.0.0.1:8787/classic/")
+        print(f"  (레거시 Streamlit 앱: pip install -r requirements-legacy.txt && "
+              f"streamlit run app.py)")
     else:
         print(f"{Colors.RED}❌ 일부 설정이 누락되었습니다.{Colors.ENDC}")
         print(f"\n위의 문제를 해결한 후 다시 실행해주세요.")

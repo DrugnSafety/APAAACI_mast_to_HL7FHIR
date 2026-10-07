@@ -1,0 +1,505 @@
+{
+ "MAST": [
+  {
+   "resourceType": "Observation",
+   "status": "final",
+   "code": {
+    "coding": [
+     {
+      "system": "http://snomed.info/sct",
+      "code": "399788006",
+      "display": "Allergen specific IgE antibody measurement, MAST type"
+     }
+    ],
+    "text": "Allergen specific IgE antibody measurement, MAST type - Dermatophagoides farinae"
+   },
+   "method": {
+    "coding": [
+     {
+      "system": "http://snomed.info/sct",
+      "code": "703446000",
+      "display": "Immunoblot assay (qualifier value)"
+     }
+    ],
+    "text": "Immunoblot (MAST)"
+   },
+   "subject": {
+    "reference": "Patient/예시"
+   },
+   "effectiveDateTime": "2026-06-01",
+   "valueQuantity": {
+    "value": 17.6,
+    "unit": "kU/L",
+    "system": "http://unitsofmeasure.org",
+    "code": "kU/L"
+   },
+   "interpretation": [
+    {
+     "coding": [
+      {
+       "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+       "code": "POS",
+       "display": "Positive"
+      }
+     ]
+    }
+   ],
+   "component": [
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://snomed.info/sct",
+        "code": "46273588",
+        "display": "Dermatophagoides farinae protein"
+       }
+      ],
+      "text": "Dermatophagoides farinae (집먼지진드기)"
+     }
+    },
+    {
+     "code": {
+      "text": "IgE class (0-6, report semi-quantitative class)"
+     },
+     "valueInteger": 4
+    }
+   ]
+  },
+  {
+   "resourceType": "Observation",
+   "status": "final",
+   "code": {
+    "coding": [
+     {
+      "system": "http://snomed.info/sct",
+      "code": "399788006",
+      "display": "Allergen specific IgE antibody measurement, MAST type"
+     }
+    ],
+    "text": "Allergen specific IgE antibody measurement, MAST type - Dog dander"
+   },
+   "method": {
+    "coding": [
+     {
+      "system": "http://snomed.info/sct",
+      "code": "703446000",
+      "display": "Immunoblot assay (qualifier value)"
+     }
+    ],
+    "text": "Immunoblot (MAST)"
+   },
+   "subject": {
+    "reference": "Patient/예시"
+   },
+   "effectiveDateTime": "2026-06-01",
+   "valueQuantity": {
+    "value": 0.0,
+    "unit": "kU/L",
+    "system": "http://unitsofmeasure.org",
+    "code": "kU/L"
+   },
+   "interpretation": [
+    {
+     "coding": [
+      {
+       "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+       "code": "NEG",
+       "display": "Negative"
+      }
+     ]
+    }
+   ],
+   "component": [
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://snomed.info/sct",
+        "code": "4128602",
+        "display": "Dog dander"
+       }
+      ],
+      "text": "Dog dander (개 비듬)"
+     }
+    },
+    {
+     "code": {
+      "text": "IgE class (0-6, report semi-quantitative class)"
+     },
+     "valueInteger": 0
+    }
+   ]
+  },
+  {
+   "resourceType": "Observation",
+   "status": "final",
+   "code": {
+    "coding": [
+     {
+      "system": "http://snomed.info/sct",
+      "code": "399788006",
+      "display": "Allergen specific IgE antibody measurement, MAST type"
+     }
+    ],
+    "text": "Allergen specific IgE antibody measurement, MAST type - Egg white"
+   },
+   "method": {
+    "coding": [
+     {
+      "system": "http://snomed.info/sct",
+      "code": "703446000",
+      "display": "Immunoblot assay (qualifier value)"
+     }
+    ],
+    "text": "Immunoblot (MAST)"
+   },
+   "subject": {
+    "reference": "Patient/예시"
+   },
+   "effectiveDateTime": "2026-06-01",
+   "valueQuantity": {
+    "value": 0.35,
+    "comparator": "<",
+    "unit": "kU/L",
+    "system": "http://unitsofmeasure.org",
+    "code": "kU/L"
+   },
+   "interpretation": [
+    {
+     "coding": [
+      {
+       "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+       "code": "NEG",
+       "display": "Negative"
+      }
+     ]
+    }
+   ],
+   "component": [
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://snomed.info/sct",
+        "code": "4103922",
+        "display": "Egg white"
+       }
+      ],
+      "text": "Egg white (난백)"
+     }
+    },
+    {
+     "code": {
+      "text": "IgE class (0-6, report semi-quantitative class)"
+     },
+     "valueInteger": 0
+    }
+   ]
+  },
+  {
+   "resourceType": "Observation",
+   "status": "final",
+   "code": {
+    "coding": [
+     {
+      "system": "http://snomed.info/sct",
+      "code": "399788006",
+      "display": "Allergen specific IgE antibody measurement, MAST type"
+     }
+    ],
+    "text": "Allergen specific IgE antibody measurement, MAST type - Peanut"
+   },
+   "method": {
+    "coding": [
+     {
+      "system": "http://snomed.info/sct",
+      "code": "703446000",
+      "display": "Immunoblot assay (qualifier value)"
+     }
+    ],
+    "text": "Immunoblot (MAST)"
+   },
+   "subject": {
+    "reference": "Patient/예시"
+   },
+   "effectiveDateTime": "2026-06-01",
+   "dataAbsentReason": {
+    "coding": [
+     {
+      "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+      "code": "not-performed",
+      "display": "Not Performed"
+     }
+    ],
+    "text": "보고서 표기: N/A"
+   },
+   "component": [
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://snomed.info/sct",
+        "code": "42538933",
+        "display": "Peanut"
+       }
+      ],
+      "text": "Peanut (땅콩)"
+     }
+    }
+   ]
+  }
+ ],
+ "UniCAP": [
+  {
+   "resourceType": "Observation",
+   "status": "final",
+   "code": {
+    "coding": [
+     {
+      "system": "http://snomed.info/sct",
+      "code": "397691009",
+      "display": "Allergen specific IgE antibody measurement, quantitative"
+     }
+    ],
+    "text": "Allergen specific IgE antibody measurement, quantitative - Dermatophagoides farinae"
+   },
+   "method": {
+    "coding": [
+     {
+      "system": "http://snomed.info/sct",
+      "code": "703447009",
+      "display": "Enzyme immunoassay technique (qualifier value)"
+     },
+     {
+      "system": "http://snomed.info/sct",
+      "code": "703444002",
+      "display": "Immunofluorescence technique (qualifier value)"
+     }
+    ],
+    "text": "FEIA — fluorescent enzyme immunoassay (ImmunoCAP/UniCAP)"
+   },
+   "subject": {
+    "reference": "Patient/예시"
+   },
+   "valueQuantity": {
+    "value": 17.6,
+    "unit": "kU/L",
+    "system": "http://unitsofmeasure.org",
+    "code": "kU/L"
+   },
+   "interpretation": [
+    {
+     "coding": [
+      {
+       "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+       "code": "POS",
+       "display": "Positive"
+      }
+     ]
+    }
+   ],
+   "component": [
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://snomed.info/sct",
+        "code": "46273588",
+        "display": "Dermatophagoides farinae protein"
+       }
+      ],
+      "text": "Dermatophagoides farinae (집먼지진드기)"
+     }
+    },
+    {
+     "code": {
+      "text": "IgE class (0-6, report semi-quantitative class)"
+     },
+     "valueInteger": 4
+    }
+   ]
+  }
+ ],
+ "SPT": [
+  {
+   "resourceType": "Observation",
+   "status": "final",
+   "code": {
+    "coding": [
+     {
+      "system": "http://snomed.info/sct",
+      "code": "37968009",
+      "display": "Prick test"
+     }
+    ],
+    "text": "Prick test - Dermatophagoides farinae"
+   },
+   "subject": {
+    "reference": "Patient/예시"
+   },
+   "valueQuantity": {
+    "value": 4.0,
+    "unit": "mm",
+    "system": "http://unitsofmeasure.org",
+    "code": "mm"
+   },
+   "interpretation": [
+    {
+     "coding": [
+      {
+       "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+       "code": "POS",
+       "display": "Positive"
+      }
+     ]
+    }
+   ],
+   "method": {
+    "coding": [
+     {
+      "system": "https://athena.ohdsi.org/search-terms/terms",
+      "code": "36703747",
+      "display": "Skin prick test histamine positive control"
+     }
+    ],
+    "text": "Skin prick test — wheal mean diameter, histamine positive control"
+   },
+   "component": [
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://snomed.info/sct",
+        "code": "46273588",
+        "display": "Dermatophagoides farinae protein"
+       }
+      ],
+      "text": "Dermatophagoides farinae (집먼지진드기)"
+     }
+    },
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "https://athena.ohdsi.org/search-terms/terms",
+        "code": "4037344",
+        "display": "Major Axis (팽진 장축)"
+       }
+      ],
+      "text": "Major Axis (팽진 장축)"
+     },
+     "valueQuantity": {
+      "value": 5.0,
+      "unit": "mm",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm"
+     }
+    },
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "https://athena.ohdsi.org/search-terms/terms",
+        "code": "4038107",
+        "display": "Minor Axis (팽진 단축)"
+       }
+      ],
+      "text": "Minor Axis (팽진 단축)"
+     },
+     "valueQuantity": {
+      "value": 3.0,
+      "unit": "mm",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm"
+     }
+    },
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "https://athena.ohdsi.org/search-terms/terms",
+        "code": "45880776",
+        "display": "Average (평균값)"
+       }
+      ],
+      "text": "Average (평균값)"
+     },
+     "valueQuantity": {
+      "value": 4.0,
+      "unit": "mm",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm"
+     }
+    },
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "https://athena.ohdsi.org/search-terms/terms",
+        "code": "4187346",
+        "display": "A/H Ratio (Allergen/Histamine)"
+       }
+      ],
+      "text": "A/H Ratio (Allergen/Histamine)"
+     },
+     "valueQuantity": {
+      "value": 1.33,
+      "unit": "ratio",
+      "system": "http://unitsofmeasure.org",
+      "code": "1"
+     }
+    }
+   ]
+  },
+  {
+   "resourceType": "Observation",
+   "status": "final",
+   "code": {
+    "coding": [
+     {
+      "system": "http://snomed.info/sct",
+      "code": "37968009",
+      "display": "Prick test"
+     }
+    ],
+    "text": "Prick test - Cat dander"
+   },
+   "subject": {
+    "reference": "Patient/예시"
+   },
+   "dataAbsentReason": {
+    "coding": [
+     {
+      "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+      "code": "not-performed",
+      "display": "Not Performed"
+     }
+    ]
+   },
+   "method": {
+    "coding": [
+     {
+      "system": "https://athena.ohdsi.org/search-terms/terms",
+      "code": "36703747",
+      "display": "Skin prick test histamine positive control"
+     }
+    ],
+    "text": "Skin prick test — wheal mean diameter, histamine positive control"
+   },
+   "component": [
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://snomed.info/sct",
+        "code": "4125384",
+        "display": "Cat dander"
+       }
+      ],
+      "text": "Cat dander (고양이 비듬)"
+     }
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,517 @@
+{
+  "version": "1.2",
+  "compiled_on": "2026-10-06",
+  "review_status": "candidate — 알레르기 전문의 검토 전",
+  "note_ko": "검사는 양성(감작)이지만 증상과의 연결이 확인되지 않은 항원(감작만 / 관찰 필요)에 붙이는 '예방과 관찰' 안내. evidence 는 문헌 표(주장·근거·읽은 범위·근거 강도)이고, patient_text 는 그 근거 강도에 맞춰 쓴 환자용 문장이다. sources 의 read 는 실제로 읽은 범위다(PMC 전문 / PMC 전문 일부 / PubMed 초록). 초록만 읽은 문헌의 수치는 초록에 적힌 값 그대로다. further_reading 은 서지만 확인했으므로 어떤 문장의 근거로도 쓰지 않았다. GINA 보고서 원문과 ARIA 2010 본문은 읽지 못했다.",
+  "evidence_levels": {
+    "established": "서로 다른 집단의 전향 코호트 여러 건이 같은 방향을 보인다.",
+    "moderate": "전향 연구가 있으나 집단이 한정돼 있거나(소아·직업군) 연구마다 크기가 다르다.",
+    "limited": "간접 근거이거나 단면·비무작위 연구뿐이다. 환자 문장에는 '~일 수 있습니다'로만 쓴다.",
+    "unproven": "직접 시험한 연구가 없거나, 있는 시험이 효과를 보이지 못했다. 환자 문장에 사실로 쓰지 않는다."
+  },
+  "sources": {
+    "bodtger_2006": {
+      "citation": "Bodtger U, Poulsen LK, Linneberg A. Rhinitis symptoms and IgE sensitization as risk factors for development of later allergic rhinitis in adults. Allergy. 2006;61(6):712-6.",
+      "pmid": "16677240", "doi": "10.1111/j.1398-9995.2006.01140.x", "read": "PubMed 초록",
+      "finding_ko": "덴마크 일반 인구 15~69세 734명을 8년 추적. 증상 없는 감작(꽃가루·반려동물·집먼지진드기)은 이후 비염 증상 발생과 유의하게 연관됐다. 꽃가루 비염의 8년 발생률은 꽃가루 감작군 15.1%, 비감작군 2.6%(OR 6.1, 95% CI 2.3-16.0)."
+    },
+    "bodtger_2003": {
+      "citation": "Bodtger U, Poulsen LK, Malling HJ. Asymptomatic skin sensitization to birch predicts later development of birch pollen allergy in adults: a 3-year follow-up study. J Allergy Clin Immunol. 2003;111(1):149-54.",
+      "pmid": "12532111", "doi": "10.1067/mai.2003.37", "read": "PubMed 초록",
+      "finding_ko": "증상 없이 자작나무 피부시험만 양성인 성인 15명을 3시즌 추적. 9명(60%)에서 임상적 알레르기가 생겼다. 팽진 4mm 이상, 결막유발시험 양성, 특이 IgE class 2 이상, 다른 알레르기 동반이 발병과 연관됐다. 소규모 연구다."
+    },
+    "bodtger_2011": {
+      "citation": "Bodtger U, Assing K, Poulsen LK. A prospective, clinical study on asymptomatic sensitisation and development of allergic rhinitis: high negative predictive value of allergological testing. Int Arch Allergy Immunol. 2011;155(3):289-96.",
+      "pmid": "21293149", "doi": "10.1159/000320758", "read": "PubMed 초록",
+      "finding_ko": "증상 없는 잔디·자작나무 감작 52명을 2년 추적. 증상 발생률은 연 5%(건강 대조군 0%)로, 저자들은 2년 동안의 위험을 '낮다'고 평가했다. 검사 수치로 발병을 맞히는 양성예측도는 14~27%로 낮았다."
+    },
+    "bodtger_2004": {
+      "citation": "Bodtger U. Prognostic value of asymptomatic skin sensitization to aeroallergens. Curr Opin Allergy Clin Immunol. 2004;4(1):5-10.",
+      "pmid": "15090912", "doi": "10.1097/00130832-200402000-00003", "read": "PubMed 초록",
+      "finding_ko": "종설. 증상 없는 피부 감작은 인구의 8~30%에서 보이고, 전향 연구에서 항원과 추적 기간에 따라 30~60%가 알레르기로 진행했다. 감작만 된 사람을 대상으로 한 전향적 중재(회피) 연구는 없다고 명시했다. 단면 연구에서는 직업성·가정 내 항원 회피가 발병을 줄이는 것으로 보였다. 회피를 시작하기 전에 위양성 검사를 배제해야 한다고 적었다."
+    },
+    "mortz_2019": {
+      "citation": "Mortz CG, Andersen KE, Poulsen LK, et al. Atopic diseases and type I sensitization from adolescence to adulthood in an unselected population (TOACS) with focus on predictors for allergic rhinitis. Allergy. 2019;74(2):308-317.",
+      "pmid": "30307618", "doi": "10.1111/all.13630", "read": "PubMed 초록",
+      "finding_ko": "덴마크 중학생 코호트를 15년 추적. 청소년기의 증상 없는 꽃가루·집먼지진드기 감작은 성인기 알레르기 비염의 예측 인자였고, 증상 없이 감작만 있던 청소년의 53~78%가 성인기에 알레르기 비염이 됐다."
+    },
+    "su_2019": {
+      "citation": "Su KW, Chiu CY, Tsai MH, et al. Asymptomatic toddlers with house dust mite sensitization at risk of asthma and abnormal lung functions at age 7 years. World Allergy Organ J. 2019;12(9):100056.",
+      "pmid": "31641404", "doi": "10.1016/j.waojou.2019.100056", "read": "PubMed 초록",
+      "finding_ko": "대만 출생 코호트. 1.5~2세에 증상 없이 집먼지진드기에 감작된 아이는 7세에 천식(12.5% 대 1.7%)·알레르기 비염(83.3% 대 43.1%)이 더 많았다. 영유아 자료다."
+    },
+    "shaaban_2008": {
+      "citation": "Shaaban R, Zureik M, Soussan D, et al. Rhinitis and onset of asthma: a longitudinal population-based study. Lancet. 2008;372(9643):1049-57.",
+      "pmid": "18805333", "doi": "10.1016/S0140-6736(08)61446-4", "read": "PubMed 초록",
+      "finding_ko": "유럽 성인 6,461명을 8.8년 추적. 천식 발생의 보정 상대위험은 알레르기 비염 3.53(2.11-5.91)이었으나, 비염 없이 감작만 있는 군은 1.63(0.82-3.24)으로 유의하지 않았다."
+    },
+    "anto_2010": {
+      "citation": "Antó JM, Sunyer J, Basagaña X, et al. Risk factors of new-onset asthma in adults: a population-based international cohort study. Allergy. 2010;65(8):1021-30.",
+      "pmid": "20132157", "doi": "10.1111/j.1398-9995.2009.02301.x", "read": "PubMed 초록",
+      "finding_ko": "유럽 성인 코호트(9년). 아토피는 새로 생긴 천식의 위험 인자였다(OR 1.55, 1.08-2.21). 아토피가 있는 사람 가운데서는 고양이 감작이 독립적으로 연관됐다. 성인 천식 발생에서 아토피가 설명하는 몫은 12~21%로 작았다."
+    },
+    "porsbjerg_2006": {
+      "citation": "Porsbjerg C, von Linstow ML, Ulrik CS, et al. Risk factors for onset of asthma: a 12-year prospective follow-up study. Chest. 2006;129(2):309-316.",
+      "pmid": "16478846", "doi": "10.1378/chest.129.2.309", "read": "PubMed 초록",
+      "finding_ko": "7~17세 291명을 12년 추적. 집먼지진드기 감작은 천식 발생을 예측했다(OR 3.23, 1.00-10.40). 위험 인자가 하나도 없는 사람의 천식 발생은 4%였다."
+    },
+    "illi_2006": {
+      "citation": "Illi S, von Mutius E, Lau S, et al. Perennial allergen sensitisation early in life and chronic asthma in children: a birth cohort study. Lancet. 2006;368(9537):763-70.",
+      "pmid": "16935687", "doi": "10.1016/S0140-6736(06)69286-6", "read": "PubMed 초록",
+      "finding_ko": "독일 출생 코호트 1,314명. 생후 3년 안에 통년성 항원(집먼지진드기·고양이·개)에 감작되고 그 항원에 많이 노출된 아이는 학령기 폐기능이 더 낮았다. 더 늦은 시기의 감작과 노출은 영향이 훨씬 약했다."
+    },
+    "pinot_de_moira_2022": {
+      "citation": "Pinot de Moira A, Strandberg-Larsen K, Bishop T, et al. Associations of early-life pet ownership with asthma and allergic sensitization: A meta-analysis of more than 77,000 children from the EU Child Cohort Network. J Allergy Clin Immunol. 2022;150(1):82-92.",
+      "pmid": "35150722", "doi": "10.1016/j.jaci.2022.01.023", "read": "PubMed 초록",
+      "finding_ko": "유럽 9개 출생 코호트 77,434명. 어릴 때 고양이·개를 기르는 것 자체는 학령기 천식과 연관이 없었다. 고양이·개 특이 감작은 천식과 강하게 연관됐다(OR 6.69, 5.98). 감작된 아이에서는 기르는 것이 그 위험을 키울 수 있고 감작이 없는 아이에서는 오히려 보호적일 수 있다는 상호작용의 '일부 징후'가 있었다."
+    },
+    "lodrup_carlsen_2012": {
+      "citation": "Lødrup Carlsen KC, Roll S, Carlsen KH, et al. Does pet ownership in infancy lead to asthma or allergy at school age? Pooled analysis of individual participant data from 11 European birth cohorts. PLoS One. 2012;7(8):e43214.",
+      "pmid": "22952649", "doi": "10.1371/journal.pone.0043214", "read": "PMC 전문",
+      "finding_ko": "유럽 11개 출생 코호트. 생후 2년 안에 털·깃털 있는 동물을 기른 것은 6~10세 천식·알레르기 비염을 늘리지도 줄이지도 않았다(고양이 OR 1.00, 개 OR 0.77로 유의하지 않음). 흡입 항원 감작은 오히려 줄었다. 저자들은 예방 목적으로 동물을 피하라거나 들이라고 조언할 근거가 없다고 결론 냈다."
+    },
+    "takkouche_2008": {
+      "citation": "Takkouche B, González-Barcala FJ, Etminan M, et al. Exposure to furry pets and the risk of asthma and allergic rhinitis: a meta-analysis. Allergy. 2008;63(7):857-64.",
+      "pmid": "18588551", "doi": "10.1111/j.1398-9995.2008.01732.x", "read": "PubMed 초록",
+      "finding_ko": "32개 연구 메타분석. 코호트 연구에서 고양이 노출은 천식 위험이 낮았고(RR 0.72), 개 노출은 약간 높았다(RR 1.14). 털 있는 동물 노출과 비염은 RR 0.79. 방향이 동물마다 엇갈린다."
+    },
+    "chen_2010": {
+      "citation": "Chen CM, Tischer C, Schnappinger M, et al. The role of cats and dogs in asthma and allergy--a systematic review. Int J Hyg Environ Health. 2010;213(1):1-31.",
+      "pmid": "20053584", "doi": "10.1016/j.ijheh.2009.12.003", "read": "PubMed 초록",
+      "finding_ko": "체계적 고찰. 고양이·개 노출과 알레르기의 관계는 연구마다 엇갈렸고, 저자들은 동물을 기를지는 알레르기 걱정이 아닌 다른 이유로 정해야 한다고 결론 냈다."
+    },
+    "olivieri_2012": {
+      "citation": "Olivieri M, Zock JP, Accordini S, et al. Risk factors for new-onset cat sensitization among adults: a population-based international cohort study. J Allergy Clin Immunol. 2012;129(2):420-5.",
+      "pmid": "22168997", "doi": "10.1016/j.jaci.2011.10.044", "read": "PubMed 초록",
+      "finding_ko": "고양이에 감작되지 않은 유럽 성인 6,292명을 9년 추적. 추적 중 고양이를 새로 들인 사람은 고양이 감작이 새로 생길 위험이 높았다(RR 1.85, 1.23-2.78). 다른 항원 감작과 알레르기 질환력도 위험 인자였고, 어릴 때 고양이를 기른 것은 보호 인자였다. 이미 감작된 사람의 경과를 본 연구는 아니다."
+    },
+    "hesselmar_2018": {
+      "citation": "Hesselmar B, Hicke-Roberts A, Lundell AC, et al. Pet-keeping in early life reduces the risk of allergy in a dose-dependent fashion. PLoS One. 2018;13(12):e0208472.",
+      "pmid": "30566481", "doi": "10.1371/journal.pone.0208472", "read": "PubMed 초록",
+      "finding_ko": "스웨덴 두 코호트. 생후 1년 동안 함께 산 고양이·개가 많을수록 7~9세 알레르기 질환이 적었다(용량 의존). 영아기 노출에 관한 자료다."
+    },
+    "s3_prevention_2022": {
+      "citation": "Kopp MV, Muche-Borowski C, Abou-Dakn M, et al. S3 guideline Allergy Prevention. Allergol Select. 2022;6:61-97.",
+      "pmid": "35274076", "doi": "10.5414/ALX02303E", "read": "PMC 전문 일부(반려동물·집먼지진드기 권고 문단)",
+      "finding_ko": "독일 S3 알레르기 예방 지침. 알레르기 위험이 높지 않은 가정에서는 예방을 이유로 고양이·개 기르기를 제한하지 않는다(A). 위험이 높은 가정은 고양이를 새로 들이지 않는다(B). 알레르기 예방을 이유로 이미 기르는 동물을 내보낼 근거는 없다. 진드기 차단 커버 같은 집먼지진드기 저감은 1차 예방 목적으로 쓰지 않는다(B). 이미 진드기 알레르기가 있는 환자에게는 저감 조치를 쓴다(A). 가족·소아의 1차 예방 맥락의 권고다."
+    },
+    "gotzsche_2008": {
+      "citation": "Gøtzsche PC, Johansen HK. House dust mite control measures for asthma. Cochrane Database Syst Rev. 2008;2008(2):CD001187.",
+      "pmid": "18425868", "doi": "10.1002/14651858.CD001187.pub3", "read": "PubMed 초록",
+      "finding_ko": "집먼지진드기에 민감한 천식 환자의 진드기 저감 무작위시험 54건(3,002명). 아침 최대호기유속, 증상 점수, 약 사용 어디에도 효과가 없었다. 초록에 '현재의 보고 기준 이전의 고찰이라 임상 결정에 쓰지 말라'는 편집 주가 붙어 있다."
+    },
+    "woodcock_2003": {
+      "citation": "Woodcock A, Forster L, Matthews E, et al. Control of exposure to mite allergen and allergen-impermeable bed covers for adults with asthma. N Engl J Med. 2003;349(3):225-36.",
+      "pmid": "12867606", "doi": "10.1056/NEJMoa023175", "read": "PubMed 초록",
+      "finding_ko": "성인 천식 1,122명 이중맹검 무작위시험. 진드기 차단 침구 커버 하나만으로는 최대호기유속과 흡입 스테로이드 감량에 차이가 없었다."
+    },
+    "arshad_2007": {
+      "citation": "Arshad SH, Bateman B, Sadeghnejad A, et al. Prevention of allergic disease during childhood by allergen avoidance: the Isle of Wight prevention study. J Allergy Clin Immunol. 2007;119(2):307-13.",
+      "pmid": "17291851", "doi": "10.1016/j.jaci.2006.12.621", "read": "PubMed 초록",
+      "finding_ko": "가족력이 있는 고위험 영아 120명 무작위시험. 영아기에 음식과 집먼지진드기 항원을 함께 줄인 군은 8세까지 천식(OR 0.24)·비염(OR 0.42)·감작(OR 0.13)이 적었다. 식이 중재와 묶인 소규모 영아 연구다."
+    },
+    "scott_2012": {
+      "citation": "Scott M, Roberts G, Kurukulaaratchy RJ, et al. Multifaceted allergen avoidance during infancy reduces asthma during childhood with the effect persisting until age 18 years. Thorax. 2012;67(12):1046-51.",
+      "pmid": "22858926", "doi": "10.1136/thoraxjnl-2012-202150", "read": "PubMed 초록",
+      "finding_ko": "위 연구의 18세 추적. 천식은 중재군에서 계속 적었으나(OR 0.23) 감작 유병률은 두 군에 차이가 없었다."
+    },
+    "carlsten_2010": {
+      "citation": "Carlsten C, Dimich-Ward H, Becker AB, et al. Indoor allergen exposure, sensitization, and development of asthma in a high-risk birth cohort. Pediatr Allergy Immunol. 2010;21(4 Pt 2):e740-6.",
+      "pmid": "20337962", "doi": "10.1111/j.1399-3038.2010.01021.x", "read": "PubMed 초록",
+      "finding_ko": "캐나다 고위험 출생 코호트. 집먼지진드기 노출이 많으면 진드기 감작은 늘었지만 천식은 늘지 않았고, 개 노출은 반대였다. 노출·감작·질환의 관계가 항원마다 다르다."
+    },
+    "kaaaci_ar_2023": {
+      "citation": "Park DY, Lee YJ, Kim DK, et al. KAAACI Allergic Rhinitis Guidelines: Part 2. Update in Non-pharmacological Management. Allergy Asthma Immunol Res. 2023;15(2):145-159.",
+      "pmid": "37021502", "doi": "10.4168/aair.2023.15.2.145", "read": "PMC 전문",
+      "finding_ko": "증상이 있는 알레르기 비염 환자에서도, 집먼지진드기 환경 관리는 진드기 농도를 줄였지만 증상 개선은 유의하지 않았고(근거수준 매우 낮음), 반려동물 회피·환경 관리는 실내 알레르겐을 줄였지만 전체 코 증상과 구제약 사용은 줄이지 못했다(근거수준 매우 낮음, 연구는 모두 고양이). 알레르겐 면역치료는 알레르기 비염 환자의 천식 발생을 줄였다(RR 0.50, 0.40-0.63)."
+    },
+    "gautrin_2001a": {
+      "citation": "Gautrin D, Ghezzo H, Infante-Rivard C, et al. Natural history of sensitization, symptoms and occupational diseases in apprentices exposed to laboratory animals. Eur Respir J. 2001;17(5):904-8.",
+      "pmid": "11488324", "doi": "10.1183/09031936.01.17509040", "read": "PubMed 초록",
+      "finding_ko": "실험동물을 다루기 시작한 수련생 417명을 3~4년 추적. 감작·증상·질환은 노출 시작 뒤 첫 2~3년에 가장 많이 생겼다. 작업 항원에 대한 피부 반응이 이후 작업 관련 코·눈 증상을 예측하는 양성예측도는 30%, 호흡기 증상은 9.0%였다. 즉 감작된 사람의 다수는 이 기간에 증상이 생기지 않았다."
+    },
+    "gautrin_2001b": {
+      "citation": "Gautrin D, Infante-Rivard C, Ghezzo H, et al. Incidence and host determinants of probable occupational asthma in apprentices exposed to laboratory animals. Am J Respir Crit Care Med. 2001;163(4):899-904.",
+      "pmid": "11282763", "doi": "10.1164/ajrccm.163.4.2008011", "read": "PubMed 초록",
+      "finding_ko": "같은 코호트. 실험동물 노출을 시작하기 전에 이미 반려동물에 피부 반응이 있던 수련생은 직업성 천식 추정 사례가 더 많았다(율비 4.1, 1.6-10.8). 전체 발생률은 2.7%/인년."
+    },
+    "gautrin_2008": {
+      "citation": "Gautrin D, Ghezzo H, Infante-Rivard C, et al. Long-term outcomes in a prospective cohort of apprentices exposed to high-molecular-weight agents. Am J Respir Crit Care Med. 2008;177(8):871-9.",
+      "pmid": "18218991", "doi": "10.1164/rccm.200707-991OC", "read": "PubMed 초록",
+      "finding_ko": "수련생 408명의 8년 추적. 수련 중 생긴 감작과 증상은 그 일을 떠난 사람에서 많이 사라졌다(관해율: 감작 18.5, 코·눈 증상 9.6, 가슴 증상 9.6 / 100인년). 무작위 비교가 아닌 관찰이다."
+    },
+    "nieuwenhuijsen_2003": {
+      "citation": "Nieuwenhuijsen MJ, Putcha V, Gordon S, et al. Exposure-response relations among laboratory animal workers exposed to rats. Occup Environ Med. 2003;60(2):104-8.",
+      "pmid": "12554837", "doi": "10.1136/oem.60.2.104", "read": "PubMed 초록(PMC 에 본문 텍스트 없음)",
+      "finding_ko": "쥐를 다루는 실험동물 종사자 342명 코호트. 노출 강도와 증상 발생의 관계는 쥐에 감작된 사람에서 가장 뚜렷했고, 감작된 사람은 감작되지 않은 사람보다 가슴 증상이 생길 가능성이 약 4배였다."
+    },
+    "portengen_2003": {
+      "citation": "Portengen L, Hollander A, Doekes G, et al. Lung function decline in laboratory animal workers: the role of sensitisation and exposure. Occup Environ Med. 2003;60(11):870-5.",
+      "pmid": "14573718", "doi": "10.1136/oem.60.11.870", "read": "PubMed 초록(PMC 에 본문 텍스트 없음)",
+      "finding_ko": "실험동물 종사자 319명(추적 중앙값 2년). 근무 4년 미만인 사람에서 폐기능 감소는, 감작된 채로 그 동물과 계속 접촉한 사람에서 가장 컸다(FEV1 연 83mL 추가 감소)."
+    },
+    "cullinan_1999": {
+      "citation": "Cullinan P, Cook A, Gordon S, et al. Allergen exposure, atopy and smoking as determinants of allergy to rats in a cohort of laboratory employees. Eur Respir J. 1999;13(5):1139-43.",
+      "pmid": "10414417", "doi": "10.1034/j.1399-3003.1999.13e33.x", "read": "PubMed 초록",
+      "finding_ko": "새로 고용된 실험동물 종사자 342명. 항원 노출이 가장 중요한 결정 인자였다. 다만 호흡기 증상과 피부시험 양성의 위험은 가장 높은 노출군에서 중간 노출군보다 낮아, 노출량과 위험의 관계가 직선이 아니었다."
+    },
+    "feary_2019": {
+      "citation": "Feary JR, Schofield SJ, Canizales J, et al. Laboratory animal allergy is preventable in modern research facilities. Eur Respir J. 2019;53(6):1900171.",
+      "pmid": "30956209", "doi": "10.1183/13993003.00171-2019", "read": "PubMed 초록",
+      "finding_ko": "영국 7개 기관 단면 조사. 공기 중 쥐 항원이 낮은 개별환기 케이지 시설에서 일한 사람은 감작이 적었고(2.4% 대 9.8%, p=0.052), 작업 관련 증상은 개방형 케이지 시설에서만 보고됐다."
+    },
+    "larese_filon_2018": {
+      "citation": "Larese Filon F, Drusian A, Mauro M, et al. Laboratory animal allergy reduction from 2001 to 2016: An intervention study. Respir Med. 2018;136:71-76.",
+      "pmid": "29501249", "doi": "10.1016/j.rmed.2018.02.002", "read": "PubMed 초록",
+      "finding_ko": "이탈리아 대학의 예방 프로그램 전후 비교. 실험동물 감작이 2001-2004년 25.6%에서 2013-2016년 8.2%로 줄었다. 대조군이 없는 전후 비교다."
+    },
+    "kristiansen_2017": {
+      "citation": "Kristiansen M, Dhami S, Netuveli G, et al. Allergen immunotherapy for the prevention of allergy: A systematic review and meta-analysis. Pediatr Allergy Immunol. 2017;28(1):18-29.",
+      "pmid": "27653623", "doi": "10.1111/pai.12661", "read": "PubMed 초록",
+      "finding_ko": "면역치료의 예방 효과 메타분석. 첫 알레르기 질환의 발생을 줄인다는 결론은 내리지 못했다(RR 0.30, 0.04-2.09). 이미 알레르기 비염이 있는 사람의 단기 천식 발생은 줄었다(RR 0.40)."
+    },
+    "aaaai_furry_2012": {
+      "citation": "Portnoy J, Kennedy K, Sublett J, et al. Environmental assessment and exposure control: a practice parameter—furry animals. Ann Allergy Asthma Immunol. 2012;108(4):223.e1-15.",
+      "pmid": "22469456", "doi": "10.1016/j.anai.2012.02.015", "read": "PMC 전문(2차 예방 절: 요약문 11·12 와 해설)",
+      "finding_ko": "미국 AAAAI/ACAAI 실무지침. 감작된 사람은 천식이 생길 가능성을 줄이기 위해 고양이·개 노출을 최소화한다(요약문 11·12, 등급 C). 해설: 감작된 뒤의 노출은 어린 나이의 폐기능 저하와 연관됐지만, 고양이 하나만 피하는 것은 여러 알레르겐을 함께 줄이는 것만큼 좋은 결과를 보이지 못했고, 기를지 말지는 천식·알레르기 걱정이 아닌 다른 이유로 정해야 한다는 체계적 고찰도 함께 인용했다."
+    },
+    "aaaai_rodent_2012": {
+      "citation": "Phipatanakul W, Matsui E, Portnoy J, et al. Environmental assessment and exposure reduction of rodents: a practice parameter. Ann Allergy Asthma Immunol. 2012;109(6):375-87.",
+      "pmid": "23176873", "doi": "10.1016/j.anai.2012.09.019", "read": "PMC 전문(권고 2·16~19 와 해설)",
+      "finding_ko": "미국 AAAAI/ACAAI 실무지침. 감작된 사람이 호흡기 증상으로 진행할 위험을 줄이기 위해 설치류 알레르겐 노출을 최소화한다(권고 2, 근거 C). 실험동물 시설에서는 입사 뒤 적어도 3년 동안 감작을 추적 관찰하고(16, C), 공학적 관리·교육·보호구로 노출을 줄인다(19, B). 본문: 감작은 대개 첫 3년 안에 일어난다."
+    },
+    "moscato_2009": {
+      "citation": "Moscato G, Vandenplas O, Van Wijk RG, et al. EAACI position paper on occupational rhinitis. Respir Res. 2009;10:16.",
+      "pmid": "19257881", "doi": "10.1186/1465-9921-10-16", "read": "PMC 전문(핵심 문장과 관리 절)",
+      "finding_ko": "EAACI 직업성 비염 입장문. 직업성 비염은 직업성 천식보다 먼저 나타나는 경우가 많고(고분자 항원에서 특히), 직업성 비염 보상 신청자의 천식 위험은 다른 직업병 환자의 4.8배였다(95% CI 4.3-5.4). 노출을 줄이며 일을 계속하는 사람은 천식이 생기는지 면밀히 지켜봐야 한다."
+    },
+    "halken_2017": {
+      "citation": "Halken S, Larenas-Linnemann D, Roberts G, et al. EAACI guidelines on allergen immunotherapy: Prevention of allergy. Pediatr Allergy Immunol. 2017;28(8):728-745.",
+      "pmid": "28902467", "doi": "10.1111/pai.12807", "read": "PubMed 초록",
+      "finding_ko": "EAACI 지침. 잔디·자작나무 꽃가루로 중등도 이상 알레르기 비염이 있는 소아·청소년에게 천식 예방을 위해 3년 면역치료를 권할 수 있다. 감작이나 첫 알레르기 질환의 예방, 집먼지진드기 등 다른 항원에 대해서는 근거가 더 필요하다."
+    }
+  },
+  "further_reading": {
+    "aria_2010": {
+      "citation": "Brozek JL, Bousquet J, Baena-Cagnani CE, et al. Allergic Rhinitis and its Impact on Asthma (ARIA) guidelines: 2010 revision. J Allergy Clin Immunol. 2010;126(3):466-76.",
+      "pmid": "20816182", "doi": "10.1016/j.jaci.2010.06.047",
+      "note_ko": "초록에는 '알레르기 질환의 예방에 관한 권고를 담았다'고만 적혀 있고 권고 문장은 없다. 본문을 읽지 못해 근거로 쓰지 않았다."
+    },
+    "gina_report": {
+      "citation": "Global Initiative for Asthma. Global Strategy for Asthma Management and Prevention (연례 보고서).",
+      "note_ko": "보고서 원문의 1차 예방 장은 읽지 못했다. 약물 안내에는 2021년 요약 논문(Reddel 2022, data/treatment_guidance.json)을 썼다."
+    }
+  },
+  "evidence": [
+    {
+      "id": "sensitization_predicts_rhinitis",
+      "claim_ko": "증상 없는 감작은 이후 알레르기 비염이 생길 위험 인자다.",
+      "strength": "established",
+      "supports": ["bodtger_2006", "bodtger_2003", "mortz_2019", "su_2019", "bodtger_2004"],
+      "limits": ["bodtger_2011"],
+      "limit_note_ko": "위험은 높아지지만 짧은 기간의 절대 위험은 크지 않다(2년 추적에서 연 5%). 많은 사람이 증상 없이 지낸다. 진행 비율은 항원·나이·추적 기간에 따라 연 5%에서 15년 53~78%까지 넓게 보고됐다."
+    },
+    {
+      "id": "sensitization_predicts_asthma",
+      "claim_ko": "감작은 이후 천식 위험과도 연관된다.",
+      "strength": "moderate",
+      "supports": ["anto_2010", "porsbjerg_2006", "illi_2006", "su_2019", "pinot_de_moira_2022"],
+      "limits": ["shaaban_2008", "anto_2010"],
+      "limit_note_ko": "소아·청소년에서는 뚜렷하다. 성인에서는 크기가 작고(OR 1.55), 비염 없이 감작만 있는 성인의 천식 위험 증가는 유의하지 않았다(RR 1.63, 0.82-3.24)."
+    },
+    {
+      "id": "continued_exposure_in_sensitized",
+      "claim_ko": "감작된 사람이 그 항원에 계속 노출되면 증상이 생기거나 폐기능이 나빠질 수 있다.",
+      "strength": "moderate",
+      "supports": ["nieuwenhuijsen_2003", "portengen_2003", "gautrin_2001b"],
+      "limits": ["gautrin_2001a", "cullinan_1999", "pinot_de_moira_2022"],
+      "limit_note_ko": "근거는 실험동물(주로 쥐)을 다루는 직업군이다. 가정의 고양이·개에 대해서는 소아 메타분석의 상호작용 '징후'가 전부다. 감작된 수련생도 3~4년 안에 코·눈 증상이 생긴 비율은 약 30%였고, 노출량과 위험의 관계는 직선이 아니었다."
+    },
+    {
+      "id": "exposure_reduction_prevents_onset",
+      "claim_ko": "감작만 된 사람이 노출을 줄이면 발병을 막을 수 있다.",
+      "strength": "unproven",
+      "supports": ["bodtger_2004", "gautrin_2008", "feary_2019", "larese_filon_2018", "arshad_2007", "scott_2012", "aaaai_furry_2012", "aaaai_rodent_2012"],
+      "limits": ["bodtger_2004", "gotzsche_2008", "woodcock_2003", "kaaaci_ar_2023", "s3_prevention_2022", "carlsten_2010"],
+      "limit_note_ko": "감작만 된 사람을 대상으로 회피의 예방 효과를 시험한 전향 연구는 없다. 뒷받침은 간접적이다(직업 노출을 떠난 뒤의 관해, 시설 개선 뒤 감작 감소, 고위험 영아의 복합 중재). 미국 실무지침은 감작된 사람의 고양이·개·설치류 노출을 최소화하라고 권하지만 그 등급은 C(관찰 연구)이고, 같은 지침이 한 가지 알레르겐만 피하는 것은 결과가 좋지 않았다고 적었다. 이미 질환이 있는 환자의 회피 시험조차 증상 개선을 일관되게 보이지 못했고, 예방 지침은 진드기 차단 커버를 1차 예방 목적으로 권하지 않는다."
+    },
+    {
+      "id": "pet_keeping_and_prevention",
+      "claim_ko": "기르는 동물을 내보내면 알레르기 질환을 예방할 수 있다.",
+      "strength": "unproven",
+      "supports": ["olivieri_2012", "pinot_de_moira_2022"],
+      "limits": ["s3_prevention_2022", "lodrup_carlsen_2012", "hesselmar_2018", "takkouche_2008", "chen_2010"],
+      "limit_note_ko": "예방 지침은 예방을 이유로 이미 기르는 동물을 내보낼 근거가 없다고 적었다. 어릴 때의 동물 노출은 해롭지 않거나 오히려 보호적이었다. 성인이 고양이를 새로 들이면 고양이 감작이 새로 생길 위험이 높았다는 자료가 있으나, 이미 감작된 사람이 계속 기를 때의 경과를 직접 본 연구는 찾지 못했다."
+    },
+    {
+      "id": "sensitized_to_pets_then_animal_work",
+      "claim_ko": "반려동물에 이미 감작된 사람이 동물을 다루는 일을 시작하면 직업성 천식 위험이 더 높다.",
+      "strength": "moderate",
+      "supports": ["gautrin_2001b"],
+      "limits": [],
+      "limit_note_ko": "한 코호트(수의 보조·실험동물 수련생)의 결과다."
+    },
+    {
+      "id": "occupational_exposure_control",
+      "claim_ko": "동물을 직업으로 다루는 감작된 사람은 직장 노출을 줄이고 정기적으로 추적 관찰한다.",
+      "strength": "limited",
+      "supports": ["aaaai_rodent_2012", "feary_2019", "larese_filon_2018", "gautrin_2008", "gautrin_2001a"],
+      "limits": ["cullinan_1999"],
+      "limit_note_ko": "지침 권고의 근거 등급은 B~C 이고 실험동물 시설의 자료다. 시설 개선과 감작 감소의 관계는 단면·전후 비교로만 확인됐다. 증상 없는 감작 종사자에서 노출 저감이 발병을 막는지를 시험한 연구는 없다. 수의·미용·축산 같은 다른 직종에는 간접 근거다."
+    },
+    {
+      "id": "occupational_rhinitis_precedes_asthma",
+      "claim_ko": "직업과 관련된 코 증상은 직업성 천식보다 먼저 나타나는 경우가 많다.",
+      "strength": "moderate",
+      "supports": ["moscato_2009"],
+      "limits": [],
+      "limit_note_ko": "비염이 있는 종사자 가운데 얼마가 천식으로 진행하는지는 불확실하다고 입장문이 적었다."
+    },
+    {
+      "id": "immunotherapy_for_asymptomatic",
+      "claim_ko": "증상 없는 감작 단계에서 면역치료로 발병을 예방할 수 있다.",
+      "strength": "unproven",
+      "supports": [],
+      "limits": ["kristiansen_2017", "halken_2017", "kaaaci_ar_2023"],
+      "limit_note_ko": "면역치료의 예방 효과는 이미 알레르기 비염이 있는 사람의 천식 예방에서만 확인됐다. 그래서 감작만 된 항원에는 면역치료를 안내하지 않는다."
+    }
+  ],
+  "patient_text": {
+    "title_ko": "예방과 관찰",
+    "stance_note_ko": "입장은 하나다. ① '감작만'은 진단이 아니고 과도한 회피·음식 제한은 필요하지 않다. ② 흡입 알러젠과 동물은 부담이 적은 범위에서 노출을 줄여 두면 도움이 될 수 있다 — '될 수 있다'까지만 쓰고, 임상시험으로 증명되지 않았다는 점을 같은 자리에 적는다(exposure_reduction_prevents_onset = unproven 이므로 '권합니다'·'막습니다'로 쓰지 않는다). ③ 특정 증상이 그 노출 상황에서 되풀이되면 다시 평가받는다. 음식은 노출을 줄이는 대상이 아니고, 벌독은 쏘인 뒤의 전신 반응만 지켜본다. 리포트 2절, 카드뉴스의 '감작만' 카드, 상담 답변이 모두 이 문장들을 쓴다. '관찰 필요'(노출·정보가 부족해 판정을 미룬 항목)는 '감작만'이 아니므로 리포트의 '관찰이 필요한 알러젠' 절과 카드의 '관찰 필요' 묶음에 따로 적는다.",
+    "lead_ko": "검사는 양성이지만 노출해도 증상이 없는 항목입니다.",
+    "lead_stance_ko": "‘감작만’은 진단이 아닙니다. 과도한 회피는 필요하지 않고, 음식을 끊을 필요도 없습니다.",
+    "lead_reduce_ko": "다만 부담이 적은 범위에서 노출을 줄여 두면 도움이 될 수 있습니다(임상시험으로 증명된 것은 아닙니다).",
+    "lead_watch_ko": "감작은 남아 있어 추적이 필요합니다. 증상이 새로 생기면 다시 평가받으세요.",
+    "lead_evidence": ["exposure_reduction_prevents_onset"],
+    "scope_ko": "아래는 그 항원 때문에 생기는 알레르기라고 볼 근거가 아직 없는 항목에 관한 일반 정보이며, 진단이 아닙니다.",
+    "inhalant": {
+      "evidence": ["sensitization_predicts_rhinitis", "sensitization_predicts_asthma", "continued_exposure_in_sensitized", "exposure_reduction_prevents_onset"],
+      "risk_ko": "증상 없는 감작은 나중에 알레르기 비염이 생길 위험을 높입니다. 예를 들어 일반 인구를 8년 지켜본 연구에서 꽃가루 비염은 꽃가루에 감작된 사람의 약 15%, 감작되지 않은 사람의 약 3%에서 새로 생겼습니다.",
+      "reassure_ko": "다만 감작된 사람 대부분은 몇 년 동안 증상 없이 지냅니다. 2년을 지켜본 연구에서 새로 증상이 생긴 사람은 한 해 약 5%였습니다.",
+      "asthma_ko": "천식과의 관계는 어린 나이일수록 뚜렷하고, 코 증상 없이 감작만 있는 성인에서는 위험 증가가 분명하지 않았습니다.",
+      "why_ko": "노출을 줄여 두면 도움이 될 수 있다고 보는 이유는, 감작된 채 노출이 되풀이되면 증상이 생길 수 있기 때문입니다. 다만 감작만 된 사람이 노출을 줄이면 발병을 막는지를 직접 시험한 연구는 아직 없습니다.",
+      "low_label_ko": "부담이 적은 것부터",
+      "optional_label_ko": "여력이 되면(선택)",
+      "optional_note_ko": "‘여력이 되면(선택)’에 적은 것은 손이 많이 가는 조치입니다. 증상이 없는 단계에서 발병을 막는지는 확인되지 않았으므로 꼭 해야 하는 일은 아닙니다.",
+      "same_tpl_ko": "이 항목의 노출 줄이기는 ‘{tips}’에 이미 적은 수칙과 같습니다. 그 수칙을 그대로 이어 가면 됩니다.",
+      "action_ko": "위 ‘지켜볼 증상’이 그 노출 상황에서 되풀이되면 진료를 받아 다시 평가하세요. 필요하면 재검사를 합니다. 기침·쌕쌕거림·숨참은 미루지 마세요.",
+      "steps_basis_note_ko": "low_burden·optional 은 기존 회피 수칙 가운데 고른 것으로 진료 관행(expert_practice)이다. 감작만 된 사람에서 효과를 시험한 연구는 없다(exposure_reduction_prevents_onset). 침구 고온 세탁·진드기 차단 커버·HEPA 청소·외출 자제처럼 손이 많이 가는 조치는 '부담이 적은 것'에 넣지 않고 optional 에 둔다. S3 예방 지침은 진드기 저감 조치를 1차 예방 목적으로 권하지 않는다.",
+      "source_ko": "증상 없는 감작의 경과를 본 전향 코호트(Bodtger 2006·2011, Mortz 2019), KAAACI 알레르기 비염 지침(2023)"
+    },
+    "groups": {
+      "mite": {
+        "label_ko": "집먼지진드기", "emoji": "🛏️", "kind": "inhalant",
+        "low_burden": ["환기와 제습으로 실내가 눅눅하지 않게 유지하기", "이불·베개 커버를 평소 빨래할 때 함께 세탁하기"],
+        "optional": ["침구를 주 1회 55~60℃ 물로 세탁하고 진드기 차단 커버 씌우기"],
+        "watch_ko": "아침에 일어났을 때나 이불을 털고 청소할 때의 재채기·맑은 콧물·코막힘, 눈 가려움, 밤이나 새벽의 기침·쌕쌕거림"
+      },
+      "pollen": {
+        "label_ko": "꽃가루", "emoji": "🌿", "kind": "inhalant",
+        "reduce_note_ko": "그 꽃가루가 날리는 시기에만 해당합니다.",
+        "low_burden": ["그 꽃가루가 많이 날리는 날에는 창문을 닫아 두기", "밖에 다녀오면 세수하고 겉옷 털기"],
+        "optional": ["꽃가루가 많은 날 바깥 활동 줄이기, 나갈 때 마스크·안경 쓰기"],
+        "watch_ko": "그 꽃가루 시기에만 되풀이되는 재채기·콧물·코막힘, 눈 가려움·충혈, 기침·쌕쌕거림"
+      },
+      "mold": {
+        "label_ko": "곰팡이", "emoji": "🍄", "kind": "inhalant",
+        "low_burden": ["욕실과 주방은 쓴 뒤 환기하기", "눈에 보이는 곰팡이와 물이 새는 자리는 그때그때 없애기"],
+        "optional": ["제습기로 실내 습도를 50% 아래로 유지하기"],
+        "watch_ko": "습한 공간이나 장마철에 심해지는 코 증상, 기침·쌕쌕거림"
+      },
+      "insect": {
+        "label_ko": "바퀴 등 곤충", "emoji": "🪳", "kind": "inhalant",
+        "low_burden": ["음식물과 쓰레기를 밀폐해 두기", "바퀴가 보이면 미끼형 살충제로 없애기"],
+        "optional": [],
+        "watch_ko": "집 안에서 연중 이어지는 코 증상, 기침·쌕쌕거림"
+      },
+      "animal": {
+        "label_ko": "동물", "emoji": "🐾", "kind": "animal",
+        "watch_ko": "그 동물과 가까이 있을 때의 재채기·콧물·코막힘, 눈 가려움·충혈, 기침·쌕쌕거림·숨참, 닿은 피부의 두드러기·가려움"
+      },
+      "food": {
+        "label_ko": "음식", "emoji": "🍽️", "kind": "food",
+        "keep_ko": "증상 없이 드시던 음식은 이 결과만으로 끊지 않습니다. 음식은 노출을 줄이는 대상이 아니며, 불필요한 식이 제한은 오히려 해로울 수 있습니다.",
+        "basis_note_ko": "기존 판정 문구(문제없이 먹고 있으면 불필요한 식이 제한을 피한다)와 같은 내용이다. 진료 관행(expert_practice). 흡입 알러젠의 통계·노출 줄이기 문장은 음식에 붙이지 않는다.",
+        "watch_ko": "먹고 2시간 안에 생기는 두드러기, 입술·얼굴 부기, 구토·복통, 숨참",
+        "action_ko": "이런 증상이 그 음식을 먹은 뒤 생기면 그 음식을 적어 두고 진료를 받아 다시 평가하세요. 숨이 차거나 어지러우면 바로 응급실로 가세요."
+      },
+      "venom": {
+        "label_ko": "벌독", "emoji": "🐝", "kind": "venom",
+        "keep_ko": "쏘인 자리만 붓고 아픈 것은 독 자체의 작용으로 누구에게나 생기며, 알레르기의 근거가 아닙니다. 쏘였을 때 온몸 반응이 없었다면 지금 따로 할 일은 없습니다.",
+        "basis_note_ko": "진료 관행(expert_practice). 흡입 알러젠의 통계·노출 줄이기 문장은 벌독에 붙이지 않는다. 리포트의 '관찰이 필요한 알러젠' 절에서는 판정 문장이 이미 지켜볼 증상을 적으므로 되풀이하지 않는다(report_watch=false).",
+        "watch_ko": "벌에 쏘인 뒤 쏘인 자리를 넘어 온몸에 퍼지는 두드러기, 숨참, 어지럼",
+        "action_ko": "쏘인 뒤 이런 증상이 생기면 바로 응급실로 가세요.",
+        "report_watch": false
+      },
+      "latex": {
+        "label_ko": "라텍스", "emoji": "🧤", "kind": "latex",
+        "keep_ko": "라텍스 제품에 닿아도 증상이 없었다면 이 결과만으로 따로 피할 필요는 없습니다.",
+        "basis_note_ko": "진료 관행(expert_practice) — 알레르기 전문의 검토 전. 라텍스는 닿아서 들어오는 항원이라 흡입 알러젠의 통계·노출 줄이기 문장을 붙이지 않는다.",
+        "watch_ko": "고무장갑·풍선·콘돔·의료용 장갑 같은 라텍스 제품에 닿은 뒤 생기는 두드러기·가려움, 입술·얼굴 부기, 숨참",
+        "action_ko": "이런 증상이 생기면 진료를 받아 다시 평가하고, 병원·치과 진료 전에 알리세요. 숨이 차거나 어지러우면 바로 응급실로 가세요."
+      },
+      "drug": {
+        "label_ko": "약물", "emoji": "💊", "kind": "drug",
+        "keep_ko": "검사 양성만으로 약물 알레르기라고 하지 않습니다. 이 결과만으로 약을 스스로 끊거나 피하지 마세요. 그 약을 써도 되는지는 진료에서 정합니다.",
+        "basis_note_ko": "진료 관행(expert_practice) — 알레르기 전문의 검토 전. 약물에는 회피·노출 줄이기 문장을 붙이지 않는다(피할지·다시 쓸지는 진료에서 정한다).",
+        "watch_ko": "그 약을 쓴 뒤 생기는 두드러기, 입술·얼굴 부기, 숨참, 어지럼",
+        "action_ko": "이런 증상이 생기면 약 이름과 증상을 적어 진료 때 알리세요. 숨이 차거나 어지러우면 바로 응급실로 가세요."
+      },
+      "other": {
+        "label_ko": "기타", "emoji": "🔎", "kind": "other",
+        "watch_ko": "그 물질에 닿거나 노출된 뒤 되풀이되는 코·눈·피부·호흡기 증상",
+        "action_ko": "이런 증상이 되풀이되면 진료를 받아 다시 평가하세요."
+      }
+    },
+    "indeterminate": {
+      "title_ko": "관찰 필요 — 지켜볼 증상",
+      "intro_ko": "판정을 미룬 항목은 ‘감작만’도 ‘알레르기’도 아닙니다. 노출되는 상황에서 아래 증상이 생기는지 살펴보고, 생기면 그 상황을 적어 진료 때 알려 주세요.",
+      "card_ko": "판정을 미룬 항목이에요. 아래 증상이 생기는지 살펴보세요.",
+      "report_intro_ko": "판정을 미룬 항목입니다. 미룬 이유는 항목마다 다르므로 각각 적었습니다.",
+      "wording_note_ko": "예전 문구는 '노출 경험이 없거나 정보가 부족해 판정을 보류'·'노출될 때 … 살펴보세요'였다. 벌독처럼 문진에 답이 있어도(쏘인 자리만 부었다) 판정을 미루는 항목이 있어, 이유를 한 가지로 단정하지 않는다."
+    },
+    "drug_review": {
+      "label_ko": "진료 확인 필요",
+      "title_ko": "진료 확인이 필요한 약물",
+      "stance_note_ko": "약물 항원은 이 앱이 판정하지 않는다(ClinicalRelevance.CLINICIAN_REVIEW). 쓴 뒤 반응이 있었다고 답해도 '실제 주의'·'진범 확정'으로 부르지 않고, 반응이 없었다고 답해도 '감작만'·'무혐의'로 부르지 않는다. 약물 특이 IgE 양성은 그것만으로 약물 알레르기의 근거가 되지 않고, 그 약을 피할지·다시 써도 되는지(재투여·탈표지)는 진료에서 정한다. 어느 문장에도 회피·재투여 지시를 넣지 않는다 — '스스로 끊거나 다시 쓰지 말고 진료에서 정한다'로 맺는다. 진료 관행(expert_practice) — 알레르기 전문의 검토 전.",
+      "lead_ko": "약물 검사가 양성으로 나온 항목입니다. 약물은 이 리포트가 ‘알레르기’라고도 ‘괜찮다’고도 판정하지 않습니다.",
+      "why_ko": "검사 양성만으로는 약물 알레르기라고 하지 않으며, 약을 쓴 뒤 반응이 있었더라도 그 약 때문인지는 진료에서 확인합니다.",
+      "decide_ko": "그 약을 계속 피할지, 다시 써도 되는지는 진료에서 정합니다. 스스로 끊거나 다시 쓰지 마세요.",
+      "tell_ko": "처방·조제를 받을 때 이 결과와 겪은 반응을 알리세요.",
+      "history_ko": {
+        "reaction": "쓴 뒤 반응이 있었다고 답하심",
+        "tolerated": "써도 문제가 없었다고 답하심",
+        "never": "써 본 적이 없거나 모른다고 답하심",
+        "unknown": "쓴 뒤의 반응은 답하지 않으심"
+      },
+      "one_line_ko": {
+        "reaction": "쓴 뒤 반응을 알려 주심: 이 약의 사용은 진료에서 확인(스스로 끊거나 다시 쓰지 않기)",
+        "default": "검사 양성: 이 약의 사용은 진료에서 확인(스스로 끊거나 다시 쓰지 않기)",
+        "class_alert": "같은 계열의 약에 반응을 알려 주심: 쓰기 전에 진료에서 상의"
+      },
+      "class_alert_tpl_ko": "같은 계열({class})인 {others}에 반응이 있었다고 답하셨습니다. 이 약을 포함한 관련 약은 쓰기 전에 진료에서 상의하세요.",
+      "severe_ko": "중증 반응 병력: 빠른 시일 안에 진료를 받아 이 약에 대한 평가와 응급 대처 계획을 상의하세요.",
+      "watch_ko": "약을 쓴 뒤 생기는 두드러기, 입술·얼굴 부기, 숨참, 어지럼",
+      "action_ko": "이런 증상이 생기면 약 이름과 증상을 적어 진료 때 알리세요. 숨이 차거나 어지러우면 바로 응급실로 가세요.",
+      "card_ko": "약물은 검사와 문진만으로 판정하지 않습니다. 피할지, 다시 써도 되는지는 진료에서 정합니다. 스스로 끊거나 다시 쓰지 마세요.",
+      "chat_question_ko": "약물 검사가 양성인데, 그 약을 피해야 하나요?"
+    },
+    "animal": {
+      "evidence": ["continued_exposure_in_sensitized", "exposure_reduction_prevents_onset", "pet_keeping_and_prevention", "sensitized_to_pets_then_animal_work", "occupational_exposure_control", "occupational_rhinitis_precedes_asthma"],
+      "watch": [
+        "코: 가까이 있을 때 되풀이되는 재채기·맑은 콧물·코막힘",
+        "눈: 가려움·충혈·눈물",
+        "가슴: 기침·쌕쌕거림·숨참",
+        "피부: 닿거나 핥인 자리의 두드러기·가려움"
+      ],
+      "retest_ko": "이런 증상이 {species} 가까이에서 되풀이되면 진료를 받아 다시 평가하세요. 필요하면 재검사를 합니다. 가슴 증상은 미루지 마세요.",
+      "low_label_ko": "부담이 적은 것부터",
+      "optional_label_ko": "여력이 되면(선택)",
+      "same_tpl_ko": "‘{tips}’에 적은 동물 수칙을 {species_dat} 똑같이 적용하면 됩니다.",
+      "same_other_tpl_ko": "다른 동물 항목에 적은 수칙을 {species_dat} 똑같이 적용하면 됩니다.",
+      "same_reason_tpl_ko": "노출을 줄여 두는 이유와 근거는 앞의 {other} 항목에 적은 것과 같습니다.",
+      "contact_note_ko": "status 는 동물별 접촉 질문의 답(함께 삶 live / 자주 frequent / 가끔 occasional / 거의 없음 rare)과 일하면서 다루는지(animal_occupational), 문진의 반려동물 답(pets)을 함께 본다. 감작만: occupational(일하면서 다룸 — 다른 답보다 우선) / owner(함께 삶) / frequent(함께 살지는 않지만 주 1회 이상) / occasional(한 달에 1~3번) / non_owner(접촉 답이 없고 키우지 않음) / unknown. 판정을 미룬 항목: occupational_watch(일하면서 다룸) / no_contact(거의 접촉 없음) / unsure(접촉은 있으나 증상 관계를 모름) / no_info. 예전 문진의 답(yes=키우거나 자주 접촉, no=거의 접촉 없음)도 그대로 읽는다: yes 는 반려동물 답에 따라 owner 또는 frequent, no 는 no_contact.",
+      "watch_work_ko": "직장: 일하는 날 심해지고 쉬는 날·휴가 때 좋아지는 코·눈·가슴 증상",
+      "retest_work_ko": "이런 증상이 일하는 날에 되풀이되면 미루지 말고 진료를 받으세요. 진료에서 하는 일을 꼭 알려 주세요. 직업과 관련된 코 증상은 천식보다 먼저 나타나는 경우가 많습니다.",
+      "source_work_ko": "미국 AAAAI/ACAAI 설치류 실무지침(2012), EAACI 직업성 비염 입장문(2009)",
+      "source_ko": "실험동물 종사자 코호트(Nieuwenhuijsen 2003, Gautrin 2001), 독일 S3 알레르기 예방 지침(2022)",
+      "owner": {
+        "headline_ko": "함께 사는 {species} — 노출을 줄여 두면 도움이 될 수 있습니다",
+        "status_ko": "{name} 검사가 양성이고 {species_with} 함께 살고 계십니다. 함께 지내도 증상이 심해지지 않는다고 하셨으므로, {species} 때문에 생기는 알레르기라고 볼 근거는 아직 없습니다.",
+        "why_ko": "감작된 채 노출이 이어지면 나중에 증상이 생길 수 있습니다. 실험동물을 다루는 사람들의 연구에서, 노출이 많을수록 증상이 잘 생기는 관계는 그 동물에 감작된 사람에서 가장 뚜렷했습니다(감작된 사람은 감작되지 않은 사람보다 가슴 증상이 약 4배). 실험동물 연구여서 가정의 반려동물에 그대로 들어맞는 수치는 아닙니다.",
+        "calm_ko": "같은 계열 연구에서 감작된 사람 가운데 3~4년 안에 코·눈 증상이 생긴 사람은 약 30%였습니다. 증상 없이 지내는 사람이 더 많습니다.",
+        "do_ko": "그래서 실천할 수 있는 범위에서 노출을 줄여 두면 도움이 될 수 있습니다. 노출을 줄이면 발병을 막는다는 것이 증명되지는 않았습니다.",
+        "low_keys": [["owner", "bedroom"], ["owner", "after_contact"]],
+        "optional_keys": [["owner", "cleaning"]],
+        "keep_ko": "다른 집으로 보내야 한다는 뜻이 아닙니다. 알레르기 예방 지침도 예방을 이유로 이미 기르는 동물을 내보내라고 권하지 않습니다.",
+        "card_ko": "함께 지내도 증상이 없으니 내보내야 한다는 뜻은 아니에요. 다만 감작된 채 노출이 이어지면 나중에 증상이 생길 수 있어, 부담이 적은 것부터 노출을 줄여 두면 도움이 될 수 있어요(증명된 것은 아니에요)."
+      },
+      "frequent": {
+        "headline_ko": "자주 만나는 {species} — 노출을 줄여 두면 도움이 될 수 있습니다",
+        "status_ko": "{name} 검사가 양성이고, {species_obj} 키우지는 않지만 자주 접촉한다고 하셨습니다. 접촉해도 증상이 심해지지 않는다고 하셨으므로, {species} 때문에 생기는 알레르기라고 볼 근거는 아직 없습니다.",
+        "status_unknown_ko": "{name} 검사가 양성이고, {species_obj} 키우거나 자주 접촉한다고 하셨습니다. 접촉해도 증상이 심해지지 않는다고 하셨으므로, {species} 때문에 생기는 알레르기라고 볼 근거는 아직 없습니다.",
+        "why_ko": "감작된 채 노출이 이어지면 나중에 증상이 생길 수 있습니다. 실험동물을 다루는 사람들의 연구에서, 노출이 많을수록 증상이 잘 생기는 관계는 그 동물에 감작된 사람에서 가장 뚜렷했습니다(감작된 사람은 감작되지 않은 사람보다 가슴 증상이 약 4배). 실험동물 연구여서 가정의 반려동물에 그대로 들어맞는 수치는 아닙니다.",
+        "do_ko": "접촉을 끊어야 한다는 뜻은 아닙니다. 접촉이 잦은 만큼, 실천할 수 있는 범위에서 노출을 줄여 두면 도움이 될 수 있습니다. 노출을 줄이면 발병을 막는다는 것이 증명되지는 않았습니다. 새로 기르거나 동물을 다루는 일을 시작하려면 그 전에 진료에서 상의하세요.",
+        "low_keys": [["owner", "after_contact"], ["non_owner", "after_visit"]],
+        "optional_keys": [],
+        "card_ko": "접촉을 끊어야 한다는 뜻은 아니에요. 다만 접촉이 잦으니, 부담이 적은 것부터 노출을 줄여 두면 도움이 될 수 있어요(증명된 것은 아니에요). 아래 증상이 생기면 다시 평가받으세요."
+      },
+      "occasional": {
+        "headline_ko": "가끔 만나는 {species} — 지금 할 일은 많지 않습니다",
+        "status_ko": "{name} 검사가 양성이고 {species_obj} 가끔 만난다고 하셨습니다. 만날 때 증상이 심해지지 않는다고 하셨으므로, {species} 때문에 생기는 알레르기라고 볼 근거는 아직 없습니다.",
+        "do_ko": "지금 생활에서 따로 바꿀 것은 없습니다. 다만 가끔 만날 때 괜찮았다는 것이 함께 살거나 매일 만나도 괜찮다는 뜻은 아닙니다. 새로 기르거나, 동물을 다루는 일을 시작하거나, 기르는 집에서 오래 지내게 되면 그 전에 진료에서 상의하세요.",
+        "low_keys": [],
+        "optional_keys": [],
+        "card_ko": "가끔 만날 때 증상이 없으니 지금 따로 바꿀 것은 없어요. 새로 기르거나 동물을 다루는 일을 시작하기 전에는 진료에서 먼저 상의하세요.",
+        "basis_note_ko": "'가끔 만날 때 괜찮았다고 해서 매일 만나도 괜찮은 것은 아니다'는 연구 수치가 아닌 임상적 판단이다(expert_practice). 그래서 통계 문장(why_ko)을 붙이지 않았다."
+      },
+      "occupational": {
+        "headline_ko": "일하면서 다루는 {species} — 증상이 없어도 정기적으로 확인받으세요",
+        "status_ko": "{name} 검사가 양성이고 {species_obj} 일하면서 다룬다고 하셨습니다. 다룰 때 증상이 심해지지 않는다고 하셨으므로, 지금은 {species} 때문에 생기는 알레르기라고 볼 근거가 없습니다.",
+        "why_ko": "다만 동물을 직업으로 다루는 사람에서는, 감작된 채 노출이 이어지면 증상이 생길 수 있다는 것이 연구로 확인돼 있습니다. 실험동물을 다루는 사람들의 연구에서, 노출이 많을수록 증상이 잘 생기는 관계는 그 동물에 감작된 사람에서 가장 뚜렷했고(감작된 사람은 감작되지 않은 사람보다 가슴 증상이 약 4배), 일을 시작한 지 4년이 안 된 사람 가운데 감작된 채 그 동물과 계속 접촉한 사람은 폐기능이 더 빨리 떨어졌습니다. 감작과 증상은 일을 시작하고 첫 2~3년에 가장 많이 생겼습니다. 실험동물(주로 쥐) 연구여서 다른 동물과 직종에 그대로 들어맞는 수치는 아닙니다.",
+        "calm_ko": "같은 계열 연구에서 감작된 수련생 가운데 3~4년 안에 코·눈 증상이 생긴 사람은 약 30%, 호흡기 증상이 생긴 사람은 약 9%였습니다. 증상 없이 일하는 사람이 더 많습니다.",
+        "do_ko": "일을 그만두어야 한다는 뜻이 아닙니다. 직장에서 노출을 줄이는 조치를 쓰고, 증상이 없더라도 정기적으로 확인받으세요. 노출을 줄이면 발병을 막는다는 것이 임상시험으로 증명되지는 않았지만, 미국 진료지침은 실험동물 시설에서 일을 시작하고 적어도 3년 동안 추적 관찰하도록 권하고, 노출이 적은 설비를 갖춘 직장에서 감작과 증상이 적었다는 관찰 연구가 있습니다.",
+        "low_keys": [["occupational", "work_controls"], ["occupational", "work_clothes"]],
+        "optional_keys": [],
+        "work": true,
+        "card_ko": "일을 그만두어야 한다는 뜻은 아니에요. 다만 감작된 채 일하면서 노출이 이어지면 증상이 생길 수 있어, 직장에서 노출을 줄이고 증상이 없어도 정기적으로 확인받으세요(노출을 줄이면 발병을 막는다는 것이 증명된 것은 아니에요).",
+        "basis_note_ko": "why_ko: Nieuwenhuijsen 2003(가슴 증상 약 4배), Portengen 2003(근무 4년 미만·감작·계속 접촉에서 FEV1 추가 감소), Gautrin 2001a(첫 2~3년). calm_ko: Gautrin 2001a(양성예측도 30%·9.0%). do_ko: AAAAI/ACAAI 설치류 지침 권고 16(C)·19(B), Feary 2019·Larese Filon 2018(단면·전후 비교). 수의·미용·축산 종사자에게는 간접 근거다."
+      },
+      "occupational_watch": {
+        "headline_ko": "일하면서 다루는 {species} — 직업과 관련된 증상인지 평가가 필요합니다",
+        "status_ko": "{name} 검사가 양성이고 {species_obj} 일하면서 다루지만, 다룰 때 증상이 심해지는지는 분명하지 않다고 하셨습니다. 그래서 판단을 미뤘습니다. ‘감작만’으로 정한 것도, 알레르기로 정한 것도 아닙니다.",
+        "status_work_ko": "{name} 검사가 양성이고 {species_obj} 일하면서 다루며, 일하는 날 증상이 심해지고 쉬는 날 좋아진다고 하셨습니다. {species} 때문인지 직장의 다른 노출 때문인지는 문진만으로 가릴 수 없어 판단을 미뤘습니다. ‘감작만’으로 정한 것도, 알레르기로 정한 것도 아닙니다.",
+        "why_ko": "동물을 직업으로 다루는 사람에서는 감작된 채 노출이 이어지면 증상이 생길 수 있고, 실험동물을 다루는 사람들의 연구에서 감작과 증상은 일을 시작하고 첫 2~3년에 가장 많이 생겼습니다.",
+        "do_ko": "일하는 날과 쉬는 날의 증상을 몇 주 동안 적어 두었다가 진료 때 보여 주세요. 그동안에도 직장에서 노출을 줄이는 조치를 쓰세요.",
+        "low_keys": [["occupational", "work_controls"], ["occupational", "work_clothes"]],
+        "optional_keys": [],
+        "work": true,
+        "card_ko": "일하면서 다루는 동물이라 직업과 관련된 증상인지 평가가 필요해요. 일하는 날과 쉬는 날의 증상을 적어 진료 때 보여 주고, 하는 일을 꼭 알려 주세요."
+      },
+      "non_owner": {
+        "headline_ko": "키우지 않는 {species} — 지금 할 일은 많지 않습니다",
+        "status_ko": "{name} 검사가 양성이지만 접촉해도 증상이 뚜렷하지 않아, {species} 때문에 생기는 알레르기라고 볼 근거는 아직 없습니다. {species_obj} 키우지 않는다고 하셨습니다.",
+        "why_ko": "평소 접촉이 많지 않다면 지금 생활에서 따로 바꿀 것은 없습니다. 다만 노출이 크게 늘어나는 변화가 있으면 사정이 달라질 수 있습니다. 반려동물에 이미 감작된 채 동물을 다루는 일을 시작한 수련생은, 그렇지 않은 수련생보다 직업성 천식으로 추정되는 경우가 약 4배 많았습니다(한 코호트의 결과).",
+        "do_ko": "새로 기르거나, 동물을 다루는 일을 시작하거나, 기르는 집에서 오래 지내게 되면 그 전에 진료에서 상의하세요.",
+        "low_keys": [],
+        "optional_keys": [],
+        "card_ko": "평소 접촉이 많지 않다면 지금 따로 바꿀 것은 없어요. 새로 기르거나 동물을 다루는 일을 시작하기 전에는 진료에서 먼저 상의하세요."
+      },
+      "unknown": {
+        "headline_ko": "{species} — 함께 사는지에 따라 달라집니다",
+        "status_ko": "{name} 검사가 양성이지만 증상과의 연결은 확인되지 않아, {species} 때문에 생기는 알레르기라고 볼 근거는 아직 없습니다. 함께 사는지는 문진에서 확인되지 않았습니다.",
+        "why_ko": "감작된 채 노출이 이어지면 나중에 증상이 생길 수 있습니다.",
+        "do_ko": "함께 살거나 자주 접촉한다면 침실에는 들이지 않는 것처럼 부담이 적은 것부터 노출을 줄여 두면 도움이 될 수 있습니다. 새로 기를 계획이 있으면 그 전에 진료에서 상의하세요.",
+        "low_keys": [],
+        "optional_keys": [],
+        "card_ko": "함께 살거나 자주 접촉한다면 부담이 적은 것부터 노출을 줄여 두면 도움이 될 수 있어요. 새로 기르기 전에는 진료에서 상의하세요."
+      },
+      "no_contact": {
+        "headline_ko": "{species} — 접촉이 적어 판단을 미뤘습니다",
+        "status_ko": "{name} 검사가 양성이지만 {species_with} 접촉이 거의 없다고 하셔서, 접촉할 때 증상이 생기는지 판단할 수 없었습니다. ‘감작만’으로 정한 것도, 알레르기로 정한 것도 아닙니다.",
+        "do_ko": "지금 따로 바꿀 것은 없습니다. {species_with} 같은 공간에 있게 되면 그때 아래 증상이 생기는지 살펴보세요. 새로 기르거나 동물을 다루는 일을 시작하려면 그 전에 진료에서 상의하세요.",
+        "low_keys": [],
+        "optional_keys": [],
+        "card_ko": "접촉이 거의 없어 판단을 미뤘어요. 같은 공간에 있게 되면 아래 증상이 생기는지 살펴보고, 새로 기르기 전에는 진료에서 먼저 상의하세요."
+      },
+      "unsure": {
+        "headline_ko": "{species} — 증상과의 관계를 더 지켜봐야 합니다",
+        "status_ko": "{name} 검사가 양성이고 {species_with} 접촉이 있지만, 접촉이 늘 때 증상이 심해지는지는 분명하지 않다고 하셨습니다. 그래서 판단을 미뤘습니다. ‘감작만’으로 정한 것도, 알레르기로 정한 것도 아닙니다.",
+        "do_ko": "{species_with} 가까이 지낸 날과 떨어져 지낸 날의 증상을 몇 주 동안 적어 두었다가 진료 때 보여 주세요. 그동안에도 침실에는 들이지 않는 것처럼 부담이 적은 것부터 노출을 줄여 두면 도움이 될 수 있습니다(증명된 것은 아닙니다).",
+        "low_keys": [],
+        "optional_keys": [],
+        "card_ko": "접촉은 있지만 증상과의 관계가 분명하지 않아 판단을 미뤘어요. 가까이 지낸 날과 떨어져 지낸 날의 증상을 적어 진료 때 보여 주세요."
+      },
+      "no_info": {
+        "headline_ko": "{species} — 정보가 부족해 판단을 미뤘습니다",
+        "status_ko": "{name} 검사가 양성이지만 접촉과 증상에 관한 정보가 부족해 판단을 미뤘습니다. ‘감작만’으로 정한 것도, 알레르기로 정한 것도 아닙니다.",
+        "do_ko": "{species_with} 같은 공간에 있을 때 아래 증상이 생기는지 살펴보세요. 새로 기를 계획이 있으면 그 전에 진료에서 상의하세요.",
+        "low_keys": [],
+        "optional_keys": [],
+        "card_ko": "정보가 부족해 판단을 미뤘어요. 같은 공간에 있을 때 아래 증상이 생기는지 살펴보세요."
+      }
+    },
+    "review_ko": "전문의 검토 전 자료입니다."
+  }
+}

@@ -1,0 +1,49 @@
+# Render.com Blueprint — 저장소를 연결하면 이 파일로 웹 서비스가 생성됩니다.
+# 대시보드에서 OPENAI_API_KEY 만 시크릿으로 입력하면 됩니다.
+services:
+  - type: web
+    name: allergy-quest
+    runtime: docker
+    plan: starter          # free 플랜은 15분 유휴 시 슬립(첫 요청 지연) — 데모용이면 free 로 변경 가능
+    region: singapore
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false        # 대시보드에서 직접 입력(시크릿)
+      - key: OPENAI_VISION_MODEL
+        value: gpt-5.4
+      - key: OPENAI_CHAT_MODEL
+        value: gpt-5.4
+      - key: OPENAI_REPORT_MODEL
+        value: gpt-4o
+      - key: APP_ENV
+        value: production
+      - key: DEBUG
+        value: "False"
+      # 관리자 대시보드(/admin). 비밀번호를 넣지 않으면 관리자 기능은 꺼진 상태로 남는다.
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: ADMIN_SESSION_SECRET
+        generateValue: true
+      # 접속 IP 판별: Render 는 사설망의 로드밸런서를 거쳐 컨테이너로 들어온다. 그 대역에서 온 연결의
+      # X-Forwarded-For 만 믿는다('*' 로 두면 누구나 헤더를 꾸밀 수 있다). 배포 후 관리자로 로그인해
+      # GET /api/admin/me 의 client_ip 가 내 공인 IP 로 나오는지 확인할 것 — 사설 IP 나 엣지 IP 가 나오면
+      # 모든 사용자가 IP 당 한도를 함께 쓰게 되므로 이 값을 Render 가 실제로 쓰는 프록시 대역으로 고친다.
+      - key: FORWARDED_ALLOW_IPS
+        value: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+      # 결과 메일 발송(SMTP). 호스트·보내는 주소를 넣지 않으면 메일 기능은 꺼진다.
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: SMTP_FROM
+        sync: false
+      # 저장한 세션(건강정보) 보존 기간(일). 0 이면 지우지 않는다.
+      - key: SESSION_RETENTION_DAYS
+        value: "0"
+      # 저장소(SQLite, 건강정보)는 기본 경로(data/store)를 쓴다. 영구 디스크가 없어 재배포 때마다 기록이 지워진다.

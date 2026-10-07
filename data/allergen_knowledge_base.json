@@ -1,0 +1,594 @@
+{
+  "version": "1.0-seed",
+  "locale": "ko-KR",
+  "description": "환자용 알레르기 리포트를 위한 알러젠 backdata (특성·생활사·노출환경·계절성·회피수칙·감별질문). 한국 기준. research 워크플로우 산출물로 확장/갱신됨.",
+  "rubric": {
+    "principles_ko": [
+      "검사 양성은 '감작(sensitization)'을 의미할 뿐, 그 자체가 '알레르기 질환'을 뜻하지 않는다.",
+      "임상적으로 의미 있는 알레르기는 (1) 검사 양성 + (2) 해당 알러젠에 노출될 때 재현성 있게 증상이 유발/악화될 때 성립한다.",
+      "꽃가루·곰팡이처럼 계절성이 뚜렷한 알러젠은 '그 알러젠의 시즌'에 증상이 악화되는지가 핵심 단서다.",
+      "집먼지진드기처럼 연중 노출되는 알러젠은 청소·이불정리·기상 직후 등 노출이 늘어나는 상황에서 악화되는지를 본다.",
+      "동물은 접촉 후 수분 내 증상 재현 여부, 음식은 섭취 후 반복적 반응 여부가 핵심이다.",
+      "감작만 있고 증상이 없다면(sensitized_only) 엄격한 회피가 불필요할 수 있으나, 향후 발현 가능성에 대한 교육이 필요하다."
+    ],
+    "category_rules": [
+      {
+        "category": "pollen_tree",
+        "question_focus_ko": "봄철(3~5월) 야외 활동 시 코·눈 증상이 뚜렷하게 악화되는가",
+        "relevant_signal_ko": "해당 나무 꽃가루 시즌(봄)에 매년 반복적으로 증상 악화",
+        "sensitized_only_signal_ko": "봄철에도 증상 변화 없음, 또는 증상이 전혀 계절성을 보이지 않음"
+      },
+      {
+        "category": "pollen_grass",
+        "question_focus_ko": "늦봄~초여름(5~6월) 잔디밭·풀밭 노출 시 증상 악화 여부",
+        "relevant_signal_ko": "잔디 깎기/풀밭 활동, 5~6월에 증상 악화",
+        "sensitized_only_signal_ko": "풀밭 노출과 무관하게 증상 없음"
+      },
+      {
+        "category": "pollen_weed",
+        "question_focus_ko": "늦여름~가을(8~10월) 증상 악화 여부",
+        "relevant_signal_ko": "8~10월에 매년 콧물·재채기·눈가려움 악화(대표적으로 환삼덩굴·쑥·돼지풀 시즌)",
+        "sensitized_only_signal_ko": "가을철 증상 악화 없음"
+      },
+      {
+        "category": "mite",
+        "question_focus_ko": "연중 증상, 특히 청소·이불정리·기상 직후 악화 여부",
+        "relevant_signal_ko": "연중 증상 + 먼지 노출/침구 접촉/아침에 악화",
+        "sensitized_only_signal_ko": "먼지·침구 노출과 무관하게 증상 없음"
+      },
+      {
+        "category": "mold",
+        "question_focus_ko": "습한 환경(장마철, 지하실, 곰팡이 핀 공간) 노출 시 악화 여부",
+        "relevant_signal_ko": "곰팡이/습한 공간 노출 또는 여름~가을 악화",
+        "sensitized_only_signal_ko": "습한 환경 노출과 무관"
+      },
+      {
+        "category": "animal",
+        "question_focus_ko": "해당 동물 접촉 후 수분 내 코·눈·피부·호흡기 증상 재현 여부",
+        "relevant_signal_ko": "동물 접촉 후 짧은 시간 내 재현성 있는 증상",
+        "sensitized_only_signal_ko": "동물과 함께 지내도 증상 없음"
+      },
+      {
+        "category": "insect",
+        "question_focus_ko": "실내 먼지/바퀴벌레 노출 환경에서의 만성 호흡기 증상 여부",
+        "relevant_signal_ko": "바퀴 노출 환경(주방/오래된 주거)에서 만성 비염·천식 증상",
+        "sensitized_only_signal_ko": "노출 환경에서도 증상 없음"
+      },
+      {
+        "category": "food",
+        "question_focus_ko": "해당 음식 섭취 후 반복적·재현성 있는 증상 여부와 발생까지 시간",
+        "relevant_signal_ko": "섭취 후 수분~2시간 내 두드러기·구강증상·소화기·호흡기 증상 반복",
+        "sensitized_only_signal_ko": "문제 없이 규칙적으로 섭취 중(내성), 증상 병력 없음"
+      }
+    ],
+    "scoring_ko": "각 알러젠에 대해 (a)노출경험 (b)노출/시즌 시 증상악화 (c)재현성 3가지를 확인한다. (b)가 '예'이고 계절성 알러젠은 시즌이 일치하면 clinically_relevant. 노출은 있으나 증상이 없으면 sensitized_only. 노출경험이 없거나 정보가 불충분하면 indeterminate."
+  },
+  "entries": [
+    {
+      "canonical_name": "Dermatophagoides farinae",
+      "korean_name": "미국집먼지진드기",
+      "aliases": ["D. farinae", "house dust mite", "집먼지진드기", "HDM", "Der f"],
+      "category": "mite",
+      "biology_ko": "사람 피부 각질(비듬)을 먹고 사는 0.2~0.3mm 크기의 미세한 진드기입니다. 눈에 보이지 않으며 침구, 매트리스, 카펫, 천 소파에 많습니다. 온도 20~25℃, 습도 70% 이상에서 잘 번식하며, 알러젠은 주로 진드기의 배설물과 사체에 들어 있습니다.",
+      "exposure_environment_ko": "침실(매트리스·이불·베개), 천 소파, 카펫, 봉제인형, 커튼 등 실내 먼지가 쌓이는 곳",
+      "distribution_korea_ko": "한국 실내 알레르기의 가장 흔한 원인으로, 알레르기 비염·천식 환자에서 감작률이 매우 높습니다.",
+      "seasonality_pattern": "perennial",
+      "peak_months_korea": [],
+      "season_label_ko": "연중 (고온다습한 여름~초가을에 개체수 증가)",
+      "indoor_outdoor": "indoor",
+      "cross_reactivity_ko": "유럽집먼지진드기(D. pteronyssinus)와 강한 교차반응. 새우 등 갑각류(트로포미오신)와도 일부 교차반응 가능.",
+      "oral_allergy_syndrome_ko": "",
+      "typical_symptoms_ko": ["연중 재채기·맑은 콧물·코막힘", "코·눈 가려움", "천식(기침·천명)", "아토피 피부염 악화"],
+      "avoidance_control_ko": [
+        "침구는 55~60℃ 이상 뜨거운 물로 주 1회 세탁",
+        "진드기 차단(anti-mite) 커버로 매트리스·베개·이불 감싸기",
+        "실내 습도 50% 이하로 유지(제습기·환기)",
+        "카펫·천 소파·봉제인형 최소화, HEPA 필터 청소기 사용",
+        "봉제인형은 세탁 또는 냉동(24시간) 후 사용"
+      ],
+      "relevance_probes_ko": [
+        "특정 계절과 상관없이 연중 코막힘·콧물·재채기가 지속되나요?",
+        "청소를 하거나 이불을 털 때, 오래된 책/먼지를 만질 때 증상이 심해지나요?",
+        "아침에 자고 일어났을 때 재채기·콧물이 특히 심한가요?",
+        "먼지가 많은 오래된 공간(창고, 헌 이불)에 가면 증상이 생기나요?"
+      ],
+      "clinical_pearl_ko": "연중 지속되는 비염/천식이면서 먼지·침구 노출로 악화되면 임상적으로 의미 있는 진드기 알레르기일 가능성이 높습니다. 먼지 노출과 무관하게 증상이 없다면 감작만 된 상태일 수 있습니다.",
+      "sources": ["seed:Korean allergy practice", "Indoor Allergens (reference)"]
+    },
+    {
+      "canonical_name": "Dermatophagoides pteronyssinus",
+      "korean_name": "유럽집먼지진드기",
+      "aliases": ["D. pteronyssinus", "Der p", "집먼지진드기"],
+      "category": "mite",
+      "biology_ko": "미국집먼지진드기와 함께 실내 먼지에 가장 흔한 진드기입니다. 생활사와 서식 환경이 거의 같으며, 사람 각질을 먹고 배설물이 주된 알러젠입니다.",
+      "exposure_environment_ko": "침실, 침구, 천 소파, 카펫 등 실내 먼지 축적 장소",
+      "distribution_korea_ko": "한국에서 미국집먼지진드기와 함께 대표적인 실내 감작 원인입니다.",
+      "seasonality_pattern": "perennial",
+      "peak_months_korea": [],
+      "season_label_ko": "연중 (여름~초가을 개체수 증가)",
+      "indoor_outdoor": "indoor",
+      "cross_reactivity_ko": "미국집먼지진드기와 강한 교차반응.",
+      "oral_allergy_syndrome_ko": "",
+      "typical_symptoms_ko": ["연중 비염(재채기·콧물·코막힘)", "천식", "결막염", "아토피 피부염"],
+      "avoidance_control_ko": [
+        "침구 주 1회 55~60℃ 이상 세탁",
+        "진드기 차단 커버 사용",
+        "실내 습도 50% 이하 유지",
+        "HEPA 청소기·환기",
+        "카펫·천 소파 최소화"
+      ],
+      "relevance_probes_ko": [
+        "연중 코·눈 증상이 지속되나요?",
+        "청소·이불 정리 시 증상이 악화되나요?",
+        "기상 직후 증상이 심한가요?"
+      ],
+      "clinical_pearl_ko": "두 종의 집먼지진드기는 함께 다루며, 노출 상황(먼지·침구)에서의 증상 악화가 임상적 의미의 핵심입니다.",
+      "sources": ["seed:Korean allergy practice", "Indoor Allergens (reference)"]
+    },
+    {
+      "canonical_name": "Cat dander",
+      "korean_name": "고양이 비듬",
+      "aliases": ["cat epithelium", "Felis domesticus", "고양이", "Fel d 1"],
+      "category": "animal",
+      "biology_ko": "주요 알러젠(Fel d 1)은 고양이의 침·피지선·피부에서 만들어져 털과 비듬에 붙어 공기 중에 오래 떠다닙니다. 입자가 매우 작고 가벼워 옷·벽·가구에 붙어 고양이가 없는 공간(학교·대중교통)에서도 노출될 수 있습니다.",
+      "exposure_environment_ko": "고양이를 키우는 가정, 고양이가 있던 공간, 고양이 주인과 접촉이 많은 환경",
+      "distribution_korea_ko": "반려동물 증가로 감작률이 상승 중입니다.",
+      "seasonality_pattern": "perennial",
+      "peak_months_korea": [],
+      "season_label_ko": "연중",
+      "indoor_outdoor": "indoor",
+      "cross_reactivity_ko": "다른 고양이과 동물과 교차반응. 일부 돼지고기-고양이 증후군(pork-cat syndrome)과 관련.",
+      "oral_allergy_syndrome_ko": "",
+      "typical_symptoms_ko": ["접촉 후 수분 내 재채기·콧물·코막힘", "눈 가려움·충혈·눈물", "천식 악화", "피부 두드러기"],
+      "avoidance_control_ko": [
+        "침실에 반려동물 출입 금지",
+        "HEPA 공기청정기 상시 가동",
+        "고양이 주기적 목욕·빗질(가족이 시행)",
+        "카펫·천 소파 줄이고 표면 자주 청소",
+        "접촉 후 손 씻기·옷 갈아입기"
+      ],
+      "relevance_probes_ko": [
+        "고양이가 있는 집이나 공간에 가면 수분 내로 코·눈 증상이나 기침이 생기나요?",
+        "고양이를 만진 뒤 눈이 가렵거나 붓거나 콧물이 나나요?",
+        "고양이와 함께 지낸 뒤 밤에 기침·호흡곤란이 있었나요?"
+      ],
+      "clinical_pearl_ko": "접촉 후 짧은 시간 내 재현성 있게 증상이 나타나면 임상적으로 의미 있는 알레르기입니다. 고양이와 오래 함께 살아도 증상이 없다면 감작만 된 상태일 수 있습니다.",
+      "sources": ["seed:Korean allergy practice", "Indoor Allergens (reference)"]
+    },
+    {
+      "canonical_name": "Dog dander",
+      "korean_name": "개 비듬",
+      "aliases": ["dog epithelium", "Canis familiaris", "개", "Can f 1"],
+      "category": "animal",
+      "biology_ko": "개의 비듬·침·소변에 있는 단백질(Can f 1 등)이 알러젠입니다. 견종·개체에 따라 알러젠 양의 차이가 큽니다.",
+      "exposure_environment_ko": "개를 키우는 가정, 개가 있는 실내 공간",
+      "distribution_korea_ko": "반려견 보편화로 노출·감작이 흔합니다.",
+      "seasonality_pattern": "perennial",
+      "peak_months_korea": [],
+      "season_label_ko": "연중",
+      "indoor_outdoor": "indoor",
+      "cross_reactivity_ko": "다른 개과 동물과 교차반응 가능.",
+      "oral_allergy_syndrome_ko": "",
+      "typical_symptoms_ko": ["접촉 후 재채기·콧물·코막힘", "눈 가려움·충혈", "천식 악화", "피부 증상"],
+      "avoidance_control_ko": [
+        "침실 출입 제한",
+        "HEPA 공기청정기 사용",
+        "규칙적 목욕",
+        "접촉 후 손 씻기",
+        "실내 환기·청소"
+      ],
+      "relevance_probes_ko": [
+        "개와 접촉하면 수분 내 코·눈 증상이나 기침이 생기나요?",
+        "개를 키우는 집에 가면 증상이 악화되나요?"
+      ],
+      "clinical_pearl_ko": "접촉 시 재현성 있는 증상이 임상적 의미의 핵심입니다. 함께 살아도 무증상이면 감작만 된 상태일 수 있습니다.",
+      "sources": ["seed:Korean allergy practice", "Indoor Allergens (reference)"]
+    },
+    {
+      "canonical_name": "Birch pollen",
+      "korean_name": "자작나무 꽃가루",
+      "aliases": ["Betula", "자작나무", "Bet v 1"],
+      "category": "pollen_tree",
+      "biology_ko": "봄에 바람으로 퍼지는 나무 꽃가루입니다. 입자가 작고 멀리 날아가며, 대표 알러젠 Bet v 1은 여러 과일·채소와 교차반응을 잘 일으킵니다.",
+      "exposure_environment_ko": "봄철 야외, 자작나무·오리나무가 있는 공원·산·가로수 주변",
+      "distribution_korea_ko": "중부·산간에 분포하며 봄철 나무 꽃가루 알레르기의 주요 원인 중 하나입니다.",
+      "seasonality_pattern": "seasonal",
+      "peak_months_korea": [4, 5],
+      "season_label_ko": "봄 (4~5월, 지역에 따라 3월부터)",
+      "indoor_outdoor": "outdoor",
+      "cross_reactivity_ko": "오리나무·개암나무·참나무 등 봄 나무 꽃가루와 교차반응. 사과·복숭아·체리·헤이즐넛 등과 구강알레르기증후군.",
+      "oral_allergy_syndrome_ko": "사과·복숭아·체리·자두·헤이즐넛 등을 생으로 먹을 때 입·입술 가려움/붓기(구강알레르기증후군)이 나타날 수 있습니다.",
+      "typical_symptoms_ko": ["봄철 재채기·콧물·코막힘", "눈 가려움·충혈·눈물", "구강알레르기증후군"],
+      "avoidance_control_ko": [
+        "봄철 꽃가루 농도 높은 날 외출 자제(오전·바람 부는 날 주의)",
+        "외출 시 마스크·안경 착용",
+        "귀가 후 샤워·옷 갈아입기, 세수·양치",
+        "실내 창문 닫고 공기청정기 사용",
+        "꽃가루 예보 확인"
+      ],
+      "relevance_probes_ko": [
+        "3~5월 봄철에 콧물·재채기·눈 가려움이 뚜렷하게 심해지나요?",
+        "봄에 야외활동(공원·등산)을 하면 증상이 악화되나요?",
+        "사과·복숭아·체리 등을 생으로 먹을 때 입·입술이 가렵거나 붓나요?",
+        "겨울이나 여름에는 증상이 확실히 줄어드나요?"
+      ],
+      "clinical_pearl_ko": "봄철에 반복적으로 증상이 악화되면 임상적으로 의미 있는 알레르기입니다. 봄철에도 증상 변화가 없다면 감작만 된 상태일 수 있습니다.",
+      "sources": ["seed:Korean pollen calendar", "Aerobiology of Outdoor Allergens (reference)"]
+    },
+    {
+      "canonical_name": "Oak pollen",
+      "korean_name": "참나무 꽃가루",
+      "aliases": ["Quercus", "참나무", "떡갈나무"],
+      "category": "pollen_tree",
+      "biology_ko": "한국 산림에 가장 흔한 나무 중 하나로, 봄에 대량의 꽃가루를 바람으로 퍼뜨립니다.",
+      "exposure_environment_ko": "봄철 야외, 산·공원 등 참나무가 많은 곳",
+      "distribution_korea_ko": "전국 산림에 매우 흔해 봄철 나무 꽃가루의 핵심 원인입니다.",
+      "seasonality_pattern": "seasonal",
+      "peak_months_korea": [4, 5],
+      "season_label_ko": "봄 (4~5월)",
+      "indoor_outdoor": "outdoor",
+      "cross_reactivity_ko": "자작나무·오리나무 등 다른 봄 나무 꽃가루와 교차반응.",
+      "oral_allergy_syndrome_ko": "",
+      "typical_symptoms_ko": ["봄철 재채기·콧물·코막힘", "눈 가려움·충혈"],
+      "avoidance_control_ko": [
+        "봄철 꽃가루 많은 날 외출 자제",
+        "마스크·안경 착용",
+        "귀가 후 샤워·세안",
+        "창문 닫기·공기청정기"
+      ],
+      "relevance_probes_ko": [
+        "4~5월 봄철에 코·눈 증상이 뚜렷하게 심해지나요?",
+        "봄철 산·공원 방문 후 증상이 악화되나요?",
+        "다른 계절에는 증상이 줄어드나요?"
+      ],
+      "clinical_pearl_ko": "봄철 증상 악화가 재현되면 임상적으로 의미 있습니다. 계절과 무관하게 무증상이면 감작만 된 상태입니다.",
+      "sources": ["seed:Korean pollen calendar", "Aerobiology of Outdoor Allergens (reference)"]
+    },
+    {
+      "canonical_name": "Alder pollen",
+      "korean_name": "오리나무 꽃가루",
+      "aliases": ["Alnus", "오리나무"],
+      "category": "pollen_tree",
+      "biology_ko": "이른 봄 가장 먼저 꽃가루를 날리는 나무 중 하나로, 자작나무와 교차반응이 강합니다.",
+      "exposure_environment_ko": "이른 봄 야외, 하천변·산지의 오리나무 주변",
+      "distribution_korea_ko": "전국 하천변·산지에 분포하며 봄 초입 증상의 원인입니다.",
+      "seasonality_pattern": "seasonal",
+      "peak_months_korea": [3, 4],
+      "season_label_ko": "이른 봄 (3~4월)",
+      "indoor_outdoor": "outdoor",
+      "cross_reactivity_ko": "자작나무·개암나무와 강한 교차반응(자작나무과).",
+      "oral_allergy_syndrome_ko": "자작나무군 교차로 사과·복숭아 등 구강알레르기증후군 가능.",
+      "typical_symptoms_ko": ["이른 봄 재채기·콧물·코막힘", "눈 가려움"],
+      "avoidance_control_ko": [
+        "3~4월 외출 시 마스크·안경",
+        "귀가 후 샤워·세안",
+        "창문 닫기·공기청정기",
+        "꽃가루 예보 확인"
+      ],
+      "relevance_probes_ko": [
+        "3~4월 이른 봄에 코·눈 증상이 시작되거나 심해지나요?",
+        "봄이 지나면 증상이 줄어드나요?"
+      ],
+      "clinical_pearl_ko": "이른 봄 증상 악화가 핵심 단서입니다.",
+      "sources": ["seed:Korean pollen calendar", "Aerobiology of Outdoor Allergens (reference)"]
+    },
+    {
+      "canonical_name": "Japanese hop pollen",
+      "korean_name": "환삼덩굴 꽃가루",
+      "aliases": ["Humulus japonicus", "환삼덩굴", "한삼덩굴"],
+      "category": "pollen_weed",
+      "biology_ko": "하천변·공터·길가에 무성하게 자라는 덩굴성 잡초로, 늦여름부터 가을까지 바람으로 꽃가루를 퍼뜨립니다. 한국 가을철 대표 잡초 꽃가루입니다.",
+      "exposure_environment_ko": "가을철 야외, 하천변·공터·도로변 등 잡초가 많은 곳",
+      "distribution_korea_ko": "전국에 매우 흔하며, 한국 가을 꽃가루 알레르기의 가장 중요한 원인 중 하나입니다.",
+      "seasonality_pattern": "seasonal",
+      "peak_months_korea": [8, 9, 10],
+      "season_label_ko": "늦여름~가을 (8~10월)",
+      "indoor_outdoor": "outdoor",
+      "cross_reactivity_ko": "다른 잡초 꽃가루와 일부 교차반응 가능.",
+      "oral_allergy_syndrome_ko": "",
+      "typical_symptoms_ko": ["가을철 재채기·맑은 콧물·코막힘", "눈 가려움·충혈·눈물", "천식 악화"],
+      "avoidance_control_ko": [
+        "8~10월 하천변·풀밭 산책 자제",
+        "외출 시 마스크·안경 착용",
+        "귀가 후 샤워·세안·옷 갈아입기",
+        "창문 닫기·공기청정기",
+        "가을 꽃가루 예보 확인"
+      ],
+      "relevance_probes_ko": [
+        "8~10월 가을철에 콧물·재채기·눈 가려움이 뚜렷하게 심해지나요?",
+        "가을에 하천변·공터·풀밭 근처에서 증상이 악화되나요?",
+        "봄·겨울보다 가을에 증상이 더 심한가요?"
+      ],
+      "clinical_pearl_ko": "가을철(특히 9월) 증상 악화가 재현되면 임상적으로 의미 있는 알레르기입니다. 한국에서 가을 비염의 핵심 원인입니다.",
+      "sources": ["seed:Korean pollen calendar", "Aerobiology of Outdoor Allergens (reference)"]
+    },
+    {
+      "canonical_name": "Mugwort pollen",
+      "korean_name": "쑥 꽃가루",
+      "aliases": ["Artemisia", "쑥"],
+      "category": "pollen_weed",
+      "biology_ko": "가을철 대표적인 잡초 꽃가루로, 들·길가·공터에 흔한 쑥에서 바람으로 퍼집니다.",
+      "exposure_environment_ko": "가을철 야외, 들판·길가·공터",
+      "distribution_korea_ko": "전국에 흔하며 가을 꽃가루 알레르기의 주요 원인입니다.",
+      "seasonality_pattern": "seasonal",
+      "peak_months_korea": [8, 9],
+      "season_label_ko": "늦여름~가을 (8~9월)",
+      "indoor_outdoor": "outdoor",
+      "cross_reactivity_ko": "돼지풀 등 다른 잡초와 교차반응. 셀러리·당근·향신료와 구강알레르기증후군(mugwort-celery-spice) 가능.",
+      "oral_allergy_syndrome_ko": "셀러리·당근·향신료 등에서 구강 증상 가능.",
+      "typical_symptoms_ko": ["가을철 재채기·콧물·코막힘", "눈 가려움", "천식 악화"],
+      "avoidance_control_ko": [
+        "8~9월 풀밭·들판 노출 자제",
+        "외출 시 마스크·안경",
+        "귀가 후 샤워·세안",
+        "창문 닫기·공기청정기"
+      ],
+      "relevance_probes_ko": [
+        "8~9월에 코·눈 증상이 뚜렷하게 심해지나요?",
+        "가을철 들판·풀밭 근처에서 증상이 악화되나요?"
+      ],
+      "clinical_pearl_ko": "가을 증상 악화가 핵심 단서입니다.",
+      "sources": ["seed:Korean pollen calendar", "Aerobiology of Outdoor Allergens (reference)"]
+    },
+    {
+      "canonical_name": "Ragweed pollen",
+      "korean_name": "돼지풀 꽃가루",
+      "aliases": ["Ambrosia", "돼지풀", "두드러기쑥"],
+      "category": "pollen_weed",
+      "biology_ko": "가을철 강력한 알러젠을 내는 외래 잡초로, 한 포기가 막대한 양의 꽃가루를 만들어 멀리까지 날립니다.",
+      "exposure_environment_ko": "가을철 야외, 도로변·공터·하천변",
+      "distribution_korea_ko": "전국에 퍼진 귀화식물로 가을 꽃가루 알레르기의 원인입니다.",
+      "seasonality_pattern": "seasonal",
+      "peak_months_korea": [8, 9, 10],
+      "season_label_ko": "가을 (8~10월)",
+      "indoor_outdoor": "outdoor",
+      "cross_reactivity_ko": "쑥 등 국화과 잡초와 교차반응. 멜론·바나나와 구강 증상 가능.",
+      "oral_allergy_syndrome_ko": "멜론·수박·바나나 등에서 구강 증상 가능.",
+      "typical_symptoms_ko": ["가을철 심한 재채기·콧물·코막힘", "눈·목 가려움", "천식 악화"],
+      "avoidance_control_ko": [
+        "가을철 꽃가루 많은 날 외출 자제",
+        "마스크·안경 착용",
+        "귀가 후 샤워·세안",
+        "창문 닫기·공기청정기"
+      ],
+      "relevance_probes_ko": [
+        "8~10월 가을철에 증상이 뚜렷하게 심해지나요?",
+        "가을 야외활동 후 증상이 악화되나요?"
+      ],
+      "clinical_pearl_ko": "가을 증상 악화가 재현되면 임상적으로 의미 있습니다.",
+      "sources": ["seed:Korean pollen calendar", "Aerobiology of Outdoor Allergens (reference)"]
+    },
+    {
+      "canonical_name": "Timothy grass pollen",
+      "korean_name": "큰조아재비(티모시) 꽃가루",
+      "aliases": ["Phleum pratense", "timothy", "목초"],
+      "category": "pollen_grass",
+      "biology_ko": "목초·잔디류 꽃가루로 늦봄부터 초여름에 주로 날립니다. 여러 잔디류와 교차반응이 강합니다.",
+      "exposure_environment_ko": "늦봄~초여름 야외, 잔디밭·풀밭·목초지",
+      "distribution_korea_ko": "잔디류 꽃가루는 초여름 알레르기의 원인이며, 목초지·잔디밭에서 노출됩니다.",
+      "seasonality_pattern": "seasonal",
+      "peak_months_korea": [5, 6],
+      "season_label_ko": "늦봄~초여름 (5~6월)",
+      "indoor_outdoor": "outdoor",
+      "cross_reactivity_ko": "여러 잔디류(호밀풀·오리새 등)와 강한 교차반응.",
+      "oral_allergy_syndrome_ko": "토마토·참외 등과 드물게 구강 증상.",
+      "typical_symptoms_ko": ["초여름 재채기·콧물·코막힘", "눈 가려움"],
+      "avoidance_control_ko": [
+        "5~6월 잔디밭·풀밭 활동 자제(잔디 깎기 주의)",
+        "외출 시 마스크·안경",
+        "귀가 후 샤워·세안",
+        "창문 닫기·공기청정기"
+      ],
+      "relevance_probes_ko": [
+        "5~6월 늦봄~초여름에 코·눈 증상이 심해지나요?",
+        "잔디밭·풀밭에 있거나 잔디를 깎을 때 증상이 악화되나요?"
+      ],
+      "clinical_pearl_ko": "초여름·잔디밭 노출 시 증상 악화가 핵심 단서입니다.",
+      "sources": ["seed:Korean pollen calendar", "Aerobiology of Outdoor Allergens (reference)"]
+    },
+    {
+      "canonical_name": "Alternaria alternata",
+      "korean_name": "알테르나리아 곰팡이",
+      "aliases": ["Alternaria", "알터나리아"],
+      "category": "mold",
+      "biology_ko": "실외 대표 곰팡이로, 흙·식물·낙엽에서 자라며 따뜻하고 습한 여름~가을에 포자가 공기 중에 늘어납니다. 천식 악화와 강하게 연관됩니다.",
+      "exposure_environment_ko": "야외(흙·낙엽·농작물), 습한 실내, 장마철",
+      "distribution_korea_ko": "여름~가을 실외 곰팡이 포자의 주요 원인이며, 습한 실내에서도 노출됩니다.",
+      "seasonality_pattern": "seasonal",
+      "peak_months_korea": [7, 8, 9],
+      "season_label_ko": "여름~가을 (7~9월, 습한 시기)",
+      "indoor_outdoor": "both",
+      "cross_reactivity_ko": "다른 곰팡이류와 일부 교차반응.",
+      "oral_allergy_syndrome_ko": "",
+      "typical_symptoms_ko": ["비염(콧물·코막힘·재채기)", "천식 악화(특히 소아)", "눈 가려움"],
+      "avoidance_control_ko": [
+        "실내 습도 50% 이하 유지·제습",
+        "욕실·주방 곰팡이 제거 및 환기",
+        "장마철 창문·환기 관리",
+        "낙엽·퇴비 등 곰팡이 많은 야외 작업 시 마스크",
+        "누수·결로 관리"
+      ],
+      "relevance_probes_ko": [
+        "장마철이나 습한 날, 곰팡이 핀 공간에서 증상이 심해지나요?",
+        "여름~가을에 증상이 악화되나요?",
+        "지하실·오래된 건물·습한 실내에서 증상이 생기나요?"
+      ],
+      "clinical_pearl_ko": "습한 환경/여름~가을 노출 시 증상 악화가 재현되면 임상적으로 의미 있습니다. 특히 천식 환자에서 중요합니다.",
+      "sources": ["seed:Korean allergy practice", "Aerobiology of Outdoor Allergens (reference)"]
+    },
+    {
+      "canonical_name": "Aspergillus fumigatus",
+      "korean_name": "아스페르길루스 곰팡이",
+      "aliases": ["Aspergillus", "아스페르길루스"],
+      "category": "mold",
+      "biology_ko": "실내외 어디에나 흔한 곰팡이로, 퇴비·먼지·습한 건축자재에서 자랍니다. 천식·알레르기성 기관지폐아스페르길루스증(ABPA)과 관련될 수 있습니다.",
+      "exposure_environment_ko": "습한 실내, 지하실, 화분 흙, 퇴비, 오래된 환기구",
+      "distribution_korea_ko": "연중 실내외에 분포하며 습한 환경에서 노출이 늘어납니다.",
+      "seasonality_pattern": "perennial",
+      "peak_months_korea": [],
+      "season_label_ko": "연중 (습한 실내에서 증가)",
+      "indoor_outdoor": "both",
+      "cross_reactivity_ko": "다른 곰팡이류와 일부 교차반응.",
+      "oral_allergy_syndrome_ko": "",
+      "typical_symptoms_ko": ["천식 악화·기침", "비염", "ABPA(중증 천식에서)"],
+      "avoidance_control_ko": [
+        "실내 습도 관리·제습",
+        "곰팡이 제거·환기",
+        "화분 흙·퇴비 취급 시 주의",
+        "누수·결로 관리",
+        "HEPA 필터 사용"
+      ],
+      "relevance_probes_ko": [
+        "습하거나 곰팡이 냄새 나는 공간에서 기침·호흡곤란이 생기나요?",
+        "천식이 습한 환경에서 악화되나요?"
+      ],
+      "clinical_pearl_ko": "천식 환자에서 특히 중요하며, 습한 환경 노출 시 악화가 임상적 단서입니다.",
+      "sources": ["seed:Korean allergy practice", "Indoor Allergens (reference)"]
+    },
+    {
+      "canonical_name": "German cockroach",
+      "korean_name": "바퀴벌레(독일바퀴)",
+      "aliases": ["Blattella germanica", "cockroach", "바퀴"],
+      "category": "insect",
+      "biology_ko": "주방·습한 실내에 서식하는 바퀴의 배설물·타액·부스러기·사체가 알러젠입니다. 도시 주거·다세대 주택에서 실내 알레르기와 천식의 원인이 됩니다.",
+      "exposure_environment_ko": "주방, 음식물 주변, 습하고 오래된 실내, 다세대·밀집 주거",
+      "distribution_korea_ko": "도시 주거환경에서 흔한 실내 알러젠입니다.",
+      "seasonality_pattern": "perennial",
+      "peak_months_korea": [],
+      "season_label_ko": "연중",
+      "indoor_outdoor": "indoor",
+      "cross_reactivity_ko": "집먼지진드기·갑각류와 트로포미오신 교차반응 가능.",
+      "oral_allergy_syndrome_ko": "",
+      "typical_symptoms_ko": ["연중 비염", "천식(특히 소아·도시 거주)", "코막힘"],
+      "avoidance_control_ko": [
+        "음식물·쓰레기 밀폐 보관, 즉시 정리",
+        "주방 청결·물기 제거",
+        "틈새 밀봉, 방제(살충)·트랩",
+        "습도 관리",
+        "정기 청소"
+      ],
+      "relevance_probes_ko": [
+        "바퀴벌레가 있는(있었던) 주거 환경에서 연중 비염·천식 증상이 있나요?",
+        "오래되고 습한 실내에서 증상이 악화되나요?"
+      ],
+      "clinical_pearl_ko": "노출 환경(바퀴가 있는 주거)에서의 만성 호흡기 증상이 임상적 단서입니다.",
+      "sources": ["seed:Korean allergy practice", "Indoor Allergens (reference)"]
+    },
+    {
+      "canonical_name": "Egg white",
+      "korean_name": "계란 흰자",
+      "aliases": ["egg", "hen's egg white", "계란", "달걀", "난백"],
+      "category": "food",
+      "biology_ko": "계란 흰자의 단백질(오브알부민·오보뮤코이드 등)이 주요 알러젠입니다. 영유아에서 흔하며 대부분 자라면서 내성이 생깁니다. 익히면 알레르기성이 줄기도 합니다.",
+      "exposure_environment_ko": "계란이 포함된 음식 섭취(빵·과자·마요네즈 등 가공식품 포함)",
+      "distribution_korea_ko": "영유아 음식 알레르기의 흔한 원인입니다.",
+      "seasonality_pattern": "perennial",
+      "peak_months_korea": [],
+      "season_label_ko": "연중 (섭취 시)",
+      "indoor_outdoor": "indoor",
+      "cross_reactivity_ko": "다른 조류의 알과 교차. 계란-새 증후군(bird-egg) 가능.",
+      "oral_allergy_syndrome_ko": "",
+      "typical_symptoms_ko": ["섭취 후 두드러기·입 주변 발진", "구토·복통", "심하면 아나필락시스"],
+      "avoidance_control_ko": [
+        "계란·계란 함유 가공식품 성분표 확인",
+        "익힘 정도에 따른 반응 여부는 전문의와 상담",
+        "심한 병력 시 에피네프린 자가주사기 처방 상담",
+        "영유아는 성장에 따른 재평가"
+      ],
+      "relevance_probes_ko": [
+        "계란(또는 계란이 든 음식)을 먹으면 반복적으로 두드러기·구토·복통 등이 생기나요?",
+        "증상은 섭취 후 얼마 만에 나타나나요(수분~2시간)?",
+        "현재 계란을 문제없이 규칙적으로 먹고 있나요?"
+      ],
+      "clinical_pearl_ko": "섭취 후 재현성 있는 증상이 있어야 임상적 알레르기입니다. 현재 문제없이 먹고 있다면 감작만 된 상태(내성)일 수 있어 불필요한 제한을 피해야 합니다.",
+      "sources": ["seed:Korean allergy practice", "Allergen Control (reference)"]
+    },
+    {
+      "canonical_name": "Cow milk",
+      "korean_name": "우유",
+      "aliases": ["milk", "cow's milk", "우유", "유단백"],
+      "category": "food",
+      "biology_ko": "우유 단백질(카제인·베타락토글로불린 등)이 알러젠입니다. 영유아에서 흔하며 상당수는 자라면서 내성이 생깁니다. 유당불내증과는 다른 개념입니다.",
+      "exposure_environment_ko": "우유·유제품 및 우유 함유 가공식품 섭취",
+      "distribution_korea_ko": "영유아 음식 알레르기의 흔한 원인입니다.",
+      "seasonality_pattern": "perennial",
+      "peak_months_korea": [],
+      "season_label_ko": "연중 (섭취 시)",
+      "indoor_outdoor": "indoor",
+      "cross_reactivity_ko": "다른 포유류 젖과 교차 가능. 소고기와 일부 교차.",
+      "oral_allergy_syndrome_ko": "",
+      "typical_symptoms_ko": ["섭취 후 두드러기", "구토·설사·복통", "심하면 아나필락시스"],
+      "avoidance_control_ko": [
+        "우유·유제품 및 함유 식품 성분 확인",
+        "대체 칼슘·영양 공급 상담",
+        "심한 병력 시 응급약 상담",
+        "영유아는 성장에 따른 재평가"
+      ],
+      "relevance_probes_ko": [
+        "우유·유제품을 먹으면 반복적으로 증상(두드러기·소화기)이 생기나요?",
+        "증상까지 걸리는 시간은 어느 정도인가요?",
+        "현재 우유를 문제없이 섭취하나요?"
+      ],
+      "clinical_pearl_ko": "섭취 시 재현성 있는 반응이 임상적 알레르기의 조건입니다. 유당불내증(소화 문제)과 구분이 필요합니다.",
+      "sources": ["seed:Korean allergy practice", "Allergen Control (reference)"]
+    },
+    {
+      "canonical_name": "Peanut",
+      "korean_name": "땅콩",
+      "aliases": ["Arachis hypogaea", "groundnut", "땅콩"],
+      "category": "food",
+      "biology_ko": "적은 양으로도 심한 반응(아나필락시스)을 일으킬 수 있는 대표적인 음식 알러젠입니다. 대개 평생 지속되는 경향이 있습니다.",
+      "exposure_environment_ko": "땅콩·땅콩 함유 식품 섭취, 교차오염 가능 식품",
+      "distribution_korea_ko": "견과류 알레르기 중 중요한 원인으로 주의가 필요합니다.",
+      "seasonality_pattern": "perennial",
+      "peak_months_korea": [],
+      "season_label_ko": "연중 (섭취 시)",
+      "indoor_outdoor": "indoor",
+      "cross_reactivity_ko": "일부 견과류·콩류와 교차 가능.",
+      "oral_allergy_syndrome_ko": "",
+      "typical_symptoms_ko": ["섭취 후 두드러기·입술 붓기", "구토·복통", "아나필락시스(호흡곤란·혈압저하)"],
+      "avoidance_control_ko": [
+        "땅콩·함유 식품 철저히 확인·회피",
+        "외식·가공식품 교차오염 주의",
+        "에피네프린 자가주사기 처방·휴대 상담",
+        "응급대응 계획 마련"
+      ],
+      "relevance_probes_ko": [
+        "땅콩(또는 함유 식품)을 먹고 두드러기·붓기·호흡곤란 등이 있었나요?",
+        "아주 소량에도 반응한 적이 있나요?",
+        "과거 아나필락시스 병력이 있나요?"
+      ],
+      "clinical_pearl_ko": "심한 반응 위험이 높아, 병력이 있으면 엄격한 회피와 응급약 준비가 중요합니다. 병력 없이 감작만 있는 경우 섭취 여부는 전문의와 상담해 결정합니다.",
+      "sources": ["seed:Korean allergy practice", "Allergen Control (reference)"]
+    },
+    {
+      "canonical_name": "Shrimp",
+      "korean_name": "새우",
+      "aliases": ["prawn", "Penaeus", "새우", "갑각류"],
+      "category": "food",
+      "biology_ko": "갑각류의 근육 단백질(트로포미오신)이 주요 알러젠으로, 열에 강해 익혀도 알레르기성이 유지됩니다. 성인 음식 알레르기의 흔한 원인입니다.",
+      "exposure_environment_ko": "새우·갑각류 및 함유 음식 섭취(육수·소스 포함)",
+      "distribution_korea_ko": "성인에서 흔한 음식 알레르기 원인입니다.",
+      "seasonality_pattern": "perennial",
+      "peak_months_korea": [],
+      "season_label_ko": "연중 (섭취 시)",
+      "indoor_outdoor": "indoor",
+      "cross_reactivity_ko": "게·가재 등 갑각류, 일부 연체동물, 집먼지진드기·바퀴와 트로포미오신 교차반응.",
+      "oral_allergy_syndrome_ko": "",
+      "typical_symptoms_ko": ["섭취 후 두드러기·붓기", "구토·복통", "아나필락시스"],
+      "avoidance_control_ko": [
+        "새우·갑각류 및 함유 음식(육수·소스) 확인·회피",
+        "외식 시 교차오염 주의",
+        "심한 병력 시 응급약 상담",
+        "운동유발 반응 여부 확인"
+      ],
+      "relevance_probes_ko": [
+        "새우·게 등 갑각류를 먹으면 반복적으로 증상이 생기나요?",
+        "익힌 것에도 반응하나요?",
+        "과거 심한 반응(호흡곤란·아나필락시스)이 있었나요?"
+      ],
+      "clinical_pearl_ko": "섭취 시 재현성 있는 반응이 임상적 알레르기의 조건입니다. 진드기 감작으로 인해 검사만 양성이고 실제로는 잘 먹는 경우도 있어 병력 확인이 중요합니다.",
+      "sources": ["seed:Korean allergy practice", "Allergen Control (reference)"]
+    }
+  ]
+}
