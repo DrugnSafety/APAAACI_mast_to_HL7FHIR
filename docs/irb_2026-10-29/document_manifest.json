@@ -1,0 +1,110 @@
+{
+  "version": "0.2",
+  "date": "2026-10-29",
+  "status": "IRB 심의용 초안 · 미승인 · 모집 및 실제 발송 전",
+  "documents": [
+    {
+      "id": "01",
+      "title": "01. IRB 신청 요약서",
+      "source": "content/01_irb_application_summary.md",
+      "html": "content/01_irb_application_summary.html",
+      "docx": "content/01_irb_application_summary.docx",
+      "description": "병원 공식 신청서에 전재할 연구 요약과 심의 항목입니다."
+    },
+    {
+      "id": "02",
+      "title": "02. 상세 연구계획서",
+      "source": "content/02_research_protocol.md",
+      "html": "content/02_research_protocol.html",
+      "docx": "content/02_research_protocol.docx",
+      "description": "27개 절의 연구 설계·평가·분석·안전 계획입니다."
+    },
+    {
+      "id": "03",
+      "title": "성인 연구대상자 설명문",
+      "source": "content/03_adult_information.md",
+      "html": "content/03_adult_information.html",
+      "docx": "content/03_adult_information.docx",
+      "description": "성인에게 연구 목적·절차·위험·권리를 설명합니다."
+    },
+    {
+      "id": "04",
+      "title": "성인 연구참여 동의서",
+      "source": "content/04_adult_consent.md",
+      "html": "content/04_adult_consent.html",
+      "docx": "content/04_adult_consent.docx",
+      "description": "연구 참여 의사와 서명·사본 제공을 기록합니다."
+    },
+    {
+      "id": "05",
+      "title": "소아 연구대상자 보호자 설명문 및 동의서",
+      "source": "content/05_guardian_information_consent.md",
+      "html": "content/05_guardian_information_consent.html",
+      "docx": "content/05_guardian_information_consent.docx",
+      "description": "소아의 법정대리인 설명과 동의를 기록합니다."
+    },
+    {
+      "id": "06",
+      "title": "어린이 연구 참여 확인서",
+      "source": "content/06_child_assent.md",
+      "html": "content/06_child_assent.html",
+      "docx": "content/06_child_assent.docx",
+      "description": "아이의 이해 수준에 맞춰 참여 의사를 확인합니다."
+    },
+    {
+      "id": "07",
+      "title": "청소년 연구대상자 승낙 설명문 및 확인서",
+      "source": "content/07_adolescent_assent.md",
+      "html": "content/07_adolescent_assent.html",
+      "docx": "content/07_adolescent_assent.docx",
+      "description": "청소년에게 설명하고 승낙·거부 의사를 확인합니다."
+    },
+    {
+      "id": "08",
+      "title": "개인정보 처리 및 결과 전달 선택서",
+      "source": "content/08_privacy_and_delivery_choices.md",
+      "html": "content/08_privacy_and_delivery_choices.html",
+      "docx": "content/08_privacy_and_delivery_choices.docx",
+      "description": "개인정보·건강정보·선택 전달 항목을 구분합니다."
+    },
+    {
+      "id": "09",
+      "title": "연구자 설명문과 현장 운영 절차",
+      "source": "content/09_researcher_explanation_sop.md",
+      "html": "content/09_researcher_explanation_sop.html",
+      "docx": "content/09_researcher_explanation_sop.docx",
+      "description": "연구자가 설명·등록·검수·발송·철회를 수행합니다."
+    },
+    {
+      "id": "10",
+      "title": "10. HIS 연계와 데이터 보안 계획",
+      "source": "content/10_his_data_security_plan.md",
+      "html": "content/10_his_data_security_plan.html",
+      "docx": "content/10_his_data_security_plan.docx",
+      "description": "HIS·문진·GPU·위탁·보안·보관·인수 시험을 정합니다."
+    },
+    {
+      "id": "11",
+      "title": "문진·증례기록서·알림톡 문안",
+      "source": "content/11_questionnaire_crf_message_templates.md",
+      "html": "content/11_questionnaire_crf_message_templates.html",
+      "docx": "content/11_questionnaire_crf_message_templates.docx",
+      "description": "문진 문항·증례기록서·검수표·알림톡 문안 초안입니다."
+    },
+    {
+      "id": "12",
+      "title": "제출 전 확인표와 참고 문서",
+      "source": "content/12_submission_review_and_sources.md",
+      "html": "content/12_submission_review_and_sources.html",
+      "docx": "content/12_submission_review_and_sources.docx",
+      "description": "미확정 값·제출 첨부·참고 문서·공식 출처입니다."
+    }
+  ],
+  "patient_satisfaction": {
+    "definition": "../patient_satisfaction_2026-10-29/survey_definition.json",
+    "version": "0.1",
+    "html": "../patient_satisfaction_2026-10-29/patient_satisfaction.html",
+    "doc": "../patient_satisfaction_2026-10-29/patient_satisfaction.doc"
+  },
+  "word_layout_validation": "XML·텍스트·변환 HTML 확인. Word/LibreOffice 직접 페이지 렌더 미확인."
+}

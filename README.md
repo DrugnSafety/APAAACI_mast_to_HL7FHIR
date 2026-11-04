@@ -52,6 +52,14 @@
 - **서버 생성 콘텐츠 다국어화**: 문진·지식베이스·리포트·카드뉴스를 한/영/중으로. LLM 번역 + 영구 캐시(`data/i18n_cache.json`, 702건 동봉), `lang=ko` 는 번역 경로 미사용, 키가 없으면 원문 유지.
 - 상세: [`docs/release_2026-09-08b_snomed_mold_chat_i18n.ko.md`](docs/release_2026-09-08b_snomed_mold_chat_i18n.ko.md) · [English](docs/release_2026-09-08b_snomed_mold_chat_i18n.en.md)
 
+### 📚 알레르겐 환경관리 교과서 층 · 온톨로지 확장 (2026-10-09)
+- **교과서 2종 반영**: 한글 알레르기 교과서 '환경관리 및 회피요법' 장(스캔)과 Middleton's Allergy 26·27·28·86장을 읽고, 집먼지진드기·고양이·개·바퀴·실내/실외 곰팡이·꽃가루·설치류 8개 알레르겐군의 생물학·운반 입자·노출 역치·관리 조치를 **단계(필수/도움/제한적/비권장)·근거 등급·출처**와 함께 `data/allergen_environment_control.json` 에 정리. 담배연기·실내 연소·대기오염·기후변화(악화 요인)와 1차 예방 코호트 요약 포함. 두 교과서가 갈리는 항목은 `disagreements_ko` 에 적고 환자 문장은 보수적으로 썼다.
+- **기존 지식 교정**: 템플릿(`allergen_category_profiles.json` v1.1)과 손으로 쓴 지식베이스 14종(`allergen_knowledge_base.json` v1.1)의 노출 환경·회피 수칙·교차반응을 교과서 기준으로 고침 — 예: 진드기 번식 조건(25℃·RH 60~75%), 배설물 입자 10~35 µm → 공기청정기 효과 의문, 고양이 제거 후 3~6개월 잔류, 바퀴 미끼형 우선, 뇌우 천식.
+- **온톨로지 그래프 확장**: RDF 그래프에 `AllergenGroup`·`ControlMeasure`(tier·evidenceGrade)·`ExposureThreshold`·`CrossReactivity`·`TextbookSource` 노드를 얹고 `associatedWithDisease` 로 기존 질환 Topic(천식·비염·아토피)에 연결. SPARQL 한 번으로 "진드기 → 1단계 조치 → 관련 질환" 조인이 된다. 검토 상태는 `textbook_curated` 로 Wikipedia 스냅샷(candidate)과 분리.
+- **챗봇·리포트·API**: 관리·회피 질문("공기청정기가 도움이 되나요?")에 교과서 블록을 주입하되 '실제 주의' 항원군으로 범위를 좁히고 보고서 값 질문에는 붙이지 않음(프롬프트 규칙 25~28). 리포트 '우선 실천 회피 수칙' 아래 **근거 요약** 블록. `GET /api/knowledge/environment-control?group=mite&q=공기청정기` · `/overview` · `/api/ontology/topics` 의 `allergen_topics`.
+- **검토·승인 워크플로**: 조치마다 `review.status`(candidate → approved/revised/rejected). `scripts/review_environment_control.py --import review.json` 으로 검토 HTML(`docs/review_2026-10-09_*.html`)의 체크·메모를 반영하고, 검토가 끝나면 `ENV_CONTROL_PATIENT_GATE=approved_only` 로 승인된 조치만 환자 화면(리포트·카드뉴스·챗봇)에 내보낸다. `rejected` 는 항상 빠진다.
+- 모든 문장은 **알레르기 전문의 검토 전**. 상세: [`docs/allergen_environment_textbook_integration_2026-10-09.md`](docs/allergen_environment_textbook_integration_2026-10-09.md) · 테스트 `test_environment_control.py`(48건) · `test_environment_control_review.py`(9건)
+
 ---
 
 ## 🧠 감별 로직 (sensitization vs true allergy)

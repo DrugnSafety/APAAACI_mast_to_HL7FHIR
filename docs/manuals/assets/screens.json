@@ -1,0 +1,1874 @@
+{
+  "date": "2026-10-29",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "origin": "http://127.0.0.1:18125",
+  "method": "Real application UI; synthetic inputs; only the OCR response uses a fixed training fixture. All subsequent APIs run locally.",
+  "scenes": [
+    {
+      "group": "시작",
+      "title": "탐험을 시작하세요",
+      "lead": "첫 화면에서 시작 버튼을 누르세요.",
+      "notes": [
+        "이 매뉴얼은 기본 퀘스트 화면을 사용합니다.",
+        "상단 언어 선택에서 한국어를 고르세요.",
+        "점수는 진행 상황을 나타냅니다. 검사 수치가 아닙니다."
+      ],
+      "source": "web/app.js:279",
+      "number": 1,
+      "actions": [
+        {
+          "kind": "navigate",
+          "selector": "#btnStart",
+          "label": "탐험 시작",
+          "value": "탐험 시작 →",
+          "tip": "이 버튼을 눌러 검사 결과를 입력하세요.",
+          "box": {
+            "x": 1048.953125,
+            "y": 709.546875,
+            "width": 112.046875,
+            "height": 43
+          },
+          "before": "screen_001_before.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_001_before.jpg"
+    },
+    {
+      "group": "검사 입력",
+      "title": "검사 결과지 사진을 올리세요",
+      "lead": "JPG 또는 PNG 사진을 선택하세요.",
+      "notes": [
+        "기본 파일 한도는 10MB입니다.",
+        "글자와 수치가 모두 보이게 촬영하세요.",
+        "PDF는 이미지로 바꾼 뒤 올리세요.",
+        "사진 인식을 사용할 수 없으면 데모 또는 직접 입력을 사용하세요."
+      ],
+      "source": "server.py:612 · web/app.js:298",
+      "sample": true,
+      "number": 2,
+      "actions": [
+        {
+          "selector": "#dz",
+          "kind": "inspect",
+          "label": "사진 선택",
+          "value": "sample_test_sheet.png",
+          "tip": "업로드 영역을 누른 뒤 사진을 선택하세요.",
+          "box": {
+            "x": 279,
+            "y": 429.9375,
+            "width": 882,
+            "height": 124.484375
+          },
+          "before": "screen_003_before.jpg",
+          "after": "screen_003_before.jpg"
+        },
+        {
+          "selector": "#btnDemo",
+          "kind": "inspect",
+          "label": "연습 방법",
+          "value": "연습 탐험 시작 (데모 데이터)",
+          "tip": "검사지가 없어도 같은 흐름을 연습할 수 있습니다.",
+          "box": {
+            "x": 279,
+            "y": 570.421875,
+            "width": 225.921875,
+            "height": 50
+          },
+          "before": "screen_003_before.jpg",
+          "after": "screen_003_before.jpg"
+        }
+      ],
+      "image": "screen_003_before.jpg"
+    },
+    {
+      "group": "검사 확인",
+      "title": "소수점과 항원 이름을 확인하세요",
+      "lead": "원본을 보고 잘못 읽은 값만 고치세요.",
+      "scroll": "#tbody",
+      "notes": [
+        "이 예제의 원본 수치는 17.6입니다.",
+        "연습용 OCR 응답에는 1.76이 들어 있습니다.",
+        "수치를 고치면 Class와 양성 표시가 다시 계산됩니다.",
+        "검토 표시가 남은 행은 원본과 대조하세요."
+      ],
+      "source": "web/app.js:463 · services/ocr_validation.py:87",
+      "number": 3,
+      "actions": [
+        {
+          "selector": "#testType",
+          "kind": "inspect",
+          "label": "검사 종류",
+          "value": "MAST",
+          "tip": "원본 검사지의 검사 종류와 같아야 합니다.",
+          "box": {
+            "x": 331.296875,
+            "y": 264.890625,
+            "width": 98,
+            "height": 43
+          },
+          "before": "screen_008_before.jpg",
+          "after": "screen_008_before.jpg"
+        },
+        {
+          "selector": "#tbody tr[data-i=\"0\"] input[data-f=\"value\"]",
+          "kind": "type",
+          "label": "집먼지진드기 수치",
+          "value": "17.6",
+          "tip": "1.76을 17.6으로 고치세요. 소수점을 확인하세요.",
+          "box": {
+            "x": 744.015625,
+            "y": 552,
+            "width": 84,
+            "height": 32
+          },
+          "before": "screen_008_before.jpg",
+          "after": "screen_012_after.jpg"
+        }
+      ],
+      "image": "screen_008_before.jpg"
+    },
+    {
+      "group": "검사 확인",
+      "title": "검토 표시가 있는 행을 확인하세요",
+      "lead": "원본과 같은 항목이면 확인을 누르세요.",
+      "scroll": "[data-ok]",
+      "notes": [
+        "목록에서 이름을 찾지 못해도 검사 오류로 확정하지 않습니다.",
+        "항원 이름과 수치를 원본에서 확인하세요.",
+        "원본을 확인한 뒤 확인 버튼을 누르세요."
+      ],
+      "source": "web/app.js:597",
+      "number": 4,
+      "actions": [
+        {
+          "selector": "[data-ok]",
+          "kind": "click",
+          "label": "행 검토",
+          "value": "확인",
+          "tip": "Ragweed pollen 이름과 수치를 원본과 대조한 뒤 누르세요.",
+          "box": {
+            "x": 1062.015625,
+            "y": 628.09375,
+            "width": 52.484375,
+            "height": 33
+          },
+          "before": "screen_013_before.jpg",
+          "after": "screen_015_after.jpg"
+        }
+      ],
+      "image": "screen_013_before.jpg"
+    },
+    {
+      "group": "검사 확인",
+      "title": "원본 대조를 마치고 등록하세요",
+      "lead": "행 확인과 원본 대조 확인을 모두 마치세요.",
+      "scroll": "#rvConfirm",
+      "notes": [
+        "양성 항목만 보지 말고 모든 행을 확인하세요.",
+        "수치 0·미측정 탭도 확인하세요.",
+        "빈 행과 중복 행을 확인하세요.",
+        "양성 항목이 1개 이상 있어야 다음으로 이동합니다."
+      ],
+      "source": "web/app.js:424",
+      "number": 5,
+      "actions": [
+        {
+          "selector": "#rvConfirm",
+          "kind": "check",
+          "label": "원본 대조 확인",
+          "value": "원본과 대조했습니다",
+          "tip": "환자 정보, 검사일, 항원, 수치를 대조한 뒤 체크하세요.",
+          "box": {
+            "x": 290.5,
+            "y": 245.90625,
+            "width": 13,
+            "height": 13
+          },
+          "before": "screen_015_after.jpg",
+          "after": "screen_018_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "발견 등록 →",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1041.453125,
+            "y": 831.203125,
+            "width": 112.046875,
+            "height": 43
+          },
+          "before": "screen_018_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_015_after.jpg"
+    },
+    {
+      "group": "기본 문진",
+      "title": "기본 정보를 입력하세요",
+      "lead": "검사를 받은 사람의 정보를 입력하세요.",
+      "notes": [
+        "화면의 예시는 모두 합성 정보입니다.",
+        "검사일은 오늘 날짜가 아니라 실제 검사일입니다.",
+        "이름을 바꾸어도 검사 수치는 바뀌지 않습니다."
+      ],
+      "source": "web/app.js:717",
+      "number": 6,
+      "actions": [
+        {
+          "selector": "#pName",
+          "kind": "type",
+          "label": "이름",
+          "value": "연습사용자",
+          "tip": "검사를 받은 사람을 구분할 이름을 입력하세요.",
+          "box": {
+            "x": 290.5,
+            "y": 712.609375,
+            "width": 273.328125,
+            "height": 41
+          },
+          "before": "screen_020_before.jpg",
+          "after": "screen_022_after.jpg"
+        },
+        {
+          "selector": "#pAge",
+          "kind": "type",
+          "label": "나이",
+          "value": "34",
+          "tip": "검사를 받은 사람의 나이를 입력하세요.",
+          "box": {
+            "x": 575.828125,
+            "y": 712.609375,
+            "width": 273.328125,
+            "height": 41
+          },
+          "before": "screen_022_after.jpg",
+          "after": "screen_024_after.jpg"
+        },
+        {
+          "selector": "#pGender",
+          "kind": "select",
+          "label": "성별",
+          "value": "F",
+          "display": "여",
+          "tip": "검사지와 같은 성별을 선택하세요.",
+          "box": {
+            "x": 861.15625,
+            "y": 712.609375,
+            "width": 273.34375,
+            "height": 43
+          },
+          "before": "screen_024_after.jpg",
+          "after": "screen_026_after.jpg"
+        },
+        {
+          "selector": "#pDate",
+          "kind": "type",
+          "label": "검사일",
+          "value": "2026-10-20",
+          "tip": "검사지에 적힌 검사일을 선택하세요.",
+          "box": {
+            "x": 290.5,
+            "y": 814.53125,
+            "width": 844,
+            "height": 43
+          },
+          "before": "screen_026_after.jpg",
+          "after": "screen_028_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1069.765625,
+            "y": 900.53125,
+            "width": 83.734375,
+            "height": 43
+          },
+          "before": "screen_028_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_020_before.jpg"
+    },
+    {
+      "group": "기본 문진",
+      "title": "현재 사는 지역을 선택하세요",
+      "lead": "거주 지역은 꽃가루 계절을 해석할 때 사용합니다.",
+      "notes": [
+        "예시는 미국 보스턴 지역입니다.",
+        "대한민국을 고르면 전국 기준을 사용합니다.",
+        "지역을 모르면 미선택으로 진행할 수 있습니다.",
+        "화면의 계절 정보는 실시간 꽃가루 관측값이 아닙니다."
+      ],
+      "source": "web/app.js:732 · data/pollen_calendar_regional.json",
+      "number": 7,
+      "actions": [
+        {
+          "selector": "#resCountry",
+          "kind": "select",
+          "label": "국가",
+          "value": "US",
+          "display": "미국",
+          "tip": "현재 사는 나라를 선택하세요.",
+          "box": {
+            "x": 298,
+            "y": 477.859375,
+            "width": 273.328125,
+            "height": 43
+          },
+          "before": "screen_030_before.jpg",
+          "after": "screen_032_after.jpg"
+        },
+        {
+          "selector": "#resRegion",
+          "kind": "select",
+          "label": "권역",
+          "value": "NORTHEAST",
+          "display": "북동부",
+          "tip": "현재 사는 권역을 선택하세요.",
+          "box": {
+            "x": 583.328125,
+            "y": 477.859375,
+            "width": 273.328125,
+            "height": 43
+          },
+          "before": "screen_032_after.jpg",
+          "after": "screen_034_after.jpg"
+        },
+        {
+          "selector": "#resZip",
+          "kind": "type",
+          "label": "미국 우편번호",
+          "value": "02446",
+          "tip": "미국은 5자리 ZIP 코드를 입력할 수 있습니다.",
+          "box": {
+            "x": 868.65625,
+            "y": 477.859375,
+            "width": 273.34375,
+            "height": 41
+          },
+          "before": "screen_034_after.jpg",
+          "after": "screen_036_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1077.265625,
+            "y": 629.046875,
+            "width": 83.734375,
+            "height": 43
+          },
+          "before": "screen_036_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_030_before.jpg"
+    },
+    {
+      "group": "기본 문진",
+      "title": "진단받은 질환을 선택하세요",
+      "lead": "이미 진단받은 질환만 선택하세요.",
+      "notes": [
+        "여러 항목을 함께 선택할 수 있습니다.",
+        "검사 양성만으로 질환을 선택하지 마세요.",
+        "질환이 없으면 해당 없음을 선택하세요."
+      ],
+      "source": "services/screening_service.py:23",
+      "number": 8,
+      "actions": [
+        {
+          "selector": "[data-chipgroup=\"allergic_diseases\"] [data-code=\"allergic_rhinitis\"]",
+          "kind": "click",
+          "label": "질환",
+          "value": "알레르기 비염",
+          "tip": "연습 사례는 알레르기 비염을 진단받았습니다.",
+          "box": {
+            "x": 279,
+            "y": 458.53125,
+            "width": 119.25,
+            "height": 46
+          },
+          "before": "screen_038_before.jpg",
+          "after": "screen_040_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1077.265625,
+            "y": 584.53125,
+            "width": 83.734375,
+            "height": 43
+          },
+          "before": "screen_040_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_038_before.jpg"
+    },
+    {
+      "group": "기본 문진",
+      "title": "현재 사용하는 약을 선택하세요",
+      "lead": "지금 사용하는 약을 모두 선택하세요.",
+      "notes": [
+        "약 이름을 모르면 처방전이나 약 봉투를 확인하세요.",
+        "복용 안 함은 다른 약 항목과 함께 선택하지 않습니다.",
+        "약을 중단하거나 바꾸는 결정은 의료진과 상의하세요."
+      ],
+      "source": "web/app.js:755 · services/screening_service.py:38",
+      "number": 9,
+      "actions": [
+        {
+          "selector": "[data-chipgroup=\"current_medications\"] [data-code=\"antihistamine\"]",
+          "kind": "click",
+          "label": "먹는 약",
+          "value": "항히스타민제",
+          "tip": "연습 사례는 항히스타민제를 사용합니다.",
+          "box": {
+            "x": 279,
+            "y": 458.53125,
+            "width": 115.796875,
+            "height": 46
+          },
+          "before": "screen_042_before.jpg",
+          "after": "screen_044_after.jpg"
+        },
+        {
+          "selector": "[data-chipgroup=\"current_medications\"] [data-code=\"nasal_steroid\"]",
+          "kind": "click",
+          "label": "코 스프레이",
+          "value": "비강 스테로이드 스프레이",
+          "tip": "현재 사용하는 코 스프레이도 선택하세요.",
+          "box": {
+            "x": 404.796875,
+            "y": 458.53125,
+            "width": 187.53125,
+            "height": 46
+          },
+          "before": "screen_044_after.jpg",
+          "after": "screen_046_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1077.265625,
+            "y": 645.453125,
+            "width": 83.734375,
+            "height": 43
+          },
+          "before": "screen_046_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_042_before.jpg"
+    },
+    {
+      "group": "기본 문진",
+      "title": "증상이 나타나는 부위를 선택하세요",
+      "lead": "현재 증상이 있는 부위를 모두 선택하세요.",
+      "notes": [
+        "예시는 코와 눈에 증상이 있습니다.",
+        "검사에서 양성인 부위를 고르는 화면이 아닙니다.",
+        "실제로 경험한 증상에 맞춰 선택하세요."
+      ],
+      "source": "web/app.js:757",
+      "number": 10,
+      "actions": [
+        {
+          "selector": "[data-chipgroup=\"organ_systems\"] [data-code=\"nasal\"]",
+          "kind": "click",
+          "label": "증상 부위 1",
+          "value": "코 (재채기·콧물·코막힘)",
+          "tip": "재채기와 콧물이 있으므로 코를 선택합니다.",
+          "box": {
+            "x": 279,
+            "y": 458.53125,
+            "width": 178.3125,
+            "height": 46
+          },
+          "before": "screen_048_before.jpg",
+          "after": "screen_050_after.jpg"
+        },
+        {
+          "selector": "[data-chipgroup=\"organ_systems\"] [data-code=\"ocular\"]",
+          "kind": "click",
+          "label": "증상 부위 2",
+          "value": "눈 (가려움·충혈·눈물)",
+          "tip": "눈 가려움이 있으므로 눈도 선택합니다.",
+          "box": {
+            "x": 467.3125,
+            "y": 458.53125,
+            "width": 165.359375,
+            "height": 46
+          },
+          "before": "screen_050_after.jpg",
+          "after": "screen_052_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1077.265625,
+            "y": 584.53125,
+            "width": 83.734375,
+            "height": 43
+          },
+          "before": "screen_052_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_048_before.jpg"
+    },
+    {
+      "group": "기본 문진",
+      "title": "함께 사는 동물을 선택하세요",
+      "lead": "집에서 함께 사는 동물을 선택하세요.",
+      "notes": [
+        "예시는 집에 동물이 없습니다.",
+        "동물을 키우지 않아도 외부에서 노출될 수 있습니다.",
+        "외부 노출은 뒤의 항원별 문진에서 답하세요."
+      ],
+      "source": "web/app.js:760",
+      "number": 11,
+      "actions": [
+        {
+          "selector": "[data-chipgroup=\"pets\"] [data-code=\"none\"]",
+          "kind": "click",
+          "label": "반려동물",
+          "value": "없음",
+          "tip": "예제에서는 없음을 선택합니다.",
+          "box": {
+            "x": 571.65625,
+            "y": 458.53125,
+            "width": 106.296875,
+            "height": 49
+          },
+          "before": "screen_054_before.jpg",
+          "after": "screen_056_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "감별 문진으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 995.5625,
+            "y": 531.53125,
+            "width": 165.4375,
+            "height": 43
+          },
+          "before": "screen_056_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_054_before.jpg"
+    },
+    {
+      "group": "감별 문진",
+      "title": "증상이 나타나는 시기를 선택하세요",
+      "lead": "연습 사례는 연중 증상이 있고 봄에 더 심합니다.",
+      "notes": [
+        "단일 선택입니다. 1개만 고르세요.",
+        "예제의 답을 정답으로 사용하지 마세요.",
+        "질문은 검사 결과와 앞선 답에 따라 달라집니다."
+      ],
+      "questionId": "symptom_pattern",
+      "source": "web/app.js:939 · services/questionnaire_service.py",
+      "number": 12,
+      "actions": [
+        {
+          "selector": "[data-single=\"symptom_pattern\"] [data-v=\"both\"]",
+          "kind": "click",
+          "label": "답변",
+          "value": "연중 있는데 특정 계절에 더 심해요",
+          "tip": "연습 사례는 연중 증상이 있고 봄에 더 심합니다.",
+          "box": {
+            "x": 292.5,
+            "y": 679.03125,
+            "width": 840,
+            "height": 48
+          },
+          "before": "screen_058_before.jpg",
+          "after": "screen_060_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1041.453125,
+            "y": 856.625,
+            "width": 112.046875,
+            "height": 43
+          },
+          "before": "screen_060_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_058_before.jpg"
+    },
+    {
+      "group": "감별 문진",
+      "title": "증상이 심한 계절을 선택하세요",
+      "lead": "연습 사례는 봄에 증상이 더 심합니다.",
+      "notes": [
+        "복수 선택입니다. 해당 항목을 모두 고르세요.",
+        "예제의 답을 정답으로 사용하지 마세요.",
+        "질문은 검사 결과와 앞선 답에 따라 달라집니다."
+      ],
+      "questionId": "worse_seasons",
+      "source": "web/app.js:939 · services/questionnaire_service.py",
+      "number": 13,
+      "actions": [
+        {
+          "selector": "[data-multi=\"worse_seasons\"] [data-v=\"spring\"]",
+          "kind": "click",
+          "label": "복수 선택",
+          "value": "봄 (3~5월)",
+          "tip": "연습 사례는 봄에 증상이 더 심합니다.",
+          "box": {
+            "x": 300,
+            "y": 567.953125,
+            "width": 107.890625,
+            "height": 46
+          },
+          "before": "screen_062_before.jpg",
+          "after": "screen_064_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1048.953125,
+            "y": 687.546875,
+            "width": 112.046875,
+            "height": 43
+          },
+          "before": "screen_064_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_062_before.jpg"
+    },
+    {
+      "group": "감별 문진",
+      "title": "봄철 코·눈 증상을 답하세요",
+      "lead": "연습 사례는 봄에 재채기와 눈 가려움이 늘어납니다.",
+      "notes": [
+        "단일 선택입니다. 1개만 고르세요.",
+        "예제의 답을 정답으로 사용하지 마세요.",
+        "질문은 검사 결과와 앞선 답에 따라 달라집니다."
+      ],
+      "questionId": "pollen_season__spring_tree",
+      "source": "web/app.js:939 · services/questionnaire_service.py",
+      "number": 14,
+      "actions": [
+        {
+          "selector": "[data-single=\"pollen_season__spring_tree\"] [data-v=\"yes\"]",
+          "kind": "click",
+          "label": "답변",
+          "value": "예",
+          "tip": "연습 사례는 봄에 재채기와 눈 가려움이 늘어납니다.",
+          "box": {
+            "x": 300,
+            "y": 601,
+            "width": 274.65625,
+            "height": 48
+          },
+          "before": "screen_066_before.jpg",
+          "after": "screen_068_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1048.953125,
+            "y": 761.96875,
+            "width": 112.046875,
+            "height": 43
+          },
+          "before": "screen_068_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_066_before.jpg"
+    },
+    {
+      "group": "감별 문진",
+      "title": "봄철 증상의 정도를 선택하세요",
+      "lead": "연습 사례는 일상에 큰 지장이 없는 경증입니다.",
+      "notes": [
+        "단일 선택입니다. 1개만 고르세요.",
+        "예제의 답을 정답으로 사용하지 마세요.",
+        "질문은 검사 결과와 앞선 답에 따라 달라집니다."
+      ],
+      "questionId": "severity__pollen_spring_tree",
+      "source": "web/app.js:939 · services/questionnaire_service.py",
+      "number": 15,
+      "actions": [
+        {
+          "selector": "[data-single=\"severity__pollen_spring_tree\"] [data-v=\"mild\"]",
+          "kind": "click",
+          "label": "답변",
+          "value": "경증 — 가벼운 국소 증상, 일상에 큰 지장 없음",
+          "tip": "연습 사례는 일상에 큰 지장이 없는 경증입니다.",
+          "box": {
+            "x": 292.5,
+            "y": 601,
+            "width": 840,
+            "height": 48
+          },
+          "before": "screen_070_before.jpg",
+          "after": "screen_072_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1041.453125,
+            "y": 890.59375,
+            "width": 112.046875,
+            "height": 43
+          },
+          "before": "screen_072_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_070_before.jpg"
+    },
+    {
+      "group": "감별 문진",
+      "title": "가을철 코·눈 증상을 답하세요",
+      "lead": "연습 사례는 가을에 더 심해지지 않습니다.",
+      "notes": [
+        "단일 선택입니다. 1개만 고르세요.",
+        "예제의 답을 정답으로 사용하지 마세요.",
+        "질문은 검사 결과와 앞선 답에 따라 달라집니다."
+      ],
+      "questionId": "pollen_season__fall_weed",
+      "source": "web/app.js:939 · services/questionnaire_service.py",
+      "number": 16,
+      "actions": [
+        {
+          "selector": "[data-single=\"pollen_season__fall_weed\"] [data-v=\"no\"]",
+          "kind": "click",
+          "label": "답변",
+          "value": "아니오",
+          "tip": "연습 사례는 가을에 더 심해지지 않습니다.",
+          "box": {
+            "x": 582.65625,
+            "y": 601,
+            "width": 274.671875,
+            "height": 48
+          },
+          "before": "screen_074_before.jpg",
+          "after": "screen_076_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1048.953125,
+            "y": 722.59375,
+            "width": 112.046875,
+            "height": 43
+          },
+          "before": "screen_076_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_074_before.jpg"
+    },
+    {
+      "group": "감별 문진",
+      "title": "실내 증상의 시간대를 답하세요",
+      "lead": "연습 사례는 자는 동안과 아침에 증상이 더 심합니다.",
+      "notes": [
+        "단일 선택입니다. 1개만 고르세요.",
+        "예제의 답을 정답으로 사용하지 마세요.",
+        "질문은 검사 결과와 앞선 답에 따라 달라집니다."
+      ],
+      "questionId": "indoor_timing",
+      "source": "web/app.js:939 · services/questionnaire_service.py",
+      "number": 17,
+      "actions": [
+        {
+          "selector": "[data-single=\"indoor_timing\"] [data-v=\"yes\"]",
+          "kind": "click",
+          "label": "답변",
+          "value": "예",
+          "tip": "연습 사례는 자는 동안과 아침에 증상이 더 심합니다.",
+          "box": {
+            "x": 300,
+            "y": 601,
+            "width": 274.65625,
+            "height": 48
+          },
+          "before": "screen_078_before.jpg",
+          "after": "screen_080_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1048.953125,
+            "y": 761.96875,
+            "width": 112.046875,
+            "height": 43
+          },
+          "before": "screen_080_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_078_before.jpg"
+    },
+    {
+      "group": "감별 문진",
+      "title": "집을 떠났을 때의 변화를 답하세요",
+      "lead": "연습 사례는 며칠 집을 비우면 증상이 줄어듭니다.",
+      "notes": [
+        "단일 선택입니다. 1개만 고르세요.",
+        "예제의 답을 정답으로 사용하지 마세요.",
+        "질문은 검사 결과와 앞선 답에 따라 달라집니다."
+      ],
+      "questionId": "indoor_away",
+      "source": "web/app.js:939 · services/questionnaire_service.py",
+      "number": 18,
+      "actions": [
+        {
+          "selector": "[data-single=\"indoor_away\"] [data-v=\"yes\"]",
+          "kind": "click",
+          "label": "답변",
+          "value": "예",
+          "tip": "연습 사례는 며칠 집을 비우면 증상이 줄어듭니다.",
+          "box": {
+            "x": 300,
+            "y": 601,
+            "width": 274.65625,
+            "height": 48
+          },
+          "before": "screen_082_before.jpg",
+          "after": "screen_084_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1048.953125,
+            "y": 722.59375,
+            "width": 112.046875,
+            "height": 43
+          },
+          "before": "screen_084_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_082_before.jpg"
+    },
+    {
+      "group": "감별 문진",
+      "title": "먼지 청소 때의 증상을 답하세요",
+      "lead": "연습 사례는 침구를 털 때 재채기가 늘어납니다.",
+      "notes": [
+        "단일 선택입니다. 1개만 고르세요.",
+        "예제의 답을 정답으로 사용하지 마세요.",
+        "질문은 검사 결과와 앞선 답에 따라 달라집니다."
+      ],
+      "questionId": "mite_dust",
+      "source": "web/app.js:939 · services/questionnaire_service.py",
+      "number": 19,
+      "actions": [
+        {
+          "selector": "[data-single=\"mite_dust\"] [data-v=\"yes\"]",
+          "kind": "click",
+          "label": "답변",
+          "value": "예",
+          "tip": "연습 사례는 침구를 털 때 재채기가 늘어납니다.",
+          "box": {
+            "x": 300,
+            "y": 601,
+            "width": 274.65625,
+            "height": 48
+          },
+          "before": "screen_086_before.jpg",
+          "after": "screen_088_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1048.953125,
+            "y": 722.59375,
+            "width": 112.046875,
+            "height": 43
+          },
+          "before": "screen_088_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_086_before.jpg"
+    },
+    {
+      "group": "감별 문진",
+      "title": "실내 증상의 정도를 선택하세요",
+      "lead": "연습 사례는 증상 때문에 수면에 지장이 있습니다.",
+      "notes": [
+        "단일 선택입니다. 1개만 고르세요.",
+        "예제의 답을 정답으로 사용하지 마세요.",
+        "질문은 검사 결과와 앞선 답에 따라 달라집니다."
+      ],
+      "questionId": "severity__indoor",
+      "source": "web/app.js:939 · services/questionnaire_service.py",
+      "number": 20,
+      "actions": [
+        {
+          "selector": "[data-single=\"severity__indoor\"] [data-v=\"moderate\"]",
+          "kind": "click",
+          "label": "답변",
+          "value": "중등증 — 증상이 뚜렷하고 일상·수면에 지장",
+          "tip": "연습 사례는 증상 때문에 수면에 지장이 있습니다.",
+          "box": {
+            "x": 292.5,
+            "y": 657,
+            "width": 840,
+            "height": 48
+          },
+          "before": "screen_090_before.jpg",
+          "after": "screen_092_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1041.453125,
+            "y": 890.59375,
+            "width": 112.046875,
+            "height": 43
+          },
+          "before": "screen_092_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_090_before.jpg"
+    },
+    {
+      "group": "감별 문진",
+      "title": "동물과의 접촉 빈도를 선택하세요",
+      "lead": "연습 사례는 고양이를 1년에 몇 번 이하로 만납니다.",
+      "notes": [
+        "단일 선택입니다. 1개만 고르세요.",
+        "예제의 답을 정답으로 사용하지 마세요.",
+        "질문은 검사 결과와 앞선 답에 따라 달라집니다."
+      ],
+      "questionId": "animal_contact__agn3",
+      "source": "web/app.js:939 · services/questionnaire_service.py",
+      "number": 21,
+      "actions": [
+        {
+          "selector": "[data-single=\"animal_contact__agn3\"] [data-v=\"rare\"]",
+          "kind": "click",
+          "label": "답변",
+          "value": "거의 만나지 않아요",
+          "tip": "연습 사례는 고양이를 1년에 몇 번 이하로 만납니다.",
+          "box": {
+            "x": 292.5,
+            "y": 805,
+            "width": 840,
+            "height": 60
+          },
+          "before": "screen_094_before.jpg",
+          "after": "screen_096_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1041.453125,
+            "y": 938.59375,
+            "width": 112.046875,
+            "height": 43
+          },
+          "before": "screen_096_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_094_before.jpg"
+    },
+    {
+      "group": "감별 문진",
+      "title": "동물 접촉 후의 변화를 답하세요",
+      "lead": "확실히 기억하지 못하면 잘 모르겠어요를 고르세요.",
+      "notes": [
+        "단일 선택입니다. 1개만 고르세요.",
+        "예제의 답을 정답으로 사용하지 마세요.",
+        "질문은 검사 결과와 앞선 답에 따라 달라집니다."
+      ],
+      "questionId": "animal_worse__agn3",
+      "source": "web/app.js:939 · services/questionnaire_service.py",
+      "number": 22,
+      "actions": [
+        {
+          "selector": "[data-single=\"animal_worse__agn3\"] [data-v=\"unsure\"]",
+          "kind": "click",
+          "label": "답변",
+          "value": "잘 모르겠어요",
+          "tip": "확실히 기억하지 못하면 잘 모르겠어요를 고르세요.",
+          "box": {
+            "x": 865.328125,
+            "y": 601,
+            "width": 274.671875,
+            "height": 48
+          },
+          "before": "screen_098_before.jpg",
+          "after": "screen_100_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1048.953125,
+            "y": 761.96875,
+            "width": 112.046875,
+            "height": 43
+          },
+          "before": "screen_100_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_098_before.jpg"
+    },
+    {
+      "group": "감별 문진",
+      "title": "일할 때의 동물 노출을 답하세요",
+      "lead": "연습 사례는 업무로 동물을 다루지 않습니다.",
+      "notes": [
+        "복수 선택입니다. 해당 항목을 모두 고르세요.",
+        "예제의 답을 정답으로 사용하지 마세요.",
+        "질문은 검사 결과와 앞선 답에 따라 달라집니다."
+      ],
+      "questionId": "animal_work",
+      "source": "web/app.js:939 · services/questionnaire_service.py",
+      "number": 23,
+      "actions": [
+        {
+          "selector": "[data-multi=\"animal_work\"] [data-v=\"none\"]",
+          "kind": "click",
+          "label": "복수 선택",
+          "value": "해당 없음",
+          "tip": "연습 사례는 업무로 동물을 다루지 않습니다.",
+          "box": {
+            "x": 712.46875,
+            "y": 657,
+            "width": 93.328125,
+            "height": 46
+          },
+          "before": "screen_102_before.jpg",
+          "after": "screen_104_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1041.453125,
+            "y": 776.59375,
+            "width": 112.046875,
+            "height": 43
+          },
+          "before": "screen_104_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_102_before.jpg"
+    },
+    {
+      "group": "감별 문진",
+      "title": "음식을 먹은 뒤 입·목 증상을 답하세요",
+      "lead": "연습 사례는 해당 증상을 경험하지 않았습니다.",
+      "notes": [
+        "단일 선택입니다. 1개만 고르세요.",
+        "예제의 답을 정답으로 사용하지 마세요.",
+        "질문은 검사 결과와 앞선 답에 따라 달라집니다."
+      ],
+      "questionId": "oral_allergy_syndrome",
+      "source": "web/app.js:939 · services/questionnaire_service.py",
+      "number": 24,
+      "actions": [
+        {
+          "selector": "[data-single=\"oral_allergy_syndrome\"] [data-v=\"no\"]",
+          "kind": "click",
+          "label": "답변",
+          "value": "아니오",
+          "tip": "연습 사례는 해당 증상을 경험하지 않았습니다.",
+          "box": {
+            "x": 582.65625,
+            "y": 567.953125,
+            "width": 274.671875,
+            "height": 48
+          },
+          "before": "screen_106_before.jpg",
+          "after": "screen_108_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1048.953125,
+            "y": 689.546875,
+            "width": 112.046875,
+            "height": 43
+          },
+          "before": "screen_108_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_106_before.jpg"
+    },
+    {
+      "group": "감별 문진",
+      "title": "집먼지진드기와 관련한 음식 문진입니다",
+      "lead": "연습 사례는 나열된 음식으로 증상을 겪지 않았습니다.",
+      "notes": [
+        "복수 선택입니다. 해당 항목을 모두 고르세요.",
+        "예제의 답을 정답으로 사용하지 마세요.",
+        "질문은 검사 결과와 앞선 답에 따라 달라집니다."
+      ],
+      "questionId": "crossreact__agn0",
+      "source": "web/app.js:939 · services/questionnaire_service.py",
+      "number": 25,
+      "actions": [
+        {
+          "selector": "[data-multi=\"crossreact__agn0\"] [data-v=\"none\"]",
+          "kind": "click",
+          "label": "복수 선택",
+          "value": "해당 없음 / 문제된 것 없음",
+          "tip": "연습 사례는 나열된 음식으로 증상을 겪지 않았습니다.",
+          "box": {
+            "x": 935.84375,
+            "y": 668.9375,
+            "width": 190.546875,
+            "height": 46
+          },
+          "before": "screen_110_before.jpg",
+          "after": "screen_112_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1041.453125,
+            "y": 788.53125,
+            "width": 112.046875,
+            "height": 43
+          },
+          "before": "screen_112_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_110_before.jpg"
+    },
+    {
+      "group": "감별 문진",
+      "title": "자작나무와 관련한 음식 문진입니다",
+      "lead": "먹었을 때 증상이 있었던 음식만 선택하세요.",
+      "notes": [
+        "복수 선택입니다. 해당 항목을 모두 고르세요.",
+        "예제의 답을 정답으로 사용하지 마세요.",
+        "질문은 검사 결과와 앞선 답에 따라 달라집니다."
+      ],
+      "questionId": "crossreact__agn2",
+      "source": "web/app.js:939 · services/questionnaire_service.py",
+      "number": 26,
+      "actions": [
+        {
+          "selector": "[data-multi=\"crossreact__agn2\"] [data-v=\"none\"]",
+          "kind": "click",
+          "label": "복수 선택",
+          "value": "해당 없음 / 문제된 것 없음",
+          "tip": "먹었을 때 증상이 있었던 음식만 선택하세요.",
+          "box": {
+            "x": 465.046875,
+            "y": 704.015625,
+            "width": 190.546875,
+            "height": 46
+          },
+          "before": "screen_114_before.jpg",
+          "after": "screen_116_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1041.453125,
+            "y": 823.609375,
+            "width": 112.046875,
+            "height": 43
+          },
+          "before": "screen_116_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_114_before.jpg"
+    },
+    {
+      "group": "감별 문진",
+      "title": "고양이와 관련한 음식 문진입니다",
+      "lead": "연습 사례는 나열된 음식으로 증상을 겪지 않았습니다.",
+      "notes": [
+        "복수 선택입니다. 해당 항목을 모두 고르세요.",
+        "예제의 답을 정답으로 사용하지 마세요.",
+        "질문은 검사 결과와 앞선 답에 따라 달라집니다."
+      ],
+      "questionId": "crossreact__agn3",
+      "source": "web/app.js:939 · services/questionnaire_service.py",
+      "number": 27,
+      "actions": [
+        {
+          "selector": "[data-multi=\"crossreact__agn3\"] [data-v=\"none\"]",
+          "kind": "click",
+          "label": "복수 선택",
+          "value": "해당 없음 / 문제된 것 없음",
+          "tip": "연습 사례는 나열된 음식으로 증상을 겪지 않았습니다.",
+          "box": {
+            "x": 560.703125,
+            "y": 648.015625,
+            "width": 190.546875,
+            "height": 46
+          },
+          "before": "screen_118_before.jpg",
+          "after": "screen_120_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1048.953125,
+            "y": 767.609375,
+            "width": 112.046875,
+            "height": 43
+          },
+          "before": "screen_120_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_118_before.jpg"
+    },
+    {
+      "group": "감별 문진",
+      "title": "추가로 반응한 음식이 있는지 답하세요",
+      "lead": "연습 사례는 추가로 반응한 음식이 없습니다.",
+      "notes": [
+        "복수 선택입니다. 해당 항목을 모두 고르세요.",
+        "예제의 답을 정답으로 사용하지 마세요.",
+        "질문은 검사 결과와 앞선 답에 따라 달라집니다."
+      ],
+      "questionId": "food_general_react",
+      "source": "web/app.js:939 · services/questionnaire_service.py",
+      "number": 28,
+      "actions": [
+        {
+          "selector": "[data-multi=\"food_general_react\"] [data-v=\"none\"]",
+          "kind": "click",
+          "label": "복수 선택",
+          "value": "해당 없음",
+          "tip": "연습 사례는 추가로 반응한 음식이 없습니다.",
+          "box": {
+            "x": 984.1875,
+            "y": 567.953125,
+            "width": 93.328125,
+            "height": 46
+          },
+          "before": "screen_122_before.jpg",
+          "after": "screen_124_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1048.953125,
+            "y": 687.546875,
+            "width": 112.046875,
+            "height": 43
+          },
+          "before": "screen_124_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_122_before.jpg"
+    },
+    {
+      "group": "감별 문진",
+      "title": "음식 후 전신 증상을 답하세요",
+      "lead": "연습 사례는 음식으로 전신 증상을 겪지 않았습니다.",
+      "notes": [
+        "단일 선택입니다. 1개만 고르세요.",
+        "예제의 답을 정답으로 사용하지 마세요.",
+        "질문은 검사 결과와 앞선 답에 따라 달라집니다."
+      ],
+      "questionId": "food_systemic",
+      "source": "web/app.js:939 · services/questionnaire_service.py",
+      "number": 29,
+      "actions": [
+        {
+          "selector": "[data-single=\"food_systemic\"] [data-v=\"no\"]",
+          "kind": "click",
+          "label": "답변",
+          "value": "아니오",
+          "tip": "연습 사례는 음식으로 전신 증상을 겪지 않았습니다.",
+          "box": {
+            "x": 582.65625,
+            "y": 567.953125,
+            "width": 274.671875,
+            "height": 48
+          },
+          "before": "screen_126_before.jpg",
+          "after": "screen_128_after.jpg"
+        },
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "다음 화면으로 이동",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1036.421875,
+            "y": 689.546875,
+            "width": 124.578125,
+            "height": 43
+          },
+          "before": "screen_128_after.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_126_before.jpg"
+    },
+    {
+      "group": "결과 만들기",
+      "title": "답변 요약을 확인하세요",
+      "lead": "입력한 답을 읽고 수정할 항목을 확인하세요.",
+      "scroll": "#stageTitle",
+      "notes": [
+        "수정할 답을 누르면 해당 질문으로 돌아갑니다.",
+        "건너뛴 항목은 확실한 답으로 처리하지 않습니다.",
+        "다 확인했으면 도감 완성하기를 누르세요."
+      ],
+      "source": "web/app.js:1063",
+      "number": 30,
+      "actions": [
+        {
+          "kind": "navigate",
+          "selector": "#next",
+          "label": "다음 버튼",
+          "value": "도감 완성하기 →",
+          "tip": "입력을 확인한 뒤 누르세요.",
+          "box": {
+            "x": 1016.390625,
+            "y": 774.984375,
+            "width": 137.109375,
+            "height": 43
+          },
+          "before": "screen_131_next.jpg",
+          "after": null
+        }
+      ],
+      "image": "screen_130_before.jpg"
+    },
+    {
+      "group": "결과 보기",
+      "title": "결과 요약을 읽으세요",
+      "lead": "화면의 3가지 분류를 각각 확인하세요.",
+      "notes": [
+        "화면의 진범 확정은 앱의 규칙에 따른 분류입니다.",
+        "의료진의 최종 진단을 뜻하지 않습니다.",
+        "집먼지진드기 2종은 1개 묶음으로 표시할 수 있습니다.",
+        "관찰 대상은 정보가 부족하거나 답이 불확실한 항목입니다."
+      ],
+      "source": "web/app.js:1123 · services/questionnaire_service.py",
+      "number": 31,
+      "actions": [
+        {
+          "selector": ".trophies",
+          "kind": "inspect",
+          "label": "분류 요약",
+          "value": "실제 주의 · 감작만 · 관찰 필요",
+          "tip": "검사 수치와 문진 답을 함께 해석한 결과입니다.",
+          "box": {
+            "x": 268.5,
+            "y": 346.09375,
+            "width": 888,
+            "height": 82.59375
+          },
+          "before": "screen_132_before.jpg",
+          "after": "screen_132_before.jpg"
+        }
+      ],
+      "image": "screen_132_before.jpg"
+    },
+    {
+      "group": "결과 보기",
+      "title": "항원별 도감 카드를 확인하세요",
+      "lead": "카드에서 판정 이유와 생활 안내를 읽으세요.",
+      "scroll": ".result-tabs",
+      "notes": [
+        "카드를 선택하면 자세한 내용을 볼 수 있습니다.",
+        "감작 수치가 높아도 증상이 심하다는 뜻은 아닙니다.",
+        "생활 안내를 의료진과 함께 검토하세요."
+      ],
+      "source": "web/app.js:1343",
+      "number": 32,
+      "actions": [
+        {
+          "selector": ".dex-card",
+          "kind": "inspect",
+          "label": "항원별 결과",
+          "value": "판정 이유와 관리 안내",
+          "tip": "카드에 적힌 항원 이름과 판정 근거를 확인하세요.",
+          "box": {
+            "x": 242.5,
+            "y": 271.71875,
+            "width": 301.328125,
+            "height": 482.125
+          },
+          "before": "screen_135_before.jpg",
+          "after": "screen_135_before.jpg"
+        }
+      ],
+      "image": "screen_135_before.jpg"
+    },
+    {
+      "group": "리포트",
+      "title": "맞춤 리포트를 읽으세요",
+      "lead": "검사 결과와 문진을 한 문서에서 확인하세요.",
+      "scroll": ".result-tabs",
+      "notes": [
+        "먼저 요약과 지금 할 일을 읽으세요.",
+        "검사 수치와 판정 이유를 확인하세요.",
+        "리포트는 의료진 상담 때 함께 보여 주세요."
+      ],
+      "source": "web/app.js:1194 · services/report_service.py",
+      "number": 33,
+      "actions": [
+        {
+          "selector": "#rpt",
+          "kind": "inspect",
+          "label": "리포트",
+          "value": "요약 → 판정 이유 → 관리 안내",
+          "tip": "문서 안에서 아래로 내려가며 읽으세요.",
+          "box": {
+            "x": 242.5,
+            "y": 62.34375,
+            "width": 940,
+            "height": 760
+          },
+          "before": "screen_138_before.jpg",
+          "after": "screen_138_before.jpg"
+        }
+      ],
+      "image": "screen_138_before.jpg"
+    },
+    {
+      "group": "리포트",
+      "title": "리포트를 파일로 저장하세요",
+      "lead": "보관할 형식의 저장 버튼을 누르세요.",
+      "scroll": ".download-row",
+      "notes": [
+        "HTML은 브라우저에서 다시 열 수 있습니다.",
+        "Markdown은 글을 편집할 때 사용합니다.",
+        "인쇄 화면에서는 PDF로 저장을 선택할 수 있습니다.",
+        "서버 PDF 기능이 켜지면 PDF 받기도 표시됩니다."
+      ],
+      "source": "web/app.js:1190 · web/shared.js:566",
+      "number": 34,
+      "actions": [
+        {
+          "selector": "#dlHtml",
+          "kind": "inspect",
+          "label": "HTML 저장",
+          "value": "HTML 받기",
+          "tip": "원본 레이아웃으로 리포트를 보관하세요.",
+          "box": {
+            "x": 394.0625,
+            "y": 578.140625,
+            "width": 110.984375,
+            "height": 39
+          },
+          "before": "screen_141_before.jpg",
+          "after": "screen_141_before.jpg"
+        },
+        {
+          "selector": "#dlMd",
+          "kind": "inspect",
+          "label": "Markdown 저장",
+          "value": "Markdown 받기",
+          "tip": "텍스트 편집이 필요할 때 선택하세요.",
+          "box": {
+            "x": 513.046875,
+            "y": 578.140625,
+            "width": 140.078125,
+            "height": 39
+          },
+          "before": "screen_141_before.jpg",
+          "after": "screen_141_before.jpg"
+        },
+        {
+          "selector": "#dlPdf",
+          "kind": "inspect",
+          "label": "인쇄",
+          "value": "인쇄 / PDF",
+          "tip": "인쇄 화면에서 PDF로 저장을 선택하세요.",
+          "box": {
+            "x": 242.5,
+            "y": 578.140625,
+            "width": 143.5625,
+            "height": 39
+          },
+          "before": "screen_146_focus.jpg",
+          "after": "screen_146_focus.jpg"
+        }
+      ],
+      "image": "screen_141_before.jpg"
+    },
+    {
+      "group": "카드뉴스",
+      "title": "카드뉴스를 한 장씩 넘겨 보세요",
+      "lead": "짧은 카드에서 결과와 관리 안내를 확인하세요.",
+      "scroll": ".result-tabs",
+      "notes": [
+        "다음 화살표로 카드를 넘기세요.",
+        "퀴즈와 실천 항목은 카드 안내를 따라 선택하세요.",
+        "HTML로 저장하면 같은 카드뉴스를 다시 볼 수 있습니다."
+      ],
+      "source": "web/app.js:1219 · services/cardnews_service.py",
+      "number": 35,
+      "actions": [
+        {
+          "frame": "#cn",
+          "selector": "#cnNext",
+          "kind": "click",
+          "label": "다음 카드",
+          "value": "다음 화살표 →",
+          "tip": "화살표를 누르면 실제 카드가 바뀝니다.",
+          "box": {
+            "x": 839,
+            "y": 656.34375,
+            "width": 46,
+            "height": 46
+          },
+          "before": "screen_149_focus.jpg",
+          "after": "screen_150_after.jpg"
+        },
+        {
+          "frame": "#cn",
+          "selector": "#cnNext",
+          "kind": "click",
+          "label": "다음 카드",
+          "value": "한 번 더 넘기기 →",
+          "tip": "내 결과와 연결한 설명을 순서대로 읽으세요.",
+          "box": {
+            "x": 839,
+            "y": 656.34375,
+            "width": 46,
+            "height": 46
+          },
+          "before": "screen_150_after.jpg",
+          "after": "screen_152_after.jpg"
+        },
+        {
+          "selector": "#dlCn",
+          "kind": "inspect",
+          "label": "카드뉴스 저장",
+          "value": "카드뉴스 HTML 받기",
+          "tip": "가족이나 의료진과 공유하기 전에 내용을 확인하세요.",
+          "box": {
+            "x": 242.5,
+            "y": 742.140625,
+            "width": 158.84375,
+            "height": 39
+          },
+          "before": "screen_152_after.jpg",
+          "after": "screen_152_after.jpg"
+        }
+      ],
+      "image": "screen_148_before.jpg"
+    },
+    {
+      "group": "결과 상담",
+      "title": "추천 질문으로 결과를 확인하세요",
+      "lead": "궁금한 추천 질문을 누르세요.",
+      "scroll": ".result-tabs",
+      "notes": [
+        "추천 질문은 이 결과를 바탕으로 답합니다.",
+        "자유 질문은 서비스에서 AI 상담을 켠 경우에 답합니다.",
+        "상담 답변으로 진단이나 처방을 바꾸지 마세요."
+      ],
+      "source": "web/shared.js:622",
+      "number": 36,
+      "actions": [
+        {
+          "selector": "[data-sg]",
+          "kind": "click",
+          "label": "추천 질문",
+          "value": "제 결과에서 지금 가장 조심해야 할 것은 뭔가요?",
+          "tip": "질문을 누르면 결과에 맞춘 설명이 나타납니다.",
+          "box": {
+            "x": 261.5,
+            "y": 365,
+            "width": 280.78125,
+            "height": 34
+          },
+          "before": "screen_155_before.jpg",
+          "after": "screen_157_after.jpg"
+        }
+      ],
+      "image": "screen_155_before.jpg"
+    },
+    {
+      "group": "선택 기능",
+      "title": "이메일로 기록을 연결할 수 있습니다",
+      "lead": "기록 연결이 필요하면 본인 이메일을 입력하세요.",
+      "scroll": "#mailBox",
+      "notes": [
+        "예시는 발송하지 않는 연습용 주소입니다.",
+        "기록 연결 버튼은 이메일을 발송하지 않습니다.",
+        "메일 기능이 켜진 서비스는 이메일 받기를 표시합니다.",
+        "기능을 사용하지 않으면 파일 저장으로 마칠 수 있습니다."
+      ],
+      "source": "web/shared.js:481",
+      "number": 37,
+      "actions": [
+        {
+          "selector": "#mailTo",
+          "kind": "type",
+          "label": "이메일 주소",
+          "value": "practice@example.test",
+          "tip": "실제 사용할 때는 본인 이메일을 확인해 입력하세요.",
+          "box": {
+            "x": 261.5,
+            "y": 745.4375,
+            "width": 816.125,
+            "height": 41
+          },
+          "before": "screen_158_before.jpg",
+          "after": "screen_160_after.jpg"
+        },
+        {
+          "selector": "#mailSend",
+          "kind": "click",
+          "label": "기록 연결",
+          "value": "기록 연결",
+          "waitPath": "/identify",
+          "tip": "이 예제에서는 임시 저장소의 기록만 연결합니다.",
+          "box": {
+            "x": 1085.625,
+            "y": 745.4375,
+            "width": 77.875,
+            "height": 41
+          },
+          "before": "screen_160_after.jpg",
+          "after": "screen_162_after.jpg"
+        }
+      ],
+      "image": "screen_158_before.jpg"
+    },
+    {
+      "group": "FHIR 내보내기",
+      "title": "의료기관이 요청하면 JSON을 저장하세요",
+      "lead": "필요한 FHIR 결과의 저장 버튼을 누르세요.",
+      "scroll": ".result-tabs",
+      "notes": [
+        "FHIR는 의료정보를 교환하는 형식입니다.",
+        "Observation은 검사 측정 결과를 담습니다.",
+        "AllergyIntolerance는 앱의 알레르기 위험 평가를 담습니다.",
+        "파일 저장만으로 병원 전송을 완료하지 않습니다."
+      ],
+      "source": "web/app.js:1230 · services/fhir_service.py",
+      "number": 38,
+      "actions": [
+        {
+          "selector": "#vObs",
+          "kind": "click",
+          "label": "검사 결과 보기",
+          "value": "Observation",
+          "tip": "양성과 음성을 포함한 검사 결과를 확인하세요.",
+          "box": {
+            "x": 414.796875,
+            "y": 188.546875,
+            "width": 106.953125,
+            "height": 39
+          },
+          "before": "screen_163_before.jpg",
+          "after": "screen_165_after.jpg"
+        },
+        {
+          "selector": "#dlObs",
+          "kind": "inspect",
+          "label": "검사 결과 저장",
+          "value": "Observation JSON",
+          "tip": "의료기관이 요청한 경우 파일로 저장하세요.",
+          "box": {
+            "x": 865.421875,
+            "y": 188.546875,
+            "width": 125.859375,
+            "height": 39
+          },
+          "before": "screen_165_after.jpg",
+          "after": "screen_165_after.jpg"
+        },
+        {
+          "selector": "#vAllergy",
+          "kind": "click",
+          "label": "위험 평가 보기",
+          "value": "AllergyIntolerance",
+          "tip": "앱이 만든 위험 평가와 상태를 확인하세요.",
+          "box": {
+            "x": 261.5,
+            "y": 188.546875,
+            "width": 145.296875,
+            "height": 39
+          },
+          "before": "screen_165_after.jpg",
+          "after": "screen_169_after.jpg"
+        },
+        {
+          "selector": "#dlAllergy",
+          "kind": "inspect",
+          "label": "위험 평가 저장",
+          "value": "AllergyIntolerance JSON",
+          "tip": "의료진의 검토 후 사용하세요.",
+          "box": {
+            "x": 999.28125,
+            "y": 188.546875,
+            "width": 164.21875,
+            "height": 39
+          },
+          "before": "screen_169_after.jpg",
+          "after": "screen_169_after.jpg"
+        }
+      ],
+      "image": "screen_163_before.jpg"
+    },
+    {
+      "group": "FHIR 내보내기",
+      "title": "문진 결과도 함께 저장할 수 있습니다",
+      "lead": "문진 자료가 필요하면 해당 JSON을 저장하세요.",
+      "scroll": ".result-tabs",
+      "notes": [
+        "Condition과 Questionnaire 관련 자료를 확인하세요.",
+        "다운로드한 파일의 보관 위치를 확인하세요.",
+        "진료 때 리포트와 함께 의료진에게 보여 주세요."
+      ],
+      "source": "web/app.js:1449",
+      "number": 39,
+      "actions": [
+        {
+          "selector": "#vScreening",
+          "kind": "inspect",
+          "label": "문진 결과 보기",
+          "value": "Condition · Questionnaire",
+          "tip": "입력한 질환과 문진 자료를 확인하세요.",
+          "box": {
+            "x": 529.75,
+            "y": 188.546875,
+            "width": 188.78125,
+            "height": 39
+          },
+          "before": "screen_172_before.jpg",
+          "after": "screen_172_before.jpg"
+        },
+        {
+          "selector": "#dlScreening",
+          "kind": "inspect",
+          "label": "문진 결과 저장",
+          "value": "Condition · Questionnaire JSON",
+          "tip": "요청받은 경우 파일을 저장하세요.",
+          "box": {
+            "x": 261.5,
+            "y": 235.546875,
+            "width": 207.703125,
+            "height": 39
+          },
+          "before": "screen_172_before.jpg",
+          "after": "screen_172_before.jpg"
+        }
+      ],
+      "image": "screen_172_before.jpg"
+    }
+  ],
+  "errors": [],
+  "downloadsVerified": true,
+  "completed": true
+}

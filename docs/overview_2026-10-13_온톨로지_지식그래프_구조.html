@@ -1,0 +1,248 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>알레르기 온톨로지·지식그래프 구조 (2026-10-13)</title><style>:root{--ink:#0B1F3A;--ice-50:#F4F9FD;--ice-100:#E5F1FA;--ice-300:#A2CFEB;--ice-500:#3A93C7;--ice-600:#1E6FA6;--gold:#C89A2E;--gold-soft:#FBF3DA;--success:#1F7A4D;--success-soft:#E4F3EB;--border:#D8E4EF;--muted:#5C6E85}
+*{box-sizing:border-box}body{margin:0;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic','Apple SD Gothic Neo',sans-serif;color:var(--ink);background:linear-gradient(180deg,#EAF3FB 0%,#F4F9FD 320px,#fff 100%);line-height:1.65;font-size:15.5px}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 24px 96px}header.hero{background:linear-gradient(135deg,#1E6FA6,#3A93C7 60%,#6AB3DC);color:#fff;border-radius:24px;padding:36px 32px;margin-bottom:28px;box-shadow:0 6px 20px rgba(11,31,58,.08)}
+.kicker{text-transform:uppercase;letter-spacing:.12em;font-size:11.5px;font-weight:700;opacity:.85;margin-bottom:12px}header h1{margin:0 0 10px;font-size:28px;line-height:1.25}header p{margin:0;opacity:.92;max-width:760px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}.chip{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:999px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:28px}.tile{background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px 16px;box-shadow:0 1px 2px rgba(11,31,58,.06)}.tile .n{font-size:26px;font-weight:800;color:var(--ice-600)}.tile .l{font-size:12px;color:var(--muted)}
+nav.toc{background:#fff;border:1px solid var(--border);border-radius:14px;padding:14px 20px;margin-bottom:28px}nav.toc ol{margin:6px 0 0;padding-left:20px;columns:2}nav.toc a{color:var(--ice-600);text-decoration:none}
+section{background:#fff;border:1px solid var(--border);border-radius:16px;padding:24px 26px;margin-bottom:24px}section h2{margin:0 0 12px;font-size:20px;color:var(--ice-600)}section h2 .num{color:var(--ice-300);margin-right:6px}h4{margin:18px 0 6px}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin:10px 0}th,td{border-bottom:1px solid var(--border);padding:8px 10px;text-align:left;vertical-align:top}th{background:var(--ice-50);font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+code{background:var(--ice-50);padding:1px 5px;border-radius:5px;font-size:12.5px}pre{background:#0F2742;color:#E8F1FA;padding:14px 16px;border-radius:12px;font-size:12.5px;overflow:auto;line-height:1.5}pre.res{background:var(--ice-50);color:var(--ink);border:1px solid var(--border)}
+.small{font-size:12.5px;color:var(--muted)}.tag{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:6px}.tag.ok{background:var(--success-soft);color:var(--success)}.tag.warn{background:var(--gold-soft);color:var(--gold)}
+.callout{border-left:4px solid var(--ice-500);background:var(--ice-50);border-radius:10px;padding:12px 16px;margin:12px 0}.callout.gold{border-color:var(--gold);background:var(--gold-soft)}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}.step{background:var(--ice-50);border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:13.5px}.step b{display:block;color:var(--ice-600);margin-bottom:4px}
+ul{padding-left:20px}@media print{header.hero{box-shadow:none}}</style></head><body><div class="wrap">
+<header class="hero"><div class="kicker">APAAACI 알레르기 리포트 플랫폼 · 지식 구조</div>
+<h1>알레르기 온톨로지·지식그래프 구조</h1>
+<p>질환 스냅샷(Wikipedia) · 항원 레지스트리(SNOMED·성분) · 교과서 환경관리 층 — 세 층이 어떻게 나뉘고, 어디서 조인되며, 챗봇·리포트·API 가 무엇을 어떤 규칙으로 읽는지 정리한 개요. 수치는 2026-10-13 코드와 데이터에서 직접 센 값.</p>
+<div class="chips"><span class="chip">2026-09-16 → 10-13</span><span class="chip">RDF + SPARQL (rdflib, 오프라인)</span><span class="chip">검토 상태 분리: candidate / textbook_curated</span><span class="chip">회귀 1,040건 통과</span></div></header>
+<div class="tiles">
+<div class="tile"><div class="n">12,030</div><div class="l">트리플</div></div>
+<div class="tile"><div class="n">5</div><div class="l">질환 주제</div></div>
+<div class="tile"><div class="n">161</div><div class="l">임상 표현 그룹</div></div>
+<div class="tile"><div class="n">1,130</div><div class="l">근거 셀</div></div>
+<div class="tile"><div class="n">159</div><div class="l">항원 레지스트리</div></div>
+<div class="tile"><div class="n">8</div><div class="l">알레르겐군</div></div>
+<div class="tile"><div class="n">75</div><div class="l">관리 조치</div></div>
+<div class="tile"><div class="n">5·5·7·4</div><div class="l">악화 요인·성분·기전·배경</div></div>
+<div class="tile"><div class="n">16/79</div><div class="l">노드 유형 / 술어</div></div>
+</div>
+<nav class="toc"><strong>목차</strong><ol>
+<li><a href="#s1">세 층 구조</a></li><li><a href="#s2">노드 종류와 술어</a></li><li><a href="#s3">데이터 파일과 서비스</a></li><li><a href="#s4">SPARQL 예시와 결과</a></li><li><a href="#s5">챗봇 RAG 주입 흐름</a></li><li><a href="#s6">검토 상태 모델</a></li><li><a href="#s7">한계와 다음 단계</a></li><li><a href="#s8">관련 문서</a></li></ol></nav>
+
+<section id="s1"><h2><span class="num">01.</span> 세 층 구조</h2>
+<p><strong>결론부터:</strong> 출처와 검토 상태가 다른 지식을 한 그래프에 섞되 노드 종류·<code>reviewStatus</code>·검색 결과의 <code>kind</code> 로 분리했다. ①과 ③은 같은 RDF 그래프에 있고, ②는 JSON 인접리스트로 서비스 계층이 권위를 갖는다(규모가 작아 그래프DB 불필요, git diff 로 임상 리뷰 가능). 환자 개별 사실은 어느 층에서도 오지 않는다.</p>
+<svg viewBox="0 0 1000 420" role="img" aria-label="세 층 구조" style="width:100%;height:auto;font-family:inherit">
+<defs><marker id="ar" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#1E6FA6"/></marker></defs>
+<rect x="20" y="20" width="300" height="380" rx="16" fill="#E5F1FA" stroke="#A2CFEB"/>
+<text x="170" y="52" text-anchor="middle" font-weight="700" fill="#0B1F3A">① 질환 스냅샷 (Wikipedia)</text>
+<text x="170" y="72" text-anchor="middle" font-size="12" fill="#5C6E85">reviewStatus = candidate</text>
+<rect x="45" y="95" width="250" height="40" rx="8" fill="#fff" stroke="#6AB3DC"/><text x="170" y="120" text-anchor="middle" font-size="13">Topic ×5 (천식·비염·아토피·두드러기·알레르기)</text>
+<rect x="45" y="155" width="250" height="40" rx="8" fill="#fff" stroke="#6AB3DC"/><text x="170" y="180" text-anchor="middle" font-size="13">ExpressionGroup ×161 (술어 13종)</text>
+<rect x="45" y="215" width="250" height="40" rx="8" fill="#fff" stroke="#6AB3DC"/><text x="170" y="240" text-anchor="middle" font-size="13">Claim ×207 → Evidence ×1,130</text>
+<rect x="45" y="275" width="250" height="40" rx="8" fill="#fff" stroke="#6AB3DC"/><text x="170" y="300" text-anchor="middle" font-size="13">OntologyTerm ×12 (DO·HPO·SYMP)</text>
+<rect x="360" y="20" width="300" height="380" rx="16" fill="#FBF3DA" stroke="#E6CF8A"/>
+<text x="510" y="52" text-anchor="middle" font-weight="700" fill="#0B1F3A">③ 교과서 환경관리 층</text>
+<text x="510" y="72" text-anchor="middle" font-size="12" fill="#5C6E85">reviewStatus = textbook_curated · 조치별 review.status</text>
+<rect x="385" y="95" width="250" height="40" rx="8" fill="#fff" stroke="#C89A2E"/><text x="510" y="120" text-anchor="middle" font-size="13">AllergenGroup ×8 → ControlMeasure ×75</text>
+<rect x="385" y="155" width="250" height="40" rx="8" fill="#fff" stroke="#C89A2E"/><text x="510" y="180" text-anchor="middle" font-size="13">ExposureThreshold ×13 · CrossReactivity ×28</text>
+<rect x="385" y="215" width="250" height="40" rx="8" fill="#fff" stroke="#C89A2E"/><text x="510" y="240" text-anchor="middle" font-size="13">AggravatingFactor ×5 → Pollutant ×5</text>
+<rect x="385" y="275" width="250" height="40" rx="8" fill="#fff" stroke="#C89A2E"/><text x="510" y="300" text-anchor="middle" font-size="13">Mechanism ×7 · EtiologyFactor ×4</text>
+<rect x="385" y="335" width="250" height="40" rx="8" fill="#fff" stroke="#C89A2E"/><text x="510" y="360" text-anchor="middle" font-size="13">TextbookSource ×44 (citedIn ×236)</text>
+<rect x="700" y="20" width="280" height="380" rx="16" fill="#E4F3EB" stroke="#9BD0B3"/>
+<text x="840" y="52" text-anchor="middle" font-weight="700" fill="#0B1F3A">② 항원 레지스트리 (JSON)</text>
+<text x="840" y="72" text-anchor="middle" font-size="12" fill="#5C6E85">그래프 밖 · 서비스 계층이 권위</text>
+<rect x="720" y="95" width="240" height="40" rx="8" fill="#fff" stroke="#1F7A4D"/><text x="840" y="120" text-anchor="middle" font-size="13">allergens.json ×159</text>
+<rect x="720" y="155" width="240" height="40" rx="8" fill="#fff" stroke="#1F7A4D"/><text x="840" y="180" text-anchor="middle" font-size="13">SNOMED SCTID 147/148 · CDM 155</text>
+<rect x="720" y="215" width="240" height="40" rx="8" fill="#fff" stroke="#1F7A4D"/><text x="840" y="240" text-anchor="middle" font-size="13">WHO/IUIS 성분 family · membership ×92</text>
+<rect x="720" y="275" width="240" height="40" rx="8" fill="#fff" stroke="#1F7A4D"/><text x="840" y="300" text-anchor="middle" font-size="13">교차반응 엔진 (후보 생성 → 증상으로 확정)</text>
+<line x1="385" y1="115" x2="295" y2="115" stroke="#1E6FA6" stroke-width="2" marker-end="url(#ar)"/><text x="340" y="108" text-anchor="middle" font-size="11" fill="#1E6FA6">associatedWithDisease ×17</text>
+<line x1="385" y1="235" x2="295" y2="125" stroke="#1E6FA6" stroke-width="2" marker-end="url(#ar)"/><text x="352" y="200" text-anchor="middle" font-size="11" fill="#1E6FA6">aggravates ×13</text>
+<line x1="295" y1="130" x2="385" y2="295" stroke="#1E6FA6" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ar)"/><text x="330" y="262" text-anchor="middle" font-size="11" fill="#1E6FA6">hasEtiologyContext ×12</text>
+<line x1="635" y1="115" x2="720" y2="115" stroke="#5C6E85" stroke-width="2" stroke-dasharray="3 4" marker-end="url(#ar)"/><text x="678" y="106" text-anchor="middle" font-size="11" fill="#5C6E85">registry_names (문자열)</text>
+</svg>
+<div class="callout">조인 술어 — <code>associatedWithDisease</code>(알레르겐군 → 질환 17건) · <code>aggravates</code>(악화 요인 → 질환 13건; 미세먼지·VOC·담배는 아토피피부염에도) · <code>hasEtiologyContext</code>(질환 → 발생 배경 12건) · <code>hasComponent</code>/<code>hasThreshold</code>(대기오염 성분 역치) · <code>hasMechanism</code>(21건) · <code>citedIn</code>(236건).</div>
+<h4>노드 유형별 개수(실측)</h4><table><thead><tr><th>유형</th><th>개수</th></tr></thead><tbody><tr><td><code>Evidence</code></td><td>1,130</td></tr><tr><td><code>Claim</code></td><td>207</td></tr><tr><td><code>ExpressionGroup</code></td><td>161</td></tr><tr><td><code>ControlMeasure</code></td><td>75</td></tr><tr><td><code>TextbookSource</code></td><td>44</td></tr><tr><td><code>CrossReactivity</code></td><td>28</td></tr><tr><td><code>MajorAllergen</code></td><td>20</td></tr><tr><td><code>ExposureThreshold</code></td><td>13</td></tr><tr><td><code>OntologyTerm</code></td><td>12</td></tr><tr><td><code>Principle</code></td><td>9</td></tr><tr><td><code>AllergenGroup</code></td><td>8</td></tr><tr><td><code>Mechanism</code></td><td>7</td></tr><tr><td><code>Topic</code></td><td>5</td></tr><tr><td><code>AggravatingFactor</code></td><td>5</td></tr><tr><td><code>Pollutant</code></td><td>5</td></tr><tr><td><code>EtiologyFactor</code></td><td>4</td></tr></tbody></table>
+</section>
+
+<section id="s2"><h2><span class="num">02.</span> 노드 종류와 술어</h2>
+<table><thead><tr><th>층</th><th>노드</th><th>뜻·개수</th><th>주요 술어</th></tr></thead><tbody><tr><td>①</td><td><code>Topic</code></td><td>질환 주제(5)</td><td class='small'>query · label · alias · sourceUrl · hasExpression · mappedTo · hasEtiologyContext</td></tr><tr><td>①</td><td><code>ExpressionGroup</code></td><td>임상 표현 그룹(161)</td><td class='small'>predicate(13종) · polarity · reviewStatus=candidate · evidenceCount · claim</td></tr><tr><td>①</td><td><code>Claim / Evidence</code></td><td>주장(207) / 근거 셀(1,130)</td><td class='small'>rawText · sourceUrl · revisionUrl · field · sheet</td></tr><tr><td>①</td><td><code>OntologyTerm</code></td><td>표준 용어(12: DO 5·HPO 5·SYMP 2)</td><td class='small'>system · code · release · definition · synonym · subClassOf</td></tr><tr><td>③</td><td><code>AllergenGroup</code></td><td>알레르겐군(8)</td><td class='small'>hasControlMeasure · hasMajorAllergen · hasThreshold · hasCrossReactivity · hasReservoir · hasCarrierParticle · peakMonthKorea · associatedWithDisease · crossReactsWith · hasPrinciple</td></tr><tr><td>③</td><td><code>ControlMeasure</code></td><td>관리 조치(75)</td><td class='small'>tier · tierOrder · evidenceGrade · evidenceNote · caveat · editionSupport · reviewStatus=textbook_curated · citedIn</td></tr><tr><td>③</td><td><code>ExposureThreshold</code></td><td>노출 역치(13)</td><td class='small'>marker · value · unit · meaning (Der p 1 2/10 µg/g, Fel d 1 8 µg/g, SO₂ 0.5/0.25 ppm, NO₂ 4.0/0.4 ppm …)</td></tr><tr><td>③</td><td><code>MajorAllergen / CrossReactivity / Principle</code></td><td>20 / 28 / 9</td><td class='small'>proteinFamily · foundIn / withGroup · via · note / basis</td></tr><tr><td>③</td><td><code>AggravatingFactor</code></td><td>악화 요인(5)</td><td class='small'>aggravates → Topic · hasComponent → Pollutant · hasMechanism → Mechanism · koreaNote · hasControlMeasure</td></tr><tr><td>③</td><td><code>Pollutant</code></td><td>대기오염 성분(5: 미세먼지·황사·SO₂·NO₂·오존)</td><td class='small'>text · evidenceNote · koreaNote · hasThreshold</td></tr><tr><td>③</td><td><code>Mechanism</code></td><td>기전(7)</td><td class='small'>text · patientSummary (ROS·TLR·GSTP1·운반체/보조제·장벽·후생유전·Th2/Th17)</td></tr><tr><td>③</td><td><code>EtiologyFactor</code></td><td>발생 배경(4)</td><td class='small'>text · patientSummary · protectiveFactor · riskFactorContext</td></tr><tr><td>③</td><td><code>TextbookSource</code></td><td>출처(44)</td><td class='small'>sourceType · pages · verified · finding · pmid · doi · edition_status</td></tr></tbody></table>
+<h4>한글 라벨이 붙은 관계 술어 (27종 — 챗봇 출처 줄·UI 에 표시)</h4>
+<table><thead><tr><th>술어</th><th>라벨</th><th>그래프 내 건수</th></tr></thead><tbody><tr><td><code>has_symptom</code></td><td>증상</td><td></td></tr><tr><td><code>has_medication</code></td><td>약제</td><td></td></tr><tr><td><code>has_treatment</code></td><td>치료</td><td></td></tr><tr><td><code>has_risk_factor</code></td><td>위험요인</td><td></td></tr><tr><td><code>has_cause_candidate</code></td><td>원인 후보</td><td></td></tr><tr><td><code>evaluated_with</code></td><td>진단·평가</td><td></td></tr><tr><td><code>has_differential</code></td><td>감별 대상</td><td></td></tr><tr><td><code>has_possible_complication</code></td><td>동반·합병 가능</td><td></td></tr><tr><td><code>has_frequency</code></td><td>빈도</td><td></td></tr><tr><td><code>has_onset</code></td><td>발병 시기</td><td></td></tr><tr><td><code>has_duration</code></td><td>경과 기간</td><td></td></tr><tr><td><code>has_prevention</code></td><td>예방</td><td></td></tr><tr><td><code>has_mortality</code></td><td>사망률</td><td></td></tr><tr><td><code>has_control_measure</code></td><td>관리 조치</td><td>75</td></tr><tr><td><code>has_major_allergen</code></td><td>주요 알레르겐</td><td>20</td></tr><tr><td><code>has_threshold</code></td><td>노출 역치</td><td>13</td></tr><tr><td><code>has_reservoir</code></td><td>저장소</td><td>39</td></tr><tr><td><code>has_carrier_particle</code></td><td>운반 입자</td><td>8</td></tr><tr><td><code>has_cross_reactivity</code></td><td>교차반응</td><td>28</td></tr><tr><td><code>associated_with_disease</code></td><td>관련 질환</td><td>17</td></tr><tr><td><code>aggravates</code></td><td>악화 요인</td><td>13</td></tr><tr><td><code>has_principle</code></td><td>원칙</td><td>72</td></tr><tr><td><code>has_component</code></td><td>구성 오염물질</td><td>5</td></tr><tr><td><code>has_mechanism</code></td><td>기전</td><td>21</td></tr><tr><td><code>has_etiology_context</code></td><td>발생 배경</td><td>12</td></tr><tr><td><code>protective_factor</code></td><td>유익한 환경요인</td><td>4</td></tr><tr><td><code>risk_factor_context</code></td><td>해로운 환경요인</td><td>4</td></tr></tbody></table>
+<p class="small">① 의 13종은 Wikipedia 스냅샷의 임상 관계, 나머지는 교과서 층. <code>has_mortality</code> 는 챗봇 기본 검색에서 제외(SPARQL 로는 조회 가능), <code>has_treatment</code>·<code>has_medication</code> 은 치료 포함 여부 플래그로 제어.</p>
+</section>
+
+<section id="s3"><h2><span class="num">03.</span> 데이터 파일과 서비스</h2>
+<table><thead><tr><th>파일</th><th>역할</th><th>읽는 코드</th></tr></thead><tbody><tr><td><code>docs/20260916-allergy-chatbot/ontology-snapshot.json</code></td><td>질환 스냅샷(4.9MB, usage_rules·limitations 포함)</td><td class='small'>services/ontology_service.py → _build_graph</td></tr><tr><td><code>data/allergen_environment_control.json (v1.2)</code></td><td>교과서 환경관리 층 원본</td><td class='small'>environment_control_service.py → ontology_service._add_environment_layer</td></tr><tr><td><code>data/allergens.json (159종, 생성 산출물)</code></td><td>항원 레지스트리 — 이름·별칭·카테고리·coding·components</td><td class='small'>scripts/build_allergen_registry.py · utils/allergen_mapper.py · category_resolver.py</td></tr><tr><td><code>data/allergen_components.json · component_membership.json</code></td><td>WHO/IUIS 성분 family 카탈로그 · 항원 소속(92)</td><td class='small'>crossreactivity_service.py (교차반응 후보 파생)</td></tr><tr><td><code>data/snomed_ct_map.json · cdm_snomed_mapping.json</code></td><td>실제 SCTID(tx.fhir.org 검증) · OMOP CDM 155</td><td class='small'>fhir_service.py (Observation/AllergyIntolerance 코딩)</td></tr><tr><td><code>data/allergen_knowledge_base.json · allergen_category_profiles.json</code></td><td>항원별 심층 backdata · 카테고리 템플릿(교과서 교정 v1.1)</td><td class='small'>knowledge_service.py · report_service.py · cardnews</td></tr></tbody></table>
+<div class="callout gold">레지스트리 원칙(재설계 P0~P5): 카테고리는 <code>category_resolver</code>, 교차반응은 <code>crossreactivity_service</code>(성분 공유 → 문진 후보만, 임상 교차반응은 증상으로 확정), FHIR 코딩은 <code>allergen_mapper.get_coding()</code>(실제 SCTID → CDM → 폴백) — 각각 <strong>하나의 함수</strong>가 권위. 새 항원·교차반응은 코드가 아니라 리스트에 한 줄 추가.</div>
+</section>
+
+<section id="s4"><h2><span class="num">04.</span> SPARQL 예시와 실행 결과</h2>
+<p><code>POST /api/ontology/sparql</code> 은 <code>SELECT</code>·<code>ASK</code> 만 허용하고 <code>SERVICE</code>·갱신 구문을 거부하며 500행에서 자른다. 아래는 2026-10-13 실제 실행 결과(앞 4행).</p>
+<h4>Q1 · 집먼지진드기 조치 × 관련 질환 <span class='tag ok'>45행</span></h4><pre>PREFIX allergy: &lt;https://apaaaci.local/allergy-ontology#&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+SELECT ?measure ?tier ?disease WHERE {
+  ?g allergy:query &quot;mite&quot; ; a allergy:AllergenGroup ;
+     allergy:hasControlMeasure ?m ; allergy:associatedWithDisease ?d .
+  ?m rdfs:label ?measure ; allergy:tier ?tier ; allergy:tierOrder ?o .
+  ?d rdfs:label ?disease } ORDER BY ?o</pre><pre class='res'>[
+ {
+  &quot;measure&quot;: &quot;한 가지가 아니라 여러 조치를 함께, 꾸준히&quot;,
+  &quot;tier&quot;: &quot;essential&quot;,
+  &quot;disease&quot;: &quot;Asthma&quot;
+ },
+ {
+  &quot;measure&quot;: &quot;한 가지가 아니라 여러 조치를 함께, 꾸준히&quot;,
+  &quot;tier&quot;: &quot;essential&quot;,
+  &quot;disease&quot;: &quot;Allergic rhinitis&quot;
+ },
+ {
+  &quot;measure&quot;: &quot;한 가지가 아니라 여러 조치를 함께, 꾸준히&quot;,
+  &quot;tier&quot;: &quot;essential&quot;,
+  &quot;disease&quot;: &quot;Atopic dermatitis&quot;
+ },
+ {
+  &quot;measure&quot;: &quot;매트리스·베개·이불에 진드기 차단 커버&quot;,
+  &quot;tier&quot;: &quot;essential&quot;,
+  &quot;disease&quot;: &quot;Asthma&quot;
+ }
+]</pre><h4>Q2 · 실외 대기오염 성분 역치 × 기전 <span class='tag ok'>35행</span></h4><pre>PREFIX allergy: &lt;https://apaaaci.local/allergy-ontology#&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+SELECT ?pollutant ?marker ?value ?unit ?mechanism WHERE {
+  ?f allergy:query &quot;outdoor_air_pollution&quot; ; allergy:hasComponent ?p ; allergy:hasMechanism ?mm .
+  ?p rdfs:label ?pollutant ; allergy:hasThreshold ?t .
+  ?t allergy:marker ?marker ; allergy:value ?value ; allergy:unit ?unit . ?mm rdfs:label ?mechanism }</pre><pre class='res'>[
+ {
+  &quot;pollutant&quot;: &quot;이산화황(SO₂)&quot;,
+  &quot;marker&quot;: &quot;SO₂ 흡입 농도&quot;,
+  &quot;value&quot;: &quot;0.5&quot;,
+  &quot;unit&quot;: &quot;ppm&quot;,
+  &quot;mechanism&quot;: &quot;활성산소종·산화스트레스&quot;
+ },
+ {
+  &quot;pollutant&quot;: &quot;이산화황(SO₂)&quot;,
+  &quot;marker&quot;: &quot;SO₂ 흡입 농도&quot;,
+  &quot;value&quot;: &quot;0.25&quot;,
+  &quot;unit&quot;: &quot;ppm&quot;,
+  &quot;mechanism&quot;: &quot;활성산소종·산화스트레스&quot;
+ },
+ {
+  &quot;pollutant&quot;: &quot;이산화황(SO₂)&quot;,
+  &quot;marker&quot;: &quot;SO₂ 흡입 농도&quot;,
+  &quot;value&quot;: &quot;0.5&quot;,
+  &quot;unit&quot;: &quot;ppm&quot;,
+  &quot;mechanism&quot;: &quot;병원체인식수용체(TLR 등) 활성화&quot;
+ },
+ {
+  &quot;pollutant&quot;: &quot;이산화황(SO₂)&quot;,
+  &quot;marker&quot;: &quot;SO₂ 흡입 농도&quot;,
+  &quot;value&quot;: &quot;0.25&quot;,
+  &quot;unit&quot;: &quot;ppm&quot;,
+  &quot;mechanism&quot;: &quot;병원체인식수용체(TLR 등) 활성화&quot;
+ }
+]</pre><h4>Q3 · 천식의 감별 대상(질환 스냅샷) <span class='tag ok'>5행</span></h4><pre>PREFIX allergy: &lt;https://apaaaci.local/allergy-ontology#&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+SELECT ?label ?ev WHERE { ?t allergy:query &quot;asthma&quot; ; allergy:hasExpression ?g .
+  ?g allergy:predicate &quot;has_differential&quot; ; rdfs:label ?label ; allergy:evidenceCount ?ev } ORDER BY DESC(?ev)</pre><pre class='res'>[
+ {
+  &quot;label&quot;: &quot;COPD&quot;,
+  &quot;ev&quot;: &quot;1&quot;
+ },
+ {
+  &quot;label&quot;: &quot;central airway obstruction&quot;,
+  &quot;ev&quot;: &quot;1&quot;
+ },
+ {
+  &quot;label&quot;: &quot;heart failure&quot;,
+  &quot;ev&quot;: &quot;1&quot;
+ },
+ {
+  &quot;label&quot;: &quot;interstitial lung disease&quot;,
+  &quot;ev&quot;: &quot;1&quot;
+ }
+]</pre><h4>Q4 · 질환 → 발생 배경(위생가설·미생물총·유전-환경) <span class='tag ok'>12행</span></h4><pre>PREFIX allergy: &lt;https://apaaaci.local/allergy-ontology#&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+SELECT ?disease ?etiology WHERE { ?d allergy:hasEtiologyContext ?e ; rdfs:label ?disease . ?e rdfs:label ?etiology }</pre><pre class='res'>[
+ {
+  &quot;disease&quot;: &quot;Asthma&quot;,
+  &quot;etiology&quot;: &quot;환경요인이 유전보다 큰 이유&quot;
+ },
+ {
+  &quot;disease&quot;: &quot;Allergic rhinitis&quot;,
+  &quot;etiology&quot;: &quot;환경요인이 유전보다 큰 이유&quot;
+ },
+ {
+  &quot;disease&quot;: &quot;Atopic dermatitis&quot;,
+  &quot;etiology&quot;: &quot;환경요인이 유전보다 큰 이유&quot;
+ },
+ {
+  &quot;disease&quot;: &quot;Asthma&quot;,
+  &quot;etiology&quot;: &quot;위생가설과 그 한계&quot;
+ }
+]</pre>
+</section>
+
+<section id="s5"><h2><span class="num">05.</span> 챗봇 RAG 주입 흐름</h2>
+<div class="flow">
+<div class="step"><b>1. 질문 분류</b>질환어·의도어 → ① 주제(기저질환으로 좁힘) / 관리·회피 의도어 → ③ 알레르겐군(이름 없으면 이 환자의 '실제 주의' 군) / 요인 낱말(미세먼지·황사·오존·담배·새집·기후) → ③ 악화 요인(환자 항원군과 무관)</div>
+<div class="step"><b>2. 게이트</b>보고서 값 질문("수치·결과·얼마였")은 세 층 모두 비움 — 쓰이지 않은 자료가 출처로 표시되는 오해를 막음. '왜·이유·기전' 이면 기전 한 줄 추가</div>
+<div class="step"><b>3. 블록 구성</b>주제 ≤2 × 항목 ≤6, 알레르겐군 ≤2 × 조치 ≤5(질문 키워드 → 단계 순), 악화 요인 ≤2(요약·성분·역치·국내·조치). 검색이 걸릴 때 입력 토큰 약 +600~2,000</div>
+<div class="step"><b>4. 프롬프트 규칙 15~28</b>이 환자 이야기가 아님 · 보고서 우선 · 검토 전 명시 · 원인은 "~로 서술된다" · 약 권유/중단/용량 금지 · 동물 제거·이사·기기 구매 지시 금지 · 실제 주의 항원에만 · 역치는 집단 수치</div>
+<div class="step"><b>5. 출처</b>본문이 아니라 응답 필드 <code>knowledge_sources</code>(주제·술어·항목·검토상태·출처·<code>kind</code>)로 내려 UI 가 접이식 줄로 표시. 교과서 출처는 <code>evidence_id = textbook:&lt;source_id&gt;</code></div>
+</div>
+<h4>예 A — "공기청정기가 집먼지진드기에 도움이 되나요?" (환자 항원군 mite)</h4><pre>
+[알레르겐 환경관리 일반 지식 — 교과서 정리, 이 환자의 검사 결과가 아님]
+출처: 알레르겐 환경관리 교과서 정리(한글 교과서 이전 판 환경관리·회피요법 장 + 최신판 5장 알레르기질환과 환경 + Middleton 26·27·28·86장), 알레르기 전문의 검토 전. 약 조정 지시 없음.
+
+(집먼지진드기)
+  요약: 집먼지진드기 알레르겐은 배설물 알갱이에 들어 있어 이불을 털거나 청소할 때만 잠깐 공기 중에 떠 있습니다. 그래서 공기청정기보다 침구 커버·주 1회 55℃ 세탁·침실의 카펫과 봉제인형 치우기·습도 50% 미만·정기 청소를 함께 하는 것이 핵심이고, 한 가지만으로는 효과가 없습니다.
+  입자: 큰 입자라 이불을 털거나 청소할 때처럼 먼지가 흐트러질 때만 잠깐 떠 있다가 몇 분 안에 가라앉습니다. 가만히 있는 집의 공기에서는 거의 검출되지 않습니다(&lt;1 ng/m³).
+  - [3단계 — 효과가 제한적이거나 입증되지 않은 조치] 공기청정기는 진드기에는 효과 의문: 공기청정기는 집먼지진드기에는 효과가 의문시됩니다. 진드기 알레르겐은 먼지가 흐트러질 때만 잠깐 떠 있다가 가라앉기 때문에 공기를 걸러도 노출이 거의 줄지 않습니다.
+      근거(입자 크기·공기역학·생물학 같은 기전 근거): 한글 교과서(표 1-1 의 3단계)와 Middleton 86장(공기 여과는 동물 알레르겐에는 유용할 수 있으나 진드기·바퀴에는 효과가 거의 없음)이 일치합니다.
+      주의: HEPA 필터 자체는 0.3 µm 입자를 99.9% 걸러내지만, 문제는 진드기 알레르겐이 공기 중에 있는 시간이 짧다는 점입니다.
+  - [3단계 — 효과가 제한적이거나 입증되지 않은 조치] 야간 온도조절 층류(TLA) 장치: 자는 동안 머리 위로 깨끗한 공기를 흘려 호흡 영역의 알레르겐을 밀어내는 온도조절 층류 장치는 아토피 천식에서 삶의 질 개선과 기도 염증 감소가 한 RCT 에서 확인됐습니다.
+      근거(무작위 대조시험 또는 대조군 임상시험에서 효과가 확인됨): Boyle 2012(Thorax). 국내 보급·비용 자료는 확인하지 못했습니다.
+      주의: 일반적인 공기청정기와 다른 장치이며, 사용 여부는 진료에서 상의하세요.</pre>
+<h4>예 B — "왜 미세먼지가 천식에 안 좋은가요?" (악화 요인 + 기전)</h4><pre>
+[알레르겐 환경관리 일반 지식 — 교과서 정리, 이 환자의 검사 결과가 아님]
+출처: 알레르겐 환경관리 교과서 정리(한글 교과서 이전 판 환경관리·회피요법 장 + 최신판 5장 알레르기질환과 환경 + Middleton 26·27·28·86장), 알레르기 전문의 검토 전. 약 조정 지시 없음.
+
+(악화 요인: 실외 대기오염(미세먼지·황사·이산화황·이산화질소·오존))
+  요약: 대기오염물질은 입자(미세먼지)와 가스(오존·이산화질소·이산화황 등)가 섞인 혼합물로, 발전소·공장 같은 고정 배출원과 자동차·비행기 같은 이동 배출원, 산불·사막화에서 나옵니다. 국내 역학조사에서도 아파트와 자동차 수의 급증과 함께 소아천식 유병률이 늘었습니다(1963년 3.2% → 2000년 12.8~13.9%). 소아·노인·만성호흡기질환자가 특히 취약하고, 가장 흔한 영향은 천식·만성폐질환 악화로 인한 입원 등 급성 호흡기 질환의 증가입니다. 대기오염물질은 기도에 비특이적 염증을 일으키고 알레르겐에 대한 Th2 반응을 키우며, 최근 역학연구는 알레르기질환 &#x27;발생&#x27;에서 조기 노출의 역할을 강조합니다. 천식 환자는 정상인보다 10배 낮은 농도의 이산화황(0.5 ppm)에도 폐기능이 떨어지고 찬 공기·운동 중 입 호흡 때 더 심합니다. 디젤 배기 입자와 담배연기는 알레르겐을 폐 깊이 운반하는 운반체이자 보조제로 작용하고, 오염물질은 꽃가루에서 알레르겐 방출을 늘릴 수 있습니다. 미세먼지 노출이 천식·알레르기비염·아토피피부염 악화와 연관된다는 보고는 비교적 일관되지만, 임신 중·영유아기 노출이 알레르기질환 &#x27;발생&#x27;과 연관되는지는 연구마다 결과가 다릅니다.
+  · 미세먼지(PM10·PM2.5·PM0.1): 공기역학 직경 10 µm 미만(PM10)·2.5 µm 미만(PM2.5)·0.1 µm 미만(PM0.1)으로 나누며, 작을수록 폐 깊이 들어가 PM2.5 는 폐포까지 도달합니다. 연료 연소(보일러·자동차·발전시설)와 공사장·도로 비산먼지가 주 발생원이고, 자동차·화력발전소 배출물이 대기 중 반응해 황산염·질산염·유기탄소 같은 2차 오염물질이 됩니다. 입자 크기 외에 농도·표면과 중심부의 화학 조성이 건강 영향을 결정합니다.
+      근거: PM2.5 5 µg/m³ 장기 노출 시 FEV1 1.6% 감소, 20 µg/m³ 장기 노출 시 17.9% 감소.
+      근거: 국민건강보험공단 2014-2016 자료: 미세먼지가 환경 기준을 초과한 당일부터 4일까지 천식 병원 방문 증가.
+      근거: 미국 남부 캘리포니아 12개 도시 10-18세 소아 1,759명 추적: 자동차 배기가스 노출 ↔ 폐기능 감소.
+  · 황사: 중국·몽골 건조지역의 모래가 바람에 실려 오는 현상으로 한반도가 주요 피해 지역입니다. 큰 입자는 발원지 주변에 머물고 국내에 들어오는 황사는 대개 10 µm 이하라 황사 경보도 PM10 농도로 발령합니다. 주성분은 모래·토양·광물이라 같은 농도의 도시 기원 미세먼지보다 독성은 작을 것으로 보지만, 중국 산업화로 토양 오염물질과 2차 대기오염물질이 함께 유입되는 것이 우려됩니다. 한때 줄었던 황사 일수가 최근 다시 늘고 있고 기후변화·사막화로 계속 늘 것으로 예상됩니다(서울 황사일수 2013-2023).
+      근거: 황사로 미세먼지가 급증한 날과 그 뒤 약 3일까지 천식 환자의 호흡기 증상·기관지확장제 사용·최고호기유량 일중변동이 늘었습니다.
+  · 이산화황(SO₂): 발전소·산업시설의 화석연료 연소에서 나오고 대기 중 다른 화합물과 반응해 작은 입자가 되어 미세먼지의 일부가 되므로 미세먼지 영향과 분리해 평가하기 어렵습니다. 일상 농도에서는 염증을 일으키지 않지만 강한 기관지수
+  … (이하 생략)</pre>
+<h4>예 C — "제 집먼지진드기 수치가 얼마였죠?" → 빈 블록 (보고서 값 질문)</h4><pre>&#x27;&#x27;</pre>
+</section>
+
+<section id="s6"><h2><span class="num">06.</span> 검토 상태 모델</h2>
+<table><thead><tr><th>층</th><th>상태 필드</th><th>현재</th><th>환자 화면 영향</th></tr></thead><tbody>
+<tr><td>① 질환 스냅샷</td><td>임상 주장 <code>reviewStatus</code> / 용어 매핑 검토(별개)</td><td>임상 주장 전부 candidate(승인 0) / asthma 매핑 승인 5</td><td>"검토 전" 표기, 사망률 제외, 단정 금지. 매핑 승인 ≠ 임상 승인</td></tr>
+<tr><td>③ 교과서 층</td><td>노드 <code>reviewStatus=textbook_curated</code> + 조치별 <code>review.status</code> + <code>editionSupport</code></td><td>조치 75개 모두 candidate · 판 추적: 최신판 12 / 이전 판+Middleton 32 / Middleton만 15 / <strong>이전 판 전용 16</strong></td><td><code>ENV_CONTROL_PATIENT_GATE=approved_only</code> 로 승인분만, rejected 는 항상 제외. 검토 HTML → <code>scripts/review_environment_control.py --import</code></td></tr>
+<tr><td>② 레지스트리</td><td>SCTID 검증(tx.fhir.org), 명칭 확정(ThermoFisher), 미매핑 목록</td><td>SCTID 147/148, 폴백은 음성 대조 1종</td><td>혼합 항원은 더 넓지만 실재하는 개념, OMOP 폴백을 SNOMED 로 위장하지 않음</td></tr>
+</tbody></table>
+</section>
+
+<section id="s7"><h2><span class="num">07.</span> 한계와 다음 단계</h2>
+<ul>
+<li><strong>의미 검색 없음</strong> — 주제·의도·조치 매칭이 키워드·접두어·희소성 가중. "코가 맹맹해요" 를 놓친다 → 임베딩 검색.</li>
+<li><strong>② ↔ ③ 연결이 문자열</strong> — 알레르겐군의 <code>registry_names</code>·<code>categories</code> 를 레지스트리 id·SCTID 로 바꾸면 그래프에서 조인된다.</li>
+<li><strong>Allergy 주제 표현 그룹 0건</strong>, SNOMED CT 는 스냅샷 미반입(<code>snomed_available=false</code>).</li>
+<li><strong>전문의 검토</strong> — 교과서 층 조치 75개 candidate, 이전 판 전용 16개의 유지·수정·삭제 결정 대기. 질환 스냅샷에 accepted 주장이 생기면 프롬프트 규칙 17·테스트 동시 수정.</li>
+<li>실시간 온톨로지 서비스(127.0.0.1:18765)·MCP 어댑터 미착수(파일 스냅샷만). 스냅샷 갱신 시 <code>test_ontology.py</code> 의 술어 라벨 테스트가 먼저 깨진다.</li>
+</ul></section>
+
+<section id="s8"><h2><span class="num">08.</span> 관련 문서</h2><ul>
+<li><code>docs/ontology_rag_integration.md</code> — 질환 스냅샷 RAG 설계·가이드 대조표·실측(2026-09-16~18) + §10 교과서 층</li>
+<li><code>docs/allergen_data_architecture.md</code> · <code>docs/allergen_db_redesign_plan.md</code> · <code>docs/crd_cross_reactivity_research.md</code> — 레지스트리·성분·교차반응 설계</li>
+<li><code>docs/allergen_environment_textbook_integration_2026-10-09.md</code> · <code>…_2026-10-13.md</code> — 교과서 층 1차·renewal</li>
+<li><code>docs/review_2026-10-13_알레르겐_환경관리_교과서반영_검토보고서.html</code> — 전문의 검토용 체크리스트</li>
+<li>테스트: <code>test_ontology.py</code>(35) · <code>test_environment_control.py</code>(46) · <code>test_environment_control_review.py</code>(9)</li>
+</ul></section>
+</div></body></html>

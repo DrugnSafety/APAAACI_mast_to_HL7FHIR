@@ -1,0 +1,204 @@
+{
+  "id": "APAAACI-SAT-01",
+  "version": "0.1",
+  "date": "2026-10-29",
+  "status": "IRB 변경 반영용 초안 · 미승인",
+  "title": "알레르기 검사 결과 안내 서비스 만족도 설문",
+  "estimated_minutes": 2,
+  "estimate_status": "설계 목표이며 실제 소요 시간은 예비 조사로 확인한다.",
+  "items": [
+    {
+      "id": "S1",
+      "domain": "가독성",
+      "text": "글과 화면을 보기 쉬웠습니다."
+    },
+    {
+      "id": "S2",
+      "domain": "설명 이해",
+      "text": "검사 결과의 설명을 이해하기 쉬웠습니다."
+    },
+    {
+      "id": "S3",
+      "domain": "생활 안내의 도움",
+      "text": "생활에서 주의할 점을 이해하는 데 도움이 됐습니다."
+    },
+    {
+      "id": "S4",
+      "domain": "휴대전화 이용 편의",
+      "text": "휴대전화에서 결과 자료를 확인하기 편리했습니다."
+    },
+    {
+      "id": "S5",
+      "domain": "전달 시점",
+      "text": "결과 자료를 필요한 시점에 받았습니다."
+    },
+    {
+      "id": "S6",
+      "domain": "전반 만족도",
+      "text": "전반적으로 이 결과 안내 서비스에 만족합니다."
+    }
+  ],
+  "scale": [
+    {
+      "value": 1,
+      "label": "전혀 그렇지 않다"
+    },
+    {
+      "value": 2,
+      "label": "그렇지 않다"
+    },
+    {
+      "value": 3,
+      "label": "보통이다"
+    },
+    {
+      "value": 4,
+      "label": "그렇다"
+    },
+    {
+      "value": 5,
+      "label": "매우 그렇다"
+    },
+    {
+      "value": "unable",
+      "label": "평가하기 어렵다"
+    },
+    {
+      "value": "skip",
+      "label": "응답하지 않음"
+    }
+  ],
+  "respondents": [
+    {
+      "value": "patient",
+      "label": "환자 본인"
+    },
+    {
+      "value": "patient_assisted",
+      "label": "환자 본인 (입력 도움 받음)"
+    },
+    {
+      "value": "guardian",
+      "label": "보호자"
+    }
+  ],
+  "materials": [
+    {
+      "value": "report",
+      "label": "결과 보고서"
+    },
+    {
+      "value": "cardnews",
+      "label": "카드뉴스"
+    },
+    {
+      "value": "both",
+      "label": "둘 다"
+    },
+    {
+      "value": "neither",
+      "label": "아직 보지 못했어요"
+    }
+  ],
+  "nonviewer_reasons": [
+    {
+      "value": "access_problem",
+      "label": "주소나 파일을 열기 어려웠어요"
+    },
+    {
+      "value": "no_time",
+      "label": "아직 볼 시간이 없었어요"
+    },
+    {
+      "value": "link_unclear",
+      "label": "어디에서 보는지 몰랐어요"
+    },
+    {
+      "value": "other",
+      "label": "다른 이유가 있어요"
+    },
+    {
+      "value": "skip",
+      "label": "응답하지 않음"
+    }
+  ],
+  "comment": {
+    "id": "S7",
+    "optional": true,
+    "max_characters": 300,
+    "label": "더 좋게 바꿀 점이 있으면 적어 주세요.",
+    "privacy_note": "이름, 전화번호, 자세한 건강정보는 적지 마세요."
+  },
+  "schedule": {
+    "proposed": true,
+    "trigger": "승인 자료를 본인 확인 후 연 기록 또는 연구자의 수령 확인 중 첫 기록",
+    "provider_delivery_alone_proves_receipt": false,
+    "invite_after_hours": 24,
+    "response_window_days": 7,
+    "reminder_after_days": [
+      3
+    ],
+    "maximum_reminders": 1,
+    "participant_end_days_after_final_result": 30,
+    "minimum_response_window_hours": 24,
+    "expiry_rule": "min(초대 시각+7일, 검사 결과 확정 시각+30일)",
+    "one_survey_per": "연구대상자와 등록 검사 회차",
+    "late_delivery_rule": "초대 시점에 응답 기간이 24시간 미만이면 발송하지 않는다.",
+    "revision_rule": "정정 중에는 예약을 보류한다. 이미 초대한 회차에는 자동으로 추가 초대하지 않는다."
+  },
+  "analysis": {
+    "primary_item": "S6",
+    "positive_values": [
+      4,
+      5
+    ],
+    "positive_denominator": "S6에 1~5로 답한 응답자 수",
+    "summaries": [
+      "문항별 응답 분포",
+      "유효 응답 수",
+      "중앙값과 사분위 범위",
+      "S6의 4~5점 비율"
+    ],
+    "non_numeric": [
+      "unable",
+      "skip",
+      "blank",
+      "not_viewed"
+    ],
+    "composite_score": false,
+    "validated_scale": false,
+    "proxy_separation": true,
+    "limitations": "만족도 응답은 임상 정확성 또는 치료 효과의 증거가 아니다."
+  },
+  "privacy": {
+    "linked_by": "가명 연구번호와 검사 회차",
+    "anonymous": false,
+    "new_identifiers": false,
+    "external_ai_processing": false,
+    "free_text_llm_processing": false,
+    "preview_network_submission": false
+  },
+  "references": [
+    {
+      "id": "R1",
+      "title": "만족도 설문_서울대병원_ver1.0_20180627.docx",
+      "url": "https://drive.google.com/file/d/1WKRSzDfnI7uBmgCz1F0tj_EaD_8Cb8Pq/view",
+      "adapted": "정보 가독성, 사용 편의성, 전달 시점, 전반 만족도",
+      "excluded": "반복 문항, 정확성의 환자 판정, 과거 연락처와 보상 문구"
+    },
+    {
+      "id": "R2",
+      "title": "만족도 설문.docx · 학교급식 식품알레르기 앱",
+      "url": "https://drive.google.com/file/d/110oEcVleqdjOwF8E1aheqgQN_6aKYHl3/view",
+      "adapted": "환자·보호자 구분, 보기 쉬운 설명, 이용 편의성",
+      "excluded": "이니셜, 나이 재수집, 기기 이용 이력"
+    },
+    {
+      "id": "R3",
+      "title": "다제약물 환자를 위한 서비스 및 약이랑 앱 만족도 설문조사_20250623",
+      "url": "https://drive.google.com/file/d/1R-6o6Mwx_aHa-WRkREy7yOeuzXFhx-Y8KbCfivyZtgk/view",
+      "adapted": "생활 안내의 도움, 서비스 경험, 선택 개선 의견",
+      "excluded": "긴 다중 영역, 치료 효과 주장, 익명 처리 문구"
+    }
+  ]
+}

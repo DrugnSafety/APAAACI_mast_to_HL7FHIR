@@ -1,0 +1,5 @@
+# These local outputs embed real scan identifiers.
+/cases.html
+/validation/
+/__pycache__/
+/claude_compare.html

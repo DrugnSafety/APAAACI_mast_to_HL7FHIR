@@ -1,0 +1,4 @@
+/references/*.txt
+/references/index.json
+/validation/
+/__pycache__/

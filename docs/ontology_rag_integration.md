@@ -182,3 +182,35 @@ UI 가 답변 아래 접이식 줄로 *주제 · 술어 · 항목 · 검토상�
   위 4개 엔드포인트가 그대로 어댑터 도구의 배후가 될 수 있습니다.
 - **임상 승인 반영**: `accepted` 주장이 생기면 프롬프트 규칙 17("모두 검토 전")과
   `test_all_claims_are_candidate_not_accepted` 를 함께 고쳐야 합니다.
+
+---
+
+## 10. 교과서 알레르겐 환경관리 층 (2026-10-09 추가)
+
+질환 스냅샷(Wikipedia, 5개 주제) 위에 **알레르겐군 8개**(집먼지진드기·고양이·개·바퀴·실내/실외 곰팡이·꽃가루·설치류)의
+환경관리 지식을 같은 RDF 그래프에 얹었다. 원본은 `data/allergen_environment_control.json`(한글 알레르기 교과서
+'환경관리 및 회피요법' 장 + Middleton 26·27·28·86장 정리), 적재는 `OntologyService._add_environment_layer()`.
+
+| 주어 | 술어 | 목적어 |
+|------|------|--------|
+| `AllergenGroup` | `query` / `rdfs:label` / `labelEn` / `category` / `alias` / `patientSummary` / `evidenceSummary` / `hasReservoir` / `koreaNote` / `hasCarrierParticle` / `particleSizeMinUm`·`MaxUm` / `airborneBehavior` / `peakMonthKorea` | 리터럴 |
+| `AllergenGroup` | `hasControlMeasure` | `ControlMeasure` (`tier` `tierOrder` `evidenceGrade` `evidenceNote` `caveat` `citedIn`) |
+| `AllergenGroup` | `hasMajorAllergen` / `hasThreshold` / `hasCrossReactivity` / `hasPrinciple` | `MajorAllergen` / `ExposureThreshold` / `CrossReactivity` / `Principle` |
+| `AllergenGroup` | **`associatedWithDisease`** / `crossReactsWith` | 기존 질환 `Topic` / 다른 `AllergenGroup` |
+| `AggravatingFactor` | `aggravates` / `hasControlMeasure` | 질환 `Topic` / `ControlMeasure` |
+| `*` | `citedIn` | `TextbookSource` (`sourceType` `pages` `verified` `finding` `pmid` `doi`) |
+
+모든 노드의 `reviewStatus` 는 `textbook_curated`(스냅샷의 `candidate` 와 구분). 교과서 출처는 URL 이 없으므로
+인용 필드(`source`)와 `evidence_id = textbook:<source_id>` 로 추적한다(`get_evidence("textbook:gotzsche_2008")`).
+
+### 조회 흐름의 변화
+- `search_topics()` 가 알레르겐군도 돌려준다(`kind: allergen`). 질환 별칭(`hay fever` → 비염)은 그대로다.
+- `retrieve()` 에 `allergen_topics` 가 생겼다. **관리·회피 의도**가 있는 질문에만 켜지고, 알레르겐 이름이 없으면
+  이 환자의 '실제 주의' 항원군(`allergen_groups` 인자)으로 좁힌다. 보고서 값 질문("제 진드기 수치는?")은 양쪽 층 모두 비운다.
+- 챗봇 블록 `[알레르겐 환경관리 일반 지식 — 교과서 정리]` 는 조치마다 단계·근거 등급·근거 문장을 싣고, 프롬프트 규칙 25~28 이
+  "실제 주의 항원에만 적용 · 동물 제거/이사/기기 구매 지시 금지 · 약 지시 없음"을 강제한다.
+
+### 남은 것
+- 알레르기 전문의 검토(`textbook_curated` → 승인 상태 체계는 아직 없음).
+- 알레르겐군 ↔ SNOMED/레지스트리 코드 연결(현재 `registry_names`·`categories` 문자열 매칭).
+- 환경관리 층의 의미 검색(임베딩) — 지금은 키워드·접두어·희소성 가중 매칭.

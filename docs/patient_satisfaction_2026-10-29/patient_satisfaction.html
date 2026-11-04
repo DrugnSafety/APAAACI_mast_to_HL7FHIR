@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; form-action 'none'; base-uri 'none'">
+<title>알레르기 검사 결과 안내 서비스 만족도 설문 | APAAACI</title>
+<style>
+:root{--ink:#183348;--muted:#526d80;--blue:#145d89;--pale:#eaf5fc;--line:#cbdde9;--bg:#f3f7fa;--warn:#fff3d7}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.65 -apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif}a{color:var(--blue);text-underline-offset:3px;overflow-wrap:anywhere}button,input,textarea{font:inherit}button,.button{display:inline-flex;justify-content:center;align-items:center;min-height:46px;border:1px solid var(--line);border-radius:10px;background:white;color:var(--blue);padding:10px 18px;text-decoration:none;cursor:pointer}button.primary{background:var(--blue);color:white;border-color:var(--blue)}button:hover,.button:hover{filter:brightness(.96)}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #cf8d26;outline-offset:3px}h1{font-size:clamp(27px,4vw,37px);line-height:1.4;margin:10px 0 16px}h2{font-size:24px;line-height:1.5;margin:0 0 16px}p{margin:10px 0}main{max-width:850px;margin:24px auto 50px;padding:0 22px}.top{max-width:1000px;margin:auto;padding:18px 22px;display:flex;gap:12px 24px;justify-content:space-between;flex-wrap:wrap;font-size:14px}.brand{font-weight:750;letter-spacing:.03em}.preview{background:var(--warn);border-bottom:1px solid #e1c68d;padding:12px 22px;font-size:14px;text-align:center}.hero small{color:var(--blue);font-weight:750}.lead{color:var(--muted)}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;margin:20px 0}.help{color:var(--muted);font-size:15px}.note{background:var(--pale);padding:16px 19px;border-radius:10px}.progress{display:flex;gap:8px;list-style:none;padding:0;margin:24px 0;font-size:13px}.progress li{flex:1;padding:9px 5px;border-bottom:4px solid var(--line);color:var(--muted)}.progress li[aria-current=step]{border-color:var(--blue);color:var(--blue);font-weight:750}fieldset{border:0;padding:0;margin:24px 0}legend{font-size:19px;font-weight:750;line-height:1.5;max-width:100%;padding:0;margin-bottom:13px}.choices{display:flex;flex-wrap:wrap;gap:9px}.choice{display:flex;gap:9px;align-items:center;min-height:48px;padding:10px 14px;border:1px solid var(--line);border-radius:9px;cursor:pointer;background:#fff;font-size:16px}.choice:has(input:checked){border-color:var(--blue);background:var(--pale);box-shadow:0 0 0 1px var(--blue)}input[type=radio]{width:18px;height:18px;flex:none;margin:0;accent-color:var(--blue)}.ratings{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.ratings .choice{display:flex;flex-direction:column;justify-content:center;text-align:center;padding:10px 5px;line-height:1.4;font-size:14px;min-height:100px}.ratings input{align-self:center}.ratings b{font-size:20px}.other-choices{display:flex;flex-wrap:wrap;gap:9px;margin-top:9px}.item{border-bottom:1px solid var(--line);padding-bottom:25px}.item:last-of-type{border-bottom:0}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.actions .primary{margin-left:auto}textarea{width:100%;min-height:110px;resize:vertical;border:1px solid #a9c4d7;border-radius:9px;padding:12px;color:var(--ink);background:white}.counter{text-align:right;font-size:13px;color:var(--muted)}.error{color:#a82828;font-size:15px;font-weight:650}.summary{margin:0}.summary dt{font-size:14px;color:var(--muted);margin:18px 0 4px}.summary dd{margin:0;overflow-wrap:anywhere;white-space:pre-wrap}.summary .answer{padding:9px 12px;background:#f1f6fa;border-radius:7px}.status{background:#eaf5ee;border:1px solid #b9d6c3;padding:20px;border-radius:12px}.status h2{color:#28563c}details{font-size:14px;margin:22px 0}summary{cursor:pointer;color:var(--blue);padding:9px 0}footer{max-width:850px;margin:auto;padding:15px 22px 30px;color:var(--muted);font-size:13px}footer a{margin-right:14px}[hidden]{display:none!important}.print-only{display:none}.paper table{width:100%;border-collapse:collapse}.paper td,.paper th{border:1px solid #aab9c5;padding:7px;text-align:center}.paper td:nth-child(2){text-align:left}.paper h1{font-size:19pt}.paper h2{font-size:12pt;margin-top:13px}.paper p{margin:6px 0}
+@media(max-width:540px){main{padding:0 14px;margin-top:18px}.panel{padding:21px 16px}.ratings{grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}.ratings .choice{font-size:12px;padding:9px 3px;min-height:114px}.choice{font-size:15px}.progress{font-size:12px}.top{padding:15px}.actions button{flex:1;padding:10px 12px}.actions .primary{margin-left:0}.other-choices .choice{flex:1;min-width:120px}.preview{text-align:left;padding:12px 15px}}
+@media(prefers-reduced-motion:no-preference){.panel{animation:appear .2s ease-out}@keyframes appear{from{opacity:.7;transform:translateY(5px)}to{opacity:1;transform:none}}}
+@media print{@page{size:A4;margin:15mm}body{background:white;font-size:10pt;line-height:1.5}.screen-only,main,body>header,body>footer{display:none!important}.print-only{display:block!important}.paper{margin:0;padding:0}.paper table{font-size:9pt}.paper th{background:#eaf3fa}tr{break-inside:avoid}h1,h2{break-after:avoid}a{color:inherit;text-decoration:none}}
+</style>
+</head>
+<body>
+<header class="screen-only"><div class="preview"><strong>화면 확인용 초안</strong> · 실제 환자정보는 입력하지 마세요. 답변을 병원에 전송하지 않습니다.</div><nav class="top" aria-label="설문 자료"><span class="brand">충북대학교병원 · 연구 설문</span><a href="index.html">설문지·운영 자료</a><a href="patient_satisfaction.doc" download>Word DOC 받기</a></nav></header>
+<main id="survey-main">
+<div class="hero"><small>결과 자료를 받은 뒤 · 약 2분 목표</small><h1>결과 안내 자료가<br>도움이 되었나요?</h1><p class="lead">받으신 결과 보고서와 카드뉴스의 이용 경험을 알려 주세요.</p></div>
+<ol class="progress" aria-label="설문 순서"><li aria-current="step">1. 이용 확인</li><li>2. 간단 평가</li><li>3. 답변 확인</li></ol>
+<section class="panel" id="entry" aria-labelledby="entry-title"><h2 id="entry-title" tabindex="-1">이용 경험을 확인합니다</h2><div class="note"><p>참여는 선택입니다.</p><p>답하지 않아도 진료와 결과 자료 제공에 불이익이 없습니다.</p><p>연구번호로 다른 연구정보와 연결합니다.</p></div>
+<fieldset><legend>누가 답하고 계신가요?</legend><div class="choices"><label class="choice"><input type="radio" name="respondent" value="patient"><span>환자 본인</span></label><label class="choice"><input type="radio" name="respondent" value="patient_assisted"><span>환자 본인 (입력 도움 받음)</span></label><label class="choice"><input type="radio" name="respondent" value="guardian"><span>보호자</span></label></div></fieldset>
+<p class="help">보호자는 자료를 직접 이용한 경험을 답해 주세요.<br>아이의 느낌을 추측해서 답하지 마세요.</p>
+<fieldset><legend>어떤 결과 자료를 보셨나요?</legend><div class="choices"><label class="choice"><input type="radio" name="material" value="report"><span>결과 보고서</span></label><label class="choice"><input type="radio" name="material" value="cardnews"><span>카드뉴스</span></label><label class="choice"><input type="radio" name="material" value="both"><span>둘 다</span></label><label class="choice"><input type="radio" name="material" value="neither"><span>아직 보지 못했어요</span></label></div></fieldset>
+<p class="help">아직 보지 못했다면 평가 문항을 건너뜁니다.</p><p class="error" id="entry-error" role="alert" hidden></p>
+<div class="actions"><button type="button" data-exit>설문 그만하기</button><button type="button" class="primary" id="entry-next">다음</button></div></section>
+<section class="panel" id="ratings" aria-labelledby="ratings-title" hidden><h2 id="ratings-title" tabindex="-1">본 자료에 대해 답해 주세요</h2><p class="help">문항마다 1개를 고르세요.<br>평가가 어렵거나 원하지 않으면 건너뛰어도 됩니다.</p><fieldset class="item"><legend>S1. 글과 화면을 보기 쉬웠습니다.</legend><div class="ratings"><label class="choice"><input type="radio" name="S1" value="1"><b>1</b><span>전혀 그렇지 않다</span></label><label class="choice"><input type="radio" name="S1" value="2"><b>2</b><span>그렇지 않다</span></label><label class="choice"><input type="radio" name="S1" value="3"><b>3</b><span>보통이다</span></label><label class="choice"><input type="radio" name="S1" value="4"><b>4</b><span>그렇다</span></label><label class="choice"><input type="radio" name="S1" value="5"><b>5</b><span>매우 그렇다</span></label></div><div class="other-choices"><label class="choice"><input type="radio" name="S1" value="unable"><span>평가하기 어렵다</span></label><label class="choice"><input type="radio" name="S1" value="skip"><span>응답하지 않음</span></label></div></fieldset><fieldset class="item"><legend>S2. 검사 결과의 설명을 이해하기 쉬웠습니다.</legend><div class="ratings"><label class="choice"><input type="radio" name="S2" value="1"><b>1</b><span>전혀 그렇지 않다</span></label><label class="choice"><input type="radio" name="S2" value="2"><b>2</b><span>그렇지 않다</span></label><label class="choice"><input type="radio" name="S2" value="3"><b>3</b><span>보통이다</span></label><label class="choice"><input type="radio" name="S2" value="4"><b>4</b><span>그렇다</span></label><label class="choice"><input type="radio" name="S2" value="5"><b>5</b><span>매우 그렇다</span></label></div><div class="other-choices"><label class="choice"><input type="radio" name="S2" value="unable"><span>평가하기 어렵다</span></label><label class="choice"><input type="radio" name="S2" value="skip"><span>응답하지 않음</span></label></div></fieldset><fieldset class="item"><legend>S3. 생활에서 주의할 점을 이해하는 데 도움이 됐습니다.</legend><div class="ratings"><label class="choice"><input type="radio" name="S3" value="1"><b>1</b><span>전혀 그렇지 않다</span></label><label class="choice"><input type="radio" name="S3" value="2"><b>2</b><span>그렇지 않다</span></label><label class="choice"><input type="radio" name="S3" value="3"><b>3</b><span>보통이다</span></label><label class="choice"><input type="radio" name="S3" value="4"><b>4</b><span>그렇다</span></label><label class="choice"><input type="radio" name="S3" value="5"><b>5</b><span>매우 그렇다</span></label></div><div class="other-choices"><label class="choice"><input type="radio" name="S3" value="unable"><span>평가하기 어렵다</span></label><label class="choice"><input type="radio" name="S3" value="skip"><span>응답하지 않음</span></label></div></fieldset><fieldset class="item"><legend>S4. 휴대전화에서 결과 자료를 확인하기 편리했습니다.</legend><div class="ratings"><label class="choice"><input type="radio" name="S4" value="1"><b>1</b><span>전혀 그렇지 않다</span></label><label class="choice"><input type="radio" name="S4" value="2"><b>2</b><span>그렇지 않다</span></label><label class="choice"><input type="radio" name="S4" value="3"><b>3</b><span>보통이다</span></label><label class="choice"><input type="radio" name="S4" value="4"><b>4</b><span>그렇다</span></label><label class="choice"><input type="radio" name="S4" value="5"><b>5</b><span>매우 그렇다</span></label></div><div class="other-choices"><label class="choice"><input type="radio" name="S4" value="unable"><span>평가하기 어렵다</span></label><label class="choice"><input type="radio" name="S4" value="skip"><span>응답하지 않음</span></label></div></fieldset><fieldset class="item"><legend>S5. 결과 자료를 필요한 시점에 받았습니다.</legend><div class="ratings"><label class="choice"><input type="radio" name="S5" value="1"><b>1</b><span>전혀 그렇지 않다</span></label><label class="choice"><input type="radio" name="S5" value="2"><b>2</b><span>그렇지 않다</span></label><label class="choice"><input type="radio" name="S5" value="3"><b>3</b><span>보통이다</span></label><label class="choice"><input type="radio" name="S5" value="4"><b>4</b><span>그렇다</span></label><label class="choice"><input type="radio" name="S5" value="5"><b>5</b><span>매우 그렇다</span></label></div><div class="other-choices"><label class="choice"><input type="radio" name="S5" value="unable"><span>평가하기 어렵다</span></label><label class="choice"><input type="radio" name="S5" value="skip"><span>응답하지 않음</span></label></div></fieldset><fieldset class="item"><legend>S6. 전반적으로 이 결과 안내 서비스에 만족합니다.</legend><div class="ratings"><label class="choice"><input type="radio" name="S6" value="1"><b>1</b><span>전혀 그렇지 않다</span></label><label class="choice"><input type="radio" name="S6" value="2"><b>2</b><span>그렇지 않다</span></label><label class="choice"><input type="radio" name="S6" value="3"><b>3</b><span>보통이다</span></label><label class="choice"><input type="radio" name="S6" value="4"><b>4</b><span>그렇다</span></label><label class="choice"><input type="radio" name="S6" value="5"><b>5</b><span>매우 그렇다</span></label></div><div class="other-choices"><label class="choice"><input type="radio" name="S6" value="unable"><span>평가하기 어렵다</span></label><label class="choice"><input type="radio" name="S6" value="skip"><span>응답하지 않음</span></label></div></fieldset><div class="comment-block"><label for="comment"><strong>더 좋게 바꿀 점이 있으면 적어 주세요.</strong> (선택)</label><p class="help">이름, 전화번호, 자세한 건강정보는 적지 마세요.</p><textarea id="comment" maxlength="300" aria-describedby="comment-count"></textarea><p class="counter" id="comment-count">0 / 300자</p></div><div class="actions"><button type="button" data-back-entry>이전</button><button type="button" class="primary" id="ratings-next">답변 확인</button></div><button type="button" data-exit>설문 그만하기</button></section>
+<section class="panel" id="nonviewer" aria-labelledby="nonviewer-title" hidden><h2 id="nonviewer-title" tabindex="-1">평가 문항은 건너뜁니다</h2><p>아직 자료를 보지 못한 이유를 알려 주세요. (선택)</p><fieldset><legend>해당하는 이유가 있나요?</legend><div class="choices"><label class="choice"><input type="radio" name="nonviewer_reason" value="access_problem"><span>주소나 파일을 열기 어려웠어요</span></label><label class="choice"><input type="radio" name="nonviewer_reason" value="no_time"><span>아직 볼 시간이 없었어요</span></label><label class="choice"><input type="radio" name="nonviewer_reason" value="link_unclear"><span>어디에서 보는지 몰랐어요</span></label><label class="choice"><input type="radio" name="nonviewer_reason" value="other"><span>다른 이유가 있어요</span></label><label class="choice"><input type="radio" name="nonviewer_reason" value="skip"><span>응답하지 않음</span></label></div></fieldset><p class="help">이 답변은 만족도 점수에 포함하지 않습니다.</p><div class="actions"><button type="button" data-back-entry>이전</button><button type="button" class="primary" id="nonviewer-next">답변 확인</button></div><button type="button" data-exit>설문 그만하기</button></section>
+<section class="panel" id="review" aria-labelledby="review-title" hidden><h2 id="review-title" tabindex="-1">답변을 확인해 주세요</h2><dl class="summary" id="review-content"></dl><p class="help">화면 확인용 초안입니다. 답변은 병원에 전송하지 않습니다.</p><div class="actions"><button type="button" id="review-back">답변 수정</button><button type="button" class="primary" id="finish">미리보기 마치기</button></div><button type="button" data-exit>설문 그만하기</button></section>
+<section class="panel" id="done" aria-labelledby="done-title" hidden><div class="status"><h2 id="done-title" tabindex="-1">화면 확인을 마쳤습니다</h2><p>답변은 병원에 전송하지 않았습니다.</p><p>이 페이지는 설문 화면을 검토하는 초안입니다.</p></div><details><summary>검토용 답변 파일 받기</summary><p>현재 기기의 답변을 JSON 파일로 받습니다.<br>파일에는 미리보기임을 표시합니다.</p><button type="button" id="download-response">검토용 답변 받기</button></details><div class="actions"><button type="button" id="restart">답변 지우고 다시 보기</button><a class="button" href="index.html">자료 모음</a></div></section>
+<section class="panel" id="stopped" aria-labelledby="stopped-title" hidden><h2 id="stopped-title" tabindex="-1">설문을 종료했습니다</h2><p>입력한 답변을 이 화면에서 지웠습니다.</p><p>병원에는 답변을 전송하지 않았습니다.</p><button type="button" id="restart-stopped">다시 보기</button></section>
+<noscript><p class="note">설문 화면을 보려면 JavaScript를 켜세요.<br><a href="patient_satisfaction.doc">Word 설문지</a>로도 문항을 확인할 수 있습니다.</p></noscript>
+</main>
+<article class="print-only paper"><h1>알레르기 검사 결과 안내 서비스 만족도 설문</h1>
+<p>APAAACI-SAT-01 · 설문 v0.1 · 2026-10-29 · IRB 검토용 초안</p>
+<p>받으신 결과 보고서와 카드뉴스의 이용 경험을 알려 주세요.
+설문은 약 2분이 걸리도록 구성했습니다.
+참여는 선택입니다.
+답하지 않아도 진료와 자료 제공에 불이익이 없습니다.
+연구번호로 다른 연구정보와 연결합니다.</p>
+<h2>1. 이용 경험</h2>
+<p>누가 답하고 계신가요? 하나를 골라 주세요.</p>
+<p>□ 환자 본인  □ 환자 본인 (입력 도움 받음)  □ 보호자</p>
+<p>보호자는 자료를 직접 이용한 경험을 답해 주세요.
+아이의 느낌을 추측해서 답하지 마세요.</p>
+<p>어떤 자료를 보셨나요? 하나를 골라 주세요.</p>
+<p>□ 결과 보고서  □ 카드뉴스  □ 둘 다  □ 아직 보지 못했어요</p>
+<p>아직 보지 못했다면 아래 이유만 고르고 마치세요.</p>
+<p>□ 열기 어려움  □ 볼 시간 없음  □ 보는 곳을 모름
+□ 다른 이유  □ 응답하지 않음</p>
+<h2>2. 간단 평가</h2>
+<p>본 자료를 생각하며 문항마다 하나를 골라 주세요.
+평가가 어렵거나 원하지 않으면 건너뛰어도 됩니다.</p>
+<p>1 전혀 그렇지 않다 / 2 그렇지 않다 / 3 보통이다
+4 그렇다 / 5 매우 그렇다</p>
+<table>
+<thead>
+<tr>
+<th>번호</th>
+<th>문항</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>평가 어려움</th>
+<th>응답하지 않음</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>S1</td>
+<td>글과 화면을 보기 쉬웠습니다.</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+</tr>
+<tr>
+<td>S2</td>
+<td>검사 결과의 설명을 이해하기 쉬웠습니다.</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+</tr>
+<tr>
+<td>S3</td>
+<td>생활에서 주의할 점을 이해하는 데 도움이 됐습니다.</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+</tr>
+<tr>
+<td>S4</td>
+<td>휴대전화에서 결과 자료를 확인하기 편리했습니다.</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+</tr>
+<tr>
+<td>S5</td>
+<td>결과 자료를 필요한 시점에 받았습니다.</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+</tr>
+<tr>
+<td>S6</td>
+<td>전반적으로 이 결과 안내 서비스에 만족합니다.</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+<td>□</td>
+</tr>
+</tbody></table>
+<h2>3. 개선 의견 (선택, 300자 이내)</h2>
+<p>더 좋게 바꿀 점이 있으면 적어 주세요.
+이름, 전화번호, 자세한 건강정보는 적지 마세요.</p>
+<hr>
+<hr>
+<p>답변은 연구에서 정한 보관 기간과 권한으로 관리합니다.
+문의나 중단은 안내문에 적힌 연구 연락처로 알려 주세요.</p>
+</article>
+<footer class="screen-only"><p>APAAACI-SAT-01 · 설문 v0.1 · 2026-10-29 · IRB 검토용 초안</p><a href="implementation_guide.html">연구자 운영 안내</a><a href="patient_satisfaction.docx" download>Word DOCX</a><a href="patient_satisfaction.pdf" download>인쇄용 PDF</a></footer>
+<script id="survey-definition" type="application/json">{"id":"APAAACI-SAT-01","version":"0.1","date":"2026-10-29","status":"IRB 변경 반영용 초안 · 미승인","title":"알레르기 검사 결과 안내 서비스 만족도 설문","estimated_minutes":2,"estimate_status":"설계 목표이며 실제 소요 시간은 예비 조사로 확인한다.","items":[{"id":"S1","domain":"가독성","text":"글과 화면을 보기 쉬웠습니다."},{"id":"S2","domain":"설명 이해","text":"검사 결과의 설명을 이해하기 쉬웠습니다."},{"id":"S3","domain":"생활 안내의 도움","text":"생활에서 주의할 점을 이해하는 데 도움이 됐습니다."},{"id":"S4","domain":"휴대전화 이용 편의","text":"휴대전화에서 결과 자료를 확인하기 편리했습니다."},{"id":"S5","domain":"전달 시점","text":"결과 자료를 필요한 시점에 받았습니다."},{"id":"S6","domain":"전반 만족도","text":"전반적으로 이 결과 안내 서비스에 만족합니다."}],"scale":[{"value":1,"label":"전혀 그렇지 않다"},{"value":2,"label":"그렇지 않다"},{"value":3,"label":"보통이다"},{"value":4,"label":"그렇다"},{"value":5,"label":"매우 그렇다"},{"value":"unable","label":"평가하기 어렵다"},{"value":"skip","label":"응답하지 않음"}],"respondents":[{"value":"patient","label":"환자 본인"},{"value":"patient_assisted","label":"환자 본인 (입력 도움 받음)"},{"value":"guardian","label":"보호자"}],"materials":[{"value":"report","label":"결과 보고서"},{"value":"cardnews","label":"카드뉴스"},{"value":"both","label":"둘 다"},{"value":"neither","label":"아직 보지 못했어요"}],"nonviewer_reasons":[{"value":"access_problem","label":"주소나 파일을 열기 어려웠어요"},{"value":"no_time","label":"아직 볼 시간이 없었어요"},{"value":"link_unclear","label":"어디에서 보는지 몰랐어요"},{"value":"other","label":"다른 이유가 있어요"},{"value":"skip","label":"응답하지 않음"}],"comment":{"id":"S7","optional":true,"max_characters":300,"label":"더 좋게 바꿀 점이 있으면 적어 주세요.","privacy_note":"이름, 전화번호, 자세한 건강정보는 적지 마세요."},"schedule":{"proposed":true,"trigger":"승인 자료를 본인 확인 후 연 기록 또는 연구자의 수령 확인 중 첫 기록","provider_delivery_alone_proves_receipt":false,"invite_after_hours":24,"response_window_days":7,"reminder_after_days":[3],"maximum_reminders":1,"participant_end_days_after_final_result":30,"minimum_response_window_hours":24,"expiry_rule":"min(초대 시각+7일, 검사 결과 확정 시각+30일)","one_survey_per":"연구대상자와 등록 검사 회차","late_delivery_rule":"초대 시점에 응답 기간이 24시간 미만이면 발송하지 않는다.","revision_rule":"정정 중에는 예약을 보류한다. 이미 초대한 회차에는 자동으로 추가 초대하지 않는다."},"analysis":{"primary_item":"S6","positive_values":[4,5],"positive_denominator":"S6에 1~5로 답한 응답자 수","summaries":["문항별 응답 분포","유효 응답 수","중앙값과 사분위 범위","S6의 4~5점 비율"],"non_numeric":["unable","skip","blank","not_viewed"],"composite_score":false,"validated_scale":false,"proxy_separation":true,"limitations":"만족도 응답은 임상 정확성 또는 치료 효과의 증거가 아니다."},"privacy":{"linked_by":"가명 연구번호와 검사 회차","anonymous":false,"new_identifiers":false,"external_ai_processing":false,"free_text_llm_processing":false,"preview_network_submission":false},"references":[{"id":"R1","title":"만족도 설문_서울대병원_ver1.0_20180627.docx","url":"https://drive.google.com/file/d/1WKRSzDfnI7uBmgCz1F0tj_EaD_8Cb8Pq/view","adapted":"정보 가독성, 사용 편의성, 전달 시점, 전반 만족도","excluded":"반복 문항, 정확성의 환자 판정, 과거 연락처와 보상 문구"},{"id":"R2","title":"만족도 설문.docx · 학교급식 식품알레르기 앱","url":"https://drive.google.com/file/d/110oEcVleqdjOwF8E1aheqgQN_6aKYHl3/view","adapted":"환자·보호자 구분, 보기 쉬운 설명, 이용 편의성","excluded":"이니셜, 나이 재수집, 기기 이용 이력"},{"id":"R3","title":"다제약물 환자를 위한 서비스 및 약이랑 앱 만족도 설문조사_20250623","url":"https://drive.google.com/file/d/1R-6o6Mwx_aHa-WRkREy7yOeuzXFhx-Y8KbCfivyZtgk/view","adapted":"생활 안내의 도움, 서비스 경험, 선택 개선 의견","excluded":"긴 다중 영역, 치료 효과 주장, 익명 처리 문구"}]}</script><script>// This offline preview never sends responses to a server.
+(() => {
+  'use strict';
+  const definition = JSON.parse(document.getElementById('survey-definition').textContent);
+  const panels = ['entry', 'ratings', 'nonviewer', 'review', 'done', 'stopped'];
+  const selected = name => document.querySelector(`input[name="${name}"]:checked`)?.value ?? null;
+  const label = (options, value) => options.find(o => String(o.value) === String(value))?.label ?? '응답하지 않음';
+  const hasViewed = () => selected('material') !== 'neither';
+  const show = id => {
+    panels.forEach(name => { document.getElementById(name).hidden = name !== id; });
+    const stage = id === 'entry' ? 0 : ['ratings', 'nonviewer'].includes(id) ? 1 : 2;
+    document.querySelectorAll('.progress li').forEach((li, i) => {
+      if (i === stage) li.setAttribute('aria-current', 'step');
+      else li.removeAttribute('aria-current');
+    });
+    document.querySelector(`#${id} h2`).focus();
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+  const reset = () => {
+    document.querySelectorAll('input[type="radio"]').forEach(input => { input.checked = false; });
+    document.getElementById('comment').value = '';
+    document.getElementById('comment-count').textContent = '0 / 300자';
+    document.getElementById('review-content').replaceChildren();
+    document.getElementById('entry-error').hidden = true;
+    document.querySelectorAll('details').forEach(details => { details.open = false; });
+  };
+  const response = () => ({
+    schema: 'APAAACI-SAT-PREVIEW-01',
+    survey_id: definition.id,
+    survey_version: definition.version,
+    preview_only: true,
+    transmitted_to_hospital: false,
+    exported_at: new Date().toISOString(),
+    respondent_type: selected('respondent'),
+    materials_viewed: selected('material'),
+    answers: Object.fromEntries(definition.items.map(item => {
+      const value = hasViewed() ? selected(item.id) : null;
+      return [item.id, hasViewed()
+        ? { status: value === null ? 'blank' : /^\d$/.test(value) ? 'answered' : value,
+            value: value !== null && /^\d$/.test(value) ? Number(value) : null }
+        : { status: 'not_viewed', value: null }];
+    })),
+    nonviewer_reason: hasViewed() ? null : selected('nonviewer_reason'),
+    comment: hasViewed() ? document.getElementById('comment').value.trim() : null
+  });
+  const addSummary = (term, answer) => {
+    const dt = document.createElement('dt'); dt.textContent = term;
+    const dd = document.createElement('dd'); dd.textContent = answer; dd.className = 'answer';
+    document.getElementById('review-content').append(dt, dd);
+  };
+  const review = () => {
+    document.getElementById('review-content').replaceChildren();
+    addSummary('응답자', label(definition.respondents, selected('respondent')));
+    addSummary('본 자료', label(definition.materials, selected('material')));
+    if (hasViewed()) {
+      definition.items.forEach(item => addSummary(`${item.id}. ${item.text}`,
+        selected(item.id) === null ? '응답하지 않음 (빈 답변)' : label(definition.scale, selected(item.id))));
+      addSummary('개선 의견', document.getElementById('comment').value.trim() || '작성하지 않음');
+    } else {
+      addSummary('보지 못한 이유', selected('nonviewer_reason') === null ? '응답하지 않음' : label(definition.nonviewer_reasons, selected('nonviewer_reason')));
+      addSummary('평가 문항', '자료 미열람으로 건너뜀');
+    }
+    show('review');
+  };
+  document.getElementById('entry-next').addEventListener('click', () => {
+    const error = document.getElementById('entry-error');
+    if (!selected('respondent') || !selected('material')) {
+      error.textContent = '응답자와 본 자료를 골라 주세요. 원하지 않으면 설문을 종료할 수 있습니다.';
+      error.hidden = false;
+      document.querySelector(`input[name="${!selected('respondent') ? 'respondent' : 'material'}"]`).focus();
+      return;
+    }
+    error.hidden = true;
+    show(hasViewed() ? 'ratings' : 'nonviewer');
+  });
+  document.querySelectorAll('[data-back-entry]').forEach(b => b.addEventListener('click', () => show('entry')));
+  document.getElementById('ratings-next').addEventListener('click', review);
+  document.getElementById('nonviewer-next').addEventListener('click', review);
+  document.getElementById('review-back').addEventListener('click', () => show(hasViewed() ? 'ratings' : 'nonviewer'));
+  document.getElementById('finish').addEventListener('click', () => show('done'));
+  document.querySelectorAll('[data-exit]').forEach(b => b.addEventListener('click', () => { reset(); show('stopped'); }));
+  ['restart', 'restart-stopped'].forEach(id => document.getElementById(id).addEventListener('click', () => { reset(); show('entry'); }));
+  document.getElementById('comment').addEventListener('input', e => {
+    document.getElementById('comment-count').textContent = `${e.target.value.length} / 300자`;
+  });
+  document.getElementById('download-response').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(response(), null, 2)], { type: 'application/json;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'APAAACI_satisfaction_preview.json';
+    document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+  });
+})();
+</script>
+</body></html>

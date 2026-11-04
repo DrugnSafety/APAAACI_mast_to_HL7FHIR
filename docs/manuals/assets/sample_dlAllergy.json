@@ -1,0 +1,285 @@
+{
+  "resourceType": "Bundle",
+  "id": "bundle-allergy-0bd7b620",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "allergy-7604f2f3",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+              "code": "active",
+              "display": "Active"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+              "code": "confirmed",
+              "display": "Confirmed"
+            }
+          ]
+        },
+        "type": "allergy",
+        "category": [
+          "environment"
+        ],
+        "criticality": "low",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "112476003",
+              "display": "Dermatophagoides farinae"
+            }
+          ],
+          "text": "Dermatophagoides farinae (집먼지진드기(D.farinae))"
+        },
+        "patient": {
+          "reference": "Patient/연습사용자",
+          "display": "연습사용자"
+        },
+        "recordedDate": "2026-10-20",
+        "note": [
+          {
+            "text": "저녁과 새벽, 이른 아침에 증상이 심해집니다. 집을 비우면 증상이 좋아집니다. 먼지를 만지거나 해당 환경에 노출되면 심해집니다. 이 패턴이 확인되어 집먼지진드기 알레르기가 실제 증상의 원인으로 판단됩니다. 침구와 실내 환경 관리가 핵심입니다. 성분 교차반응 가능(미확인): 바닷가재, 대하, 새우, 게, 가재 등과 성분을 공유해 교차반응 가능성이 있으나 증상은 확인되지 않았습니다. 섭취 시 증상 발현 여부에 주의하세요. 주요 시기: 연중 (고온다습한 여름~초가을에 개체수 증가). 주요 노출 환경: 침실(매트리스·이불·베개), 천 소파(농도가 매우 높음), 카펫, 봉제인형, 커튼, 옷장 등 실내 먼지가 쌓이는 곳. 이불을 털거나 청소할 때 노출이 가장 큽니다. 회피·관리: 매트리스·베개·이불에 촘촘히 짠 진드기 차단 커버를 씌우고 커버도 정기적으로 세탁하세요(커버만으로는 부족하니 세탁·카펫 제거·습도 조절과 함께).; 침구(시트·베갯잇·이불커버)를 주 1회 55~60℃ 이상 뜨거운 물로 20분 이상 세탁하세요(찬물·드라이클리닝은 부족합니다).; 침실의 카펫·천 소파·봉제인형·커튼을 치우고 바닥은 닦을 수 있는 재질로 바꾸세요. 봉제인형은 세탁하거나 24시간 냉동 후 세탁하세요.. 면역치료(SCIT/SLIT) 고려 가능 대상."
+          }
+        ],
+        "reaction": [
+          {
+            "manifestation": [
+              {
+                "text": "집먼지진드기 실내 노출 시 코·눈 증상 악화(저녁과 새벽, 이른 아침에 증상이 심해집니다. 집을 비우면 증상이 좋아집니다. 먼지를 만지거나 해당 환경에 노출되면 심해집니다)"
+              }
+            ],
+            "severity": "moderate",
+            "description": "환자 문진에서 확인된 노출 시 증상"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "allergy-0b4d81b8",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+              "code": "active",
+              "display": "Active"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+              "code": "confirmed",
+              "display": "Confirmed"
+            }
+          ]
+        },
+        "type": "allergy",
+        "category": [
+          "environment"
+        ],
+        "criticality": "low",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "711094007",
+              "display": "Dermatophagoides pteronyssinus protein"
+            }
+          ],
+          "text": "Dermatophagoides pteronyssinus (집먼지진드기(D.pteronyssinus))"
+        },
+        "patient": {
+          "reference": "Patient/연습사용자",
+          "display": "연습사용자"
+        },
+        "recordedDate": "2026-10-20",
+        "note": [
+          {
+            "text": "저녁과 새벽, 이른 아침에 증상이 심해집니다. 집을 비우면 증상이 좋아집니다. 먼지를 만지거나 해당 환경에 노출되면 심해집니다. 이 패턴이 확인되어 집먼지진드기 알레르기가 실제 증상의 원인으로 판단됩니다. 침구와 실내 환경 관리가 핵심입니다. 성분 교차반응 가능(미확인): 바닷가재, 대하, 새우, 게, 가재 등과 성분을 공유해 교차반응 가능성이 있으나 증상은 확인되지 않았습니다. 섭취 시 증상 발현 여부에 주의하세요. 주요 시기: 연중 (장마철·여름~초가을 개체수 증가). 주요 노출 환경: 침실(매트리스·이불·베개), 천 소파, 카펫, 봉제인형, 커튼 등 실내 먼지 축적 장소. 먼지가 흐트러질 때(이불 털기·청소) 노출이 가장 큽니다. 회피·관리: 매트리스·베개·이불에 촘촘히 짠 진드기 차단 커버를 씌우고 커버도 정기적으로 세탁하세요(커버만으로는 부족하니 세탁·카펫 제거·습도 조절과 함께).; 침구(시트·베갯잇·이불커버)를 주 1회 55~60℃ 이상 뜨거운 물로 20분 이상 세탁하세요(찬물·드라이클리닝은 부족합니다).; 침실의 카펫·천 소파·봉제인형·커튼을 치우고 바닥은 닦을 수 있는 재질로 바꾸세요. 봉제인형은 세탁하거나 24시간 냉동 후 세탁하세요.. 면역치료(SCIT/SLIT) 고려 가능 대상."
+          }
+        ],
+        "reaction": [
+          {
+            "manifestation": [
+              {
+                "text": "집먼지진드기 실내 노출 시 코·눈 증상 악화(저녁과 새벽, 이른 아침에 증상이 심해집니다. 집을 비우면 증상이 좋아집니다. 먼지를 만지거나 해당 환경에 노출되면 심해집니다)"
+              }
+            ],
+            "severity": "moderate",
+            "description": "환자 문진에서 확인된 노출 시 증상"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "allergy-1a1e3c66",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+              "code": "active",
+              "display": "Active"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+              "code": "confirmed",
+              "display": "Confirmed"
+            }
+          ]
+        },
+        "type": "allergy",
+        "category": [
+          "environment"
+        ],
+        "criticality": "low",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "256262001",
+              "display": "European white birch pollen"
+            }
+          ],
+          "text": "Birch pollen (자작나무 꽃가루)"
+        },
+        "patient": {
+          "reference": "Patient/연습사용자",
+          "display": "연습사용자"
+        },
+        "recordedDate": "2026-10-20",
+        "note": [
+          {
+            "text": "봄철 나무 꽃가루 시기에 증상이 실제로 악화되어, 검사 양성이 임상적으로 의미 있는 꽃가루 알레르기로 판단됩니다. 해당 시즌 외출·환기 관리가 중요합니다. 성분 교차반응 가능(미확인): 사과, 복숭아, 배, 체리, 자두·살구, 키위, 당근, 셀러리, 헤이즐넛, 아몬드, 땅콩, 콩(대두) 등과 성분을 공유해 교차반응 가능성이 있으나 증상은 확인되지 않았습니다. 섭취 시 증상 발현 여부에 주의하세요. 주요 시기: 봄 (4~5월, 지역에 따라 3월부터). 주요 노출 환경: 봄철 야외, 자작나무·오리나무가 있는 공원·산·가로수 주변. 맑고 건조하며 바람 부는 날 농도가 높습니다. 회피·관리: 꽃가루가 많은 날(맑고 건조·바람)에는 창문을 닫고 에어컨을 쓰며 외출을 줄이세요. 바람 없는 날이나 꾸준한 비가 온 뒤 2시간 이내가 노출이 적습니다.; 외출할 때 마스크와 안경(고글)을 쓰세요.; 귀가 후 손·얼굴을 씻고 옷을 갈아입으며 매일 머리를 감으세요.. 면역치료(SCIT/SLIT) 고려 가능 대상."
+          }
+        ],
+        "reaction": [
+          {
+            "manifestation": [
+              {
+                "text": "봄철 나무 꽃가루 시기 코·눈 증상 악화"
+              }
+            ],
+            "severity": "mild",
+            "description": "환자 문진에서 확인된 노출 시 증상"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "allergy-3722fff4",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+              "code": "active",
+              "display": "Active"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+              "code": "unconfirmed",
+              "display": "Unconfirmed"
+            }
+          ]
+        },
+        "type": "allergy",
+        "category": [
+          "environment"
+        ],
+        "criticality": "unable-to-assess",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "260152009",
+              "display": "Cat dander"
+            }
+          ],
+          "text": "Cat dander (고양이 비듬)"
+        },
+        "patient": {
+          "reference": "Patient/연습사용자",
+          "display": "연습사용자"
+        },
+        "recordedDate": "2026-10-20",
+        "note": [
+          {
+            "text": "고양이 비듬과 접촉 경험이 거의 없어 실제 알레르기 여부를 판단하기 어렵습니다. → 새로 기르기 전 노출 시 증상을 관찰하는 것이 좋습니다. 검사 양성이나 임상적 유발은 미확인(감작/의심) 상태 — verificationStatus=unconfirmed. 성분 교차반응 가능(미확인): 돼지고기 등과 성분을 공유해 교차반응 가능성이 있으나 증상은 확인되지 않았습니다. 섭취 시 증상 발현 여부에 주의하세요. 노출 상황(환자 문진): 거의 접촉 없음. 주요 시기: 연중. 주요 노출 환경: 고양이를 키우는 가정, 고양이가 살던 집(내보낸 뒤에도 3~6개월, 매트리스는 수년 남음), 고양이 주인의 옷을 통한 학교·직장·대중교통. 회피·관리: 접촉할 때 증상이 있다면 고양이를 집에서 내보내는 것이 유일하게 확실한 방법입니다. 내보낸 뒤에도 알레르겐은 3~6개월 남으므로 카펫·천 가구를 치우고 철저히 청소하세요.; 계속 키운다면 침실에는 절대 들이지 말고 생활 공간을 제한하세요.; 침실에 HEPA 공기청정기를 두고 환기를 늘리세요(작은 입자에 도움이 되지만 그것만으로는 부족합니다).."
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "allergy-7855450f",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+              "code": "active",
+              "display": "Active"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+              "code": "unconfirmed",
+              "display": "Unconfirmed"
+            }
+          ]
+        },
+        "type": "allergy",
+        "category": [
+          "environment"
+        ],
+        "criticality": "low",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "256303006",
+              "display": "Ragweed pollen"
+            }
+          ],
+          "text": "Ragweed pollen (돼지풀 꽃가루)"
+        },
+        "patient": {
+          "reference": "Patient/연습사용자",
+          "display": "연습사용자"
+        },
+        "recordedDate": "2026-10-20",
+        "note": [
+          {
+            "text": "검사는 양성(감작)이지만 가을철 잡초 꽃가루 시기에 증상 악화가 뚜렷하지 않습니다. → 현재는 감작만 되어 있고 실제 증상은 유발하지 않는 것으로 보이며, 과도한 회피는 필요하지 않습니다. 검사 양성이나 임상적 유발은 미확인(감작/의심) 상태 — verificationStatus=unconfirmed. 성분 교차반응 가능(미확인): 멜론(수박·참외·머스크멜론), 바나나, 오이, 애호박, 해바라기씨, 카모마일차 등과 성분을 공유해 교차반응 가능성이 있으나 증상은 확인되지 않았습니다. 섭취 시 증상 발현 여부에 주의하세요. 주요 시기: 가을 (8~10월). 주요 노출 환경: 가을철 야외, 도로변·공터·하천변. 맑고 건조하며 바람 부는 날 농도가 높습니다. 회피·관리: 가을철(8~10월) 꽃가루 농도가 높은 날에는 창문을 닫고 외출·환기를 줄이세요. 꾸준한 비가 온 뒤가 노출이 적습니다.; 외출 시 마스크·안경을 착용하세요.; 귀가 후 샤워·세수하고 옷을 갈아입고 머리를 감으세요.."
+          }
+        ]
+      }
+    }
+  ]
+}

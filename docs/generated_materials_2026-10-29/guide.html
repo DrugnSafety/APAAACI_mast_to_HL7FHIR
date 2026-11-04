@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>생성 자료 다운로드 가이드 · APAAACI</title><style>
+/* ============================================================
+     Theme: Ice (default). Swap this :root block for other themes
+     from references/design-tokens.md.
+     ============================================================ */
+  :root {
+    --ink: #0B1F3A;
+    --ink-soft: #29405E;
+    --ice-50: #F4F9FD;
+    --ice-100: #E5F1FA;
+    --ice-200: #CDE4F5;
+    --ice-300: #A2CFEB;
+    --ice-400: #6AB3DC;
+    --ice-500: #3A93C7;
+    --ice-600: #1E6FA6;
+    --accent: #E14B4B;
+    --accent-soft: #FDECEC;
+    --gold: #C89A2E;
+    --gold-soft: #FBF3DA;
+    --success: #1F7A4D;
+    --success-soft: #E4F3EB;
+    --border: #D8E4EF;
+    --muted: #5C6E85;
+    --shadow-sm: 0 1px 2px rgba(11,31,58,0.06);
+    --shadow-md: 0 6px 20px rgba(11,31,58,0.08);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+    color: var(--ink);
+    background: linear-gradient(180deg, #EAF3FB 0%, #F4F9FD 320px, #FFFFFF 100%);
+    line-height: 1.65;
+    font-size: 15.5px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 32px 24px 96px; }
+
+  /* ---------- Hero ---------- */
+  header.hero {
+    background: linear-gradient(135deg, #1E6FA6 0%, #3A93C7 60%, #6AB3DC 100%);
+    color: #fff;
+    border-radius: 24px;
+    padding: 36px 32px;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  header.hero::after {
+    content: "";
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+  }
+  .kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 11.5px;
+    font-weight: 700;
+    opacity: 0.85;
+    margin-bottom: 12px;
+  }
+  header.hero h1 {
+    margin: 0 0 10px;
+    font-size: 30px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  header.hero p.lede {
+    margin: 0;
+    font-size: 15px;
+    opacity: 0.92;
+    max-width: 620px;
+  }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .chip {
+    display: inline-flex; align-items: center;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.28);
+    color: #fff;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
+  }
+
+  /* ---------- TL;DR ---------- */
+  .tldr {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--ice-500);
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 28px;
+  }
+  .tldr h2 { margin: 0 0 14px; font-size: 18px; color: var(--ice-600); letter-spacing: -0.01em; }
+  .tldr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+  .tldr-item { background: var(--ice-50); border-radius: 10px; padding: 14px 16px; }
+  .tldr-item .label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--ice-600); font-weight: 700; margin-bottom: 4px;
+  }
+  .tldr-item .value { font-size: 15px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+
+  /* ---------- Nav TOC ---------- */
+  nav.toc {
+    background: #fff; border: 1px solid var(--border); border-radius: 14px;
+    padding: 16px 20px; margin-bottom: 32px; box-shadow: var(--shadow-sm);
+  }
+  nav.toc strong { font-size: 12px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+  nav.toc ol {
+    list-style: none; padding: 0; margin: 8px 0 0;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 4px 16px;
+    counter-reset: nav-counter;
+  }
+  nav.toc li { counter-increment: nav-counter; }
+  nav.toc li::before {
+    content: counter(nav-counter, decimal-leading-zero) ". ";
+    color: var(--ice-500); font-weight: 700; font-size: 12px;
+  }
+  nav.toc a { color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 500; }
+  nav.toc a:hover { color: var(--ice-600); text-decoration: underline; }
+
+  /* ---------- Sections ---------- */
+  section { margin-bottom: 44px; }
+  section h2 {
+    font-size: 22px; letter-spacing: -0.01em; color: var(--ink);
+    border-bottom: 2px solid var(--ice-200); padding-bottom: 10px; margin: 0 0 20px;
+    display: flex; align-items: baseline; gap: 12px;
+  }
+  section h2 .num { color: var(--ice-500); font-size: 14px; font-weight: 700; letter-spacing: 0.1em; }
+  section h3 { font-size: 17px; color: var(--ink-soft); margin: 24px 0 12px; letter-spacing: -0.005em; }
+  p { margin: 0 0 12px; }
+  strong { color: var(--ink); }
+
+  /* ---------- Callouts ---------- */
+  .callout { border-radius: 12px; padding: 16px 18px; margin: 16px 0; border-left: 4px solid; }
+  .callout.blue { background: var(--ice-100); border-color: var(--ice-500); color: var(--ink); }
+  .callout.red { background: var(--accent-soft); border-color: var(--accent); color: #7A1E1E; }
+  .callout.gold { background: var(--gold-soft); border-color: var(--gold); color: #6B4A0E; }
+  .callout.green { background: var(--success-soft); border-color: var(--success); color: #17452D; }
+  .callout strong { color: inherit; }
+  .callout .title { font-weight: 700; margin-bottom: 4px; display: block; font-size: 13.5px; }
+
+  /* ---------- Checklist ---------- */
+  .checklist {
+    background: #fff; border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px 22px; margin: 16px 0; box-shadow: var(--shadow-sm);
+  }
+  .checklist h3 { margin-top: 0; }
+  .checklist ul { list-style: none; padding: 0; margin: 0; }
+  .checklist li {
+    padding: 8px 0 8px 32px; position: relative;
+    border-bottom: 1px dashed var(--border); font-size: 14.5px;
+  }
+  .checklist li:last-child { border-bottom: 0; }
+  .checklist li::before {
+    content: ""; position: absolute; left: 0; top: 12px;
+    width: 18px; height: 18px; border: 2px solid var(--ice-400);
+    border-radius: 4px; background: #fff;
+  }
+  .checklist.required li::before { border-color: var(--accent); }
+  .checklist.optional li::before { border-color: var(--gold); }
+  .checklist.done li::before { background: var(--success); border-color: var(--success); }
+  .checklist .item-note { color: var(--muted); font-size: 13px; display: block; margin-top: 2px; }
+
+  /* ---------- Table ---------- */
+  table {
+    width: 100%; border-collapse: collapse; margin: 12px 0 16px;
+    background: #fff; border-radius: 10px; overflow: hidden;
+    box-shadow: var(--shadow-sm); font-size: 14px;
+  }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: var(--ice-100); font-weight: 700; color: var(--ink); font-size: 13px; letter-spacing: 0.02em; }
+  tr:last-child td { border-bottom: 0; }
+  td .tag {
+    display: inline-block; font-size: 11px; padding: 2px 8px;
+    border-radius: 999px; font-weight: 700; letter-spacing: 0.03em;
+  }
+  .tag.ok { background: var(--success-soft); color: var(--success); }
+  .tag.no { background: var(--accent-soft); color: var(--accent); }
+  .tag.warn { background: var(--gold-soft); color: var(--gold); }
+
+  /* ---------- Timeline ---------- */
+  .timeline { position: relative; padding-left: 28px; margin: 16px 0; }
+  .timeline::before {
+    content: ""; position: absolute; left: 8px; top: 8px; bottom: 8px;
+    width: 2px; background: var(--ice-300);
+  }
+  .timeline .step { position: relative; padding-bottom: 20px; }
+  .timeline .step::before {
+    content: ""; position: absolute; left: -25px; top: 6px;
+    width: 14px; height: 14px; border-radius: 50%; background: #fff;
+    border: 3px solid var(--ice-500); box-shadow: 0 0 0 3px var(--ice-100);
+  }
+  .timeline .step.current::before {
+    background: var(--accent); border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .timeline .step.future::before { background: #fff; border-color: var(--ice-300); }
+  .timeline .step h4 { margin: 0 0 4px; font-size: 15.5px; color: var(--ink); }
+  .timeline .step .stage-meta {
+    font-size: 12px; color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.06em; font-weight: 700; margin-bottom: 4px;
+  }
+  .timeline .step p { margin: 4px 0 0; font-size: 14px; }
+
+  /* ---------- Schedule table ---------- */
+  .schedule-table td.date { font-weight: 700; color: var(--ice-600); white-space: nowrap; }
+  .schedule-table td.status .tag { font-size: 10.5px; }
+
+  /* ---------- FAQ ---------- */
+  details {
+    background: #fff; border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 18px; margin-bottom: 10px; box-shadow: var(--shadow-sm);
+  }
+  details[open] { border-color: var(--ice-400); }
+  summary {
+    cursor: pointer; font-weight: 600; color: var(--ink); font-size: 15px;
+    list-style: none; display: flex; justify-content: space-between; align-items: center;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after {
+    content: "＋"; color: var(--ice-500); font-size: 18px; font-weight: 300;
+    transition: transform 0.2s;
+  }
+  details[open] summary::after { content: "−"; }
+  details p { margin-top: 10px; color: var(--ink-soft); font-size: 14.5px; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border);
+    font-size: 12.5px; color: var(--muted);
+  }
+  footer h4 { color: var(--ink-soft); font-size: 13px; margin: 0 0 8px; letter-spacing: 0.05em; text-transform: uppercase; }
+  footer ul { padding-left: 18px; margin: 0 0 16px; }
+  footer li { margin-bottom: 4px; }
+  footer a { color: var(--ice-600); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ---------- Utility ---------- */
+  .small { font-size: 13px; color: var(--muted); }
+  code {
+    background: var(--ice-100); padding: 1px 6px; border-radius: 4px;
+    font-family: 'SF Mono', Consolas, monospace; font-size: 13px; color: var(--ice-600);
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 640px) {
+    .wrap { padding: 20px 16px 60px; }
+    header.hero { padding: 26px 22px; border-radius: 18px; }
+    header.hero h1 { font-size: 24px; }
+    section h2 { font-size: 19px; }
+  }
+
+*{box-sizing:border-box}body{margin:0;color:#173e5b;background:#f2f7fb;font:14px/1.85 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}a{color:#176c9d;text-underline-offset:3px}.wrap{max-width:1080px;margin:auto;padding:25px 22px 65px}.nav{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;padding-bottom:20px}.hero{padding:32px;border-radius:17px;background:#173e5b;color:#fff}.hero h1{font-size:30px;line-height:1.35;margin:8px 0 13px}.hero p{color:#dcecf7;margin:0}.kicker{font-size:10px;letter-spacing:.12em}.notice{margin:22px 0;background:#fff5e6;border-left:3px solid #bc8032;padding:13px 18px;color:#775625}.notice strong{display:block}section{background:#fff;padding:25px 29px;margin:20px 0;border:1px solid #d7e4ef;border-radius:13px}h2{font-size:21px;color:#173e5b;margin:0 0 12px;padding:0;border:0}h3{font-size:15px;margin:23px 0 7px}p{margin:8px 0}li{margin-bottom:8px}table{width:100%;border-collapse:collapse;font-size:12px;min-width:630px}th,td{padding:11px;border-bottom:1px solid #d7e4ef;text-align:left;vertical-align:top}th{background:#edf5fb}.scroll{overflow:auto}.columns{display:grid;grid-template-columns:1fr 1fr;gap:14px}.box{padding:16px;border:1px solid #d7e4ef;border-radius:10px;background:#f8fbfd}.box b{display:block;margin-bottom:6px}.box p{font-size:12px}code{font-size:12px;overflow-wrap:anywhere}.flow{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;margin:18px 0}.flow div{flex:1;min-width:160px;border:1px solid #c9deec;border-radius:9px;padding:13px;background:#f0f7fb;font-size:12px}.flow b{display:block;color:#176c9d}.note{font-size:12px;color:#62788b}.back{display:inline-block;background:#176c9d;color:white;text-decoration:none;border-radius:8px;padding:9px 15px;margin-top:9px}footer{font-size:11px;color:#62788b;padding-top:15px}details{margin:14px 0}summary{cursor:pointer;font-weight:650}pre{background:#edf4f9;padding:17px;border-radius:8px;overflow:auto;font-size:11px;line-height:1.8}@media(max-width:650px){.wrap{padding:18px 12px}.hero{padding:24px}.hero h1{font-size:25px}section{padding:22px 18px}.columns{grid-template-columns:1fr}.nav{gap:12px}}@media print{body{background:white}.nav,.back{display:none}.wrap{max-width:none;padding:0}section{break-inside:auto}.hero{background:#edf5fb;color:#173e5b}.hero p{color:#173e5b}details{display:block}}
+</style></head><body><main class="wrap">
+<nav class="nav" aria-label="자료 안내"><a href="index.html">생성 자료 목록</a><a data-project href="../ocr_comparison_2026-10-29/cases.html">사진·OCR 비교</a><a data-project href="../manuals/user_manual.html">사용자 매뉴얼</a><a data-project href="../manuals/researcher_manual.html">연구자 매뉴얼</a><a data-project href="../irb_2026-10-29/index.html">IRB 서류</a><a data-project href="../medical_information_cooperation_2026-10-29/index.html">의료정보센터 협조 요청</a></nav>
+<header class="hero"><div class="kicker">APAAACI · DOWNLOAD GUIDE · 2026-10-29</div><h1>검사값부터 생성 자료까지<br>같은 사진 ID로 확인하세요.</h1><p>검사 29장에 저장한 3개 입력을 사용했습니다.<br>전체 목록은 87세트와 1131개 파일을 제공합니다.</p></header>
+<div class="notice"><strong>원본 검수와 문진을 마친 뒤 실제 환자 자료로 사용하세요.</strong>현재 자료는 검사값 기반 연구용 미리보기입니다.<br>임상 검토와 외부 FHIR 검증은 수행하지 않았습니다.</div>
+<section id="start"><h2>1. 자료를 선택하세요.</h2>
+<ol><li><a href="index.html">생성 자료 목록</a>을 여세요.</li><li>왼쪽 목록에서 사진 ID를 고르세요.</li><li>참조 전사, OpenAI OCR, Local OCR 중 고르세요.</li><li>‘검사값 전체’에서 입력을 확인하세요.</li><li>리포트와 카드뉴스를 확인하세요.</li><li>필요한 파일의 ‘다운로드’를 누르세요.</li></ol>
+<p>예: O03의 참조 전사를 고르면 해당 입력의 자료를 봅니다.<br>OpenAI OCR을 누르면 같은 사진의 다른 입력으로 바뀝니다.</p>
+<p class="note">광학문자인식(OCR)은 사진에서 글자와 값을 추출하는 단계입니다.<br>자료 생성은 저장한 값을 현재 서비스에 입력하는 별도 단계입니다.</p>
+<a class="back" href="index.html?id=O03&amp;source=reference&amp;view=values_csv">O03 검사값부터 확인 →</a></section>
+<section id="contents"><h2>2. 필요한 파일을 고르세요.</h2>
+<div class="scroll"><table><thead><tr><th>자료</th><th>파일</th><th>확인할 내용</th></tr></thead><tbody>
+<tr><td>리포트</td><td>report.html<br>report.pdf<br>report.md</td><td>검사 요약과 설명을 봅니다.<br>HTML은 화면, PDF는 배포 검토에 사용합니다.<br>Markdown은 문장 검토용입니다.</td></tr>
+<tr><td>카드뉴스</td><td>cardnews.html<br>cardnews.pdf</td><td>HTML에서 카드와 퀴즈를 진행합니다.<br>PDF에서 모든 카드를 연속 확인합니다.</td></tr>
+<tr><td>전체 검사값</td><td>values.csv<br>input.json</td><td>행, 수치, Class, 단위, 크기를 대조합니다.<br>입력 JSON은 실제 생성 입력을 보존합니다.</td></tr>
+<tr><td>판정</td><td>assessment.json</td><td>현재 규칙의 평가 결과를 봅니다.<br>빈 문진은 증상이 없다는 뜻이 아닙니다.</td></tr>
+<tr><td>FHIR 검사</td><td>fhir_observation.json</td><td>검사값의 Observation 묶음을 봅니다.</td></tr>
+<tr><td>FHIR 알레르기</td><td>fhir_allergy.json</td><td>AllergyIntolerance 묶음을 봅니다.<br>verificationStatus는 unconfirmed입니다.</td></tr>
+<tr><td>근거·매핑</td><td>evidence.json</td><td>매핑, 근거 ID, 출처, 검토 상태를 봅니다.<br>찾지 못한 근거는 빈 상태로 남깁니다.</td></tr>
+<tr><td>미응답 문진</td><td>questions.json</td><td>현재 서비스가 만든 질문을 봅니다.<br>실제 환자의 답변은 포함하지 않습니다.</td></tr>
+<tr><td>생성 기록</td><td>provenance.json<br>set_manifest.json</td><td>입력과 코드의 SHA-256 해시를 봅니다.<br>변환 내역과 파일 목록을 확인합니다.</td></tr>
+</tbody></table></div>
+<p class="note">FHIR는 의료정보 교환을 위한 데이터 형식입니다.<br>이 자료는 프로젝트의 현재 FHIR 생성 경로를 사용합니다.</p>
+</section>
+<section id="zip"><h2>3. 다운로드 범위를 고르세요.</h2>
+<div class="columns"><div class="box"><b>개별 파일</b><p>목록에서 필요한 파일만 저장하세요.<br>각 파일 옆에서 크기와 해시를 확인하세요.</p></div><div class="box"><b>전체 ZIP</b><p>29장의 87세트를 저장하세요.<br>사진 ID와 입력별 폴더로 정리했습니다.<br>각 입력은 13개 파일과 세트 목록을 담습니다.</p></div></div>
+<h3>저장된 PDF를 확인하세요.</h3><ol><li>리포트 PDF를 여세요.</li><li>카드뉴스 PDF를 여세요.</li><li>모든 페이지와 연구용 배너를 확인하세요.</li><li>파일 옆 SHA-256을 확인하세요.</li></ol>
+<ol><li>ZIP 파일을 내려받으세요.</li><li>ZIP 압축을 푸세요.</li><li>압축을 푼 폴더의 index.html을 여세요.</li><li>목록에서 필요한 자료를 선택하세요.</li></ol>
+<p>인터넷 연결 없이 미리보기와 파일 열기를 제공합니다.<br>원본 사진과 기존 매뉴얼은 ZIP에 포함하지 않습니다.</p>
+<pre>index.html                 자료 선택과 미리보기
+guide.html                 이 안내문
+catalog.csv                이 ZIP의 목록
+catalog.json               이 ZIP의 메타데이터
+materials/O03/reference/   해당 입력의 생성 파일
+  set_manifest.json        파일 크기와 해시</pre></section>
+<section id="inputs"><h2>4. 입력 세 가지를 구분하세요.</h2>
+<div class="flow"><div><b>참조 전사</b>기존 전사와 리드 검토 기록<br>불확실 표시 18행 포함</div><div><b>OpenAI OCR</b>저장 모델: gpt-5.4<br>실행일: 2026-10-09~10</div><div><b>Local OCR</b>저장 모델: qwen3.8:27b<br>실행일: 2026-10-09~10</div></div>
+<p>세 입력 모두 현재 로컬 서비스로 자료를 생성했습니다.<br>한국어 리포트와 카드뉴스는 로컬 템플릿이 만듭니다.<br>새 OCR 실행과 외부 모델 호출은 하지 않았습니다.</p>
+<p>원문 수치, 미만 표기, Class 0, 단위를 보존합니다.<br>OCR 중복과 누락도 입력에 남습니다.<br>참조 SPT의 평균과 판정은 인쇄 크기에서 계산합니다.<br>출처 기록에서 계산 내역을 확인하세요.</p>
+<p class="note">피부단자검사(SPT)는 인쇄된 크기와 대조값을 사용합니다.<br>혈액검사 MAST는 인쇄된 Class와 수치를 사용합니다.<br>현재 파일 수는 MAST 25장, SPT 4장입니다.<br>UniCAP 실제 비교 파일은 없습니다.</p>
+<p>생성 자료의 항목 수는 OCR 정확도 점수가 아닙니다.<br>중복 행과 서비스의 항원 묶음에 따라 개수가 달라집니다.<br><a data-project href="../ocr_comparison_2026-10-29/index.html">분모를 적용한 OCR 성능은 비교 페이지에서 확인하세요.</a></p></section>
+<section id="limits"><h2>5. 해석 전에 범위를 확인하세요.</h2>
+<ul><li>환자 이름, 생년월일, 번호, 날짜를 제외했습니다.</li><li>환자 대신 사진 ID를 사용합니다.</li><li>원본 사진은 ZIP에 포함하지 않습니다.</li><li>문진과 스크리닝은 제공받지 않았습니다.</li><li>문진 답을 ‘아니오’로 추측하지 않았습니다.</li><li>임상 관련성과 알레르기 진단은 미확정입니다.</li><li>알레르기 FHIR는 unconfirmed 상태입니다.</li><li>문진 FHIR는 생성하지 않습니다.</li><li>근거 후보와 누락 상태는 그대로 남깁니다.</li><li>생성 자료도 실제 검사값을 포함합니다.</li></ul>
+<p>참조 전사는 독립 임상의의 이중 판독본이 아닙니다.<br>기존 불확실 18행은 입력의 검토 표시에서 찾으세요.<br>현재 서비스 결과를 임상 진단으로 확정하지 마세요.</p>
+<p>이름을 제거해도 검사값은 실제 건강정보입니다.<br>공유 전에 대상과 범위를 확인하세요.</p></section>
+<section id="trace"><h2>6. 생성 경로를 추적하세요.</h2>
+<div class="flow"><div><b>사진 ID</b>기존 사진·OCR 비교와 연결</div><div><b>저장 입력</b>원본 경로와 해시 기록</div><div><b>현재 서비스</b>입력 준비와 변환 기록</div><div><b>생성 파일</b>세트 목록과 파일 해시</div></div>
+<ol><li>선택한 입력의 input.json을 여세요.</li><li>provenance.json에서 원본 해시를 확인하세요.</li><li>변환 기록과 코드 해시를 확인하세요.</li><li>set_manifest.json에서 출력 해시를 확인하세요.</li></ol>
+<p>리포트에는 문진 미제공 안내를 넣었습니다.<br>기존 템플릿의 문진 완료 표현도 내보내기에서 고쳤습니다.<br>생성 기록은 해당 수정도 기록합니다.</p>
+<p>PDF는 저장된 HTML을 오프라인으로 렌더링했습니다.<br>전체 ZIP은 HTML과 PDF를 함께 제공합니다.<br>세트 목록은 두 형식의 해시를 기록합니다.</p></section>
+<section id="connect"><h2>7. 관련 설명으로 이동하세요.</h2>
+<ul><li><a href="index.html">생성 자료: 실제 파일의 미리보기와 다운로드</a></li><li><a data-project href="../ocr_comparison_2026-10-29/cases.html">사진·OCR 비교: 원본과 전사 결과의 대조</a></li><li><a data-project href="../ocr_comparison_2026-10-29/test_types.html">검사유형별 분석: MAST와 SPT의 차이</a></li><li><a data-project href="../ocr_comparison_2026-10-29/models.html">모델 비교: gpt-5.4와 로컬 모델의 결과</a></li><li><a data-project href="../manuals/user_manual.html">사용자 매뉴얼: 합성 예제 화면으로 순서 연습</a></li><li><a data-project href="../manuals/researcher_manual.html#report">연구자 매뉴얼: 리포트와 카드뉴스 구현</a></li><li><a data-project href="../manuals/researcher_manual.html#fhir">연구자 매뉴얼: FHIR 구현과 검증 범위</a></li><li><a data-project href="../manuals/researcher_manual.html#evidence">연구자 매뉴얼: 근거와 출처 상태</a></li></ul>
+<p><a data-project href="../irb_2026-10-29/index.html">IRB 서류</a>와 <a data-project href="../medical_information_cooperation_2026-10-29/index.html">의료정보센터 협조 요청</a>도 함께 확인하세요.</p>
+<p class="note">ZIP에는 생성 자료와 이 안내문만 담습니다.<br>다른 매뉴얼은 프로젝트의 원래 폴더에서 여세요.</p></section>
+<footer>APAAACI · 실제 검사값 기반 현재 생성본 · 2026-10-29<br>자료 생성과 임상 검증은 별도 단계입니다.</footer>
+</main><script>if(false)document.querySelectorAll('[data-project]').forEach(e=>e.hidden=true);</script></body></html>

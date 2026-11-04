@@ -1,0 +1,445 @@
+{
+  "resourceType": "Bundle",
+  "id": "bundle-obs-27971ad4",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-59ace729",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Dermatophagoides farinae"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "Patient/연습사용자"
+        },
+        "effectiveDateTime": "2026-10-20",
+        "valueQuantity": {
+          "value": 17.6,
+          "unit": "kU/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "kU/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "112476003",
+                  "display": "Dermatophagoides farinae"
+                }
+              ],
+              "text": "Dermatophagoides farinae (집먼지진드기(D.farinae))"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 4
+          }
+        ],
+        "performer": [
+          {
+            "display": "연습용 검사기관"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-4a9074c2",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Dermatophagoides pteronyssinus"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "Patient/연습사용자"
+        },
+        "effectiveDateTime": "2026-10-20",
+        "valueQuantity": {
+          "value": 8.2,
+          "unit": "kU/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "kU/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "711094007",
+                  "display": "Dermatophagoides pteronyssinus protein"
+                }
+              ],
+              "text": "Dermatophagoides pteronyssinus (집먼지진드기(D.pteronyssinus))"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 3
+          }
+        ],
+        "performer": [
+          {
+            "display": "연습용 검사기관"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-6f55f4b0",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Birch pollen"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "Patient/연습사용자"
+        },
+        "effectiveDateTime": "2026-10-20",
+        "valueQuantity": {
+          "value": 6.1,
+          "unit": "kU/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "kU/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256262001",
+                  "display": "European white birch pollen"
+                }
+              ],
+              "text": "Birch pollen (자작나무 꽃가루)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 3
+          }
+        ],
+        "performer": [
+          {
+            "display": "연습용 검사기관"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-9cc5f265",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Cat dander"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "Patient/연습사용자"
+        },
+        "effectiveDateTime": "2026-10-20",
+        "valueQuantity": {
+          "value": 1.4,
+          "unit": "kU/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "kU/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "260152009",
+                  "display": "Cat dander"
+                }
+              ],
+              "text": "Cat dander (고양이 비듬)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 2
+          }
+        ],
+        "performer": [
+          {
+            "display": "연습용 검사기관"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-76440a13",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Dog dander"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "Patient/연습사용자"
+        },
+        "effectiveDateTime": "2026-10-20",
+        "valueQuantity": {
+          "value": 0.1,
+          "unit": "kU/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "kU/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "260154005",
+                  "display": "Dog dander"
+                }
+              ],
+              "text": "Dog dander (개 비듬)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "performer": [
+          {
+            "display": "연습용 검사기관"
+          }
+        ]
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-934b22f5",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Ragweed pollen"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "Patient/연습사용자"
+        },
+        "effectiveDateTime": "2026-10-20",
+        "valueQuantity": {
+          "value": 1.1,
+          "unit": "kU/L",
+          "system": "http://unitsofmeasure.org",
+          "code": "kU/L"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256303006",
+                  "display": "Ragweed pollen"
+                }
+              ],
+              "text": "Ragweed pollen (돼지풀 꽃가루)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 2
+          }
+        ],
+        "performer": [
+          {
+            "display": "연습용 검사기관"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "40802c77-e2c9-8149-8ae0-ef0b89e18e0d",
+  "url": "https://app.notion.com/p/40802c77e2c981498ae0ef0b89e18e0d?pvs=204",
+  "properties": {
+    "title": "의료정보센터 협력 요청 · 병원 내부 구축과 HIS·알림톡 연계"
+  },
+  "parent_id": "40602c77-e2c9-81aa-958c-df0410540324",
+  "created": "2026-10-29",
+  "readback_verified": true,
+  "patient_satisfaction_update": {
+    "date": "2026-10-30",
+    "command": "insert_content",
+    "related_page_id": "40902c77-e2c9-8127-aa4a-d71b8a5b9019",
+    "status": "success_without_warnings"
+  },
+  "verified_sections": [
+    "의료진 검수",
+    "아웃박스",
+    "구조화",
+    "소아",
+    "공식 참고 문서"
+  ]
+}

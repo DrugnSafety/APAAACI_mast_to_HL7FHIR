@@ -1,0 +1,18 @@
+{
+  "items_consistent": 6,
+  "formats_checked": [
+    "DOC",
+    "DOCX",
+    "PDF",
+    "HTML",
+    "Markdown"
+  ],
+  "irb_definition_matches": true,
+  "binary_doc_valid": true,
+  "browser_checks": 49,
+  "zip_members": 20,
+  "zip_bytes": 165064,
+  "zip_sha256": "63f5aa9934fbaf8c3c8c6d9767bd7d4baa234530114a5609b5ef8534d8c64dc1",
+  "word_native_render": false,
+  "hospital_transmission_tested": false
+}

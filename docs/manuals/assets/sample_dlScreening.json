@@ -1,0 +1,399 @@
+{
+  "resourceType": "Bundle",
+  "id": "bundle-screening-5582f847",
+  "type": "collection",
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Condition",
+        "id": "condition-6dd196d1",
+        "clinicalStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-clinical",
+              "code": "active"
+            }
+          ]
+        },
+        "verificationStatus": {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
+              "code": "provisional",
+              "display": "Provisional"
+            }
+          ]
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/condition-category",
+                "code": "problem-list-item",
+                "display": "Problem List Item"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "61582004",
+              "display": "Allergic rhinitis"
+            }
+          ],
+          "text": "알레르기 비염"
+        },
+        "subject": {
+          "reference": "Patient/연습사용자",
+          "display": "연습사용자"
+        },
+        "note": [
+          {
+            "text": "환자 문진에서 보고한 기저 알레르기 질환(의료진 확인 전)"
+          }
+        ],
+        "recordedDate": "2026-10-20"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-symptom-57dcd1fb",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "249307003",
+              "display": "Nasal symptom"
+            }
+          ],
+          "text": "코 (재채기·콧물·코막힘)"
+        },
+        "subject": {
+          "reference": "Patient/연습사용자",
+          "display": "연습사용자"
+        },
+        "valueBoolean": true,
+        "note": [
+          {
+            "text": "환자 문진에서 보고한 알레르기 증상 부위"
+          }
+        ],
+        "effectiveDateTime": "2026-10-20"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "obs-symptom-16be8fb1",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "survey",
+                "display": "Survey"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "308923001",
+              "display": "Eye symptom"
+            }
+          ],
+          "text": "눈 (가려움·충혈·눈물)"
+        },
+        "subject": {
+          "reference": "Patient/연습사용자",
+          "display": "연습사용자"
+        },
+        "valueBoolean": true,
+        "note": [
+          {
+            "text": "환자 문진에서 보고한 알레르기 증상 부위"
+          }
+        ],
+        "effectiveDateTime": "2026-10-20"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "QuestionnaireResponse",
+        "id": "qr-screening-f12418d6",
+        "status": "completed",
+        "subject": {
+          "reference": "Patient/연습사용자",
+          "display": "연습사용자"
+        },
+        "item": [
+          {
+            "linkId": "allergic_diseases",
+            "text": "기저 알레르기 질환",
+            "answer": [
+              {
+                "valueString": "알레르기 비염"
+              }
+            ]
+          },
+          {
+            "linkId": "current_medications",
+            "text": "복용 중인 약",
+            "answer": [
+              {
+                "valueString": "항히스타민제"
+              },
+              {
+                "valueString": "비강 스테로이드 스프레이"
+              }
+            ]
+          },
+          {
+            "linkId": "antihistamine_recent",
+            "text": "최근 5-7일 내 항히스타민제 복용",
+            "answer": [
+              {
+                "valueBoolean": true
+              }
+            ]
+          },
+          {
+            "linkId": "symptom_present",
+            "text": "현재 알레르기 증상",
+            "answer": [
+              {
+                "valueBoolean": true
+              }
+            ]
+          },
+          {
+            "linkId": "organ_systems",
+            "text": "증상 부위",
+            "answer": [
+              {
+                "valueString": "코 (재채기·콧물·코막힘)"
+              },
+              {
+                "valueString": "눈 (가려움·충혈·눈물)"
+              }
+            ]
+          },
+          {
+            "linkId": "season_pattern",
+            "text": "증상 계절 패턴",
+            "answer": [
+              {
+                "valueString": "both"
+              }
+            ]
+          },
+          {
+            "linkId": "worse_months",
+            "text": "증상 악화 월",
+            "answer": [
+              {
+                "valueInteger": 3
+              },
+              {
+                "valueInteger": 4
+              },
+              {
+                "valueInteger": 5
+              }
+            ]
+          },
+          {
+            "linkId": "residence_country",
+            "text": "거주 국가",
+            "answer": [
+              {
+                "valueString": "US"
+              }
+            ]
+          },
+          {
+            "linkId": "residence_region",
+            "text": "거주 지역",
+            "answer": [
+              {
+                "valueString": "MA"
+              }
+            ]
+          },
+          {
+            "linkId": "residence_postal_code",
+            "text": "우편번호",
+            "answer": [
+              {
+                "valueString": "02446"
+              }
+            ]
+          },
+          {
+            "linkId": "allergen-q/symptom_pattern",
+            "answer": [
+              {
+                "valueString": "both"
+              }
+            ]
+          },
+          {
+            "linkId": "allergen-q/worse_seasons",
+            "answer": [
+              {
+                "valueString": "spring"
+              }
+            ]
+          },
+          {
+            "linkId": "allergen-q/pollen_season__spring_tree",
+            "answer": [
+              {
+                "valueString": "yes"
+              }
+            ]
+          },
+          {
+            "linkId": "allergen-q/severity__pollen_spring_tree",
+            "answer": [
+              {
+                "valueString": "mild"
+              }
+            ]
+          },
+          {
+            "linkId": "allergen-q/pollen_season__fall_weed",
+            "answer": [
+              {
+                "valueString": "no"
+              }
+            ]
+          },
+          {
+            "linkId": "allergen-q/indoor_timing",
+            "answer": [
+              {
+                "valueString": "yes"
+              }
+            ]
+          },
+          {
+            "linkId": "allergen-q/indoor_away",
+            "answer": [
+              {
+                "valueString": "yes"
+              }
+            ]
+          },
+          {
+            "linkId": "allergen-q/mite_dust",
+            "answer": [
+              {
+                "valueString": "yes"
+              }
+            ]
+          },
+          {
+            "linkId": "allergen-q/severity__indoor",
+            "answer": [
+              {
+                "valueString": "moderate"
+              }
+            ]
+          },
+          {
+            "linkId": "allergen-q/animal_contact__agn3",
+            "answer": [
+              {
+                "valueString": "rare"
+              }
+            ]
+          },
+          {
+            "linkId": "allergen-q/animal_worse__agn3",
+            "answer": [
+              {
+                "valueString": "unsure"
+              }
+            ]
+          },
+          {
+            "linkId": "allergen-q/animal_work",
+            "answer": [
+              {
+                "valueString": "none"
+              }
+            ]
+          },
+          {
+            "linkId": "allergen-q/oral_allergy_syndrome",
+            "answer": [
+              {
+                "valueString": "no"
+              }
+            ]
+          },
+          {
+            "linkId": "allergen-q/crossreact__agn0",
+            "answer": [
+              {
+                "valueString": "none"
+              }
+            ]
+          },
+          {
+            "linkId": "allergen-q/crossreact__agn2",
+            "answer": [
+              {
+                "valueString": "none"
+              }
+            ]
+          },
+          {
+            "linkId": "allergen-q/crossreact__agn3",
+            "answer": [
+              {
+                "valueString": "none"
+              }
+            ]
+          },
+          {
+            "linkId": "allergen-q/food_general_react",
+            "answer": [
+              {
+                "valueString": "none"
+              }
+            ]
+          },
+          {
+            "linkId": "allergen-q/food_systemic",
+            "answer": [
+              {
+                "valueString": "no"
+              }
+            ]
+          }
+        ],
+        "authored": "2026-10-20"
+      }
+    }
+  ]
+}
