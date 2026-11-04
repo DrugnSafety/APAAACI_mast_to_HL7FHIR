@@ -68,6 +68,16 @@ output/
 .gstack/
 .omc/
 
+# 실제 환자 검사지 사진·OCR 평가 산출물 — 이름·생년월일·차트번호가 보인다. 공개 저장소에 올리지 않는다.
+input_images/KakaoTalk_Photo_*
+docs/ocr_eval_2026-10-09/
+docs/ocr_comparison_2026-10-29/*.html
+docs/ocr_comparison_2026-10-29/*.json
+docs/ocr_comparison_2026-10-29/validation/
+
+# 저작권 교재 원문(PDF·스캔본) — 재배포하지 않는다.
+input_textbook/
+
 # 저장소(SQLite) — 사용자 검사결과·상담 대화 등 건강정보. 절대 커밋하지 않는다.
 data/store/
 *.sqlite3
