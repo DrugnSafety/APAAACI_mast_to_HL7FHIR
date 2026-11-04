@@ -54,6 +54,11 @@ def md_text(value: Any) -> str:
 class ReportService:
     """맞춤형 알레르기 관리 리포트 생성 서비스"""
     
+    def _openai(self):
+        """호출마다 키 묶음(OPENAI_API_KEY_1..N)에서 다음 클라이언트 — 없으면 초기화 때 만든 것."""
+        from services import llm_backend
+        return llm_backend.client("openai") or self.client
+
     def __init__(self, api_key: Optional[str] = None):
         """
         Args:
@@ -281,7 +286,7 @@ class ReportService:
             # 고급 리포트 생성 모델 사용
             logger.info(f"리포트 생성 중 - 모델: {settings.openai_report_model}")
             logger.info(f"Temperature: {settings.report_temperature}, Max Tokens: {settings.report_max_tokens}")
-            response = self.client.chat.completions.create(
+            response = self._openai().chat.completions.create(
                 model=settings.openai_report_model,  # gpt-4o for detailed report
                 messages=messages,
                 temperature=settings.report_temperature,  # 0.8 for creativity
@@ -1373,6 +1378,9 @@ class ReportService:
         if tips:
             blocks.append("### 🎯 우선 실천 회피 수칙")
             blocks.append("\n".join(f"- **{t['label']}:** {md_text(t['tip'])}" for t in tips))
+            env_md = self._environment_evidence_md(relevant)
+            if env_md:
+                blocks.append(env_md)
         else:
             blocks.append("### 🎯 지금 꼭 지켜야 할 회피 수칙은 없습니다")
             # 증상 기록·재평가는 바로 아래 '추적 관리' 절에 있으므로 여기서 되풀이하지 않는다
@@ -1381,6 +1389,36 @@ class ReportService:
         # 약물 안내는 여기에 두지 않는다. 예전의 '증상 관리' 목록은 질환도 증상도 없는 환자에게까지 비염·눈
         # 약을 적었고, 바로 뒤의 '주증상별 안내'(고른 증상의 약물 선택지)·'지금 쓰는 약'(고른 약)과 겹쳤다.
         return "\n\n".join(blocks)
+
+    @staticmethod
+    def _environment_evidence_md(relevant) -> str:
+        """'실제 주의' 항원이 속한 알레르겐군의 환경관리 근거 요약(교과서 정리, 결정론).
+
+        회피 수칙 바로 아래에 '왜 이렇게 하라는지'를 한 군당 두세 문장으로 적는다. 문장과 출처는
+        data/allergen_environment_control.json 에 있고 알레르기 전문의 검토 전이므로 그 사실을 밝힌다.
+        음식·벌독·약물처럼 자료가 없는 군은 아무것도 적지 않는다.
+        """
+        try:
+            from services.environment_control_service import get_environment_control_service
+            svc = get_environment_control_service()
+            blocks = svc.for_assessments(relevant, limit_per_group=3) if svc.available else []
+        except Exception as e:  # noqa: BLE001
+            logger.debug(f"환경관리 근거 요약 실패: {e}")
+            return ""
+        if not blocks:
+            return ""
+        md = ["#### 📚 왜 이렇게 하나요 — 환경관리 근거 요약",
+              "알레르기 교과서(한글 교과서 환경관리 장, Middleton's Allergy 26·27·28·86장)를 정리한 일반 정보이며 "
+              "알레르기 전문의 검토 전입니다. 약을 바꾸라는 뜻은 없습니다."]
+        for b in blocks:
+            md.append(f"\n**{b['label_ko']}** — {md_text(b.get('patient_summary_ko', ''))}")
+            if b.get("evidence_summary_ko"):
+                md.append(f"- 근거: {md_text(b['evidence_summary_ko'])}")
+            tiers = [f"{m['short_ko']}({m['tier_ko'].split(' — ')[0]})" for m in b.get("measures", [])[:3]
+                     if m.get("short_ko")]
+            if tiers:
+                md.append(f"- 우선순위: {md_text(' · '.join(tiers))}")
+        return "\n".join(md)
 
     def _exposure_link_md(self, relevant, screening) -> str:
         """노출 → 증상 → 질환. 환자가 알려준 질환·증상을 알러젠 노출 상황과 잇는다."""
@@ -1465,7 +1503,7 @@ class ReportService:
                     "Markdown 구조(제목/불릿)와 핵심 정보는 유지하고, 새로운 의학적 사실을 지어내지 마라.\n\n"
                     f"[초안]\n{base_md}"
                 )
-                response = self.client.chat.completions.create(
+                response = self._openai().chat.completions.create(
                     model=settings.openai_report_model,
                     messages=[{"role": "user", "content": prompt}],
                     temperature=0.4,

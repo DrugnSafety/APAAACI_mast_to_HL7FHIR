@@ -108,8 +108,11 @@ class TestModelParams:
         assert len(fake.calls) == 2 and "reasoning_effort" not in fake.calls[1]
 
     def test_default_model_is_the_benchmarked_one(self):
+        """2026-09 벤치마크는 gpt-5.4 로 했고, 2026-10-09 사용자 결정으로 gpt-6-luna 로 바꿨다(같은 추론 모델 파라미터).
+        기본값이 바뀌면 이 테스트와 config/settings.py 주석을 함께 고친다."""
         from config.settings import Settings
-        assert Settings.model_fields["openai_chat_model"].default == "gpt-5.4"
+        assert Settings.model_fields["openai_chat_model"].default == "gpt-6-luna"
+        assert Settings.model_fields["openai_vision_model"].default == "gpt-6-luna"
 
 
 class TestSystemPrompt:

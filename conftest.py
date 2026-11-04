@@ -19,6 +19,10 @@ for _name in ("ADMIN_PASSWORD", "ADMIN_SESSION_SECRET", "SMTP_HOST", "SMTP_FROM"
 #  각자 fixture 에서 키를 비운다.)
 os.environ["LLM_BACKEND"] = "openai"
 os.environ["OLLAMA_BASE_URL"] = ""
+# 키 묶음(OPENAI_API_KEY_1..8)은 비운다 — .env 에 번호 키가 있으면 fixture 가 OPENAI_API_KEY 를 비워도
+# 번역·상담이 실제 OpenAI 로 나간다. (환경변수가 .env 보다 우선이라 빈 문자열로 덮어쓴다)
+for _i in range(1, 9):
+    os.environ[f"OPENAI_API_KEY_{_i}"] = ""
 # IP 당 요청 수 제한은 기본으로 끈다(테스트는 한 주소에서 수백 번 부른다). 제한을 보는 테스트가 직접 켠다.
 for _name in ("RATE_LIMIT_OCR_PER_MIN", "RATE_LIMIT_CLASSIFY_PER_MIN", "RATE_LIMIT_CHAT_PER_MIN",
               "RATE_LIMIT_API_PER_MIN", "SESSION_RETENTION_DAYS"):

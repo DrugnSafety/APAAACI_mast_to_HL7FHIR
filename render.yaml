@@ -11,10 +11,17 @@ services:
     envVars:
       - key: OPENAI_API_KEY
         sync: false        # 대시보드에서 직접 입력(시크릿)
+      # 키를 여러 개 돌려 쓰려면 OPENAI_API_KEY_1, OPENAI_API_KEY_2 … 를 대시보드에 추가한다(번호순 round-robin)
       - key: OPENAI_VISION_MODEL
-        value: gpt-5.4
+        value: gpt-6-luna
       - key: OPENAI_CHAT_MODEL
-        value: gpt-5.4
+        value: gpt-6-luna
+      # 토큰 예산 라우팅: 누적 1,000만 토큰까지 gpt-5.6-luna, 넘으면 위 기본 모델. 장부(data/store/llm_usage.json)는
+      # 영구 디스크가 없으면 배포마다 0 에서 다시 센다.
+      - key: OPENAI_BUDGET_MODEL
+        value: gpt-5.6-luna
+      - key: OPENAI_BUDGET_TOKENS
+        value: "10000000"
       - key: OPENAI_REPORT_MODEL
         value: gpt-4o
       - key: APP_ENV

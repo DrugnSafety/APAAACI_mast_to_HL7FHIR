@@ -1,0 +1,2207 @@
+{
+ "version": "1.0",
+ "generated_at": "2026-10-13",
+ "catalog": "immunocap_catalog_2023.json",
+ "note_ko": "레지스트리 항원 → ImmunoCAP 코드. how=auto 는 정규화 이름 일치+카테고리 게이트, manual 은 스크립트 MANUAL 표. none 은 카탈로그에 대응 단일 항원이 없음(혼합·대조·국내 전용).",
+ "count": 159,
+ "summary": {
+  "manual": 54,
+  "auto": 105
+ },
+ "items": [
+  {
+   "id": "2_spotted_spider_mite",
+   "canonical_name": "2-spotted spider mite",
+   "korean_name": "점박이응애",
+   "category": "other",
+   "immunocap_codes": [],
+   "immunocap_names": [],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "abalone",
+   "canonical_name": "Abalone",
+   "korean_name": "전복",
+   "category": "food",
+   "immunocap_codes": [
+    "f346"
+   ],
+   "immunocap_names": [
+    "Abalone"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "acacia",
+   "canonical_name": "Acacia",
+   "korean_name": "아까시나무",
+   "category": "pollen_tree",
+   "immunocap_codes": [
+    "t19"
+   ],
+   "immunocap_names": [
+    "Acacia"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "alder",
+   "canonical_name": "Alder",
+   "korean_name": "오리나무",
+   "category": "pollen_tree",
+   "immunocap_codes": [
+    "t2"
+   ],
+   "immunocap_names": [
+    "Grey alder"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "almond",
+   "canonical_name": "Almond",
+   "korean_name": "아몬드",
+   "category": "food",
+   "immunocap_codes": [
+    "f20"
+   ],
+   "immunocap_names": [
+    "Almond"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "alternaria_alternata",
+   "canonical_name": "Alternaria alternata",
+   "korean_name": "얼터나리아",
+   "category": "mold",
+   "immunocap_codes": [
+    "m6"
+   ],
+   "immunocap_names": [
+    "Alternaria alternata"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "amoxicillin",
+   "canonical_name": "Amoxicillin",
+   "korean_name": "아목시실린",
+   "category": "drug",
+   "immunocap_codes": [
+    "c6"
+   ],
+   "immunocap_names": [
+    "Amoxicilloyl"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "ampicillin",
+   "canonical_name": "Ampicillin",
+   "korean_name": "암피실린",
+   "category": "drug",
+   "immunocap_codes": [
+    "c5"
+   ],
+   "immunocap_names": [
+    "Ampicilloyl"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "anisakis",
+   "canonical_name": "Anisakis",
+   "korean_name": "아니사키스",
+   "category": "food",
+   "immunocap_codes": [
+    "p4"
+   ],
+   "immunocap_names": [
+    "Anisakis"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "apple",
+   "canonical_name": "Apple",
+   "korean_name": "사과",
+   "category": "food",
+   "immunocap_codes": [
+    "f49"
+   ],
+   "immunocap_names": [
+    "Apple"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "apricot",
+   "canonical_name": "Apricot",
+   "korean_name": "살구",
+   "category": "food",
+   "immunocap_codes": [
+    "f237"
+   ],
+   "immunocap_names": [
+    "Apricot"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "aspergillus_fumigatus",
+   "canonical_name": "Aspergillus fumigatus",
+   "korean_name": "아스페르길루스 푸미가투스",
+   "category": "mold",
+   "immunocap_codes": [
+    "m3"
+   ],
+   "immunocap_names": [
+    "Aspergillus fumigatus"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "aspergillus_niger",
+   "canonical_name": "Aspergillus niger",
+   "korean_name": "아스페르길루스 니거",
+   "category": "mold",
+   "immunocap_codes": [
+    "m207"
+   ],
+   "immunocap_names": [
+    "Aspergillus niger"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "avocado",
+   "canonical_name": "Avocado",
+   "korean_name": "아보카도",
+   "category": "food",
+   "immunocap_codes": [
+    "f96"
+   ],
+   "immunocap_names": [
+    "Avocado"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "banana",
+   "canonical_name": "Banana",
+   "korean_name": "바나나",
+   "category": "food",
+   "immunocap_codes": [
+    "f92"
+   ],
+   "immunocap_names": [
+    "Banana"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "barley",
+   "canonical_name": "Barley",
+   "korean_name": "보리가루",
+   "category": "food",
+   "immunocap_codes": [
+    "f6"
+   ],
+   "immunocap_names": [
+    "Barley"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "bean",
+   "canonical_name": "Bean",
+   "korean_name": "콩류",
+   "category": "food",
+   "immunocap_codes": [
+    "f15"
+   ],
+   "immunocap_names": [
+    "White bean"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "beech",
+   "canonical_name": "Beech",
+   "korean_name": "너도밤나무",
+   "category": "pollen_tree",
+   "immunocap_codes": [
+    "t5"
+   ],
+   "immunocap_names": [
+    "American beech"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "beef",
+   "canonical_name": "Beef",
+   "korean_name": "소고기",
+   "category": "food",
+   "immunocap_codes": [
+    "f27"
+   ],
+   "immunocap_names": [
+    "Beef"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "bermuda_grass",
+   "canonical_name": "Bermuda grass",
+   "korean_name": "우산잔디",
+   "category": "pollen_grass",
+   "immunocap_codes": [
+    "g2"
+   ],
+   "immunocap_names": [
+    "Bermuda grass"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "birch",
+   "canonical_name": "Birch",
+   "korean_name": "자작나무",
+   "category": "pollen_tree",
+   "immunocap_codes": [
+    "t3"
+   ],
+   "immunocap_names": [
+    "Common silver birch"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "cabbage",
+   "canonical_name": "Cabbage",
+   "korean_name": "양배추",
+   "category": "food",
+   "immunocap_codes": [
+    "f216"
+   ],
+   "immunocap_names": [
+    "Cabbage"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "candida_albicans",
+   "canonical_name": "Candida albicans",
+   "korean_name": "칸디다 알비칸스",
+   "category": "mold",
+   "immunocap_codes": [
+    "m5"
+   ],
+   "immunocap_names": [
+    "Candida albicans"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "carp",
+   "canonical_name": "Carp",
+   "korean_name": "잉어",
+   "category": "food",
+   "immunocap_codes": [],
+   "immunocap_names": [],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "carrot",
+   "canonical_name": "Carrot",
+   "korean_name": "당근",
+   "category": "food",
+   "immunocap_codes": [
+    "f31"
+   ],
+   "immunocap_names": [
+    "Carrot"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "casein",
+   "canonical_name": "Casein",
+   "korean_name": "암소건락소-치즈원료",
+   "category": "food",
+   "immunocap_codes": [
+    "f78"
+   ],
+   "immunocap_names": [
+    "nBos d 8 Casein, Milk"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "cashew",
+   "canonical_name": "Cashew",
+   "korean_name": "캐슈넛",
+   "category": "food",
+   "immunocap_codes": [
+    "f202"
+   ],
+   "immunocap_names": [
+    "Cashew nut"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "cat_dander",
+   "canonical_name": "Cat dander",
+   "korean_name": "고양이 표피",
+   "category": "animal",
+   "immunocap_codes": [
+    "e1"
+   ],
+   "immunocap_names": [
+    "Cat dander"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "cefaclor",
+   "canonical_name": "Cefaclor",
+   "korean_name": "세파클러",
+   "category": "drug",
+   "immunocap_codes": [
+    "c7"
+   ],
+   "immunocap_names": [
+    "Cefaclor"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "celery",
+   "canonical_name": "Celery",
+   "korean_name": "샐러리",
+   "category": "food",
+   "immunocap_codes": [
+    "f85"
+   ],
+   "immunocap_names": [
+    "Celery"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "cherry",
+   "canonical_name": "Cherry",
+   "korean_name": "체리",
+   "category": "food",
+   "immunocap_codes": [
+    "f242"
+   ],
+   "immunocap_names": [
+    "Cherry"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "chicken",
+   "canonical_name": "Chicken",
+   "korean_name": "닭",
+   "category": "animal",
+   "immunocap_codes": [
+    "e85"
+   ],
+   "immunocap_names": [
+    "Chicken feathers"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "chrysanthemum",
+   "canonical_name": "Chrysanthemum",
+   "korean_name": "국화",
+   "category": "pollen_weed",
+   "immunocap_codes": [],
+   "immunocap_names": [],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "citrus_fruit",
+   "canonical_name": "Citrus fruit",
+   "korean_name": "귤",
+   "category": "food",
+   "immunocap_codes": [
+    "f33"
+   ],
+   "immunocap_names": [
+    "Orange"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "cladosporium_herbarum",
+   "canonical_name": "Cladosporium herbarum",
+   "korean_name": "클라도스포리움 헤르바룸",
+   "category": "mold",
+   "immunocap_codes": [
+    "m2"
+   ],
+   "immunocap_names": [
+    "Cladosporium herbarum"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "clam",
+   "canonical_name": "Clam",
+   "korean_name": "조개",
+   "category": "food",
+   "immunocap_codes": [
+    "f207"
+   ],
+   "immunocap_names": [
+    "Clam"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "cockroach_american",
+   "canonical_name": "Cockroach, American",
+   "korean_name": "미국바퀴",
+   "category": "insect",
+   "immunocap_codes": [
+    "i206"
+   ],
+   "immunocap_names": [
+    "Cockroach, American"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "cockroach_german",
+   "canonical_name": "Cockroach, German",
+   "korean_name": "독일바퀴",
+   "category": "insect",
+   "immunocap_codes": [
+    "i6"
+   ],
+   "immunocap_names": [
+    "Cockroach, German"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "cockroach_mix",
+   "canonical_name": "Cockroach, Mix",
+   "korean_name": "바퀴벌레",
+   "category": "insect",
+   "immunocap_codes": [
+    "i6",
+    "i206"
+   ],
+   "immunocap_names": [
+    "Cockroach, German",
+    "Cockroach, American"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "cod",
+   "canonical_name": "Cod",
+   "korean_name": "대구",
+   "category": "food",
+   "immunocap_codes": [
+    "f3"
+   ],
+   "immunocap_names": [
+    "Fish (cod)"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "control",
+   "canonical_name": "Control",
+   "korean_name": "음성 대조용 생리식염수",
+   "category": "control",
+   "immunocap_codes": [],
+   "immunocap_names": [],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "cornflour",
+   "canonical_name": "Cornflour",
+   "korean_name": "옥수수가루",
+   "category": "food",
+   "immunocap_codes": [
+    "f8"
+   ],
+   "immunocap_names": [
+    "Maize, Corn"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "cow_dander",
+   "canonical_name": "Cow dander",
+   "korean_name": "소 비듬",
+   "category": "animal",
+   "immunocap_codes": [
+    "e4"
+   ],
+   "immunocap_names": [
+    "Cow dander"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "cow_milk",
+   "canonical_name": "Cow milk",
+   "korean_name": "우유",
+   "category": "food",
+   "immunocap_codes": [
+    "f2"
+   ],
+   "immunocap_names": [
+    "Cow’s milk"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "crab",
+   "canonical_name": "Crab",
+   "korean_name": "게",
+   "category": "food",
+   "immunocap_codes": [
+    "f23"
+   ],
+   "immunocap_names": [
+    "Crab"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "crayfish",
+   "canonical_name": "Crayfish",
+   "korean_name": "가재",
+   "category": "food",
+   "immunocap_codes": [
+    "f320"
+   ],
+   "immunocap_names": [
+    "Crayfish"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "cultivated_oat",
+   "canonical_name": "Cultivated oat",
+   "korean_name": "귀리",
+   "category": "pollen_grass",
+   "immunocap_codes": [
+    "g14"
+   ],
+   "immunocap_names": [
+    "Cultivated oat"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "dandelion",
+   "canonical_name": "Dandelion",
+   "korean_name": "서양민들레",
+   "category": "pollen_weed",
+   "immunocap_codes": [
+    "w8"
+   ],
+   "immunocap_names": [
+    "Dandelion"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "dermatophagoides_farinae",
+   "canonical_name": "Dermatophagoides farinae",
+   "korean_name": "미국집먼지진드기",
+   "category": "mite",
+   "immunocap_codes": [
+    "d2"
+   ],
+   "immunocap_names": [
+    "House dust mite"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "dermatophagoides_pteronyssinus",
+   "canonical_name": "Dermatophagoides pteronyssinus",
+   "korean_name": "유럽 집먼지진드기",
+   "category": "mite",
+   "immunocap_codes": [
+    "d1"
+   ],
+   "immunocap_names": [
+    "House dust mite"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "dog_dander",
+   "canonical_name": "Dog dander",
+   "korean_name": "개 표피",
+   "category": "animal",
+   "immunocap_codes": [
+    "e5"
+   ],
+   "immunocap_names": [
+    "Dog dander"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "egg_white",
+   "canonical_name": "Egg white",
+   "korean_name": "계란흰자",
+   "category": "food",
+   "immunocap_codes": [
+    "f1"
+   ],
+   "immunocap_names": [
+    "Egg white"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "egg_yolk",
+   "canonical_name": "Egg yolk",
+   "korean_name": "계란노른자",
+   "category": "food",
+   "immunocap_codes": [
+    "f75"
+   ],
+   "immunocap_names": [
+    "Egg yolk"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "elder",
+   "canonical_name": "Elder",
+   "korean_name": "딱총나무",
+   "category": "pollen_tree",
+   "immunocap_codes": [
+    "t205"
+   ],
+   "immunocap_names": [
+    "Elder"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "elm",
+   "canonical_name": "Elm",
+   "korean_name": "느릅나무",
+   "category": "pollen_tree",
+   "immunocap_codes": [
+    "t8"
+   ],
+   "immunocap_names": [
+    "Elm"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "english_plantain",
+   "canonical_name": "English plantain",
+   "korean_name": "질경이",
+   "category": "pollen_weed",
+   "immunocap_codes": [
+    "w9"
+   ],
+   "immunocap_names": [
+    "Plantain (English), Ribwort"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "fusarium",
+   "canonical_name": "Fusarium",
+   "korean_name": "푸사리움 모닐리포르메",
+   "category": "mold",
+   "immunocap_codes": [
+    "m9"
+   ],
+   "immunocap_names": [
+    "Fusarium proliferatum (F. moniliforme)"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "goldenrod",
+   "canonical_name": "Goldenrod",
+   "korean_name": "미역취",
+   "category": "pollen_weed",
+   "immunocap_codes": [
+    "w12"
+   ],
+   "immunocap_names": [
+    "Goldenrod"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "grape",
+   "canonical_name": "Grape",
+   "korean_name": "포도",
+   "category": "food",
+   "immunocap_codes": [
+    "f259"
+   ],
+   "immunocap_names": [
+    "Grape"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "grass",
+   "canonical_name": "Grass",
+   "korean_name": "잔디 꽃가루 혼합",
+   "category": "pollen_grass",
+   "immunocap_codes": [
+    "gx1"
+   ],
+   "immunocap_names": [
+    "g3, g4, g5, g6, g8"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "guinea_pig",
+   "canonical_name": "Guinea pig",
+   "korean_name": "기니피그",
+   "category": "animal",
+   "immunocap_codes": [
+    "e6"
+   ],
+   "immunocap_names": [
+    "Guinea pig epithelium"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "hamster",
+   "canonical_name": "Hamster",
+   "korean_name": "햄스터",
+   "category": "animal",
+   "immunocap_codes": [
+    "e84"
+   ],
+   "immunocap_names": [
+    "Hamster epithelium"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "hazel",
+   "canonical_name": "Hazel",
+   "korean_name": "개암나무",
+   "category": "pollen_tree",
+   "immunocap_codes": [
+    "t4"
+   ],
+   "immunocap_names": [
+    "Hazel"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "hazelnut",
+   "canonical_name": "Hazelnut",
+   "korean_name": "헤이즐넛",
+   "category": "food",
+   "immunocap_codes": [
+    "f17"
+   ],
+   "immunocap_names": [
+    "Hazel nut"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "hen_s_egg",
+   "canonical_name": "Hen's egg",
+   "korean_name": "달걀 전체",
+   "category": "food",
+   "immunocap_codes": [
+    "f245"
+   ],
+   "immunocap_names": [
+    "Whole hen’s egg"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "herring",
+   "canonical_name": "Herring",
+   "korean_name": "청어",
+   "category": "food",
+   "immunocap_codes": [
+    "f205"
+   ],
+   "immunocap_names": [
+    "Herring"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "histamine",
+   "canonical_name": "Histamine",
+   "korean_name": "양성 대조용 0.1% 히스타민 용액",
+   "category": "control",
+   "immunocap_codes": [],
+   "immunocap_names": [],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "honey_bee_venom",
+   "canonical_name": "Honey bee venom",
+   "korean_name": "꿀벌 독",
+   "category": "venom",
+   "immunocap_codes": [
+    "i1"
+   ],
+   "immunocap_names": [
+    "Honey bee"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": "i1"
+  },
+  {
+   "id": "hornbeam",
+   "canonical_name": "Hornbeam",
+   "korean_name": "서어나무",
+   "category": "pollen_tree",
+   "immunocap_codes": [
+    "t209"
+   ],
+   "immunocap_names": [
+    "Horn beam"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "horse_dander",
+   "canonical_name": "Horse dander",
+   "korean_name": "말 비듬",
+   "category": "animal",
+   "immunocap_codes": [
+    "e3"
+   ],
+   "immunocap_names": [
+    "Horse dander"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "house_dust",
+   "canonical_name": "House dust",
+   "korean_name": "집먼지",
+   "category": "other",
+   "immunocap_codes": [
+    "h1",
+    "h2"
+   ],
+   "immunocap_names": [
+    "Greer Labs., Inc.",
+    "Hollister-Stier Labs."
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "indoor_mold_mixture",
+   "canonical_name": "Indoor mold mixture",
+   "korean_name": "실내 곰팡이 혼합",
+   "category": "mold",
+   "immunocap_codes": [
+    "mx1"
+   ],
+   "immunocap_names": [
+    "m1, m2, m3, m6"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "japanese_cedar",
+   "canonical_name": "Japanese cedar",
+   "korean_name": "삼나무",
+   "category": "pollen_tree",
+   "immunocap_codes": [
+    "t17"
+   ],
+   "immunocap_names": [
+    "Japanese cedar"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "japanese_hop",
+   "canonical_name": "Japanese hop",
+   "korean_name": "환삼덩굴",
+   "category": "pollen_weed",
+   "immunocap_codes": [
+    "w22"
+   ],
+   "immunocap_names": [
+    "Japanese Hop"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "kentucky_blue_grass",
+   "canonical_name": "Kentucky blue grass",
+   "korean_name": "왕포아풀",
+   "category": "pollen_grass",
+   "immunocap_codes": [
+    "g8"
+   ],
+   "immunocap_names": [
+    "Meadow grass, Kentucky blue"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "kiwi",
+   "canonical_name": "Kiwi",
+   "korean_name": "키위",
+   "category": "food",
+   "immunocap_codes": [
+    "f84"
+   ],
+   "immunocap_names": [
+    "Kiwi"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "krill",
+   "canonical_name": "Krill",
+   "korean_name": "크릴",
+   "category": "food",
+   "immunocap_codes": [],
+   "immunocap_names": [],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "lactalbumin",
+   "canonical_name": "Lactalbumin",
+   "korean_name": "락토알부민",
+   "category": "food",
+   "immunocap_codes": [
+    "f76"
+   ],
+   "immunocap_names": [
+    "nBos d 4 alpha-lactalbumin, Milk"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "lamb_s_quarters",
+   "canonical_name": "Lamb's quarters",
+   "korean_name": "명아주",
+   "category": "pollen_weed",
+   "immunocap_codes": [
+    "w10"
+   ],
+   "immunocap_names": [
+    "Goosefoot, Lamb’s quarters"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "latex",
+   "canonical_name": "Latex",
+   "korean_name": "라텍스",
+   "category": "latex",
+   "immunocap_codes": [
+    "k82"
+   ],
+   "immunocap_names": [
+    "Latex"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "lentil",
+   "canonical_name": "Lentil",
+   "korean_name": "렌즈콩",
+   "category": "food",
+   "immunocap_codes": [
+    "f235"
+   ],
+   "immunocap_names": [
+    "Lentil"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "lobster",
+   "canonical_name": "Lobster",
+   "korean_name": "바닷가재",
+   "category": "food",
+   "immunocap_codes": [
+    "f80"
+   ],
+   "immunocap_names": [
+    "Lobster"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "mackerel",
+   "canonical_name": "Mackerel",
+   "korean_name": "고등어",
+   "category": "food",
+   "immunocap_codes": [
+    "f206"
+   ],
+   "immunocap_names": [
+    "Mackerel"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "maize_corn",
+   "canonical_name": "Maize (corn)",
+   "korean_name": "옥수수",
+   "category": "food",
+   "immunocap_codes": [
+    "f8"
+   ],
+   "immunocap_names": [
+    "Maize, Corn"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "meadow_fescue",
+   "canonical_name": "Meadow fescue",
+   "korean_name": "넓은김의털",
+   "category": "pollen_grass",
+   "immunocap_codes": [
+    "g4"
+   ],
+   "immunocap_names": [
+    "Meadow fescue"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "melon",
+   "canonical_name": "Melon",
+   "korean_name": "멜론",
+   "category": "food",
+   "immunocap_codes": [
+    "f87"
+   ],
+   "immunocap_names": [
+    "Melon"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "mouse",
+   "canonical_name": "Mouse",
+   "korean_name": "생쥐",
+   "category": "animal",
+   "immunocap_codes": [
+    "e71"
+   ],
+   "immunocap_names": [
+    "Mouse epithelium"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "mucor_racemosus",
+   "canonical_name": "Mucor racemosus",
+   "korean_name": "뮤코르 라세모수스",
+   "category": "mold",
+   "immunocap_codes": [
+    "m4"
+   ],
+   "immunocap_names": [
+    "Mucor racemosus"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "mugwort",
+   "canonical_name": "Mugwort",
+   "korean_name": "쑥",
+   "category": "pollen_weed",
+   "immunocap_codes": [
+    "w6"
+   ],
+   "immunocap_names": [
+    "Mugwort"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "mung_bean",
+   "canonical_name": "Mung bean",
+   "korean_name": "녹두",
+   "category": "food",
+   "immunocap_codes": [],
+   "immunocap_names": [],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "mushroom",
+   "canonical_name": "Mushroom",
+   "korean_name": "버섯",
+   "category": "food",
+   "immunocap_codes": [
+    "f212"
+   ],
+   "immunocap_names": [
+    "Mushroom (champignon)"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "mussel",
+   "canonical_name": "Mussel",
+   "korean_name": "홍합",
+   "category": "food",
+   "immunocap_codes": [
+    "f37"
+   ],
+   "immunocap_names": [
+    "Blue mussel"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "mustard",
+   "canonical_name": "Mustard",
+   "korean_name": "겨자",
+   "category": "food",
+   "immunocap_codes": [
+    "f89"
+   ],
+   "immunocap_names": [
+    "Mustard"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "nettle",
+   "canonical_name": "Nettle",
+   "korean_name": "쐐기풀",
+   "category": "pollen_weed",
+   "immunocap_codes": [
+    "w20"
+   ],
+   "immunocap_names": [
+    "Nettle"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "neurospora",
+   "canonical_name": "Neurospora",
+   "korean_name": "뉴로스포라",
+   "category": "mold",
+   "immunocap_codes": [],
+   "immunocap_names": [],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "oak",
+   "canonical_name": "Oak",
+   "korean_name": "참나무",
+   "category": "pollen_tree",
+   "immunocap_codes": [
+    "t7"
+   ],
+   "immunocap_names": [
+    "Oak"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "oat",
+   "canonical_name": "Oat",
+   "korean_name": "귀리가루",
+   "category": "food",
+   "immunocap_codes": [
+    "f7"
+   ],
+   "immunocap_names": [
+    "Oat"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "octopus",
+   "canonical_name": "Octopus",
+   "korean_name": "문어",
+   "category": "food",
+   "immunocap_codes": [
+    "f59"
+   ],
+   "immunocap_names": [
+    "Octopus"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "olive",
+   "canonical_name": "Olive",
+   "korean_name": "올리브",
+   "category": "pollen_tree",
+   "immunocap_codes": [
+    "t9"
+   ],
+   "immunocap_names": [
+    "Olive"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "onion",
+   "canonical_name": "Onion",
+   "korean_name": "양파",
+   "category": "food",
+   "immunocap_codes": [
+    "f48"
+   ],
+   "immunocap_names": [
+    "Onion"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "orange",
+   "canonical_name": "Orange",
+   "korean_name": "오렌지",
+   "category": "food",
+   "immunocap_codes": [
+    "f33"
+   ],
+   "immunocap_names": [
+    "Orange"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "orchard_grass",
+   "canonical_name": "Orchard grass",
+   "korean_name": "오리새",
+   "category": "pollen_grass",
+   "immunocap_codes": [
+    "g3"
+   ],
+   "immunocap_names": [
+    "Cocksfoot"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "outdoor_mold_mixture",
+   "canonical_name": "Outdoor mold mixture",
+   "korean_name": "실외 곰팡이 혼합",
+   "category": "mold",
+   "immunocap_codes": [
+    "mx2"
+   ],
+   "immunocap_names": [
+    "m1, m2, m3, m5, m6, m8"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "oyster",
+   "canonical_name": "Oyster",
+   "korean_name": "굴",
+   "category": "food",
+   "immunocap_codes": [
+    "f290"
+   ],
+   "immunocap_names": [
+    "Oyster"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "paper_wasp_venom",
+   "canonical_name": "Paper wasp venom",
+   "korean_name": "쌍살벌 독",
+   "category": "venom",
+   "immunocap_codes": [
+    "i4"
+   ],
+   "immunocap_names": [
+    "Paper wasp"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": "i4"
+  },
+  {
+   "id": "peach",
+   "canonical_name": "Peach",
+   "korean_name": "복숭아",
+   "category": "food",
+   "immunocap_codes": [
+    "f95"
+   ],
+   "immunocap_names": [
+    "Peach"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "peanut",
+   "canonical_name": "Peanut",
+   "korean_name": "땅콩",
+   "category": "food",
+   "immunocap_codes": [
+    "f13"
+   ],
+   "immunocap_names": [
+    "Peanut"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "pear",
+   "canonical_name": "Pear",
+   "korean_name": "배",
+   "category": "food",
+   "immunocap_codes": [
+    "f94"
+   ],
+   "immunocap_names": [
+    "Pear"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "pecan",
+   "canonical_name": "Pecan",
+   "korean_name": "피칸",
+   "category": "food",
+   "immunocap_codes": [
+    "f201"
+   ],
+   "immunocap_names": [
+    "Pecan nut"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "penicillin_g",
+   "canonical_name": "Penicillin G",
+   "korean_name": "페니실린 G",
+   "category": "drug",
+   "immunocap_codes": [
+    "c1"
+   ],
+   "immunocap_names": [
+    "Penicilloyl G"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "penicillin_v",
+   "canonical_name": "Penicillin V",
+   "korean_name": "페니실린 V",
+   "category": "drug",
+   "immunocap_codes": [
+    "c2"
+   ],
+   "immunocap_names": [
+    "Penicilloyl V"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "penicillium",
+   "canonical_name": "Penicillium",
+   "korean_name": "페니실리움",
+   "category": "mold",
+   "immunocap_codes": [
+    "m1"
+   ],
+   "immunocap_names": [
+    "Penicillium chrysogenum (P. notatum)"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "pepper",
+   "canonical_name": "Pepper",
+   "korean_name": "피망",
+   "category": "food",
+   "immunocap_codes": [
+    "f218"
+   ],
+   "immunocap_names": [
+    "Paprika, Sweet pepper"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "pine",
+   "canonical_name": "Pine",
+   "korean_name": "소나무",
+   "category": "pollen_tree",
+   "immunocap_codes": [
+    "t213"
+   ],
+   "immunocap_names": [
+    "Pine"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "pineapple",
+   "canonical_name": "Pineapple",
+   "korean_name": "파인애플",
+   "category": "food",
+   "immunocap_codes": [
+    "f210"
+   ],
+   "immunocap_names": [
+    "Pineapple"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "pistachio",
+   "canonical_name": "Pistachio",
+   "korean_name": "피스타치오",
+   "category": "food",
+   "immunocap_codes": [
+    "f203"
+   ],
+   "immunocap_names": [
+    "Pistachio"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "plaice",
+   "canonical_name": "Plaice",
+   "korean_name": "넙치, 가자미류",
+   "category": "food",
+   "immunocap_codes": [
+    "f254"
+   ],
+   "immunocap_names": [
+    "Plaice"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "plane",
+   "canonical_name": "Plane",
+   "korean_name": "양버즘나무",
+   "category": "pollen_tree",
+   "immunocap_codes": [
+    "t11"
+   ],
+   "immunocap_names": [
+    "Maple leaf sycamore, London plane"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "plum",
+   "canonical_name": "Plum",
+   "korean_name": "자두",
+   "category": "food",
+   "immunocap_codes": [
+    "f255"
+   ],
+   "immunocap_names": [
+    "Plum"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "pollock",
+   "canonical_name": "Pollock",
+   "korean_name": "명태",
+   "category": "food",
+   "immunocap_codes": [
+    "f413"
+   ],
+   "immunocap_names": [
+    "Pollock"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "poplar",
+   "canonical_name": "Poplar",
+   "korean_name": "포플러나무",
+   "category": "pollen_tree",
+   "immunocap_codes": [
+    "t14"
+   ],
+   "immunocap_names": [
+    "Cottonwood"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "pork",
+   "canonical_name": "Pork",
+   "korean_name": "돼지고기",
+   "category": "food",
+   "immunocap_codes": [
+    "f26"
+   ],
+   "immunocap_names": [
+    "Pork"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "potato",
+   "canonical_name": "Potato",
+   "korean_name": "감자",
+   "category": "food",
+   "immunocap_codes": [
+    "f35"
+   ],
+   "immunocap_names": [
+    "Potato"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "prawn",
+   "canonical_name": "Prawn",
+   "korean_name": "대하",
+   "category": "food",
+   "immunocap_codes": [
+    "f24"
+   ],
+   "immunocap_names": [
+    "Shrimp"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "rabbit_epithelium",
+   "canonical_name": "Rabbit epithelium",
+   "korean_name": "토끼 상피",
+   "category": "animal",
+   "immunocap_codes": [
+    "e82"
+   ],
+   "immunocap_names": [
+    "Rabbit epithelium"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "ragweed",
+   "canonical_name": "Ragweed",
+   "korean_name": "돼지풀",
+   "category": "pollen_weed",
+   "immunocap_codes": [
+    "w1"
+   ],
+   "immunocap_names": [
+    "Common ragweed"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "rat_epithelium",
+   "canonical_name": "Rat epithelium",
+   "korean_name": "쥐 상피",
+   "category": "animal",
+   "immunocap_codes": [
+    "e73"
+   ],
+   "immunocap_names": [
+    "Rat epithelium"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "rice",
+   "canonical_name": "Rice",
+   "korean_name": "쌀가루",
+   "category": "food",
+   "immunocap_codes": [
+    "f9"
+   ],
+   "immunocap_names": [
+    "Rice"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "russian_thistle",
+   "canonical_name": "Russian thistle",
+   "korean_name": "러시안 엉겅퀴",
+   "category": "pollen_weed",
+   "immunocap_codes": [
+    "w11"
+   ],
+   "immunocap_names": [
+    "Saltwort (prickly), Russian thistle"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "rye_flour",
+   "canonical_name": "Rye flour",
+   "korean_name": "호밀가루",
+   "category": "food",
+   "immunocap_codes": [
+    "f5"
+   ],
+   "immunocap_names": [
+    "Rye"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "rye_grass_perennial",
+   "canonical_name": "Rye grass, perennial",
+   "korean_name": "호밀풀",
+   "category": "pollen_grass",
+   "immunocap_codes": [
+    "g5"
+   ],
+   "immunocap_names": [
+    "Rye-grass"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "salmon",
+   "canonical_name": "Salmon",
+   "korean_name": "연어",
+   "category": "food",
+   "immunocap_codes": [
+    "f41"
+   ],
+   "immunocap_names": [
+    "Salmon"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "sardine",
+   "canonical_name": "Sardine",
+   "korean_name": "정어리",
+   "category": "food",
+   "immunocap_codes": [
+    "f61"
+   ],
+   "immunocap_names": [
+    "Sardine, Japanese Pilchard"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "sesame",
+   "canonical_name": "Sesame",
+   "korean_name": "참깨",
+   "category": "food",
+   "immunocap_codes": [
+    "f10"
+   ],
+   "immunocap_names": [
+    "Sesame seed"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "sheep",
+   "canonical_name": "Sheep",
+   "korean_name": "양고기",
+   "category": "food",
+   "immunocap_codes": [
+    "f88"
+   ],
+   "immunocap_names": [
+    "Mutton"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "shrimp",
+   "canonical_name": "Shrimp",
+   "korean_name": "새우",
+   "category": "food",
+   "immunocap_codes": [
+    "f24"
+   ],
+   "immunocap_names": [
+    "Shrimp"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "snail",
+   "canonical_name": "Snail",
+   "korean_name": "달팽이",
+   "category": "food",
+   "immunocap_codes": [
+    "f314"
+   ],
+   "immunocap_names": [
+    "Snail"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "soybean",
+   "canonical_name": "Soybean",
+   "korean_name": "대두",
+   "category": "food",
+   "immunocap_codes": [
+    "f14"
+   ],
+   "immunocap_names": [
+    "Soybean"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "spinach",
+   "canonical_name": "Spinach",
+   "korean_name": "시금치",
+   "category": "food",
+   "immunocap_codes": [
+    "f214"
+   ],
+   "immunocap_names": [
+    "Spinach"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "squid",
+   "canonical_name": "Squid",
+   "korean_name": "오징어",
+   "category": "food",
+   "immunocap_codes": [
+    "f258"
+   ],
+   "immunocap_names": [
+    "Squid"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "strawberry",
+   "canonical_name": "Strawberry",
+   "korean_name": "딸기",
+   "category": "food",
+   "immunocap_codes": [
+    "f44"
+   ],
+   "immunocap_names": [
+    "Strawberry"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "timothy",
+   "canonical_name": "Timothy",
+   "korean_name": "티모시",
+   "category": "pollen_grass",
+   "immunocap_codes": [
+    "g6"
+   ],
+   "immunocap_names": [
+    "Timothy grass"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "tomato",
+   "canonical_name": "Tomato",
+   "korean_name": "토마토",
+   "category": "food",
+   "immunocap_codes": [
+    "f25"
+   ],
+   "immunocap_names": [
+    "Tomato"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "tree_mixture_1",
+   "canonical_name": "Tree mixture 1",
+   "korean_name": "나무 꽃가루 혼합-1",
+   "category": "pollen_tree",
+   "immunocap_codes": [
+    "tx9"
+   ],
+   "immunocap_names": [
+    "t2, t3, t4, t7, t12"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "tree_mixture_2",
+   "canonical_name": "Tree mixture 2",
+   "korean_name": "나무 꽃가루 혼합-2",
+   "category": "pollen_tree",
+   "immunocap_codes": [
+    "tx5"
+   ],
+   "immunocap_names": [
+    "t2, t4, t8, t12, t14"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "trout",
+   "canonical_name": "Trout",
+   "korean_name": "송어",
+   "category": "food",
+   "immunocap_codes": [],
+   "immunocap_names": [],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "tuna",
+   "canonical_name": "Tuna",
+   "korean_name": "참치",
+   "category": "food",
+   "immunocap_codes": [
+    "f40"
+   ],
+   "immunocap_names": [
+    "Tuna"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "tyrophagus_putrescentiae",
+   "canonical_name": "Tyrophagus putrescentiae",
+   "korean_name": "긴털가루진드기",
+   "category": "mite",
+   "immunocap_codes": [
+    "d72"
+   ],
+   "immunocap_names": [
+    "Storage mite"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "velvet_grass",
+   "canonical_name": "Velvet grass",
+   "korean_name": "잔디",
+   "category": "pollen_grass",
+   "immunocap_codes": [
+    "g13"
+   ],
+   "immunocap_names": [
+    "Velvet grass"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "walnut",
+   "canonical_name": "Walnut",
+   "korean_name": "호두",
+   "category": "food",
+   "immunocap_codes": [
+    "f256"
+   ],
+   "immunocap_names": [
+    "Walnut"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "watermelon",
+   "canonical_name": "Watermelon",
+   "korean_name": "수박",
+   "category": "food",
+   "immunocap_codes": [
+    "f329"
+   ],
+   "immunocap_names": [
+    "Watermelon"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "wheat",
+   "canonical_name": "Wheat",
+   "korean_name": "밀",
+   "category": "food",
+   "immunocap_codes": [
+    "f4"
+   ],
+   "immunocap_names": [
+    "Wheat"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "white_ash",
+   "canonical_name": "White ash",
+   "korean_name": "물푸레나무",
+   "category": "pollen_tree",
+   "immunocap_codes": [
+    "t15"
+   ],
+   "immunocap_names": [
+    "White ash"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "white_faced_hornet_venom",
+   "canonical_name": "White-faced hornet venom",
+   "korean_name": "말벌 독(White-faced hornet)",
+   "category": "venom",
+   "immunocap_codes": [
+    "i2"
+   ],
+   "immunocap_names": [
+    "White-faced hornet"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": "i2"
+  },
+  {
+   "id": "wholemeal_flour",
+   "canonical_name": "Wholemeal flour",
+   "korean_name": "통밀가루",
+   "category": "food",
+   "immunocap_codes": [
+    "f79"
+   ],
+   "immunocap_names": [
+    "Gluten"
+   ],
+   "how": "manual",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "willow",
+   "canonical_name": "Willow",
+   "korean_name": "버드나무",
+   "category": "pollen_tree",
+   "immunocap_codes": [
+    "t12"
+   ],
+   "immunocap_names": [
+    "Willow"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "yeast",
+   "canonical_name": "Yeast",
+   "korean_name": "맥주용효모",
+   "category": "food",
+   "immunocap_codes": [
+    "f45"
+   ],
+   "immunocap_names": [
+    "Yeast"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": null
+  },
+  {
+   "id": "yellow_hornet_venom",
+   "canonical_name": "Yellow hornet venom",
+   "korean_name": "말벌 독(Yellow hornet)",
+   "category": "venom",
+   "immunocap_codes": [
+    "i5"
+   ],
+   "immunocap_names": [
+    "Yellow hornet"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": "i5"
+  },
+  {
+   "id": "yellow_jacket_venom",
+   "canonical_name": "Yellow jacket venom",
+   "korean_name": "땅벌 독(Yellow jacket)",
+   "category": "venom",
+   "immunocap_codes": [
+    "i3"
+   ],
+   "immunocap_names": [
+    "Common wasp (Yellow jacket)"
+   ],
+   "how": "auto",
+   "existing_immunocap_code": "i3"
+  }
+ ]
+}

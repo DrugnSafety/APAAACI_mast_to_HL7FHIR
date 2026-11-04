@@ -987,10 +987,60 @@ def ontology_topics():
     if not svc.available:
         raise HTTPException(status_code=503, detail="온톨로지 스냅샷을 불러오지 못했습니다.")
     return {"topics": svc.topics(),
+            # 교과서 알레르겐 환경관리 층(집먼지진드기·고양이·개·바퀴·곰팡이·꽃가루·설치류)
+            "allergen_topics": svc.allergen_topics(),
             "usage_rules": (svc._raw or {}).get("usage_rules", []),
             "limitations": (svc._raw or {}).get("limitations", []),
             "schema_version": (svc._raw or {}).get("schema_version"),
             "exported_at": (svc._raw or {}).get("export_finished_at")}
+
+
+@app.get("/api/knowledge/environment-control")
+def environment_control(group: Optional[str] = None, category: Optional[str] = None,
+                        name: Optional[str] = None, korean_name: Optional[str] = None,
+                        q: Optional[str] = None, include_rejected: bool = False):
+    """알레르겐군별 환경관리·회피 조치 — 단계(필수/도움/제한적/비권장)·근거 등급·출처.
+
+    `group`(mite·cat·dog·cockroach·mold_indoor·mold_outdoor·pollen·rodent) 또는 항원의
+    `category`/`name` 으로 군을 고른다. `q` 를 주면 그 문구(예: 공기청정기)에 걸리는 조치부터 돌려준다.
+    자료는 교과서 정리(알레르기 전문의 검토 전)이며 환자 개별 판정이 아니다."""
+    from services.environment_control_service import get_environment_control_service
+    svc = get_environment_control_service()
+    if not svc.available:
+        raise HTTPException(status_code=503, detail="환경관리 데이터를 불러오지 못했습니다.")
+    key = group or svc.group_for(category, name or "", korean_name or "")
+    if not key:
+        return {"group": None, "groups": list(svc.groups), "review_status": svc.review_status,
+                "note": "이 항원·카테고리에는 환경관리 자료가 없습니다(음식·벌독·약물·라텍스 등은 지식베이스의 안내를 씁니다)."}
+    if key not in svc.groups:
+        raise api_error(404, "unknown_group", f"알 수 없는 알레르겐군: {key}")
+    # 개발·검토용 조회라 검토 전(candidate) 조치도 보여 준다. 각 항목의 review_status 로 구분한다.
+    measures = (svc.measures_matching(key, q, limit=50, patient_facing=False) if q
+                else svc.measures(key, include_rejected=include_rejected))
+    return {**svc.summary(key), "measures": measures,
+            "sources": svc.sources([s for m in measures for s in (m.get("sources") or [])]),
+            "principles": svc.principles(), "review_stats": svc.review_stats()["per_owner"].get(key, {})}
+
+
+@app.get("/api/knowledge/environment-control/overview")
+def environment_control_overview():
+    """환경관리 지식 전체 개요 — 알레르겐군 목록·원칙·악화 요인·1차 예방·교과서 간 차이·출처."""
+    from services.environment_control_service import get_environment_control_service
+    svc = get_environment_control_service()
+    if not svc.available:
+        raise HTTPException(status_code=503, detail="환경관리 데이터를 불러오지 못했습니다.")
+    d = svc.data
+    return {"version": d.get("version"), "compiled_on": d.get("compiled_on"),
+            "review_status": svc.review_status, "note_ko": d.get("note_ko", []),
+            "groups": [svc.summary(k) for k in svc.groups],
+            "tiers": d.get("tiers", {}), "evidence_grades": d.get("evidence_grades", {}),
+            "principles": svc.principles(), "aggravating_factors": svc.aggravating_factors(),
+            "mechanisms": svc.mechanisms(), "etiology_context": svc.etiology_context(),
+            "edition_tracking": svc.edition_tracking(),
+            "primary_prevention": svc.primary_prevention(),
+            "disagreements_ko": d.get("disagreements_ko", []),
+            "review_stats": svc.review_stats(),
+            "sources": svc.sources(list((d.get("sources") or {}).keys()))}
 
 
 KNOWLEDGE_TEXT_MAX = 2000

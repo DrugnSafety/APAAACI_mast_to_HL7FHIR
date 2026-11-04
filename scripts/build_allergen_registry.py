@@ -136,7 +136,7 @@ def main():
             "components": [],
         }
         # 원본에 적어 둔 출처 표시(예: 2026-10 에 더한 항원 — 실제 패널과 대조하지 않았다)는 그대로 옮긴다
-        for extra in ("provenance", "immunocap_code"):
+        for extra in ("provenance", "immunocap_code", "immunocap_codes"):
             if e.get(extra):
                 rec[extra] = e[extra]
         # kb_ref 연결

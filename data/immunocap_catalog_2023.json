@@ -1,0 +1,5132 @@
+{
+ "version": "1.0",
+ "source": "ThermoFisher Phadia Product Catalog Feb 2023 (EN), pp.17-36 ImmunoCAP Allergens",
+ "source_url": "https://corporate.thermofisher.com/content/dam/phadia/library/en/Product-Catalog-Feb-2023.pdf",
+ "web_catalog_url": "https://www.thermofisher.com/phadia/wo/en/product-catalog.html?solution=ImmunoCAP&region=US&productType=Test",
+ "note_ko": "웹 카탈로그는 스크립트 접근이 차단(Akamai)되어 같은 라이브러리의 공식 PDF 카탈로그를 파싱했다. kind: whole=단일 추출 항원, component=분자 성분(SNOMED 단일 개념 거의 없음), mix=혼합(단일 SNOMED 없음). Research-use-only(U 코드)·총 IgE·기구 시약은 제외.",
+ "parsed_at": "2026-10-13",
+ "count": 569,
+ "items": [
+  {
+   "code": "g17",
+   "name": "Bahia grass",
+   "latin": "Paspalum notatum",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4189-01"
+  },
+  {
+   "code": "g201",
+   "name": "Barley",
+   "latin": "Hordeum vulgare",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4821-01"
+  },
+  {
+   "code": "g2",
+   "name": "Bermuda grass",
+   "latin": "Cynodon dactylon",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4131-01"
+  },
+  {
+   "code": "g11",
+   "name": "Brome grass",
+   "latin": "Bromus inermis",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4238-01"
+  },
+  {
+   "code": "g71",
+   "name": "Canary grass",
+   "latin": "Phalaris arundinacea",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4360-01"
+  },
+  {
+   "code": "g3",
+   "name": "Cocksfoot",
+   "latin": "Dactylis glomerata",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4117-01"
+  },
+  {
+   "code": "g7",
+   "name": "Common reed",
+   "latin": "Phragmites communis",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4187-01"
+  },
+  {
+   "code": "g14",
+   "name": "Cultivated oat",
+   "latin": "Avena sativa",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4239-01"
+  },
+  {
+   "code": "g12",
+   "name": "Cultivated rye",
+   "latin": "Secale cereale",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4101-01"
+  },
+  {
+   "code": "g15",
+   "name": "Cultivated wheat",
+   "latin": "Triticum aestivum",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4188-01"
+  },
+  {
+   "code": "g10",
+   "name": "Johnson grass",
+   "latin": "Sorghum halepense",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4138-01"
+  },
+  {
+   "code": "g202",
+   "name": "Maize, Corn",
+   "latin": "Zea mays",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4822-01"
+  },
+  {
+   "code": "g4",
+   "name": "Meadow fescue",
+   "latin": "Festuca elatior",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4133-01"
+  },
+  {
+   "code": "g16",
+   "name": "Meadow foxtail",
+   "latin": "Alopecurus pratensis",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4240-01"
+  },
+  {
+   "code": "g8",
+   "name": "Meadow grass, Kentucky blue",
+   "latin": "Poa pratensis",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4136-01"
+  },
+  {
+   "code": "g9",
+   "name": "Redtop, Bentgrass",
+   "latin": "Agrostis stolonifera",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4137-01"
+  },
+  {
+   "code": "g5",
+   "name": "Rye-grass",
+   "latin": "Lolium perenne",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4134-01"
+  },
+  {
+   "code": "g1",
+   "name": "Sweet vernal grass",
+   "latin": "Anthoxanthum odoratum",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4130-01"
+  },
+  {
+   "code": "g6",
+   "name": "Timothy grass",
+   "latin": "Phleum pratense",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4100-01"
+  },
+  {
+   "code": "g13",
+   "name": "Velvet grass",
+   "latin": "Holcus lanatus",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4139-01"
+  },
+  {
+   "code": "g70",
+   "name": "Wild rye grass",
+   "latin": "Elymus triticoides",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_grass",
+   "art_no": "14-4344-01"
+  },
+  {
+   "code": "g216",
+   "name": "nCyn d 1 Bermuda grass",
+   "latin": "Cynodon dactylon",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_grass",
+   "art_no": "14-4972-01"
+  },
+  {
+   "code": "g205",
+   "name": "rPhl p 1 Timothy",
+   "latin": "Phleum pratense",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_grass",
+   "art_no": "14-5234-01"
+  },
+  {
+   "code": "g206",
+   "name": "rPhl p 2 Timothy",
+   "latin": "Phleum pratense",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_grass",
+   "art_no": "14-5235-01"
+  },
+  {
+   "code": "g208",
+   "name": "nPhl p 4 Timothy",
+   "latin": "Phleum pratense",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_grass",
+   "art_no": "14-5288-01"
+  },
+  {
+   "code": "g215",
+   "name": "rPhl p 5b Timothy",
+   "latin": "Phleum pratense",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_grass",
+   "art_no": "14-5338-01"
+  },
+  {
+   "code": "g209",
+   "name": "rPhl p 6 Timothy",
+   "latin": "Phleum pratense",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_grass",
+   "art_no": "14-5289-01"
+  },
+  {
+   "code": "g210",
+   "name": "rPhl p 7 Timothy",
+   "latin": "Phleum pratense",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_grass",
+   "art_no": "14-5290-01"
+  },
+  {
+   "code": "g211",
+   "name": "rPhl p 11 Timothy",
+   "latin": "Phleum pratense",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_grass",
+   "art_no": "14-5291-01"
+  },
+  {
+   "code": "g212",
+   "name": "rPhl p 12 Profilin, Timothy",
+   "latin": "Phleum pratense",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_grass",
+   "art_no": "14-5292-01"
+  },
+  {
+   "code": "g213",
+   "name": "rPhl p 1, rPhl p 5b Timothy",
+   "latin": "Phleum pratense",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_grass",
+   "art_no": "14-5312-01"
+  },
+  {
+   "code": "g214",
+   "name": "rPhl p 7, rPhl p 12 Timothy",
+   "latin": "Phleum pratense",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_grass",
+   "art_no": "14-5313-01"
+  },
+  {
+   "code": "gx1",
+   "name": "",
+   "latin": "\u0007Dactylis glomerata, Festuca elatior, Lolium",
+   "members": "g3, g4, g5, g6, g8",
+   "kind": "mix",
+   "group": "pollen_grass",
+   "art_no": "14-4163-01"
+  },
+  {
+   "code": "gx2",
+   "name": "",
+   "latin": "\u0007Cynodon dactylon, Lolium perenne,",
+   "members": "g2, g5, g6, g8, g10, g17",
+   "kind": "mix",
+   "group": "pollen_grass",
+   "art_no": "14-4192-01"
+  },
+  {
+   "code": "gx3",
+   "name": "",
+   "latin": "\u0007Anthoxanthum odoratum, Lolium perenne,",
+   "members": "g1, g5, g6, g12, g13",
+   "kind": "mix",
+   "group": "pollen_grass",
+   "art_no": "14-4193-01"
+  },
+  {
+   "code": "gx4",
+   "name": "",
+   "latin": "\u0007Anthoxanthum odoratum, Lolium perenne,",
+   "members": "g1, g5, g7, g12, g13",
+   "kind": "mix",
+   "group": "pollen_grass",
+   "art_no": "14-4194-01"
+  },
+  {
+   "code": "gx6",
+   "name": "",
+   "latin": "\u0007Cynodon dactylon, Lolium perenne,",
+   "members": "g2, g5, g10, g11, g13, g17",
+   "kind": "mix",
+   "group": "pollen_grass",
+   "art_no": "14-5200-01"
+  },
+  {
+   "code": "w45",
+   "name": "Alfalfa",
+   "latin": "Medicago sativa",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4951-01"
+  },
+  {
+   "code": "w206",
+   "name": "Camomile",
+   "latin": "Matricaria chamomilla",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-5020-01"
+  },
+  {
+   "code": "w82",
+   "name": "Careless weed",
+   "latin": "Amaranthus palmeri",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4953-01"
+  },
+  {
+   "code": "w13",
+   "name": "Cocklebur",
+   "latin": "Xanthium commune",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4251-01"
+  },
+  {
+   "code": "w14",
+   "name": "Common pigweed",
+   "latin": "Amaranthus retroflexus",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4252-01"
+  },
+  {
+   "code": "w1",
+   "name": "Common ragweed",
+   "latin": "Ambrosia artemisiifolia (A. elatior)",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4531-01"
+  },
+  {
+   "code": "w8",
+   "name": "Dandelion",
+   "latin": "Taraxacum vulgare",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4155-01"
+  },
+  {
+   "code": "w46",
+   "name": "Dog fennel",
+   "latin": "Eupatorium capillifolium",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4952-01"
+  },
+  {
+   "code": "w4",
+   "name": "False ragweed",
+   "latin": "Franseria acanthicarpa",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4247-01"
+  },
+  {
+   "code": "w17",
+   "name": "Firebush (Kochia)",
+   "latin": "Kochia scoparia",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4255-01"
+  },
+  {
+   "code": "w3",
+   "name": "Giant ragweed",
+   "latin": "Ambrosia trifida",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4153-01"
+  },
+  {
+   "code": "w12",
+   "name": "Goldenrod",
+   "latin": "Solidago virgaurea",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4250-01"
+  },
+  {
+   "code": "w10",
+   "name": "Goosefoot, Lamb’s quarters",
+   "latin": "Chenopodium album",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4157-01"
+  },
+  {
+   "code": "w22",
+   "name": "Japanese Hop",
+   "latin": "Humulus scandens",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4452-01"
+  },
+  {
+   "code": "w207",
+   "name": "Lupin",
+   "latin": "Lupinus spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-5022-01"
+  },
+  {
+   "code": "w7",
+   "name": "Marguerite, Ox-eye daisy",
+   "latin": "Chrysanthemum leucanthemum",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4154-01"
+  },
+  {
+   "code": "w6",
+   "name": "Mugwort",
+   "latin": "Artemisia vulgaris",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4103-01"
+  },
+  {
+   "code": "w20",
+   "name": "Nettle",
+   "latin": "Urtica dioica",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4257-01"
+  },
+  {
+   "code": "w9",
+   "name": "Plantain (English), Ribwort",
+   "latin": "Plantago lanceolata",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4156-01"
+  },
+  {
+   "code": "w203",
+   "name": "Rape",
+   "latin": "Brassica napus",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-5024-01"
+  },
+  {
+   "code": "w16",
+   "name": "Rough marshelder",
+   "latin": "Iva ciliata",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4254-01"
+  },
+  {
+   "code": "w11",
+   "name": "Saltwort (prickly), Russian thistle",
+   "latin": "Salsola kali (pestifer)",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4249-01"
+  },
+  {
+   "code": "w15",
+   "name": "Scale, Lenscale",
+   "latin": "Atriplex lentiformis",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4253-01"
+  },
+  {
+   "code": "w18",
+   "name": "Sheep sorrel",
+   "latin": "Rumex acetosella",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4256-01"
+  },
+  {
+   "code": "w204",
+   "name": "Sunflower",
+   "latin": "Helianthus annuus",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-5025-01"
+  },
+  {
+   "code": "w19",
+   "name": "Wall pellitory",
+   "latin": "Parietaria officinalis",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4186-01"
+  },
+  {
+   "code": "w21",
+   "name": "Wall pellitory",
+   "latin": "Parietaria judaica",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4104-01"
+  },
+  {
+   "code": "w2",
+   "name": "Western ragweed",
+   "latin": "Ambrosia psilostachya",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4152-01"
+  },
+  {
+   "code": "w5",
+   "name": "Wormwood",
+   "latin": "Artemisia absinthium",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4248-01"
+  },
+  {
+   "code": "w23",
+   "name": "Yellow dock",
+   "latin": "Rumex crispus",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_weed",
+   "art_no": "14-4950-01"
+  },
+  {
+   "code": "w230",
+   "name": "nAmb a 1 Ragweed",
+   "latin": "Ambrosia artemisiifolia (A. elatior)",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_weed",
+   "art_no": "14-4969-01"
+  },
+  {
+   "code": "w231",
+   "name": "nArt v 1 Mugwort",
+   "latin": "Artemisia vulgaris",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_weed",
+   "art_no": "14-4970-01"
+  },
+  {
+   "code": "w233",
+   "name": "nArt v 3 LTP, Mugwort",
+   "latin": "Artemisia vulgaris",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_weed",
+   "art_no": "14-4983-01"
+  },
+  {
+   "code": "w211",
+   "name": "rPar j 2 LPT, Wall pellitory",
+   "latin": "Parietaria judaica",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_weed",
+   "art_no": "14-5311-01"
+  },
+  {
+   "code": "w234",
+   "name": "rPla l 1 Plantain",
+   "latin": "Plantago lanceolata",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_weed",
+   "art_no": "14-5751-01"
+  },
+  {
+   "code": "w232",
+   "name": "nSal k 1 Saltwort",
+   "latin": "Salsola kali",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_weed",
+   "art_no": "14-4978-01"
+  },
+  {
+   "code": "wx1",
+   "name": "",
+   "latin": "\u0007Ambrosia artemisiifolia (A. elatior), Artemisia",
+   "members": "w1, w6, w9, w10, w11",
+   "kind": "mix",
+   "group": "pollen_weed",
+   "art_no": "14-4195-01"
+  },
+  {
+   "code": "wx2",
+   "name": "",
+   "latin": "\u0007Ambrosia psilostachya, Artemisia vulgaris,",
+   "members": "w2, w6, w9, w10, w15",
+   "kind": "mix",
+   "group": "pollen_weed",
+   "art_no": "14-4268-01"
+  },
+  {
+   "code": "wx3",
+   "name": "",
+   "latin": "\u0007Artemisia vulgaris, Plantago, lanceolata",
+   "members": "w6, w9, w10, w12, w20",
+   "kind": "mix",
+   "group": "pollen_weed",
+   "art_no": "14-4196-01"
+  },
+  {
+   "code": "wx5",
+   "name": "",
+   "latin": "\u0007Ambrosia artemisiifolia (A. elatior), Artemisia",
+   "members": "w1, w6, w7, w8, w12",
+   "kind": "mix",
+   "group": "pollen_weed",
+   "art_no": "14-4197-01"
+  },
+  {
+   "code": "wx6",
+   "name": "",
+   "latin": "\u0007Plantago lanceolata, Chenopodium album,",
+   "members": "w9, w10, w11, w18",
+   "kind": "mix",
+   "group": "pollen_weed",
+   "art_no": "14-4198-01"
+  },
+  {
+   "code": "wx7",
+   "name": "",
+   "latin": "\u0007Chrysanthemum leucanthemum, Taraxacum",
+   "members": "w7, w8, w9,w10, w12",
+   "kind": "mix",
+   "group": "pollen_weed",
+   "art_no": "14-4269-01"
+  },
+  {
+   "code": "wx209",
+   "name": "w1, w2, w3",
+   "latin": "\u0007Ambrosia artemisiifolia (A. elatior),",
+   "members": null,
+   "kind": "mix",
+   "group": "pollen_weed",
+   "art_no": "14-5026-01"
+  },
+  {
+   "code": "t19",
+   "name": "Acacia",
+   "latin": "Acacia longifolia",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4233-01"
+  },
+  {
+   "code": "t5",
+   "name": "American beech",
+   "latin": "Fagus grandifolia",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4148-01"
+  },
+  {
+   "code": "t73",
+   "name": "Australian pine",
+   "latin": "Casuarina equisetifolia",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4374-01"
+  },
+  {
+   "code": "t37",
+   "name": "Bald cypress",
+   "latin": "Taxodium distichum",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4941-01"
+  },
+  {
+   "code": "t56",
+   "name": "Bayberry",
+   "latin": "Myrica cerifera",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4947-01"
+  },
+  {
+   "code": "t1",
+   "name": "Box-elder",
+   "latin": "Acer negundo",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4161-01"
+  },
+  {
+   "code": "t212",
+   "name": "Cedar",
+   "latin": "Libocedrus decurrens",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-5185-01"
+  },
+  {
+   "code": "t45",
+   "name": "Cedar elm",
+   "latin": "Ulmus crassifolia",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4944-01"
+  },
+  {
+   "code": "t206",
+   "name": "Chestnut",
+   "latin": "Castanea sativa",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-5140-01"
+  },
+  {
+   "code": "t3",
+   "name": "Common silver birch",
+   "latin": "Betula verrucosa",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4102-01"
+  },
+  {
+   "code": "t14",
+   "name": "Cottonwood",
+   "latin": "Populus deltoides",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4229-01"
+  },
+  {
+   "code": "t222",
+   "name": "Cypress",
+   "latin": "Cupressus arizonica",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-5309-01"
+  },
+  {
+   "code": "t214",
+   "name": "Date",
+   "latin": "Phoenix canariensis",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-5218-01"
+  },
+  {
+   "code": "t205",
+   "name": "Elder",
+   "latin": "Sambucus nigra",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-5002-01"
+  },
+  {
+   "code": "t8",
+   "name": "Elm",
+   "latin": "Ulmus americana",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4226-01"
+  },
+  {
+   "code": "t18",
+   "name": "Eucalyptus, Gum-tree",
+   "latin": "Eucalyptus spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4232-01"
+  },
+  {
+   "code": "t25",
+   "name": "European ash",
+   "latin": "Fraxinus excelsior",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4924-01"
+  },
+  {
+   "code": "t2",
+   "name": "Grey alder",
+   "latin": "Alnus incana",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4146-01"
+  },
+  {
+   "code": "t44",
+   "name": "Hackberry",
+   "latin": "Celtis occidentalis",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4943-01"
+  },
+  {
+   "code": "t4",
+   "name": "Hazel",
+   "latin": "Corylus avellana",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4147-01"
+  },
+  {
+   "code": "t209",
+   "name": "Horn beam",
+   "latin": "Carpinus betulus",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-5148-01"
+  },
+  {
+   "code": "t203",
+   "name": "Horse chestnut",
+   "latin": "Aesculus hippocastanum",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-5003-01"
+  },
+  {
+   "code": "t23",
+   "name": "Italian/Mediterranean/Funeral cypress",
+   "latin": "Cupressus sempervirens",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4237-01"
+  },
+  {
+   "code": "t17",
+   "name": "Japanese cedar",
+   "latin": "Cryptomeria japonica",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4118-01"
+  },
+  {
+   "code": "t208",
+   "name": "Linden",
+   "latin": "Tilia cordata",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4823-01"
+  },
+  {
+   "code": "t11",
+   "name": "Maple leaf sycamore, London plane",
+   "latin": "Platanus acerifolia",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4228-01"
+  },
+  {
+   "code": "t21",
+   "name": "Melaleuca, Cajeput-tree",
+   "latin": "Melaleuca leucadendron",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4235-01"
+  },
+  {
+   "code": "t20",
+   "name": "Mesquite",
+   "latin": "Prosopis juliflora",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4234-01"
+  },
+  {
+   "code": "t6",
+   "name": "Mountain juniper",
+   "latin": "Juniperus sabinoides",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4225-01"
+  },
+  {
+   "code": "t70",
+   "name": "Mulberry",
+   "latin": "Morus alba",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4325-01"
+  },
+  {
+   "code": "t7",
+   "name": "Oak",
+   "latin": "Quercus alba",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4149-01"
+  },
+  {
+   "code": "t223",
+   "name": "Oil Palm",
+   "latin": "Elaeis guineensis",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-5308-01"
+  },
+  {
+   "code": "t9",
+   "name": "Olive",
+   "latin": "Olea europaea",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4150-01"
+  },
+  {
+   "code": "t22",
+   "name": "Pecan, Hickory",
+   "latin": "Carya pecan",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4236-01"
+  },
+  {
+   "code": "t217",
+   "name": "Peppertree",
+   "latin": "Schinus molle",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-5167-01"
+  },
+  {
+   "code": "t213",
+   "name": "Pine",
+   "latin": "Pinus radiata",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-5208-01"
+  },
+  {
+   "code": "t210",
+   "name": "Privet",
+   "latin": "Ligustrum vulgare",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4834-01"
+  },
+  {
+   "code": "t72",
+   "name": "Queen palm",
+   "latin": "Arecastrum romanzoffianum",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4373-01"
+  },
+  {
+   "code": "t57",
+   "name": "Red cedar",
+   "latin": "Juniperus virginiana",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4948-01"
+  },
+  {
+   "code": "t71",
+   "name": "Red mulberry",
+   "latin": "Morus rubra",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4949-01"
+  },
+  {
+   "code": "t55",
+   "name": "Scotch broom",
+   "latin": "Cytisus scoparius",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4946-01"
+  },
+  {
+   "code": "t201",
+   "name": "Spruce",
+   "latin": "Picea excelsa",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-5005-01"
+  },
+  {
+   "code": "t211",
+   "name": "Sweet gum",
+   "latin": "Liquidambar styraciflua",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-5155-01"
+  },
+  {
+   "code": "t10",
+   "name": "Walnut",
+   "latin": "Juglans californica",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4227-01"
+  },
+  {
+   "code": "t15",
+   "name": "White ash",
+   "latin": "Fraxinus americana",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4230-01"
+  },
+  {
+   "code": "t41",
+   "name": "White hickory",
+   "latin": "Carya tomentosa (syn. C. alba)",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4942-01"
+  },
+  {
+   "code": "t16",
+   "name": "White pine",
+   "latin": "Pinus strobus",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4231-01"
+  },
+  {
+   "code": "t12",
+   "name": "Willow",
+   "latin": "Salix caprea",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-4151-01"
+  },
+  {
+   "code": "t218",
+   "name": "Virginia live oak",
+   "latin": "Quercus virginiana",
+   "members": null,
+   "kind": "whole",
+   "group": "pollen_tree",
+   "art_no": "14-5252-01"
+  },
+  {
+   "code": "t215",
+   "name": "rBet v 1 PR-10, Birch",
+   "latin": "Betula verrucosa",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_tree",
+   "art_no": "14-5225-01"
+  },
+  {
+   "code": "t216",
+   "name": "rBet v 2 Profilin, Birch",
+   "latin": "Betula verrucosa",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_tree",
+   "art_no": "14-5226-01"
+  },
+  {
+   "code": "t220",
+   "name": "rBet v 4 Birch",
+   "latin": "Betula verrucosa",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_tree",
+   "art_no": "14-5287-01"
+  },
+  {
+   "code": "t225",
+   "name": "rBet v 6 Birch",
+   "latin": "Betula verrucosa",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_tree",
+   "art_no": "14-5345-01"
+  },
+  {
+   "code": "t221",
+   "name": "rBet v 2, rBet v 4 Birch",
+   "latin": "Betula verrucosa",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_tree",
+   "art_no": "14-5310-01"
+  },
+  {
+   "code": "t226",
+   "name": "nCup a 1 Cypress",
+   "latin": "Cupressus arizonica",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_tree",
+   "art_no": "14-4977-01"
+  },
+  {
+   "code": "t224",
+   "name": "rOle e 1 Olive",
+   "latin": "Olea europaea",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_tree",
+   "art_no": "14-5705-01"
+  },
+  {
+   "code": "t227",
+   "name": "nOle e 7 LTP, Olive",
+   "latin": "Olea europeae",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_tree",
+   "art_no": "14-4993-01"
+  },
+  {
+   "code": "t240",
+   "name": "rOle e 9, Olive",
+   "latin": "Olea europeae",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_tree",
+   "art_no": "14-4999-01"
+  },
+  {
+   "code": "t241",
+   "name": "rPla a 1 Maple leaf sycamore,",
+   "latin": "Platanus acerifolia",
+   "members": null,
+   "kind": "component",
+   "group": "pollen_tree",
+   "art_no": "14-5957-01"
+  },
+  {
+   "code": "tx1",
+   "name": "",
+   "latin": "\u0007Acer negundo, Betula verrucosa, Quercus",
+   "members": "t1, t3, t7, t8, t10",
+   "kind": "mix",
+   "group": "pollen_tree",
+   "art_no": "14-4199-01"
+  },
+  {
+   "code": "tx4",
+   "name": "",
+   "latin": "\u0007Quercus alba, Ulmus americana, Platanus",
+   "members": "t7, t8, t11, t12, t14",
+   "kind": "mix",
+   "group": "pollen_tree",
+   "art_no": "14-4200-01"
+  },
+  {
+   "code": "tx5",
+   "name": "",
+   "latin": "\u0007Ulmus americana, Salix caprea, Populus",
+   "members": "t2, t4, t8, t12, t14",
+   "kind": "mix",
+   "group": "pollen_tree",
+   "art_no": "14-4201-01"
+  },
+  {
+   "code": "tx6",
+   "name": "",
+   "latin": "\u0007Acer negundo, Betula verrucosa, Fagus",
+   "members": "t1, t3, t5, t7, t10",
+   "kind": "mix",
+   "group": "pollen_tree",
+   "art_no": "14-4202-01"
+  },
+  {
+   "code": "tx7",
+   "name": "",
+   "latin": "\u0007Olea europaea, Salix caprea, Pinus strobus,",
+   "members": "t9, t12, t16, t18, t19, t21",
+   "kind": "mix",
+   "group": "pollen_tree",
+   "art_no": "14-4272-01"
+  },
+  {
+   "code": "tx8",
+   "name": "",
+   "latin": "\u0007Acer negundo, Betula verrucosa, Corylus",
+   "members": "t1, t3, t4, t7, t11",
+   "kind": "mix",
+   "group": "pollen_tree",
+   "art_no": "14-4273-01"
+  },
+  {
+   "code": "tx9",
+   "name": "",
+   "latin": "\u0007\u0007Alnus incana, Betula verrucosa, Corylus",
+   "members": "t2, t3, t4, t7, t12",
+   "kind": "mix",
+   "group": "pollen_tree",
+   "art_no": "14-4274-01"
+  },
+  {
+   "code": "tx10",
+   "name": "",
+   "latin": "\u0007Alnus incana, Betula verrucosa, Corylus",
+   "members": "t2, t3, t4, t15",
+   "kind": "mix",
+   "group": "pollen_tree",
+   "art_no": "14-5183-01"
+  },
+  {
+   "code": "m202",
+   "name": "Acremonium kiliense",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4830-01"
+  },
+  {
+   "code": "m6",
+   "name": "Alternaria alternata",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4106-01"
+  },
+  {
+   "code": "m228",
+   "name": "Aspergillus flavus",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-5342-01"
+  },
+  {
+   "code": "m3",
+   "name": "Aspergillus fumigatus",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4119-01"
+  },
+  {
+   "code": "m207",
+   "name": "Aspergillus niger",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4831-01"
+  },
+  {
+   "code": "m36",
+   "name": "Aspergillus terreus",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4920-01"
+  },
+  {
+   "code": "m12",
+   "name": "Aureobasidium pullulans",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4263-01"
+  },
+  {
+   "code": "m7",
+   "name": "Botrytis cinerea",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4258-01"
+  },
+  {
+   "code": "m5",
+   "name": "Candida albicans",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4120-01"
+  },
+  {
+   "code": "m208",
+   "name": "Chaetomium globosum",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-5202-01"
+  },
+  {
+   "code": "m2",
+   "name": "Cladosporium herbarum",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4105-01"
+  },
+  {
+   "code": "m16",
+   "name": "Curvularia lunata",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4267-01"
+  },
+  {
+   "code": "m14",
+   "name": "Epicoccum purpurascens",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4265-01"
+  },
+  {
+   "code": "m9",
+   "name": "Fusarium proliferatum (F. moniliforme)",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4260-01"
+  },
+  {
+   "code": "m8",
+   "name": "\u0007Setomelanomma rostrata",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4259-01"
+  },
+  {
+   "code": "m227",
+   "name": "Malassezia spp.",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-5321-01"
+  },
+  {
+   "code": "m4",
+   "name": "Mucor racemosus",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4145-01"
+  },
+  {
+   "code": "m1",
+   "name": "Penicillium chrysogenum (P. notatum)",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4160-01"
+  },
+  {
+   "code": "m209",
+   "name": "Penicillium glabrum",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-5203-01"
+  },
+  {
+   "code": "m13",
+   "name": "Phoma betae",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4264-01"
+  },
+  {
+   "code": "m11",
+   "name": "Rhizopus nigricans",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4262-01"
+  },
+  {
+   "code": "m80",
+   "name": "Staphylococcal enterotoxin A",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4889-01"
+  },
+  {
+   "code": "m81",
+   "name": "Staphylococcal enterotoxin B",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4890-01"
+  },
+  {
+   "code": "m223",
+   "name": "Staphylococcal enterotoxin C",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-5298-01"
+  },
+  {
+   "code": "m226",
+   "name": "Staphylococcal enterotoxin TSST",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-5301-01"
+  },
+  {
+   "code": "m10",
+   "name": "\u0007Stemphylium herbarum (S. botryosum)",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4261-01"
+  },
+  {
+   "code": "m201",
+   "name": "Tilletia tritici",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-5029-01"
+  },
+  {
+   "code": "m15",
+   "name": "Trichoderma viride",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4266-01"
+  },
+  {
+   "code": "m211",
+   "name": "\u0007Trichophyton mentagrophytes var.",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-5224-01"
+  },
+  {
+   "code": "m205",
+   "name": "Trichophyton rubrum",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-4483-01"
+  },
+  {
+   "code": "m204",
+   "name": "Ulocladium chartarum",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "mold",
+   "art_no": "14-5028-01"
+  },
+  {
+   "code": "m229",
+   "name": "rAlt a 1",
+   "latin": "Alternaria alternata",
+   "members": null,
+   "kind": "component",
+   "group": "mold",
+   "art_no": "14-5346-01"
+  },
+  {
+   "code": "m218",
+   "name": "rAsp f 1",
+   "latin": "Aspergillus fumigatus",
+   "members": null,
+   "kind": "component",
+   "group": "mold",
+   "art_no": "14-5293-01"
+  },
+  {
+   "code": "m219",
+   "name": "rAsp f 2",
+   "latin": "Aspergillus fumigatus",
+   "members": null,
+   "kind": "component",
+   "group": "mold",
+   "art_no": "14-5294-01"
+  },
+  {
+   "code": "m220",
+   "name": "rAsp f 3",
+   "latin": "Aspergillus fumigatus",
+   "members": null,
+   "kind": "component",
+   "group": "mold",
+   "art_no": "14-5295-01"
+  },
+  {
+   "code": "m221",
+   "name": "rAsp f 4",
+   "latin": "Aspergillus fumigatus",
+   "members": null,
+   "kind": "component",
+   "group": "mold",
+   "art_no": "14-5296-01"
+  },
+  {
+   "code": "m222",
+   "name": "rAsp f 6",
+   "latin": "Aspergillus fumigatus",
+   "members": null,
+   "kind": "component",
+   "group": "mold",
+   "art_no": "14-5297-01"
+  },
+  {
+   "code": "mx1",
+   "name": "",
+   "latin": "\u0007Penicillium chrysogenum, Cladosporium",
+   "members": "m1, m2, m3, m6",
+   "kind": "mix",
+   "group": "mold",
+   "art_no": "14-4204-01"
+  },
+  {
+   "code": "mx2",
+   "name": "",
+   "latin": "\u0007Penicillium chrysogenum, Cladosporium",
+   "members": "m1, m2, m3, m5, m6, m8",
+   "kind": "mix",
+   "group": "mold",
+   "art_no": "14-4320-01"
+  },
+  {
+   "code": "mx4",
+   "name": "",
+   "latin": "\u0007A. fumigatus, A. niger, A. terreus, A. flavus",
+   "members": "m3, m207, m36, m228",
+   "kind": "mix",
+   "group": "mold",
+   "art_no": "14-4921-01"
+  },
+  {
+   "code": "e77",
+   "name": "Budgerigar droppings",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4303-01"
+  },
+  {
+   "code": "e78",
+   "name": "Budgerigar feathers",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4304-01"
+  },
+  {
+   "code": "e200",
+   "name": "Canary bird droppings",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4913-01"
+  },
+  {
+   "code": "e201",
+   "name": "Canary bird feathers",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4824-01"
+  },
+  {
+   "code": "e1",
+   "name": "Cat dander",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4109-01"
+  },
+  {
+   "code": "e218",
+   "name": "Chicken droppings",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-5229-01"
+  },
+  {
+   "code": "e85",
+   "name": "Chicken feathers",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4170-01"
+  },
+  {
+   "code": "e219",
+   "name": "Chicken, serum proteins",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-5230-01"
+  },
+  {
+   "code": "e208",
+   "name": "Chinchilla epithelium",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-5011-01"
+  },
+  {
+   "code": "e4",
+   "name": "Cow dander",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4166-01"
+  },
+  {
+   "code": "e5",
+   "name": "Dog dander",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4110-01"
+  },
+  {
+   "code": "e86",
+   "name": "Duck feathers",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4171-01"
+  },
+  {
+   "code": "e217",
+   "name": "Ferret epithelium",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-5157-01"
+  },
+  {
+   "code": "e214",
+   "name": "Finch feathers",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-5013-01"
+  },
+  {
+   "code": "e209",
+   "name": "Gerbil epithelium",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-5015-01"
+  },
+  {
+   "code": "e80",
+   "name": "Goat epithelium",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4306-01"
+  },
+  {
+   "code": "e70",
+   "name": "Goose feathers",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4169-01"
+  },
+  {
+   "code": "e6",
+   "name": "Guinea pig epithelium",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4167-01"
+  },
+  {
+   "code": "e84",
+   "name": "Hamster epithelium",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4310-01"
+  },
+  {
+   "code": "e3",
+   "name": "Horse dander",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4122-01"
+  },
+  {
+   "code": "e203",
+   "name": "Mink epithelium",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-5030-01"
+  },
+  {
+   "code": "e71",
+   "name": "Mouse epithelium",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4394-01"
+  },
+  {
+   "code": "e88",
+   "name": "Mouse epithelium, serum proteins",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4327-01"
+  },
+  {
+   "code": "e76",
+   "name": "Mouse serum proteins",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4399-01"
+  },
+  {
+   "code": "e72",
+   "name": "Mouse urine proteins",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4395-01"
+  },
+  {
+   "code": "e213",
+   "name": "Parrot feathers",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4832-01"
+  },
+  {
+   "code": "e82",
+   "name": "Rabbit epithelium",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4308-01"
+  },
+  {
+   "code": "e206",
+   "name": "Rabbit, serum proteins",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-5033-01"
+  },
+  {
+   "code": "e211",
+   "name": "Rabbit, urine proteins",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-5034-01"
+  },
+  {
+   "code": "e73",
+   "name": "Rat epithelium",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4396-01"
+  },
+  {
+   "code": "e87",
+   "name": "Rat epithelium, serum proteins",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4326-01"
+  },
+  {
+   "code": "e75",
+   "name": "Rat serum proteins",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4398-01"
+  },
+  {
+   "code": "e74",
+   "name": "Rat urine proteins",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4397-01"
+  },
+  {
+   "code": "e81",
+   "name": "Sheep epithelium",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4307-01"
+  },
+  {
+   "code": "e83",
+   "name": "Swine epithelium",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4309-01"
+  },
+  {
+   "code": "e89",
+   "name": "Turkey feathers",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "animal",
+   "art_no": "14-4356-01"
+  },
+  {
+   "code": "e204",
+   "name": "nBos d 6 BSA, Cow",
+   "latin": "Bos spp.",
+   "members": null,
+   "kind": "component",
+   "group": "animal",
+   "art_no": "14-5009-01"
+  },
+  {
+   "code": "e101",
+   "name": "rCan f 1 Dog",
+   "latin": "Canis familiaris",
+   "members": null,
+   "kind": "component",
+   "group": "animal",
+   "art_no": "14-4955-01"
+  },
+  {
+   "code": "e102",
+   "name": "rCan f 2 Dog",
+   "latin": "Canis familiaris",
+   "members": null,
+   "kind": "component",
+   "group": "animal",
+   "art_no": "14-4956-01"
+  },
+  {
+   "code": "e221",
+   "name": "nCan f 3 Dog serum albumin",
+   "latin": "Canis familiaris",
+   "members": null,
+   "kind": "component",
+   "group": "animal",
+   "art_no": "14-5241-01"
+  },
+  {
+   "code": "e229",
+   "name": "rCan f 4 Dog",
+   "latin": "Canis familiaris",
+   "members": null,
+   "kind": "component",
+   "group": "animal",
+   "art_no": "14-5755-01"
+  },
+  {
+   "code": "e226",
+   "name": "rCan f 5 Dog",
+   "latin": "Canis familiaris",
+   "members": null,
+   "kind": "component",
+   "group": "animal",
+   "art_no": "14-4998-01"
+  },
+  {
+   "code": "e230",
+   "name": "rCan f 6 Dog",
+   "latin": "Canis familiaris",
+   "members": null,
+   "kind": "component",
+   "group": "animal",
+   "art_no": "14-6081-01"
+  },
+  {
+   "code": "e94",
+   "name": "rFel d 1 Cat",
+   "latin": "Felis domesticus",
+   "members": null,
+   "kind": "component",
+   "group": "animal",
+   "art_no": "14-4905-01"
+  },
+  {
+   "code": "e220",
+   "name": "rFel d 2 Cat serum albumin",
+   "latin": "Felis domesticus",
+   "members": null,
+   "kind": "component",
+   "group": "animal",
+   "art_no": "14-5240-01"
+  },
+  {
+   "code": "e228",
+   "name": "rFel d 4 Cat",
+   "latin": "Felis domesticus",
+   "members": null,
+   "kind": "component",
+   "group": "animal",
+   "art_no": "14-5702-01"
+  },
+  {
+   "code": "e231",
+   "name": "rFel d 7 Cat",
+   "latin": "Felis domesticus",
+   "members": null,
+   "kind": "component",
+   "group": "animal",
+   "art_no": "14-6082-01"
+  },
+  {
+   "code": "e227",
+   "name": "rEqu c 1 Horse",
+   "latin": "Equus caballus",
+   "members": null,
+   "kind": "component",
+   "group": "animal",
+   "art_no": "14-5700-01"
+  },
+  {
+   "code": "e222",
+   "name": "nSus s Pig serum albumin, Swine",
+   "latin": "Sus scrofa",
+   "members": null,
+   "kind": "component",
+   "group": "animal",
+   "art_no": "14-5242-01"
+  },
+  {
+   "code": "ex1",
+   "name": "e1, e3, e4, e5",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "animal",
+   "art_no": "14-4203-01"
+  },
+  {
+   "code": "ex2",
+   "name": "e1, e5, e6, e87, e88",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "animal",
+   "art_no": "14-4512-01"
+  },
+  {
+   "code": "ex70",
+   "name": "e6, e82, e84, e87, e88",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "animal",
+   "art_no": "14-4276-01"
+  },
+  {
+   "code": "ex71",
+   "name": "e70, e85, e86, e89",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "animal",
+   "art_no": "14-4277-01"
+  },
+  {
+   "code": "ex72",
+   "name": "e78, e201, e196, e213, e214",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "animal",
+   "art_no": "14-4278-01"
+  },
+  {
+   "code": "d70",
+   "name": "Storage mite",
+   "latin": "Acarus siro",
+   "members": null,
+   "kind": "whole",
+   "group": "mite",
+   "art_no": "14-4300-01"
+  },
+  {
+   "code": "d201",
+   "name": "House dust mite",
+   "latin": "Blomia tropicalis",
+   "members": null,
+   "kind": "whole",
+   "group": "mite",
+   "art_no": "14-4896-01"
+  },
+  {
+   "code": "d2",
+   "name": "House dust mite",
+   "latin": "Dermatophagoides farinae",
+   "members": null,
+   "kind": "whole",
+   "group": "mite",
+   "art_no": "14-4108-01"
+  },
+  {
+   "code": "d3",
+   "name": "House dust mite",
+   "latin": "Dermatophagoides microceras",
+   "members": null,
+   "kind": "whole",
+   "group": "mite",
+   "art_no": "14-4241-01"
+  },
+  {
+   "code": "d1",
+   "name": "House dust mite",
+   "latin": "Dermatophagoides pteronyssinus",
+   "members": null,
+   "kind": "whole",
+   "group": "mite",
+   "art_no": "14-4107-01"
+  },
+  {
+   "code": "d74",
+   "name": "House dust mite",
+   "latin": "Euroglyphus maynei",
+   "members": null,
+   "kind": "whole",
+   "group": "mite",
+   "art_no": "14-4342-01"
+  },
+  {
+   "code": "d73",
+   "name": "Storage mite",
+   "latin": "Glycyphagus domesticus",
+   "members": null,
+   "kind": "whole",
+   "group": "mite",
+   "art_no": "14-4393-01"
+  },
+  {
+   "code": "d71",
+   "name": "Storage mite",
+   "latin": "Lepidoglyphus destructor",
+   "members": null,
+   "kind": "whole",
+   "group": "mite",
+   "art_no": "14-4301-01"
+  },
+  {
+   "code": "d72",
+   "name": "Storage mite",
+   "latin": "Tyrophagus putrescentiae",
+   "members": null,
+   "kind": "whole",
+   "group": "mite",
+   "art_no": "14-4302-01"
+  },
+  {
+   "code": "d202",
+   "name": "rDer p 1 House dust mite",
+   "latin": "Dermatophagoides Pteronyssinus",
+   "members": null,
+   "kind": "component",
+   "group": "mite",
+   "art_no": "14-5996-01"
+  },
+  {
+   "code": "d203",
+   "name": "rDer p 2 House dust mite",
+   "latin": "Dermatophagoides Pteronyssinus",
+   "members": null,
+   "kind": "component",
+   "group": "mite",
+   "art_no": "14-4967-01"
+  },
+  {
+   "code": "d205",
+   "name": "rDer p 10 Tropomyosin,",
+   "latin": "Dermatophagoides Pteronyssinus",
+   "members": null,
+   "kind": "component",
+   "group": "mite",
+   "art_no": "14-4985-01"
+  },
+  {
+   "code": "d209",
+   "name": "rDer p 23 House dust mite",
+   "latin": "Dermatophagoides Pteronyssinus",
+   "members": null,
+   "kind": "component",
+   "group": "mite",
+   "art_no": "14-6040-01"
+  },
+  {
+   "code": "h1",
+   "name": "Greer Labs., Inc.",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "house_dust",
+   "art_no": "14-4116-01"
+  },
+  {
+   "code": "h2",
+   "name": "Hollister-Stier Labs.",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "house_dust",
+   "art_no": "14-4140-01"
+  },
+  {
+   "code": "hx2",
+   "name": "h2, d1, d2, i6",
+   "latin": "Dermatophagoides pteronyssinus,",
+   "members": null,
+   "kind": "mix",
+   "group": "house_dust",
+   "art_no": "14-4205-01"
+  },
+  {
+   "code": "i76",
+   "name": "Berlin beetle",
+   "latin": "Trogoderma angustum (Solier)",
+   "members": null,
+   "kind": "whole",
+   "group": "insect_venom",
+   "art_no": "14-4362-01"
+  },
+  {
+   "code": "i73",
+   "name": "Blood worm",
+   "latin": "Chironomus thummi (C. riparius)",
+   "members": null,
+   "kind": "whole",
+   "group": "insect_venom",
+   "art_no": "14-4328-01"
+  },
+  {
+   "code": "i206",
+   "name": "Cockroach, American",
+   "latin": "Periplaneta americana",
+   "members": null,
+   "kind": "whole",
+   "group": "insect_venom",
+   "art_no": "14-5274-01"
+  },
+  {
+   "code": "i6",
+   "name": "Cockroach, German",
+   "latin": "Blatella germanica",
+   "members": null,
+   "kind": "whole",
+   "group": "insect_venom",
+   "art_no": "14-4224-01"
+  },
+  {
+   "code": "i70",
+   "name": "Fire ant",
+   "latin": "Solenopsis invicta",
+   "members": null,
+   "kind": "whole",
+   "group": "insect_venom",
+   "art_no": "14-4343-01"
+  },
+  {
+   "code": "i204",
+   "name": "Horse fly",
+   "latin": "Tabanus spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "insect_venom",
+   "art_no": "14-5207-01"
+  },
+  {
+   "code": "i203",
+   "name": "Mediterranean flour moth",
+   "latin": "Ephestia (syn. Anagasta) kuehniella",
+   "members": null,
+   "kind": "whole",
+   "group": "insect_venom",
+   "art_no": "14-5151-01"
+  },
+  {
+   "code": "i71",
+   "name": "Mosquito",
+   "latin": "Aedes spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "insect_venom",
+   "art_no": "14-4316-01"
+  },
+  {
+   "code": "i8",
+   "name": "Moth",
+   "latin": "Bombyx mori",
+   "members": null,
+   "kind": "whole",
+   "group": "insect_venom",
+   "art_no": "14-4474-01"
+  },
+  {
+   "code": "i205",
+   "name": "Bumblebee",
+   "latin": "Bombus terrestris",
+   "members": null,
+   "kind": "whole",
+   "group": "insect_venom",
+   "art_no": "14-5270-01"
+  },
+  {
+   "code": "i3",
+   "name": "Common wasp (Yellow jacket)",
+   "latin": "Vespula spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "insect_venom",
+   "art_no": "14-4525-01"
+  },
+  {
+   "code": "i77",
+   "name": "European Paper Wasp",
+   "latin": "Polistes dominulus",
+   "members": null,
+   "kind": "whole",
+   "group": "insect_venom",
+   "art_no": "14-4527-01"
+  },
+  {
+   "code": "i75",
+   "name": "European hornet",
+   "latin": "Vespa crabro",
+   "members": null,
+   "kind": "whole",
+   "group": "insect_venom",
+   "art_no": "14-4340-01"
+  },
+  {
+   "code": "i1",
+   "name": "Honey bee",
+   "latin": "Apis mellifera",
+   "members": null,
+   "kind": "whole",
+   "group": "insect_venom",
+   "art_no": "14-4143-01"
+  },
+  {
+   "code": "i4",
+   "name": "Paper wasp",
+   "latin": "Polistes spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "insect_venom",
+   "art_no": "14-4526-01"
+  },
+  {
+   "code": "i2",
+   "name": "White-faced hornet",
+   "latin": "Dolichovespula maculata",
+   "members": null,
+   "kind": "whole",
+   "group": "insect_venom",
+   "art_no": "14-4221-01"
+  },
+  {
+   "code": "i5",
+   "name": "Yellow hornet",
+   "latin": "Dolichovespula arenaria",
+   "members": null,
+   "kind": "whole",
+   "group": "insect_venom",
+   "art_no": "14-4223-01"
+  },
+  {
+   "code": "i208",
+   "name": "rApi m 1 Phospholipase A2,",
+   "latin": "Apis mellifera",
+   "members": null,
+   "kind": "component",
+   "group": "insect_venom",
+   "art_no": "14-4987-01"
+  },
+  {
+   "code": "i214",
+   "name": "rApi m 2 Hyaluronidase, Honey bee",
+   "latin": "Apis mellifera",
+   "members": null,
+   "kind": "component",
+   "group": "insect_venom",
+   "art_no": "14-6014-01"
+  },
+  {
+   "code": "i215",
+   "name": "rApi m 3, Acid phosphatase,",
+   "latin": "Apis mellifera",
+   "members": null,
+   "kind": "component",
+   "group": "insect_venom",
+   "art_no": "14-6015-01"
+  },
+  {
+   "code": "i216",
+   "name": "rApi m 5 Dipeptidyl peptidase,",
+   "latin": "Apis mellifera",
+   "members": null,
+   "kind": "component",
+   "group": "insect_venom",
+   "art_no": "14-6016-01"
+  },
+  {
+   "code": "i217",
+   "name": "rApi m 10 Icarapin, Honey bee",
+   "latin": "Apis mellifera",
+   "members": null,
+   "kind": "component",
+   "group": "insect_venom",
+   "art_no": "14-6004-01"
+  },
+  {
+   "code": "i211",
+   "name": "rVes v 1 Phospholipase A1,",
+   "latin": "Vespula",
+   "members": null,
+   "kind": "component",
+   "group": "insect_venom",
+   "art_no": "14-4995-01"
+  },
+  {
+   "code": "i209",
+   "name": "rVes v 5 Common wasp",
+   "latin": "Vespula vulgaris",
+   "members": null,
+   "kind": "component",
+   "group": "insect_venom",
+   "art_no": "14-4992-01"
+  },
+  {
+   "code": "i210",
+   "name": "rPol d 5 Paper wasp",
+   "latin": "Polistes dominulus",
+   "members": null,
+   "kind": "component",
+   "group": "insect_venom",
+   "art_no": "14-4994-01"
+  },
+  {
+   "code": "c6",
+   "name": "Amoxicilloyl",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "drug",
+   "art_no": "14-4451-01"
+  },
+  {
+   "code": "c5",
+   "name": "Ampicilloyl",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "drug",
+   "art_no": "14-4450-01"
+  },
+  {
+   "code": "c7",
+   "name": "Cefaclor",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "drug",
+   "art_no": "14-5336-01"
+  },
+  {
+   "code": "c8",
+   "name": "Chlorhexidine",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "drug",
+   "art_no": "14-4926-01"
+  },
+  {
+   "code": "c74",
+   "name": "Gelatin bovine",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "drug",
+   "art_no": "14-4854-01"
+  },
+  {
+   "code": "c73",
+   "name": "Insulin human",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "drug",
+   "art_no": "14-4347-01"
+  },
+  {
+   "code": "c1",
+   "name": "Penicilloyl G",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "drug",
+   "art_no": "14-4164-01"
+  },
+  {
+   "code": "c2",
+   "name": "Penicilloyl V",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "drug",
+   "art_no": "14-4165-01"
+  },
+  {
+   "code": "c261",
+   "name": "Pholcodine",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "drug",
+   "art_no": "14-4975-01"
+  },
+  {
+   "code": "c260",
+   "name": "Morphine",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "drug",
+   "art_no": "14-4974-01"
+  },
+  {
+   "code": "c202",
+   "name": "Suxamethonium (succinylcholine)",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "drug",
+   "art_no": "14-5266-01"
+  },
+  {
+   "code": "k83",
+   "name": "Cotton seed",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "occupational",
+   "art_no": "14-4366-01"
+  },
+  {
+   "code": "k78",
+   "name": "Ethylene oxide",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "occupational",
+   "art_no": "14-4314-01"
+  },
+  {
+   "code": "k81",
+   "name": "Ficus",
+   "latin": "Ficus spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "occupational",
+   "art_no": "14-4365-01"
+  },
+  {
+   "code": "k80",
+   "name": "Formaldehyde/Formalin",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "occupational",
+   "art_no": "14-4341-01"
+  },
+  {
+   "code": "k77",
+   "name": "Isocyanate HDI",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "occupational",
+   "art_no": "14-4313-01"
+  },
+  {
+   "code": "k76",
+   "name": "Isocyanate MDI",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "occupational",
+   "art_no": "14-4312-01"
+  },
+  {
+   "code": "k75",
+   "name": "Isocyanate TDI (Toluene diisocyanate)",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "occupational",
+   "art_no": "14-4311-01"
+  },
+  {
+   "code": "k72",
+   "name": "Ispaghula",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "occupational",
+   "art_no": "14-4348-01"
+  },
+  {
+   "code": "k82",
+   "name": "Latex",
+   "latin": "Hevea brasiliensis",
+   "members": null,
+   "kind": "whole",
+   "group": "occupational",
+   "art_no": "14-4511-01"
+  },
+  {
+   "code": "k79",
+   "name": "Phthalic anhydride",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "occupational",
+   "art_no": "14-4315-01"
+  },
+  {
+   "code": "k84",
+   "name": "Sunflower seed",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "occupational",
+   "art_no": "14-4367-01"
+  },
+  {
+   "code": "k215",
+   "name": "rHev b 1 Latex",
+   "latin": "Hevea brasiliensis",
+   "members": null,
+   "kind": "component",
+   "group": "occupational",
+   "art_no": "14-5324-01"
+  },
+  {
+   "code": "k217",
+   "name": "rHev b 3 Latex",
+   "latin": "Hevea brasiliensis",
+   "members": null,
+   "kind": "component",
+   "group": "occupational",
+   "art_no": "14-5326-01"
+  },
+  {
+   "code": "k218",
+   "name": "rHev b 5 Latex",
+   "latin": "Hevea brasiliensis",
+   "members": null,
+   "kind": "component",
+   "group": "occupational",
+   "art_no": "14-5327-01"
+  },
+  {
+   "code": "k220",
+   "name": "rHev b 6.02 Latex",
+   "latin": "Hevea brasiliensis",
+   "members": null,
+   "kind": "component",
+   "group": "occupational",
+   "art_no": "14-5329-01"
+  },
+  {
+   "code": "k221",
+   "name": "rHev b 8 Profilin, Latex",
+   "latin": "Hevea brasiliensis",
+   "members": null,
+   "kind": "component",
+   "group": "occupational",
+   "art_no": "14-5330-01"
+  },
+  {
+   "code": "k224",
+   "name": "rHev b 11 Latex",
+   "latin": "Hevea brasiliensis",
+   "members": null,
+   "kind": "component",
+   "group": "occupational",
+   "art_no": "14-5333-01"
+  },
+  {
+   "code": "k202",
+   "name": "nAna c 2 Bromelain, Pineapple",
+   "latin": "Ananas comosus",
+   "members": null,
+   "kind": "component",
+   "group": "occupational",
+   "art_no": "14-5127-01"
+  },
+  {
+   "code": "k87",
+   "name": "nAsp o 21 alpha-amylase",
+   "latin": "Aspergillus oryzae",
+   "members": null,
+   "kind": "component",
+   "group": "occupational",
+   "art_no": "14-4370-01"
+  },
+  {
+   "code": "k208",
+   "name": "nGal d 4 Lysozyme, Egg",
+   "latin": "Gallus spp.",
+   "members": null,
+   "kind": "component",
+   "group": "occupational",
+   "art_no": "14-5128-01"
+  },
+  {
+   "code": "p4",
+   "name": "Anisakis",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "parasite",
+   "art_no": "14-4475-01"
+  },
+  {
+   "code": "p1",
+   "name": "Ascaris",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "parasite",
+   "art_no": "14-4244-01"
+  },
+  {
+   "code": "o1",
+   "name": "Cotton, crude fibers",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "other",
+   "art_no": "14-4476-01"
+  },
+  {
+   "code": "o215",
+   "name": "nGal-alpha-1,3-Gal (alpha-Gal)",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "other",
+   "art_no": "14-5997-01"
+  },
+  {
+   "code": "o211",
+   "name": "Mealworm",
+   "latin": "Tenebrio mollitor",
+   "members": null,
+   "kind": "whole",
+   "group": "other",
+   "art_no": "14-5251-01"
+  },
+  {
+   "code": "o214",
+   "name": "MUXF3 CCD, Bromelain",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "other",
+   "art_no": "14-5339-01"
+  },
+  {
+   "code": "o70",
+   "name": "Seminal fluid",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "other",
+   "art_no": "14-4371-01"
+  },
+  {
+   "code": "rx1",
+   "name": "g6, w6, w9, w21, t3",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "research",
+   "art_no": "14-5193-01"
+  },
+  {
+   "code": "rx2",
+   "name": "d2, e1, e3, e5, m6",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "research",
+   "art_no": "14-5184-01"
+  },
+  {
+   "code": "rx3",
+   "name": "g2, g5, g17, w1, w9, w10",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "research",
+   "art_no": "14-5198-01"
+  },
+  {
+   "code": "rx5",
+   "name": "d1, e1, m3, i6",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "research",
+   "art_no": "14-5246-01"
+  },
+  {
+   "code": "rx6",
+   "name": "t3, g6, w6, m2, m6",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "research",
+   "art_no": "14-5322-01"
+  },
+  {
+   "code": "rx7",
+   "name": "d1, e1, e3,e5, e82",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "research",
+   "art_no": "14-5323-01"
+  },
+  {
+   "code": "f49",
+   "name": "Apple",
+   "latin": "Malus x domestica",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4220-01"
+  },
+  {
+   "code": "f237",
+   "name": "Apricot",
+   "latin": "Prunus armeniaca",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4812-01"
+  },
+  {
+   "code": "f261",
+   "name": "Asparagus",
+   "latin": "Asparagus officinalis",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5046-01"
+  },
+  {
+   "code": "f262",
+   "name": "Aubergine, eggplant",
+   "latin": "Solanum melongena",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5047-01"
+  },
+  {
+   "code": "f96",
+   "name": "Avocado",
+   "latin": "Persea americana",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4346-01"
+  },
+  {
+   "code": "f51",
+   "name": "Bamboo shoot",
+   "latin": "Phyllostachys pubescens",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4455-01"
+  },
+  {
+   "code": "f92",
+   "name": "Banana",
+   "latin": "Musa spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4334-01"
+  },
+  {
+   "code": "f319",
+   "name": "Beetroot",
+   "latin": "Beta vulgaris",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5216-01"
+  },
+  {
+   "code": "f211",
+   "name": "Blackberry",
+   "latin": "Rubus fruticosus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5051-01"
+  },
+  {
+   "code": "f288",
+   "name": "Blueberry",
+   "latin": "Vaccinium myrtillis",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5052-01"
+  },
+  {
+   "code": "f260",
+   "name": "Broccoli",
+   "latin": "Brassica oleracea var. italica",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4841-01"
+  },
+  {
+   "code": "f217",
+   "name": "Brussel sprouts",
+   "latin": "Brassica oleracea var. gemmifera",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5054-01"
+  },
+  {
+   "code": "f216",
+   "name": "Cabbage",
+   "latin": "Brassica oleracea var. capitata",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4814-01"
+  },
+  {
+   "code": "f31",
+   "name": "Carrot",
+   "latin": "Daucus carota",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4210-01"
+  },
+  {
+   "code": "f291",
+   "name": "Cauliflower",
+   "latin": "Brassica oleracea var. botrytis",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5060-01"
+  },
+  {
+   "code": "f85",
+   "name": "Celery",
+   "latin": "Apium graveolens",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4296-01"
+  },
+  {
+   "code": "f242",
+   "name": "Cherry",
+   "latin": "Prunus avium",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4811-01"
+  },
+  {
+   "code": "f244",
+   "name": "Cucumber",
+   "latin": "Cucumis sativus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4839-01"
+  },
+  {
+   "code": "f289",
+   "name": "Date",
+   "latin": "Phoenix dactylifera",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5068-01"
+  },
+  {
+   "code": "f276",
+   "name": "Fennel, fresh",
+   "latin": "Foeniculum vulgare",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5071-01"
+  },
+  {
+   "code": "f328",
+   "name": "Fig",
+   "latin": "Ficus carica",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5244-01"
+  },
+  {
+   "code": "f47",
+   "name": "Garlic",
+   "latin": "Allium sativum",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4218-01"
+  },
+  {
+   "code": "f259",
+   "name": "Grape",
+   "latin": "Vitis vinifera",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4809-01"
+  },
+  {
+   "code": "f209",
+   "name": "Grapefruit",
+   "latin": "Citrus paradisi",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4431-01"
+  },
+  {
+   "code": "f84",
+   "name": "Kiwi",
+   "latin": "Actinidia deliciosa",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4295-01"
+  },
+  {
+   "code": "f208",
+   "name": "Lemon",
+   "latin": "Citrus limon",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4829-01"
+  },
+  {
+   "code": "f215",
+   "name": "Lettuce",
+   "latin": "Lactuca sativa",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4813-01"
+  },
+  {
+   "code": "f306",
+   "name": "Lime",
+   "latin": "Citrus aurantifolia",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5188-01"
+  },
+  {
+   "code": "f302",
+   "name": "Mandarin",
+   "latin": "Citrus reticulata",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5160-01"
+  },
+  {
+   "code": "f91",
+   "name": "Mango",
+   "latin": "Mangifera indica",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4331-01"
+  },
+  {
+   "code": "f87",
+   "name": "Melon",
+   "latin": "Cucumis melo spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4298-01"
+  },
+  {
+   "code": "f342",
+   "name": "Olive (black, fresh)",
+   "latin": "Olea europaea",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5279-01"
+  },
+  {
+   "code": "f48",
+   "name": "Onion",
+   "latin": "Allium cepa",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4219-01"
+  },
+  {
+   "code": "f33",
+   "name": "Orange",
+   "latin": "Citrus sinensis",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4129-01"
+  },
+  {
+   "code": "f293",
+   "name": "Papaya",
+   "latin": "Carica papaya",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5089-01"
+  },
+  {
+   "code": "f294",
+   "name": "Passion fruit",
+   "latin": "Passiflora edulis",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5091-01"
+  },
+  {
+   "code": "f95",
+   "name": "Peach",
+   "latin": "Prunus persica",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4337-01"
+  },
+  {
+   "code": "f94",
+   "name": "Pear",
+   "latin": "Pyrus communis",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4336-01"
+  },
+  {
+   "code": "f301",
+   "name": "Persimon (kaki fruit, sharon)",
+   "latin": "Diospyros kaki",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5161-01"
+  },
+  {
+   "code": "f210",
+   "name": "Pineapple",
+   "latin": "Ananas comosus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4810-01"
+  },
+  {
+   "code": "f255",
+   "name": "Plum",
+   "latin": "Prunus domestica",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4840-01"
+  },
+  {
+   "code": "f35",
+   "name": "Potato",
+   "latin": "Solanum tuberosum",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4211-01"
+  },
+  {
+   "code": "f225",
+   "name": "Pumpkin",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4433-01"
+  },
+  {
+   "code": "f343",
+   "name": "Raspberry",
+   "latin": "Rubus idaeus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5280-01"
+  },
+  {
+   "code": "f214",
+   "name": "Spinach",
+   "latin": "Spinachia oleracea",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4432-01"
+  },
+  {
+   "code": "f44",
+   "name": "Strawberry",
+   "latin": "Fragaria vesca",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4216-01"
+  },
+  {
+   "code": "f54",
+   "name": "Sweet potato",
+   "latin": "Ipomea batatas",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4458-01"
+  },
+  {
+   "code": "f25",
+   "name": "Tomato",
+   "latin": "Lycopersicon lycopersicum",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4182-01"
+  },
+  {
+   "code": "f329",
+   "name": "Watermelon",
+   "latin": "Citrullus lanatus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5245-01"
+  },
+  {
+   "code": "f430",
+   "name": "rAct d 8 PR-10, Kiwi",
+   "latin": "Actinidia deliciosa",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4984-01"
+  },
+  {
+   "code": "f417",
+   "name": "rApi g 1.01 PR-10, Celery",
+   "latin": "Apium graveolens",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4957-01"
+  },
+  {
+   "code": "f434",
+   "name": "rMal d 1 PR-10, Apple",
+   "latin": "Malus domestica",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-5703-01"
+  },
+  {
+   "code": "f435",
+   "name": "rMal d 3 LTP, Apple",
+   "latin": "Malus domestica",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-5704-01"
+  },
+  {
+   "code": "f419",
+   "name": "rPru p 1 PR-10, Peach",
+   "latin": "Prunus persica",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4960-01"
+  },
+  {
+   "code": "f420",
+   "name": "rPru p 3 LTP, Peach",
+   "latin": "Prunus persica",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4961-01"
+  },
+  {
+   "code": "f421",
+   "name": "rPru p 4 Profilin, Peach",
+   "latin": "Prunus persica",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4962-01"
+  },
+  {
+   "code": "f454",
+   "name": "rPru p 7 Peach",
+   "latin": "Prunus persica",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-6086-01"
+  },
+  {
+   "code": "f20",
+   "name": "Almond",
+   "latin": "Amygdalus communis",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4179-01"
+  },
+  {
+   "code": "f6",
+   "name": "Barley",
+   "latin": "Hordeum vulgare",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4172-01"
+  },
+  {
+   "code": "f18",
+   "name": "Brazil nut",
+   "latin": "Bertholletia excelsa",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4178-01"
+  },
+  {
+   "code": "f11",
+   "name": "Buckwheat",
+   "latin": "Fagopyrum esculentum",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4125-01"
+  },
+  {
+   "code": "f202",
+   "name": "Cashew nut",
+   "latin": "Anacardium occidentale",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4835-01"
+  },
+  {
+   "code": "f309",
+   "name": "Chick pea",
+   "latin": "Cicer arietinus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5196-01"
+  },
+  {
+   "code": "f36",
+   "name": "Coconut",
+   "latin": "Cocos nucifera",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4212-01"
+  },
+  {
+   "code": "f55",
+   "name": "Common millet",
+   "latin": "Panicum milliaceum",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4459-01"
+  },
+  {
+   "code": "f305",
+   "name": "Fenugreek",
+   "latin": "Trigonella foenum-graecum",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5187-01"
+  },
+  {
+   "code": "f56",
+   "name": "Foxtail millet",
+   "latin": "Setaria italica",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4460-01"
+  },
+  {
+   "code": "f79",
+   "name": "Gluten",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4291-01"
+  },
+  {
+   "code": "f315",
+   "name": "Green bean",
+   "latin": "Phaseolus vulgaris",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5211-01"
+  },
+  {
+   "code": "f17",
+   "name": "Hazel nut",
+   "latin": "Corylus avellana",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4528-01"
+  },
+  {
+   "code": "f235",
+   "name": "Lentil",
+   "latin": "Lens esculenta",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4815-01"
+  },
+  {
+   "code": "f182",
+   "name": "Lima bean",
+   "latin": "Phaseolus lunatus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4929-01"
+  },
+  {
+   "code": "f333",
+   "name": "Linseed",
+   "latin": "Linum usitatissimum",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5250-01"
+  },
+  {
+   "code": "f335",
+   "name": "Lupin seed",
+   "latin": "Lupinus albus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5254-01"
+  },
+  {
+   "code": "f345",
+   "name": "Macadamia nut",
+   "latin": "Macadamia spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5282-01"
+  },
+  {
+   "code": "f8",
+   "name": "Maize, Corn",
+   "latin": "Zea mays",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4124-01"
+  },
+  {
+   "code": "f7",
+   "name": "Oat",
+   "latin": "Avena sativa",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4173-01"
+  },
+  {
+   "code": "f12",
+   "name": "Pea",
+   "latin": "Pisum sativum",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4176-01"
+  },
+  {
+   "code": "f13",
+   "name": "Peanut",
+   "latin": "Arachis hypogaea",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4126-01"
+  },
+  {
+   "code": "f201",
+   "name": "Pecan nut",
+   "latin": "Carya illinoensis",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4807-01"
+  },
+  {
+   "code": "f253",
+   "name": "Pine nut, pignoles",
+   "latin": "Pinus edulis",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5093-01"
+  },
+  {
+   "code": "f203",
+   "name": "Pistachio",
+   "latin": "Pistacia vera",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4836-01"
+  },
+  {
+   "code": "f224",
+   "name": "Poppy seed",
+   "latin": "Papaver somniferum",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5097-01"
+  },
+  {
+   "code": "f226",
+   "name": "Pumpkin seed",
+   "latin": "Cucurbita pepo",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5098-01"
+  },
+  {
+   "code": "f347",
+   "name": "Quinoa",
+   "latin": "Chenopodium quinoa",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5284-01"
+  },
+  {
+   "code": "f316",
+   "name": "Rape seed",
+   "latin": "Brassica napus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5213-01"
+  },
+  {
+   "code": "f287",
+   "name": "Red kidney bean",
+   "latin": "Phaseolus vulgaris",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5100-01"
+  },
+  {
+   "code": "f9",
+   "name": "Rice",
+   "latin": "Oryza sativa",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4174-01"
+  },
+  {
+   "code": "f5",
+   "name": "Rye",
+   "latin": "Secale cereale",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4123-01"
+  },
+  {
+   "code": "f10",
+   "name": "Sesame seed",
+   "latin": "Sesamum indicum",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4175-01"
+  },
+  {
+   "code": "f14",
+   "name": "Soybean",
+   "latin": "Glycine max",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4115-01"
+  },
+  {
+   "code": "f124",
+   "name": "Spelt wheat",
+   "latin": "Triticum spelta",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4914-01"
+  },
+  {
+   "code": "f227",
+   "name": "Sugar-beet seed",
+   "latin": "Beta vulgaris",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5102-01"
+  },
+  {
+   "code": "f299",
+   "name": "Sweet chestnut",
+   "latin": "Castanea sativa",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4843-01"
+  },
+  {
+   "code": "f256",
+   "name": "Walnut",
+   "latin": "Juglans spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4521-01"
+  },
+  {
+   "code": "f4",
+   "name": "Wheat",
+   "latin": "Triticum aestivum",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4113-01"
+  },
+  {
+   "code": "f15",
+   "name": "White bean",
+   "latin": "Phaseolus vulgaris",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4177-01"
+  },
+  {
+   "code": "f443",
+   "name": "rAna o 3 Cashew nut",
+   "latin": "Anacardium occidentale",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-5760-01"
+  },
+  {
+   "code": "f422",
+   "name": "rAra h 1 Peanut",
+   "latin": "Arachis hypogaea",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4963-01"
+  },
+  {
+   "code": "f423",
+   "name": "rAra h 2 Peanut",
+   "latin": "Arachis hypogaea",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4964-01"
+  },
+  {
+   "code": "f424",
+   "name": "rAra h 3 Peanut",
+   "latin": "Arachis hypogaea",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4965-01"
+  },
+  {
+   "code": "f447",
+   "name": "rAra h 6 Peanut",
+   "latin": "Arachis hypogaea",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-6041-01"
+  },
+  {
+   "code": "f352",
+   "name": "rAra h 8 PR-10, Peanut",
+   "latin": "Arachis hypogaea",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-5341-01"
+  },
+  {
+   "code": "f427",
+   "name": "rAra h 9 LTP, Peanut",
+   "latin": "Arachis hypogaea",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4980-01"
+  },
+  {
+   "code": "f354",
+   "name": "rBer e 1 Brazil nut",
+   "latin": "Bertholletia excelsa",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-5343-01"
+  },
+  {
+   "code": "f428",
+   "name": "rCor a 1 PR-10, Hazel nut",
+   "latin": "Corylus avellana",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4981-01"
+  },
+  {
+   "code": "f425",
+   "name": "rCor a 8 LTP, Hazel nut",
+   "latin": "Corylus avellana",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4968-01"
+  },
+  {
+   "code": "f440",
+   "name": "nCor a 9, Hazel nut",
+   "latin": "Corylus avellana",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-5758-01"
+  },
+  {
+   "code": "f439",
+   "name": "rCor a 14, Hazel nut",
+   "latin": "Corylus avellana",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-5754-01"
+  },
+  {
+   "code": "f353",
+   "name": "rGly m 4 PR-10, Soy",
+   "latin": "Glycine max",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-5340-01"
+  },
+  {
+   "code": "f431",
+   "name": "nGly m 5 beta-conglycinin, Soy",
+   "latin": "Glycine max",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4990-01"
+  },
+  {
+   "code": "f432",
+   "name": "nGly m 6 Glycinin",
+   "latin": "Glycine max",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4991-01"
+  },
+  {
+   "code": "f441",
+   "name": "rJug r 1 Walnut",
+   "latin": "Juglans regia",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-5762-01"
+  },
+  {
+   "code": "f442",
+   "name": "rJug r 3 LTP, Walnut",
+   "latin": "Juglans regia",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-5954-01"
+  },
+  {
+   "code": "f449",
+   "name": "rSes i 1 Sesame seed",
+   "latin": "Sesamum indicum",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-6109-01"
+  },
+  {
+   "code": "f433",
+   "name": "rTri a 14 LTP, Wheat",
+   "latin": "Triticum aestivum",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-5701-01"
+  },
+  {
+   "code": "f416",
+   "name": "rTri a 19 Omega-5 Gliadin, Wheat Triticum aestivum",
+   "latin": "",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4954-01"
+  },
+  {
+   "code": "f98",
+   "name": "Gliadin",
+   "latin": "",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-5752-01"
+  },
+  {
+   "code": "f271",
+   "name": "Anise",
+   "latin": "Pimpinella anisum",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5044-01"
+  },
+  {
+   "code": "f269",
+   "name": "Basil",
+   "latin": "Ocimum basilicum",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5048-01"
+  },
+  {
+   "code": "f278",
+   "name": "Bay leaf",
+   "latin": "Laurus nobilis",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5049-01"
+  },
+  {
+   "code": "f280",
+   "name": "Black pepper",
+   "latin": "Piper nigrum",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4817-01"
+  },
+  {
+   "code": "f265",
+   "name": "Caraway",
+   "latin": "Carum carvi",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5057-01"
+  },
+  {
+   "code": "f279",
+   "name": "Chilipepper",
+   "latin": "Capsicum frutescens",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5062-01"
+  },
+  {
+   "code": "f268",
+   "name": "Clove",
+   "latin": "Syzygium aromaticum",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5064-01"
+  },
+  {
+   "code": "f317",
+   "name": "Coriander",
+   "latin": "Coriandrum sativum",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5214-01"
+  },
+  {
+   "code": "f277",
+   "name": "Dill",
+   "latin": "Anethum graveolens",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5069-01"
+  },
+  {
+   "code": "f270",
+   "name": "Ginger",
+   "latin": "Zingiber officinale",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5072-01"
+  },
+  {
+   "code": "f263",
+   "name": "Green pepper (unripe seed)",
+   "latin": "Piper nigrum",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5075-01"
+  },
+  {
+   "code": "f275",
+   "name": "Lovage",
+   "latin": "Levisticum officinale",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5082-01"
+  },
+  {
+   "code": "f266",
+   "name": "Mace",
+   "latin": "Myristica fragrans",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5083-01"
+  },
+  {
+   "code": "f274",
+   "name": "Marjoram",
+   "latin": "Origanum majorana",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5084-01"
+  },
+  {
+   "code": "f332",
+   "name": "Mint",
+   "latin": "Mentha piperita",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5249-01"
+  },
+  {
+   "code": "f89",
+   "name": "Mustard",
+   "latin": "Brassica/Sinapis spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4329-01"
+  },
+  {
+   "code": "f283",
+   "name": "Oregano",
+   "latin": "Origanum vulgare",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5088-01"
+  },
+  {
+   "code": "f218",
+   "name": "Paprika, Sweet pepper",
+   "latin": "Capsicum annuum",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4816-01"
+  },
+  {
+   "code": "f86",
+   "name": "Parsley",
+   "latin": "Petroselinum crispum",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4297-01"
+  },
+  {
+   "code": "f272",
+   "name": "Tarragon",
+   "latin": "Artemisia dracunculus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5103-01"
+  },
+  {
+   "code": "f273",
+   "name": "Thyme",
+   "latin": "Thymus vulgaris",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5105-01"
+  },
+  {
+   "code": "f234",
+   "name": "Vanilla",
+   "latin": "Vanilla planifolia",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5106-01"
+  },
+  {
+   "code": "f346",
+   "name": "Abalone",
+   "latin": "Haliotis spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5283-01"
+  },
+  {
+   "code": "f313",
+   "name": "Anchovy",
+   "latin": "Engraulis encrasicolus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5209-01"
+  },
+  {
+   "code": "f37",
+   "name": "Blue mussel",
+   "latin": "Mytilus edulis",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4213-01"
+  },
+  {
+   "code": "f369",
+   "name": "Cat fish",
+   "latin": "Ictalurus punctatus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4930-01"
+  },
+  {
+   "code": "f50",
+   "name": "Chub mackerel",
+   "latin": "Scomber japonicus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4454-01"
+  },
+  {
+   "code": "f207",
+   "name": "Clam",
+   "latin": "Ruditapes spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4820-01"
+  },
+  {
+   "code": "f23",
+   "name": "Crab",
+   "latin": "Chionoecetes spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4180-01"
+  },
+  {
+   "code": "f320",
+   "name": "Crayfish",
+   "latin": "Astacus astacus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5219-01"
+  },
+  {
+   "code": "f3",
+   "name": "Fish (cod)",
+   "latin": "Gadus morhua",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4159-01"
+  },
+  {
+   "code": "f147",
+   "name": "Gulf flounder",
+   "latin": "Paralichthys albigutta",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4928-01"
+  },
+  {
+   "code": "f42",
+   "name": "Haddock",
+   "latin": "Melanogrammus aeglefinus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4939-01"
+  },
+  {
+   "code": "f307",
+   "name": "Hake",
+   "latin": "Merluccius merluccius",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5194-01"
+  },
+  {
+   "code": "f303",
+   "name": "Halibut",
+   "latin": "Hippoglossus hippoglossus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5158-01"
+  },
+  {
+   "code": "f205",
+   "name": "Herring",
+   "latin": "Clupea harengus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4837-01"
+  },
+  {
+   "code": "f60",
+   "name": "Jack mackerel, Scad",
+   "latin": "Trachurus japonicus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4464-01"
+  },
+  {
+   "code": "f304",
+   "name": "Langust (spiny lobster)",
+   "latin": "Palinurus spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5159-01"
+  },
+  {
+   "code": "f80",
+   "name": "Lobster",
+   "latin": "Homarus gammarus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4292-01"
+  },
+  {
+   "code": "f206",
+   "name": "Mackerel",
+   "latin": "Scomber scombrus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5019-01"
+  },
+  {
+   "code": "f311",
+   "name": "Megrim",
+   "latin": "Lepidorhombus whiffiagonis",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5204-01"
+  },
+  {
+   "code": "f59",
+   "name": "Octopus",
+   "latin": "Octopus vulgaris",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4463-01"
+  },
+  {
+   "code": "f290",
+   "name": "Oyster",
+   "latin": "Ostrea edulis",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4842-01"
+  },
+  {
+   "code": "f58",
+   "name": "Pacific squid",
+   "latin": "Todarodes pacificus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4462-01"
+  },
+  {
+   "code": "f254",
+   "name": "Plaice",
+   "latin": "Pleuronectes platessa",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4434-01"
+  },
+  {
+   "code": "f413",
+   "name": "Pollock",
+   "latin": "Pollachius virens",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4936-01"
+  },
+  {
+   "code": "f381",
+   "name": "Red snapper",
+   "latin": "Lutjanus campechanus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4931-01"
+  },
+  {
+   "code": "f41",
+   "name": "Salmon",
+   "latin": "Salmo salar",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4215-01"
+  },
+  {
+   "code": "f308",
+   "name": "Sardine (Pilchard)",
+   "latin": "Sardina pilchardus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5195-01"
+  },
+  {
+   "code": "f61",
+   "name": "Sardine, Japanese Pilchard",
+   "latin": "Sardinops melanosticta",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4465-01"
+  },
+  {
+   "code": "f338",
+   "name": "Scallop",
+   "latin": "Pecten spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4895-01"
+  },
+  {
+   "code": "f24",
+   "name": "Shrimp",
+   "latin": "Pandalus borealis, Penaeus monodon,",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4181-01"
+  },
+  {
+   "code": "f314",
+   "name": "Snail",
+   "latin": "Helix aspersa",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5210-01"
+  },
+  {
+   "code": "f337",
+   "name": "Sole",
+   "latin": "Solea solea",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5256-01"
+  },
+  {
+   "code": "f258",
+   "name": "Squid",
+   "latin": "Loligo spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5142-01"
+  },
+  {
+   "code": "f312",
+   "name": "Swordfish",
+   "latin": "Xiphias gladius",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5205-01"
+  },
+  {
+   "code": "f414",
+   "name": "Tilapia",
+   "latin": "Oreochromis spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4937-01"
+  },
+  {
+   "code": "f204",
+   "name": "Oncorhynchus",
+   "latin": "mykiss",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4819-01"
+  },
+  {
+   "code": "f40",
+   "name": "Tuna",
+   "latin": "Thunnus albacares",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4214-01"
+  },
+  {
+   "code": "f415",
+   "name": "Walleye pike",
+   "latin": "Sander vitreus (Stizostedion vitreum)",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4938-01"
+  },
+  {
+   "code": "f384",
+   "name": "Whitefish (Inconnu)",
+   "latin": "Stenodus spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4932-01"
+  },
+  {
+   "code": "f355",
+   "name": "rCyp c 1 Carp",
+   "latin": "Cyprinus carpio",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-5344-01"
+  },
+  {
+   "code": "f426",
+   "name": "rGad c 1 Cod",
+   "latin": "Gadus morhua",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4971-01"
+  },
+  {
+   "code": "f351",
+   "name": "rPen a 1 Tropomyosin, Shrimp",
+   "latin": "Penaeus aztecus",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-5335-01"
+  },
+  {
+   "code": "f245",
+   "name": "Whole hen’s egg",
+   "latin": "Gallus spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4826-01"
+  },
+  {
+   "code": "f1",
+   "name": "Egg white",
+   "latin": "Gallus spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4111-01"
+  },
+  {
+   "code": "f75",
+   "name": "Egg yolk",
+   "latin": "Gallus spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4184-01"
+  },
+  {
+   "code": "f83",
+   "name": "Chicken",
+   "latin": "Gallus spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4185-01"
+  },
+  {
+   "code": "f284",
+   "name": "Turkey meat",
+   "latin": "Meleagris gallopavo",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4818-01"
+  },
+  {
+   "code": "f233",
+   "name": "nGal d 1 Ovomucoid, Egg",
+   "latin": "Gallus spp.",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4805-01"
+  },
+  {
+   "code": "f232",
+   "name": "nGal d 2 Ovalbumin, Egg",
+   "latin": "Gallus spp.",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4804-01"
+  },
+  {
+   "code": "f323",
+   "name": "nGal d 3 Conalbumin, Egg",
+   "latin": "Gallus spp.",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-5222-01"
+  },
+  {
+   "code": "f27",
+   "name": "Beef",
+   "latin": "Bos spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4209-01"
+  },
+  {
+   "code": "f88",
+   "name": "Mutton",
+   "latin": "Ovis spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4299-01"
+  },
+  {
+   "code": "f26",
+   "name": "Pork",
+   "latin": "Sus spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4183-01"
+  },
+  {
+   "code": "f213",
+   "name": "Rabbit",
+   "latin": "Oryctolagus spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4838-01"
+  },
+  {
+   "code": "f81",
+   "name": "Cheese, cheddar type",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4293-01"
+  },
+  {
+   "code": "f82",
+   "name": "Cheese, mold type",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4294-01"
+  },
+  {
+   "code": "f236",
+   "name": "Cow’s whey",
+   "latin": "Bos spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5114-01"
+  },
+  {
+   "code": "f300",
+   "name": "Goat’s milk",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5144-01"
+  },
+  {
+   "code": "f286",
+   "name": "Mare’s milk",
+   "latin": "Equus spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5109-01"
+  },
+  {
+   "code": "f2",
+   "name": "Cow’s milk",
+   "latin": "Bos spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4112-01"
+  },
+  {
+   "code": "f231",
+   "name": "Cow’s milk, boiled",
+   "latin": "Bos spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4806-01"
+  },
+  {
+   "code": "f325",
+   "name": "Sheep’s milk",
+   "latin": "Ovis spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5237-01"
+  },
+  {
+   "code": "f326",
+   "name": "Sheep’s milk",
+   "latin": "Ovis spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5238-01"
+  },
+  {
+   "code": "f76",
+   "name": "nBos d 4 alpha-lactalbumin, Milk",
+   "latin": "Bos spp.",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4522-01"
+  },
+  {
+   "code": "f77",
+   "name": "nBos d 5 beta-lactoglobulin, Milk",
+   "latin": "Bos spp.",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4523-01"
+  },
+  {
+   "code": "f78",
+   "name": "nBos d 8 Casein, Milk",
+   "latin": "Bos spp.",
+   "members": null,
+   "kind": "component",
+   "group": "food",
+   "art_no": "14-4524-01"
+  },
+  {
+   "code": "f296",
+   "name": "Carob (E410)",
+   "latin": "Ceratonia siliqua",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5137-01"
+  },
+  {
+   "code": "f246",
+   "name": "Guar, guar gum (E412)",
+   "latin": "Cyamopsis tetragonolobus",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5076-01"
+  },
+  {
+   "code": "f297",
+   "name": "Gum arabic (E414)",
+   "latin": "Acacia spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5138-01"
+  },
+  {
+   "code": "f340",
+   "name": "Cochineal extract / Carmine red (E120) Dactylopius coccus",
+   "latin": "",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5268-01"
+  },
+  {
+   "code": "f93",
+   "name": "Cacao",
+   "latin": "Theobroma cacao",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4335-01"
+  },
+  {
+   "code": "f221",
+   "name": "Coffee",
+   "latin": "Coffea spp.",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5065-01"
+  },
+  {
+   "code": "f90",
+   "name": "Malt",
+   "latin": "Hordeum vulgare",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4330-01"
+  },
+  {
+   "code": "f212",
+   "name": "Mushroom (champignon)",
+   "latin": "Agaricus hortensis",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5086-01"
+  },
+  {
+   "code": "f222",
+   "name": "Tea",
+   "latin": "Camellia sinensis",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-5104-01"
+  },
+  {
+   "code": "f45",
+   "name": "Yeast",
+   "latin": "Saccharomyces cerevisiae",
+   "members": null,
+   "kind": "whole",
+   "group": "food",
+   "art_no": "14-4217-01"
+  },
+  {
+   "code": "fx1",
+   "name": "f13, f17, f18, f20, f36",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4206-01"
+  },
+  {
+   "code": "fx2",
+   "name": "f3, f24, f37, f40, f41",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4207-01"
+  },
+  {
+   "code": "fx3",
+   "name": "f4, f7, f8, f10, f11",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4208-01"
+  },
+  {
+   "code": "fx5",
+   "name": "f1, f2, f3, f4, f13, f14",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4275-01"
+  },
+  {
+   "code": "fx7",
+   "name": "f25, f45, f47, f48, f85",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4844-01"
+  },
+  {
+   "code": "fx13",
+   "name": "f12, f15, f31, f35",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4848-01"
+  },
+  {
+   "code": "fx14",
+   "name": "f25, f214, f216, f218",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4849-01"
+  },
+  {
+   "code": "fx15",
+   "name": "f33, f49, f92, f95",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4850-01"
+  },
+  {
+   "code": "fx16",
+   "name": "f44, f94, f208, f210",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4851-01"
+  },
+  {
+   "code": "fx17",
+   "name": "f49, f92, f94, f95",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-5179-01"
+  },
+  {
+   "code": "fx18",
+   "name": "f12, f13, f14",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4852-01"
+  },
+  {
+   "code": "fx20",
+   "name": "f4, f5, f6, f9",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4853-01"
+  },
+  {
+   "code": "fx21",
+   "name": "f84, f87, f92, f95, f210",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-5206-01"
+  },
+  {
+   "code": "fx22",
+   "name": "f201, f202, f203, f256",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-5212-01"
+  },
+  {
+   "code": "fx24",
+   "name": "f17, f24, f84, f92",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4856-01"
+  },
+  {
+   "code": "fx25",
+   "name": "f10, f45, f47, f85",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4857-01"
+  },
+  {
+   "code": "fx26",
+   "name": "f1, f2, f13, f89",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4894-01"
+  },
+  {
+   "code": "fx27",
+   "name": "f3, f4, f14, f17",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4893-01"
+  },
+  {
+   "code": "fx28",
+   "name": "f10, f24, f27, f84",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4892-01"
+  },
+  {
+   "code": "fx29",
+   "name": "f33, f208, f209, f302",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4915-01"
+  },
+  {
+   "code": "fx30",
+   "name": "f84, f91, f92, f96, f293",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4916-01"
+  },
+  {
+   "code": "fx31",
+   "name": "f49, f94, f95, f242, f255",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4917-01"
+  },
+  {
+   "code": "fx70",
+   "name": "f272, f274, f273, f275",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4357-01"
+  },
+  {
+   "code": "fx71",
+   "name": "f265, f266, f267, f268",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4358-01"
+  },
+  {
+   "code": "fx73",
+   "name": "f26, f27, f83",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4825-01"
+  },
+  {
+   "code": "fx74",
+   "name": "f3, f205, f206, f254",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4827-01"
+  },
+  {
+   "code": "fx77",
+   "name": "f10, f17, f25, f84, f202",
+   "latin": "",
+   "members": null,
+   "kind": "mix",
+   "group": "food",
+   "art_no": "14-4988-01"
+  }
+ ]
+}

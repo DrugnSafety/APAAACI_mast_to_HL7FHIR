@@ -53,8 +53,9 @@ class OCRService:
             settings: 애플리케이션 설정 객체
         """
         self.settings = settings
-        # API 키는 settings.openai_api_key로 접근
-        self.client = OpenAI(api_key=settings.openai_api_key or os.getenv('OPENAI_API_KEY', ''))
+        # OpenAI 클라이언트는 키 묶음(OPENAI_API_KEY_1..N round-robin)에서 — 호출마다 llm_backend.client() 로 다시 받는다
+        from services import llm_backend
+        self.client = llm_backend.client("openai") if llm_backend.is_available("openai") else None
         self.allergen_mapper = get_allergen_mapper()
         
         # OCR 프롬프트 로드
@@ -217,10 +218,16 @@ Be exhaustive and accurate. Return the JSON only."""
         prompt = custom_prompt or self.ocr_prompt
         try:
             prep = None
-            if preprocess or double_read:
+            auto_rotate = bool(getattr(self.settings, "ocr_auto_rotate", True))
+            if preprocess or double_read or auto_rotate:
                 from utils.image_preprocess import prepare
-                prep = prepare(image_source, flatten=None if preprocess else False)
-            full = prep["full"] if (prep and preprocess) else self._encode_image(image_source)
+                prep = prepare(image_source, flatten=None if preprocess else False, rotate=auto_rotate)
+            if prep and preprocess:
+                full = prep["full"]
+            elif prep and prep.get("rotated_raw"):
+                full = prep["rotated_raw"]      # 전처리를 껐어도 회전은 두 판독에 똑같이 적용한다
+            else:
+                full = self._encode_image(image_source)
 
             # 전용 OCR 텍스트 층(선택) — 행 순서 확인용. 숫자는 이미지를 믿으라고 프롬프트에 못 박는다
             text_layer = self.settings.ocr_text_layer if text_layer is None else text_layer
@@ -250,7 +257,8 @@ Be exhaustive and accurate. Return the JSON only."""
             md = dict(ocr_result.metadata or {})
             md["model"] = model
             md["backend"] = backend
-            md["preprocess"] = (prep or {}).get("notes", []) if preprocess else []
+            notes = (prep or {}).get("notes", [])
+            md["preprocess"] = notes if preprocess else [n for n in notes if n.startswith("회전")]
             md["text_layer"] = bool(text_layer and first_prompt != prompt)
             if dr_stats is not None:
                 md["double_read"] = dr_stats
@@ -287,7 +295,8 @@ Be exhaustive and accurate. Return the JSON only."""
 
     @staticmethod
     def _is_reasoning_model(model: str) -> bool:
-        return (model or "").lower().startswith(("gpt-5", "o1", "o3", "o4"))
+        # gpt-5·gpt-6 계열(luna/astra/sol 포함)은 temperature·max_tokens 를 거부하고 max_completion_tokens·reasoning_effort 를 받는다
+        return (model or "").lower().startswith(("gpt-5", "gpt-6", "o1", "o3", "o4"))
 
     def _call_vision_model(self, model: str, prompt: str, images_b64: list,
                            backend: Optional[str] = None) -> str:
@@ -296,6 +305,14 @@ Be exhaustive and accurate. Return the JSON only."""
         from services import llm_backend
         backend = llm_backend.normalize(backend) or llm_backend.active()
         client = llm_backend.client(backend) or self.client
+        if backend == "ollama" and getattr(self.settings, "ollama_max_payload_kb", 0):
+            # 연구실 서버 앞 nginx 의 요청 크기 한도(413) 안으로 — utils/image_preprocess.fit_payload 참고
+            from utils.image_preprocess import fit_payload
+            before = sum(len(b) for b in images_b64)
+            images_b64 = fit_payload(images_b64, self.settings.ollama_max_payload_kb * 1024)
+            after = sum(len(b) for b in images_b64)
+            if after < before:
+                logger.warning(f"Ollama 요청 이미지 축소: {before // 1024}KB → {after // 1024}KB (한도 {self.settings.ollama_max_payload_kb}KB)")
         parts = [{"type": "text", "text": prompt}] + [
             {"type": "image_url", "image_url": {"url": f"data:{_mime(b)};base64,{b}", "detail": "high"}}
             for b in images_b64]
@@ -303,8 +320,10 @@ Be exhaustive and accurate. Return the JSON only."""
         kw: Dict[str, Any] = {"model": model, "messages": messages,
                               "response_format": {"type": "json_object"}}
         if backend == "ollama":
-            # 연구실 Ollama(OpenAI 호환). 생각(thinking) 모델은 추론 토큰이 한도를 먹으므로 넉넉히 준다
-            kw["max_tokens"] = 32000
+            # 연구실 Ollama(OpenAI 호환). 생각(thinking) 모델은 추론 토큰이 한도를 먹으므로 넉넉히 주되,
+            # 폭주 생성 가드 — 2026-10-09 실측에서 32000 한도로 한 장이 51분 걸리며 서버가 끊겼다.
+            # 120행 결과지의 JSON 이 약 8천 토큰이므로 16000 이면 충분하다.
+            kw["max_tokens"] = 16000
             kw["temperature"] = 0.1
             if self.settings.ollama_ocr_reasoning:
                 kw["reasoning_effort"] = self.settings.ollama_ocr_reasoning
@@ -318,13 +337,22 @@ Be exhaustive and accurate. Return the JSON only."""
         try:
             resp = client.chat.completions.create(**kw)
         except Exception as e:
-            # JSON 모드를 받지 않는 모델이면 일반 모드로 한 번 더
+            # JSON 모드·추론 옵션을 받지 않는 모델(400)이면 일반 모드로 한 번 더.
+            # 연결 오류·타임아웃까지 같은 요청으로 다시 보내면 멈춘 서버에 두 배로 묶인다(2026-10-09 리뷰 M8) — 그대로 올린다.
+            msg = str(e).lower()
+            status = getattr(e, "status_code", None)
+            retryable = status == 400 or any(w in msg for w in ("response_format", "json", "think", "reason", "unsupported", "invalid"))
+            if not retryable or (status is not None and status != 400):
+                raise          # 인증·권한·없음(401/403/404)·한도(413/429)·서버 오류(5xx)·연결 오류는 다시 보내지 않는다
             logger.warning(f"JSON 모드 실패({model}), 일반 모드로 재시도: {e}")
-            if any(w in str(e).lower() for w in ("think", "reason")):
+            if any(w in msg for w in ("think", "reason")):
                 kw.pop("reasoning_effort", None)      # 생각 모드가 없는 모델(qwen2.5vl·llama4 등)
             kw.pop("response_format", None)
             messages[1]["content"][0]["text"] = prompt + "\n\nReturn ONLY JSON, no markdown or explanation."
             resp = client.chat.completions.create(**kw)
+        if backend == "openai":
+            from services import llm_usage
+            llm_usage.record(model, getattr(resp, "usage", None))     # 토큰 예산 장부
         return resp.choices[0].message.content or ""
 
     def _call_gemini(self, model: str, prompt: str, images_b64: list) -> str:

@@ -22,6 +22,11 @@ logger = logging.getLogger(__name__)
 class ChatbotService:
     """증상 피드백 수집을 위한 GPT 기반 챗봇"""
     
+    def _openai(self):
+        """호출마다 키 묶음(OPENAI_API_KEY_1..N)에서 다음 클라이언트 — 없으면 초기화 때 만든 것."""
+        from services import llm_backend
+        return llm_backend.client("openai") or self.client
+
     def __init__(self, api_key: Optional[str] = None):
         """
         Args:
@@ -237,7 +242,7 @@ class ChatbotService:
                 })
             
             # GPT 호출
-            response = self.client.chat.completions.create(
+            response = self._openai().chat.completions.create(
                 model=settings.openai_model,
                 messages=messages,
                 temperature=settings.chatbot_temperature,
@@ -307,7 +312,7 @@ class ChatbotService:
 - JSON만 출력, 다른 텍스트 없음
 """
             
-            response = self.client.chat.completions.create(
+            response = self._openai().chat.completions.create(
                 model=settings.openai_model,
                 messages=[
                     {"role": "system", "content": "You are a data extraction assistant."},

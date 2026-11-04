@@ -236,12 +236,16 @@ class ClassicCardNewsService:
             note = f'<p class="desc">{_esc(NO_RELEVANT_NOTE_KO)}</p>'
             tips = [f"📝 {NO_RELEVANT_TIPS_KO[0]}", f"🩺 {NO_RELEVANT_TIPS_KO[1]}"]
         items = "\n".join(f"<li>{_esc(t)}</li>" for t in tips[:6])
+        # 수칙 아래 '왜 이렇게 하나요' 한두 줄 — 도감 카드뉴스와 같은 데이터·문장(새 카드를 만들지 않는다)
+        from services.cardnews_service import evidence_note_html
+        evidence = evidence_note_html(relevant, _esc) if relevant else ""
         return f"""
         <div class="section prevention">
           <div class="tag">🛡️ 예방·관리</div>
           <h2>우선 실천할<br/>생활 수칙</h2>
           {note}
           <ul class="tips">{items}</ul>
+          {evidence}
         </div>
         """
 

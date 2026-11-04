@@ -74,9 +74,10 @@
         "점박이응애"
       ],
       "ocr_aliases": [],
-      "category": "Mite",
+      "category": "Other",
       "subcategory": null,
-      "snomed": "37022204"
+      "snomed": "37022204",
+      "note": "식물 해충 응애(Tetranychus urticae). 집먼지진드기 수칙이 맞지 않아 2026-10-09 Other 로 분류."
     },
     {
       "canonical_name": "Alder",
@@ -90,7 +91,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4115937"
+      "snomed": "4115937",
+      "immunocap_codes": [
+        "t2"
+      ]
     },
     {
       "canonical_name": "Almond",
@@ -104,7 +108,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4104630"
+      "snomed": "4104630",
+      "immunocap_codes": [
+        "f20"
+      ]
     },
     {
       "canonical_name": "Alternaria alternata",
@@ -120,7 +127,10 @@
       ],
       "category": "Mold",
       "subcategory": "Outdoor",
-      "snomed": "46272803"
+      "snomed": "46272803",
+      "immunocap_codes": [
+        "m6"
+      ]
     },
     {
       "canonical_name": "Cockroach, American",
@@ -134,7 +144,10 @@
       "ocr_aliases": [],
       "category": "Insect",
       "subcategory": "Cockroach",
-      "snomed": "46273915"
+      "snomed": "46273915",
+      "immunocap_codes": [
+        "i206"
+      ]
     },
     {
       "canonical_name": "Apple",
@@ -148,7 +161,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "42536408"
+      "snomed": "42536408",
+      "immunocap_codes": [
+        "f49"
+      ]
     },
     {
       "canonical_name": "Aspergillus fumigatus",
@@ -163,7 +179,10 @@
       ],
       "category": "Mold",
       "subcategory": "Indoor",
-      "snomed": "46272804"
+      "snomed": "46272804",
+      "immunocap_codes": [
+        "m3"
+      ]
     },
     {
       "canonical_name": "Aspergillus niger",
@@ -178,7 +197,10 @@
       ],
       "category": "Mold",
       "subcategory": "Indoor",
-      "snomed": "46272805"
+      "snomed": "46272805",
+      "immunocap_codes": [
+        "m207"
+      ]
     },
     {
       "canonical_name": "Avocado",
@@ -190,7 +212,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "42536428"
+      "snomed": "42536428",
+      "immunocap_codes": [
+        "f96"
+      ]
     },
     {
       "canonical_name": "Banana",
@@ -204,7 +229,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4106295"
+      "snomed": "4106295",
+      "immunocap_codes": [
+        "f92"
+      ]
     },
     {
       "canonical_name": "Barley",
@@ -220,7 +248,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "42539513"
+      "snomed": "42539513",
+      "immunocap_codes": [
+        "f6"
+      ]
     },
     {
       "canonical_name": "Bean",
@@ -234,7 +265,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4103602"
+      "snomed": "4103602",
+      "immunocap_codes": [
+        "f15"
+      ]
     },
     {
       "canonical_name": "Beech",
@@ -248,7 +282,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4116683"
+      "snomed": "4116683",
+      "immunocap_codes": [
+        "t5"
+      ]
     },
     {
       "canonical_name": "Beef",
@@ -262,7 +299,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4037235"
+      "snomed": "4037235",
+      "immunocap_codes": [
+        "f27"
+      ]
     },
     {
       "canonical_name": "Bermuda grass",
@@ -277,7 +317,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Grass",
-      "snomed": "4126502"
+      "snomed": "4126502",
+      "immunocap_codes": [
+        "g2"
+      ]
     },
     {
       "canonical_name": "Birch",
@@ -295,7 +338,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "765811"
+      "snomed": "765811",
+      "immunocap_codes": [
+        "t3"
+      ]
     },
     {
       "canonical_name": "Cabbage",
@@ -307,7 +353,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "42536335"
+      "snomed": "42536335",
+      "immunocap_codes": [
+        "f216"
+      ]
     },
     {
       "canonical_name": "Candida albicans",
@@ -322,7 +371,10 @@
       ],
       "category": "Mold",
       "subcategory": "Indoor",
-      "snomed": "46272808"
+      "snomed": "46272808",
+      "immunocap_codes": [
+        "m5"
+      ]
     },
     {
       "canonical_name": "Carrot",
@@ -334,7 +386,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4106300"
+      "snomed": "4106300",
+      "immunocap_codes": [
+        "f31"
+      ]
     },
     {
       "canonical_name": "Casein",
@@ -347,7 +402,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4177499"
+      "snomed": "4177499",
+      "immunocap_codes": [
+        "f78"
+      ]
     },
     {
       "canonical_name": "Cat dander",
@@ -362,7 +420,10 @@
       "ocr_aliases": [],
       "category": "Animal",
       "subcategory": null,
-      "snomed": "4125384"
+      "snomed": "4125384",
+      "immunocap_codes": [
+        "e1"
+      ]
     },
     {
       "canonical_name": "Celery",
@@ -376,7 +437,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4104625"
+      "snomed": "4104625",
+      "immunocap_codes": [
+        "f85"
+      ]
     },
     {
       "canonical_name": "Chicken",
@@ -388,7 +452,10 @@
       "ocr_aliases": [],
       "category": "Animal",
       "subcategory": null,
-      "snomed": "35627007"
+      "snomed": "35627007",
+      "immunocap_codes": [
+        "e85"
+      ]
     },
     {
       "canonical_name": "Chrysanthemum",
@@ -414,7 +481,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4008005"
+      "snomed": "4008005",
+      "immunocap_codes": [
+        "f33"
+      ]
     },
     {
       "canonical_name": "Cladosporium herbarum",
@@ -429,7 +499,10 @@
       ],
       "category": "Mold",
       "subcategory": "Outdoor",
-      "snomed": "46272811"
+      "snomed": "46272811",
+      "immunocap_codes": [
+        "m2"
+      ]
     },
     {
       "canonical_name": "Cockroach, Mix",
@@ -446,7 +519,11 @@
       "ocr_aliases": [],
       "category": "Insect",
       "subcategory": "Cockroach",
-      "snomed": "46273916"
+      "snomed": "46273916",
+      "immunocap_codes": [
+        "i6",
+        "i206"
+      ]
     },
     {
       "canonical_name": "Cod",
@@ -458,7 +535,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "42536425"
+      "snomed": "42536425",
+      "immunocap_codes": [
+        "f3"
+      ]
     },
     {
       "canonical_name": "Control",
@@ -493,7 +573,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4041339"
+      "snomed": "4041339",
+      "immunocap_codes": [
+        "f8"
+      ]
     },
     {
       "canonical_name": "Cultivated oat",
@@ -507,7 +590,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Grass",
-      "snomed": "4128476"
+      "snomed": "4128476",
+      "immunocap_codes": [
+        "g14"
+      ]
     },
     {
       "canonical_name": "Dandelion",
@@ -521,7 +607,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4104621"
+      "snomed": "4104621",
+      "immunocap_codes": [
+        "w8"
+      ]
     },
     {
       "canonical_name": "Dermatophagoides farinae",
@@ -540,7 +629,10 @@
       "ocr_aliases": [],
       "category": "Mite",
       "subcategory": null,
-      "snomed": "46273588"
+      "snomed": "46273588",
+      "immunocap_codes": [
+        "d2"
+      ]
     },
     {
       "canonical_name": "Dermatophagoides pteronyssinus",
@@ -555,7 +647,10 @@
       "ocr_aliases": [],
       "category": "Mite",
       "subcategory": null,
-      "snomed": "46272684"
+      "snomed": "46272684",
+      "immunocap_codes": [
+        "d1"
+      ]
     },
     {
       "canonical_name": "Dog dander",
@@ -572,7 +667,10 @@
       "ocr_aliases": [],
       "category": "Animal",
       "subcategory": null,
-      "snomed": "4128602"
+      "snomed": "4128602",
+      "immunocap_codes": [
+        "e5"
+      ]
     },
     {
       "canonical_name": "Egg white",
@@ -584,7 +682,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4103922"
+      "snomed": "4103922",
+      "immunocap_codes": [
+        "f1"
+      ]
     },
     {
       "canonical_name": "Egg yolk",
@@ -598,7 +699,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4103921"
+      "snomed": "4103921",
+      "immunocap_codes": [
+        "f75"
+      ]
     },
     {
       "canonical_name": "Elder",
@@ -612,7 +716,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4128340"
+      "snomed": "4128340",
+      "immunocap_codes": [
+        "t205"
+      ]
     },
     {
       "canonical_name": "Elm",
@@ -626,7 +733,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4115941"
+      "snomed": "4115941",
+      "immunocap_codes": [
+        "t8"
+      ]
     },
     {
       "canonical_name": "English plantain",
@@ -641,7 +751,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4104620"
+      "snomed": "4104620",
+      "immunocap_codes": [
+        "w9"
+      ]
     },
     {
       "canonical_name": "Acacia",
@@ -658,7 +771,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "43020816"
+      "snomed": "43020816",
+      "immunocap_codes": [
+        "t19"
+      ]
     },
     {
       "canonical_name": "Fusarium",
@@ -670,7 +786,10 @@
       "ocr_aliases": [],
       "category": "Mold",
       "subcategory": "Outdoor",
-      "snomed": "46272814"
+      "snomed": "46272814",
+      "immunocap_codes": [
+        "m9"
+      ]
     },
     {
       "canonical_name": "Histamine",
@@ -701,7 +820,10 @@
       "ocr_aliases": [],
       "category": "Insect",
       "subcategory": "Cockroach",
-      "snomed": "46272547"
+      "snomed": "46272547",
+      "immunocap_codes": [
+        "i6"
+      ]
     },
     {
       "canonical_name": "Goldenrod",
@@ -716,7 +838,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "46272528"
+      "snomed": "46272528",
+      "immunocap_codes": [
+        "w12"
+      ]
     },
     {
       "canonical_name": "Grape",
@@ -728,7 +853,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4106299"
+      "snomed": "4106299",
+      "immunocap_codes": [
+        "f259"
+      ]
     },
     {
       "canonical_name": "Grass",
@@ -741,7 +869,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Grass",
-      "snomed": "4117479"
+      "snomed": "4117479",
+      "immunocap_codes": [
+        "gx1"
+      ]
     },
     {
       "canonical_name": "Hazel",
@@ -755,7 +886,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4117473"
+      "snomed": "4117473",
+      "immunocap_codes": [
+        "t4"
+      ]
     },
     {
       "canonical_name": "Hen's egg",
@@ -767,7 +901,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4120251"
+      "snomed": "4120251",
+      "immunocap_codes": [
+        "f245"
+      ]
     },
     {
       "canonical_name": "Japanese cedar",
@@ -780,7 +917,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4128600"
+      "snomed": "4128600",
+      "immunocap_codes": [
+        "t17"
+      ]
     },
     {
       "canonical_name": "Japanese hop",
@@ -793,7 +933,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4128484"
+      "snomed": "4128484",
+      "immunocap_codes": [
+        "w22"
+      ]
     },
     {
       "canonical_name": "Kentucky blue grass",
@@ -808,7 +951,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Grass",
-      "snomed": "4103765"
+      "snomed": "4103765",
+      "immunocap_codes": [
+        "g8"
+      ]
     },
     {
       "canonical_name": "Kiwi",
@@ -821,7 +967,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4128608"
+      "snomed": "4128608",
+      "immunocap_codes": [
+        "f84"
+      ]
     },
     {
       "canonical_name": "Lactalbumin",
@@ -835,7 +984,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4010500"
+      "snomed": "4010500",
+      "immunocap_codes": [
+        "f76"
+      ]
     },
     {
       "canonical_name": "Lamb's quarters",
@@ -847,7 +999,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4125373"
+      "snomed": "4125373",
+      "immunocap_codes": [
+        "w10"
+      ]
     },
     {
       "canonical_name": "Latex",
@@ -859,7 +1014,10 @@
       "ocr_aliases": [],
       "category": "Latex",
       "subcategory": null,
-      "snomed": "4008070"
+      "snomed": "4008070",
+      "immunocap_codes": [
+        "k82"
+      ]
     },
     {
       "canonical_name": "Lentil",
@@ -874,7 +1032,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4025400"
+      "snomed": "4025400",
+      "immunocap_codes": [
+        "f235"
+      ]
     },
     {
       "canonical_name": "Lobster",
@@ -886,7 +1047,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "42537051"
+      "snomed": "42537051",
+      "immunocap_codes": [
+        "f80"
+      ]
     },
     {
       "canonical_name": "Mackerel",
@@ -900,7 +1064,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "42536299"
+      "snomed": "42536299",
+      "immunocap_codes": [
+        "f206"
+      ]
     },
     {
       "canonical_name": "Meadow fescue",
@@ -913,7 +1080,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Grass",
-      "snomed": "4116689"
+      "snomed": "4116689",
+      "immunocap_codes": [
+        "g4"
+      ]
     },
     {
       "canonical_name": "Melon",
@@ -927,7 +1097,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4125392"
+      "snomed": "4125392",
+      "immunocap_codes": [
+        "f87"
+      ]
     },
     {
       "canonical_name": "Outdoor mold mixture",
@@ -942,7 +1115,10 @@
       ],
       "category": "Mold",
       "subcategory": null,
-      "snomed": "4224654"
+      "snomed": "4224654",
+      "immunocap_codes": [
+        "mx2"
+      ]
     },
     {
       "canonical_name": "Indoor mold mixture",
@@ -957,7 +1133,10 @@
       ],
       "category": "Mold",
       "subcategory": null,
-      "snomed": "4224654"
+      "snomed": "4224654",
+      "immunocap_codes": [
+        "mx1"
+      ]
     },
     {
       "canonical_name": "Mucor racemosus",
@@ -970,7 +1149,10 @@
       "ocr_aliases": [],
       "category": "Mold",
       "subcategory": "Indoor",
-      "snomed": "46272818"
+      "snomed": "46272818",
+      "immunocap_codes": [
+        "m4"
+      ]
     },
     {
       "canonical_name": "Mugwort",
@@ -982,7 +1164,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4106289"
+      "snomed": "4106289",
+      "immunocap_codes": [
+        "w6"
+      ]
     },
     {
       "canonical_name": "Mugwort",
@@ -994,7 +1179,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4106289"
+      "snomed": "4106289",
+      "immunocap_codes": [
+        "w6"
+      ]
     },
     {
       "canonical_name": "Mussel",
@@ -1008,7 +1196,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4026892"
+      "snomed": "4026892",
+      "immunocap_codes": [
+        "f37"
+      ]
     },
     {
       "canonical_name": "Mustard",
@@ -1020,7 +1211,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4202198"
+      "snomed": "4202198",
+      "immunocap_codes": [
+        "f89"
+      ]
     },
     {
       "canonical_name": "Nettle",
@@ -1034,7 +1228,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4103768"
+      "snomed": "4103768",
+      "immunocap_codes": [
+        "w20"
+      ]
     },
     {
       "canonical_name": "Neurospora",
@@ -1060,7 +1257,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4116684"
+      "snomed": "4116684",
+      "immunocap_codes": [
+        "t7"
+      ]
     },
     {
       "canonical_name": "Oak",
@@ -1074,7 +1274,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4116684"
+      "snomed": "4116684",
+      "immunocap_codes": [
+        "t7"
+      ]
     },
     {
       "canonical_name": "Oat",
@@ -1089,7 +1292,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4303810"
+      "snomed": "4303810",
+      "immunocap_codes": [
+        "f7"
+      ]
     },
     {
       "canonical_name": "Octopus",
@@ -1103,7 +1309,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "42536930"
+      "snomed": "42536930",
+      "immunocap_codes": [
+        "f59"
+      ]
     },
     {
       "canonical_name": "Onion",
@@ -1117,7 +1326,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "42539479"
+      "snomed": "42539479",
+      "immunocap_codes": [
+        "f48"
+      ]
     },
     {
       "canonical_name": "Orange",
@@ -1132,7 +1344,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4106294"
+      "snomed": "4106294",
+      "immunocap_codes": [
+        "f33"
+      ]
     },
     {
       "canonical_name": "Orchard grass",
@@ -1147,7 +1362,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Grass",
-      "snomed": "4116688"
+      "snomed": "4116688",
+      "immunocap_codes": [
+        "g3"
+      ]
     },
     {
       "canonical_name": "Oyster",
@@ -1161,7 +1379,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "42536963"
+      "snomed": "42536963",
+      "immunocap_codes": [
+        "f290"
+      ]
     },
     {
       "canonical_name": "Peach",
@@ -1173,7 +1394,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "42536304"
+      "snomed": "42536304",
+      "immunocap_codes": [
+        "f95"
+      ]
     },
     {
       "canonical_name": "Peanut",
@@ -1185,7 +1409,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "42538933"
+      "snomed": "42538933",
+      "immunocap_codes": [
+        "f13"
+      ]
     },
     {
       "canonical_name": "Pear",
@@ -1197,7 +1424,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "42536305"
+      "snomed": "42536305",
+      "immunocap_codes": [
+        "f94"
+      ]
     },
     {
       "canonical_name": "Penicillium",
@@ -1211,7 +1441,10 @@
       ],
       "category": "Mold",
       "subcategory": "Indoor",
-      "snomed": "4180730"
+      "snomed": "4180730",
+      "immunocap_codes": [
+        "m1"
+      ]
     },
     {
       "canonical_name": "Pepper",
@@ -1224,7 +1457,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4026321"
+      "snomed": "4026321",
+      "immunocap_codes": [
+        "f218"
+      ]
     },
     {
       "canonical_name": "Pepper",
@@ -1236,7 +1472,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4026321"
+      "snomed": "4026321",
+      "immunocap_codes": [
+        "f218"
+      ]
     },
     {
       "canonical_name": "Pine",
@@ -1248,7 +1487,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4115940"
+      "snomed": "4115940",
+      "immunocap_codes": [
+        "t213"
+      ]
     },
     {
       "canonical_name": "Pineapple",
@@ -1262,7 +1504,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4106297"
+      "snomed": "4106297",
+      "immunocap_codes": [
+        "f210"
+      ]
     },
     {
       "canonical_name": "Plaice",
@@ -1276,7 +1521,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4025228"
+      "snomed": "4025228",
+      "immunocap_codes": [
+        "f254"
+      ]
     },
     {
       "canonical_name": "Plane",
@@ -1290,7 +1538,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4117475"
+      "snomed": "4117475",
+      "immunocap_codes": [
+        "t11"
+      ]
     },
     {
       "canonical_name": "Poplar",
@@ -1304,7 +1555,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4117476"
+      "snomed": "4117476",
+      "immunocap_codes": [
+        "t14"
+      ]
     },
     {
       "canonical_name": "Pork",
@@ -1316,7 +1570,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4037243"
+      "snomed": "4037243",
+      "immunocap_codes": [
+        "f26"
+      ]
     },
     {
       "canonical_name": "Potato",
@@ -1328,7 +1585,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "42536307"
+      "snomed": "42536307",
+      "immunocap_codes": [
+        "f35"
+      ]
     },
     {
       "canonical_name": "Rabbit epithelium",
@@ -1343,7 +1603,10 @@
       ],
       "category": "Animal",
       "subcategory": null,
-      "snomed": "4103623"
+      "snomed": "4103623",
+      "immunocap_codes": [
+        "e82"
+      ]
     },
     {
       "canonical_name": "Ragweed",
@@ -1358,7 +1621,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4103592"
+      "snomed": "4103592",
+      "immunocap_codes": [
+        "w1"
+      ]
     },
     {
       "canonical_name": "Ragweed",
@@ -1373,7 +1639,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4103592"
+      "snomed": "4103592",
+      "immunocap_codes": [
+        "w1"
+      ]
     },
     {
       "canonical_name": "Rat epithelium",
@@ -1388,7 +1657,10 @@
       ],
       "category": "Animal",
       "subcategory": null,
-      "snomed": "4105508"
+      "snomed": "4105508",
+      "immunocap_codes": [
+        "e73"
+      ]
     },
     {
       "canonical_name": "Rice",
@@ -1401,7 +1673,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4284846"
+      "snomed": "4284846",
+      "immunocap_codes": [
+        "f9"
+      ]
     },
     {
       "canonical_name": "Russian thistle",
@@ -1415,7 +1690,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4125374"
+      "snomed": "4125374",
+      "immunocap_codes": [
+        "w11"
+      ]
     },
     {
       "canonical_name": "Rye flour",
@@ -1429,7 +1707,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4047298"
+      "snomed": "4047298",
+      "immunocap_codes": [
+        "f5"
+      ]
     },
     {
       "canonical_name": "Rye grass, perennial",
@@ -1442,7 +1723,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Grass",
-      "snomed": "4117480"
+      "snomed": "4117480",
+      "immunocap_codes": [
+        "g5"
+      ]
     },
     {
       "canonical_name": "Rye grass, perennial",
@@ -1455,7 +1739,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Grass",
-      "snomed": "4117480"
+      "snomed": "4117480",
+      "immunocap_codes": [
+        "g5"
+      ]
     },
     {
       "canonical_name": "Salmon",
@@ -1469,7 +1756,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "42536274"
+      "snomed": "42536274",
+      "immunocap_codes": [
+        "f41"
+      ]
     },
     {
       "canonical_name": "Sardine",
@@ -1483,7 +1773,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4026887"
+      "snomed": "4026887",
+      "immunocap_codes": [
+        "f61"
+      ]
     },
     {
       "canonical_name": "Sheep",
@@ -1495,7 +1788,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "42594570"
+      "snomed": "42594570",
+      "immunocap_codes": [
+        "f88"
+      ]
     },
     {
       "canonical_name": "Shrimp",
@@ -1507,7 +1803,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4150599"
+      "snomed": "4150599",
+      "immunocap_codes": [
+        "f24"
+      ]
     },
     {
       "canonical_name": "Spinach",
@@ -1519,7 +1818,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4103779"
+      "snomed": "4103779",
+      "immunocap_codes": [
+        "f214"
+      ]
     },
     {
       "canonical_name": "Squid",
@@ -1531,7 +1833,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "42536271"
+      "snomed": "42536271",
+      "immunocap_codes": [
+        "f258"
+      ]
     },
     {
       "canonical_name": "Strawberry",
@@ -1543,7 +1848,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4008942"
+      "snomed": "4008942",
+      "immunocap_codes": [
+        "f44"
+      ]
     },
     {
       "canonical_name": "Timothy",
@@ -1556,7 +1864,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Grass",
-      "snomed": "4116690"
+      "snomed": "4116690",
+      "immunocap_codes": [
+        "g6"
+      ]
     },
     {
       "canonical_name": "Timothy",
@@ -1569,7 +1880,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Grass",
-      "snomed": "4116690"
+      "snomed": "4116690",
+      "immunocap_codes": [
+        "g6"
+      ]
     },
     {
       "canonical_name": "Tomato",
@@ -1581,7 +1895,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "42536194"
+      "snomed": "42536194",
+      "immunocap_codes": [
+        "f25"
+      ]
     },
     {
       "canonical_name": "Tree mixture 1",
@@ -1595,7 +1912,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "36684363"
+      "snomed": "36684363",
+      "immunocap_codes": [
+        "tx9"
+      ]
     },
     {
       "canonical_name": "Tree mixture 2",
@@ -1607,7 +1927,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "36684363"
+      "snomed": "36684363",
+      "immunocap_codes": [
+        "tx5"
+      ]
     },
     {
       "canonical_name": "Trout",
@@ -1631,7 +1954,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4037433"
+      "snomed": "4037433",
+      "immunocap_codes": [
+        "f40"
+      ]
     },
     {
       "canonical_name": "Tyrophagus putrescentiae",
@@ -1645,7 +1971,10 @@
       "ocr_aliases": [],
       "category": "Mite",
       "subcategory": null,
-      "snomed": "46272688"
+      "snomed": "46272688",
+      "immunocap_codes": [
+        "d72"
+      ]
     },
     {
       "canonical_name": "Velvet grass",
@@ -1660,7 +1989,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Grass",
-      "snomed": "4117481"
+      "snomed": "4117481",
+      "immunocap_codes": [
+        "g13"
+      ]
     },
     {
       "canonical_name": "Walnut",
@@ -1674,7 +2006,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4103782"
+      "snomed": "4103782",
+      "immunocap_codes": [
+        "f256"
+      ]
     },
     {
       "canonical_name": "White ash",
@@ -1687,7 +2022,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4125375"
+      "snomed": "4125375",
+      "immunocap_codes": [
+        "t15"
+      ]
     },
     {
       "canonical_name": "Wholemeal flour",
@@ -1702,7 +2040,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4047302"
+      "snomed": "4047302",
+      "immunocap_codes": [
+        "f79"
+      ]
     },
     {
       "canonical_name": "Willow",
@@ -1717,7 +2058,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4116685"
+      "snomed": "4116685",
+      "immunocap_codes": [
+        "t12"
+      ]
     },
     {
       "canonical_name": "Yeast",
@@ -1730,7 +2074,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4132477"
+      "snomed": "4132477",
+      "immunocap_codes": [
+        "f45"
+      ]
     },
     {
       "canonical_name": "Wheat",
@@ -1745,7 +2092,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4047302"
+      "snomed": "4047302",
+      "immunocap_codes": [
+        "f4"
+      ]
     },
     {
       "canonical_name": "Maize (corn)",
@@ -1762,7 +2112,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4041339"
+      "snomed": "4041339",
+      "immunocap_codes": [
+        "f8"
+      ]
     },
     {
       "canonical_name": "Apricot",
@@ -1774,7 +2127,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "f237"
+      ]
     },
     {
       "canonical_name": "Cashew",
@@ -1788,7 +2144,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "f202"
+      ]
     },
     {
       "canonical_name": "Crayfish",
@@ -1801,7 +2160,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "f320"
+      ]
     },
     {
       "canonical_name": "Guinea pig",
@@ -1814,7 +2176,10 @@
       "ocr_aliases": [],
       "category": "Animal",
       "subcategory": "Indoor",
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "e6"
+      ]
     },
     {
       "canonical_name": "Hazelnut",
@@ -1829,7 +2194,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "f17"
+      ]
     },
     {
       "canonical_name": "Hornbeam",
@@ -1841,7 +2209,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "t209"
+      ]
     },
     {
       "canonical_name": "Mung bean",
@@ -1866,7 +2237,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "t9"
+      ]
     },
     {
       "canonical_name": "Pecan",
@@ -1878,7 +2252,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "f201"
+      ]
     },
     {
       "canonical_name": "Pistachio",
@@ -1891,7 +2268,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "f203"
+      ]
     },
     {
       "canonical_name": "Sesame",
@@ -1905,7 +2285,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "f10"
+      ]
     },
     {
       "canonical_name": "Watermelon",
@@ -1917,7 +2300,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "f329"
+      ]
     },
     {
       "canonical_name": "Crab",
@@ -1933,7 +2319,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "f23"
+      ]
     },
     {
       "canonical_name": "Cow milk",
@@ -1948,7 +2337,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "f2"
+      ]
     },
     {
       "canonical_name": "Mouse",
@@ -1961,7 +2353,10 @@
       "ocr_aliases": [],
       "category": "Animal",
       "subcategory": "Indoor",
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "e71"
+      ]
     },
     {
       "canonical_name": "Hamster",
@@ -1974,7 +2369,10 @@
       "ocr_aliases": [],
       "category": "Animal",
       "subcategory": "Indoor",
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "e84"
+      ]
     },
     {
       "canonical_name": "Soybean",
@@ -1989,7 +2387,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4103602"
+      "snomed": "4103602",
+      "immunocap_codes": [
+        "f14"
+      ]
     },
     {
       "canonical_name": "Prawn",
@@ -2001,7 +2402,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "f24"
+      ]
     },
     {
       "canonical_name": "Krill",
@@ -2026,7 +2430,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "f207"
+      ]
     },
     {
       "canonical_name": "Abalone",
@@ -2037,7 +2444,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "f346"
+      ]
     },
     {
       "canonical_name": "Snail",
@@ -2049,7 +2459,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "f314"
+      ]
     },
     {
       "canonical_name": "Anisakis",
@@ -2061,7 +2474,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "p4"
+      ]
     },
     {
       "canonical_name": "Carp",
@@ -2083,7 +2499,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "f205"
+      ]
     },
     {
       "canonical_name": "Pollock",
@@ -2096,7 +2515,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "f413"
+      ]
     },
     {
       "canonical_name": "Cow dander",
@@ -2116,7 +2538,10 @@
       "category": "Animal",
       "subcategory": "Indoor",
       "snomed": null,
-      "provenance": "added_2026_10: aliases Cow / Cow epithelium / Cow hair / Cattle / Cattle dander / Cattle epithelium / 소 (ImmunoCAP e4) — unverified against the clinic's actual panel"
+      "provenance": "added_2026_10: aliases Cow / Cow epithelium / Cow hair / Cattle / Cattle dander / Cattle epithelium / 소 (ImmunoCAP e4) — unverified against the clinic's actual panel",
+      "immunocap_codes": [
+        "e4"
+      ]
     },
     {
       "canonical_name": "Horse dander",
@@ -2133,7 +2558,10 @@
       "category": "Animal",
       "subcategory": "Indoor",
       "snomed": null,
-      "provenance": "added_2026_10: aliases Horse / Horse epithelium / Horse hair / 말 (ImmunoCAP e3) — unverified against the clinic's actual panel"
+      "provenance": "added_2026_10: aliases Horse / Horse epithelium / Horse hair / 말 (ImmunoCAP e3) — unverified against the clinic's actual panel",
+      "immunocap_codes": [
+        "e3"
+      ]
     },
     {
       "canonical_name": "Cherry",
@@ -2145,7 +2573,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "f242"
+      ]
     },
     {
       "canonical_name": "Plum",
@@ -2156,7 +2587,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "f255"
+      ]
     },
     {
       "canonical_name": "Mushroom",
@@ -2171,7 +2605,10 @@
       "ocr_aliases": [],
       "category": "Food",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "f212"
+      ]
     },
     {
       "canonical_name": "House dust",
@@ -2184,7 +2621,11 @@
       "ocr_aliases": [],
       "category": "Other",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "h1",
+        "h2"
+      ]
     },
     {
       "canonical_name": "Penicillin G",
@@ -2199,7 +2640,10 @@
       "ocr_aliases": [],
       "category": "Drug",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "c1"
+      ]
     },
     {
       "canonical_name": "Penicillin V",
@@ -2212,7 +2656,10 @@
       "ocr_aliases": [],
       "category": "Drug",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "c2"
+      ]
     },
     {
       "canonical_name": "Ampicillin",
@@ -2225,7 +2672,10 @@
       "ocr_aliases": [],
       "category": "Drug",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "c5"
+      ]
     },
     {
       "canonical_name": "Amoxicillin",
@@ -2238,7 +2688,10 @@
       "ocr_aliases": [],
       "category": "Drug",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "c6"
+      ]
     },
     {
       "canonical_name": "Cefaclor",
@@ -2250,7 +2703,10 @@
       "ocr_aliases": [],
       "category": "Drug",
       "subcategory": null,
-      "snomed": null
+      "snomed": null,
+      "immunocap_codes": [
+        "c7"
+      ]
     },
     {
       "canonical_name": "Honey bee venom",
@@ -2269,7 +2725,10 @@
       "subcategory": null,
       "snomed": null,
       "immunocap_code": "i1",
-      "provenance": "added_2026_10: unverified against the clinic's actual panel"
+      "provenance": "added_2026_10: unverified against the clinic's actual panel",
+      "immunocap_codes": [
+        "i1"
+      ]
     },
     {
       "canonical_name": "Yellow jacket venom",
@@ -2292,7 +2751,10 @@
       "subcategory": null,
       "snomed": null,
       "immunocap_code": "i3",
-      "provenance": "added_2026_10: unverified against the clinic's actual panel"
+      "provenance": "added_2026_10: unverified against the clinic's actual panel",
+      "immunocap_codes": [
+        "i3"
+      ]
     },
     {
       "canonical_name": "Paper wasp venom",
@@ -2308,7 +2770,10 @@
       "subcategory": null,
       "snomed": null,
       "immunocap_code": "i4",
-      "provenance": "added_2026_10: unverified against the clinic's actual panel"
+      "provenance": "added_2026_10: unverified against the clinic's actual panel",
+      "immunocap_codes": [
+        "i4"
+      ]
     },
     {
       "canonical_name": "White-faced hornet venom",
@@ -2324,7 +2789,10 @@
       "subcategory": null,
       "snomed": null,
       "immunocap_code": "i2",
-      "provenance": "added_2026_10: unverified against the clinic's actual panel"
+      "provenance": "added_2026_10: unverified against the clinic's actual panel",
+      "immunocap_codes": [
+        "i2"
+      ]
     },
     {
       "canonical_name": "Yellow hornet venom",
@@ -2338,7 +2806,10 @@
       "subcategory": null,
       "snomed": null,
       "immunocap_code": "i5",
-      "provenance": "added_2026_10: unverified against the clinic's actual panel"
+      "provenance": "added_2026_10: unverified against the clinic's actual panel",
+      "immunocap_codes": [
+        "i5"
+      ]
     }
   ]
 }

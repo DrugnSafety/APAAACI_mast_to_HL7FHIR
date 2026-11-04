@@ -225,7 +225,11 @@ class TranslationService:
         self.api_key = (settings.openai_api_key or os.getenv("OPENAI_API_KEY", "")
                         if api_key is None else api_key)
         self.client = None
-        if self.api_key and self.api_key != "your_openai_api_key_here":
+        if api_key is None:
+            # 기본 경로 — 키 묶음(OPENAI_API_KEY_1..N). 실제 호출은 llm_backend.complete_chat 이 round-robin 으로 한다
+            from services import llm_backend
+            self.client = llm_backend.client("openai") if llm_backend.is_available("openai") else None
+        elif self.api_key and self.api_key != "your_openai_api_key_here":
             try:
                 from openai import OpenAI
                 self.client = OpenAI(api_key=self.api_key)
@@ -412,8 +416,6 @@ class TranslationService:
             # 캐시에 없는 문장의 번역 호출이 오류로 끝나고 한국어가 그대로 남았다.
             from services import llm_backend
             backend = llm_backend.active()
-            if backend != "ollama" and self.client is not None:
-                llm_backend._clients.setdefault("openai", self.client)
             resp = llm_backend.complete_chat(
                 [{"role": "system", "content": _SYSTEM},
                  {"role": "user",

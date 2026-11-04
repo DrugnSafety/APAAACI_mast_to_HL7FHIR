@@ -24,9 +24,27 @@ class Settings(BaseSettings):
     openai_api_key: str = Field(default="", alias="OPENAI_API_KEY")
     openai_model: str = Field(default="gpt-4o", alias="OPENAI_MODEL")
     # OCR 모델: 합성 결과지 21장 비교(2026-09-22) — gpt-4o 양성 누락 56/200 → gpt-5.x 계열 1~5/200.
-    # 2026-09-25 사용자 결정으로 gpt-5.4(옛 프롬프트 비교 시 양성 누락 1/200, 수치 100%, class 85.5%).
-    # 그 전에는 gpt-5.6-luna(09-24), gpt-5.5(09-22). 환경변수 OPENAI_VISION_MODEL 로 바꿀 수 있다.
-    openai_vision_model: str = Field(default="gpt-5.4", alias="OPENAI_VISION_MODEL")
+    # 2026-10-09 사용자 결정으로 gpt-6-luna(이미지 입력·JSON 모드 확인, 추론 모델 파라미터 사용).
+    # 그 전: gpt-5.4(09-25, 실제 결과지 29장 수치 99.2%·양성 누락 1/98 — docs/ocr_eval_2026-10-09), gpt-5.6-luna(09-24), gpt-5.5(09-22).
+    # 환경변수 OPENAI_VISION_MODEL 로 바꿀 수 있다.
+    openai_vision_model: str = Field(default="gpt-6-luna", alias="OPENAI_VISION_MODEL")
+    # 토큰 예산 라우팅(2026-10-09 사용자 결정): 누적 1,000만 토큰까지는 gpt-5.6-luna, 넘으면 위 기본 모델(gpt-6-luna).
+    # OCR·상담·번역 모두 적용. 장부는 services/llm_usage.py (LLM_USAGE_LEDGER). 끄려면 OPENAI_BUDGET_MODEL= (빈 값).
+    openai_budget_model: str = Field(default="gpt-5.6-luna", alias="OPENAI_BUDGET_MODEL")
+    openai_budget_tokens: int = Field(default=10_000_000, alias="OPENAI_BUDGET_TOKENS")
+    # 예산을 넘겨 유료 모델로 넘어가면 알릴 주소(쉼표 구분). SMTP_* 가 있어야 실제로 보내진다.
+    openai_budget_notify_to: str = Field(default="irreversibly@gmail.com,kintel@kintel.kr", alias="OPENAI_BUDGET_NOTIFY_TO")
+    # OpenAI 키 묶음(2026-10-10): OPENAI_API_KEY_1..8 을 두면 요청마다 번호순으로 돌아가며 쓴다(services/llm_backend.openai_keys).
+    # 번호 키가 하나라도 있으면 OPENAI_API_KEY 는 쓰지 않는다. 테스트는 conftest 에서 번호 키를 비운다.
+    openai_api_key_1: str = Field(default="", alias="OPENAI_API_KEY_1")
+    openai_api_key_2: str = Field(default="", alias="OPENAI_API_KEY_2")
+    openai_api_key_3: str = Field(default="", alias="OPENAI_API_KEY_3")
+    openai_api_key_4: str = Field(default="", alias="OPENAI_API_KEY_4")
+    openai_api_key_5: str = Field(default="", alias="OPENAI_API_KEY_5")
+    openai_api_key_6: str = Field(default="", alias="OPENAI_API_KEY_6")
+    openai_api_key_7: str = Field(default="", alias="OPENAI_API_KEY_7")
+    openai_api_key_8: str = Field(default="", alias="OPENAI_API_KEY_8")
+    llm_usage_ledger: str = Field(default="data/store/llm_usage.json", alias="LLM_USAGE_LEDGER")
     # OCR 고도화(2026-09-22): 전처리(조명 평탄화·확대)와 두 번 읽기(전체 + 위·아래 절반 확대본)
     # LLM 백엔드: openai(클라우드) 또는 ollama(연구실 DGX Spark). 화면에서 요청마다 바꿀 수도 있다.
     llm_backend: str = Field(default="openai", alias="LLM_BACKEND")
@@ -39,7 +57,13 @@ class Settings(BaseSettings):
     # (Ollama OpenAI 호환 API 에서는 reasoning_effort="none" 만 먹는다. extra_body think=false 는 무시됨)
     ollama_ocr_reasoning: str = Field(default="none", alias="OLLAMA_OCR_REASONING")
     ollama_chat_reasoning: str = Field(default="low", alias="OLLAMA_CHAT_REASONING")
+    # 연구실 서버 앞 nginx 가 기본 한도(client_max_body_size 1m)로 큰 요청을 413 으로 거절한다(2026-10-09 실측:
+    # 절반 확대본 2장 = base64 1.07MB → 413). 한 요청의 이미지 base64 총량을 이 값 아래로 줄여 보낸다.
+    # 서버에서 한도를 올리면 0 으로 꺼도 된다.
+    ollama_max_payload_kb: int = Field(default=900, alias="OLLAMA_MAX_PAYLOAD_KB")
     ocr_preprocess: bool = Field(default=True, alias="OCR_PREPROCESS")
+    # 누운(가로) 사진을 Tesseract OSD 로 세운다(2026-10-09 실측: 회전 사진 5장 정밀도 74~87% → 97~100%)
+    ocr_auto_rotate: bool = Field(default=True, alias="OCR_AUTO_ROTATE")
     ocr_double_read: bool = Field(default=True, alias="OCR_DOUBLE_READ")
     ocr_reasoning_effort: str = Field(default="low", alias="OCR_REASONING_EFFORT")
     # 전용 OCR 텍스트 층(현재 Tesseract) — 행 순서 확인용 참고. 측정 결과에 따라 기본 끔
@@ -48,9 +72,9 @@ class Settings(BaseSettings):
     openai_report_model: str = Field(default="gpt-4o", alias="OPENAI_REPORT_MODEL")  # 리포트 생성용
     # 결과 상담 챗봇용. 2026-09 후보 7종 벤치마크(docs/llm_model_and_cost.md)에서 응급 인지·용량 미언급·
     # 언어 혼입 0건을 모두 통과한 모델 중 답변 품질이 가장 좋았다. 비용을 더 줄이려면 gpt-4o-mini(안전성은 통과, 말투·개인화는 약함).
-    # 2026-09-25 사용자 결정으로 OCR 과 같은 gpt-5.4 로 통일(그 전 gpt-5.6-luna).
-    openai_chat_model: str = Field(default="gpt-5.4", alias="OPENAI_CHAT_MODEL")
-    # gpt-5 계열(추론 모델)에만 쓰인다: none/minimal/low/medium/high. 상담 답변은 깊은 추론보다
+    # 2026-10-09 사용자 결정으로 OCR 과 같은 gpt-6-luna 로 통일(그 전 gpt-5.4(09-25), gpt-5.6-luna(09-24)).
+    openai_chat_model: str = Field(default="gpt-6-luna", alias="OPENAI_CHAT_MODEL")
+    # gpt-5·gpt-6 계열(추론 모델)에만 쓰인다: none/minimal/low/medium/high. 상담 답변은 깊은 추론보다
     # 지연·비용이 중요해 낮게 둔다. 모델이 지원하지 않는 값이면 빼고 다시 호출한다.
     openai_chat_reasoning_effort: str = Field(default="low", alias="OPENAI_CHAT_REASONING_EFFORT")
     report_temperature: float = Field(default=0.8, alias="REPORT_TEMPERATURE")  # 창의성 설정 (0.7~0.9)
@@ -158,6 +182,9 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
+        # .env 에 앱이 모르는 변수(예: 예비 키 OPENAI_API_KEY_1)가 있어도 시작을 막지 않는다.
+        # 2026-10-10: 기본값(forbid)에서는 변수 하나만 더 있어도 Settings() 가 ValidationError 로 죽었다.
+        extra = "ignore"
         case_sensitive = False
     
     def validate_settings(self) -> bool:

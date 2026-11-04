@@ -182,7 +182,12 @@ class ResultChatService:
         self.api_key = (settings.openai_api_key or os.getenv("OPENAI_API_KEY", "")
                         if api_key is None else api_key)
         self.client = None
-        if self.api_key and self.api_key != "your_openai_api_key_here":
+        self._use_pool = api_key is None       # 명시된 키(테스트의 가짜 client 포함)는 그대로 쓴다
+        if api_key is None:
+            # 기본 경로 — 키 묶음(OPENAI_API_KEY_1..N)에서 round-robin. 호출 때마다 다시 받는다(complete)
+            from services import llm_backend
+            self.client = llm_backend.client("openai") if llm_backend.is_available("openai") else None
+        elif self.api_key and self.api_key != "your_openai_api_key_here":
             try:
                 from openai import OpenAI
                 self.client = OpenAI(api_key=self.api_key)
@@ -377,28 +382,105 @@ class ResultChatService:
     # ------------------------------------------------------------------
     # 1-2) 일반 질환 지식(온톨로지 RAG)
     # ------------------------------------------------------------------
-    def ontology_block(self, question: str, screening=None,
-                       include_treatment: bool = True) -> Tuple[str, List[Dict[str, Any]]]:
-        """질문과 관련된 질환 일반 지식을 온톨로지에서 찾아 (컨텍스트 텍스트, 인용목록) 으로 준다.
+    @staticmethod
+    def patient_allergen_groups(relevance_result) -> List[str]:
+        """이 환자의 '실제 주의' 항원이 속한 알레르겐군(mite·cat …). 환경관리 지식의 범위를 좁히는 데만 쓴다."""
+        try:
+            from services.environment_control_service import get_environment_control_service
+            return get_environment_control_service().groups_for_assessments(
+                getattr(relevance_result, "assessments", None) or [])
+        except Exception as e:  # noqa: BLE001
+            logger.debug(f"알레르겐군 판별 실패: {e}")
+            return []
 
+    def ontology_block(self, question: str, screening=None,
+                       include_treatment: bool = True,
+                       allergen_groups: Optional[List[str]] = None) -> Tuple[str, List[Dict[str, Any]]]:
+        """질문과 관련된 일반 지식을 온톨로지에서 찾아 (컨텍스트 텍스트, 인용목록) 으로 준다.
+
+        두 층이 있다.
+          - 질환 일반 지식(Wikipedia 스냅샷, 모두 검토 전): '알레르기 비염이란 무엇인가' 같은 질환 설명.
+          - 알레르겐 환경관리 지식(교과서 정리): '공기청정기가 진드기에 도움이 되나요' 같은 관리·회피 질문.
+            `allergen_groups` 는 이 환자의 '실제 주의' 항원군으로, 알레르겐 이름이 없는 질문의 범위를 좁힌다.
         환자 개별 사실(어떤 항원이 양성인지, 수치가 얼마인지)은 절대 여기서 오지 않는다.
-        이 블록은 '알레르기 비염이란 무엇인가' 같은 질환 일반 설명에만 쓰인다.
         스냅샷의 usage_rules 대로 항목마다 검토 상태·근거 수·출처를 붙인다.
         """
         try:
             from services.ontology_service import get_ontology_service
             svc = get_ontology_service()
             diseases = list(getattr(screening, "allergic_diseases", None) or [])
-            r = svc.retrieve(question, diseases, include_treatment=include_treatment)
+            r = svc.retrieve(question, diseases, include_treatment=include_treatment,
+                             allergen_groups=allergen_groups)
         except Exception as e:  # noqa: BLE001
             logger.debug(f"온톨로지 조회 실패: {e}")
             return "", []
-        if not r.get("available") or not r.get("topics"):
+        if not r.get("available") or not (r.get("topics") or r.get("allergen_topics") or r.get("factor_topics")):
             return "", []
 
-        lines = ["\n[일반 질환 지식 — 참고용, 이 환자의 검사 결과가 아님]",
-                 f"출처: {r['source']}. 진료 지침이 아님."]
+        lines: List[str] = []
         cites: List[Dict[str, Any]] = []
+        # 악화 요인(미세먼지·황사·오존·담배·새집·기후) 블록 — 질문에 그 말이 있을 때만. 환자 판정과 무관한 일반 지식.
+        for blk in r.get("factor_topics") or []:
+            if not lines:
+                lines += ["\n[알레르겐 환경관리 일반 지식 — 교과서 정리, 이 환자의 검사 결과가 아님]",
+                          f"출처: {r.get('allergen_source', '')}. 약 조정 지시 없음."]
+            lines.append(f"\n(악화 요인: {blk['label']})")
+            if blk.get("summary"):
+                lines.append(f"  요약: {blk['summary']}")
+            for c in blk.get("components") or []:
+                lines.append(f"  · {c['label']}: {c['text']}")
+                for t in (c.get("thresholds") or [])[:3]:
+                    lines.append(f"      역치 {t['marker']} {t['value']} {t['unit']} — {t.get('meaning_ko', '')}")
+                for e in (c.get("evidence") or [])[:3]:
+                    lines.append(f"      근거: {e}")
+            if blk.get("ecigarette"):
+                lines.append(f"  전자담배: {blk['ecigarette']}")
+            for k_ in (blk.get("korea") or [])[:3]:
+                lines.append(f"  국내: {k_}")
+            for f in blk["facts"]:
+                lines.append(f"  - [{f.get('tier_ko') or f.get('tier')}] {f['label']}: {f.get('text', '')}")
+                if f.get("evidence"):
+                    lines.append(f"      근거({f.get('evidence_grade_ko') or f.get('evidence_grade')}): {f['evidence']}")
+                if f.get("caveat"):
+                    lines.append(f"      주의: {f['caveat']}")
+                cites.append({"topic": blk["topic"], "label": f["label"],
+                              "predicate": f["predicate"], "predicate_ko": f["predicate_ko"],
+                              "group_id": f["group_id"], "claim_id": None,
+                              "evidence_id": f.get("evidence_id"), "quote": "",
+                              "review_status": f["review_status"], "mapping_state": None,
+                              "evidence_count": f.get("evidence_count", 0),
+                              "url": "", "source": f.get("source", ""), "kind": "factor",
+                              "tier": f.get("tier"), "evidence_grade": f.get("evidence_grade")})
+        for mech in r.get("mechanisms") or []:
+            lines.append(f"  기전(왜 그런가): {mech['label']} — {mech['patient']}")
+        # 알레르겐 환경관리(교과서) 블록 — 관리·회피 질문에만 붙는다
+        for blk in r.get("allergen_topics") or []:
+            if not lines:
+                lines += ["\n[알레르겐 환경관리 일반 지식 — 교과서 정리, 이 환자의 검사 결과가 아님]",
+                          f"출처: {r.get('allergen_source', '')}. 약 조정 지시 없음."]
+            lines.append(f"\n({blk['label']})")
+            if blk.get("summary"):
+                lines.append(f"  요약: {blk['summary']}")
+            cp = blk.get("carrier_particle") or {}
+            if cp.get("airborne_ko"):
+                lines.append(f"  입자: {cp['airborne_ko']}")
+            for f in blk["facts"]:
+                lines.append(f"  - [{f.get('tier_ko') or f.get('tier')}] {f['label']}: {f.get('text', '')}")
+                if f.get("evidence"):
+                    lines.append(f"      근거({f.get('evidence_grade_ko') or f.get('evidence_grade')}): {f['evidence']}")
+                if f.get("caveat"):
+                    lines.append(f"      주의: {f['caveat']}")
+                cites.append({"topic": blk["topic"], "label": f["label"],
+                              "predicate": f["predicate"], "predicate_ko": f["predicate_ko"],
+                              "group_id": f["group_id"], "claim_id": None,
+                              "evidence_id": f.get("evidence_id"), "quote": "",
+                              "review_status": f["review_status"], "mapping_state": None,
+                              "evidence_count": f.get("evidence_count", 0),
+                              "url": "", "source": f.get("source", ""), "kind": "allergen",
+                              "tier": f.get("tier"), "evidence_grade": f.get("evidence_grade")})
+        if r.get("topics"):
+            lines += ["\n[일반 질환 지식 — 참고용, 이 환자의 검사 결과가 아님]",
+                      f"출처: {r['source']}. 진료 지침이 아님."]
         for blk in r["topics"]:
             d = blk.get("definition")
             st = blk.get("status") or {}
@@ -967,7 +1049,25 @@ class ResultChatService:
                 "24. Do not add clinical content that is in neither the report nor this block. The only "
                 "things you may add from your own knowledge are (a) plain-language meanings of medical "
                 "words and (b) the emergency guidance in rules 12-12b. When you do add such a "
-                "explanation, say it is general information rather than a finding from their test.\n\n"
+                "explanation, say it is general information rather than a finding from their test.\n"
+                "25. A block headed [알레르겐 환경관리 일반 지식] (if present) holds allergen "
+                "environmental-control knowledge compiled from allergy textbooks, not yet reviewed by a "
+                "clinician. Use it to explain how an allergen behaves (particles, reservoirs, seasons) "
+                "and which control measures help, including each measure's tier (필수/도움/제한적) and "
+                "the evidence note. Say it comes from textbooks and is general information. Sub-blocks "
+                "headed (악화 요인: …) describe air pollution (fine dust, Asian dust, SO2, NO2, ozone), "
+                "tobacco/e-cigarette smoke, indoor VOCs or climate change; these apply to anyone with "
+                "asthma, rhinitis or atopic dermatitis regardless of which allergens are positive, and "
+                "their thresholds (ppm, µg/m³) are population findings, not this patient's exposure.\n"
+                "26. Apply those measures only to allergens the report marks as clinically relevant "
+                "(실제 주의). For allergens the report marks as sensitized-only or indeterminate, say "
+                "strict avoidance is not required and present any measure as optional general "
+                "information. If the question names an allergen that is not in the report, say so.\n"
+                "27. Never issue directives such as removing a pet, moving house or buying a device. "
+                "Present what the textbooks say (including its limits) and leave the decision to the "
+                "patient and their clinician.\n"
+                "28. That block never contains medication instructions. If the patient asks what to do "
+                "with inhalers or other medicines (e.g. on polluted days), send them to their clinician.\n\n"
                 f"{ontology}\n\n" if ontology else ""
             )
             + f"PATIENT REPORT\n{context}\n"
@@ -982,7 +1082,7 @@ class ResultChatService:
     @staticmethod
     def _is_reasoning_model(model: str) -> bool:
         m = (model or "").lower()
-        return m.startswith(("gpt-5", "o1", "o3", "o4"))
+        return m.startswith(("gpt-5", "gpt-6", "o1", "o3", "o4"))
 
     def complete(self, convo: List[Dict[str, str]], model: Optional[str] = None,
                  reasoning_effort: Optional[str] = None):
@@ -1000,23 +1100,30 @@ class ResultChatService:
             return llm_backend.complete_chat(convo, backend=backend, model=model, max_tokens=700,
                                              temperature=0.3,
                                              reasoning_effort=reasoning_effort or _s.ollama_chat_reasoning)
-        model = model or getattr(settings, "openai_chat_model", None) or "gpt-5.4"
+        from services import llm_usage
+        model = model or llm_backend.chat_model("openai")      # 토큰 예산 라우팅(gpt-5.6-luna → 소진 뒤 gpt-6-luna)
+        client = (llm_backend.client("openai") if getattr(self, "_use_pool", False) else None) or self.client   # 키 묶음 round-robin
         if not self._is_reasoning_model(model):
-            return self.client.chat.completions.create(
+            resp = client.chat.completions.create(
                 model=model, messages=convo, temperature=0.3, max_tokens=700)
+            llm_usage.record(model, getattr(resp, "usage", None))
+            return resp
         effort = reasoning_effort or getattr(settings, "openai_chat_reasoning_effort", None)
         kwargs: Dict[str, Any] = {"model": model, "messages": convo, "max_completion_tokens": 4000}
         if effort:
             kwargs["reasoning_effort"] = effort
         try:
-            return self.client.chat.completions.create(**kwargs)
+            resp = client.chat.completions.create(**kwargs)
         except Exception as e:  # noqa: BLE001
             # 모델마다 지원하는 effort 값이 다르다(예: 'minimal' 은 gpt-5, 'none' 은 gpt-5.1+)
             if effort and "reasoning" in str(e).lower():
                 logger.warning(f"reasoning_effort={effort} 미지원({model}) — 기본값으로 재시도")
                 kwargs.pop("reasoning_effort", None)
-                return self.client.chat.completions.create(**kwargs)
-            raise
+                resp = client.chat.completions.create(**kwargs)
+            else:
+                raise
+        llm_usage.record(model, getattr(resp, "usage", None))
+        return resp
 
     def answer(self, relevance_result, patient_info: Dict[str, Any], messages: List[Dict[str, str]],
                screening=None, answers: Optional[Dict[str, Any]] = None,
@@ -1044,7 +1151,8 @@ class ResultChatService:
             return {"reply": NO_KEY_TEXT[lang], "source": "no_api_key", "disclaimer": DISCLAIMER[lang]}
 
         context = self.build_context(relevance_result, patient_info, screening, answers)
-        onto_text, onto_cites = self.ontology_block(last, screening)
+        onto_text, onto_cites = self.ontology_block(
+            last, screening, allergen_groups=self.patient_allergen_groups(relevance_result))
         convo = [{"role": "system", "content": self._system_prompt(
             context, lang, (patient_info or {}).get("name"), onto_text,
             getattr(screening, "residence_country", None))}]

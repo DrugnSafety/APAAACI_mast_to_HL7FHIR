@@ -87,14 +87,14 @@ def validate(ocr: OCRResult, raw_rows: Optional[List[Dict[str, Any]]] = None,
             hit = mapper.find_allergen(r.korean_name)
         if hit is None:
             _flag(r, "unmapped_name")
-        else:
-            key = hit.canonical_name
-            prev = seen.get(key)
-            if prev is not None and (prev.value, prev.size_text, str(prev.class_value)) != \
-                    (r.value, r.size_text, str(r.class_value)):
-                _flag(prev, "duplicate_allergen")
-                _flag(r, "duplicate_allergen")
-            seen.setdefault(key, r)
+        # 같은 항원이 두 번 — 병합 키(_row_key)로 본다. 성분 항원(rPru p 4)은 모항원(Peach)과 다른 행이다.
+        key = _row_key(r, mapper)
+        prev = seen.get(key)
+        if prev is not None and (prev.value, prev.size_text, str(prev.class_value)) != \
+                (r.value, r.size_text, str(r.class_value)):
+            _flag(prev, "duplicate_allergen")
+            _flag(r, "duplicate_allergen")
+        seen.setdefault(key, r)
 
         if tt == TestType.SPT:
             st = (r.size_text or "").strip()
@@ -161,13 +161,73 @@ def validate(ocr: OCRResult, raw_rows: Optional[List[Dict[str, Any]]] = None,
 # ---------------------------------------------------------------------------
 # 두 번 읽기 비교
 # ---------------------------------------------------------------------------
+_ROMAN = {"Ⅰ": " I", "Ⅱ": " II", "Ⅲ": " III", "Ⅳ": " IV", "Ⅴ": " V"}   # 앞 공백: 'mixtureⅡ' 도 낱말로 떨어지게
+_CODE_TOKEN = re.compile(r"^(?:[a-z]{1,3}\d{1,4}[a-z]?|fx)$")
+_HAS_LATIN = re.compile(r"[A-Za-z]{2}")
+
+
+_COMPONENT = re.compile(r"^\s*[rn][A-Z][a-z]{2}")       # rAra h 2, nGal d 1 — 성분 항원 명명법
+# 코드를 지우고 나면 서로 구분이 안 되는 일반 낱말 — 'Grass mix (gx1)' / 'Grass mix (gx2)' 는 코드가 곧 이름이다
+_GENERIC = {"mix", "mixture", "grass", "tree", "weed", "mould", "mold", "food", "pollen", "mite", "animal",
+            "hair", "dander", "epithelium", "nut", "fish", "fruit", "vegetable", "meat", "i", "ii", "iii", "iv", "v"}
+
+
+def _latin_tokens(name: Optional[str]) -> List[str]:
+    """영문·숫자 낱말(원래 대소문자). 로마숫자 글꼴(Ⅱ→II)을 통일하고 코드 낱말(f244, T2, FX)은 뺀다.
+
+    예외 — 코드를 남기는 경우: 성분 항원('rAra h2' 처럼 붙여 쓴 h2 는 코드가 아니라 성분 번호)과,
+    코드를 빼면 일반 낱말만 남는 이름('Grass mix (gx1)' 와 '(gx2)' 는 코드로만 구분된다).
+    """
+    s = name or ""
+    for k, v in _ROMAN.items():
+        s = s.replace(k, v)
+    if _COMPONENT.match(s):
+        # 성분 표기만('rAra h 2' / 'rAra h2' / 'rAra h 2, (Peanut) (땅콩 성분 h2)' 모두 → r ara h 2) — 괄호 앞 부분을
+        # 글자/숫자 경계로 나눈다. 모항원·한글은 키에 안 들어간다
+        head = re.sub(r"(?<=[A-Za-z])(?=\d)|(?<=\d)(?=[A-Za-z])", " ", s.split("(")[0])
+        return re.findall(r"[A-Za-z0-9]+", head)
+    words = re.findall(r"[A-Za-z0-9][A-Za-z0-9.'\-]*", s)
+    kept = [w for w in words if not _CODE_TOKEN.match(w.lower())]
+    if kept and all(w.lower().strip(".'-") in _GENERIC for w in kept):
+        return words
+    return kept
+
+
+def name_core(name: Optional[str]) -> str:
+    """병합·중복 비교용 이름 정규화 — 코드(f244, T2)·괄호 안 한글·mix* 표시·로마숫자 글꼴·낱말 순서 차이를 지운다.
+
+    실제 결과지 29장 평가(2026-10-09)에서 두 번 읽기 병합이 같은 항원을 'Cucumber (f244)' 와
+    'Cucumber (f244) (오이)' 처럼 다른 표기로 받아 중복 행을 만들었다(정밀도 91.5%, 중복 130행).
+    영문이 있으면 영문 낱말만(코드 제외, 알파벳순) 이어 붙이고, 영문이 없으면 한글만 남긴다 —
+    '플라타너스 (Sycamore)' 와 'Sycamore (플라타너스)', 'Ragweed, short' 와 'Short ragweed' 가 같은 키가 된다.
+    성분 항원의 숫자(rAra h 2 / h 8)는 남긴다.
+    """
+    words = sorted(w.lower().replace(".", "").replace("'", "") for w in _latin_tokens(name))
+    if sum(len(w) for w in words if w.isalpha()) >= 3:
+        return "".join(words)
+    return re.sub(r"\W+", "", re.sub(r"\([^)]*\)", " ", name or "")).lower()
+
+
 def _row_key(r, mapper) -> str:
-    hit = mapper.find_allergen(r.allergen_name or "") if (r.allergen_name or "").strip() else None
-    if hit is None and r.korean_name:
-        hit = mapper.find_allergen(r.korean_name)
-    if hit is not None:
-        return hit.canonical_name.lower()
-    return re.sub(r"\W+", "", (r.allergen_name or r.korean_name or "").lower())
+    """두 판독·중복 비교용 행 키.
+
+    영문명이 인쇄돼 있으면 **레지스트리 매퍼를 쓰지 않는다** — 매퍼는 다운스트림 분류용이라 별칭·부분
+    문자열로 서로 다른 인쇄 행을 한 항원으로 접는다(Wasp↔Yellow jacket, 'Lamb meat'→'양고기'→Sheep,
+    'Ragweed, false'→'돼지풀'→Ragweed, 'rPru p 4 (Peach)'→Peach). 그러면 두 번째 판독이 복구한 양성 행이
+    다른 항원의 '다른 판독값'으로 붙는다(2026-10-09 리뷰에서 재현). 한 결과지 안에서 인쇄된 영문명은 서로
+    다르므로 영문 낱말만으로 키를 만든다. 한글만 인쇄된 행은 레지스트리 한글명으로 정규화한다.
+    """
+    name = (r.allergen_name or "").strip()
+    if _HAS_LATIN.search(name):
+        core = name_core(name)
+        if core:
+            return core
+    for cand in (name, (r.korean_name or "").strip()):
+        if cand:
+            hit = mapper.find_allergen(cand)
+            if hit is not None:
+                return name_core(hit.canonical_name) or hit.canonical_name.lower()
+    return name_core(name) or re.sub(r"\W+", "", (r.korean_name or "").lower())
 
 
 def _reading(r, tt) -> tuple:

@@ -19,7 +19,7 @@ import contextvars
 import logging
 import threading
 from contextlib import contextmanager
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 from config.settings import settings
 
@@ -27,8 +27,56 @@ logger = logging.getLogger(__name__)
 
 BACKENDS = ("openai", "ollama")
 _current: contextvars.ContextVar[Optional[str]] = contextvars.ContextVar("llm_backend", default=None)
-_clients: Dict[str, Any] = {}
+_clients: Dict[str, Any] = {}          # ollama 클라이언트(하나)
 _lock = threading.Lock()
+
+# ---- OpenAI 키 묶음 (2026-10-10): 설정의 OPENAI_API_KEY_1..8 을 번호순으로 모아 요청마다 돌아가며 쓴다 ----
+_PLACEHOLDER = "your_openai_api_key_here"
+_NUMBERED = tuple(f"openai_api_key_{i}" for i in range(1, 9))
+_pool_keys: Tuple[str, ...] = ()
+_openai_pool: List[Any] = []
+_key_requests: List[int] = []
+_rr = 0
+
+
+def openai_keys(reload: bool = False) -> List[str]:
+    """쓸 수 있는 OpenAI 키 목록. OPENAI_API_KEY_1..8(번호순)이 있으면 그것만, 없으면 OPENAI_API_KEY 하나.
+    매번 설정에서 다시 읽는다(테스트가 설정을 비우면 바로 반영). 값은 어디에도 기록하지 않는다."""
+    keys: List[str] = []
+    for name in _NUMBERED:
+        v = (getattr(settings, name, "") or "").strip()
+        if v and v != _PLACEHOLDER and v not in keys:
+            keys.append(v)
+    if not keys:
+        k = (settings.openai_api_key or "").strip()
+        if k and k != _PLACEHOLDER:
+            keys = [k]
+    return keys
+
+
+def _next_openai_client():
+    """키마다 클라이언트를 하나씩 두고 round-robin 으로 돌려준다. 키 묶음이 바뀌면 다시 만든다."""
+    from openai import OpenAI
+    global _rr, _key_requests, _pool_keys
+    keys = tuple(openai_keys())
+    if not keys:
+        return None
+    with _lock:
+        if keys != _pool_keys:
+            _openai_pool[:] = [OpenAI(api_key=k) for k in keys]
+            _key_requests = [0] * len(keys)
+            _pool_keys = keys
+            _rr = 0
+        i = _rr % len(_openai_pool)
+        _rr += 1
+        _key_requests[i] += 1
+        return _openai_pool[i]
+
+
+def key_stats() -> Dict[str, Any]:
+    """화면·관리자용: 키 개수와 키별 요청 수(값 없음)."""
+    with _lock:
+        return {"count": len(openai_keys()), "requests": list(_key_requests)}
 
 
 def normalize(name: Optional[str]) -> Optional[str]:
@@ -40,8 +88,7 @@ def normalize(name: Optional[str]) -> Optional[str]:
 
 def is_available(backend: str) -> bool:
     if backend == "openai":
-        key = settings.openai_api_key or ""
-        return bool(key) and key != "your_openai_api_key_here"
+        return bool(openai_keys())
     if backend == "ollama":
         return bool(settings.ollama_base_url and settings.ollama_api_key)
     return False
@@ -66,43 +113,52 @@ def use(backend: Optional[str]):
 
 
 def client(backend: Optional[str] = None):
-    """OpenAI SDK 클라이언트. Ollama 는 OpenAI 호환 엔드포인트(/v1)라 같은 SDK 를 쓴다."""
+    """OpenAI SDK 클라이언트. OpenAI 는 호출마다 다음 키(round-robin), Ollama 는 OpenAI 호환 엔드포인트(/v1) 하나."""
     from openai import OpenAI
     b = normalize(backend) or active()
     if not is_available(b):
         return None
+    if b == "openai":
+        return _next_openai_client()
     with _lock:
         if b not in _clients:
-            if b == "ollama":
-                _clients[b] = OpenAI(base_url=settings.ollama_base_url.rstrip("/") + "/v1",
-                                     api_key=settings.ollama_api_key,
-                                     timeout=float(settings.ollama_timeout),
-                                     # SDK 기본 재시도(2회)가 붙으면 멈춘 모델 하나에 30분 넘게 묶인다
-                                     max_retries=0)
-            else:
-                _clients[b] = OpenAI(api_key=settings.openai_api_key)
+            _clients[b] = OpenAI(base_url=settings.ollama_base_url.rstrip("/") + "/v1",
+                                 api_key=settings.ollama_api_key,
+                                 timeout=float(settings.ollama_timeout),
+                                 # SDK 기본 재시도(2회)가 붙으면 멈춘 모델 하나에 30분 넘게 묶인다
+                                 max_retries=0)
         return _clients[b]
 
 
 def vision_model(backend: Optional[str] = None) -> str:
     b = normalize(backend) or active()
-    return settings.ollama_vision_model if b == "ollama" else settings.openai_vision_model
+    if b == "ollama":
+        return settings.ollama_vision_model
+    from services import llm_usage
+    return llm_usage.choose(settings.openai_vision_model)      # 토큰 예산: 예산 모델 → 소진 뒤 기본 모델
 
 
 def chat_model(backend: Optional[str] = None) -> str:
     b = normalize(backend) or active()
-    return settings.ollama_chat_model if b == "ollama" else settings.openai_chat_model
+    if b == "ollama":
+        return settings.ollama_chat_model
+    from services import llm_usage
+    return llm_usage.choose(settings.openai_chat_model)
 
 
 def describe() -> Dict[str, Any]:
     """화면의 'AI 엔진' 선택지. 키·주소는 내보내지 않는다."""
     base = settings.ollama_base_url or ""
+    from services import llm_usage
+    bs = llm_usage.status()
     return {
         "default": active(),
+        "budget": {k: bs[k] for k in ("budget_model", "budget_tokens", "budget_used", "budget_remaining", "budget_exhausted")},
+        "keys": key_stats(),
         "backends": {
             "openai": {"available": is_available("openai"), "label": "OpenAI",
-                       "vision_model": settings.openai_vision_model,
-                       "chat_model": settings.openai_chat_model, "encrypted": True},
+                       "vision_model": bs["active_vision_model"],
+                       "chat_model": bs["active_chat_model"], "encrypted": True},
             "ollama": {"available": is_available("ollama"), "label": "연구실 서버 (Ollama)",
                        "vision_model": settings.ollama_vision_model,
                        "chat_model": settings.ollama_chat_model,
@@ -126,7 +182,7 @@ def complete_chat(messages, backend: Optional[str] = None, max_tokens: int = 700
     kw: Dict[str, Any] = {"model": model, "messages": messages}
     if json_mode:
         kw["response_format"] = {"type": "json_object"}
-    if b == "openai" and model.lower().startswith(("gpt-5", "o1", "o3", "o4")):
+    if b == "openai" and model.lower().startswith(("gpt-5", "gpt-6", "o1", "o3", "o4")):
         kw["max_completion_tokens"] = max(4000, max_tokens * 4)
         if extra.get("reasoning_effort"):
             kw["reasoning_effort"] = extra["reasoning_effort"]
@@ -139,8 +195,13 @@ def complete_chat(messages, backend: Optional[str] = None, max_tokens: int = 700
         kw["max_tokens"] = max_tokens
         kw["temperature"] = temperature
     try:
-        return c.chat.completions.create(**kw)
+        resp = c.chat.completions.create(**kw)
     except Exception as e:  # noqa: BLE001
         if "reasoning" in str(e).lower() and kw.pop("reasoning_effort", None):
-            return c.chat.completions.create(**kw)
-        raise
+            resp = c.chat.completions.create(**kw)
+        else:
+            raise
+    if b == "openai":
+        from services import llm_usage
+        llm_usage.record(model, getattr(resp, "usage", None))
+    return resp

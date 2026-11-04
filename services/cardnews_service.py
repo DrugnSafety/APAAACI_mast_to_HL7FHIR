@@ -72,6 +72,34 @@ def _stamp(category: str) -> str:
     return f'<span class="cat-stamp">{_CATEGORY_STAMP_SVG.get(category, _CATEGORY_STAMP_SVG["other"])}</span>'
 
 
+def evidence_note_html(relevant, esc) -> str:
+    """'왜 이렇게 하나요' 메모 — 실제 주의 항원이 속한 알레르겐군의 환경관리 근거 한 줄(교과서 정리, 결정론).
+
+    '우선 실천할 생활 수칙' 카드 **안에** 붙인다(새 카드를 만들지 않는다 — 덱 길이와 카드 순서를 지킨다).
+    리포트의 같은 블록과 같은 데이터(data/allergen_environment_control.json)를 쓰며, 전문의 검토 전임을 밝힌다.
+    음식·벌독·약물처럼 자료가 없는 군만 있으면 빈 문자열. 도감·클래식 카드뉴스가 함께 쓴다.
+    """
+    try:
+        from services.environment_control_service import get_environment_control_service
+        svc = get_environment_control_service()
+        blocks = svc.for_assessments(relevant, limit_per_group=1) if svc.available else []
+    except Exception as e:  # noqa: BLE001
+        logger.debug(f"근거 메모 생략: {e}")
+        return ""
+    if not blocks:
+        return ""
+
+    def first_sentence(text: str, n: int = 110) -> str:
+        text = (text or "").strip()
+        head = text.split(". ")[0].rstrip(".") + "." if ". " in text else text
+        return head if len(head) <= n else head[:n].rstrip() + "…"
+
+    items = "".join(f"<li><strong>{esc(b['label_ko'])}</strong> · {esc(first_sentence(b.get('patient_summary_ko', '')))}</li>"
+                    for b in blocks[:2])
+    return (f'<div class="mini-title">📚 왜 이렇게 하나요</div><ul class="tips">{items}</ul>'
+            f'<p class="desc">알레르기 교과서를 정리한 일반 정보예요(전문의 검토 전). 약을 바꾸라는 뜻은 아니에요.</p>')
+
+
 def _esc(s: Any) -> str:
     return html.escape(str(s if s is not None else ""))
 
@@ -359,12 +387,15 @@ class CardNewsService:
             note = f'<p class="desc">{_esc(NO_RELEVANT_NOTE_KO)}</p>'
             tips = [f"📝 {NO_RELEVANT_TIPS_KO[0]}", f"🩺 {NO_RELEVANT_TIPS_KO[1]}"]
         items = "\n".join(f"<li>{_esc(t)}</li>" for t in tips[:6])
+        # 수칙 아래 '왜 이렇게 하나요' 한두 줄(교과서 근거, 실제 주의 흡입 항원이 있을 때만)
+        evidence = evidence_note_html(relevant, _esc) if relevant else ""
         return f"""
         <div class="section prevention">
           <div class="tag">🛡️ 예방·관리</div>
           <h2>우선 실천할<br/>생활 수칙</h2>
           {note}
           <ul class="tips">{items}</ul>
+          {evidence}
         </div>
         """
 
