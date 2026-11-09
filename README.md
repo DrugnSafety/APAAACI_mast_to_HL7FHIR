@@ -60,6 +60,44 @@
 - **검토·승인 워크플로**: 조치마다 `review.status`(candidate → approved/revised/rejected). `scripts/review_environment_control.py --import review.json` 으로 검토 HTML(`docs/review_2026-10-09_*.html`)의 체크·메모를 반영하고, 검토가 끝나면 `ENV_CONTROL_PATIENT_GATE=approved_only` 로 승인된 조치만 환자 화면(리포트·카드뉴스·챗봇)에 내보낸다. `rejected` 는 항상 빠진다.
 - 모든 문장은 **알레르기 전문의 검토 전**. 상세: [`docs/allergen_environment_textbook_integration_2026-10-09.md`](docs/allergen_environment_textbook_integration_2026-10-09.md) · 테스트 `test_environment_control.py`(48건) · `test_environment_control_review.py`(9건)
 
+### 🗄️ 저장·관리자·이메일·PDF · 보안 강화 (2026-10-07)
+- **저장**: 결과를 SQLite에 저장한다(`services/store_service.py`). 연결 풀로 SQLite 3.51.1 교착을 피한다.
+- **관리자**: `/admin` 대시보드와 관리자 API(`services/admin_api.py`). 지식 검수 API는 관리자 인증을 요구한다.
+- **전달**: 한·영·중 결과를 함께 생성한다. 이메일 발송(`services/email_service.py`)과 한글 PDF(WeasyPrint, `services/report_pdf.py`)를 지원한다.
+- **임상 로직**: 계절성 안내는 임상적으로 관련 있는 항원에만 붙인다. 면역치료·동물항원·약물치료·감작 예방 섹션을 리포트와 카드뉴스에 넣었다. 검사 대조는 항원 목록에서 분리했다. 약물 항원은 '진료 확인 필요'로만 판정한다.
+- **근거 데이터**: 면역치료 항원(KAAACI 2023/2024), 동물항원 관리(출처 32건), 감작 예방, 약물·증상 안내. 모두 전문의 검토 전 후보다.
+- **보안**: 리포트 HTML 이스케이프, CSP(Content Security Policy), 요청 수 제한. 이메일 한도는 원자적으로 예약한다. 번역 요청에서는 환자 식별값을 마스킹한다.
+- **웹**: 단계별 장면, 수집형 도감 카드, 알러젠 자동완성, 결과 언어 전환, 이메일 패널, PDF 받기. 퀘스트·클래식 공용 로직은 `web/shared.js`에 둔다.
+
+### 🔬 실제 결과지 OCR 평가 · LLM 토큰 예산 (2026-10-09 ~ 10)
+실제 결과지 사진 29장(7개 기관 양식, 정답 1,419행)으로 운영 파이프라인을 채점했다. 환자 이름은 마스킹했다. 사진·정답·평가 산출물은 저장소에 넣지 않는다.
+
+| 모델 | 재현율 | 정밀도 | 수치 | 양성 누락 | 장당 시간 |
+|---|---|---|---|---|---|
+| OpenAI gpt-5.4 | 99.9% | 91.5% | 99.2% | 1/98 | 74초 |
+| 연구실 Ollama qwen3.8:27b | 98.9% | 95.0% | 99.3% | 26/98 | 363초 |
+
+- gpt-5.4 정밀도를 낮춘 주원인은 두 번 읽기 병합에서 생긴 중복행(128행)이다.
+- **결함 수정**: 병합 키 정규화로 중복행 제거, 성분 항원의 매퍼 우회, 가로 사진 자동 회전(Tesseract OSD). 회귀 테스트 `test_ocr_real_sheet_fixes.py`.
+- **평가 스크립트**: `scripts/eval_real_ocr.py`(실행) · `scripts/eval_real_ocr_report.py`(채점·리포트).
+- **모델·예산**: OpenAI 기본 모델은 gpt-6-luna다. 누적 1,000만 토큰까지는 gpt-5.6-luna를 먼저 쓴다(`services/llm_usage.py`). 키 여러 개를 호출마다 번갈아 쓴다. 예산을 넘으면 알림 메일을 1회 보낸다. 상세: [`docs/llm_token_budget_2026-10-09.md`](docs/llm_token_budget_2026-10-09.md)
+- **연구실 서버**: Ollama 요청의 이미지 크기를 `OLLAMA_MAX_PAYLOAD_KB`(기본 900)로 제한한다. 이 제한으로 nginx 413 오류를 피한다.
+
+### 🧾 ImmunoCAP 카탈로그 매핑 · HIS 연동 계획 (2026-10-13)
+- ThermoFisher ImmunoCAP 2023 공식 카탈로그 PDF에서 569종을 파싱했다. 단일 402·성분 105·혼합 62종이다.
+- 레지스트리 항원 159종을 ImmunoCAP 코드와 대조했다(자동 105·수동 54). 레지스트리에는 `immunocap_codes`만 추가했다.
+- 레지스트리에 없는 단일 항원 262종에 SNOMED CT 후보를 1차 매핑했다. 신뢰도는 high 203·manual 29·medium 11·low 8·none 11이다. 이 262종의 레지스트리 반영은 파일럿 패널 확정 뒤 결정한다.
+- 스크립트 `scripts/map_immunocap_catalog.py` · 보고서 [`docs/review_2026-10-13_ImmunoCAP_카탈로그_SNOMED_1차매핑.html`](docs/review_2026-10-13_ImmunoCAP_카탈로그_SNOMED_1차매핑.html)
+- **HIS 연동 PRD 초안**: 검사 결과 자동 수신 → 알림톡 문진 → 리포트 자동 전달. 병원 내부망과 로컬 LLM을 전제로 한다. [`tasks/prd-his-integration-pipeline.md`](tasks/prd-his-integration-pipeline.md)
+
+### 📑 연구 문서 (2026-10-29 ~ 11-04)
+- IRB 검토용 초안 v0.2(문서 12종, 승인 전): [`docs/irb_2026-10-29/`](docs/irb_2026-10-29/)
+- 사용자·연구자 매뉴얼(합성 샘플 결과지만 사용): [`docs/manuals/`](docs/manuals/)
+- 환자 만족도 설문 v0.1: [`docs/patient_satisfaction_2026-10-29/`](docs/patient_satisfaction_2026-10-29/)
+- 의료정보센터 협조 요청서: [`docs/medical_information_cooperation_2026-10-29/`](docs/medical_information_cooperation_2026-10-29/)
+- AAAAI 2027 Late-Breaking Abstract 제출본: [`docs/aaaai2027_abstract_2026-11-02/`](docs/aaaai2027_abstract_2026-11-02/)
+- 실제 결과지 사진, OCR 평가 산출물, 교재 원문은 `.gitignore`로 제외한다.
+
 ---
 
 ## 🧠 감별 로직 (sensitization vs true allergy)
@@ -118,10 +156,18 @@ python3 scripts/score_ocr.py --limit 14       # OPENAI_API_KEY 필요
 
 조사·방법·측정 결과: [`docs/ocr_fixtures_survey.md`](docs/ocr_fixtures_survey.md)
 
-### 엔진 회귀 테스트 (API 불필요)
+### 회귀 테스트 (API 불필요)
 
 ```bash
-python test_relevance_engine.py
+pip install -r requirements-dev.txt
+python -m pytest -q            # 1,042 통과 · 3 건너뜀 (2026-11-09)
+node --test web/*.test.js      # 64 통과
+```
+
+macOS에서 PDF 테스트가 WeasyPrint `OSError`로 실패하면, 아래 변수를 설정하고 다시 실행하십시오.
+
+```bash
+export DYLD_FALLBACK_LIBRARY_PATH=/opt/homebrew/lib
 ```
 
 ---
