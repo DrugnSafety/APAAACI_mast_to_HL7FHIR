@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>알레르겐 환경관리 교과서 층 고도화 · 개요 (2026-10-13)</title>
+<style>
+  :root { --ink:#0B1F3A; --ink-soft:#29405E; --ice-50:#F4F9FD; --ice-100:#E5F1FA; --ice-200:#CDE4F5; --ice-300:#A2CFEB; --ice-400:#6AB3DC; --ice-500:#3A93C7; --ice-600:#1E6FA6;
+    --accent:#E14B4B; --gold:#C89A2E; --gold-soft:#FBF3DA; --success:#1F7A4D; --success-soft:#E4F3EB; --border:#D8E4EF; --muted:#5C6E85;
+    --shadow-sm:0 1px 2px rgba(11,31,58,0.06); --shadow-md:0 6px 20px rgba(11,31,58,0.08); }
+  * { box-sizing:border-box; } html { scroll-behavior:smooth; }
+  body { margin:0; font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic','Apple SD Gothic Neo',sans-serif; color:var(--ink);
+    background:linear-gradient(180deg,#EAF3FB 0%,#F4F9FD 320px,#FFFFFF 100%); line-height:1.65; font-size:15.5px; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:1040px; margin:0 auto; padding:32px 24px 96px; }
+  header.hero { background:linear-gradient(135deg,#1E6FA6 0%,#3A93C7 60%,#6AB3DC 100%); color:#fff; border-radius:24px; padding:36px 32px; box-shadow:var(--shadow-md); position:relative; overflow:hidden; margin-bottom:28px; }
+  header.hero::after { content:""; position:absolute; right:-60px; top:-60px; width:220px; height:220px; background:radial-gradient(circle,rgba(255,255,255,0.25) 0%,rgba(255,255,255,0) 70%); border-radius:50%; }
+  .kicker { text-transform:uppercase; letter-spacing:0.12em; font-size:11.5px; font-weight:700; opacity:0.85; margin-bottom:12px; }
+  header.hero h1 { margin:0 0 10px; font-size:30px; line-height:1.25; } header.hero p.lede { margin:0; font-size:15px; opacity:0.92; max-width:720px; }
+  .hero-meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:18px; }
+  .chip { display:inline-flex; align-items:center; background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.28); color:#fff; font-size:12.5px; font-weight:600; padding:6px 12px; border-radius:999px; }
+  .tldr { background:#fff; border:1px solid var(--border); border-left:4px solid var(--ice-500); border-radius:14px; padding:22px 24px; box-shadow:var(--shadow-sm); margin-bottom:28px; }
+  .tldr h2 { margin:0 0 14px; font-size:18px; color:var(--ice-600); }
+  .tldr-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px; }
+  .tldr-item { background:var(--ice-50); border-radius:10px; padding:14px 16px; }
+  .tldr-item .label { font-size:11px; text-transform:uppercase; letter-spacing:0.1em; color:var(--ice-600); font-weight:700; margin-bottom:4px; }
+  .tldr-item .value { font-size:14.5px; font-weight:600; line-height:1.45; }
+  nav.toc { background:#fff; border:1px solid var(--border); border-radius:14px; padding:16px 20px; margin-bottom:32px; box-shadow:var(--shadow-sm); }
+  nav.toc strong { font-size:12px; color:var(--ice-600); text-transform:uppercase; letter-spacing:0.1em; }
+  nav.toc ol { margin:8px 0 0; padding-left:20px; columns:2; } nav.toc a { color:var(--ink-soft); text-decoration:none; } nav.toc a:hover { color:var(--ice-600); }
+  section { background:#fff; border:1px solid var(--border); border-radius:16px; padding:26px 28px; margin-bottom:26px; box-shadow:var(--shadow-sm); }
+  section h2 { margin:0 0 14px; font-size:21px; display:flex; align-items:center; gap:10px; }
+  section h2 .num { color:var(--ice-500); font-size:14px; font-weight:800; letter-spacing:0.06em; }
+  h3 { font-size:16.5px; margin:22px 0 8px; color:var(--ink-soft); } h4 { margin:0; font-size:15px; }
+  .small { font-size:13px; color:var(--muted); }
+  .callout { border-radius:12px; padding:14px 18px; margin:14px 0; border:1px solid var(--ice-200); background:var(--ice-50); }
+  .callout.gold { background:var(--gold-soft); border-color:#EAD9A3; } .callout.green { background:var(--success-soft); border-color:#BFE3CE; } .callout.red { background:#FDECEC; border-color:#F3BCBC; }
+  .callout .title { display:block; font-weight:700; margin-bottom:4px; }
+  table { width:100%; border-collapse:collapse; font-size:13.5px; margin:10px 0 6px; }
+  th, td { border-bottom:1px solid var(--border); padding:9px 10px; vertical-align:top; text-align:left; }
+  th { background:var(--ice-50); color:var(--ice-600); font-size:12px; letter-spacing:0.05em; text-transform:uppercase; }
+  td.num { text-align:right; font-variant-numeric:tabular-nums; }
+  .tag { display:inline-block; font-size:11.5px; font-weight:700; padding:3px 9px; border-radius:999px; margin-right:4px; margin-bottom:4px; }
+  .tag.ok { background:var(--success-soft); color:var(--success); } .tag.warn { background:var(--gold-soft); color:#8A6512; } .tag.no { background:#EEF1F5; color:var(--muted); } .tag.ice { background:var(--ice-100); color:var(--ice-600); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
+  .card { border:1px solid var(--border); border-radius:12px; padding:14px 16px; background:#fff; box-shadow:var(--shadow-sm); }
+  .card-head { display:flex; justify-content:space-between; align-items:baseline; gap:8px; margin-bottom:6px; }
+  .chips { margin:4px 0 8px; }
+  dl.kv { display:grid; grid-template-columns:auto 1fr; gap:2px 10px; margin:8px 0 0; font-size:12.5px; } dl.kv dt { color:var(--muted); } dl.kv dd { margin:0; font-weight:600; }
+  .timeline { position:relative; margin:10px 0 0; padding-left:26px; }
+  .timeline::before { content:""; position:absolute; left:8px; top:4px; bottom:4px; width:2px; background:var(--ice-200); }
+  .step { position:relative; margin-bottom:16px; }
+  .step::before { content:""; position:absolute; left:-23px; top:6px; width:12px; height:12px; border-radius:50%; background:var(--ice-500); border:2px solid #fff; box-shadow:0 0 0 2px var(--ice-300); }
+  .step .stage-meta { font-size:11.5px; color:var(--ice-600); font-weight:700; letter-spacing:0.06em; } .step h4 { margin:2px 0 4px; } .step p { margin:0; font-size:13.5px; }
+  pre { background:#0F2742; color:#DCEBF7; padding:16px 18px; border-radius:12px; font-size:12.5px; overflow:auto; line-height:1.55; }
+  code { background:var(--ice-100); padding:1px 5px; border-radius:5px; font-size:0.92em; } pre code { background:none; padding:0; }
+  .diagram { width:100%; max-width:960px; margin:8px auto; display:block; }
+  ul.compact li { margin-bottom:4px; font-size:13.5px; }
+  a.btn { display:inline-block; background:var(--ice-600); color:#fff; text-decoration:none; padding:9px 14px; border-radius:10px; font-weight:600; font-size:13.5px; margin:4px 6px 4px 0; }
+  a.btn.ghost { background:#fff; color:var(--ice-600); border:1px solid var(--ice-300); }
+  footer { text-align:center; color:var(--muted); font-size:12.5px; margin-top:30px; }
+  @media (max-width:640px) { nav.toc ol { columns:1; } section { padding:18px; } header.hero { padding:26px 20px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="kicker">APAAACI 알레르기 리포트 플랫폼 · 지식 고도화 개요</div>
+  <h1>알레르겐 환경관리 교과서 층 고도화</h1>
+  <p class="lede">한글 알레르기 교과서(이전 판 '환경관리 및 회피요법' 장 + 최신판 제5장 '알레르기질환과 환경')와 Middleton's Allergy 4개 장을 읽어, 알레르겐군별 회피 조치를 <strong>단계 × 근거 등급 × 출처</strong>로 구조화하고 리포트·카드뉴스·챗봇·온톨로지 그래프가 같은 문장과 같은 근거를 쓰게 한 작업의 개요. 검토 체크리스트는 별도 검토 보고서에 있음.</p>
+  <div class="hero-meta">
+    <span class="chip">2026-10-09 → 10-13</span>
+    <span class="chip">데이터셋 v1.2</span>
+    <span class="chip">알레르겐군 8 · 악화 요인 5 · 조치 75개 · 출처 44건</span>
+    <span class="chip">테스트 1,040건 통과</span>
+    <span class="chip">전문의 검토 전 (candidate)</span>
+  </div>
+</header>
+
+<div class="tldr">
+  <h2>핵심 요약</h2>
+  <div class="tldr-grid">
+    <div class="tldr-item"><div class="label">무엇을 했나</div><div class="value">교과서 6종(한글 2장 + Middleton 4장)을 읽어 환경관리 지식을 구조화하고 기존 지식 14종·템플릿 7개를 교정<br><span class="small">데이터셋 + 서비스 + 온톨로지 층 + 챗봇·리포트·API + 검토 워크플로</span></div></div>
+    <div class="tldr-item"><div class="label">가장 큰 교정</div><div class="value">진드기·바퀴는 큰 입자(저장소 관리), 고양이·개는 작은 입자(환기·여과)로 조치를 갈랐고 역치·뇌우 천식·대기오염 성분 역치를 추가<br><span class="small">공기청정기 권고를 알레르겐별로 재평가</span></div></div>
+    <div class="tldr-item"><div class="label">최신판 renewal (10-13)</div><div class="value">최신판 5장은 이전 장을 대체·재편한 장. 악화 요인 층을 기후변화·대기오염 5성분·실내공기오염·전자담배로 확장하고 기전 7·발생 배경 4를 추가<br><span class="small">이전 판에만 근거한 조치 16개는 '최신판 미수록' 표시</span></div></div>
+    <div class="tldr-item"><div class="label">지금 필요한 것</div><div class="value">알레르기 전문의 검토 → <code>--import</code> → 게이트 <code>approved_only</code><br><span class="small">검토 보고서(10-13) §00·§04~§07</span></div></div>
+  </div>
+</div>
+
+<nav class="toc">
+  <strong>목차</strong>
+  <ol>
+    <li><a href="#s1">타임라인</a></li>
+    <li><a href="#s2">데이터 모델</a></li>
+    <li><a href="#s3">알레르겐군 8개</a></li>
+    <li><a href="#s4">악화 요인 5개</a></li>
+    <li><a href="#s5">두 교과서가 갈리는 쟁점</a></li>
+    <li><a href="#s6">어디에 쓰이나</a></li>
+    <li><a href="#s7">검토·승인 워크플로</a></li>
+    <li><a href="#s8">최신판 대조(판 추적)</a></li>
+    <li><a href="#s9">남은 과제</a></li>
+    <li><a href="#s10">문서 링크</a></li>
+  </ol>
+</nav>
+
+<section id="s1">
+  <h2><span class="num">01.</span> 타임라인</h2>
+  <div class="timeline">
+    <div class="step"><div class="stage-meta">2026-10-09 · 1차</div><h4>교과서 5종 판독 → 데이터셋 v1.1 · 서비스 · 온톨로지 층 · 챗봇·리포트·API</h4><p>이전 판 한글 교과서 '환경관리 및 회피요법' 장(스캔 16면)과 Middleton 86·28장 전문 판독, 26·27장은 구조화 추출 뒤 재대조. 알레르겐군 8개·조치 62개·출처 39건. 기존 지식베이스 14종·템플릿 7개 교정. 검토 보고서(10-09) 작성.</p></div>
+    <div class="step"><div class="stage-meta">2026-10-09 · 2차</div><h4>검토·승인 워크플로 · 카드뉴스 근거 메모 · 레지스트리 정리</h4><p>조치마다 <code>review.status</code>, CLI <code>scripts/review_environment_control.py</code>, 환자 화면 게이트 <code>ENV_CONTROL_PATIENT_GATE</code>. 카드뉴스 생활 수칙 카드 안에 "왜 이렇게 하나요" 메모. 점박이응애 → other, animal 템플릿 종별 overrides.</p></div>
+    <div class="step"><div class="stage-meta">2026-10-13 · renewal</div><h4>최신판 제5장 '알레르기질환과 환경' 반영 → 데이터셋 v1.2</h4><p>스캔 12면은 이전 장을 대체·재편한 장(사용자 확인). 악화 요인을 기후변화·실외 대기오염(미세먼지·황사·SO₂·NO₂·오존 성분별 역치)·실내공기오염(VOC·폼알데하이드)·담배연기(전자담배)로 확장, 조치 +13, 기전 7건, 발생 배경 4건, 출처 +5, 쟁점 +7. 알레르겐군 조치 62개를 출처별로 대조해 이전 판 전용 16개 표시. 그래프에 Pollutant·Mechanism·EtiologyFactor 노드. 챗봇 악화 요인 블록.</p></div>
+  </div>
+</section>
+
+<section id="s2">
+  <h2><span class="num">02.</span> 데이터 모델 — <code>data/allergen_environment_control.json</code> v1.2</h2>
+  <svg class="diagram" viewBox="0 0 960 400" role="img" aria-label="환경관리 층 데이터 모델 다이어그램">
+    <defs><marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3A93C7"/></marker></defs>
+    <g font-family="Pretendard, Apple SD Gothic Neo, sans-serif" font-size="12.5">
+      <!-- disease topics -->
+      <rect x="20" y="20" width="200" height="54" rx="10" fill="#EEF1F5" stroke="#CBD5E1"/><text x="120" y="42" text-anchor="middle" font-weight="700" fill="#29405E">질환 Topic (Wikipedia 스냅샷)</text><text x="120" y="60" text-anchor="middle" fill="#5C6E85">천식 · 비염 · 아토피 · 두드러기</text>
+      <!-- allergen group -->
+      <rect x="20" y="150" width="200" height="60" rx="10" fill="#E5F1FA" stroke="#6AB3DC"/><text x="120" y="174" text-anchor="middle" font-weight="700" fill="#0B1F3A">AllergenGroup ×8</text><text x="120" y="193" text-anchor="middle" fill="#29405E">진드기 · 고양이 · 개 · 바퀴 · 곰팡이 · 꽃가루 · 설치류</text>
+      <!-- aggravating factor -->
+      <rect x="20" y="290" width="200" height="60" rx="10" fill="#FBF3DA" stroke="#C89A2E"/><text x="120" y="314" text-anchor="middle" font-weight="700" fill="#0B1F3A">AggravatingFactor ×5</text><text x="120" y="333" text-anchor="middle" fill="#29405E">담배 · 실내 연소 · 대기오염 · 기후 · 실내공기</text>
+      <!-- control measure -->
+      <rect x="380" y="200" width="220" height="80" rx="10" fill="#E4F3EB" stroke="#1F7A4D"/><text x="490" y="224" text-anchor="middle" font-weight="700" fill="#0B1F3A">ControlMeasure ×75</text><text x="490" y="243" text-anchor="middle" fill="#29405E">tier · evidenceGrade · caveat</text><text x="490" y="261" text-anchor="middle" fill="#29405E">editionSupport · reviewStatus</text>
+      <!-- threshold etc on group -->
+      <rect x="380" y="100" width="220" height="48" rx="10" fill="#F4F9FD" stroke="#A2CFEB"/><text x="490" y="121" text-anchor="middle" font-weight="700" fill="#0B1F3A">MajorAllergen · CrossReactivity</text><text x="490" y="139" text-anchor="middle" fill="#29405E">hasReservoir · hasCarrierParticle · peakMonthKorea</text>
+      <rect x="380" y="20" width="220" height="48" rx="10" fill="#F4F9FD" stroke="#A2CFEB"/><text x="490" y="41" text-anchor="middle" font-weight="700" fill="#0B1F3A">ExposureThreshold</text><text x="490" y="59" text-anchor="middle" fill="#29405E">Der p 1 2/10 µg/g · SO₂ 0.5 ppm …</text>
+      <!-- pollutant -->
+      <rect x="380" y="310" width="220" height="60" rx="10" fill="#FBF3DA" stroke="#C89A2E"/><text x="490" y="334" text-anchor="middle" font-weight="700" fill="#0B1F3A">Pollutant ×5</text><text x="490" y="353" text-anchor="middle" fill="#29405E">미세먼지 · 황사 · SO₂ · NO₂ · 오존</text>
+      <!-- mechanism / etiology / source -->
+      <rect x="730" y="150" width="210" height="52" rx="10" fill="#F4F9FD" stroke="#A2CFEB"/><text x="835" y="172" text-anchor="middle" font-weight="700" fill="#0B1F3A">Mechanism ×7</text><text x="835" y="190" text-anchor="middle" fill="#29405E">ROS · TLR · GSTP1 · 후생유전 …</text>
+      <rect x="730" y="20" width="210" height="52" rx="10" fill="#F4F9FD" stroke="#A2CFEB"/><text x="835" y="42" text-anchor="middle" font-weight="700" fill="#0B1F3A">EtiologyFactor ×4</text><text x="835" y="60" text-anchor="middle" fill="#29405E">위생가설 · 미생물총 · 유전-환경</text>
+      <rect x="730" y="300" width="210" height="60" rx="10" fill="#EEF1F5" stroke="#CBD5E1"/><text x="835" y="324" text-anchor="middle" font-weight="700" fill="#0B1F3A">TextbookSource ×44</text><text x="835" y="343" text-anchor="middle" fill="#29405E">교과서 6 · 1차 문헌 · 보고서</text>
+      <!-- arrows -->
+      <g stroke="#3A93C7" stroke-width="1.6" fill="none" marker-end="url(#arr)">
+        <path d="M120,150 L120,74"/>
+        <path d="M220,180 L380,230"/>
+        <path d="M220,165 L380,124"/>
+        <path d="M220,158 L380,44"/>
+        <path d="M220,320 L380,250"/>
+        <path d="M220,335 L380,340"/>
+        <path d="M600,340 L740,70" stroke-dasharray="4 3"/>
+        <path d="M220,305 C300,250 650,200 730,180"/>
+        <path d="M600,250 L730,330"/>
+        <path d="M220,30 L730,40"/>
+      </g>
+      <g fill="#1E6FA6" font-size="11">
+        <text x="128" y="115">associatedWithDisease / aggravates</text>
+        <text x="270" y="212">hasControlMeasure</text>
+        <text x="268" y="134">hasMajorAllergen · hasCrossReactivity</text>
+        <text x="262" y="92">hasThreshold</text>
+        <text x="282" y="345">hasComponent</text>
+        <text x="620" y="200">hasThreshold (Pollutant →)</text>
+        <text x="520" y="178">hasMechanism</text>
+        <text x="640" y="300">citedIn</text>
+        <text x="430" y="14">hasEtiologyContext (Topic →)</text>
+      </g>
+    </g>
+  </svg>
+  <div class="callout"><span class="title">조치 1건 = tier × evidence_grade × sources</span>
+    <strong>tier</strong>: 1단계 필수·저비용 / 2단계 도움·비용 큼 / 3단계 제한적·미증명 / 비권장 (이전 판 한글 교과서 표 1-1 의 3단계를 전 군에 확장) ·
+    <strong>evidence_grade</strong>: RCT 양성 / 엇갈림 / 무효 · 체계적 고찰 무효 · 관찰 · 기전 · 교과서 권고 (Middleton 86장 기준) ·
+    <strong>edition_support</strong>: 최신판 5장 / 이전 판 + Middleton / Middleton 만 / 이전 판 전용. 두 축이 따로 있어 "1단계이지만 근거는 엇갈림"(진드기 커버) 같은 상태를 그대로 보여준다.</div>
+  <table>
+    <thead><tr><th>섹션</th><th>내용</th><th>규모</th></tr></thead>
+    <tbody>
+      <tr><td><code>allergen_groups</code></td><td>생물학 · 주요 알레르겐(단백군·출처) · 운반 입자(크기·부유 시간·관리 함의) · 저장소 · 노출 역치 · 국내 자료 · 잔류 기간 · 교차반응 · 조치 · 근거 요약 · 환자 요약</td><td class="num">8군 · 조치 62</td></tr>
+      <tr><td><code>aggravating_factors</code></td><td>담배연기(전자담배) · 실내 연소 · 실외 대기오염(<code>components</code> 5 + 성분별 역치·근거·국내 자료) · 기후변화·뇌우 · 실내공기오염(VOC·폼알데하이드)</td><td class="num">5요인 · 조치 13</td></tr>
+      <tr><td><code>mechanisms</code></td><td>ROS·산화스트레스 · TLR 등 PRR · GSTP1 취약성 · 미세먼지 운반체·DEP 보조제 · 장벽 손상 · 후생유전(FOXP3·IL10) · Th2/Th17 — 전문 설명 + 환자용 한 줄</td><td class="num">7</td></tr>
+      <tr><td><code>etiology_context</code></td><td>서구화·이주 역학 · 위생가설과 한계 · 미생물총(유익/해로운 요인) · 유전-환경 상호작용. 설명일 뿐 지시 아님</td><td class="num">4</td></tr>
+      <tr><td><code>principles</code> · <code>primary_prevention</code></td><td>포괄적 관리 원칙 6개 · 1차 예방 코호트 7건 요약("증상 없는 가족을 위해 집을 바꾸는 조치는 근거 없음")</td><td class="num">6 · 7</td></tr>
+      <tr><td><code>disagreements_ko</code></td><td>교과서 간 수치·결론 차이. 환자 문장은 보수적인 쪽</td><td class="num">19</td></tr>
+      <tr><td><code>sources</code></td><td>교과서 6 + 1차 문헌·보고서. 1차 문헌은 "교과서 인용 — 원문 미열람" 표시. <code>edition_status</code> superseded/current</td><td class="num">44</td></tr>
+      <tr><td><code>edition_tracking</code></td><td>조치별 <code>edition_support</code> 집계 + 이전 판 전용 조치 목록</td><td class="num">16 전용</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="s3">
+  <h2><span class="num">03.</span> 알레르겐군 8개</h2>
+  <p class="small">카드의 요약은 데이터셋의 <code>patient_summary_ko</code> 첫 문장. 조치 전체와 근거 문장은 검토 보고서 §05 에 있음.</p>
+  <div class="grid">
+    <div class="card">
+      <div class="card-head"><h4>집먼지진드기</h4><span class="small">House dust mite</span></div>
+      <div class="chips"><span class="tag ok">1단계 8</span><span class="tag warn">2단계 3</span><span class="tag no">3단계·비권장 4</span></div>
+      <p class="small">집먼지진드기 알레르겐은 배설물 알갱이에 들어 있어 이불을 털거나 청소할 때만 잠깐 공기 중에 떠 있습니다.</p>
+      <dl class="kv"><dt>운반 입자</dt><dd>10~35 µm</dd><dt>역치</dt><dd>3건</dd><dt>교차반응</dt><dd>5건</dd><dt>이전 판 전용</dt><dd>2개</dd></dl>
+    </div>
+    <div class="card">
+      <div class="card-head"><h4>고양이</h4><span class="small">Cat</span></div>
+      <div class="chips"><span class="tag ok">1단계 3</span><span class="tag warn">2단계 4</span><span class="tag no">3단계·비권장 2</span></div>
+      <p class="small">고양이 알레르겐은 작은 비듬 입자에 실려 몇 시간씩 떠 있고 옷·벽에 붙어 고양이가 없는 곳까지 따라갑니다.</p>
+      <dl class="kv"><dt>운반 입자</dt><dd>1~7 µm</dd><dt>역치</dt><dd>2건</dd><dt>교차반응</dt><dd>3건</dd><dt>이전 판 전용</dt><dd>1개</dd></dl>
+    </div>
+    <div class="card">
+      <div class="card-head"><h4>개</h4><span class="small">Dog</span></div>
+      <div class="chips"><span class="tag ok">1단계 3</span><span class="tag warn">2단계 2</span><span class="tag no">3단계·비권장 1</span></div>
+      <p class="small">개 알레르겐은 작은 비듬 입자에 실려 공기 중에 머뭅니다.</p>
+      <dl class="kv"><dt>운반 입자</dt><dd>1~10 µm</dd><dt>역치</dt><dd>0건</dd><dt>교차반응</dt><dd>2건</dd><dt>이전 판 전용</dt><dd>1개</dd></dl>
+    </div>
+    <div class="card">
+      <div class="card-head"><h4>바퀴</h4><span class="small">Cockroach</span></div>
+      <div class="chips"><span class="tag ok">1단계 5</span><span class="tag warn">2단계 1</span><span class="tag no">3단계·비권장 1</span></div>
+      <p class="small">바퀴 알레르겐은 배설물·사체 조각에 들어 있고 부엌에 가장 많으며, 큰 입자라 청소할 때만 떠 있습니다.</p>
+      <dl class="kv"><dt>운반 입자</dt><dd>10~40 µm</dd><dt>역치</dt><dd>2건</dd><dt>교차반응</dt><dd>3건</dd><dt>이전 판 전용</dt><dd>1개</dd></dl>
+    </div>
+    <div class="card">
+      <div class="card-head"><h4>실내 곰팡이</h4><span class="small">Indoor mold</span></div>
+      <div class="chips"><span class="tag ok">1단계 3</span><span class="tag warn">2단계 3</span><span class="tag no">3단계·비권장 1</span></div>
+      <p class="small">실내 곰팡이는 누수·결로·젖은 카펫·가습기처럼 습한 곳에서 자랍니다.</p>
+      <dl class="kv"><dt>운반 입자</dt><dd>2~100 µm</dd><dt>역치</dt><dd>0건</dd><dt>교차반응</dt><dd>2건</dd><dt>이전 판 전용</dt><dd>3개</dd></dl>
+    </div>
+    <div class="card">
+      <div class="card-head"><h4>실외 곰팡이</h4><span class="small">Outdoor mold</span></div>
+      <div class="chips"><span class="tag ok">1단계 5</span><span class="tag warn">2단계 1</span><span class="tag no">3단계·비권장 0</span></div>
+      <p class="small">실외 곰팡이 포자는 여름~가을(국내 6~12월)에 많습니다.</p>
+      <dl class="kv"><dt>운반 입자</dt><dd>2~100 µm</dd><dt>역치</dt><dd>0건</dd><dt>교차반응</dt><dd>1건</dd><dt>이전 판 전용</dt><dd>3개</dd></dl>
+    </div>
+    <div class="card">
+      <div class="card-head"><h4>꽃가루(화분)</h4><span class="small">Pollen</span></div>
+      <div class="chips"><span class="tag ok">1단계 7</span><span class="tag warn">2단계 2</span><span class="tag no">3단계·비권장 0</span></div>
+      <p class="small">꽃가루는 맑고 건조하며 바람 부는 날 많이 날리고 꾸준한 비가 온 뒤에는 적지만, 뇌우는 꽃가루를 터뜨려 오히려 천식을 악화시킬 수 있습니다.</p>
+      <dl class="kv"><dt>운반 입자</dt><dd>17~58 µm</dd><dt>역치</dt><dd>1건</dd><dt>교차반응</dt><dd>11건</dd><dt>이전 판 전용</dt><dd>4개</dd></dl>
+    </div>
+    <div class="card">
+      <div class="card-head"><h4>설치류(쥐·기니픽 등)</h4><span class="small">Rodents</span></div>
+      <div class="chips"><span class="tag ok">1단계 3</span><span class="tag warn">2단계 0</span><span class="tag no">3단계·비권장 0</span></div>
+      <p class="small">쥐·기니픽 등의 알레르겐은 소변에 있고 마른 바닥재에서 날립니다.</p>
+      <dl class="kv"><dt>운반 입자</dt><dd>1~10 µm</dd><dt>역치</dt><dd>0건</dd><dt>교차반응</dt><dd>1건</dd><dt>이전 판 전용</dt><dd>0개</dd></dl>
+    </div>
+  </div>
+</section>
+
+<section id="s4">
+  <h2><span class="num">04.</span> 악화 요인 5개 <span class="small">(최신판 5장으로 확장)</span></h2>
+  <p class="small">악화 요인은 검사 결과로 판정되는 것이 아니라 천식·비염·아토피 환자 누구에게나 해당하므로 리포트의 '실제 주의' 항원 블록에는 섞지 않고, 질문에 그 말이 있을 때 챗봇·API·그래프에서만 쓴다.</p>
+  <div class="grid">
+    <div class="card">
+      <div class="card-head"><h4>담배연기(간접흡연·전자담배)</h4><span class="tag ok">조치 2</span></div>
+      
+      <p class="small">담배연기에는 수천 종(한 교과서는 4,000종 이상, 최신판은 약 3,800종)의 화학물질이 있고, 집에 흡연자가 있으면 흡입 가능한 미세먼지(2.5 µm 이하) 농도가 2~3배 높습니다.</p>
+    </div>
+    <div class="card">
+      <div class="card-head"><h4>실내 연소(가스레인지·석유/장작 난로)</h4><span class="tag ok">조치 1</span></div>
+      
+      <p class="small">가스레인지에서 나오는 이산화질소와 석유·장작 난로의 연기는 천식을 악화시킵니다.</p>
+    </div>
+    <div class="card">
+      <div class="card-head"><h4>실외 대기오염(미세먼지·황사·이산화황·이산화질소·오존)</h4><span class="tag ok">조치 5</span></div>
+      <div class="chips"><span class="tag ice">미세먼지</span><span class="tag ice">황사</span><span class="tag ice">이산화황</span><span class="tag ice">이산화질소</span><span class="tag ice">오존</span></div>
+      <p class="small">대기오염물질은 입자(미세먼지)와 가스(오존·이산화질소·이산화황 등)가 섞인 혼합물로, 발전소·공장 같은 고정 배출원과 자동차·비행기 같은 이동 배출원, 산불·사막화에서 나옵니다.</p>
+    </div>
+    <div class="card">
+      <div class="card-head"><h4>기후변화·도시 열섬·뇌우</h4><span class="tag ok">조치 2</span></div>
+      
+      <p class="small">IPCC 제6차 평가보고서에 따르면 인간 활동은 산업화 이전(1850-1900) 대비 현재(2011-2020) 지표면 온도를 1.1℃ 올렸고, 매우 낮은 배출 시나리오에서도 2021-2040 에 1.5℃ 상승에 도달·초과할 가능성이 매우 큽니다(2018년 예측보다 10년 앞당겨짐).</p>
+    </div>
+    <div class="card">
+      <div class="card-head"><h4>실내공기오염(휘발성 유기화합물·폼알데하이드·환기 부족)</h4><span class="tag ok">조치 3</span></div>
+      
+      <p class="small">실내공기오염물질은 알레르겐·내독소 같은 생물학적 오염물질과 미세먼지·가스·휘발성 유기화합물 같은 화학적 오염물질로 나뉩니다.</p>
+    </div>
+  </div>
+</section>
+
+<section id="s5">
+  <h2><span class="num">05.</span> 두 교과서가 갈리는 쟁점 <span class="small">(19건 중 8건)</span></h2>
+  <table><thead><tr><th style="width:40px">#</th><th>쟁점과 처리</th></tr></thead><tbody><tr><td>1</td><td>회피 조치의 전반적 효과: 한글 교과서(참고문헌 ~2010)는 집먼지진드기 회피의 효과가 &#x27;확실하다&#x27;고 적고(1980년대 입원 격리·소아 환경조절 연구), Middleton 86장(2014 추정)은 Cochrane 무효 결과를 들어 단일 조치를 권하지 않으며, 같은 책 28장은 그 메타분석이 결함이 있다고 비판합니다. 환자 문장은 &#x27;단일 조치는 효과가 없고 포괄적 관리는 도움이 될 수 있다&#x27;로 통일했습니다.</td></tr><tr><td>2</td><td>실내 습도 목표: 한글 교과서는 &#x27;40% 미만 유지가 한 방법&#x27;, Middleton 28장은 &#x27;상대습도 45~50% 미만 또는 절대습도 6 g/kg 미만&#x27;. 환자 문장은 &#x27;50% 미만, 가능하면 45% 이하&#x27;로 썼습니다.</td></tr><tr><td>5</td><td>고양이 제거 뒤 알레르겐 감소 기간: 한글 교과서 4~6개월(먼지 속 20주 이상, 매트리스 수년), Middleton 28장 12~16주(카펫 먼지가 8 µg/g 아래로 가는 데 최대 4개월). 환자 문장은 &#x27;보통 3~6개월, 매트리스는 더 오래&#x27;로 썼습니다.</td></tr><tr><td>8</td><td>공기청정기: 한글 교과서는 진드기에는 효과 의문·동물에는 침실 HEPA 권장, Middleton 86장은 동물에도 개인 노출 감소 효과가 불분명하고 Cochrane 소규모 시험 2건 무효. 환자 문장은 동물에 한해 &#x27;도움(2단계)&#x27;으로 두되 한계를 함께 적었습니다.</td></tr><tr><td>7</td><td>바퀴 알레르겐 역치: 한글 교과서 Bla g 2 U/g 감작·8 U/g 질병, Middleton 28장 Bla g 2 &gt;10 U/g 감작·질병. &#x27;2 U/g 이상 감작 위험, 8~10 U/g 이상 질병 활동&#x27;으로 병기했습니다.</td></tr><tr><td>13</td><td>담배연기 화학물질 수: 환경관리 장 &#x27;4,000종 이상(발암물질 40종 이상)&#x27;, 최신판 5장 &#x27;약 3,800종&#x27;. 환자 문장은 &#x27;수천 종&#x27;으로 썼습니다.</td></tr><tr><td>18</td><td>미세먼지와 알레르기 &#x27;발생&#x27;: 최신판 5장은 악화와의 연관은 일관되나 임신 중·영유아기 노출과 발생의 연관은 연구마다 다르다고 적어, 환자 문장은 &#x27;악화&#x27;에 한정했습니다.</td></tr><tr><td>19</td><td>회피 요법의 비중: 이전 판 환경관리 장은 알레르겐별 회피 수칙(표 1-1~1-3)을 장의 중심에 두었으나, 최신판의 해당 장(제5장)은 회피 수칙을 싣지 않고 기후변화·대기오염·실내공기오염과 그 기전·발생 배경으로 재편했습니다. 최신판이 회피 요법을 부정한 것은 아니므로(Middleton 86장도 포괄적 관리를 권함) 알레르겐군 조치는 유지하되, 이전 판에만 근거한 16개 조치는 &#x27;최신판 미수록&#x27;으로 표시해 검토를 받습니다.</td></tr></tbody></table>
+  <p class="small">전체 목록과 체크박스는 검토 보고서 §04(1차 12건)·§00-D(renewal 7건).</p>
+</section>
+
+<section id="s6">
+  <h2><span class="num">06.</span> 어디에 쓰이나</h2>
+  <table>
+    <thead><tr><th>층</th><th>파일</th><th>동작</th></tr></thead>
+    <tbody>
+      <tr><td>서비스</td><td><code>services/environment_control_service.py</code></td><td>항원 → 군 판별 · 단계순 조치 · 질문 키워드 매칭(한국어 조사 처리 + 희소성 가중) · 질문 게이팅(관리·회피 의도 ∧ 보고서 값 질문 아님) · 악화 요인 질문 판별 · 판정 결과 → 군별 안내('실제 주의' 항원만)</td></tr>
+      <tr><td>온톨로지 그래프</td><td><code>services/ontology_service.py</code></td><td>Wikipedia 질환 스냅샷 위에 교과서 층. <code>associatedWithDisease</code>·<code>aggravates</code>·<code>hasEtiologyContext</code> 로 질환 Topic 과 한 그래프에서 조인. 트리플 약 10,400 → 12,030. 검토 상태 <code>textbook_curated</code></td></tr>
+      <tr><td>결과 상담 챗봇</td><td><code>services/result_chat_service.py</code></td><td>관리 질문에 교과서 블록 주입(이 환자의 '실제 주의' 항원군으로 범위 축소), 악화 요인 질문에 성분·역치·조치 블록, '왜' 질문에 기전 한 줄. 규칙 25~28: 동물 제거·이사·기기 구매·약 지시 금지</td></tr>
+      <tr><td>리포트 · 카드뉴스</td><td><code>services/report_service.py</code> · <code>cardnews_*.py</code></td><td>'우선 실천 회피 수칙' 아래 <strong>왜 이렇게 하나요 — 환경관리 근거 요약</strong>. 카드뉴스 생활 수칙 카드 안에 근거 메모(카드 수 불변)</td></tr>
+      <tr><td>API</td><td><code>server.py</code></td><td><code>GET /api/knowledge/environment-control?group=mite&amp;q=공기청정기</code> · <code>/overview</code> · <code>/api/ontology/topics</code></td></tr>
+      <tr><td>기존 데이터</td><td><code>allergen_category_profiles.json</code> · <code>allergen_knowledge_base.json</code></td><td>템플릿 7개·흡입 알레르겐 14종 문장 교정(<code>textbook_updated</code>)</td></tr>
+    </tbody>
+  </table>
+  <h3>챗봇에 들어가는 블록 (예: "황사 올 때 외출해도 되나요?")</h3>
+<pre>[알레르겐 환경관리 일반 지식 — 교과서 정리, 이 환자의 검사 결과가 아님]
+출처: 알레르겐 환경관리 교과서 정리(한글 교과서 이전 판 환경관리·회피요법 장 + 최신판 5장 알레르기질환과 환경 + Middleton 26·27·28·86장), 알레르기 전문의 검토 전. 약 조정 지시 없음.
+
+(악화 요인: 실외 대기오염(미세먼지·황사·이산화황·이산화질소·오존))
+  요약: 대기오염물질은 입자(미세먼지)와 가스(오존·이산화질소·이산화황 등)가 섞인 혼합물로 …
+  · 황사: 국내에 들어오는 황사는 대개 10 µm 이하라 황사 경보도 PM10 농도로 발령합니다. …
+      근거: 황사로 미세먼지가 급증한 날과 그 뒤 약 3일까지 천식 환자의 호흡기 증상·기관지확장제 사용·최고호기유량 일중변동이 늘었습니다.
+  · 이산화황(SO₂): … 노출 2분 이내에 나타나 5~10분에 최대가 되고 30분 이내에 저절로 회복됩니다.
+      역치 SO₂ 흡입 농도 0.5 ppm — 대부분의 천식 환자가 천명·가슴 답답함·호흡곤란을 겪고 …
+  - [1단계 — 필수적이며 비용이 적은 조치] 황사 경보일과 그 뒤 3일은 외출·환기 줄이고 보건용 마스크: …
+      근거(관찰 연구…): 최신판 5장 … 마스크 효과 자체는 교과서에 없는 일반 권고.
+  기전(왜 그런가): 활성산소종·산화스트레스 — 오염물질은 기도에서 '산화스트레스'라는 손상을 일으켜 염증을 키웁니다.   ← '왜' 질문에만</pre>
+</section>
+
+<section id="s7">
+  <h2><span class="num">07.</span> 검토·승인 워크플로</h2>
+  <div class="timeline">
+    <div class="step"><div class="stage-meta">1</div><h4>검토 보고서 HTML 에서 체크·메모</h4><p>조치(<code>m:</code>)·쟁점(<code>dis:</code>)·성분(<code>c:</code>)·기전(<code>mech:</code>)·배경(<code>etio:</code>)·이전 판 전용(<code>ed:</code>) 체크박스와 메모가 브라우저에 저장되고 "검토 결과 복사(JSON)" 로 내보냄.</p></div>
+    <div class="step"><div class="stage-meta">2</div><h4><code>python scripts/review_environment_control.py --import review.json --by 이름</code></h4><p>체크한 조치는 <code>approved</code>, 군 메모는 <code>review_note</code>. 쟁점·설계·지식베이스 메모는 화면에 돌려주므로 사람이 반영. 개별 수정은 <code>--revise --text/--short</code>, 제외는 <code>--reject</code>. 로그 <code>data/environment_control_review_log.json</code>.</p></div>
+    <div class="step"><div class="stage-meta">3</div><h4>게이트 전환 <code>ENV_CONTROL_PATIENT_GATE=approved_only</code></h4><p>기본 <code>candidate_ok</code>(검토 전 조치도 '검토 전' 표기와 함께 노출) → 승인·수정만 노출. <code>rejected</code> 는 항상 제외. 게이트는 리포트·카드뉴스·챗봇에만 걸리고 개발 조회 API 는 <code>review_status</code> 로 구분.</p></div>
+  </div>
+  <div class="callout gold"><span class="title">상태 정의</span><code>candidate</code>(기본) → <code>approved</code> / <code>revised</code>(검토자가 문장을 고침, 승인과 같이 취급, 원문은 <code>review.original_*</code> 보존) / <code>rejected</code>(환자 화면에서 제외). <code>reviewed_by</code>·<code>reviewed_on</code>·<code>note</code> 기록.</div>
+</section>
+
+<section id="s8">
+  <h2><span class="num">08.</span> 최신판 대조 — 판 추적 (<code>edition_tracking</code>, 2026-10-13)</h2>
+  <p>최신판 제5장(pp.77-88, 12면)을 이전 판 &#x27;환경관리 및 회피요법&#x27; 장의 후속으로 보고 대조했다. 최신판 해당 장에는 알레르겐별 회피 수칙이 없으므로 알레르겐군 조치는 Middleton 근거가 있으면 유지하고, 이전 판 한글 교과서(또는 그 장이 인용한 국내 문헌)에만 기대는 조치는 전문의 검토 대상으로 표시했다.</p>
+  <table><thead><tr><th>edition_support</th><th>뜻</th><th>조치 수</th></tr></thead><tbody><tr><td><code>latest_ko</code></td><td>최신판 5장 근거</td><td class="num">12</td></tr><tr><td><code>previous_ko_plus_middleton</code></td><td>이전 판 한글 교과서 + Middleton</td><td class="num">32</td></tr><tr><td><code>middleton_only</code></td><td>Middleton 만</td><td class="num">15</td></tr><tr><td><code>previous_ko_only</code></td><td>이전 판 한글 교과서에만 근거(최신판 미수록) — 검토 필요</td><td class="num">16</td></tr></tbody></table>
+  <div class="callout"><span class="title">정책</span>previous_ko_only 조치는 삭제하지 않고 그대로 내보낸다(환자에게 해로운 조치는 없고, 최신판이 &#x27;틀렸다&#x27;고 한 것이 아니라 &#x27;다루지 않은&#x27; 것이기 때문). 다만 리포트·챗봇·API 의 edition_support 로 구분되며, 검토 워크플로에서 approved/revised/rejected 를 정하면 그 상태가 우선한다.</div>
+  <h3>이전 판 전용 조치 16개</h3>
+  <ul class="compact"><li><strong>집먼지진드기</strong> — 세탁 가능한 폴리에스테르 베개, 2주마다 온수 세탁</li><li><strong>집먼지진드기</strong> — 옷은 세탁해 옷장에, 옷장 문 닫기</li><li><strong>고양이</strong> — 만진 뒤 손 씻기, 눈·얼굴 비비지 않기</li><li><strong>개</strong> — 만진 뒤 손 씻기</li><li><strong>바퀴</strong> — 다세대 건물은 건물 전체 방제, 안 되면 이사 고려</li><li><strong>실내 곰팡이</strong> — 실내 화분·관상수 줄이기</li><li><strong>실내 곰팡이</strong> — 곰팡이를 줄이면 진드기도 줄어듦</li><li><strong>실내 곰팡이</strong> — 공기청정기 효과는 연구 부족</li><li><strong>실외 곰팡이</strong> — 낙엽·퇴비·건초·멀칭 작업 피하기, 하면 마스크</li><li><strong>실외 곰팡이</strong> — 집 주변 배수 확보, 낙엽·찌꺼기 제거</li><li><strong>실외 곰팡이</strong> — 외출 후 손·얼굴 씻기, 옷 갈아입기</li><li><strong>꽃가루(화분)</strong> — 외출 시 마스크·고글(안경)</li><li><strong>꽃가루(화분)</strong> — 귀가 후 손·얼굴 씻기, 옷 갈아입기, 매일 머리 감기</li><li><strong>꽃가루(화분)</strong> — 빨래는 실내 건조</li><li><strong>꽃가루(화분)</strong> — 잔디 깎기·풀 베기·땅 갈기 피하기</li><li><strong>실내 연소(가스레인지·석유/장작 난로)</strong> — 가스레인지 사용 시 반드시 환기(후드), 실내 석유·장작 난로 금지</li></ul>
+</section>
+
+<section id="s9">
+  <h2><span class="num">09.</span> 남은 과제</h2>
+  <ul class="compact">
+    <li><strong>알레르기 전문의 검토</strong> — 조치 75개 모두 <code>candidate</code>. 검토 보고서로 체크·메모 → <code>--import</code> → <code>approved_only</code>. 지식베이스·템플릿 문장(<code>textbook_updated</code>)은 아직 승인 체계 밖.</li>
+    <li><strong>이전 판 전용 조치 16개</strong> 유지·수정·삭제 결정(검토 보고서 §00-H).</li>
+    <li>교과서 <strong>서지(제목·판·출판사)</strong> 확인 → 출처 두 건 보완.</li>
+    <li>미세먼지·황사·오존 <strong>예보 연동</strong>(에어코리아·기상청) → 리포트 '오늘의 주의' 블록.</li>
+    <li>국내 공중화분 보고로 꽃가루 시기·농도 보강, 환삼덩굴 교차반응, 알레르겐군 ↔ SNOMED 코드 연결, 환경관리 층 임베딩 검색.</li>
+  </ul>
+</section>
+
+<section id="s10">
+  <h2><span class="num">10.</span> 문서 링크</h2>
+  <a class="btn" href="review_2026-10-13_알레르겐_환경관리_교과서반영_검토보고서.html">검토 보고서 (2026-10-13 renewal)</a>
+  <a class="btn ghost" href="review_2026-10-09_알레르겐_환경관리_교과서반영_검토보고서.html">검토 보고서 (2026-10-09 1차)</a>
+  <a class="btn ghost" href="allergen_environment_textbook_integration_2026-10-13.md">통합 기록 10-13 (md)</a>
+  <a class="btn ghost" href="allergen_environment_textbook_integration_2026-10-09.md">통합 기록 10-09 (md)</a>
+  <p class="small">데이터: <code>data/allergen_environment_control.json</code> · 테스트: <code>test_environment_control.py</code>(46) · <code>test_environment_control_review.py</code>(9) · 전체 회귀 1,040건 통과.</p>
+</section>
+
+<footer>APAAACI 알레르기 리포트 플랫폼 · 알레르겐 환경관리 교과서 층 고도화 개요 · 2026-10-13 · 모든 의학 문장은 알레르기 전문의 검토 전</footer>
+</div>
+</body>
+</html>

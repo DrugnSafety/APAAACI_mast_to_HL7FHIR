@@ -1,0 +1,256 @@
+{
+  "date": "2026-10-30T06:24:08.847Z",
+  "checks": 49,
+  "failures": 0,
+  "errors": [],
+  "external": [],
+  "mutations": [],
+  "results": [
+    {
+      "name": "index.html one visible title",
+      "pass": true,
+      "detail": "1"
+    },
+    {
+      "name": "index.html desktop width",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "index.html mobile width",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "implementation_guide.html one visible title",
+      "pass": true,
+      "detail": "1"
+    },
+    {
+      "name": "implementation_guide.html desktop width",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "implementation_guide.html mobile width",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "patient_satisfaction.html one visible title",
+      "pass": true,
+      "detail": "1"
+    },
+    {
+      "name": "patient_satisfaction.html desktop width",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "patient_satisfaction.html mobile width",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "no preselected answers",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "no real identifiers requested",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "missing entry stays on entry",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "six rating items",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "S1 canonical wording",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "S1 seven options",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "S2 canonical wording",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "S2 seven options",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "S3 canonical wording",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "S3 seven options",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "S4 canonical wording",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "S4 seven options",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "S5 canonical wording",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "S5 seven options",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "S6 canonical wording",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "S6 seven options",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "comment has 300 character cap",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "safe comment review",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "blank answer remains optional",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "completion does not claim transmission",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "preview export boundary",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "guardian recorded",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "numeric answer retained",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "unable distinct",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "skip distinct",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "blank distinct",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "comment export retained",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "restart clears answers",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "nonviewer skips rating items",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "nonviewer review excludes hidden answers",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "nonviewer export excludes hidden values",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "nonviewer reason recorded",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "assisted patient recorded",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "exit clears responses",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile ratings have no page overflow",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "mobile rating labels meet touch height",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "print shows complete blank questionnaire",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "no external network requests",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "name": "no network submission",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "name": "no browser persistence",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "word_native_render": false
+}

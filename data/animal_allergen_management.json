@@ -1,0 +1,857 @@
+{
+  "version": "2.0",
+  "compiled_on": "2026-10-06",
+  "review_status": "candidate — 알레르기 전문의 검토 전",
+  "note_ko": "동물 항원이 '실제 주의'(감작+증상)로 판정됐을 때 쓰는 구체적 관리 안내. 문진의 동물별 접촉 답(함께 삶 / 자주 / 가끔 / 거의 없음)과 반려동물 답(pets / pets_other)으로 '함께 사는 경우(owner)'와 '키우지 않는 경우(non_owner)'를 나누고, 일하면서 다루는 동물이면 occupational 안내를 덧붙인다. 각 문장은 sources 의 지침 본문 또는 문헌 초록에서 확인한 내용만 담았고, 수치는 원문 그대로다. sources 의 verified 는 실제로 읽은 범위다(PMC 전문 / PubMed 초록). 문장마다 strength(evidence_levels 의 키)와, 필요한 곳에 basis_note_ko(지침 등급·한계)를 적었다. strength=expert_practice 는 연구 근거가 아니라 진료 관행에 해당하는 문장이다. 2026-10-06 추가 문헌 검토(v2.0): 미국 AAAAI/ACAAI 실무지침 2건(털 있는 동물·설치류)과 NAEPP 2020 을 PMC 전문으로 읽어 문장을 대조했고, 기존 초록 9편 가운데 PMC 전문이 있는 것은 없었다(Nicholas 2011 은 PMC 에 등록돼 있으나 본문 텍스트가 없다). GINA 2021 요약(Reddel 2022)과 ARIA 2024-2025 개정 본문에는 동물 회피에 관한 권고 문장이 없어 근거로 쓰지 않았다.",
+  "evidence_levels": {
+    "guideline": "진료지침의 권고다. 지침이 매긴 등급은 basis_note_ko 에 적는다(대부분 관찰 연구에 기댄 낮은 등급이다).",
+    "trial": "무작위·대조 임상시험이 있다. 결과가 엇갈리면 basis_note_ko 에 적는다.",
+    "observational": "알레르겐 농도 측정이나 비무작위 추적 같은 관찰 연구다. 증상이 줄어든다는 것을 직접 보인 것은 아니다.",
+    "limited": "소규모·단일 연구이거나 다른 상황(실험실·노출 실험)에서 끌어온 간접 근거다. 환자 문장에는 한계를 함께 적는다.",
+    "expert_practice": "연구 근거가 아닌 진료 관행이다."
+  },
+  "sources": {
+    "kaaaci_ar_2023": {
+      "citation": "Park DY, Lee YJ, Kim DK, et al. KAAACI Allergic Rhinitis Guidelines: Part 2. Update in Non-pharmacological Management. Allergy Asthma Immunol Res. 2023;15(2):145-159.",
+      "pmid": "37021502",
+      "doi": "10.4168/aair.2023.15.2.145",
+      "verified": "PMC 전문(Key Question 5: 반려동물 회피·환경관리)",
+      "finding_ko": "반려동물로 증상이 생기는 알레르기 비염 환자에게 공기청정기·동물 목욕·회피와 환경 관리를 선택적으로 권할 수 있다(조건부 권고, 근거수준 매우 낮음). 환경 관리는 실내 알레르겐을 줄였지만 전체 코 증상과 구제약 사용은 줄이지 못했다. 분석된 연구는 모두 고양이 대상이다. 안내 항목: 침실 카펫 제거, 옷장 닫기, 바닥·가구·카펫 주 1회 청소, 침구 주 1회 60℃ 세탁과 커버, 2주마다 동물 목욕, 침실 출입 금지, HEPA 공기청정기·청소기."
+    },
+    "wood_1989": {
+      "citation": "Wood RA, Chapman MD, Adkinson NF Jr, Eggleston PA. The effect of cat removal on allergen content in household-dust samples. J Allergy Clin Immunol. 1989;83(4):730-734.",
+      "pmid": "2708734",
+      "doi": "10.1016/0091-6749(89)90006-7",
+      "verified": "PubMed 초록(PMC 전문 없음 — 2026-10-06 확인). 연구 내용은 AAAAI/ACAAI 2012 지침 본문의 인용 서술과 대조했다.",
+      "finding_ko": "고양이를 내보낸 15가구에서 집먼지 속 Fel d 1 은 서서히 줄어, 20~24주 뒤 8가구가 고양이 없는 집 수준이 됐다. 적극적으로 환경을 관리한 2가구는 훨씬 빨리 줄었고, 나머지 7가구는 더 느렸다. 지침 본문의 서술로는 15가구 가운데 3가구는 고양이가 떠난 뒤에도 거의 줄지 않았다."
+    },
+    "avner_1997": {
+      "citation": "Avner DB, Perzanowski MS, Platts-Mills TA, Woodfolk JA. Evaluation of different techniques for washing cats: quantitation of allergen removed from the cat and the effect on airborne Fel d 1. J Allergy Clin Immunol. 1997;100(3):307-312.",
+      "pmid": "9314341",
+      "doi": "10.1016/s0091-6749(97)70242-2",
+      "verified": "PubMed 초록(PMC 전문 없음 — 2026-10-06 확인). 연구 내용은 AAAAI/ACAAI 2012 지침 본문의 인용 서술과 대조했다.",
+      "finding_ko": "고양이를 씻기면 3시간 뒤 공기 중 Fel d 1 이 줄지만, 그 감소는 1주 뒤까지 유지되지 않았다. 지침 본문의 서술: 5주 동안 매주 씻기면 공기 중 Fel d 1 이 평균 44%, 3분간 담가 씻기면 79% 줄었으나 1주 뒤에는 유지되지 않았다."
+    },
+    "hodson_1999": {
+      "citation": "Hodson T, Custovic A, Simpson A, Chapman M, Woodcock A, Green R. Washing the dog reduces dog allergen levels, but the dog needs to be washed twice a week. J Allergy Clin Immunol. 1999;103(4):581-585.",
+      "pmid": "10200004",
+      "doi": "10.1016/s0091-6749(99)70227-7",
+      "verified": "PubMed 초록(PMC 전문 없음 — 2026-10-06 확인). 연구 내용은 AAAAI/ACAAI 2012 지침 본문의 인용 서술과 대조했다.",
+      "finding_ko": "개를 씻기면 털·비듬의 Can f 1 이 84~86% 줄지만 3일째부터는 씻기 전과 차이가 없었다. 줄어든 상태를 유지하려면 주 2회 이상 씻겨야 하고, 공기 중 Can f 1 감소는 크지 않았다."
+    },
+    "wood_1998": {
+      "citation": "Wood RA, Johnson EF, Van Natta ML, Chen PH, Eggleston PA. A placebo-controlled trial of a HEPA air cleaner in the treatment of cat allergy. Am J Respir Crit Care Med. 1998;158(1):115-120.",
+      "pmid": "9655716",
+      "doi": "10.1164/ajrccm.158.1.9712110",
+      "verified": "PubMed 초록(PMC 전문 없음 — 2026-10-06 확인). 연구 내용은 AAAAI/ACAAI 2012 지침 본문의 인용 서술과 대조했다.",
+      "finding_ko": "고양이와 사는 고양이 알레르기 환자 35명. 침실 HEPA 공기청정기 + 매트리스·베개 커버 + 침실 출입 금지로 공기 중 고양이 알레르겐은 줄었지만, 코·가슴 증상과 최대호기유속, 구제약 사용에는 차이가 없었다."
+    },
+    "shirai_2005": {
+      "citation": "Shirai T, Matsui T, Suzuki K, Chida K. Effect of pet removal on pet allergic asthma. Chest. 2005;127(5):1565-1571.",
+      "pmid": "15888829",
+      "doi": "10.1378/chest.127.5.1565",
+      "verified": "PubMed 초록(PMC 전문 없음 — 2026-10-06 확인). 연구 내용은 AAAAI/ACAAI 2012 지침 본문의 인용 서술과 대조했다.",
+      "finding_ko": "반려동물 알레르기 천식 20명(햄스터·고양이·개·페럿)의 비무작위 관찰 연구. 1년 이상 추적했을 때 동물을 내보낸 10명은 기도과민성이 더 많이 좋아졌고 흡입 스테로이드가 필요 없었으나, 계속 키운 10명은 1명을 빼고 모두 흡입 스테로이드가 필요했다."
+    },
+    "bollinger_1996": {
+      "citation": "Bollinger ME, Eggleston PA, Flanagan E, Wood RA. Cat antigen in homes with and without cats may induce allergic symptoms. J Allergy Clin Immunol. 1996;97(4):907-914.",
+      "pmid": "8655885",
+      "doi": "10.1016/s0091-6749(96)80064-9",
+      "verified": "PubMed 초록(PMC 전문 없음 — 2026-10-06 확인). 연구 내용은 AAAAI/ACAAI 2012 지침 본문의 인용 서술과 대조했다.",
+      "finding_ko": "고양이가 없는 집 40곳 중 38곳의 먼지에서, 10곳의 공기에서 Fel d 1 이 검출됐다. 이 농도는 고양이 알레르기 환자에게 상·하기도 증상을 일으킬 수 있는 범위였다. 노출 평가는 집에 고양이가 있는지만으로 해서는 안 된다."
+    },
+    "almqvist_1999": {
+      "citation": "Almqvist C, Larsson PH, Egmar AC, Hedrén M, Malmberg P, Wickman M. School as a risk environment for children allergic to cats and a site for transfer of cat allergen to homes. J Allergy Clin Immunol. 1999;103(6):1012-1017.",
+      "pmid": "10359879",
+      "doi": "10.1016/s0091-6749(99)70172-7",
+      "verified": "PubMed 초록(PMC 전문 없음 — 2026-10-06 확인)",
+      "finding_ko": "고양이 알레르겐은 고양이를 키우는 집에서 옷을 통해 교실로 옮겨지고, 공기 중에 퍼져 고양이를 키우지 않는 아이의 옷도 오염시킨다. 고양이 주인이 많은 반의 공기 중 농도는 적은 반의 5배였다."
+    },
+    "karlsson_2004": {
+      "citation": "Karlsson AS, Andersson B, Renström A, Svedmyr J, Larsson K, Borres MP. Airborne cat allergen reduction in classrooms that use special school clothing or ban pet ownership. J Allergy Clin Immunol. 2004;113(6):1172-1177.",
+      "pmid": "15208601",
+      "doi": "10.1016/j.jaci.2003.12.590",
+      "verified": "PubMed 초록(PMC 전문 없음 — 2026-10-06 확인)",
+      "finding_ko": "고양이 주인의 옷에는 키우지 않는 아이 옷의 3배만큼 고양이 알레르겐이 묻어 있었다. 학교 전용 옷으로 갈아입힌 반은 공기 중 농도가 4~6배 낮았다(증상에 대한 효과는 평가되지 않음)."
+    },
+    "nicholas_2011": {
+      "citation": "Nicholas CE, Wegienka GR, Havstad SL, Zoratti EM, Ownby DR, Johnson CC. Dog allergen levels in homes with hypoallergenic compared with nonhypoallergenic dogs. Am J Rhinol Allergy. 2011;25(4):252-256.",
+      "pmid": "21819763",
+      "doi": "10.2500/ajra.2011.25.3606",
+      "verified": "PubMed 초록(PMC3680143 에 등록돼 있으나 본문 텍스트가 제공되지 않음)",
+      "finding_ko": "'저알레르기' 품종을 키우는 집의 먼지 속 개 알레르겐(Can f 1)은 다른 품종을 키우는 집과 차이가 없었다."
+    },
+    "aaaai_furry_2012": {
+      "citation": "Portnoy J, Kennedy K, Sublett J, et al. Environmental assessment and exposure control: a practice parameter—furry animals. Ann Allergy Asthma Immunol. 2012;108(4):223.e1-15.",
+      "pmid": "22469456",
+      "doi": "10.1016/j.anai.2012.02.015",
+      "verified": "PMC 전문(PMC3519933) — 요약문 4·6·7·8·11~14·17·18·21·24·25·28 과 해설",
+      "finding_ko": "미국 AAAAI/ACAAI 실무지침(고양이·개). 요약문과 등급: 알레르겐이 없는 고양이·개는 없으므로 '저알레르기' 동물을 들이면 안전하다고 조언하지 않는다(4·7, C). 고양이 알레르겐이 많은 곳에서 적은 곳으로 갈 때 옷을 갈아입는 것을 고려한다(6, C). 노출을 줄이려는 방에는 개를 들이지 않는다(8, C). 감작된 사람은 천식이 생길 가능성을 줄이기 위해 고양이·개 노출을 최소화한다(11·12, C). 이미 천식이 있는 감작된 학령기 아동·성인은 악화를 줄이기 위해 노출을 최소화한다(13·14, A). 회피가 가장 효과적이며 동물을 내보내는 것을 고려하도록 조언한다(17, A). 동물과 계속 살 때는 저장소 제거·침실 출입 금지·목욕·HEPA 공기청정기·환기·매트리스와 베개 커버를 조합하면 도움이 될 수 있다(18·28, C). 주 1회 이상 씻기면 공기 중 알레르겐이 줄지만 임상 효과는 증명되지 않았고 효과가 지속되지 않는다(21, B). 고효율·중앙집진 청소기를 오래 쓰면 노출이 줄지만 건강 효과는 불확실하다(24, B). HEPA 공기청정기를 계속 틀면 농도가 줄지만 임상 효과는 알 수 없다(25, B). 집에 동물이 없다고 해서 임상적으로 의미 있는 노출이 없는 것은 아니다(직장·학교·친지의 집). 병원의 천 의자도 고양이·개 알레르겐의 저장소였다. 고양이·개 외의 동물은 다루지 않는다."
+    },
+    "aaaai_rodent_2012": {
+      "citation": "Phipatanakul W, Matsui E, Portnoy J, et al. Environmental assessment and exposure reduction of rodents: a practice parameter. Ann Allergy Asthma Immunol. 2012;109(6):375-87.",
+      "pmid": "23176873",
+      "doi": "10.1016/j.anai.2012.09.019",
+      "verified": "PMC 전문(PMC3519934) — 권고 1~3·15~19 와 해설",
+      "finding_ko": "미국 AAAAI/ACAAI 실무지침(설치류). 감작된 사람이 호흡기 증상으로 진행할 위험을 줄이기 위해 설치류 알레르겐 노출을 최소화한다(권고 2, 근거 C). 이미 감작된 사람의 천식 악화 위험을 줄이기 위해 쥐·생쥐 노출을 최소화한다(3, 강한 권고, B). 집 안의 설치류 알레르겐은 통합 방제로 줄일 수 있다(15, 강한 권고, A). 실험동물 시설에서는 입사 뒤 적어도 3년 동안 감작을 추적 관찰하고(16, C), 아토피가 있거나 노출이 심한 사람은 더 조심하며(17, B), 오염된 깔짚과 깨어 있는 동물 여러 마리를 다룰 때 노출이 가장 크므로 더 조심하고(18, B), 공학적 관리·교육·보호구로 노출을 줄인다(19, B). 본문: 실험동물 종사자의 약 3분의 1에서 직업성 알레르기가 생기고 감작은 대개 첫 3년 안에 일어난다. 종사자의 집 매트리스에서 쥐·생쥐 알레르겐이 더 높았고 머리덮개를 쓰면 줄었으며, 종사자의 자녀는 부모가 다루는 동물에 감작될 위험이 높았다. 기니피그·햄스터·저빌 같은 반려 설치류는 한정된 공간에서 기르므로 노출을 가둘 수 있고 필요하면 동물을 내보내는 것으로 쉽게 해결된다. 설치류 면역치료는 연구가 부족해 권고하지 않는다(7, D). 토끼는 설치류가 아니어서 다루지 않는다."
+    },
+    "naepp_2020": {
+      "citation": "Cloutier MM, Baptist AP, Blake KV, et al. 2020 Focused Updates to the Asthma Management Guidelines: A Report from the National Asthma Education and Prevention Program Coordinating Committee Expert Panel Working Group. J Allergy Clin Immunol. 2020;146(6):1217-1270.",
+      "pmid": "33280709",
+      "doi": "10.1016/j.jaci.2020.10.003",
+      "verified": "PMC 전문(PMC7924476) — 알레르겐 저감 권고 5~8 과 해설",
+      "finding_ko": "미국 천식 지침 2020 개정. 특정 실내 알레르겐에 감작되지 않았거나 그 노출과 관련된 증상이 없는 천식 환자에게는 알레르겐 저감을 일상 관리로 권하지 않는다(권고 5, 조건부). 확인된 실내 알레르겐 노출과 관련된 증상이 있는 환자에게는 여러 조치를 묶은 저감을 권한다(6, 조건부). 해충(바퀴·설치류)에는 통합 방제를 단독으로 또는 묶음의 일부로 권한다(7, 조건부). 단일 조치의 근거 확실성은 낮거나 매우 낮았고, 반려동물을 내보내는 것을 포함한 묶음 조치의 결과는 결론을 내릴 수 없었다."
+    },
+    "leas_2018": {
+      "citation": "Leas BF, D'Anci KE, Apter AJ, et al. Effectiveness of indoor allergen reduction in asthma management: A systematic review. J Allergy Clin Immunol. 2018;141(5):1854-1869.",
+      "pmid": "29452202",
+      "doi": "10.1016/j.jaci.2018.02.001",
+      "verified": "PubMed 초록",
+      "finding_ko": "체계적 고찰(무작위 59건·비무작위 8건, NAEPP 2020 의 근거). 대부분의 조치와 결과에서 근거는 결론을 내릴 수 없거나 효과가 없었다. 단일 조치는 대체로 천식 지표를 개선하지 못했고, 여러 조치를 묶으면 일부 결과가 좋아졌으나 어떤 조합이 더 나은지는 알 수 없었다. 공기청정기 연구에서 삶의 질은 나아졌다(근거 강도 낮음)."
+    },
+    "kilburn_2003": {
+      "citation": "Kilburn S, Lasserson TJ, McKean M. Pet allergen control measures for allergic asthma in children and adults. Cochrane Database Syst Rev. 2003;(1):CD002989.",
+      "pmid": "12535446",
+      "doi": "10.1002/14651858.CD002989",
+      "verified": "PubMed 초록",
+      "finding_ko": "코크란 고찰. 포함 기준을 채운 시험은 공기 여과 장치 2건뿐이고 둘 다 작았다(22명·35명). 중재군과 대조군 사이에 유의한 차이가 없었고, 시험이 너무 작아 효과가 있다고도 없다고도 할 수 없다."
+    },
+    "van_der_heide_1999": {
+      "citation": "van der Heide S, van Aalderen WM, Kauffman HF, Dubois AE, de Monchy JG. Clinical effects of air cleaners in homes of asthmatic children sensitized to pet allergens. J Allergy Clin Immunol. 1999;104(2 Pt 1):447-451.",
+      "pmid": "10452769",
+      "doi": "10.1016/s0091-6749(99)70391-x",
+      "verified": "PubMed 초록",
+      "finding_ko": "고양이·개에 감작되고 집에 동물이 있는 천식 소아 20명의 이중맹검 교차시험. 거실과 침실에 공기청정기를 3개월 두자 기도 과민성과 최대호기유속 변동폭이 나아졌다. 바닥 먼지의 알레르겐은 변하지 않았다. (지침 본문: 증상 점수와 약 사용에는 차이가 없었다.)"
+    },
+    "francis_2003": {
+      "citation": "Francis H, Fletcher G, Anthony C, et al. Clinical effects of air filters in homes of asthmatic adults sensitized and exposed to pet allergens. Clin Exp Allergy. 2003;33(1):101-105.",
+      "pmid": "12534557",
+      "doi": "10.1046/j.1365-2222.2003.01570.x",
+      "verified": "PubMed 초록",
+      "finding_ko": "고양이·개와 사는 감작된 성인 천식 30명 무작위시험(12개월). 공기청정기와 HEPA 청소기를 함께 쓴 군은 15명 중 10명, HEPA 청소기만 쓴 군은 15명 중 3명에서 기도 과민성 또는 치료 단계가 나아졌다(P=0.01). 폐기능과 알레르겐 농도에는 차이가 없었고, 저자들은 위약 효과를 완전히 배제하지 못했다고 적었다."
+    },
+    "vredegoor_2012": {
+      "citation": "Vredegoor DW, Willemse T, Chapman MD, Heederik DJ, Krop EJ. Can f 1 levels in hair and homes of different dog breeds: lack of evidence to describe any dog breed as hypoallergenic. J Allergy Clin Immunol. 2012;130(4):904-909.e7.",
+      "pmid": "22728082",
+      "doi": "10.1016/j.jaci.2012.05.013",
+      "verified": "PubMed 초록",
+      "finding_ko": "'저알레르기' 품종(래브라두들·푸들 등)의 털에서는 Can f 1 이 오히려 더 높게 나왔고, 공기 중 농도는 품종 사이에 차이가 없었다. 품종 간 차이보다 같은 품종 안의 개체 차이가 컸다."
+    },
+    "satyaraj_2019": {
+      "citation": "Satyaraj E, Gardner C, Filipi I, Cramer K, Sherrill S. Reduction of active Fel d1 from cats using an antiFel d1 egg IgY antibody. Immun Inflamm Dis. 2019;7(2):68-73.",
+      "pmid": "30851084",
+      "doi": "10.1002/iid3.244",
+      "verified": "PMC 전문(PMC6485700)",
+      "finding_ko": "항-Fel d 1 IgY 항체를 넣은 사료를 고양이 105마리에게 10주 먹이자 털의 활성 Fel d 1 이 평균 47% 줄었다(대조군 없는 전후 비교). 사람의 증상은 재지 않았다. 저자 전원이 제조사 소속이고 제조사가 연구비 전액을 댔다."
+    },
+    "satyaraj_2019_pathway": {
+      "citation": "Satyaraj E, Wedner HJ, Bousquet J. Keep the cat, change the care pathway: A transformational approach to managing Fel d 1, the major cat allergen. Allergy. 2019;74 Suppl 107:5-17.",
+      "pmid": "31498459",
+      "doi": "10.1111/all.14013",
+      "verified": "PubMed 초록",
+      "finding_ko": "같은 사료의 근거를 정리한 학회 발표 요약. 사람을 대상으로 한 자료는 고양이 알레르기 환자의 예비(pilot) 노출 연구뿐이라고 적었다."
+    },
+    "berkowitz_2006": {
+      "citation": "Berkowitz RB, Braker S, Lutz C, et al. Efficacy of fexofenadine in the prophylactic control of cat allergen-induced allergic rhinitis. Ann Allergy Asthma Immunol. 2006;96(2):327-333.",
+      "pmid": "16498855",
+      "doi": "10.1016/S1081-1206(10)61243-4",
+      "verified": "PubMed 초록",
+      "finding_ko": "고양이 방 노출 실험(무작위 이중맹검 교차, 63명 완료). 노출 1시간 30분 전에 항히스타민제(펙소페나딘)를 한 번 먹으면 노출 30분 뒤의 코·눈 증상 점수 증가가 위약보다 작았다(P=0.03). 한 번의 노출 실험이고 천식 증상은 보지 않았다."
+    },
+    "ling_2010": {
+      "citation": "Ling M, Long AA. Pet dander and difficult-to-control asthma: Therapeutic options. Allergy Asthma Proc. 2010;31(5):385-391.",
+      "pmid": "20929605",
+      "doi": "10.2500/aap.2010.31.3390",
+      "verified": "PubMed 초록",
+      "finding_ko": "종설. 반려동물 알레르기 환자에서 예상되는 노출 전에 항히스타민제를 미리 쓰는 것을 보조 치료로 고려할 수 있다고 적었다."
+    },
+    "schoos_2019": {
+      "citation": "Schoos AM, Chawes BL, Bloch J, et al. Children Monosensitized to Can f 5 Show Different Reactions to Male and Female Dog Allergen Extract Provocation: A Randomized Controlled Trial. J Allergy Clin Immunol Pract. 2020;8(5):1592-1597.e2.",
+      "pmid": "31863911",
+      "doi": "10.1016/j.jaip.2019.12.012",
+      "verified": "PubMed 초록",
+      "finding_ko": "개에 감작된 15~18세 22명. 수컷 개의 전립선에서 나오는 성분(Can f 5)에만 감작된 7명은 모두 수컷 개 추출물 피부시험에 양성이었고 암컷 추출물에는 1명만 양성이었다. 결막 유발시험도 수컷 5명, 암컷 1명이었다. 여러 성분에 감작된 아이는 차이가 없었다. 소규모 유발시험이고 실제 생활에서의 경과를 본 것은 아니다."
+    },
+    "zahradnik_2014": {
+      "citation": "Zahradnik E, Raulf M. Animal allergens and their presence in the environment. Front Immunol. 2014;5:76.",
+      "pmid": "24624129",
+      "doi": "10.3389/fimmu.2014.00076",
+      "verified": "PMC 전문(PMC3939690) — 말·소·설치류 절",
+      "finding_ko": "종설. 말: 알레르기는 주로 직접 접촉하는 사람(농부·마구간 종사자·수의사·말 주인과 기수)에서 생긴다. 마구간 안의 공기 중 말 알레르겐은 입구 바깥의 약 500배였고 40m 떨어진 곳에서는 검출되지 않았으며 대체로 50m 안에서 퍼졌다. 말과 정기적으로 접촉하는 아이가 많은 교실은 말 알레르겐이 유의하게 높았다. 소: 알레르기는 거의 전부 직업 노출(축산 농가)과 관련된다. 축사의 소 알레르겐은 집 안의 약 1,000배였고, 농가의 집 안에서는 옷을 갈아입는 방에서 가장 높았으며, 축사와 살림집이 떨어져 있으면 집 안 농도가 뚜렷이 낮았다. 설치류: 직업 환경의 설치류 알레르기 유병률은 11~44%이고 감작과 작업 관련 증상은 늦어도 노출 시작 2~3년 안에 생긴다. 토끼·기니피그·햄스터는 환경 농도를 재는 검사법이 없어 노출 자료가 없다."
+    },
+    "zahradnik_2018": {
+      "citation": "Zahradnik E, Janssen-Weets B, Sander I, et al. Lower allergen levels in hypoallergenic Curly Horses? A comparison among breeds by measurements of horse allergens in hair and air samples. PLoS One. 2018;13(12):e0207871.",
+      "pmid": "30540798",
+      "doi": "10.1371/journal.pone.0207871",
+      "verified": "PubMed 초록(PMC6291085 전문이 있으나 초록만 읽음)",
+      "finding_ko": "32개 품종의 말 털 224건. '저알레르기'로 알려진 컬리 호스는 털의 말 알레르겐이 대부분의 품종보다 오히려 높았고, 손질할 때의 공기 중 농도도 다른 품종과 차이가 없었다. 개체 간 차이가 품종 차이보다 훨씬 컸다. 수말은 암말보다 알레르겐이 2~7배 많았다."
+    },
+    "matsui_2017": {
+      "citation": "Matsui EC, Perzanowski M, Peng RD, et al. Effect of an Integrated Pest Management Intervention on Asthma Symptoms Among Mouse-Sensitized Children and Adolescents With Asthma: A Randomized Clinical Trial. JAMA. 2017;317(10):1027-1036.",
+      "pmid": "28264080",
+      "doi": "10.1001/jama.2016.21048",
+      "verified": "PubMed 초록(PMC5632564 전문이 있으나 초록만 읽음)",
+      "finding_ko": "생쥐에 감작되고 집에서 노출되는 천식 소아·청소년 361명 무작위시험. 전문가가 하는 통합 방제에 방제 교육을 더한 군과 방제 교육만 받은 군 사이에 1년 동안의 증상 일수는 유의한 차이가 없었다(증상 빈도 비 0.86, 95% CI 0.69-1.06)."
+    },
+    "choi_2007": {
+      "citation": "Choi JH, Kim HM, Park HS. Allergic asthma and rhinitis caused by household rabbit exposure: identification of serum-specific IgE and its allergens. J Korean Med Sci. 2007;22(5):820-824.",
+      "pmid": "17982229",
+      "doi": "10.3346/jkms.2007.22.5.820",
+      "verified": "PubMed 초록(PMC2693847 전문이 있으나 초록만 읽음)",
+      "finding_ko": "국내 증례 3명. 집에서 기르는 토끼에 노출돼 천식·비염이 생겼고 토끼 상피 특이 IgE 가 높았다. 고양이·개 상피로는 억제되지 않았다(토끼 고유의 감작). 저자들은 가정의 토끼로 심한 호흡기 알레르기가 생기는 일은 드물다고 적었다."
+    },
+    "torres_2014": {
+      "citation": "Torres JA, de Las Heras M, Maroto AS, et al. Molecular and immunological characterization of the first allergenic lipocalin in hamster: the major allergen from Siberian hamster (Phodopus sungorus). J Biol Chem. 2014;289(34):23382-23388.",
+      "pmid": "24993820",
+      "doi": "10.1074/jbc.M114.579060",
+      "verified": "PubMed 초록",
+      "finding_ko": "시베리아 햄스터의 주 알레르겐(리포칼린)은 일반 햄스터·골든 햄스터와 교차반응하지 않았다(환자 13명)."
+    },
+    "swiontek_2021": {
+      "citation": "Swiontek K, Kler S, Lehners C, et al. Component-resolved diagnosis using guinea-pig allergens elucidates allergen sensitization profiles in allergy to furry animals. Clin Exp Allergy. 2021;51(6):829-835.",
+      "pmid": "33797108",
+      "doi": "10.1111/cea.13873",
+      "verified": "PubMed 초록(PMC8251889 전문이 있으나 초록만 읽음)",
+      "finding_ko": "고양이·개 알레르기 환자 30명 가운데 73%가 기니피그 비듬 추출물에도 특이 IgE 가 있었지만, 기니피그 고유 항원(Cav p 1·2·3)에 양성인 사람은 27%였다. 추출물 양성의 상당수는 혈청 알부민·리포칼린의 교차반응으로 설명된다."
+    },
+    "moscato_2009": {
+      "citation": "Moscato G, Vandenplas O, Van Wijk RG, et al. EAACI position paper on occupational rhinitis. Respir Res. 2009;10:16.",
+      "pmid": "19257881",
+      "doi": "10.1186/1465-9921-10-16",
+      "verified": "PMC 전문(PMC2654869) — 핵심 문장과 관리 절",
+      "finding_ko": "EAACI 직업성 비염 입장문. 직업성 천식 환자의 대부분은 직업성 비염도 있고, 비염이 천식보다 먼저 나타나는 경우가 많다(고분자 항원에서 특히). 직업성 비염 보상 신청자의 천식 위험은 다른 직업병 환자의 4.8배였다(95% CI 4.3-5.4). 원인 물질 노출을 완전히 피하는 것이 가장 안전하고 효과적이며, 그것이 사회경제적으로 어려우면 노출을 줄이고 약물 치료를 하면서 천식이 생기는지 면밀히 지켜보는 것을 대안으로 고려할 수 있다. 호흡 보호구는 실험동물 직업성 비염·천식에서 일부만 효과가 있었고 노출이 몰리는 작업을 막는 용도로만 고려한다."
+    },
+    "baur_2012": {
+      "citation": "Baur X, Sigsgaard T, Aasen TB, et al. Guidelines for the management of work-related asthma. Eur Respir J. 2012;39(3):529-545.",
+      "pmid": "22379148",
+      "doi": "10.1183/09031936.00096111",
+      "verified": "PubMed 초록",
+      "finding_ko": "ERS 작업 관련 천식 지침. 일찍 알아차리고 진단하는 것이 필요하다. 가능하면 원인 물질 노출을 없애는 것이 건강 결과가 가장 좋고, 불가능하면 줄이는 것이 차선이며, 호흡 보호구의 가치는 제한적이다."
+    },
+    "henneberger_2019": {
+      "citation": "Henneberger PK, Patel JR, de Groene GJ, et al. Workplace interventions for treatment of occupational asthma. Cochrane Database Syst Rev. 2019;10(10):CD006308.",
+      "pmid": "31593318",
+      "doi": "10.1002/14651858.CD006308.pub4",
+      "verified": "PubMed 초록(요약 논문 PMID 33373055 초록도 읽음)",
+      "finding_ko": "코크란 고찰(비무작위 전후 비교 26건, 1,695명, 평균 추적 4.5년). 직업성 천식 환자에서 노출을 끊거나 줄인 경우가 계속 노출된 경우보다 증상이 좋아질 가능성이 높았다. 노출을 완전히 끊은 쪽은 줄인 쪽보다 실직 위험이 컸다. 이미 직업성 천식이 있는 사람의 자료이고 무작위시험은 없다."
+    }
+  },
+  "not_reviewed_ko": "찾았으나 근거로 쓰지 못한 것: Nageotte 2006(고양이 목욕 뒤 공기 중 Fel d 1 감소 기간, PMID 16890781)과 Liccardi 1998(고양이 주인 옷 세탁, PMID 9679858)은 PubMed 에 초록이 없고 PMC 전문도 없다. Dávila 2018(개·고양이 알레르기 합의문, PMID 29318625)은 초록만 읽었고 초록에 구체적 권고 문장이 없다. GINA 보고서 원문은 읽지 못했다. 닭·깃털, 양, 페럿, 조류에 관한 회피 근거는 검색하지 않았거나 찾지 못했다. Bertó 2002(시베리아 햄스터로 생긴 천식·비염 6명, PMID 11929420)는 초록을 읽었으나 DOI 를 확인하지 못해 출처 목록에 넣지 않았다.",
+  "caveat_ko": "환경 관리는 집 안 알레르겐을 줄이지만, 그것만으로 증상이 충분히 줄지 않는 경우가 많습니다. 약물 치료와 함께 가는 보조 수단으로 보세요.",
+  "owner": {
+    "headline_ko": "함께 살고 있다면 — 집 안 노출을 단계적으로 줄입니다",
+    "action_sentence_ko": "함께 사는 동안에는 침실 분리, 청소와 세탁, 접촉 뒤 씻기를 한꺼번에 실천하세요.",
+    "one_line_ko": "침실 분리·청소·세탁으로 집 안 노출 줄이기",
+    "steps": [
+      {
+        "key": "bedroom",
+        "short_ko": "침실에는 들이지 말고 문을 닫아 두세요",
+        "text_ko": "침실에는 들이지 말고 문을 닫아 두세요. 잠자는 시간의 노출부터 줄입니다. 침실 카펫은 치우고 옷장 문도 닫아 두세요.",
+        "sources": [
+          "kaaaci_ar_2023",
+          "aaaai_furry_2012"
+        ],
+        "strength": "guideline",
+        "basis_note_ko": "KAAACI 2023(조건부 권고, 근거수준 매우 낮음). AAAAI/ACAAI 요약문 8(C): 노출을 줄이려는 방에는 개를 들이지 않는다, 18·28(C): 침실 출입 금지를 포함한 조합."
+      },
+      {
+        "key": "cleaning",
+        "short_ko": "바닥·가구는 주 1회 청소, 침구는 주 1회 60℃ 세탁",
+        "text_ko": "바닥·가구·카펫은 주 1회 청소하고, 침구는 주 1회 60℃ 물로 세탁한 뒤 커버를 씌우세요. 카펫과 천 소파는 알레르겐이 쌓이는 곳이니 줄일 수 있으면 줄이세요. 청소기와 공기청정기는 HEPA 필터가 달린 것을 쓰세요.",
+        "sources": [
+          "kaaaci_ar_2023",
+          "aaaai_furry_2012"
+        ],
+        "strength": "guideline",
+        "basis_note_ko": "청소·세탁 주기는 KAAACI 2023. AAAAI/ACAAI: 카펫과 침구가 주된 저장소이므로 잦은 청소나 카펫 제거를 고려한다(본문), 고효율 청소기를 오래 쓰면 노출이 줄지만 건강 효과는 불확실하다(요약문 24, B)."
+      },
+      {
+        "key": "hepa_limit",
+        "short_ko": "공기청정기만으로는 증상이 줄지 않을 수 있어요",
+        "text_ko": "공기청정기에만 기대지 마세요. HEPA 공기청정기는 공기 중 알레르겐을 줄이지만, 증상까지 줄이는지는 임상시험마다 결과가 엇갈렸습니다. 침실 공기청정기와 침구 커버, 침실 출입 금지를 함께 한 시험에서는 증상과 약 사용이 줄지 않았고, 거실과 침실에 함께 둔 소규모 시험에서는 기도 과민성이 나아졌습니다. 한 가지만 하기보다 여러 조치를 함께 하세요.",
+        "sources": [
+          "wood_1998",
+          "van_der_heide_1999",
+          "francis_2003",
+          "kilburn_2003",
+          "aaaai_furry_2012",
+          "naepp_2020",
+          "leas_2018",
+          "kaaaci_ar_2023"
+        ],
+        "strength": "trial",
+        "basis_note_ko": "시험 결과가 엇갈린다. AAAAI/ACAAI 요약문 25(B): 농도는 줄지만 임상 효과는 알 수 없다. 코크란(2003): 시험이 너무 작아 결론을 내릴 수 없다. NAEPP 2020·Leas 2018: 단일 조치보다 여러 조치의 묶음."
+      },
+      {
+        "key": "washing",
+        "short_ko": "목욕은 효과가 며칠뿐이고 증상 개선은 증명되지 않았어요 — 씻길 때는 알레르기 없는 가족이",
+        "short_note_ko": "2026-10 이전의 짧은 문구는 '목욕 효과는 며칠뿐 — 자주, 알레르기 없는 가족이'였다. '자주'가 권고처럼 읽혀 본문('증상이 줄어드는지는 증명되지 않았습니다')과 어긋나 뺐다.",
+        "text_ko": "목욕은 효과가 짧고, 증상이 줄어드는지는 증명되지 않았습니다. {washing_note} 목욕과 빗질은 알레르기가 없는 가족이 맡으세요.",
+        "sources": [
+          "kaaaci_ar_2023",
+          "aaaai_furry_2012",
+          "avner_1997",
+          "hodson_1999"
+        ],
+        "strength": "observational",
+        "basis_note_ko": "AAAAI/ACAAI 요약문 21(B): 주 1회 이상 씻기면 공기 중 알레르겐이 줄지만 임상 효과는 증명되지 않았고 지속되지 않는다. KAAACI 는 2주마다 목욕을 안내 항목으로 든다. '알레르기 없는 가족이 맡는다'는 지침 본문에서 찾지 못한 진료 관행(expert_practice)이다."
+      },
+      {
+        "key": "after_contact",
+        "short_ko": "만진 뒤에는 손을 씻고 옷을 갈아입으세요",
+        "text_ko": "만지거나 안은 뒤에는 손을 씻고 옷을 갈아입으세요. 알레르겐은 옷에 묻어 다른 방으로 옮겨집니다.",
+        "sources": [
+          "aaaai_furry_2012",
+          "almqvist_1999",
+          "karlsson_2004"
+        ],
+        "strength": "guideline",
+        "basis_note_ko": "옷 갈아입기: AAAAI/ACAAI 요약문 6(C) — 고양이 알레르겐이 많은 곳에서 적은 곳으로 갈 때 옷을 갈아입는 것을 고려한다. 옷을 통한 이동은 측정 연구로 확인됐다. 손 씻기는 따로 시험되지 않았고(expert_practice), 어느 쪽도 증상 개선 효과를 본 연구는 없다."
+      }
+    ],
+    "separation": {
+      "text_ko": "다른 집으로 보내는 것이 노출을 가장 확실히 줄이고, 미국 진료지침도 가능하면 분리를 고려하도록 권합니다. 다만 그 결정은 증상의 정도와 가족 사정을 놓고 진료에서 함께 정하세요. 반려동물 알레르기 천식 환자를 1년 이상 지켜본 소규모 연구에서는 동물을 내보낸 쪽이 기도 과민성이 더 좋아지고 흡입 스테로이드를 줄일 수 있었습니다.",
+      "sources": [
+        "aaaai_furry_2012",
+        "shirai_2005",
+        "naepp_2020"
+      ],
+      "strength": "guideline",
+      "basis_note_ko": "AAAAI/ACAAI 요약문 17(A). 근거가 된 추적 연구(Shirai 2005)는 20명의 비무작위 관찰이다. NAEPP 2020 은 동물을 내보내는 것을 포함한 묶음 조치의 결과를 '결론 내릴 수 없음'으로 평가했다."
+    },
+    "timeline": {
+      "text_ko": "분리한 뒤에도 바로 좋아지지는 않습니다. 고양이를 내보낸 집의 먼지 속 알레르겐이 고양이 없는 집 수준으로 내려가기까지 20~24주가 걸렸고, 절반 가까운 집은 그보다 더 걸렸습니다. 카펫·소파·침구를 적극적으로 청소한 집은 훨씬 빨리 줄었습니다. 매트리스에는 알레르겐이 오래 남을 수 있어 커버를 씌우는 것이 좋습니다. 몇 주 안에 차이가 없어도 실패가 아닙니다.",
+      "sources": [
+        "wood_1989",
+        "aaaai_furry_2012"
+      ],
+      "strength": "observational",
+      "species_note_ko": "이 수치는 고양이 연구입니다. 다른 동물의 감소 속도는 따로 확인된 자료를 찾지 못했습니다.",
+      "basis_note_ko": "15가구의 측정 연구. 매트리스 문장은 AAAAI/ACAAI 본문(동물을 내보낸 뒤 매트리스가 수년간 저장소가 될 수 있다)."
+    }
+  },
+  "non_owner": {
+    "headline_ko": "키우지 않아도 노출됩니다 — 옷과 공간을 통한 간접 노출",
+    "action_sentence_ko": "키우지 않아도 옷과 공간을 통해 노출됩니다. 동물이 있는 곳을 다녀온 뒤의 옷과 몸부터 관리하세요.",
+    "one_line_ko": "옷·방문을 통한 간접 노출 줄이기",
+    "steps": [
+      {
+        "key": "indirect",
+        "short_ko": "동물이 없는 집·학교·직장에서도 노출될 수 있어요",
+        "text_ko": "동물이 없는 곳에서도 증상이 날 수 있습니다. 고양이가 없는 집 40곳 중 38곳의 먼지에서 고양이 알레르겐이 나왔고, 민감한 사람에게 증상을 일으킬 수 있는 농도였습니다.",
+        "sources": [
+          "bollinger_1996",
+          "aaaai_furry_2012"
+        ],
+        "strength": "observational",
+        "basis_note_ko": "AAAAI/ACAAI 본문: 집에 동물이 없다고 해서 임상적으로 의미 있는 노출이 없는 것은 아니다(직장·학교·어린이집·친지의 집)."
+      },
+      {
+        "key": "clothing",
+        "short_ko": "알레르겐은 키우는 사람의 옷에 묻어 옮겨집니다",
+        "text_ko": "알레르겐은 키우는 사람의 옷에 묻어 학교·직장·대중교통으로 옮겨집니다. 키우는 사람이 많은 교실은 공기 중 농도가 5배 높았습니다. 특정 장소에서만 증상이 심해지면 이 경로를 의심하세요.",
+        "sources": [
+          "almqvist_1999",
+          "karlsson_2004",
+          "aaaai_furry_2012"
+        ],
+        "strength": "observational"
+      },
+      {
+        "key": "after_visit",
+        "short_ko": "동물이 있는 집을 다녀오면 옷을 갈아입고 씻으세요",
+        "text_ko": "동물이 있는 집을 다녀오면 옷을 갈아입어 세탁하고 샤워하세요. 입었던 옷을 침실에 두지 마세요.",
+        "sources": [
+          "aaaai_furry_2012",
+          "almqvist_1999"
+        ],
+        "strength": "guideline",
+        "basis_note_ko": "AAAAI/ACAAI 요약문 6(C): 알레르겐이 많은 곳에서 적은 곳으로 갈 때 옷을 갈아입는 것을 고려한다. 샤워와 '침실에 두지 않기'는 같은 근거에서 끌어낸 진료 관행(expert_practice)이다."
+      },
+      {
+        "key": "before_visit",
+        "short_ko": "방문 전 약 사용은 진료에서 미리 정하세요",
+        "text_ko": "동물이 있는 집에 갈 일이 있으면 약을 미리 쓸지 진료에서 정해 두세요. 고양이 알레르기 환자가 노출 전에 항히스타민제를 먹었을 때 코·눈 증상이 덜 심해졌다는 임상시험이 있습니다. 방문 중에는 동물을 다른 방에 두도록 부탁하고 천 소파보다 딱딱한 의자에 앉으세요.",
+        "sources": [
+          "berkowitz_2006",
+          "ling_2010",
+          "aaaai_furry_2012"
+        ],
+        "strength": "limited",
+        "basis_note_ko": "노출 전 항히스타민제: 고양이 방 노출 실험 1건(한 번 복용, 30분 뒤 코·눈 증상; 천식은 보지 않음)과 종설의 언급. 어떤 약을 언제 쓸지는 진료에서 정한다 — 약 이름·용량을 환자 문장에 적지 않는다. '천 소파보다 딱딱한 의자'는 천 의자가 저장소라는 측정 근거(AAAAI/ACAAI 본문)에서 끌어낸 것이고, '다른 방에 두도록 부탁'은 진료 관행(expert_practice)이다."
+      },
+      {
+        "key": "adoption",
+        "short_ko": "새로 들이기 전에 진료에서 먼저 상의하세요",
+        "text_ko": "증상이 확인된 동물을 새로 들이려면 먼저 진료에서 상의하세요. 들인 뒤 분리하면 알레르겐이 수개월 남습니다. 털이 짧거나 ‘저알레르기’로 알려진 품종도 안전하다고 볼 근거가 없습니다.",
+        "sources": [
+          "wood_1989",
+          "aaaai_furry_2012"
+        ],
+        "strength": "guideline",
+        "basis_note_ko": "AAAAI/ACAAI 요약문 4·7(C): 알레르겐이 없는 고양이·개는 없으므로 '저알레르기' 동물을 들이면 안전하다고 조언하지 않는다. 본문: 털 길이는 알레르겐 양과 관계가 없다."
+      }
+    ]
+  },
+  "occupational": {
+    "headline_ko": "일하면서 다루는 동물 — 직장 노출부터 줄입니다",
+    "action_sentence_ko": "일하면서 다루는 동물이어서 직장에서의 노출이 가장 큽니다. 직장 노출을 줄이고, 직업과 관련된 알레르기인지 진료에서 평가받으세요.",
+    "one_line_ko": "직장 노출 줄이기 · 직업성 알레르기 평가",
+    "exposure_ko": "일하면서 그 동물을 다루는 동안",
+    "note_ko": "문진에서 그 동물을 일하면서 다룬다고 답했을 때(동물병원·실험동물·축산·판매·미용·돌봄 등) 덧붙인다. 근거의 대부분은 실험동물(쥐·생쥐) 종사자와 직업성 천식·비염 환자의 자료다 — 다른 동물·직종에는 간접 근거다.",
+    "steps": [
+      {
+        "key": "eval",
+        "short_ko": "진료에서 하는 일을 알리고 직업성 알레르기 평가받기",
+        "text_ko": "진료에서 하는 일을 꼭 알리세요. 일하는 날 심해지고 쉬는 날 좋아지는 코 증상은 직업성 비염일 수 있고, 직업성 비염은 직업성 천식보다 먼저 나타나는 경우가 많습니다.",
+        "sources": [
+          "moscato_2009",
+          "baur_2012"
+        ],
+        "strength": "guideline",
+        "basis_note_ko": "EAACI 입장문(전문가 합의)과 ERS 지침(초록): 일찍 알아차리고 진단한다."
+      },
+      {
+        "key": "work_controls",
+        "short_ko": "직장에서 환기 설비·보호구·작업 방식으로 노출 줄이기",
+        "text_ko": "직장에서 노출을 줄이세요. 환기되는 케이지나 작업대 같은 설비, 작업 방식 조정, 보호구가 방법입니다. 실험동물 시설에서 노출이 가장 큰 작업은 오염된 깔짚을 다루는 일과 많은 동물을 한꺼번에 다루는 일이었습니다. 마스크만으로는 부족할 수 있어 설비와 작업 조정이 먼저입니다.",
+        "sources": [
+          "aaaai_rodent_2012",
+          "moscato_2009",
+          "baur_2012"
+        ],
+        "strength": "guideline",
+        "basis_note_ko": "AAAAI/ACAAI 설치류 지침 권고 18·19(근거 B) — 실험동물 시설의 자료다. 호흡 보호구: EAACI 입장문(일부만 효과, 노출이 몰리는 작업용), ERS 지침(가치 제한적)."
+      },
+      {
+        "key": "work_clothes",
+        "short_ko": "작업복은 직장에서 갈아입고 머리와 몸 씻기",
+        "text_ko": "작업복은 직장에서 갈아입고, 일을 마치면 머리와 몸을 씻으세요. 실험동물을 다루는 사람의 집 매트리스에서는 그 동물의 알레르겐이 더 많이 나왔고, 머리덮개를 쓰면 줄었습니다.",
+        "sources": [
+          "aaaai_rodent_2012",
+          "zahradnik_2014"
+        ],
+        "strength": "observational",
+        "basis_note_ko": "지침 본문이 인용한 측정 연구(실험동물 종사자)와 축산 농가의 집 안 측정. 옷을 갈아입으면 증상이 줄어드는지를 본 연구는 아니다."
+      },
+      {
+        "key": "continue",
+        "short_ko": "일을 계속할지는 진료에서 함께 정하기",
+        "text_ko": "일을 계속할지는 증상의 정도를 놓고 진료에서 함께 정하세요. 직업성 천식 환자를 추적한 연구들을 모은 분석에서, 노출을 끊거나 줄인 사람은 계속 노출된 사람보다 증상이 더 좋아졌습니다. 노출을 완전히 끊은 쪽은 일자리를 잃을 위험이 더 컸습니다.",
+        "sources": [
+          "henneberger_2019",
+          "baur_2012",
+          "moscato_2009"
+        ],
+        "strength": "observational",
+        "basis_note_ko": "코크란 고찰(비무작위 전후 비교 26건). 이미 직업성 천식이 있는 환자의 자료다."
+      }
+    ]
+  },
+  "unknown": {
+    "headline_ko": "함께 사는지에 따라 관리가 달라집니다",
+    "action_sentence_ko": "함께 사는지에 따라 관리가 달라집니다. 진료에서 생활 환경을 먼저 알려 주세요.",
+    "one_line_ko": "함께 사는지에 따라 관리가 달라짐 — 진료에서 확인"
+  },
+  "species": {
+    "cat": {
+      "label_ko": "고양이",
+      "pet_code": "cat",
+      "washing_note_ko": "고양이는 씻긴 뒤 공기 중 알레르겐이 줄지만 1주가 되기 전에 원래대로 돌아옵니다.",
+      "notes": [
+        {
+          "text_ko": "고양이 알레르겐(Fel d 1)은 고양이가 없는 집과 교실에서도 검출됩니다. 고양이가 있는지만으로 노출을 판단하지 마세요.",
+          "sources": [
+            "bollinger_1996",
+            "almqvist_1999"
+          ],
+          "strength": "observational"
+        },
+        {
+          "text_ko": "알레르겐이 없는 고양이는 없습니다. ‘저알레르기 품종’이라고 해서 안전하다고 볼 근거가 없습니다.",
+          "sources": [
+            "aaaai_furry_2012"
+          ],
+          "strength": "guideline",
+          "basis_note_ko": "AAAAI/ACAAI 요약문 4(C)."
+        },
+        {
+          "text_ko": "고양이 사료에 항체를 넣어 털의 알레르겐을 줄이는 제품이 있습니다. 제조사 연구에서 털의 알레르겐이 평균 47% 줄었지만, 사람의 증상이 줄어드는지는 예비 연구뿐이어서 다른 관리를 대신할 수 없습니다.",
+          "sources": [
+            "satyaraj_2019",
+            "satyaraj_2019_pathway"
+          ],
+          "strength": "limited",
+          "basis_note_ko": "항-Fel d 1 IgY 사료. 제조사가 수행·지원한 대조군 없는 전후 비교이고 사람의 증상을 재지 않았다."
+        }
+      ]
+    },
+    "dog": {
+      "label_ko": "개",
+      "pet_code": "dog",
+      "washing_note_ko": "개는 씻긴 지 3일이면 털의 알레르겐이 씻기 전 수준으로 돌아와, 주 2회는 씻겨야 줄어든 상태가 유지됩니다.",
+      "notes": [
+        {
+          "text_ko": "‘저알레르기 품종’을 키우는 집의 먼지 속 개 알레르겐은 다른 품종을 키우는 집과 차이가 없었습니다. 품종을 바꾸는 것으로 해결되지 않습니다.",
+          "sources": [
+            "nicholas_2011",
+            "vredegoor_2012",
+            "aaaai_furry_2012"
+          ],
+          "strength": "observational",
+          "basis_note_ko": "AAAAI/ACAAI 요약문 7(C). Vredegoor 2012: '저알레르기' 품종의 털에서 오히려 더 높았다."
+        },
+        {
+          "text_ko": "개 알레르기 가운데 일부는 수컷 개에서만 나오는 성분(Can f 5)에만 반응합니다. 그런 경우 암컷 개에는 반응이 덜했다는 소규모 연구가 있습니다. 성분 검사가 필요한지는 진료에서 상의하세요. 이번 검사로는 구분되지 않습니다.",
+          "sources": [
+            "schoos_2019"
+          ],
+          "strength": "limited",
+          "basis_note_ko": "7명의 유발시험. 실제 생활에서 암컷 개와 지내도 괜찮은지를 본 연구는 아니다 — '암컷은 괜찮다'고 쓰지 않는다."
+        }
+      ]
+    },
+    "other": {
+      "label_ko": "그 동물",
+      "pet_code": "other",
+      "washing_note_ko": "고양이와 개 연구에서 목욕 효과는 며칠을 넘기지 못했습니다.",
+      "notes": []
+    },
+    "hamster": {
+      "label_ko": "햄스터",
+      "pet_code": "other",
+      "washing_note_ko": "",
+      "skip_steps": [
+        "washing"
+      ],
+      "steps": [
+        {
+          "key": "cage",
+          "short_ko": "케이지는 침실 밖에 두고 청소는 알레르기 없는 가족이",
+          "text_ko": "케이지는 침실 밖, 환기가 되는 곳에 두세요. 깔짚 교체와 케이지 청소는 알레르기가 없는 가족이 맡으세요. 실험동물 시설의 측정에서 노출이 가장 큰 작업은 오염된 깔짚을 다루는 일이었습니다.",
+          "sources": [
+            "aaaai_rodent_2012"
+          ],
+          "strength": "limited",
+          "basis_note_ko": "AAAAI/ACAAI 설치류 지침 본문·권고 18(B): 노출이 가장 큰 작업은 오염된 깔짚을 다루는 일이다 — 실험동물 시설의 자료를 가정에 옮겨 적용한 것이다. '알레르기 없는 가족이 맡는다'와 '침실 밖'은 진료 관행(expert_practice)이다."
+        }
+      ],
+      "notes": [
+        {
+          "text_ko": "케이지에서 기르는 동물은 노출을 한곳에 가둘 수 있고, 필요하면 다른 집으로 보내는 것으로 노출을 끊기가 비교적 쉽습니다.",
+          "sources": [
+            "aaaai_rodent_2012"
+          ],
+          "strength": "guideline",
+          "basis_note_ko": "AAAAI/ACAAI 설치류 지침 본문(기니피그·햄스터·저빌)."
+        },
+        {
+          "text_ko": "햄스터는 종에 따라 알레르겐이 다릅니다. 시베리아(드워프) 햄스터의 주 알레르겐은 일반 햄스터·골든 햄스터와 교차반응하지 않았습니다. 기르는 햄스터의 종을 진료에서 알려 주세요.",
+          "sources": [
+            "torres_2014"
+          ],
+          "strength": "limited",
+          "basis_note_ko": "시베리아 햄스터 알레르기 환자 13명의 혈청 연구(초록)."
+        }
+      ]
+    },
+    "guinea_pig": {
+      "label_ko": "기니피그",
+      "pet_code": "other",
+      "washing_note_ko": "",
+      "skip_steps": [
+        "washing"
+      ],
+      "steps": [
+        {
+          "key": "cage",
+          "short_ko": "케이지는 침실 밖에 두고 청소는 알레르기 없는 가족이",
+          "text_ko": "케이지는 침실 밖, 환기가 되는 곳에 두세요. 깔짚 교체와 케이지 청소는 알레르기가 없는 가족이 맡으세요. 실험동물 시설의 측정에서 노출이 가장 큰 작업은 오염된 깔짚을 다루는 일이었습니다.",
+          "sources": [
+            "aaaai_rodent_2012"
+          ],
+          "strength": "limited",
+          "basis_note_ko": "AAAAI/ACAAI 설치류 지침 본문·권고 18(B): 노출이 가장 큰 작업은 오염된 깔짚을 다루는 일이다 — 실험동물 시설의 자료를 가정에 옮겨 적용한 것이다. '알레르기 없는 가족이 맡는다'와 '침실 밖'은 진료 관행(expert_practice)이다."
+        }
+      ],
+      "notes": [
+        {
+          "text_ko": "케이지에서 기르는 동물은 노출을 한곳에 가둘 수 있고, 필요하면 다른 집으로 보내는 것으로 노출을 끊기가 비교적 쉽습니다.",
+          "sources": [
+            "aaaai_rodent_2012"
+          ],
+          "strength": "guideline",
+          "basis_note_ko": "AAAAI/ACAAI 설치류 지침 본문(기니피그·햄스터·저빌)."
+        },
+        {
+          "text_ko": "고양이·개 알레르기가 있는 사람은 기니피그와 접촉한 적이 없어도 기니피그 검사가 양성으로 나올 수 있습니다(비슷한 단백질 때문). 기니피그와 실제로 접촉할 때 증상이 있는지가 중요합니다.",
+          "sources": [
+            "swiontek_2021"
+          ],
+          "strength": "limited",
+          "basis_note_ko": "고양이·개 알레르기 환자 30명 중 73%가 기니피그 비듬 양성, 기니피그 고유 항원 양성은 27%."
+        }
+      ]
+    },
+    "rabbit": {
+      "label_ko": "토끼",
+      "pet_code": "other",
+      "washing_note_ko": "",
+      "skip_steps": [
+        "washing"
+      ],
+      "steps": [
+        {
+          "key": "cage",
+          "short_ko": "케이지는 침실 밖에 두고 청소는 알레르기 없는 가족이",
+          "text_ko": "케이지는 침실 밖, 환기가 되는 곳에 두세요. 깔짚 교체와 케이지 청소는 알레르기가 없는 가족이 맡으세요. 실험동물 시설의 측정에서 노출이 가장 큰 작업은 오염된 깔짚을 다루는 일이었습니다.",
+          "sources": [
+            "aaaai_rodent_2012"
+          ],
+          "strength": "limited",
+          "basis_note_ko": "AAAAI/ACAAI 설치류 지침 본문·권고 18(B): 노출이 가장 큰 작업은 오염된 깔짚을 다루는 일이다 — 실험동물 시설의 자료를 가정에 옮겨 적용한 것이다. '알레르기 없는 가족이 맡는다'와 '침실 밖'은 진료 관행(expert_practice)이다. 토끼는 설치류가 아니어서 이 지침의 대상이 아니다 — 케이지에서 기른다는 점이 같아 옮겨 적용했다."
+        }
+      ],
+      "notes": [
+        {
+          "text_ko": "집에서 기르는 토끼로 천식·비염이 생긴 국내 증례가 있습니다. 이 환자들의 반응은 고양이·개와는 별개의 토끼 고유 감작이었습니다.",
+          "sources": [
+            "choi_2007"
+          ],
+          "strength": "limited",
+          "basis_note_ko": "증례 3명."
+        }
+      ]
+    },
+    "mouse": {
+      "label_ko": "생쥐",
+      "pet_code": "other",
+      "washing_note_ko": "",
+      "skip_steps": [
+        "washing"
+      ],
+      "steps": [
+        {
+          "key": "cage",
+          "short_ko": "케이지는 침실 밖에 두고 청소는 알레르기 없는 가족이",
+          "text_ko": "케이지는 침실 밖, 환기가 되는 곳에 두세요. 깔짚 교체와 케이지 청소는 알레르기가 없는 가족이 맡으세요. 실험동물 시설의 측정에서 노출이 가장 큰 작업은 오염된 깔짚을 다루는 일이었습니다.",
+          "sources": [
+            "aaaai_rodent_2012"
+          ],
+          "strength": "limited",
+          "basis_note_ko": "AAAAI/ACAAI 설치류 지침 본문·권고 18(B): 노출이 가장 큰 작업은 오염된 깔짚을 다루는 일이다 — 실험동물 시설의 자료를 가정에 옮겨 적용한 것이다. '알레르기 없는 가족이 맡는다'와 '침실 밖'은 진료 관행(expert_practice)이다."
+        }
+      ],
+      "notes": [
+        {
+          "text_ko": "집 안에 사는 쥐도 같은 알레르겐을 냅니다. 쥐의 흔적이 있으면 먹이·물·드나드는 틈을 없애고 덫을 놓으세요. 다만 전문 방제를 더해도 방제 교육만 받은 경우보다 천식 증상이 더 줄지는 않았다는 임상시험이 있습니다.",
+          "sources": [
+            "aaaai_rodent_2012",
+            "naepp_2020",
+            "matsui_2017"
+          ],
+          "strength": "trial",
+          "basis_note_ko": "통합 방제는 알레르겐을 줄인다(AAAAI/ACAAI 권고 15, 근거 A; NAEPP 2020 권고 7, 조건부). 증상 효과: Matsui 2017 무작위시험에서 유의한 차이 없음."
+        },
+        {
+          "text_ko": "쥐·생쥐 알레르기는 실험동물을 다루는 사람에게 흔합니다. 일하면서 다룬다면 진료에서 꼭 알려 주세요.",
+          "sources": [
+            "aaaai_rodent_2012",
+            "zahradnik_2014"
+          ],
+          "strength": "observational",
+          "basis_note_ko": "직업 환경의 유병률 11~44%(Zahradnik 2014), 종사자의 약 3분의 1(AAAAI/ACAAI 본문)."
+        }
+      ]
+    },
+    "rat": {
+      "label_ko": "쥐",
+      "pet_code": "other",
+      "washing_note_ko": "",
+      "skip_steps": [
+        "washing"
+      ],
+      "steps": [
+        {
+          "key": "cage",
+          "short_ko": "케이지는 침실 밖에 두고 청소는 알레르기 없는 가족이",
+          "text_ko": "케이지는 침실 밖, 환기가 되는 곳에 두세요. 깔짚 교체와 케이지 청소는 알레르기가 없는 가족이 맡으세요. 실험동물 시설의 측정에서 노출이 가장 큰 작업은 오염된 깔짚을 다루는 일이었습니다.",
+          "sources": [
+            "aaaai_rodent_2012"
+          ],
+          "strength": "limited",
+          "basis_note_ko": "AAAAI/ACAAI 설치류 지침 본문·권고 18(B): 노출이 가장 큰 작업은 오염된 깔짚을 다루는 일이다 — 실험동물 시설의 자료를 가정에 옮겨 적용한 것이다. '알레르기 없는 가족이 맡는다'와 '침실 밖'은 진료 관행(expert_practice)이다."
+        }
+      ],
+      "notes": [
+        {
+          "text_ko": "집 안에 사는 쥐도 같은 알레르겐을 냅니다. 쥐의 흔적이 있으면 먹이·물·드나드는 틈을 없애고 덫을 놓으세요. 다만 전문 방제를 더해도 방제 교육만 받은 경우보다 천식 증상이 더 줄지는 않았다는 임상시험이 있습니다.",
+          "sources": [
+            "aaaai_rodent_2012",
+            "naepp_2020",
+            "matsui_2017"
+          ],
+          "strength": "trial",
+          "basis_note_ko": "통합 방제는 알레르겐을 줄인다(AAAAI/ACAAI 권고 15, 근거 A; NAEPP 2020 권고 7, 조건부). 증상 효과: Matsui 2017 무작위시험에서 유의한 차이 없음."
+        },
+        {
+          "text_ko": "쥐·생쥐 알레르기는 실험동물을 다루는 사람에게 흔합니다. 일하면서 다룬다면 진료에서 꼭 알려 주세요.",
+          "sources": [
+            "aaaai_rodent_2012",
+            "zahradnik_2014"
+          ],
+          "strength": "observational",
+          "basis_note_ko": "직업 환경의 유병률 11~44%(Zahradnik 2014), 종사자의 약 3분의 1(AAAAI/ACAAI 본문)."
+        }
+      ]
+    },
+    "horse": {
+      "label_ko": "말",
+      "pet_code": "other",
+      "washing_note_ko": "",
+      "notes": [],
+      "contact_block": {
+        "headline_ko": "말과 가까이 있을 때 노출됩니다 — 마구간과 옷을 관리합니다",
+        "action_sentence_ko": "말 알레르겐은 마구간 안에서 가장 짙습니다. 증상이 있는 동안에는 마구간에 머무는 시간을 줄이고, 다녀온 뒤의 옷과 몸을 관리하세요.",
+        "one_line_ko": "마구간 노출 줄이기 · 다녀온 뒤 옷 갈아입기",
+        "exposure_ko": "말을 타거나 돌볼 때, 마구간 안에 있을 때, 그리고 말과 접촉한 사람의 옷에 묻어 온 공간",
+        "steps": [
+          {
+            "key": "stable",
+            "short_ko": "증상이 있는 날에는 마구간 안에 머무는 시간 줄이기",
+            "text_ko": "증상이 있는 날에는 마구간 안에 머무는 시간부터 줄이세요. 마구간 안의 공기 중 말 알레르겐은 입구 바깥의 약 500배였고, 40~50m 떨어지면 거의 검출되지 않았습니다.",
+            "sources": [
+              "zahradnik_2014"
+            ],
+            "strength": "observational",
+            "basis_note_ko": "농도 측정 연구(스웨덴). 머무는 시간을 줄이면 증상이 줄어드는지를 본 연구는 아니다."
+          },
+          {
+            "key": "horse_clothes",
+            "short_ko": "말을 타거나 돌본 뒤에는 옷을 갈아입고 씻기",
+            "text_ko": "말을 타거나 돌본 뒤에는 옷을 갈아입어 세탁하고 씻으세요. 말과 정기적으로 접촉하는 아이가 많은 교실일수록 말 알레르겐이 높게 나왔습니다.",
+            "sources": [
+              "zahradnik_2014"
+            ],
+            "strength": "observational",
+            "basis_note_ko": "옷을 통한 이동을 시사하는 측정 연구. 옷 갈아입기 자체는 고양이 지침(AAAAI/ACAAI 요약문 6)을 옮겨 적용한 진료 관행이다."
+          },
+          {
+            "key": "horse_breed",
+            "short_ko": "‘저알레르기’ 품종으로 해결되지 않습니다",
+            "text_ko": "‘저알레르기’로 알려진 품종(컬리 호스)도 털과 공기 중의 알레르겐이 다른 품종보다 낮지 않았습니다. 품종보다 말마다의 차이가 훨씬 컸습니다.",
+            "sources": [
+              "zahradnik_2018"
+            ],
+            "strength": "observational"
+          },
+          {
+            "key": "horse_consult",
+            "short_ko": "승마나 말 돌보는 일을 계속할지는 진료에서 상의하기",
+            "text_ko": "승마나 말을 돌보는 일을 계속할지는 증상의 정도를 놓고 진료에서 상의하세요.",
+            "sources": [],
+            "strength": "expert_practice"
+          }
+        ]
+      }
+    },
+    "cow": {
+      "label_ko": "소",
+      "pet_code": "other",
+      "washing_note_ko": "",
+      "notes": [],
+      "contact_block": {
+        "covers_occupational": true,
+        "headline_ko": "소 알레르기는 대부분 일하면서 생깁니다 — 축사와 작업복을 관리합니다",
+        "action_sentence_ko": "소 알레르겐은 축사 안에서 가장 짙습니다. 축사 작업 때의 노출을 줄이고, 작업복을 생활 공간으로 들이지 마세요.",
+        "one_line_ko": "축사 노출 줄이기 · 작업복은 생활 공간 밖에서",
+        "exposure_ko": "축사 안에서 일할 때, 그리고 작업복에 묻어 온 집 안 공간",
+        "steps": [
+          {
+            "key": "barn_eval",
+            "short_ko": "일하는 날 심해지면 직업성 알레르기 평가받기",
+            "text_ko": "소 알레르기는 거의 전부 축산 일과 관련돼 있습니다. 일하는 날 심해지고 쉬는 날 좋아지면 진료에서 하는 일을 알리고 직업성 비염·천식 평가를 받으세요.",
+            "sources": [
+              "zahradnik_2014",
+              "moscato_2009"
+            ],
+            "strength": "guideline",
+            "basis_note_ko": "EAACI 직업성 비염 입장문(전문가 합의)."
+          },
+          {
+            "key": "barn_clothes",
+            "short_ko": "작업복은 생활 공간 밖에서 갈아입기",
+            "text_ko": "작업복은 생활 공간 밖에서 갈아입으세요. 축산 농가의 집 안에서도 소 알레르겐이 나왔고, 옷을 갈아입는 방에서 가장 높았습니다. 축사와 살림집이 떨어져 있는 집은 집 안 농도가 뚜렷이 낮았습니다.",
+            "sources": [
+              "zahradnik_2014"
+            ],
+            "strength": "observational",
+            "basis_note_ko": "농도 측정 연구. 증상 개선을 본 연구는 아니다."
+          },
+          {
+            "key": "barn_work",
+            "short_ko": "축사 작업 때의 노출 줄이기는 진료·산업보건과 상의하기",
+            "text_ko": "축사 안의 소 알레르겐은 집 안의 약 1,000배였습니다. 축사 작업 때 보호구를 쓰고 작업을 조정하는 방법은 진료나 산업보건 담당자와 상의하세요.",
+            "sources": [
+              "zahradnik_2014",
+              "baur_2012"
+            ],
+            "strength": "observational",
+            "basis_note_ko": "농도는 측정 연구. 보호구·작업 조정은 작업 관련 천식 지침의 일반 원칙을 옮겨 적용한 것이다."
+          },
+          {
+            "key": "barn_continue",
+            "short_ko": "일을 계속할지는 진료에서 함께 정하기",
+            "text_ko": "일을 계속할지는 증상의 정도를 놓고 진료에서 함께 정하세요. 직업성 천식 환자를 추적한 연구들을 모은 분석에서, 노출을 끊거나 줄인 사람은 계속 노출된 사람보다 증상이 더 좋아졌습니다.",
+            "sources": [
+              "henneberger_2019"
+            ],
+            "strength": "observational",
+            "basis_note_ko": "코크란 고찰(비무작위 전후 비교). 이미 직업성 천식이 있는 환자의 자료다."
+          }
+        ]
+      }
+    }
+  },
+  "other_species_keywords": {
+    "hamster": [
+      "hamster",
+      "햄스터"
+    ],
+    "rabbit": [
+      "rabbit",
+      "토끼"
+    ],
+    "guinea_pig": [
+      "guinea pig",
+      "기니피그",
+      "기니픽"
+    ],
+    "mouse": [
+      "mouse",
+      "생쥐",
+      "마우스"
+    ],
+    "rat": [
+      "rat",
+      "래트",
+      "쥐 상피"
+    ],
+    "horse": [
+      "horse",
+      "말 비듬",
+      "말 상피"
+    ],
+    "cow": [
+      "cow",
+      "cattle",
+      "소 비듬",
+      "소 상피"
+    ],
+    "chicken": [
+      "chicken",
+      "닭"
+    ]
+  },
+  "other_species_note_ko": "항원 이름과 pets_other(주관식)에서 종을 찾을 때 쓰는 낱말. 한 글자 한글(말·소·쥐)은 '말티즈'처럼 다른 낱말에 걸려 단독으로는 넣지 않고 검사 항원 이름의 꼴('말 비듬', '소 상피', '쥐 상피')로만 넣었다 — pets_other 에서 못 찾으면 '함께 사는지 모름'으로 안내한다. 닭(깃털)은 이번 문헌 검토에서 근거를 찾지 못해 종별 안내가 없다(일반 안내를 쓴다)."
+}

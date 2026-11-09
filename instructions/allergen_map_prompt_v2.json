@@ -74,9 +74,10 @@
         "점박이응애"
       ],
       "ocr_aliases": [],
-      "category": "Mite",
+      "category": "Other",
       "subcategory": null,
-      "snomed": "37022204"
+      "snomed": "37022204",
+      "note": "식물 해충 응애(Tetranychus urticae). 집먼지진드기 수칙이 맞지 않아 2026-10-09 Other 로 분류."
     },
     {
       "canonical_name": "Alder",
@@ -90,7 +91,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4115937"
+      "snomed": "4115937",
+      "immunocap_codes": [
+        "t2"
+      ]
     },
     {
       "canonical_name": "Almond",
@@ -102,9 +106,12 @@
       "ocr_aliases": [
         "A1mond"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4104630"
+      "snomed": "4104630",
+      "immunocap_codes": [
+        "f20"
+      ]
     },
     {
       "canonical_name": "Alternaria alternata",
@@ -120,20 +127,27 @@
       ],
       "category": "Mold",
       "subcategory": "Outdoor",
-      "snomed": "46272803"
+      "snomed": "46272803",
+      "immunocap_codes": [
+        "m6"
+      ]
     },
     {
-      "canonical_name": "American cockroach protein",
+      "canonical_name": "Cockroach, American",
       "korean_name": "미국바퀴",
       "aliases": [
         "American cockroach",
         "American cockroach protein",
-        "미국바퀴"
+        "미국바퀴",
+        "Cockroach, American"
       ],
       "ocr_aliases": [],
       "category": "Insect",
       "subcategory": "Cockroach",
-      "snomed": "46273915"
+      "snomed": "46273915",
+      "immunocap_codes": [
+        "i206"
+      ]
     },
     {
       "canonical_name": "Apple",
@@ -145,9 +159,12 @@
       "ocr_aliases": [
         "App1e"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "42536408"
+      "snomed": "42536408",
+      "immunocap_codes": [
+        "f49"
+      ]
     },
     {
       "canonical_name": "Aspergillus fumigatus",
@@ -162,7 +179,10 @@
       ],
       "category": "Mold",
       "subcategory": "Indoor",
-      "snomed": "46272804"
+      "snomed": "46272804",
+      "immunocap_codes": [
+        "m3"
+      ]
     },
     {
       "canonical_name": "Aspergillus niger",
@@ -177,7 +197,10 @@
       ],
       "category": "Mold",
       "subcategory": "Indoor",
-      "snomed": "46272805"
+      "snomed": "46272805",
+      "immunocap_codes": [
+        "m207"
+      ]
     },
     {
       "canonical_name": "Avocado",
@@ -187,9 +210,12 @@
         "아보카도"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "42536428"
+      "snomed": "42536428",
+      "immunocap_codes": [
+        "f96"
+      ]
     },
     {
       "canonical_name": "Banana",
@@ -201,9 +227,12 @@
       "ocr_aliases": [
         "8anana"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4106295"
+      "snomed": "4106295",
+      "immunocap_codes": [
+        "f92"
+      ]
     },
     {
       "canonical_name": "Barley",
@@ -217,23 +246,29 @@
         "Bar1ey",
         "8arley"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "42539513"
+      "snomed": "42539513",
+      "immunocap_codes": [
+        "f6"
+      ]
     },
     {
       "canonical_name": "Bean",
-      "korean_name": "콩",
+      "korean_name": "콩류",
       "aliases": [
         "Bean",
-        "콩"
+        "콩류"
       ],
       "ocr_aliases": [
         "8ean"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4103602"
+      "snomed": "4103602",
+      "immunocap_codes": [
+        "f15"
+      ]
     },
     {
       "canonical_name": "Beech",
@@ -247,7 +282,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4116683"
+      "snomed": "4116683",
+      "immunocap_codes": [
+        "t5"
+      ]
     },
     {
       "canonical_name": "Beef",
@@ -259,9 +297,12 @@
       "ocr_aliases": [
         "8eef"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4037235"
+      "snomed": "4037235",
+      "immunocap_codes": [
+        "f27"
+      ]
     },
     {
       "canonical_name": "Bermuda grass",
@@ -276,13 +317,20 @@
       ],
       "category": "Pollen",
       "subcategory": "Grass",
-      "snomed": "4126502"
+      "snomed": "4126502",
+      "immunocap_codes": [
+        "g2"
+      ]
     },
     {
       "canonical_name": "Birch",
       "korean_name": "자작나무",
       "aliases": [
         "Birch",
+        "White birch",
+        "Silver birch",
+        "Common silver birch",
+        "Betula verrucosa",
         "자작나무"
       ],
       "ocr_aliases": [
@@ -290,7 +338,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "765811"
+      "snomed": "765811",
+      "immunocap_codes": [
+        "t3"
+      ]
     },
     {
       "canonical_name": "Cabbage",
@@ -300,9 +351,12 @@
         "양배추"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "42536335"
+      "snomed": "42536335",
+      "immunocap_codes": [
+        "f216"
+      ]
     },
     {
       "canonical_name": "Candida albicans",
@@ -317,7 +371,10 @@
       ],
       "category": "Mold",
       "subcategory": "Indoor",
-      "snomed": "46272808"
+      "snomed": "46272808",
+      "immunocap_codes": [
+        "m5"
+      ]
     },
     {
       "canonical_name": "Carrot",
@@ -327,9 +384,12 @@
         "당근"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4106300"
+      "snomed": "4106300",
+      "immunocap_codes": [
+        "f31"
+      ]
     },
     {
       "canonical_name": "Casein",
@@ -340,9 +400,12 @@
         "암소건락소-치즈원료"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4177499"
+      "snomed": "4177499",
+      "immunocap_codes": [
+        "f78"
+      ]
     },
     {
       "canonical_name": "Cat dander",
@@ -350,12 +413,17 @@
       "aliases": [
         "Cat",
         "Cat dander",
-        "고양이 표피"
+        "고양이 표피",
+        "고양이",
+        "고양이 비듬"
       ],
       "ocr_aliases": [],
       "category": "Animal",
       "subcategory": null,
-      "snomed": "4125384"
+      "snomed": "4125384",
+      "immunocap_codes": [
+        "e1"
+      ]
     },
     {
       "canonical_name": "Celery",
@@ -367,9 +435,12 @@
       "ocr_aliases": [
         "Ce1ery"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4104625"
+      "snomed": "4104625",
+      "immunocap_codes": [
+        "f85"
+      ]
     },
     {
       "canonical_name": "Chicken",
@@ -381,7 +452,10 @@
       "ocr_aliases": [],
       "category": "Animal",
       "subcategory": null,
-      "snomed": "35627007"
+      "snomed": "35627007",
+      "immunocap_codes": [
+        "e85"
+      ]
     },
     {
       "canonical_name": "Chrysanthemum",
@@ -405,9 +479,12 @@
         "귤"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4008005"
+      "snomed": "4008005",
+      "immunocap_codes": [
+        "f33"
+      ]
     },
     {
       "canonical_name": "Cladosporium herbarum",
@@ -422,20 +499,31 @@
       ],
       "category": "Mold",
       "subcategory": "Outdoor",
-      "snomed": "46272811"
+      "snomed": "46272811",
+      "immunocap_codes": [
+        "m2"
+      ]
     },
     {
-      "canonical_name": "Cockroach protein",
+      "canonical_name": "Cockroach, Mix",
       "korean_name": "바퀴벌레",
       "aliases": [
         "Cockroach",
         "Cockroach protein",
-        "바퀴벌레"
+        "바퀴벌레",
+        "Cockroach, Mix",
+        "바퀴벌레 혼합",
+        "Cockroach mix",
+        "바퀴벌레믹스"
       ],
       "ocr_aliases": [],
       "category": "Insect",
       "subcategory": "Cockroach",
-      "snomed": "46273916"
+      "snomed": "46273916",
+      "immunocap_codes": [
+        "i6",
+        "i206"
+      ]
     },
     {
       "canonical_name": "Cod",
@@ -445,9 +533,12 @@
         "대구"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "42536425"
+      "snomed": "42536425",
+      "immunocap_codes": [
+        "f3"
+      ]
     },
     {
       "canonical_name": "Control",
@@ -455,7 +546,11 @@
       "aliases": [
         "Control",
         "Negative control",
-        "음성 대조용 생리식염수"
+        "음성 대조용 생리식염수",
+        "Saline",
+        "생리식염수",
+        "음성 대조",
+        "음성대조"
       ],
       "ocr_aliases": [
         "Contro1"
@@ -476,16 +571,18 @@
         "Cornf1our",
         "Comflour"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4041339"
+      "snomed": "4041339",
+      "immunocap_codes": [
+        "f8"
+      ]
     },
     {
       "canonical_name": "Cultivated oat",
       "korean_name": "귀리",
       "aliases": [
         "Cultivated oat",
-        "oat",
         "귀리"
       ],
       "ocr_aliases": [
@@ -493,7 +590,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Grass",
-      "snomed": "4128476"
+      "snomed": "4128476",
+      "immunocap_codes": [
+        "g14"
+      ]
     },
     {
       "canonical_name": "Dandelion",
@@ -507,22 +607,32 @@
       ],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4104621"
+      "snomed": "4104621",
+      "immunocap_codes": [
+        "w8"
+      ]
     },
     {
-      "canonical_name": "Dermatophagoides farina",
-      "korean_name": "북아메리카 집먼지진드기",
+      "canonical_name": "Dermatophagoides farinae",
+      "korean_name": "미국집먼지진드기",
       "aliases": [
         "D. farinae",
         "D.f.",
         "Der f",
         "Dermatophagoides farina",
-        "북아메리카 집먼지진드기"
+        "북아메리카 집먼지진드기",
+        "Dermatophagoides farinae",
+        "House dust mite",
+        "HDM",
+        "미국집먼지진드기"
       ],
       "ocr_aliases": [],
       "category": "Mite",
       "subcategory": null,
-      "snomed": "46273588"
+      "snomed": "46273588",
+      "immunocap_codes": [
+        "d2"
+      ]
     },
     {
       "canonical_name": "Dermatophagoides pteronyssinus",
@@ -537,7 +647,10 @@
       "ocr_aliases": [],
       "category": "Mite",
       "subcategory": null,
-      "snomed": "46272684"
+      "snomed": "46272684",
+      "immunocap_codes": [
+        "d1"
+      ]
     },
     {
       "canonical_name": "Dog dander",
@@ -545,12 +658,19 @@
       "aliases": [
         "Dog dander",
         "Dog epithelium",
-        "개 표피"
+        "개 표피",
+        "Dog",
+        "개",
+        "개 비듬",
+        "Dog hair"
       ],
       "ocr_aliases": [],
       "category": "Animal",
       "subcategory": null,
-      "snomed": "4128602"
+      "snomed": "4128602",
+      "immunocap_codes": [
+        "e5"
+      ]
     },
     {
       "canonical_name": "Egg white",
@@ -560,9 +680,12 @@
         "계란흰자"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4103922"
+      "snomed": "4103922",
+      "immunocap_codes": [
+        "f1"
+      ]
     },
     {
       "canonical_name": "Egg yolk",
@@ -574,9 +697,12 @@
       "ocr_aliases": [
         "Egg yo1k"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4103921"
+      "snomed": "4103921",
+      "immunocap_codes": [
+        "f75"
+      ]
     },
     {
       "canonical_name": "Elder",
@@ -590,7 +716,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4128340"
+      "snomed": "4128340",
+      "immunocap_codes": [
+        "t205"
+      ]
     },
     {
       "canonical_name": "Elm",
@@ -604,7 +733,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4115941"
+      "snomed": "4115941",
+      "immunocap_codes": [
+        "t8"
+      ]
     },
     {
       "canonical_name": "English plantain",
@@ -619,22 +751,30 @@
       ],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4104620"
+      "snomed": "4104620",
+      "immunocap_codes": [
+        "w9"
+      ]
     },
     {
-      "canonical_name": "False acacia",
+      "canonical_name": "Acacia",
       "korean_name": "아까시나무",
       "aliases": [
         "False Acacia",
         "False acacia",
-        "아까시나무"
+        "아까시나무",
+        "Acacia",
+        "Robinia pseudoacacia"
       ],
       "ocr_aliases": [
         "Fa1se acacia"
       ],
-      "category": "Other",
-      "subcategory": null,
-      "snomed": "43020816"
+      "category": "Pollen",
+      "subcategory": "Tree",
+      "snomed": "43020816",
+      "immunocap_codes": [
+        "t19"
+      ]
     },
     {
       "canonical_name": "Fusarium",
@@ -646,7 +786,10 @@
       "ocr_aliases": [],
       "category": "Mold",
       "subcategory": "Outdoor",
-      "snomed": "46272814"
+      "snomed": "46272814",
+      "immunocap_codes": [
+        "m9"
+      ]
     },
     {
       "canonical_name": "Histamine",
@@ -654,7 +797,11 @@
       "aliases": [
         "Histamine",
         "Positive control",
-        "양성 대조용 0.1% 히스타민 용액"
+        "양성 대조용 0.1% 히스타민 용액",
+        "Histamine control",
+        "히스타민",
+        "양성 대조",
+        "양성대조"
       ],
       "ocr_aliases": [],
       "category": "Control",
@@ -662,17 +809,21 @@
       "snomed": "36703747"
     },
     {
-      "canonical_name": "German cockroach protein",
+      "canonical_name": "Cockroach, German",
       "korean_name": "독일바퀴",
       "aliases": [
         "German cockroach",
         "German cockroach protein",
-        "독일바퀴"
+        "독일바퀴",
+        "Cockroach, German"
       ],
       "ocr_aliases": [],
       "category": "Insect",
       "subcategory": "Cockroach",
-      "snomed": "46272547"
+      "snomed": "46272547",
+      "immunocap_codes": [
+        "i6"
+      ]
     },
     {
       "canonical_name": "Goldenrod",
@@ -685,9 +836,12 @@
       "ocr_aliases": [
         "Go1denrod"
       ],
-      "category": "Other",
-      "subcategory": null,
-      "snomed": "46272528"
+      "category": "Pollen",
+      "subcategory": "Weed",
+      "snomed": "46272528",
+      "immunocap_codes": [
+        "w12"
+      ]
     },
     {
       "canonical_name": "Grape",
@@ -697,13 +851,16 @@
         "포도"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4106299"
+      "snomed": "4106299",
+      "immunocap_codes": [
+        "f259"
+      ]
     },
     {
       "canonical_name": "Grass",
-      "korean_name": "나무 꽃가루 혼합",
+      "korean_name": "잔디 꽃가루 혼합",
       "aliases": [
         "Grass",
         "Grass mixture",
@@ -712,7 +869,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Grass",
-      "snomed": "4117479"
+      "snomed": "4117479",
+      "immunocap_codes": [
+        "gx1"
+      ]
     },
     {
       "canonical_name": "Hazel",
@@ -726,7 +886,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4117473"
+      "snomed": "4117473",
+      "immunocap_codes": [
+        "t4"
+      ]
     },
     {
       "canonical_name": "Hen's egg",
@@ -736,9 +899,12 @@
         "달걀 전체"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4120251"
+      "snomed": "4120251",
+      "immunocap_codes": [
+        "f245"
+      ]
     },
     {
       "canonical_name": "Japanese cedar",
@@ -751,7 +917,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4128600"
+      "snomed": "4128600",
+      "immunocap_codes": [
+        "t17"
+      ]
     },
     {
       "canonical_name": "Japanese hop",
@@ -764,7 +933,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4128484"
+      "snomed": "4128484",
+      "immunocap_codes": [
+        "w22"
+      ]
     },
     {
       "canonical_name": "Kentucky blue grass",
@@ -779,10 +951,13 @@
       ],
       "category": "Pollen",
       "subcategory": "Grass",
-      "snomed": "4103765"
+      "snomed": "4103765",
+      "immunocap_codes": [
+        "g8"
+      ]
     },
     {
-      "canonical_name": "Kiwi fruit",
+      "canonical_name": "Kiwi",
       "korean_name": "키위",
       "aliases": [
         "Kiwi",
@@ -790,9 +965,12 @@
         "키위"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4128608"
+      "snomed": "4128608",
+      "immunocap_codes": [
+        "f84"
+      ]
     },
     {
       "canonical_name": "Lactalbumin",
@@ -804,9 +982,12 @@
       "ocr_aliases": [
         "Lacta1bumin"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4010500"
+      "snomed": "4010500",
+      "immunocap_codes": [
+        "f76"
+      ]
     },
     {
       "canonical_name": "Lamb's quarters",
@@ -818,7 +999,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4125373"
+      "snomed": "4125373",
+      "immunocap_codes": [
+        "w10"
+      ]
     },
     {
       "canonical_name": "Latex",
@@ -828,12 +1012,15 @@
         "라텍스"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Latex",
       "subcategory": null,
-      "snomed": "4008070"
+      "snomed": "4008070",
+      "immunocap_codes": [
+        "k82"
+      ]
     },
     {
-      "canonical_name": "Lentils",
+      "canonical_name": "Lentil",
       "korean_name": "렌즈콩",
       "aliases": [
         "Lentil",
@@ -843,9 +1030,12 @@
       "ocr_aliases": [
         "Lenti1s"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4025400"
+      "snomed": "4025400",
+      "immunocap_codes": [
+        "f235"
+      ]
     },
     {
       "canonical_name": "Lobster",
@@ -855,9 +1045,12 @@
         "바닷가재"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "42537051"
+      "snomed": "42537051",
+      "immunocap_codes": [
+        "f80"
+      ]
     },
     {
       "canonical_name": "Mackerel",
@@ -869,9 +1062,12 @@
       "ocr_aliases": [
         "Mackere1"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "42536299"
+      "snomed": "42536299",
+      "immunocap_codes": [
+        "f206"
+      ]
     },
     {
       "canonical_name": "Meadow fescue",
@@ -882,9 +1078,12 @@
         "넓은김의털"
       ],
       "ocr_aliases": [],
-      "category": "Other",
-      "subcategory": null,
-      "snomed": "4116689"
+      "category": "Pollen",
+      "subcategory": "Grass",
+      "snomed": "4116689",
+      "immunocap_codes": [
+        "g4"
+      ]
     },
     {
       "canonical_name": "Melon",
@@ -896,13 +1095,16 @@
       "ocr_aliases": [
         "Me1on"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4125392"
+      "snomed": "4125392",
+      "immunocap_codes": [
+        "f87"
+      ]
     },
     {
       "canonical_name": "Outdoor mold mixture",
-      "korean_name": "실외 곰팡이 홉합",
+      "korean_name": "실외 곰팡이 혼합",
       "aliases": [
         "Outdoor mold mixture",
         "실외 곰팡이 홉합"
@@ -911,9 +1113,12 @@
         "Outdoor mo1d mixture",
         "0utdoor mold mixture"
       ],
-      "category": "Mixture",
-      "subcategory": "Mold mix",
-      "snomed": "4224654"
+      "category": "Mold",
+      "subcategory": null,
+      "snomed": "4224654",
+      "immunocap_codes": [
+        "mx2"
+      ]
     },
     {
       "canonical_name": "Indoor mold mixture",
@@ -926,9 +1131,12 @@
         "Indoor mo1d mixture",
         "lndoor mold mixture"
       ],
-      "category": "Mixture",
-      "subcategory": "Mold mix",
-      "snomed": "4224654"
+      "category": "Mold",
+      "subcategory": null,
+      "snomed": "4224654",
+      "immunocap_codes": [
+        "mx1"
+      ]
     },
     {
       "canonical_name": "Mucor racemosus",
@@ -941,7 +1149,10 @@
       "ocr_aliases": [],
       "category": "Mold",
       "subcategory": "Indoor",
-      "snomed": "46272818"
+      "snomed": "46272818",
+      "immunocap_codes": [
+        "m4"
+      ]
     },
     {
       "canonical_name": "Mugwort",
@@ -953,7 +1164,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4106289"
+      "snomed": "4106289",
+      "immunocap_codes": [
+        "w6"
+      ]
     },
     {
       "canonical_name": "Mugwort",
@@ -965,7 +1179,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4106289"
+      "snomed": "4106289",
+      "immunocap_codes": [
+        "w6"
+      ]
     },
     {
       "canonical_name": "Mussel",
@@ -977,9 +1194,12 @@
       "ocr_aliases": [
         "Musse1"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4026892"
+      "snomed": "4026892",
+      "immunocap_codes": [
+        "f37"
+      ]
     },
     {
       "canonical_name": "Mustard",
@@ -989,9 +1209,12 @@
         "겨자"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4202198"
+      "snomed": "4202198",
+      "immunocap_codes": [
+        "f89"
+      ]
     },
     {
       "canonical_name": "Nettle",
@@ -1005,7 +1228,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4103768"
+      "snomed": "4103768",
+      "immunocap_codes": [
+        "w20"
+      ]
     },
     {
       "canonical_name": "Neurospora",
@@ -1015,7 +1241,7 @@
         "뉴로스포라"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Mold",
       "subcategory": null,
       "snomed": "45769569"
     },
@@ -1031,7 +1257,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4116684"
+      "snomed": "4116684",
+      "immunocap_codes": [
+        "t7"
+      ]
     },
     {
       "canonical_name": "Oak",
@@ -1045,7 +1274,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4116684"
+      "snomed": "4116684",
+      "immunocap_codes": [
+        "t7"
+      ]
     },
     {
       "canonical_name": "Oat",
@@ -1058,9 +1290,12 @@
       "ocr_aliases": [
         "0at"
       ],
-      "category": "Pollen",
-      "subcategory": "Grass",
-      "snomed": "4303810"
+      "category": "Food",
+      "subcategory": null,
+      "snomed": "4303810",
+      "immunocap_codes": [
+        "f7"
+      ]
     },
     {
       "canonical_name": "Octopus",
@@ -1074,7 +1309,10 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "42536930"
+      "snomed": "42536930",
+      "immunocap_codes": [
+        "f59"
+      ]
     },
     {
       "canonical_name": "Onion",
@@ -1086,12 +1324,15 @@
       "ocr_aliases": [
         "0nion"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "42539479"
+      "snomed": "42539479",
+      "immunocap_codes": [
+        "f48"
+      ]
     },
     {
-      "canonical_name": "Orange - fruit",
+      "canonical_name": "Orange",
       "korean_name": "오렌지",
       "aliases": [
         "Orange",
@@ -1101,9 +1342,12 @@
       "ocr_aliases": [
         "0range - fruit"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4106294"
+      "snomed": "4106294",
+      "immunocap_codes": [
+        "f33"
+      ]
     },
     {
       "canonical_name": "Orchard grass",
@@ -1118,7 +1362,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Grass",
-      "snomed": "4116688"
+      "snomed": "4116688",
+      "immunocap_codes": [
+        "g3"
+      ]
     },
     {
       "canonical_name": "Oyster",
@@ -1130,9 +1377,12 @@
       "ocr_aliases": [
         "0yster"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "42536963"
+      "snomed": "42536963",
+      "immunocap_codes": [
+        "f290"
+      ]
     },
     {
       "canonical_name": "Peach",
@@ -1142,9 +1392,12 @@
         "복숭아"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "42536304"
+      "snomed": "42536304",
+      "immunocap_codes": [
+        "f95"
+      ]
     },
     {
       "canonical_name": "Peanut",
@@ -1154,9 +1407,12 @@
         "땅콩"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "42538933"
+      "snomed": "42538933",
+      "immunocap_codes": [
+        "f13"
+      ]
     },
     {
       "canonical_name": "Pear",
@@ -1166,9 +1422,12 @@
         "배"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "42536305"
+      "snomed": "42536305",
+      "immunocap_codes": [
+        "f94"
+      ]
     },
     {
       "canonical_name": "Penicillium",
@@ -1182,7 +1441,10 @@
       ],
       "category": "Mold",
       "subcategory": "Indoor",
-      "snomed": "4180730"
+      "snomed": "4180730",
+      "immunocap_codes": [
+        "m1"
+      ]
     },
     {
       "canonical_name": "Pepper",
@@ -1193,9 +1455,12 @@
         "피망"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4026321"
+      "snomed": "4026321",
+      "immunocap_codes": [
+        "f218"
+      ]
     },
     {
       "canonical_name": "Pepper",
@@ -1205,9 +1470,12 @@
         "고추"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4026321"
+      "snomed": "4026321",
+      "immunocap_codes": [
+        "f218"
+      ]
     },
     {
       "canonical_name": "Pine",
@@ -1219,7 +1487,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4115940"
+      "snomed": "4115940",
+      "immunocap_codes": [
+        "t213"
+      ]
     },
     {
       "canonical_name": "Pineapple",
@@ -1231,9 +1502,12 @@
       "ocr_aliases": [
         "Pineapp1e"
       ],
-      "category": "Pollen",
-      "subcategory": "Tree",
-      "snomed": "4106297"
+      "category": "Food",
+      "subcategory": null,
+      "snomed": "4106297",
+      "immunocap_codes": [
+        "f210"
+      ]
     },
     {
       "canonical_name": "Plaice",
@@ -1245,9 +1519,12 @@
       "ocr_aliases": [
         "P1aice"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4025228"
+      "snomed": "4025228",
+      "immunocap_codes": [
+        "f254"
+      ]
     },
     {
       "canonical_name": "Plane",
@@ -1261,7 +1538,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4117475"
+      "snomed": "4117475",
+      "immunocap_codes": [
+        "t11"
+      ]
     },
     {
       "canonical_name": "Poplar",
@@ -1275,7 +1555,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4117476"
+      "snomed": "4117476",
+      "immunocap_codes": [
+        "t14"
+      ]
     },
     {
       "canonical_name": "Pork",
@@ -1285,9 +1568,12 @@
         "돼지고기"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4037243"
+      "snomed": "4037243",
+      "immunocap_codes": [
+        "f26"
+      ]
     },
     {
       "canonical_name": "Potato",
@@ -1297,9 +1583,12 @@
         "감자"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "42536307"
+      "snomed": "42536307",
+      "immunocap_codes": [
+        "f35"
+      ]
     },
     {
       "canonical_name": "Rabbit epithelium",
@@ -1314,31 +1603,46 @@
       ],
       "category": "Animal",
       "subcategory": null,
-      "snomed": "4103623"
+      "snomed": "4103623",
+      "immunocap_codes": [
+        "e82"
+      ]
     },
     {
       "canonical_name": "Ragweed",
       "korean_name": "돼지풀",
       "aliases": [
         "Ragweed",
+        "Short ragweed",
+        "Common ragweed",
+        "Ambrosia artemisiifolia",
         "돼지풀"
       ],
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4103592"
+      "snomed": "4103592",
+      "immunocap_codes": [
+        "w1"
+      ]
     },
     {
       "canonical_name": "Ragweed",
       "korean_name": "돼지풀",
       "aliases": [
         "Ragweed",
+        "Short ragweed",
+        "Common ragweed",
+        "Ambrosia artemisiifolia",
         "돼지풀"
       ],
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4103592"
+      "snomed": "4103592",
+      "immunocap_codes": [
+        "w1"
+      ]
     },
     {
       "canonical_name": "Rat epithelium",
@@ -1353,7 +1657,10 @@
       ],
       "category": "Animal",
       "subcategory": null,
-      "snomed": "4105508"
+      "snomed": "4105508",
+      "immunocap_codes": [
+        "e73"
+      ]
     },
     {
       "canonical_name": "Rice",
@@ -1364,9 +1671,12 @@
         "쌀가루"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4284846"
+      "snomed": "4284846",
+      "immunocap_codes": [
+        "f9"
+      ]
     },
     {
       "canonical_name": "Russian thistle",
@@ -1380,7 +1690,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Weed",
-      "snomed": "4125374"
+      "snomed": "4125374",
+      "immunocap_codes": [
+        "w11"
+      ]
     },
     {
       "canonical_name": "Rye flour",
@@ -1394,32 +1707,42 @@
       ],
       "category": "Food",
       "subcategory": null,
-      "snomed": "4047298"
+      "snomed": "4047298",
+      "immunocap_codes": [
+        "f5"
+      ]
     },
     {
-      "canonical_name": "Rye grass",
+      "canonical_name": "Rye grass, perennial",
       "korean_name": "호밀풀",
       "aliases": [
         "Rye grass",
-        "호밀풀"
+        "호밀풀",
+        "Rye grass, perennial"
       ],
       "ocr_aliases": [],
-      "category": "Food",
-      "subcategory": null,
-      "snomed": "4117480"
+      "category": "Pollen",
+      "subcategory": "Grass",
+      "snomed": "4117480",
+      "immunocap_codes": [
+        "g5"
+      ]
     },
     {
-      "canonical_name": "Rye grass",
+      "canonical_name": "Rye grass, perennial",
       "korean_name": "호밀풀",
       "aliases": [
-        "Rye",
         "Rye grass",
-        "호밀풀"
+        "호밀풀",
+        "Rye grass, perennial"
       ],
       "ocr_aliases": [],
-      "category": "Food",
-      "subcategory": null,
-      "snomed": "4117480"
+      "category": "Pollen",
+      "subcategory": "Grass",
+      "snomed": "4117480",
+      "immunocap_codes": [
+        "g5"
+      ]
     },
     {
       "canonical_name": "Salmon",
@@ -1431,13 +1754,16 @@
       "ocr_aliases": [
         "Sa1mon"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "42536274"
+      "snomed": "42536274",
+      "immunocap_codes": [
+        "f41"
+      ]
     },
     {
       "canonical_name": "Sardine",
-      "korean_name": "생선 혼합",
+      "korean_name": "정어리",
       "aliases": [
         "Ele",
         "Sardine",
@@ -1445,9 +1771,12 @@
         "생선 혼합"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4026887"
+      "snomed": "4026887",
+      "immunocap_codes": [
+        "f61"
+      ]
     },
     {
       "canonical_name": "Sheep",
@@ -1457,9 +1786,12 @@
         "양고기"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "42594570"
+      "snomed": "42594570",
+      "immunocap_codes": [
+        "f88"
+      ]
     },
     {
       "canonical_name": "Shrimp",
@@ -1469,9 +1801,12 @@
         "새우"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4150599"
+      "snomed": "4150599",
+      "immunocap_codes": [
+        "f24"
+      ]
     },
     {
       "canonical_name": "Spinach",
@@ -1481,9 +1816,12 @@
         "시금치"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4103779"
+      "snomed": "4103779",
+      "immunocap_codes": [
+        "f214"
+      ]
     },
     {
       "canonical_name": "Squid",
@@ -1493,9 +1831,12 @@
         "오징어"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "42536271"
+      "snomed": "42536271",
+      "immunocap_codes": [
+        "f258"
+      ]
     },
     {
       "canonical_name": "Strawberry",
@@ -1505,12 +1846,15 @@
         "딸기"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4008942"
+      "snomed": "4008942",
+      "immunocap_codes": [
+        "f44"
+      ]
     },
     {
-      "canonical_name": "Timothy grass",
+      "canonical_name": "Timothy",
       "korean_name": "티모시",
       "aliases": [
         "Timothy",
@@ -1520,10 +1864,13 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Grass",
-      "snomed": "4116690"
+      "snomed": "4116690",
+      "immunocap_codes": [
+        "g6"
+      ]
     },
     {
-      "canonical_name": "Timothy grass",
+      "canonical_name": "Timothy",
       "korean_name": "큰조아재비",
       "aliases": [
         "Timothy",
@@ -1533,7 +1880,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Grass",
-      "snomed": "4116690"
+      "snomed": "4116690",
+      "immunocap_codes": [
+        "g6"
+      ]
     },
     {
       "canonical_name": "Tomato",
@@ -1543,9 +1893,12 @@
         "토마토"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "42536194"
+      "snomed": "42536194",
+      "immunocap_codes": [
+        "f25"
+      ]
     },
     {
       "canonical_name": "Tree mixture 1",
@@ -1557,9 +1910,12 @@
       "ocr_aliases": [
         "Tree mixture l"
       ],
-      "category": "Mixture",
-      "subcategory": "Tree pollen mix",
-      "snomed": "36684363"
+      "category": "Pollen",
+      "subcategory": "Tree",
+      "snomed": "36684363",
+      "immunocap_codes": [
+        "tx9"
+      ]
     },
     {
       "canonical_name": "Tree mixture 2",
@@ -1569,9 +1925,12 @@
         "나무 꽃가루 혼합-2"
       ],
       "ocr_aliases": [],
-      "category": "Mixture",
-      "subcategory": "Tree pollen mix",
-      "snomed": "36684363"
+      "category": "Pollen",
+      "subcategory": "Tree",
+      "snomed": "36684363",
+      "immunocap_codes": [
+        "tx5"
+      ]
     },
     {
       "canonical_name": "Trout",
@@ -1581,7 +1940,7 @@
         "송어"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
       "snomed": "42536291"
     },
@@ -1593,22 +1952,29 @@
         "참치"
       ],
       "ocr_aliases": [],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4037433"
+      "snomed": "4037433",
+      "immunocap_codes": [
+        "f40"
+      ]
     },
     {
-      "canonical_name": "Tyrophagus putrescentiae protein",
+      "canonical_name": "Tyrophagus putrescentiae",
       "korean_name": "긴털가루진드기",
       "aliases": [
         "T putres.",
         "Tyrophagus putrescentiae protein",
-        "긴털가루진드기"
+        "긴털가루진드기",
+        "Tyrophagus putrescentiae"
       ],
       "ocr_aliases": [],
       "category": "Mite",
       "subcategory": null,
-      "snomed": "46272688"
+      "snomed": "46272688",
+      "immunocap_codes": [
+        "d72"
+      ]
     },
     {
       "canonical_name": "Velvet grass",
@@ -1623,7 +1989,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Grass",
-      "snomed": "4117481"
+      "snomed": "4117481",
+      "immunocap_codes": [
+        "g13"
+      ]
     },
     {
       "canonical_name": "Walnut",
@@ -1635,9 +2004,12 @@
       "ocr_aliases": [
         "Wa1nut"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4103782"
+      "snomed": "4103782",
+      "immunocap_codes": [
+        "f256"
+      ]
     },
     {
       "canonical_name": "White ash",
@@ -1650,7 +2022,10 @@
       "ocr_aliases": [],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4125375"
+      "snomed": "4125375",
+      "immunocap_codes": [
+        "t15"
+      ]
     },
     {
       "canonical_name": "Wholemeal flour",
@@ -1663,9 +2038,12 @@
       "ocr_aliases": [
         "Who1emea1 f1our"
       ],
-      "category": "Other",
+      "category": "Food",
       "subcategory": null,
-      "snomed": "4047302"
+      "snomed": "4047302",
+      "immunocap_codes": [
+        "f79"
+      ]
     },
     {
       "canonical_name": "Willow",
@@ -1680,7 +2058,10 @@
       ],
       "category": "Pollen",
       "subcategory": "Tree",
-      "snomed": "4116685"
+      "snomed": "4116685",
+      "immunocap_codes": [
+        "t12"
+      ]
     },
     {
       "canonical_name": "Yeast",
@@ -1691,9 +2072,744 @@
         "맥주용효모"
       ],
       "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": "4132477",
+      "immunocap_codes": [
+        "f45"
+      ]
+    },
+    {
+      "canonical_name": "Wheat",
+      "korean_name": "밀",
+      "aliases": [
+        "소맥",
+        "밀가루",
+        "Triticum",
+        "통밀",
+        "Tri a"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": "4047302",
+      "immunocap_codes": [
+        "f4"
+      ]
+    },
+    {
+      "canonical_name": "Maize (corn)",
+      "korean_name": "옥수수",
+      "aliases": [
+        "Corn",
+        "콘",
+        "Zea mays",
+        "옥수수가루",
+        "Zea m",
+        "Maize (corn)",
+        "Maize"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": "4041339",
+      "immunocap_codes": [
+        "f8"
+      ]
+    },
+    {
+      "canonical_name": "Apricot",
+      "korean_name": "살구",
+      "aliases": [
+        "Prunus armeniaca",
+        "Pru ar"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "f237"
+      ]
+    },
+    {
+      "canonical_name": "Cashew",
+      "korean_name": "캐슈넛",
+      "aliases": [
+        "Cashew nut",
+        "캐슈",
+        "Ana o",
+        "Anacardium"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "f202"
+      ]
+    },
+    {
+      "canonical_name": "Crayfish",
+      "korean_name": "가재",
+      "aliases": [
+        "민물가재",
+        "Astacus",
+        "크레이피시"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "f320"
+      ]
+    },
+    {
+      "canonical_name": "Guinea pig",
+      "korean_name": "기니피그",
+      "aliases": [
+        "Cavia",
+        "기니픽",
+        "Cav p"
+      ],
+      "ocr_aliases": [],
+      "category": "Animal",
+      "subcategory": "Indoor",
+      "snomed": null,
+      "immunocap_codes": [
+        "e6"
+      ]
+    },
+    {
+      "canonical_name": "Hazelnut",
+      "korean_name": "헤이즐넛",
+      "aliases": [
+        "개암",
+        "Cor a",
+        "Filbert",
+        "헤이즐럿",
+        "헤이즐 넛"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "f17"
+      ]
+    },
+    {
+      "canonical_name": "Hornbeam",
+      "korean_name": "서어나무",
+      "aliases": [
+        "Carpinus",
+        "Car b"
+      ],
+      "ocr_aliases": [],
+      "category": "Pollen",
+      "subcategory": "Tree",
+      "snomed": null,
+      "immunocap_codes": [
+        "t209"
+      ]
+    },
+    {
+      "canonical_name": "Mung bean",
+      "korean_name": "녹두",
+      "aliases": [
+        "Vigna radiata",
+        "녹두콩"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Olive",
+      "korean_name": "올리브",
+      "aliases": [
+        "Olea",
+        "올리브나무",
+        "Ole e"
+      ],
+      "ocr_aliases": [],
+      "category": "Pollen",
+      "subcategory": "Tree",
+      "snomed": null,
+      "immunocap_codes": [
+        "t9"
+      ]
+    },
+    {
+      "canonical_name": "Pecan",
+      "korean_name": "피칸",
+      "aliases": [
+        "Carya",
+        "피칸넛"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "f201"
+      ]
+    },
+    {
+      "canonical_name": "Pistachio",
+      "korean_name": "피스타치오",
+      "aliases": [
+        "Pistacia",
+        "Pis v",
+        "피스타치오넛"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "f203"
+      ]
+    },
+    {
+      "canonical_name": "Sesame",
+      "korean_name": "참깨",
+      "aliases": [
+        "깨",
+        "Ses i",
+        "참깨씨",
+        "Sesamum"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "f10"
+      ]
+    },
+    {
+      "canonical_name": "Watermelon",
+      "korean_name": "수박",
+      "aliases": [
+        "Citrullus",
+        "워터멜론"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "f329"
+      ]
+    },
+    {
+      "canonical_name": "Crab",
+      "korean_name": "게",
+      "aliases": [
+        "꽃게",
+        "Blue crab",
+        "Portunus",
+        "대게",
+        "킹크랩",
+        "Cha f"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "f23"
+      ]
+    },
+    {
+      "canonical_name": "Cow milk",
+      "korean_name": "우유",
+      "aliases": [
+        "Milk",
+        "우유단백",
+        "Bos d",
+        "소젖",
+        "밀크"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "f2"
+      ]
+    },
+    {
+      "canonical_name": "Mouse",
+      "korean_name": "생쥐",
+      "aliases": [
+        "Mus musculus",
+        "마우스",
+        "Mus m"
+      ],
+      "ocr_aliases": [],
+      "category": "Animal",
+      "subcategory": "Indoor",
+      "snomed": null,
+      "immunocap_codes": [
+        "e71"
+      ]
+    },
+    {
+      "canonical_name": "Hamster",
+      "korean_name": "햄스터",
+      "aliases": [
+        "Cricetus",
+        "Mesocricetus",
+        "Pho s"
+      ],
+      "ocr_aliases": [],
+      "category": "Animal",
+      "subcategory": "Indoor",
+      "snomed": null,
+      "immunocap_codes": [
+        "e84"
+      ]
+    },
+    {
+      "canonical_name": "Soybean",
+      "korean_name": "대두",
+      "aliases": [
+        "콩",
+        "Soy",
+        "Glycine max",
+        "메주콩",
+        "Gly m"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": "4103602",
+      "immunocap_codes": [
+        "f14"
+      ]
+    },
+    {
+      "canonical_name": "Prawn",
+      "korean_name": "대하",
+      "aliases": [
+        "왕새우",
+        "Pen m"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "f24"
+      ]
+    },
+    {
+      "canonical_name": "Krill",
+      "korean_name": "크릴",
+      "aliases": [
+        "크릴새우",
+        "Euphausia"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Clam",
+      "korean_name": "조개",
+      "aliases": [
+        "바지락",
+        "백합",
+        "Rud p"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "f207"
+      ]
+    },
+    {
+      "canonical_name": "Abalone",
+      "korean_name": "전복",
+      "aliases": [
+        "Haliotis"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "f346"
+      ]
+    },
+    {
+      "canonical_name": "Snail",
+      "korean_name": "달팽이",
+      "aliases": [
+        "에스카르고",
+        "Helix"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "f314"
+      ]
+    },
+    {
+      "canonical_name": "Anisakis",
+      "korean_name": "아니사키스",
+      "aliases": [
+        "고래회충",
+        "Ani s"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "p4"
+      ]
+    },
+    {
+      "canonical_name": "Carp",
+      "korean_name": "잉어",
+      "aliases": [
+        "Cyp c"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null
+    },
+    {
+      "canonical_name": "Herring",
+      "korean_name": "청어",
+      "aliases": [
+        "Clu h"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "f205"
+      ]
+    },
+    {
+      "canonical_name": "Pollock",
+      "korean_name": "명태",
+      "aliases": [
+        "동태",
+        "황태",
+        "Gad c"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "f413"
+      ]
+    },
+    {
+      "canonical_name": "Cow dander",
+      "korean_name": "소 비듬",
+      "aliases": [
+        "Bos d 2",
+        "소 상피",
+        "Cow",
+        "Cow epithelium",
+        "Cow hair",
+        "Cattle",
+        "Cattle dander",
+        "Cattle epithelium",
+        "소"
+      ],
+      "ocr_aliases": [],
+      "category": "Animal",
+      "subcategory": "Indoor",
+      "snomed": null,
+      "provenance": "added_2026_10: aliases Cow / Cow epithelium / Cow hair / Cattle / Cattle dander / Cattle epithelium / 소 (ImmunoCAP e4) — unverified against the clinic's actual panel",
+      "immunocap_codes": [
+        "e4"
+      ]
+    },
+    {
+      "canonical_name": "Horse dander",
+      "korean_name": "말 비듬",
+      "aliases": [
+        "Equ c",
+        "말 상피",
+        "Horse",
+        "Horse epithelium",
+        "Horse hair",
+        "말"
+      ],
+      "ocr_aliases": [],
+      "category": "Animal",
+      "subcategory": "Indoor",
+      "snomed": null,
+      "provenance": "added_2026_10: aliases Horse / Horse epithelium / Horse hair / 말 (ImmunoCAP e3) — unverified against the clinic's actual panel",
+      "immunocap_codes": [
+        "e3"
+      ]
+    },
+    {
+      "canonical_name": "Cherry",
+      "korean_name": "체리",
+      "aliases": [
+        "버찌",
+        "Pru av"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "f242"
+      ]
+    },
+    {
+      "canonical_name": "Plum",
+      "korean_name": "자두",
+      "aliases": [
+        "Pru d"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "f255"
+      ]
+    },
+    {
+      "canonical_name": "Mushroom",
+      "korean_name": "버섯",
+      "aliases": [
+        "Mushroom",
+        "Edible mushroom",
+        "버섯",
+        "표고버섯",
+        "느타리버섯"
+      ],
+      "ocr_aliases": [],
+      "category": "Food",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "f212"
+      ]
+    },
+    {
+      "canonical_name": "House dust",
+      "korean_name": "집먼지",
+      "aliases": [
+        "House dust",
+        "Housedust",
+        "집먼지"
+      ],
+      "ocr_aliases": [],
       "category": "Other",
       "subcategory": null,
-      "snomed": "4132477"
+      "snomed": null,
+      "immunocap_codes": [
+        "h1",
+        "h2"
+      ]
+    },
+    {
+      "canonical_name": "Penicillin G",
+      "korean_name": "페니실린 G",
+      "aliases": [
+        "Penicillin G",
+        "Penicilloyl G",
+        "Penicillin",
+        "페니실린",
+        "페니실린 G"
+      ],
+      "ocr_aliases": [],
+      "category": "Drug",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "c1"
+      ]
+    },
+    {
+      "canonical_name": "Penicillin V",
+      "korean_name": "페니실린 V",
+      "aliases": [
+        "Penicillin V",
+        "Penicilloyl V",
+        "페니실린 V"
+      ],
+      "ocr_aliases": [],
+      "category": "Drug",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "c2"
+      ]
+    },
+    {
+      "canonical_name": "Ampicillin",
+      "korean_name": "암피실린",
+      "aliases": [
+        "Ampicillin",
+        "Ampicilloyl",
+        "암피실린"
+      ],
+      "ocr_aliases": [],
+      "category": "Drug",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "c5"
+      ]
+    },
+    {
+      "canonical_name": "Amoxicillin",
+      "korean_name": "아목시실린",
+      "aliases": [
+        "Amoxicillin",
+        "Amoxicilloyl",
+        "아목시실린"
+      ],
+      "ocr_aliases": [],
+      "category": "Drug",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "c6"
+      ]
+    },
+    {
+      "canonical_name": "Cefaclor",
+      "korean_name": "세파클러",
+      "aliases": [
+        "Cefaclor",
+        "세파클러"
+      ],
+      "ocr_aliases": [],
+      "category": "Drug",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_codes": [
+        "c7"
+      ]
+    },
+    {
+      "canonical_name": "Honey bee venom",
+      "korean_name": "꿀벌 독",
+      "aliases": [
+        "Honey bee",
+        "Honeybee",
+        "Honeybee venom",
+        "Bee venom",
+        "Apis mellifera",
+        "꿀벌",
+        "꿀벌독"
+      ],
+      "ocr_aliases": [],
+      "category": "Venom",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_code": "i1",
+      "provenance": "added_2026_10: unverified against the clinic's actual panel",
+      "immunocap_codes": [
+        "i1"
+      ]
+    },
+    {
+      "canonical_name": "Yellow jacket venom",
+      "korean_name": "땅벌 독(Yellow jacket)",
+      "aliases": [
+        "Yellow jacket",
+        "Yellowjacket",
+        "Yellowjacket venom",
+        "Common wasp",
+        "Common wasp venom",
+        "Wasp venom",
+        "Wasp",
+        "Vespula",
+        "땅벌",
+        "땅벌독",
+        "땅벌 독"
+      ],
+      "ocr_aliases": [],
+      "category": "Venom",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_code": "i3",
+      "provenance": "added_2026_10: unverified against the clinic's actual panel",
+      "immunocap_codes": [
+        "i3"
+      ]
+    },
+    {
+      "canonical_name": "Paper wasp venom",
+      "korean_name": "쌍살벌 독",
+      "aliases": [
+        "Paper wasp",
+        "Polistes",
+        "쌍살벌",
+        "쌍살벌독"
+      ],
+      "ocr_aliases": [],
+      "category": "Venom",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_code": "i4",
+      "provenance": "added_2026_10: unverified against the clinic's actual panel",
+      "immunocap_codes": [
+        "i4"
+      ]
+    },
+    {
+      "canonical_name": "White-faced hornet venom",
+      "korean_name": "말벌 독(White-faced hornet)",
+      "aliases": [
+        "White-faced hornet",
+        "White faced hornet",
+        "White faced hornet venom",
+        "Dolichovespula maculata"
+      ],
+      "ocr_aliases": [],
+      "category": "Venom",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_code": "i2",
+      "provenance": "added_2026_10: unverified against the clinic's actual panel",
+      "immunocap_codes": [
+        "i2"
+      ]
+    },
+    {
+      "canonical_name": "Yellow hornet venom",
+      "korean_name": "말벌 독(Yellow hornet)",
+      "aliases": [
+        "Yellow hornet",
+        "Dolichovespula arenaria"
+      ],
+      "ocr_aliases": [],
+      "category": "Venom",
+      "subcategory": null,
+      "snomed": null,
+      "immunocap_code": "i5",
+      "provenance": "added_2026_10: unverified against the clinic's actual panel",
+      "immunocap_codes": [
+        "i5"
+      ]
     }
   ]
 }

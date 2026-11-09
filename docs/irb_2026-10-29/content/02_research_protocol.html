@@ -1,0 +1,746 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><title>02. 상세 연구계획서 | APAAACI</title><style>
+:root{--ink:#172d42;--blue:#125b9a;--muted:#51677b;--line:#dce4ec;--bg:#f2f6fa;--warn:#fff3d8}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:80px}body{margin:0;color:var(--ink);background:var(--bg);font:16px/1.8 -apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic',sans-serif}a{color:var(--blue);text-underline-offset:3px;overflow-wrap:anywhere}button,input{font:inherit}button,.button{display:inline-block;border:1px solid #b8cada;background:white;color:var(--blue);border-radius:8px;padding:8px 13px;cursor:pointer;text-decoration:none;font-size:14px}button:hover,.button:hover{background:#e9f1f8}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #e99822;outline-offset:3px}.top{background:#102e49;color:white;padding:12px 24px;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}.top strong{margin-right:auto}.top a{color:#ecf5ff;font-size:14px}.hero{max-width:1280px;margin:auto;padding:35px 28px 22px}.eyebrow{font-size:13px;letter-spacing:.06em;color:var(--blue);font-weight:750}h1{font-size:clamp(26px,3vw,40px);line-height:1.4;margin:12px 0}h2{font-size:24px;line-height:1.5;border-bottom:2px solid var(--line);padding-bottom:10px;margin-top:42px}h3{font-size:19px;line-height:1.5;margin-top:28px}h4{font-size:17px}p{margin:12px 0}.lead{max-width:950px;color:var(--muted)}.notice{background:var(--warn);border-left:5px solid #bc8125;padding:14px 20px;border-radius:4px;margin:18px 0}.actions{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0}.layout{max-width:1280px;margin:0 auto 48px;padding:0 28px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:26px}.toc{position:sticky;top:20px;max-height:90vh;overflow:auto;align-self:start;background:#fff;border:1px solid var(--line);padding:17px;border-radius:12px;font-size:13px}.toc a{display:block;padding:5px 0;text-decoration:none}.toc input{width:100%;padding:8px;border:1px solid var(--line);border-radius:6px;margin:10px 0}.toc .sub{padding-left:12px;color:var(--muted)}article{min-width:0;background:white;border:1px solid var(--line);border-radius:13px;padding:25px 34px}article>h1:first-child{font-size:28px}blockquote{border-left:3px solid #9bbbd7;margin:18px 0;padding:4px 18px;color:#395c77;background:#f5f9fc}blockquote p{margin:6px 0}ul,ol{padding-left:25px}li{margin:7px 0}li input[type=checkbox]{margin-right:8px}.table-wrap{overflow-x:auto;margin:18px 0}table{border-collapse:collapse;min-width:520px;width:100%;font-size:14px}th,td{border:1px solid var(--line);padding:10px 12px;vertical-align:top;text-align:left;overflow-wrap:anywhere}th{background:#eaf1f8}tbody tr:nth-child(even){background:#fafcfe}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#112b40;color:#e7f2fb;border-radius:9px;padding:20px;font-size:13px;line-height:1.7}code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;overflow-wrap:anywhere}p code,li code,td code{background:#eff3f7;padding:2px 5px;border-radius:4px}.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:20px 0}.phase{border:1px solid #b4cadc;background:#f9fcff;border-radius:9px;color:var(--ink);padding:12px;text-align:left;line-height:1.5}.phase span{display:block;color:var(--blue);font-weight:800;font-size:12px}.phase[aria-pressed=true]{background:#e3eff9;border:2px solid var(--blue);padding:11px}.phase-note{padding:14px 18px;border-radius:8px;background:#edf4fb;min-height:80px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:24px 0}.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;min-width:0}.card h3{margin:4px 0}.tag{display:inline-block;font-size:12px;padding:1px 8px;background:#eaf2fa;border-radius:20px;color:var(--blue)}.card p{font-size:14px;color:var(--muted)}.tiny{font-size:13px;color:var(--muted)}.full{grid-column:1/-1}.index-body{max-width:1224px;margin:0 auto 60px;padding:0 28px}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.metric{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px}.metric b{display:block;font-size:24px;color:var(--blue)}.footer{max-width:1280px;margin:20px auto;padding:18px 28px;color:var(--muted);font-size:13px;border-top:1px solid var(--line)}.back{font-size:13px}.hidden,[hidden]{display:none!important}.source-badge{font-size:12px;color:#74521b}.doc-filter{width:100%;padding:12px;border:1px solid #b8cada;border-radius:8px}
+@media(max-width:850px){.layout{grid-template-columns:1fr;padding:0 14px}.toc{position:static;max-height:260px}.hero{padding:24px 17px 15px}article{padding:18px}.grid{grid-template-columns:1fr}.flow{grid-template-columns:repeat(2,1fr)}.metrics{grid-template-columns:repeat(2,1fr)}.index-body{padding:0 15px}.top{padding:12px 16px}.top strong{width:100%}}
+@media print{@page{size:A4;margin:16mm}body{background:#fff;font-size:11pt}.top,.toc,.actions,.flow,.phase-note,.doc-filter,.no-print{display:none!important}.layout{display:block;padding:0;margin:0}.hero{padding:0}.hero h1{font-size:23pt}.hero .lead{font-size:10pt}article{padding:0;border:0}article>h1:first-child{display:none}.notice{background:#fff9ed;border:1px solid #d8bb83;padding:10px}h2{font-size:16pt;break-after:avoid;margin-top:22px}h3{font-size:13pt;break-after:avoid}h4{break-after:avoid}p,li{orphans:3;widows:3}.table-wrap{overflow:visible}table{min-width:0;font-size:9pt}th,td{padding:6px}thead{display:table-header-group}tr{break-inside:avoid}pre{background:#f4f6f8;color:#172d42;font-size:8pt}.grid{display:block}.card{break-inside:avoid;margin-bottom:10px}.footer{font-size:8pt;padding:10px 0}.metrics{display:none}a{color:inherit}}
+</style></head><body><nav class="top" aria-label="자료 모음"><strong>APAAACI · 연구 준비 문서</strong><a href="../../project_documentation_2026-10-29.html">전체 자료</a><a href="../../irb_2026-10-29/index.html">IRB 서류</a><a href="../../patient_satisfaction_2026-10-29/index.html">만족도 설문</a><a href="../../medical_information_cooperation_2026-10-29/index.html">의료정보센터 협조</a><a href="../../manuals/user_manual.html">사용자 매뉴얼</a><a href="../../manuals/researcher_manual.html">연구자 매뉴얼</a><a href="../../ocr_comparison_2026-10-29/index.html">OCR 비교</a><a href="../../generated_materials_2026-10-29/index.html">실제값 생성 자료</a></nav><header class="hero"><div class="eyebrow">APAAACI / REVIEW DRAFT 0.2</div><h1>02. 상세 연구계획서</h1><p class="lead">병원 검토와 수정을 위한 초안입니다.</p><div class="notice">IRB·기관 검토 전 초안입니다. 빈 기입란과 제안값을 확정해야 합니다.</div><div class="actions"><a class="button" download href="02_research_protocol.docx">Word 다운로드</a><a class="button" download href="02_research_protocol.pdf">PDF 다운로드</a><a class="button" download href="02_research_protocol.md">원문 다운로드</a><button data-print>인쇄 · PDF 저장</button><a class="button" href="../index.html">IRB 문서 모음</a></div></header><div class="layout"><aside class="toc" aria-label="문서 목차"><strong>목차</strong><input aria-label="목차 검색" data-filter-toc placeholder="목차 검색"><a class="" href="#section-2">1. 연구 식별과 책임</a><a class="" href="#section-3">2. 용어와 해석 범위</a><a class="" href="#section-4">3. 연구 배경과 기존 자료</a><a class="" href="#section-5">4. 연구 목적</a><a class="" href="#section-6">5. 연구 설계와 운영 장소</a><a class="" href="#section-7">6. 표본수와 기간</a><a class="" href="#section-8">7. 선정 기준</a><a class="" href="#section-9">8. 제외와 등록 후 중단</a><a class="" href="#section-10">9. 모집과 성인 동의</a><a class="" href="#section-11">10. 소아와 법정대리인 절차</a><a class="" href="#section-12">11. 적격 검사 사건과 원천 결과</a><a class="" href="#section-13">12. 대상자 절차 6단계</a><a class="" href="#section-14">13. 상태 전이와 의료진 검수</a><a class="" href="#section-15">14. 수집 항목과 보관 구역</a><a class="" href="#section-16">15. 일차 평가변수</a><a class="" href="#section-17">16. 이차 평가변수</a><a class="" href="#section-18">17. 정확성의 기준과 판정</a><a class="" href="#section-19">18. 통계 분석</a><a class="" href="#section-20">19. 예상 이익과 위험</a><a class="" href="#section-21">20. 개인정보와 외부 처리</a><a class="" href="#section-22">21. 동의 철회와 대상자 선택</a><a class="" href="#section-23">22. 오류와 사고 대응</a><a class="" href="#section-24">23. 비용과 피해 구제</a><a class="" href="#section-25">24. 보관과 파기</a><a class="" href="#section-26">25. 품질 관리와 시작 조건</a><a class="" href="#section-27">26. 결과 공개와 연구의 한계</a><a class="" href="#section-28">27. 참고 문서와 확정 항목</a></aside><article>
+<p>본 연구는 병원 검사와 모바일 문진의 연계 과정을 평가한다.</p>
+<p><strong>버전 0.2 · 2026-10-29 · IRB 심의용 초안 · 미승인</strong></p>
+<p>독자: 연구책임자, IRB, 의료진, 의료정보팀.
+목적: 대상자 보호와 분석 기준을 심의 전에 정한다.</p>
+<h2 id="section-2">1. 연구 식별과 책임</h2>
+<p>국문 연구명은 다음과 같다.</p>
+<table>
+<thead>
+<tr>
+<th>연구명</th>
+<th>기재 내용</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>국문</td>
+<td>병원 알레르기 검사와 모바일 문진을 연계한 환자 설명자료 및 FHIR 생성 시스템의 전향적 실행가능성·정확성 평가</td>
+</tr>
+</tbody></table>
+<p>영문 연구명은 다음과 같다.</p>
+<p>Prospective Feasibility and Accuracy Evaluation of a Hospital-Linked Allergy Test and Mobile Questionnaire System for Patient Reports, Card News, and FHIR Exports</p>
+<p>연구기관은 충북대학교병원 알레르기내과 검사실이다.</p>
+<p>기존 연구 문서의 책임연구자는 강민규이다.
+본 연구의 책임지정과 현재 직위는 제출 전에 확인한다.
+기관 주소는 충북 청주시 서원구 1순환로 776이다.
+연구 연락처는 [전화·병원 이메일 기입]이다.
+연구비와 이해상충은 [지원기관·과제번호 기입]이다.
+본 초안에는 승인번호가 없다.</p>
+<p>연구자는 모집 전에 IRB 심의를 받아야 한다.
+<a href="https://law.go.kr/lsLinkCommonInfo.do?chrClsCd=010202&lsJoLnkSeq=1025168733">생명윤리법 제15조</a>를 따른다.
+본 문서는 병원 공식 신청서 서식의 확인본이 아니다.</p>
+<h2 id="section-3">2. 용어와 해석 범위</h2>
+<table>
+<thead>
+<tr>
+<th>용어</th>
+<th>정의</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>HIS</td>
+<td>병원정보시스템 · 진료 결과의 원천 체계</td>
+</tr>
+<tr>
+<td>적격 결과</td>
+<td>동의 후 확정한 연구 대상 검사 결과</td>
+</tr>
+<tr>
+<td>검사 사건</td>
+<td>같은 검사 시행에 속하는 결과 묶음</td>
+</tr>
+<tr>
+<td>문진</td>
+<td>검사 관련 증상과 경험을 묻는 모바일 설문</td>
+</tr>
+<tr>
+<td>OCR</td>
+<td>스캔에서 문자와 검사값을 추출하는 처리</td>
+</tr>
+<tr>
+<td>FHIR</td>
+<td>의료정보 교환을 위한 HL7 표준 형식</td>
+</tr>
+<tr>
+<td>검수 승인</td>
+<td>의료진이 자료의 최종 임상 내용을 승인한 상태</td>
+</tr>
+<tr>
+<td>인증 전달</td>
+<td>확인한 수신자가 인증 후 자료에 접근한 상태</td>
+</tr>
+<tr>
+<td>중대한 오류</td>
+<td>환자·검사·판단의 안전에 영향을 줄 수 있는 오류</td>
+</tr>
+</tbody></table>
+<p>양성 검사만으로 임상 알레르기를 확정하지 않는다.
+문진 공란을 증상 없음으로 바꾸지 않는다.
+FHIR 유효성 검사를 임상 정확성으로 해석하지 않는다.</p>
+<h2 id="section-4">3. 연구 배경과 기존 자료</h2>
+<p>환자는 검사값과 증상의 관계를 이해해야 한다.
+연구진은 검사값과 문진을 연결한 설명자료를 만든다.
+연구진은 의료진 검수 후 자료를 제공하는 과정을 평가한다.</p>
+<p>기존 문진 연구에서 HIS와 문진의 연계 구조를 참고했다.
+기존 약물 앱 연구에서 설명과 동의 절차를 참고했다.
+기존 소아 앱 연구에서 보호자 설명 구조를 참고했다.
+기존 등록 연구에서 연구번호와 연결표 분리를 참고했다.</p>
+<p>기존 문서의 승인과 연락처는 본 연구에 승계하지 않는다.
+기존 문서의 위험 없음 표현도 승계하지 않는다.
+기존 보상과 보관기간은 본 연구의 근거로 쓰지 않는다.</p>
+<p>기존 개발용 스캔 29건은 별도 자료이다.
+전향적 모집수 120명에 해당 파일을 넣지 않는다.
+기존 파일의 대상자 동의를 받았다고 가정하지 않는다.
+기존 파일의 이용 범위는 출처와 승인 근거로 따로 확인한다.</p>
+<h2 id="section-5">4. 연구 목적</h2>
+<p>일차 목적은 승인 자료의 인증 전달률을 평가하는 것이다.
+이차 목적은 자료의 정확성과 운영 부담을 평가하는 것이다.
+자료 이용 경험은 선택 사후 만족도 설문으로 탐색한다.
+지식 정답을 채점하는 이해도 퀴즈는 사용하지 않는다.
+본 연구는 질병 개선이나 치료 효과를 입증하지 않는다.</p>
+<p>생성 자료는 보고서 PDF, 카드뉴스, FHIR이다.
+본 연구는 자동 진단이나 자동 처방을 시행하지 않는다.
+연구진은 추가 검사나 검체 채취를 시행하지 않는다.
+연구진은 통상 진료의 검사와 처방을 바꾸지 않는다.</p>
+<h2 id="section-6">5. 연구 설계와 운영 장소</h2>
+<p>본 연구는 전향적 단일기관 실행가능성·정확성 연구이다.
+연구진은 충북대학교병원에서 대상자를 모집한다.
+연구진은 병원 내부 서버에서 환자정보를 처리한다.
+의료정보센터가 관리하는 GPU 사용을 협의한다.</p>
+<p>연구진은 내부 qwen3.8 운영 구성을 제안한다.
+정확한 모델 식별자와 배포 가능성은 확인하지 못했다.
+DGX Spark에서 병원 GPU로의 이전은 향후 협의 사항이다.</p>
+<p>병원 알림톡 서비스와 HIS 연계도 향후 협의 사항이다.
+현재 설치와 병원 연계를 완료했다고 해석하지 않는다.
+<a href="../../medical_information_cooperation_2026-10-29/index.html">의료정보팀 협조 요청서</a></p>
+<p>실제 환자정보의 외부 모델 API 전송은 제외한다.
+국외 이전과 모델 학습 이용도 기본안에서 제외한다.
+새 처리 범위를 추가하면 변경심의를 거친다.
+추가 범위의 법적 근거와 동의 절차도 먼저 확인한다.</p>
+<h2 id="section-7">6. 표본수와 기간</h2>
+<p>아래 수치는 모두 **작성자 제안(PROPOSED)**이다.
+책임연구자와 IRB가 최종 수치를 확정한다.</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>작성자 제안(PROPOSED)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>등록 목표</td>
+<td>총 120명</td>
+</tr>
+<tr>
+<td>연령별 목표</td>
+<td>성인 90명, 소아 30명</td>
+</tr>
+<tr>
+<td>전체 기간</td>
+<td>IRB 승인일부터 24개월</td>
+</tr>
+<tr>
+<td>개인 참여기간</td>
+<td>적격 결과 확정일부터 최대 30일</td>
+</tr>
+<tr>
+<td>본 문진</td>
+<td>10~15분</td>
+</tr>
+<tr>
+<td>사후 만족도 설문</td>
+<td>6문항·선택 의견 300자 · 약 2분 설계 목표</td>
+</tr>
+<tr>
+<td>임상 문진 응답기간</td>
+<td>최초 문진 발송 후 14일</td>
+</tr>
+<tr>
+<td>임상 문진 재알림</td>
+<td>최초 문진 발송 후 3일과 7일 · 최대 2회</td>
+</tr>
+<tr>
+<td>검수 목표</td>
+<td>문진 완료 후 3영업일 이내</td>
+</tr>
+<tr>
+<td>임시 URL 만료</td>
+<td>발급 후 최대 30일</td>
+</tr>
+</tbody></table>
+<p>사후 설문은 임상 문진과 별도 일정으로 운영한다.
+다음 사후 일정도 **작성자 제안(PROPOSED)**이다.</p>
+<table>
+<thead>
+<tr>
+<th>사후 설문 항목</th>
+<th>작성자 제안(PROPOSED)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>초대 기준</td>
+<td>승인 자료의 본인 확인 후 열람 또는 연구자 수령 확인</td>
+</tr>
+<tr>
+<td>기준시각</td>
+<td>위 기록 중 첫 시각</td>
+</tr>
+<tr>
+<td>초대시각</td>
+<td>기준시각 후 24시간</td>
+</tr>
+<tr>
+<td>응답창</td>
+<td>초대 후 7일과 결과 확정 후 30일 중 이른 때까지</td>
+</tr>
+<tr>
+<td>재알림</td>
+<td>초대 후 3일 · 최대 1회</td>
+</tr>
+<tr>
+<td>늦은 초대</td>
+<td>초대 시 잔여 응답시간 24시간 미만이면 미발송</td>
+</tr>
+<tr>
+<td>정정 중</td>
+<td>예약 보류 · 같은 회차에 자동 추가 초대 금지</td>
+</tr>
+</tbody></table>
+<p>알림톡 전달 영수증만으로 수령과 읽음을 단정하지 않는다.
+연구자의 수령 확인도 내용 이해의 증거가 아니다.
+검수 목표는 결과 제공 시점을 보장하지 않는다.
+120명은 초기 운영 경험을 얻기 위한 제안 수이다.
+효능 차이를 검정하는 검정력 계산을 적용하지 않았다.</p>
+<p>분모가 120명이고 성공률이 50%라면 오차가 가장 크다.
+이때 Wilson 95% 신뢰구간 폭은 약 ±8.8%p이다.
+실제 분모가 줄면 신뢰구간은 넓어진다.
+소아 30명의 추정치는 기술 통계로 해석한다.</p>
+<h2 id="section-8">7. 선정 기준</h2>
+<p>다음 기준을 모두 충족한 환자를 등록한다.</p>
+<ol>
+<li>충북대학교병원 알레르기내과 검사실을 이용한다.</li>
+<li>통상 진료로 연구 대상 검사를 받는다.</li>
+<li>결과 확정 전에 유효한 연구 동의를 완료한다.</li>
+<li>동의 후 적격 HIS 확정 결과가 발생한다.</li>
+<li>확인한 본인 또는 보호자가 모바일 문진을 이용한다.</li>
+<li>결과와 대상자를 기관 절차로 연결할 수 있다.</li>
+</ol>
+<p>연구 대상은 MAST, SPT, 특이 IgE이다.
+특이 IgE에는 UniCAP과 ImmunoCAP 등 해당 검사를 포함한다.
+검사코드와 결과 확정 상태는 의료정보팀과 확정한다.
+모든 연령을 검토하되 소아 동의 경로를 별도 적용한다.
+기술적 미지원 검사는 선정 전에 확인한다.</p>
+<h2 id="section-9">8. 제외와 등록 후 중단</h2>
+<p>다음 조건이면 등록하지 않는다.</p>
+<ul>
+<li>유효한 본인 동의 또는 필요한 대리 동의가 없다.</li>
+<li>응급 상태로 연구 설명과 참여가 진료에 지장을 준다.</li>
+<li>환자와 검사 결과의 연결을 확인할 수 없다.</li>
+<li>본인 또는 보호자의 수신 권한을 확인할 수 없다.</li>
+<li>승인한 검사 형식과 연구 범위를 벗어난다.</li>
+</ul>
+<p>성인의 동의 능력이 부족하면 별도 절차를 검토한다.
+성인 대리 동의의 적용 범위는 IRB와 먼저 확정한다.
+질환명이나 장애만으로 동의 능력을 단정하지 않는다.</p>
+<p>등록 후 미응답은 등록 전 제외로 바꾸지 않는다.
+등록 후 오류와 전송 실패도 분석에서 숨기지 않는다.
+연구진은 중단 사유와 시점을 기록한다.</p>
+<h2 id="section-10">9. 모집과 성인 동의</h2>
+<p>연구진은 진료 공간에서 연구 참여를 안내한다.
+진료와 연구의 목적을 구분해서 설명한다.
+대상자는 충분한 설명과 질문 시간을 가진다.
+연구진은 참여 결정을 강요하지 않는다.
+거부와 철회는 통상 진료에 불이익을 주지 않는다.
+연구진은 동의서 사본을 대상자에게 제공한다.</p>
+<p>별도 사후 알림톡과 약 2분의 추가 부담을 설명한다.
+사후 설문과 그 안내 수신은 별도로 선택하게 한다.
+선택을 거절해도 진료와 자료 전달에 불이익이 없다.</p>
+<p>설명에는 목적, 기간, 절차, 위험과 이익을 포함한다.
+개인정보 보호, 피해 구제와 철회도 설명한다.
+자료 제공 범위와 실제 수신자도 설명한다.
+<a href="https://www.law.go.kr/LSW/lsLawLinkInfo.do?chrClsCd=010202&lsId=009628&lsJoLnkSeq=900406343&print=print">생명윤리법 제16조</a>를 따른다.</p>
+<p>건강정보 처리 동의는 민감정보 동의로 구분한다.
+<a href="https://www.law.go.kr/LSW/lsLinkCommonInfo.do?chrClsCd=010202&lsJoLnkSeq=1029334793">개인정보 보호법 제23조</a>를 적용한다.
+발송 위탁을 제3자 제공 동의로 일괄 표시하지 않는다.
+실제 처리 목적과 계약을 먼저 구분한다.</p>
+<h2 id="section-11">10. 소아와 법정대리인 절차</h2>
+<p>연구진은 법정대리인의 자격을 기관 절차로 확인한다.
+단순 동행자를 법정대리인으로 간주하지 않는다.
+연구진은 보호자와 실제 수신자의 관계를 기록한다.
+연구진은 보호자 전화번호와 수신 권한을 확인한다.</p>
+<p>연구진은 소아의 발달 수준에 맞춰 설명한다.
+승낙이 가능하면 소아의 승낙을 별도로 기록한다.
+소아가 거부하면 연구 참여와 자료 전달을 중단한다.
+보호자의 동의만으로 소아의 거부를 무시하지 않는다.
+발달 수준 때문에 승낙을 받지 못하면 사유를 기록한다.</p>
+<p>18세 대상자의 동의 경로는 IRB가 확정한다.
+승낙 연령대와 부모 동의 인원도 IRB가 확정한다.
+본 초안은 병원의 연령 기준을 임의로 정하지 않는다.
+법정대리인 동의는 대상자의 의사에 반할 수 없다.
+<a href="https://www.law.go.kr/LSW/lsLawLinkInfo.do?chrClsCd=010202&lsId=009628&lsJoLnkSeq=900406343&print=print">생명윤리법 제16조</a>를 따른다.
+<a href="https://law.go.kr/lsInfoP.do?chrClsCd=010202&lsId=009628&lsiSeq=56388&urlMode=lsEfInfoR&viewCls=lsPtnThdCmp">시행규칙 제14조</a>도 함께 검토한다.</p>
+<p>14세 미만의 개인정보 동의는 법정대리인을 확인한다.
+연구진은 연령에 맞는 쉬운 설명을 제공한다.
+<a href="https://www.law.go.kr/lsLinkCommonInfo.do?chrClsCd=010202&lsJoLnkSeq=1029331669">개인정보 보호법 제22조의2</a>를 따른다.
+본인 응답과 보호자 대리 응답은 따로 기록한다.</p>
+<p>사후 설문은 본인·입력 도움을 받은 본인·보호자를 구분한다.
+입력 도움을 받은 본인의 답은 본인의 평가로 기록한다.
+보호자는 자신이 받은 안내 경험을 평가한다.
+보호자의 평가를 소아 본인의 만족도로 바꾸지 않는다.
+소아의 거부는 사후 설문에서도 존중한다.</p>
+<h2 id="section-12">11. 적격 검사 사건과 원천 결과</h2>
+<p>일차 분석은 대상자당 첫 적격 검사 사건 1건을 쓴다.
+연구진은 동의 후 HIS 결과 확정시각을 기준으로 정렬한다.
+동률이면 사전에 정한 검사 사건 식별자 순서를 적용한다.
+확정 전 중간 결과는 적격 결과로 등록하지 않는다.</p>
+<p>같은 검사 사건의 정정은 새 대상자로 세지 않는다.
+정정 결과는 새 버전으로 기록한다.
+서로 다른 후속 검사 사건은 이차 분석에만 사용한다.
+후속 결과를 독립된 신규 대상자로 취급하지 않는다.</p>
+<p>구조화한 HIS 결과를 우선 사용한다.
+OCR은 구조화 결과가 없는 승인한 경우에만 사용한다.
+OCR을 쓰면 원본의 모든 결과 행을 사람이 대조한다.
+검사항목, 값, 단위, 등급, 기준치를 확인한다.
+판독 불가 값은 보류하고 원천을 다시 확인한다.
+공란을 0, 음성 또는 정상으로 치환하지 않는다.</p>
+<h2 id="section-13">12. 대상자 절차 6단계</h2>
+<ol>
+<li>연구진은 연구를 설명하고 유효한 동의를 기록한다.</li>
+<li>HIS 확정 결과를 확인한 뒤 작업 큐에 등록한다.</li>
+<li>병원 알림톡 서비스가 인증 문진 URL을 발송한다.</li>
+<li>병원 서버가 응답을 받고 자료 후보를 생성한다.</li>
+<li>연구진 확인 후 의료진이 최종 임상 검수를 수행한다.</li>
+<li>병원 서비스가 승인 자료의 접근 방법을 안내한다.</li>
+</ol>
+<p>문진은 증상, 노출 경험과 검사 관련 정보를 수집한다.
+수집 항목은 승인한 설문 버전으로 고정한다.
+대상자는 모르는 항목에 미확인으로 응답할 수 있다.
+응답을 완료하지 않으면 완료로 처리하지 않는다.</p>
+<p>자료 후보는 결과 보고서 PDF, 카드뉴스, FHIR이다.
+본인이나 보호자는 인증 후 PDF를 내려받는다.
+카드뉴스는 인증 URL에서 확인한다.
+FHIR은 원하는 대상자에게만 별도로 제공한다.</p>
+<p>자료 제공 뒤 선택한 사람에게 사후 설문을 따로 안내한다.
+설문은 APAAACI-SAT-01 버전 0.1을 사용한다.
+설계 목표는 약 2분이며 예비 조사로 확인한다.
+내용은 가독성 등 6문항과 선택 의견 300자이다.
+응답자는 본인·입력 도움을 받은 본인·보호자로 구분한다.
+확인 자료는 보고서·카드뉴스·둘 다·미열람으로 구분한다.</p>
+<p>미열람자는 이유를 고르고 점수 6문항을 건너뛴다.
+모든 사람은 의견을 쓰지 않아도 제출할 수 있다.
+미열람과 미응답을 0점이나 불만족으로 바꾸지 않는다.
+이름·연락처·자세한 건강정보를 의견에 적지 않게 안내한다.</p>
+<p>직접 PDF 첨부는 플랫폼 지원과 보안 검토가 필요하다.
+업체가 처리할 실제 PDF 내용도 먼저 명시한다.
+승인 전에는 직접 첨부를 시행하지 않는다.
+알림톡 본문에는 검사값, 진단명과 주민번호를 넣지 않는다.
+QR과 URL에 환자번호와 검사값을 넣지 않는다.</p>
+<h2 id="section-14">13. 상태 전이와 의료진 검수</h2>
+<p>기본 상태는 다음 순서를 따른다.</p>
+<p>동의 유효 → queued → sent → response → generated → review → approved → delivered</p>
+<table>
+<thead>
+<tr>
+<th>상태</th>
+<th>충족 조건</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>queued</td>
+<td>동의와 적격 확정 결과 확인</td>
+</tr>
+<tr>
+<td>sent</td>
+<td>발송 요청과 업체 접수 상태 기록</td>
+</tr>
+<tr>
+<td>response</td>
+<td>유효한 본인 또는 대리 응답 접수</td>
+</tr>
+<tr>
+<td>generated</td>
+<td>원천 버전에 연결한 자료 후보 생성</td>
+</tr>
+<tr>
+<td>review</td>
+<td>연구진 완결성 확인과 의료진 임상 검수</td>
+</tr>
+<tr>
+<td>approved</td>
+<td>지정 의료진의 최종 승인</td>
+</tr>
+<tr>
+<td>delivered</td>
+<td>확인한 수신자의 인증 접근 완료</td>
+</tr>
+</tbody></table>
+<p>발송업체 접수만으로 delivered를 기록하지 않는다.
+연구진은 기술적 완결성과 문서 누락을 확인한다.
+의료진은 검사 해석과 환자 설명을 최종 확인한다.
+비임상 연구자의 확인만으로 approved를 부여하지 않는다.</p>
+<p>검수자는 오류를 수정하거나 자료를 반려한다.
+승인은 원천 버전과 자료 파일 해시에 연결한다.
+원천 정정과 자료 재생성은 이전 승인을 무효화한다.
+수정 자료도 의료진이 다시 승인해야 한다.
+모든 실제 발송 직전에 동의와 승인 상태를 확인한다.</p>
+<h2 id="section-15">14. 수집 항목과 보관 구역</h2>
+<table>
+<thead>
+<tr>
+<th>구역</th>
+<th>최소 항목</th>
+<th>접근자</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>동의·연결표</td>
+<td>연구번호, 병원 연결키, 동의 버전·시각</td>
+<td>지정 연구진·의료정보팀</td>
+</tr>
+<tr>
+<td>수신자</td>
+<td>검증한 연락처, 관계, 수신 권한</td>
+<td>지정 발송 담당자</td>
+</tr>
+<tr>
+<td>결과</td>
+<td>검사 사건, 유형, 값·단위·기준치·확정시각</td>
+<td>지정 의료진·연구진</td>
+</tr>
+<tr>
+<td>문진</td>
+<td>승인한 응답 항목, 응답자 구분, 응답시각</td>
+<td>지정 의료진·연구진</td>
+</tr>
+<tr>
+<td>사후 설문</td>
+<td>연구번호·회차, 선택 상태, 응답자·열람 분기, S1~S6·의견</td>
+<td>지정 연구진</td>
+</tr>
+<tr>
+<td>사후 일정</td>
+<td>첫 확인·초대·만료·재알림 시각, 미발송 사유</td>
+<td>지정 운영자·연구진</td>
+</tr>
+<tr>
+<td>생성·검수</td>
+<td>자료 버전, 해시, 검수자·판정·시각</td>
+<td>검수 담당자</td>
+</tr>
+<tr>
+<td>분석</td>
+<td>연구번호, 지표, 오류 분류, 연령 구분</td>
+<td>승인한 분석자</td>
+</tr>
+<tr>
+<td>운영 로그</td>
+<td>작업번호, 상태, 재시도, 접근 이력</td>
+<td>지정 운영자</td>
+</tr>
+</tbody></table>
+<p>연구진은 주민등록번호를 연구용으로 수집하지 않는다.
+자료 연결에 필요한 최소 식별정보만 별도 관리한다.
+연구번호 자료를 완전 익명 자료라고 설명하지 않는다.
+사후 설문도 연구번호와 검사 회차로 가명 연결한다.
+새 식별정보를 추가 수집하지 않는다.</p>
+<p>사후 설문과 자유 의견을 모델 학습에 사용하지 않는다.
+기관은 역할별 권한과 접근기록을 관리한다.</p>
+<h2 id="section-16">15. 일차 평가변수</h2>
+<p>일차 지표는 적격 결과 후 30일 내 인증 전달률이다.
+30일은 **작성자 제안(PROPOSED)**이다.</p>
+<p>분모는 유효하게 동의한 등록자 중 적격 결과 발생자이다.
+대상자당 첫 적격 검사 사건만 분모에 포함한다.
+사후 설문 동의와 완료 여부는 일차 성공 조건이 아니다.
+분자는 다음 조건을 모두 충족한 대상자이다.</p>
+<ol>
+<li>의료진이 최종 자료를 승인한다.</li>
+<li>본인 또는 권한 있는 보호자를 수신자로 확인한다.</li>
+<li>결과 확정 후 30일 안에 인증 전달을 완료한다.</li>
+</ol>
+<p>생성 실패와 문진 미응답은 분모에 남긴다.
+검수 반려와 전송 실패도 분모에 남긴다.
+30일 이후 전달은 일차 성공으로 세지 않는다.
+업체의 접수와 단순 발송 성공은 별도로 보고한다.
+철회와 누락은 발생 시점과 사유를 구분해 보고한다.</p>
+<p>정보 삭제 권리와 법적 제한은 별도 판단한다.
+철회자 자료를 무조건 보관한다고 설명하지 않는다.
+허용 범위에서 등록·철회·실패 흐름의 수를 보존한다.
+분석 불가 자료와 분모의 변동 사유를 함께 공개한다.</p>
+<h2 id="section-17">16. 이차 평가변수</h2>
+<table>
+<thead>
+<tr>
+<th>지표</th>
+<th>분자와 분모 또는 요약 방식</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>보고서 오류율</td>
+<td>오류가 1개 이상인 보고서 수 / 검토 보고서 수</td>
+</tr>
+<tr>
+<td>검사값 오류율</td>
+<td>잘못된 값 항목 수 / 대조한 값 항목 수</td>
+</tr>
+<tr>
+<td>유형별 오류율</td>
+<td>MAST·SPT·특이 IgE별 동일 지표</td>
+</tr>
+<tr>
+<td>중대한 오류</td>
+<td>건수, 대상자 수, 유형, 발견 단계</td>
+</tr>
+<tr>
+<td>문진 완료율</td>
+<td>유효한 응답 완료자 / 문진 발송 대상자</td>
+</tr>
+<tr>
+<td>검수 시간</td>
+<td>검수 시작부터 최종 승인까지의 시간</td>
+</tr>
+<tr>
+<td>운영 소요시간</td>
+<td>결과 확정부터 단계별 도달까지의 시간</td>
+</tr>
+<tr>
+<td>사후 설문 흐름</td>
+<td>초대 적격·초대·제출·미열람·미발송·미응답 수</td>
+</tr>
+<tr>
+<td>문항별 만족도</td>
+<td>S1~S6의 분포·유효 응답 수·중앙값·사분위 범위</td>
+</tr>
+<tr>
+<td>전반 만족도</td>
+<td>S6의 1<del>5점 응답 중 4</del>5점 비율</td>
+</tr>
+<tr>
+<td>소아 결과</td>
+<td>확정한 연령대별 기술 통계</td>
+</tr>
+<tr>
+<td>대리 응답</td>
+<td>본인 응답과 보호자 응답을 별도 요약</td>
+</tr>
+</tbody></table>
+<p>중대한 오류에는 다른 환자 자료의 연결을 포함한다.
+잘못된 수신자 전달과 검사 유형 혼동도 포함한다.
+값·단위 오류로 임상 해석이 바뀌는 경우도 포함한다.
+문진 누락을 증상 없음으로 바꾸는 경우도 포함한다.
+검수 전 오류와 환자 전달 후 오류를 구분한다.</p>
+<h2 id="section-18">17. 정확성의 기준과 판정</h2>
+<p>연구진은 HIS 확정 결과를 검사값 대조 기준으로 쓴다.
+OCR을 쓰면 원본 검사지를 함께 대조한다.
+이 기준은 알레르기 질환의 최종 진단 정답이 아니다.</p>
+<p>연구진은 모든 제공 자료의 값과 환자 연결을 확인한다.
+의료진은 문진과 해석의 임상 적절성을 확인한다.
+연구진은 오류 종류와 심각도를 기록한다.</p>
+<p>이견이 있으면 지정 의료진이 원천을 재검토한다.
+이중 검토 범위는 승인 전에 고정한다.
+생성 담당자와 오류 판정자의 역할은 기록한다.
+최종 승인 자료와 최초 생성 자료의 오류를 구분한다.</p>
+<h2 id="section-19">18. 통계 분석</h2>
+<p>연구진은 일차 비율과 Wilson 95% 신뢰구간을 제시한다.
+연구진은 단계별 대상자 수와 탈락 사유를 함께 제시한다.
+연속 변수는 중앙값과 사분위 범위로 요약한다.
+필요하면 최솟값과 최댓값을 함께 제시한다.
+범주형 변수는 해당 분모와 비율로 제시한다.</p>
+<p>검사유형별 분석에는 각 유형의 실제 분모를 쓴다.
+여러 검사값은 같은 대상자 안에서 상관될 수 있다.
+값별 비율의 단순 신뢰구간을 대상자 효과로 해석하지 않는다.
+후속 검사 사건은 반복 관측임을 표시한다.
+성인·소아와 본인·대리 응답을 별도로 요약한다.
+작은 하위집단의 차이를 효과 입증으로 해석하지 않는다.</p>
+<p>사후 설문의 주 관심 문항은 전반 만족도 S6이다.
+4<del>5점 비율의 분모는 S6에 1</del>5점으로 답한 사람이다.
+평가 어려움·응답하지 않음·공란·미열람은 점수에서 뺀다.
+각 항목의 수와 제외 사유는 별도로 보고한다.
+문항별 분포·유효 응답 수·중앙값·사분위 범위를 제시한다.</p>
+<p>합산 점수를 만들지 않으며 검증된 척도로 표현하지 않는다.
+입력 도움을 받은 본인을 포함해 응답자 3구분을 유지한다.
+보호자 결과와 성인·소아 결과는 구분해 제시한다.
+만족도는 임상 정확성이나 치료 효과의 근거가 아니다.</p>
+<p>선택 참여와 미응답에 따른 선택 편향을 설명한다.
+의견은 주제별로 수동 분류하고 인용 전 재식별을 검토한다.
+자유 의견을 외부 AI나 언어모델에 보내지 않는다.
+완료자만 분석한 보조 결과는 일차 결과와 구분한다.
+추가 탐색 분석은 사후 분석으로 표시한다.</p>
+<h2 id="section-20">19. 예상 이익과 위험</h2>
+<p>대상자는 자신의 결과를 설명자료로 확인할 수 있다.
+자료 제공과 이해도 향상을 보장하지 않는다.
+직접적인 치료 이익도 보장하지 않는다.</p>
+<p>위험은 설문 시간, 불안, 오해와 개인정보 유출이다.
+사후 알림톡과 약 2분의 추가 응답 부담도 있다.</p>
+<p>환자와 결과의 잘못된 연결도 위험이다.
+보호자 연락처 오류는 소아 정보 노출을 일으킬 수 있다.
+연구진은 식별 확인과 의료진 검수로 위험을 줄인다.
+자료는 의료진 상담과 응급 대응을 대신하지 않는다.
+연구용 문진은 응급 증상 감시 체계가 아니다.</p>
+<h2 id="section-21">20. 개인정보와 외부 처리</h2>
+<p>기관은 연결표와 분석자료를 분리한다.
+기관은 역할별 접근권한과 접근기록을 관리한다.
+전송과 저장의 암호화 기준은 의료정보팀이 확정한다.
+보안조치는 법령과 병원 규정을 충족해야 한다.
+<a href="https://law.go.kr/lsInfoP.do?chrClsCd=010102&lsiSeq=283839&viewCls=lsRvsDocInfoR">개인정보 보호법 제29조</a>를 적용한다.</p>
+<p>알림톡 업체는 연락처와 메시지 등 실제 항목을 처리한다.
+PDF URL도 접근 권한을 포함하면 보호가 필요하다.
+위탁과 제3자 제공은 실제 목적과 계약으로 구분한다.
+<a href="https://www.law.go.kr/lsLinkCommonInfo.do?lsJoLnkSeq=1029331867">개인정보 보호법 제26조</a>와 <a href="https://www.law.go.kr/lsLinkCommonInfo.do?chrClsCd=010202&lsJoLnkSeq=1029334815">제17조</a>를 검토한다.</p>
+<p>업체명은 [카카오·발송대행사 법인명 확정]이다.
+재위탁, 처리 국가와 보관기간은 [확정 후 기입]이다.
+기본안에는 실제 환자정보의 국외 이전을 포함하지 않는다.
+외부 처리를 추가하면 적법한 근거를 먼저 확인한다.
+<a href="https://www.law.go.kr/LSW/lsLinkCommonInfo.do?chrClsCd=010202&lsJoLnkSeq=1034292881">개인정보 보호법 제28조의8</a>을 검토한다.</p>
+<h2 id="section-22">21. 동의 철회와 대상자 선택</h2>
+<p>대상자는 담당 연구진에게 철회를 요청할 수 있다.
+연락처는 동의서에 실제 담당 정보로 기입한다.
+연구진은 철회 시각과 처리 결과를 기록한다.
+시스템은 대기 발송과 재알림을 중단한다.
+시스템은 아직 유효한 접근 URL을 폐기한다.</p>
+<p>실제 발송 직전에도 유효한 동의를 다시 확인한다.
+발송 요청 후 철회하면 회수 가능 여부를 확인한다.
+이미 내려받은 파일은 원격 회수할 수 없다.
+철회는 통상 진료와 HIS 진료기록 삭제를 뜻하지 않는다.
+법정 보관과 삭제 권리의 적용 범위는 별도로 설명한다.</p>
+<p>FHIR 수령은 선택 사항이다.
+사후 설문을 거절해도 진료와 자료 전달에 불이익이 없다.
+사후 설문만 중단해도 주 연구의 자료 제공은 유지한다.
+시스템은 사후 설문 예약과 재알림도 철회 상태로 차단한다.
+이미 답한 자료의 삭제와 법정 보관 범위는 별도로 설명한다.
+이미 공개한 집계 결과의 수정 한계는 동의서에 설명한다.</p>
+<h2 id="section-23">22. 오류와 사고 대응</h2>
+<p>다른 환자 연결을 발견하면 관련 발송을 중단한다.
+자료 오류를 발견하면 해당 버전의 접근을 차단한다.
+연구진은 의료진과 의료정보팀에 사고를 보고한다.
+기관은 노출 범위와 위해 가능성을 평가한다.</p>
+<p>기관은 대상자 안내와 IRB 보고 여부를 판단한다.
+법정 통지와 신고는 해당 요건과 기한을 적용한다.
+본 초안은 임의의 법정 신고 기한을 만들지 않는다.</p>
+<p>수정 자료는 의료진 검수를 다시 거친다.
+기관은 원인과 재발 방지 조치를 기록한다.
+반복되는 중대한 오류가 있으면 모집과 발송을 보류한다.
+재개는 기관과 IRB의 필요한 절차를 거친다.</p>
+<h2 id="section-24">23. 비용과 피해 구제</h2>
+<p>금전 보상 없음은 **작성자 제안(PROPOSED)**이다.
+통상 진료비와 개인 통신요금은 별도이다.
+추가 연구 검사 비용은 발생하지 않는 설계이다.
+연구진은 참여자의 법적 권리 포기를 요구하지 않는다.</p>
+<p>연구 관련 피해는 [담당 연락처]로 접수한다.
+피해 평가와 구제 절차는 병원 규정으로 확정한다.
+연구비, 보험 적용과 보상 책임은 [기입 필요]이다.
+확인하지 않은 보상이나 무과실 보상을 약속하지 않는다.
+확정한 절차를 동의서에 동일하게 반영한다.</p>
+<h2 id="section-25">24. 보관과 파기</h2>
+<p>연구기록은 연구 종료 후 3년간 보관한다.
+법령과 병원 규정의 추가 보관은 IRB와 확인한다.
+<a href="https://law.go.kr/lsInfoP.do?chrClsCd=010202&lsId=009628&lsiSeq=56388&urlMode=lsEfInfoR&viewCls=lsPtnThdCmp">생명윤리법 시행규칙 제15조</a>를 따른다.
+이 기간을 HIS 진료기록의 일괄 삭제 기준으로 쓰지 않는다.</p>
+<p>연락처와 임시 링크는 필요한 기간만 유지한다.
+세부 삭제 시점과 백업 주기는 의료정보팀이 확정한다.
+기관은 기한이 끝난 연구자료를 복구 방지 방식으로 파기한다.
+백업 복원 시 철회와 접근 차단 상태를 다시 적용한다.
+기관은 파기 대상과 처리 이력을 남긴다.</p>
+<h2 id="section-26">25. 품질 관리와 시작 조건</h2>
+<p>연구책임자는 참여 인력의 역할과 교육 이력을 확인한다.
+의료정보팀은 결과 상태와 검사코드를 검증한다.
+연구진은 설문·모델·템플릿·FHIR 버전을 기록한다.
+의료진은 검수 기준과 중대한 오류 기준을 확인한다.</p>
+<p>시작 전에 다음 조건을 충족한다.</p>
+<ol>
+<li>IRB 승인과 병원 내부 허가를 확인한다.</li>
+<li>현재 공식 서식과 실제 연락처를 확인한다.</li>
+<li>소아 동의와 보호자 수신 절차를 확정한다.</li>
+<li>서버·GPU·모델 설치와 보안 검토를 완료한다.</li>
+<li>발송업체 계약과 실제 전송 항목을 확정한다.</li>
+<li>모의자료로 전체 연계와 철회 시험을 통과한다.</li>
+<li>의료진의 검수 담당과 대체 인력을 정한다.</li>
+</ol>
+<p>이 문서 작성은 위 조건의 완료를 뜻하지 않는다.
+<a href="10_his_data_security_plan.html">HIS와 보안 계획</a>에 인수 시험을 제시한다.</p>
+<h2 id="section-27">26. 결과 공개와 연구의 한계</h2>
+<p>연구진은 대상자 흐름과 실패 사유를 함께 공개한다.
+원본 검사 이미지와 직접 식별정보는 공개하지 않는다.
+작은 소아 집단은 재식별 위험을 검토한다.
+연구진은 필요한 경우 범주를 묶거나 수치를 제한한다.</p>
+<p>단일기관 결과는 다른 병원에 그대로 적용하기 어렵다.
+모바일 참여 가능 대상자 중심의 선택 편향이 있다.
+미응답은 사후 만족도 분석에도 편향을 만들 수 있다.
+의료진 검수는 생성 오류를 줄이지만 운영 자원을 쓴다.
+본 연구만으로 치료 효과와 장기 안전성을 입증하지 않는다.</p>
+<h2 id="section-28">27. 참고 문서와 확정 항목</h2>
+<p>기존 연구의 구조를 참고하고 내용은 본 연구에 맞춰 바꾼다.
+기존 승인·위험·익명성·연락처를 현재 사실로 복사하지 않는다.</p>
+<table>
+<thead>
+<tr>
+<th>기존 문서</th>
+<th>참고한 구조</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://drive.google.com/file/d/1l8D1ao_BuxV3tCEfzIqaG84r253R1lSS/view">문진 연구계획서 v4.0</a></td>
+<td>HIS·문진·검수 흐름</td>
+</tr>
+<tr>
+<td><a href="https://drive.google.com/file/d/19bVorkzftPwLWuPaum4Fdyj2WAI3yeRD/view">문진 연구 설명문·동의서</a></td>
+<td>목적과 철회 설명</td>
+</tr>
+<tr>
+<td><a href="https://drive.google.com/file/d/1BChynOBQvgQaPCqAK_97Ok2wWvPZXbGJ/view">약물 앱 연구계획서 v3.1</a></td>
+<td>모바일 연구와 운영</td>
+</tr>
+<tr>
+<td><a href="https://drive.google.com/file/d/1v6tvd-Lm9RhAtk2U9-vrM3BWkT89iXg_/view">약물 앱 설명문·동의서 v3.0</a></td>
+<td>질문 시간과 사본 제공</td>
+</tr>
+<tr>
+<td><a href="https://drive.google.com/file/d/1K2jfHrD06QZ5YPthv2bgsDME488jCAl7/view">소아 식품알레르기 앱 동의서 v1.2</a></td>
+<td>보호자 설명</td>
+</tr>
+<tr>
+<td><a href="https://drive.google.com/file/d/1ZN1sCDR_c3WEdhmdyEtR_MlmTbsH611e/view">알레르기 등록 연구계획서 v1.0</a></td>
+<td>연결표와 연구자료 분리</td>
+</tr>
+</tbody></table>
+<p>제출자는 법령의 현행 시행일을 다시 대조한다.
+<a href="https://www.law.go.kr/LSW//lsInfoP.do?ancYnChk=0&chrClsCd=010202&efYd=20260911&lsiSeq=283839&urlMode=lsInfoP">개인정보 보호법 현행 본문</a>을 확인한다.
+기관 연락처는 <a href="https://www.cbnuh.or.kr/hrpc/sub01_03.do">공식 센터 안내</a>에서 확인한다.
+권리 상담은 <a href="https://www.cbnuh.or.kr/hrpc/sub02_01.do">연구대상자 권리 안내</a>를 참고한다.
+현재 병원 공식 신청서와 승낙 서식은 확인하지 못했다.
+제안 수치와 모든 미확정 항목은 승인 전에 확정한다.</p>
+<p>사후 설문 기준 원본은 별도 JSON 정의이다.
+APAAACI-SAT-01 버전 0.1의 문항과 분기를 적용한다.
+과거 설문 3종의 구성만 참고했으며 실제 응답은 쓰지 않는다.
+출처 3종과 제외한 항목은 12번 출처 문서에 기록한다.</p>
+<table>
+<thead>
+<tr>
+<th>설문 자료</th>
+<th>경로</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>화면 확인</td>
+<td><a href="../../patient_satisfaction_2026-10-29/patient_satisfaction.html">사후 만족도 설문</a></td>
+</tr>
+<tr>
+<td>Word 호환 파일</td>
+<td><a href="../../patient_satisfaction_2026-10-29/patient_satisfaction.doc">설문 DOC</a></td>
+</tr>
+<tr>
+<td>현대 Word 파일</td>
+<td><a href="../../patient_satisfaction_2026-10-29/patient_satisfaction.docx">설문 DOCX</a></td>
+</tr>
+</tbody></table>
+</article></div><footer class="footer">2026-10-29 · 버전 0.2 · 승인 전 초안. 실제 병원 설치·임상 검증·발송 완료를 의미하지 않습니다.</footer><script>
+document.querySelectorAll('table').forEach(t=>{const w=document.createElement('div');w.className='table-wrap';t.before(w);w.append(t)});
+document.querySelectorAll('[data-filter-toc]').forEach(i=>i.addEventListener('input',()=>{const q=i.value.trim().toLowerCase();document.querySelectorAll('.toc a').forEach(a=>a.hidden=!a.textContent.toLowerCase().includes(q))}));
+document.querySelectorAll('[data-filter-docs]').forEach(i=>i.addEventListener('input',()=>{const q=i.value.trim().toLowerCase();document.querySelectorAll('[data-doc]').forEach(c=>c.classList.toggle('hidden',!c.textContent.toLowerCase().includes(q)))}));
+document.querySelectorAll('[data-print]').forEach(b=>b.addEventListener('click',()=>window.print()));
+document.querySelectorAll('.phase').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.phase').forEach(x=>x.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');document.getElementById('phase-note').textContent=b.dataset.note}));
+</script></body></html>

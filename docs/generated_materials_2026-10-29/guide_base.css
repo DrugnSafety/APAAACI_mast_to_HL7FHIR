@@ -1,0 +1,261 @@
+/* ============================================================
+     Theme: Ice (default). Swap this :root block for other themes
+     from references/design-tokens.md.
+     ============================================================ */
+  :root {
+    --ink: #0B1F3A;
+    --ink-soft: #29405E;
+    --ice-50: #F4F9FD;
+    --ice-100: #E5F1FA;
+    --ice-200: #CDE4F5;
+    --ice-300: #A2CFEB;
+    --ice-400: #6AB3DC;
+    --ice-500: #3A93C7;
+    --ice-600: #1E6FA6;
+    --accent: #E14B4B;
+    --accent-soft: #FDECEC;
+    --gold: #C89A2E;
+    --gold-soft: #FBF3DA;
+    --success: #1F7A4D;
+    --success-soft: #E4F3EB;
+    --border: #D8E4EF;
+    --muted: #5C6E85;
+    --shadow-sm: 0 1px 2px rgba(11,31,58,0.06);
+    --shadow-md: 0 6px 20px rgba(11,31,58,0.08);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+    color: var(--ink);
+    background: linear-gradient(180deg, #EAF3FB 0%, #F4F9FD 320px, #FFFFFF 100%);
+    line-height: 1.65;
+    font-size: 15.5px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 32px 24px 96px; }
+
+  /* ---------- Hero ---------- */
+  header.hero {
+    background: linear-gradient(135deg, #1E6FA6 0%, #3A93C7 60%, #6AB3DC 100%);
+    color: #fff;
+    border-radius: 24px;
+    padding: 36px 32px;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+  header.hero::after {
+    content: "";
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+  }
+  .kicker {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 11.5px;
+    font-weight: 700;
+    opacity: 0.85;
+    margin-bottom: 12px;
+  }
+  header.hero h1 {
+    margin: 0 0 10px;
+    font-size: 30px;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  header.hero p.lede {
+    margin: 0;
+    font-size: 15px;
+    opacity: 0.92;
+    max-width: 620px;
+  }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .chip {
+    display: inline-flex; align-items: center;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.28);
+    color: #fff;
+    font-size: 12.5px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 999px;
+    backdrop-filter: blur(4px);
+  }
+
+  /* ---------- TL;DR ---------- */
+  .tldr {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--ice-500);
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 28px;
+  }
+  .tldr h2 { margin: 0 0 14px; font-size: 18px; color: var(--ice-600); letter-spacing: -0.01em; }
+  .tldr-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+  .tldr-item { background: var(--ice-50); border-radius: 10px; padding: 14px 16px; }
+  .tldr-item .label {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--ice-600); font-weight: 700; margin-bottom: 4px;
+  }
+  .tldr-item .value { font-size: 15px; font-weight: 600; color: var(--ink); line-height: 1.4; }
+
+  /* ---------- Nav TOC ---------- */
+  nav.toc {
+    background: #fff; border: 1px solid var(--border); border-radius: 14px;
+    padding: 16px 20px; margin-bottom: 32px; box-shadow: var(--shadow-sm);
+  }
+  nav.toc strong { font-size: 12px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+  nav.toc ol {
+    list-style: none; padding: 0; margin: 8px 0 0;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 4px 16px;
+    counter-reset: nav-counter;
+  }
+  nav.toc li { counter-increment: nav-counter; }
+  nav.toc li::before {
+    content: counter(nav-counter, decimal-leading-zero) ". ";
+    color: var(--ice-500); font-weight: 700; font-size: 12px;
+  }
+  nav.toc a { color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 500; }
+  nav.toc a:hover { color: var(--ice-600); text-decoration: underline; }
+
+  /* ---------- Sections ---------- */
+  section { margin-bottom: 44px; }
+  section h2 {
+    font-size: 22px; letter-spacing: -0.01em; color: var(--ink);
+    border-bottom: 2px solid var(--ice-200); padding-bottom: 10px; margin: 0 0 20px;
+    display: flex; align-items: baseline; gap: 12px;
+  }
+  section h2 .num { color: var(--ice-500); font-size: 14px; font-weight: 700; letter-spacing: 0.1em; }
+  section h3 { font-size: 17px; color: var(--ink-soft); margin: 24px 0 12px; letter-spacing: -0.005em; }
+  p { margin: 0 0 12px; }
+  strong { color: var(--ink); }
+
+  /* ---------- Callouts ---------- */
+  .callout { border-radius: 12px; padding: 16px 18px; margin: 16px 0; border-left: 4px solid; }
+  .callout.blue { background: var(--ice-100); border-color: var(--ice-500); color: var(--ink); }
+  .callout.red { background: var(--accent-soft); border-color: var(--accent); color: #7A1E1E; }
+  .callout.gold { background: var(--gold-soft); border-color: var(--gold); color: #6B4A0E; }
+  .callout.green { background: var(--success-soft); border-color: var(--success); color: #17452D; }
+  .callout strong { color: inherit; }
+  .callout .title { font-weight: 700; margin-bottom: 4px; display: block; font-size: 13.5px; }
+
+  /* ---------- Checklist ---------- */
+  .checklist {
+    background: #fff; border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px 22px; margin: 16px 0; box-shadow: var(--shadow-sm);
+  }
+  .checklist h3 { margin-top: 0; }
+  .checklist ul { list-style: none; padding: 0; margin: 0; }
+  .checklist li {
+    padding: 8px 0 8px 32px; position: relative;
+    border-bottom: 1px dashed var(--border); font-size: 14.5px;
+  }
+  .checklist li:last-child { border-bottom: 0; }
+  .checklist li::before {
+    content: ""; position: absolute; left: 0; top: 12px;
+    width: 18px; height: 18px; border: 2px solid var(--ice-400);
+    border-radius: 4px; background: #fff;
+  }
+  .checklist.required li::before { border-color: var(--accent); }
+  .checklist.optional li::before { border-color: var(--gold); }
+  .checklist.done li::before { background: var(--success); border-color: var(--success); }
+  .checklist .item-note { color: var(--muted); font-size: 13px; display: block; margin-top: 2px; }
+
+  /* ---------- Table ---------- */
+  table {
+    width: 100%; border-collapse: collapse; margin: 12px 0 16px;
+    background: #fff; border-radius: 10px; overflow: hidden;
+    box-shadow: var(--shadow-sm); font-size: 14px;
+  }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: var(--ice-100); font-weight: 700; color: var(--ink); font-size: 13px; letter-spacing: 0.02em; }
+  tr:last-child td { border-bottom: 0; }
+  td .tag {
+    display: inline-block; font-size: 11px; padding: 2px 8px;
+    border-radius: 999px; font-weight: 700; letter-spacing: 0.03em;
+  }
+  .tag.ok { background: var(--success-soft); color: var(--success); }
+  .tag.no { background: var(--accent-soft); color: var(--accent); }
+  .tag.warn { background: var(--gold-soft); color: var(--gold); }
+
+  /* ---------- Timeline ---------- */
+  .timeline { position: relative; padding-left: 28px; margin: 16px 0; }
+  .timeline::before {
+    content: ""; position: absolute; left: 8px; top: 8px; bottom: 8px;
+    width: 2px; background: var(--ice-300);
+  }
+  .timeline .step { position: relative; padding-bottom: 20px; }
+  .timeline .step::before {
+    content: ""; position: absolute; left: -25px; top: 6px;
+    width: 14px; height: 14px; border-radius: 50%; background: #fff;
+    border: 3px solid var(--ice-500); box-shadow: 0 0 0 3px var(--ice-100);
+  }
+  .timeline .step.current::before {
+    background: var(--accent); border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .timeline .step.future::before { background: #fff; border-color: var(--ice-300); }
+  .timeline .step h4 { margin: 0 0 4px; font-size: 15.5px; color: var(--ink); }
+  .timeline .step .stage-meta {
+    font-size: 12px; color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.06em; font-weight: 700; margin-bottom: 4px;
+  }
+  .timeline .step p { margin: 4px 0 0; font-size: 14px; }
+
+  /* ---------- Schedule table ---------- */
+  .schedule-table td.date { font-weight: 700; color: var(--ice-600); white-space: nowrap; }
+  .schedule-table td.status .tag { font-size: 10.5px; }
+
+  /* ---------- FAQ ---------- */
+  details {
+    background: #fff; border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 18px; margin-bottom: 10px; box-shadow: var(--shadow-sm);
+  }
+  details[open] { border-color: var(--ice-400); }
+  summary {
+    cursor: pointer; font-weight: 600; color: var(--ink); font-size: 15px;
+    list-style: none; display: flex; justify-content: space-between; align-items: center;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after {
+    content: "＋"; color: var(--ice-500); font-size: 18px; font-weight: 300;
+    transition: transform 0.2s;
+  }
+  details[open] summary::after { content: "−"; }
+  details p { margin-top: 10px; color: var(--ink-soft); font-size: 14.5px; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border);
+    font-size: 12.5px; color: var(--muted);
+  }
+  footer h4 { color: var(--ink-soft); font-size: 13px; margin: 0 0 8px; letter-spacing: 0.05em; text-transform: uppercase; }
+  footer ul { padding-left: 18px; margin: 0 0 16px; }
+  footer li { margin-bottom: 4px; }
+  footer a { color: var(--ice-600); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ---------- Utility ---------- */
+  .small { font-size: 13px; color: var(--muted); }
+  code {
+    background: var(--ice-100); padding: 1px 6px; border-radius: 4px;
+    font-family: 'SF Mono', Consolas, monospace; font-size: 13px; color: var(--ice-600);
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 640px) {
+    .wrap { padding: 20px 16px 60px; }
+    header.hero { padding: 26px 22px; border-radius: 18px; }
+    header.hero h1 { font-size: 24px; }
+    section h2 { font-size: 19px; }
+  }

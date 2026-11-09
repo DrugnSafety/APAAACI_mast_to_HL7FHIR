@@ -1,0 +1,106 @@
+{
+  "survey_id": "APAAACI-SAT-01",
+  "version": "0.1",
+  "items": 6,
+  "binary_doc_valid": true,
+  "word_native_render": false,
+  "pdf_source": "HTML print layout",
+  "clinical_deployment": false,
+  "files": [
+    {
+      "path": "index.html",
+      "bytes": 5649,
+      "sha256": "2400c8c09c1ea07940bf2868e9b6fc6e58805347c646a31cd41dfb3d72c0c939"
+    },
+    {
+      "path": "patient_satisfaction.html",
+      "bytes": 31129,
+      "sha256": "a84e0e080aede4674da8d8d5015664e1948d24ada3959ee92b0d1b233cf92203"
+    },
+    {
+      "path": "patient_satisfaction.doc",
+      "bytes": 26112,
+      "sha256": "6676703f8d8a498bdb8dda5a60dad5ec19c0be4cb6f3b3f34fde5f06262886e5"
+    },
+    {
+      "path": "patient_satisfaction.docx",
+      "bytes": 11810,
+      "sha256": "a47ce6f16bfc1c3c0e991ab01825643eeb6b729cc517dfa520c223a90490ee34"
+    },
+    {
+      "path": "patient_satisfaction.pdf",
+      "bytes": 235476,
+      "sha256": "67a8221a951c77ea080791be4832b69d515877fde97619f1030aebda372e6d7e"
+    },
+    {
+      "path": "questionnaire.md",
+      "bytes": 2545,
+      "sha256": "31c18d723359d1792dd98adaa33f303907cc14c4609a333cc4581a8c4ef0766d"
+    },
+    {
+      "path": "implementation_guide.html",
+      "bytes": 16510,
+      "sha256": "b3bdbef6098f6ae253d923f5dffc002ed2b1f1fc3e8d065db2dab901171812c0"
+    },
+    {
+      "path": "implementation_guide.md",
+      "bytes": 11212,
+      "sha256": "dbf8ddfd33caf7aaa7b626e3d1d53199c80cef55792507853fbf17ab4e58e3ee"
+    },
+    {
+      "path": "survey_definition.json",
+      "bytes": 5805,
+      "sha256": "26715203597fa28c8fc3b4839ac02bb5038a500ec91d33d37543f0b81f7c31f8"
+    },
+    {
+      "path": "sources.json",
+      "bytes": 1251,
+      "sha256": "bc39aecc864b12ca5906c906f1c43a8b6bdb8b38f02f6527a0baf72b446b678d"
+    },
+    {
+      "path": "notion_page.json",
+      "bytes": 577,
+      "sha256": "a3fbffcde05b8cddaae58e03effde0ede752c789d5077d69d7d72af98c6a4fb6"
+    },
+    {
+      "path": "notion_task.md",
+      "bytes": 6636,
+      "sha256": "2e3dabee32472789a032d19616f9da95c2ef6f990cd3887e9077b35d1317d161"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1661,
+      "sha256": "fa9e5cee207ff6b8986c9ad09c50bbb2713b5bc3fb7171064cb2d3816d10db81"
+    },
+    {
+      "path": "survey.js",
+      "bytes": 5430,
+      "sha256": "fa5eda6c51c0800b552dba97a8c957edff7bed833455248926ba23c6e67dbbe6"
+    },
+    {
+      "path": "survey.template",
+      "bytes": 11158,
+      "sha256": "97b6e36c9b3b46314bf2fefe2b4cd95a7f2c79ca44721c1ab2d3a1c66cc4e965"
+    },
+    {
+      "path": "build_survey.mjs",
+      "bytes": 15299,
+      "sha256": "6c4fad48b01e9006067a6d6b591203d1c29c911fb17f28c381763f109bb8d613"
+    },
+    {
+      "path": "verify_survey.mjs",
+      "bytes": 8984,
+      "sha256": "b72a2065b25ce3ca6a96f7abc9caa2e695123d9309e62a8081a89e654faa8f53"
+    },
+    {
+      "path": "package_survey.py",
+      "bytes": 4052,
+      "sha256": "d1ac9d8456f3800e5a50a99572038723487c768aea1b112f1757bf14749933b3"
+    },
+    {
+      "path": "validation/browser_validation.json",
+      "bytes": 4868,
+      "sha256": "f8da4ed66e59ca1cac943b1cdfdeb7abc4e02f4992cc4b1b2746eeab0d29b6fe"
+    }
+  ]
+}

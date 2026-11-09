@@ -14,7 +14,7 @@ try:
     from weasyprint import HTML, CSS
     from weasyprint.text.fonts import FontConfiguration
     WEASYPRINT_AVAILABLE = True
-except ImportError:
+except Exception:  # ImportError 뿐 아니라, 시스템 라이브러리(Pango)를 찾지 못한 OSError 도 온다
     WEASYPRINT_AVAILABLE = False
     HTML = None
     CSS = None
@@ -45,10 +45,9 @@ class PDFGenerator:
     def _get_default_css(self) -> str:
         """기본 CSS 스타일"""
         return """
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap');
-        
+        /* 글꼴은 서버에 설치된 것을 쓴다(외부에서 내려받지 않는다). Dockerfile 이 fonts-noto-cjk 를 설치한다. */
         body {
-            font-family: 'Noto Sans KR', sans-serif;
+            font-family: 'Noto Sans CJK KR', 'Noto Sans KR', 'NanumGothic', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
             line-height: 1.6;
             color: #333;
             max-width: 800px;
@@ -156,7 +155,10 @@ class PDFGenerator:
         Returns:
             PDF 바이트 데이터
         """
-        # ReportLab을 기본으로 사용
+        # WeasyPrint 가 있으면 그쪽으로 만든다 — ReportLab 경로는 한글 글꼴을 등록하지 않아 한글이 빈 상자로 나온다.
+        # (웹 서비스의 환자용 리포트 PDF 는 services/report_pdf.py 가 만든다. 이 파일은 레거시 Streamlit 앱용이다.)
+        if WEASYPRINT_AVAILABLE:
+            return self.markdown_to_pdf_weasyprint(markdown_content, output_path)
         return self.markdown_to_pdf_reportlab(markdown_content, output_path)
     
     def markdown_to_pdf_weasyprint(

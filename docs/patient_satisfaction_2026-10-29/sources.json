@@ -1,0 +1,28 @@
+{
+  "reviewed_on": "2026-10-29",
+  "blank_forms_only": true,
+  "copied_patient_responses": false,
+  "references": [
+    {
+      "id": "R1",
+      "title": "만족도 설문_서울대병원_ver1.0_20180627.docx",
+      "url": "https://drive.google.com/file/d/1WKRSzDfnI7uBmgCz1F0tj_EaD_8Cb8Pq/view",
+      "adapted": "정보 가독성, 사용 편의성, 전달 시점, 전반 만족도",
+      "excluded": "반복 문항, 정확성의 환자 판정, 과거 연락처와 보상 문구"
+    },
+    {
+      "id": "R2",
+      "title": "만족도 설문.docx · 학교급식 식품알레르기 앱",
+      "url": "https://drive.google.com/file/d/110oEcVleqdjOwF8E1aheqgQN_6aKYHl3/view",
+      "adapted": "환자·보호자 구분, 보기 쉬운 설명, 이용 편의성",
+      "excluded": "이니셜, 나이 재수집, 기기 이용 이력"
+    },
+    {
+      "id": "R3",
+      "title": "다제약물 환자를 위한 서비스 및 약이랑 앱 만족도 설문조사_20250623",
+      "url": "https://drive.google.com/file/d/1R-6o6Mwx_aHa-WRkREy7yOeuzXFhx-Y8KbCfivyZtgk/view",
+      "adapted": "생활 안내의 도움, 서비스 경험, 선택 개선 의견",
+      "excluded": "긴 다중 영역, 치료 효과 주장, 익명 처리 문구"
+    }
+  ]
+}

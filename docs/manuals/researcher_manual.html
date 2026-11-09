@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>APAAACI 알레르기 플랫폼 연구자 매뉴얼</title>
+<style>
+:root{--ink:#0b1f3a;--soft:#29405e;--muted:#5c6e85;--line:#d8e4ef;--ice0:#f4f9fd;--ice1:#e5f1fa;--blue:#1e6fa6;--blue2:#3a93c7;--red:#b42318;--redbg:#fdecec;--gold:#8a6400;--goldbg:#fbf3da;--green:#17653f;--greenbg:#e4f3eb;--shadow:0 8px 28px rgba(11,31,58,.1)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;color:var(--ink);background:linear-gradient(180deg,#eaf3fb 0,#f4f9fd 340px,#fff 100%);font:15px/1.65 Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic","Apple SD Gothic Neo",sans-serif}a{color:#075e96;text-underline-offset:3px}button{font:inherit}code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.skip{position:absolute;left:-9999px}.skip:focus{left:12px;top:12px;z-index:99;background:#fff;padding:10px}.top{position:sticky;top:0;z-index:30;background:rgba(244,249,253,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.topin{max-width:1320px;margin:auto;padding:10px 22px;display:flex;gap:12px;align-items:center}.brand{font-weight:800;white-space:nowrap}.search{flex:1;max-width:560px;border:1px solid #a9c7df;border-radius:10px;padding:9px 12px;background:#fff}.printbtn{border:1px solid #8db6d3;background:#fff;color:#075e96;border-radius:9px;padding:7px 11px;cursor:pointer;white-space:nowrap}.top a{margin-left:auto;white-space:nowrap}.layout{max-width:1320px;margin:auto;padding:26px 22px 90px;display:grid;grid-template-columns:270px minmax(0,1fr);gap:28px}.side{position:sticky;top:76px;align-self:start;max-height:calc(100vh - 96px);overflow:auto;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}.side strong{display:block;margin-bottom:8px}.side ol{margin:0;padding-left:22px}.side li{margin:5px 0}.side a{color:var(--soft);text-decoration:none;font-size:13px}.main{min-width:0}.hero{background:linear-gradient(135deg,#174f7b,#2f8abe 62%,#72badf);color:#fff;border-radius:24px;padding:38px 36px;box-shadow:var(--shadow)}.kicker{text-transform:uppercase;letter-spacing:.13em;font-weight:800;font-size:11px;opacity:.9}.hero h1{font-size:32px;line-height:1.23;margin:10px 0}.hero p{max-width:800px;font-size:16px;margin:0}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.chip{border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.15);border-radius:999px;padding:5px 10px;font-size:12px}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0 30px}.metric{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}.metric b{display:block;color:var(--blue);font-size:23px}.metric span{font-size:12px;color:var(--muted)}section{margin:0 0 42px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px 28px;box-shadow:0 2px 12px rgba(11,31,58,.05)}section h2{font-size:23px;line-height:1.3;margin:0 0 12px;padding-bottom:10px;border-bottom:2px solid var(--ice1)}h3{font-size:17px;color:var(--soft);margin:26px 0 8px}.num{color:var(--blue2)}.lead{font-size:16px;color:var(--soft)}.callout{border-left:4px solid var(--blue);background:var(--ice0);border-radius:10px;padding:13px 15px;margin:14px 0}.warn{border-color:var(--red);background:var(--redbg)}.gold{border-color:#c89a2e;background:var(--goldbg)}.ok{border-color:var(--green);background:var(--greenbg)}.callout b{display:block}.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{border:1px solid var(--line);border-radius:12px;padding:15px}.card h3{margin-top:0}.flow{width:100%;height:auto;border-radius:12px;background:#f8fbfe;border:1px solid var(--line);padding:10px}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:12px;margin:12px 0}table{border-collapse:collapse;width:100%;min-width:720px;font-size:13.5px}th{background:var(--ice1);text-align:left;color:var(--soft)}th,td{border-bottom:1px solid var(--line);padding:10px 12px;vertical-align:top}tr:last-child td{border-bottom:0}.tag{display:inline-block;border-radius:999px;padding:2px 8px;font-size:11px;font-weight:750}.impl{background:var(--greenbg);color:var(--green)}.candidate{background:var(--goldbg);color:var(--gold)}.limit{background:var(--redbg);color:var(--red)}pre{margin:10px 0;background:#10243f;color:#eef8ff;padding:16px;border-radius:12px;overflow:auto;font-size:12.5px;line-height:1.55}.codehead{display:flex;justify-content:space-between;align-items:center;margin-top:14px;color:var(--muted);font-size:12px}.copy{border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 9px;cursor:pointer}details{border:1px solid var(--line);border-radius:10px;margin:8px 0}summary{cursor:pointer;font-weight:700;padding:11px 13px;color:var(--soft)}details>div{padding:0 13px 13px}.sources{font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px;margin-top:16px}.hidden{display:none!important}footer{color:var(--muted);font-size:12px;text-align:center;margin-top:30px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.side{position:relative;top:auto;max-height:none}.summary{grid-template-columns:repeat(2,1fr)}}@media(max-width:640px){.topin{padding:8px 12px;flex-wrap:wrap}.search{order:3;flex-basis:100%;max-width:none}.layout{padding:16px 12px 70px}.hero{padding:27px 22px}.hero h1{font-size:25px}.metric{padding:12px}section{padding:21px 17px}.grid2{grid-template-columns:1fr}}@media print{body{background:#fff;font-size:11pt}.top,.side,.copy{display:none!important}.layout{display:block;max-width:none;padding:0}.hero,section{box-shadow:none}.summary{grid-template-columns:repeat(4,1fr)}section{break-inside:avoid;padding:16px;margin-bottom:18px}.tablewrap{overflow:visible}details>div{display:block!important}a{color:inherit;text-decoration:none}}
+@page{size:A4;margin:12mm}
+@media print{section{break-inside:auto;page-break-inside:auto}.hero{break-inside:avoid}tr{break-inside:avoid}thead{display:table-header-group}table{min-width:0;table-layout:fixed}th,td{overflow-wrap:anywhere}pre{white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word}.tablewrap{max-width:100%}h2,h3{break-after:avoid}}
+</style>
+</head>
+<body>
+<a class="skip" href="#content">본문으로 이동</a>
+<div class="top"><div class="topin"><span class="brand">APAAACI 연구자 매뉴얼</span><input id="search" class="search" type="search" placeholder="용어·API·파일 검색" aria-label="문서 검색"><button id="print-document" class="printbtn" type="button">인쇄</button><a href="../generated_materials_2026-10-29/index.html">생성 자료 ↗</a><a href="user_manual.html">사용자 매뉴얼 ↗</a><a href="../irb_2026-10-29/index.html">IRB 서류 ↗</a><a href="../medical_information_cooperation_2026-10-29/index.html">병원 협조 ↗</a><a href="../project_documentation_2026-10-29.html">전체 자료 ↗</a></div></div>
+<div class="layout">
+<nav class="side" aria-label="목차"><strong>목차</strong><ol>
+<li><a href="#scope">범위와 안전 경계</a></li><li><a href="#architecture">전체 구조</a></li><li><a href="#data">데이터 자산</a></li><li><a href="#ontology">Ontology 구현</a></li><li><a href="#evidence">Evidence와 출처</a></li><li><a href="#ocr">OCR와 검수</a></li><li><a href="#assessment">문진과 감별</a></li><li><a href="#report">리포트·카드뉴스</a></li><li><a href="#chat">결과 상담</a></li><li><a href="#fhir">FHIR 변환</a></li><li><a href="#api">API 계약</a></li><li><a href="#repro">재현·검증·운영</a></li><li><a href="#limitations">한계와 연구 계획</a></li><li><a href="#glossary">용어표와 출처</a></li>
+</ol></nav>
+<main id="content" class="main">
+<header class="hero"><div class="kicker">Research &amp; implementation manual</div><h1>알레르기 검사에서 지식, 리포트, FHIR까지</h1><p>현재 FastAPI 서버와 서비스 코드를 기준으로 입력, 규칙, 근거, 출력, 검증 경계를 설명합니다.</p><div class="chips"><span class="chip">기준일 2026-10-29</span><span class="chip">주 실행면: server.py + web/</span><span class="chip">단일 HTML</span><span class="chip">본문 예시값: 합성</span></div></header>
+<div class="summary"><div class="metric"><b>5</b><span>질환 ontology 주제</span></div><div class="metric"><b>1,130</b><span>판본 고정 근거 셀</span></div><div class="metric"><b>159</b><span>알레르겐 레지스트리</span></div><div class="metric"><b>379</b><span>SNOMED CT 매핑</span></div></div>
+<section id="scope" data-search="범위 안전 임상 연구 candidate accepted">
+<h2><span class="num">01.</span> 범위와 안전 경계</h2>
+<p class="lead">이 플랫폼은 검사값과 문진을 구조화하고, 결정 규칙으로 결과를 설명하는 연구용 구현입니다.</p>
+<div class="grid2"><div class="card"><h3>구현된 범위</h3><ul><li>SPT, MAST, UniCAP 이미지 OCR</li><li>OCR 행별 의심 표시와 사람 검수</li><li>양성 항목별 문진과 감별 상태</li><li>리포트, 카드뉴스, 결과 상담 문맥</li><li>FHIR R4 형태의 Bundle</li><li>RDF 그래프와 제한된 SPARQL</li></ul></div><div class="card"><h3>보증하지 않는 범위</h3><ul><li>의사의 진단과 처방</li><li>환자별 위험 확률</li><li>OWL 추론기 기반 완전한 ontology</li><li>외부 FHIR profile 적합성</li><li>실제 환자 일반화와 임상 효용</li><li>후보 근거의 자동 승인</li></ul></div></div>
+<div class="callout"><b>상태 표기</b><span class="tag impl">구현</span>은 현재 코드 경로를 뜻합니다. <span class="tag candidate">제안·후보</span>는 검토가 남은 지식이나 절차입니다. <span class="tag limit">미검증</span>은 임상 또는 외부 표준 검증이 끝나지 않은 범위입니다.</div>
+<div class="callout warn"><b>임상 경계</b>검사 양성은 감작을 뜻합니다. 약물 항원은 시스템이 확정하지 않으며, <code>clinician_review</code>로 분리합니다.</div>
+<p class="sources">코드 근거: <a href="../../models/schemas.py#L274">models/schemas.py · ClinicalRelevance</a>, <a href="../../services/ontology_service.py#L15">ontology_service.py · 사용 제약</a></p>
+</section>
+
+<section id="architecture" data-search="구조 pipeline OCR screening questionnaire report cardnews FHIR ontology">
+<h2><span class="num">02.</span> 전체 구조와 데이터 흐름</h2>
+<p class="lead">FastAPI가 계약과 보안을 맡고, 서비스 계층이 변환과 콘텐츠 생성을 맡습니다.</p>
+<p>주 실행면은 <code>server.py</code>와 <code>web/</code>입니다. <code>app.py</code>의 Streamlit 화면은 보조 실행면이며, 같은 API 계약을 대표하지 않습니다.</p>
+<svg class="flow" viewBox="0 0 980 300" role="img" aria-label="검사 이미지에서 FHIR까지 이어지는 흐름"><defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#3a93c7"/></marker></defs><g font-family="sans-serif" font-size="13" fill="#0b1f3a"><g fill="#e5f1fa" stroke="#6ab3dc"><rect x="20" y="30" width="140" height="62" rx="12"/><rect x="205" y="30" width="150" height="62" rx="12"/><rect x="400" y="30" width="160" height="62" rx="12"/><rect x="605" y="30" width="150" height="62" rx="12"/><rect x="800" y="30" width="150" height="62" rx="12"/></g><text x="90" y="58" text-anchor="middle">검사 이미지</text><text x="90" y="78" text-anchor="middle">비식별/합성</text><text x="280" y="58" text-anchor="middle">OCRResult</text><text x="280" y="78" text-anchor="middle">검수 완료</text><text x="480" y="58" text-anchor="middle">ScreeningProfile</text><text x="480" y="78" text-anchor="middle">기저질환·증상</text><text x="680" y="58" text-anchor="middle">문진 답변</text><text x="680" y="78" text-anchor="middle">노출·재현성</text><text x="875" y="58" text-anchor="middle">RelevanceResult</text><text x="875" y="78" text-anchor="middle">3상태+약물</text><g stroke="#3a93c7" stroke-width="2" marker-end="url(#arr)"><path d="M160 61H205"/><path d="M355 61H400"/><path d="M560 61H605"/><path d="M755 61H800"/></g><g fill="#f4f9fd" stroke="#a2cfeb"><rect x="70" y="190" width="160" height="62" rx="12"/><rect x="295" y="190" width="160" height="62" rx="12"/><rect x="520" y="190" width="160" height="62" rx="12"/><rect x="745" y="190" width="160" height="62" rx="12"/></g><text x="150" y="216" text-anchor="middle">환자 리포트</text><text x="150" y="236" text-anchor="middle">MD/HTML/PDF</text><text x="375" y="216" text-anchor="middle">카드뉴스</text><text x="375" y="236" text-anchor="middle">HTML deck</text><text x="600" y="216" text-anchor="middle">결과 상담</text><text x="600" y="236" text-anchor="middle">규칙+제한 LLM</text><text x="825" y="216" text-anchor="middle">FHIR Bundles</text><text x="825" y="236" text-anchor="middle">Observation/Allergy</text><g stroke="#3a93c7" stroke-width="2" marker-end="url(#arr)"><path d="M875 92V145H150V190"/><path d="M875 145H375V190"/><path d="M875 145H600V190"/><path d="M875 145H825V190"/></g></g></svg>
+<div class="callout gold"><b>별도 지식 경로</b>질환 ontology와 환경관리 지식은 결과를 보강합니다. 환자의 검사값 자체를 만들거나 바꾸지 않습니다.</div>
+<p class="sources">코드 근거: <a href="../../server.py#L31">server.py · 서비스 조립</a>, <a href="../../server.py#L125">server.py · FastAPI 앱</a></p>
+</section>
+
+<section id="data" data-search="데이터 JSON 레지스트리 SNOMED ImmunoCAP component environment count">
+<h2><span class="num">03.</span> 데이터 자산과 버전</h2>
+<p class="lead">데이터 파일은 역할과 검토 상태가 다릅니다. 수치는 2026-10-29에 파일을 직접 집계했습니다.</p>
+<div class="tablewrap"><table><thead><tr><th>자산</th><th>크기</th><th>역할</th><th>상태</th></tr></thead><tbody>
+<tr><td><a href="../../data/allergens.json">allergens.json</a></td><td>159 항원</td><td>이름, 별칭, 범주</td><td><span class="tag impl">구현 사용</span></td></tr>
+<tr><td><a href="../../data/allergen_knowledge_base.json">allergen_knowledge_base.json</a></td><td>18 수기 항목</td><td>노출, 계절, 회피</td><td><span class="tag candidate">항목별 상태</span></td></tr>
+<tr><td><a href="../../data/allergen_knowledge_generated.json">allergen_knowledge_generated.json</a></td><td>139 생성 항목</td><td>레지스트리 공백 보완</td><td><span class="tag candidate">생성 후보</span></td></tr>
+<tr><td><a href="../../data/allergen_environment_control.json">allergen_environment_control.json</a></td><td>8 군 · 44 출처</td><td>환경관리와 근거 등급</td><td><span class="tag candidate">전문의 검토 전</span></td></tr>
+<tr><td><a href="../../data/allergen_components.json">allergen_components.json</a></td><td>47 family · 1,160 component</td><td>성분 교차반응 탐색</td><td><span class="tag candidate">연구 보조</span></td></tr>
+<tr><td><a href="../../data/snomed_ct_map.json">snomed_ct_map.json</a></td><td>379 매핑</td><td>FHIR code.coding</td><td><span class="tag impl">런타임 사용</span></td></tr>
+<tr><td><a href="../../data/immunocap_catalog_2023.json">immunocap_catalog_2023.json</a></td><td>569 catalog</td><td>ImmunoCAP 원 카탈로그</td><td><span class="tag impl">2026-10-13 파싱</span></td></tr>
+<tr><td><a href="../../data/immunocap_registry_map.json">immunocap_registry_map.json</a></td><td>159 매핑</td><td>catalog-레지스트리 연결</td><td><span class="tag candidate">54 수기·105 자동</span></td></tr>
+<tr><td><a href="../../docs/20260916-allergy-chatbot/ontology-snapshot.json">ontology-snapshot.json</a></td><td>5 주제 · 161 표현군 · 1,130 근거</td><td>질환 지식과 provenance</td><td><span class="tag candidate">accepted 0</span></td></tr>
+</tbody></table></div>
+<details><summary>데이터 변경 시 최소 검증</summary><div><ol><li>JSON 구문을 검증합니다.</li><li>ID와 이름의 중복을 찾습니다.</li><li>매퍼 테스트를 실행합니다.</li><li>판정, 리포트, FHIR 회귀 테스트를 실행합니다.</li><li>집계 수치를 다시 만듭니다.</li></ol><pre>python3 -m json.tool data/allergens.json &gt;/dev/null
+pytest -q test_immunocap_catalog_map.py test_ontology.py test_release_gate_fixes.py</pre></div></details>
+</section>
+
+<section id="ontology" data-search="ontology RDF SPARQL rdflib OWL evidence claim expression group">
+<h2><span class="num">04.</span> Ontology 구현</h2>
+<p class="lead">현재 구현은 JSON 스냅샷을 런타임 RDF 그래프로 변환하는 경량 지식 계층입니다.</p>
+<div class="callout warn"><b>RDF와 OWL의 경계</b>현재 코드는 RDF triple을 만들고 검색합니다. OWL axiom, reasoner, entailment, consistency 검사는 구현하지 않습니다. 따라서 추론 완료 ontology로 보고하면 안 됩니다.</div>
+<div class="tablewrap"><table><thead><tr><th>입력 구조</th><th>RDF 타입/관계</th><th>보존 메타데이터</th></tr></thead><tbody><tr><td>topic</td><td>Topic, query, alias</td><td>label, source URL</td></tr><tr><td>clinical_context.items</td><td>ExpressionGroup, hasExpression</td><td>predicate, polarity, reviewStatus</td></tr><tr><td>records</td><td>Claim, claim</td><td>claim ID, evidence ID, raw text</td></tr><tr><td>terminology_summary</td><td>OntologyTerm, mappedTo, subClassOf</td><td>system, code, release, synonym</td></tr><tr><td>source_evidence</td><td>Evidence</td><td>text, URL, revision, sheet</td></tr></tbody></table></div>
+<p>Namespace는 <code>https://apaaaci.local/allergy-ontology#</code>입니다. <code>rdflib.Graph</code>는 최초 접근 때 생성됩니다.</p>
+<p>스냅샷은 5개 질환 주제를 담습니다. 이 안에는 161개 expression group과 1,130개 evidence cell이 있습니다. 모든 임상 주장은 candidate이며 accepted는 0개입니다.</p>
+<h3>스냅샷에서 가져온 한 묶음</h3>
+<p>다음 예시는 <code>asthma</code> 주제의 실제 필드를 축약했습니다. 식별자, 해시, 판본, 원문은 원 파일과 같습니다.</p>
+<div class="codehead"><span>실제 source snapshot의 축약본</span><button class="copy" data-copy="ontology-json">복사</button></div><pre id="ontology-json">{
+  "topic": {
+    "id": "concept:0151fdf6dad140b7e8d3a5f0",
+    "label": "Asthma",
+    "url": "https://en.wikipedia.org/wiki/Asthma"
+  },
+  "expression_group": {
+    "id": "clinical-expression-group:37b8270e86dacc70a4cced1a",
+    "display_label": "based on symptoms",
+    "predicate": "evaluated_with",
+    "polarity": "positive",
+    "review_status": "candidate",
+    "evidence_count": 2
+  },
+  "claim": {
+    "id": "clinical-claim:d913a4b287a2201b45441ba5",
+    "predicate": "evaluated_with",
+    "object_id": "clinical-expression:42dd7a6e1f434775212192db",
+    "source": {
+      "evidence_id": "evidence:36fb7fc6ec067a96b51a0b0b",
+      "raw_text": " Based on symptoms and [[spirometry]]\n",
+      "fragment": "Based on symptoms",
+      "field": "diagnosis",
+      "text_sha256": "e322d54088e89209a49f3b824d562f7d485c7e0a1c96fd2f69178328f1b96c3a"
+    }
+  },
+  "evidence": {
+    "id": "evidence:36fb7fc6ec067a96b51a0b0b",
+    "sheet": "Sheet1",
+    "row": 76,
+    "wikipedia_revision_id": 1371679044,
+    "wikipedia_revision_url": "https://en.wikipedia.org/w/index.php?oldid=1371679044"
+  }
+}</pre>
+<h3>JSON에서 RDF로 이어지는 정확한 연결</h3>
+<div class="tablewrap"><table><thead><tr><th>주어 URI</th><th>predicate</th><th>목적어</th><th>소스 필드</th></tr></thead><tbody>
+<tr><td><code>…#concept:0151fdf6dad140b7e8d3a5f0</code></td><td><code>allergy:hasExpression</code></td><td><code>…#clinical-expression-group:37b8270e86dacc70a4cced1a</code></td><td>topic.id → item.id</td></tr>
+<tr><td><code>…#clinical-expression-group:37b8270e86dacc70a4cced1a</code></td><td><code>allergy:topic</code></td><td>Asthma topic URI</td><td>item → owning topic</td></tr>
+<tr><td>같은 expression group</td><td><code>allergy:predicate</code></td><td><code>"evaluated_with"</code></td><td>item.predicate</td></tr>
+<tr><td>같은 expression group</td><td><code>allergy:claim</code></td><td><code>…#clinical-claim:d913a4b287a2201b45441ba5</code></td><td>records[].id</td></tr>
+<tr><td>claim URI</td><td><code>allergy:evidence</code></td><td><code>…#evidence:36fb7fc6ec067a96b51a0b0b</code></td><td>source.evidence_id</td></tr>
+<tr><td>claim URI</td><td><code>allergy:rawText</code></td><td>원 위키텍스트 literal</td><td>source.raw_text</td></tr>
+<tr><td>evidence URI</td><td><code>allergy:revisionUrl</code></td><td>고정 Wikipedia 판본 URL</td><td>wikipedia_revision_url</td></tr>
+</tbody></table></div>
+<div class="callout gold"><b>범주 주의</b>topic은 질환 문서입니다. expression은 출현 문구입니다. claim은 관계 주장입니다. evidence는 원문 셀입니다. 네 항목을 하나의 임상 개념으로 합치지 마십시오.</div>
+<h3>질의 경계</h3><p>SPARQL API는 <code>SELECT</code>와 <code>ASK</code>만 허용합니다. 업데이트, <code>SERVICE</code>, 데이터 이동 명령은 차단합니다.</p>
+<div class="codehead"><span>실제 서버에서 검증한 SPARQL</span><button class="copy" data-copy="sparql">복사</button></div><pre id="sparql">PREFIX allergy: &lt;https://apaaaci.local/allergy-ontology#&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+SELECT ?group ?label ?predicate ?status ?evidence
+WHERE {
+  ?group a allergy:ExpressionGroup ;
+         rdfs:label ?label ;
+         allergy:predicate ?predicate ;
+         allergy:reviewStatus ?status ;
+         allergy:evidenceCount ?evidence .
+  FILTER(?predicate = "evaluated_with")
+}
+ORDER BY DESC(?evidence)
+LIMIT 3</pre>
+<p>2026-10-29에 <code>POST /api/ontology/sparql</code>로 실행했습니다. 서버는 다음 첫 행을 반환했습니다.</p>
+<pre>{
+  "group": "https://apaaaci.local/allergy-ontology#clinical-expression-group:37b8270e86dacc70a4cced1a",
+  "label": "based on symptoms",
+  "predicate": "evaluated_with",
+  "status": "candidate",
+  "evidence": "2"
+}</pre>
+<p><code>rdfs</code> prefix는 rdflib 기본 환경에 기대지 않고 명시합니다. <code>allergy:predicate</code>와 <code>allergy:evidenceCount</code>는 그래프 구축 코드가 실제로 생성합니다.</p>
+<p>환경관리 JSON은 같은 그래프에 선택적으로 추가됩니다. 이 계층의 내부 상태는 <code>textbook_curated</code>입니다. 파일은 전문의 검토 전이라고 따로 밝힙니다.</p>
+<p class="sources">코드 근거: <a href="../../services/ontology_service.py#L37">경로와 namespace</a>, <a href="../../services/ontology_service.py#L100">상태와 SPARQL 제한</a>, <a href="../../services/ontology_service.py#L125">지연 적재</a>, <a href="../../services/ontology_service.py#L175">RDF 변환</a>. 표준: <a href="https://www.w3.org/TR/rdf11-concepts/">W3C RDF 1.1</a></p>
+</section>
+
+<section id="evidence" data-search="evidence provenance source review candidate textbook Wikipedia citation claim">
+<h2><span class="num">05.</span> Evidence, provenance, 검토 상태</h2>
+<p class="lead">근거를 사용할 때는 주장, 원문 셀, 판본, 검토 상태를 한 묶음으로 추적합니다.</p>
+<div class="callout ok"><b>저장 검사값 기반 연구 자료</b>별도 카탈로그는 실제 저장 검사값으로 만든 87세트를 제공합니다. 이 자료는 아래 합성 예시와 다릅니다. 현재 로컬 템플릿을 사용했으며, <code>screening=None</code>과 <code>answers={}</code>를 적용했습니다. 문진은 실행하지 않았습니다. 이름과 검사일은 제거했습니다. <a href="../generated_materials_2026-10-29/guide.html">생성 조건과 Evidence 다운로드를 확인하십시오.</a></div>
+<div class="tablewrap"><table><thead><tr><th>근거 층</th><th>출처</th><th>상태 의미</th><th>허용 용도</th></tr></thead><tbody><tr><td>질환 ontology</td><td>Wikipedia 특정 판본</td><td>candidate; accepted 0</td><td>일반 설명 후보</td></tr><tr><td>환경관리</td><td>교과서와 논문 서지</td><td>textbook_curated; 검토 전</td><td>보수적 환자 설명</td></tr><tr><td>환자 검사</td><td>업로드한 보고서</td><td>사람 검수 후 입력</td><td>환자별 수치</td></tr><tr><td>환자 증상</td><td>스크리닝·문진</td><td>환자 보고</td><td>감별 규칙 입력</td></tr></tbody></table></div>
+<h3>provenance 필수 묶음</h3><ul><li><code>claim_id</code>: 구조화된 주장 ID</li><li><code>evidence_id</code>: 원문 셀 또는 출처 ID</li><li><code>source_url</code> 또는 서지 인용</li><li><code>review_status</code>: 후보와 검토 상태</li><li><code>quote/raw_text</code>: 문맥 확인용 원문</li></ul>
+<h3>금지되는 해석</h3><ul><li><code>polarity=positive</code>를 임상 효과로 읽지 않습니다.</li><li>근거 셀 수를 근거 수준 점수로 쓰지 않습니다.</li><li><code>textbook_curated</code>를 전문의 승인으로 읽지 않습니다.</li><li>일반 지식을 환자별 원인 판정에 쓰지 않습니다.</li></ul>
+<div class="callout gold"><b>연구 export 권고</b>코드 버전, 데이터 해시, 근거 ID, 규칙 버전을 함께 보관하십시오.</div>
+<p class="sources">코드 근거: <a href="../../services/ontology_service.py#L15">usage rules</a>, <a href="../../services/ontology_service.py#L218">Claim-Evidence 연결</a>, <a href="../../services/ontology_service.py#L980">get_evidence</a></p>
+</section>
+
+<section id="ocr" data-search="OCR OpenAI vision double read review flag value_raw SPT MAST UniCAP">
+<h2><span class="num">06.</span> OCR, 파싱, 사람 검수</h2>
+<p class="lead">OCR은 값을 읽고 규칙 검사를 붙입니다. 시스템은 의심값을 임의로 정답으로 고치지 않습니다.</p>
+<div class="codehead"><span>비식별 합성 OCRResult</span><button class="copy" data-copy="ocrjson">복사</button></div><pre id="ocrjson">{
+  "test_type": "UniCAP",
+  "patient": {"name": "SYNTHETIC-001", "test_date": "2026-01-15"},
+  "results": [{
+    "index": 1,
+    "raw_text": "d1 D. pteronyssinus 2.10 class 2",
+    "allergen_name": "D. pteronyssinus",
+    "value": 2.1,
+    "value_raw": "2.10",
+    "unit": "kU/L",
+    "class": 2,
+    "interpretation": "Positive",
+    "review_flags": []
+  }]
+}</pre>
+<h3>보존 규칙</h3><ul><li><code>&lt;0.35</code>는 <code>value_text</code>로 보존합니다.</li><li><code>.48</code> 같은 인쇄 문자열은 <code>value_raw</code>에 남깁니다.</li><li>인쇄 문자열과 모델 숫자가 다르면 충돌을 표시합니다.</li><li>SPT 장축, 단축, 평균, A/H 비를 구분합니다.</li><li>Total IgE 같은 요약 행은 알레르겐에서 제외합니다.</li></ul>
+<div class="tablewrap"><table><thead><tr><th>표시</th><th>조건</th><th>연구자 조치</th></tr></thead><tbody><tr><td>class_value_mismatch</td><td>class와 농도 구간 불일치</td><td>원본 행과 소수점 대조</td></tr><tr><td>lod_with_class</td><td>LOD 미만인데 class ≥1</td><td>기호와 class 확인</td></tr><tr><td>value_raw_mismatch</td><td>인쇄값과 숫자 충돌</td><td>인쇄값 확인</td></tr><tr><td>duplicate_allergen</td><td>같은 항원이 다른 값으로 중복</td><td>행 병합 검토</td></tr><tr><td>missing_rows</td><td>연속 번호에 공백</td><td>누락 행 확인</td></tr><tr><td>double_read_mismatch</td><td>전체·확대 판독 불일치</td><td>두 값을 원본과 비교</td></tr></tbody></table></div>
+<div class="callout warn"><b>연구 자료 처리</b>실제 환자 이미지를 문서, fixture, 화면 캡처에 넣지 마십시오. 승인된 비식별 절차를 먼저 적용하십시오.</div>
+<p class="sources">코드 근거: <a href="../../models/schemas.py#L133">OCR schema</a>, <a href="../../services/ocr_service.py#L669">원문 값 보존</a>, <a href="../../services/ocr_validation.py#L74">검수 규칙</a>, <a href="../../services/ocr_validation.py#L252">이중 판독 비교</a></p>
+</section>
+
+<section id="assessment" data-search="screening questionnaire relevance clinically sensitized indeterminate clinician review">
+<h2><span class="num">07.</span> 스크리닝, 문진, 임상적 의미</h2>
+<p class="lead">양성 검사에 노출, 시간, 재현성, 증상을 결합해 네 가지 verdict를 만듭니다.</p>
+<div class="tablewrap"><table><thead><tr><th>verdict</th><th>공개 relevance</th><th>의미</th><th>FHIR verification</th></tr></thead><tbody><tr><td>clinically_relevant</td><td>동일</td><td>노출과 증상 연결을 문진에서 확인</td><td>confirmed</td></tr><tr><td>sensitized_only</td><td>동일</td><td>검사 양성이나 노출 증상 없음</td><td>unconfirmed</td></tr><tr><td>indeterminate</td><td>동일</td><td>노출 또는 증상 정보 부족</td><td>unconfirmed</td></tr><tr><td>clinician_review</td><td>indeterminate</td><td>약물 항원. 앱이 판정하지 않음</td><td>unconfirmed</td></tr></tbody></table></div>
+<h3>질문 생성</h3><p>꽃가루는 계절과 구강알레르기증후군을 봅니다. 실내 항원은 장소와 회피 반응을 봅니다. 곰팡이는 습기, 실외 포자, 진드기와의 구분을 봅니다. 동물은 접촉과 시간 연계를 봅니다.</p>
+<div class="tablewrap"><table><thead><tr><th>항원군</th><th>주요 입력</th><th>분류 초점</th><th>구현 위치</th></tr></thead><tbody><tr><td>꽃가루</td><td>악화 월, 노출, 구강 증상</td><td>계절 일치와 꽃가루-식품 연결</td><td><a href="../../services/questionnaire_service.py#L1526">_classify_pollen</a></td></tr><tr><td>진드기·바퀴</td><td>실내 시점, 외박 변화, 특정 장소</td><td>실내 노출과 회피 반응</td><td><a href="../../services/questionnaire_service.py#L1577">_classify_indoor</a></td></tr><tr><td>곰팡이</td><td>습기, 악화 월, 진드기 동반</td><td>습한 실내와 실외 계절 구분</td><td><a href="../../services/questionnaire_service.py#L1623">_classify_mold</a></td></tr><tr><td>동물</td><td>접촉, 시간 연결, 회피 변화</td><td>직접·간접 접촉 재현성</td><td><a href="../../services/questionnaire_service.py#L1707">_classify_animal</a></td></tr><tr><td>약물</td><td>약물명, 시점, 증상, 재노출</td><td>판정 대신 의료진 검토 정보</td><td><a href="../../services/questionnaire_service.py#L1926">_classify_drug</a></td></tr></tbody></table></div>
+<h3>판정 우선순위와 불확실 분기</h3>
+<p>분류기는 검사 강도만으로 상태를 정하지 않습니다. 구체적 노출 답변이 일반 패턴보다 먼저 적용됩니다.</p>
+<div class="tablewrap"><table><thead><tr><th>항원군</th><th>높은 우선순위</th><th>실제 주의</th><th>감작만</th><th>관찰·검토</th></tr></thead><tbody>
+<tr><td>꽃가루</td><td>해당 꽃가루 시기 질문 → 악화 월 겹침</td><td>시기 질문이 yes이거나, 답이 없고 월이 겹침</td><td>시기 질문이 no이거나, 답이 없고 월이 안 겹침</td><td>시기 답과 악화 월이 모두 부족</td></tr>
+<tr><td>진드기·실내 곤충</td><td>침구 관리 후 호전, 침실 단서, 외박 호전, 시간대, 직접 노출</td><td>강한 단서 하나 이상</td><td>제공된 시간·외박·노출 답이 모두 no</td><td>답이 일부 없거나 서로 결론을 만들지 못함</td></tr>
+<tr><td>곰팡이</td><td>곰팡이 특이 공간·실외 포자·제습 후 호전</td><td>특이 단서가 있으면 최우선. 진드기 음성일 때 습기나 계절 겹침도 사용</td><td>명시적 no, 제습 후 변화 없음, 계절 불일치</td><td>진드기도 양성이고 습기만 yes이면 원인 구분 보류</td></tr>
+<tr><td>동물</td><td>접촉 시 악화 → 직업 노출과 근무일 패턴 → 접촉량</td><td>접촉 시 악화가 yes</td><td>충분한 접촉 또는 직업 노출에도 악화가 no</td><td>거의 미노출. 직업 패턴은 있으나 원인 동물이 불명확</td></tr>
+<tr><td>갑각류</td><td>전신 음식 게이트 → 항목별 섭취 반응</td><td>전신 또는 입·목 증상</td><td>실제 섭취해도 증상 없음</td><td>먹지 않았거나 정보 부족</td></tr>
+<tr><td>일반 음식</td><td>전신 음식 게이트 → 증상 다중 선택</td><td>피부·소화기·호흡기·아나필락시스, 또는 입·목 증상</td><td>none만 선택하고 전신 음식으로 지목되지 않음</td><td>섭취 경험 또는 증상 답이 부족</td></tr>
+<tr><td>약물</td><td>다른 분기보다 항상 우선</td><td>앱은 이 상태를 만들지 않음</td><td>앱은 이 상태를 만들지 않음</td><td>반응 유무와 무관하게 <code>clinician_review</code></td></tr>
+</tbody></table></div>
+<details><summary>꽃가루 판정의 정확한 순서</summary><div><ol><li>항원 category로 tree, grass, weed 질문군을 고릅니다.</li><li>항원별 peak month와 환자 worse month의 교집합을 계산합니다.</li><li>해당 시기 직접 질문이 yes면 월 계산보다 먼저 실제 주의로 둡니다.</li><li>직접 질문이 no면 월 계산보다 먼저 감작만으로 둡니다.</li><li>직접 답이 없을 때만 월 교집합을 사용합니다.</li><li>두 입력이 모두 없으면 관찰 필요로 둡니다.</li></ol><p>OAS 음식은 rationale을 보강합니다. OAS 자체가 꽃가루 verdict를 덮어쓰지는 않습니다.</p></div></details>
+<details><summary>진드기와 곰팡이를 함께 해석하는 순서</summary><div><ol><li>곰팡이 전용 공간, 실외 포자, 제습 반응을 먼저 찾습니다.</li><li>전용 단서가 있으면 곰팡이를 실제 주의로 분류합니다.</li><li>전용 단서가 없고 진드기도 양성이면 습기 하나만으로 곰팡이를 확정하지 않습니다.</li><li>침구 관리만 효과가 있고 제습을 시험하지 않았다면 진드기 설명 가능성을 rationale에 남깁니다.</li><li>명시적 무관 답이나 계절 불일치가 있으면 감작만으로 둡니다.</li></ol></div></details>
+<details><summary>음식과 약물의 안전 분기</summary><div><p>음식은 실제 섭취 반응을 봅니다. 전신 반응 선택은 항목별 답보다 강한 게이트입니다. 입·목 증상도 실제 주의에 포함되지만 symptom site는 전신 부위와 분리합니다.</p><p>약물은 모든 경우에 의료진 검토로 둡니다. 반응, 문제없는 사용, 미사용 정보는 삭제하지 않습니다. 이 정보는 rationale, reported symptoms, severity에 보존합니다.</p></div></details>
+<h3>답변 정규화</h3><p>서버는 화면의 답을 question spec으로 제한합니다. 배타값, 허용 옵션, 숨겨진 질문을 확인한 뒤 분류에 사용합니다.</p>
+<h3>답변 정규화가 필요한 이유</h3><ul><li>문진에 없는 question ID는 <code>ignored_answers</code>로 보냅니다.</li><li>선택지에 없는 값은 판정에 사용하지 않습니다.</li><li><code>none</code> 같은 배타값은 다른 선택과 함께 유지하지 않습니다.</li><li>현재 화면에서 숨겨진 후속 질문은 판정 근거로 사용하지 않습니다.</li><li>판정, 상담, FHIR는 같은 정리된 답을 다시 사용합니다.</li></ul>
+<div class="callout ok"><b>재현성</b>LLM은 판정 핵심 경로에 필요하지 않습니다. 같은 입력과 코드면 같은 상태가 나옵니다.</div>
+<div class="callout warn"><b>분류와 진단</b><code>clinically_relevant</code>는 문진 규칙의 출력입니다. 진료에서 확정한 진단과 같다고 단정하지 마십시오.</div>
+<p class="sources">코드 근거: <a href="../../models/schemas.py#L274">상태 정의</a>, <a href="../../services/relevance_service.py#L302">assessment</a>, <a href="../../services/questionnaire_service.py#L1214">답 정규화</a>, <a href="../../services/questionnaire_service.py#L1338">분류</a></p>
+</section>
+
+<section id="report" data-search="report markdown HTML PDF cardnews cards deck deterministic translation">
+<h2><span class="num">08.</span> 리포트와 카드뉴스</h2>
+<p class="lead">현재 환자 리포트와 카드뉴스는 판정 객체와 지식베이스에서 결정론적으로 구성됩니다.</p>
+<div class="callout ok"><b>실제 저장값 출력과 합성 예시를 구분하십시오.</b>별도 카탈로그의 리포트와 카드뉴스는 실제 저장 검사값으로 만들었습니다. 현재 로컬 템플릿을 사용했지만, 이 절의 합성 예시와는 별도 자료입니다. <code>screening=None</code>과 <code>answers={}</code>를 적용했으므로 문진 기반 판정을 포함하지 않습니다. <a href="../generated_materials_2026-10-29/guide.html">생성 조건과 다운로드 형식을 확인하십시오.</a></div>
+<div class="grid2"><div class="card"><h3>리포트</h3><ul><li>한눈에 보기와 상태별 개수</li><li>실제 주의 항원 우선순위</li><li>약물 항원의 별도 진료 확인</li><li>확인된 음식 교차반응 경고</li><li>환경관리 근거와 검토 전 고지</li><li>Markdown, HTML 문서, PDF</li></ul></div><div class="card"><h3>카드뉴스</h3><ul><li>표지와 상태별 요약 카드</li><li>예방, 노출, 계절, 치료 카드</li><li>항원별 상세 카드</li><li>결과에 맞춘 quiz 카드</li><li>내장 CSS/JavaScript HTML deck</li><li>quest와 classic 디자인 변형</li></ul></div></div>
+<h3>생성 경계</h3><p>한국어 경로는 결정론적 문장 조립을 사용합니다. 다른 언어는 블록 번역과 캐시를 사용할 수 있습니다. 과거 <code>generate_report()</code>에는 LLM 경로가 남아 있습니다. 연구자는 호출한 함수 이름을 기록해야 합니다.</p>
+<h3>현재 서버의 report 함수 chain</h3>
+<div class="tablewrap"><table><thead><tr><th>순서</th><th>함수</th><th>입력</th><th>출력·주의</th></tr></thead><tbody>
+<tr><td>1</td><td><code>_classified()</code></td><td>OCR, screening, raw answers</td><td>정리된 답, ignored 답, RelevanceAssessmentResult</td></tr>
+<tr><td>2</td><td><code>build_patient_report_markdown()</code></td><td>판정, patient_info, screening, lang</td><td>결정론적 Markdown. 임상 그룹은 한 번만 셈</td></tr>
+<tr><td>3</td><td><code>markdown.markdown()</code></td><td>Markdown</td><td>화면 조각용 HTML. 실패하면 escaped되지 않은 <code>&lt;pre&gt;</code> fallback이므로 검토 필요</td></tr>
+<tr><td>4</td><td><code>build_patient_report_html_document()</code></td><td>같은 판정과 환자 정보</td><td>인쇄·PDF용 완전한 HTML 문서</td></tr>
+<tr><td>5</td><td><code>_generate_outputs()</code></td><td>위 산출물과 번역 scope</td><td>translation segments, untranslated, errors를 추가</td></tr>
+<tr><td>6</td><td><code>_store_localized()</code></td><td>언어별 출력과 backend</td><td>ready일 때만 본문 저장. 실패·생략은 상태만 저장</td></tr>
+</tbody></table></div>
+<p><code>/api/classify</code>는 이 chain을 호출합니다. 이 응답에는 FHIR가 없습니다. FHIR는 같은 입력으로 <code>POST /api/fhir</code>를 따로 호출해야 합니다.</p>
+<h3>리포트 선택 규칙</h3><ul><li>표의 개수는 검사 행 수가 아니라 접힌 임상 그룹 수입니다.</li><li>실제 주의, 감작만, 관찰 필요, 약물 검토를 서로 다른 목록으로 만듭니다.</li><li>검사 음성과 경계 항목은 tested negatives에서 별도로 가져옵니다.</li><li>확인된 OAS·교차반응 음식은 음식 중심 경고로 올립니다.</li><li>환경 근거는 관련 항원만 선택하고 검토 상태를 표시합니다.</li><li>주증상, 계절, 지역, 치료 사용 여부가 해당 절을 조건부로 엽니다.</li></ul>
+<h3>카드 선택과 순서</h3>
+<div class="tablewrap"><table><thead><tr><th>카드</th><th>생성 조건</th><th>최대·중복 규칙</th><th>상호작용</th></tr></thead><tbody>
+<tr><td>표지</td><td>항상</td><td>임상 그룹별 verdict 개수</td><td>없음</td></tr>
+<tr><td>프로필</td><td>스크리닝에 표시할 내용이 있음</td><td>질환·증상·검사 주의 통합</td><td>없음</td></tr>
+<tr><td>실제 주의 요약</td><td>항상</td><td>없어도 empty card 생성</td><td>확인 퀴즈</td></tr>
+<tr><td>항원 상세</td><td>실제 주의 항원</td><td>임상 그룹을 접은 뒤 최대 4장</td><td>설명 접기·펼치기</td></tr>
+<tr><td>동물</td><td>관련 동물 결과와 screening</td><td>care guidance 규칙</td><td>실천 체크</td></tr>
+<tr><td>음식 경고</td><td>증상 확인 OAS·교차 음식</td><td>음식 중심으로 통합</td><td>확인 퀴즈</td></tr>
+<tr><td>약물 검토</td><td>clinician_review 존재</td><td>다른 verdict 카드에서 제외</td><td>없음</td></tr>
+<tr><td>감작·관찰</td><td>항상</td><td>두 상태를 한 카드에 설명</td><td>확인 퀴즈</td></tr>
+<tr><td>계절·예방·증상·치료</td><td>screening과 판정에 맞을 때</td><td>선택하지 않은 약·증상 카드는 만들지 않음</td><td>퀴즈 또는 실천 체크</td></tr>
+<tr><td>질환 지식</td><td>관련 기저질환 지식이 있음</td><td>일반 지식이며 환자 판정 아님</td><td>설명 접기·펼치기</td></tr>
+<tr><td>마무리</td><td>항상</td><td>덱 마지막</td><td>확인 퀴즈</td></tr>
+</tbody></table></div>
+<h3>퀴즈와 진행 상태</h3><p>퀴즈는 카드 본문에 이미 있는 문장만 재사용합니다. 새 임상 지식을 만들지 않습니다. prevention과 animal 카드는 실천 체크를 만듭니다. detail과 knowledge 카드는 펼쳐보기 상태를 가집니다.</p>
+<p>카드뉴스는 sandbox iframe에서 실행됩니다. iframe은 localStorage를 쓸 수 없습니다. 카드뉴스는 <code>postMessage</code>로 카드별 체크 개수와 boolean 변경만 부모 앱에 보냅니다.</p>
+<div class="tablewrap"><table><thead><tr><th>상태</th><th>보존 범위</th><th>초기화 조건</th><th>검증 제한</th></tr></thead><tbody><tr><td>실천 체크</td><td>같은 앱 메모리와 같은 session ID</td><td>새 탐험, 페이지 새로고침, 카드 shape 변경</td><td>서버 DB에 저장되지 않음</td></tr><tr><td>언어 전환</td><td>카드 번호별 항목 수 shape가 같으면 유지</td><td>번역 덱의 카드 구성 변화</td><td>내용 의미 동일성은 별도 검토</td></tr><tr><td>퀴즈 점수</td><td>현재 덱 JavaScript</td><td>문서 재열기</td><td>연구 outcome으로 저장되지 않음</td></tr><tr><td>읽은 카드 진행</td><td>현재 문서 세션</td><td>문서 재열기</td><td>노출 시간이나 이해도를 뜻하지 않음</td></tr></tbody></table></div>
+<div class="callout gold"><b>연구 측정 경계</b>현재 카드 진행률은 교육 효과 지표가 아닙니다. 이해도 연구에는 별도 event schema, 동의, 저장 정책, 분석 계획이 필요합니다.</div>
+<details><summary>산출물 검토 체크리스트</summary><div><ul><li>상태별 개수와 이름 목록이 일치하는가?</li><li>약물 항원이 별도로 표시되는가?</li><li>환경 근거에 검토 전 고지가 있는가?</li><li>미확인 교차반응을 확정처럼 쓰지 않았는가?</li><li>합성 이름과 날짜만 포함하는가?</li></ul></div></details>
+<p class="sources">코드 근거: <a href="../../server.py#L715">출력 chain</a>, <a href="../../services/report_service.py#L671">결정론적 리포트</a>, <a href="../../services/report_service.py#L947">인쇄 문서</a>, <a href="../../services/report_service.py#L1394">환경 근거</a>.</p><p class="sources"><a href="../../services/cardnews_service.py#L110">카드 선택</a>, <a href="../../services/cardnews_service.py#L181">카드 kind</a>, <a href="../../services/cardnews_service.py#L233">퀴즈</a>, <a href="../../services/cardnews_service.py#L249">deck 조립</a>, <a href="../../web/shared.js#L145">DeckBridge</a>.</p>
+</section>
+
+<section id="chat" data-search="chat consultation context emergency ontology prompt hallucination">
+<h2><span class="num">09.</span> 결과 상담</h2>
+<p class="lead">상담은 환자 결과 문맥과 제한된 일반 지식을 사용하며, 진단과 처방을 금지합니다.</p>
+<h3>문맥 구성</h3><ul><li>검사 종류와 환자 기본 정보</li><li>상태별 항원과 감별 근거</li><li>검사 음성·경계 항목</li><li>스크리닝과 문진 답변</li><li>질문이 요구할 때만 ontology 근거</li><li>환경관리와 care guidance</li></ul>
+<h3>지식 주입 조건</h3><p>기저질환을 골랐다는 이유만으로 ontology를 넣지 않습니다. 질문에 일반지식 의도가 있을 때 관련 주제를 고릅니다.</p>
+<h3>안전 동작</h3><p>응급 표현은 LLM 이전에 확인합니다. 결과 범위 밖 질문에는 알 수 없다고 답하도록 프롬프트를 구성합니다. 치료 정보는 일반 정보로 제한합니다.</p>
+<div class="callout warn"><b>평가 항목</b>근거성과 근거 ID 일치를 각각 측정하십시오. 범위 밖 질문 거절, 응급 분기, 처방 금지, 다국어 의미 보존도 측정하십시오.</div>
+<p class="sources">코드 근거: <a href="../../services/result_chat_service.py#L200">build_context</a>, <a href="../../services/result_chat_service.py#L396">ontology_block</a>, <a href="../../services/result_chat_service.py#L914">system prompt</a>, <a href="../../services/result_chat_service.py#L1128">answer</a></p>
+</section>
+
+<section id="fhir" data-search="FHIR R4 Observation AllergyIntolerance Bundle SNOMED UCUM comparator dataAbsentReason">
+<h2><span class="num">10.</span> FHIR 변환</h2>
+<p class="lead">검사 측정은 Observation으로, 감별 결과는 AllergyIntolerance로 분리합니다.</p>
+<div class="callout ok"><b>저장 검사값 기반 FHIR</b>별도 카탈로그의 FHIR는 실제 저장 검사값과 현재 로컬 템플릿으로 만들었습니다. 이 절의 합성 예시와 다릅니다. <code>screening=None</code>과 <code>answers={}</code>를 적용했으므로 AllergyIntolerance의 검증 상태는 <code>unconfirmed</code>입니다. <a href="../generated_materials_2026-10-29/guide.html">생성 조건과 FHIR 다운로드를 확인하십시오.</a></div>
+<div class="callout"><b>자원 의미</b><code>Observation</code>은 검사에서 관찰한 값입니다. <code>AllergyIntolerance</code>는 물질 반응 위험에 대한 임상 평가입니다. 양성 Observation만으로 AllergyIntolerance를 확정하지 않습니다.</div>
+<div class="tablewrap"><table><thead><tr><th>검사</th><th>Observation.code</th><th>Observation.method</th></tr></thead><tbody><tr><td>SPT</td><td>SNOMED CT 37968009 · Prick test</td><td>전용 technique이 없어 선택적 OMOP coding/text</td></tr><tr><td>MAST</td><td>399788006 · allergen specific IgE, MAST</td><td>703446000 · Immunoblot assay</td></tr><tr><td>UniCAP</td><td>397691009 · quantitative specific IgE</td><td>703447009 · EIA + 703444002 · immunofluorescence</td></tr></tbody></table></div>
+<h3>값의 손실 방지</h3><ul><li>숫자는 UCUM 단위의 <code>valueQuantity</code>로 기록합니다.</li><li><code>&lt;0.35</code>는 <code>comparator: "&lt;"</code>로 기록합니다.</li><li>undetectable은 LOD와 comparator로 표현합니다.</li><li>N/A와 빈값은 <code>dataAbsentReason</code>으로 표현합니다.</li><li>MAST/UniCAP class는 component에 보존합니다.</li><li>SPT 장축, 단축, 평균, A/H 비를 component로 분리합니다.</li></ul>
+<div class="tablewrap"><table><thead><tr><th>Bundle</th><th>포함 자원</th><th>규칙</th></tr></thead><tbody><tr><td>observation_bundle</td><td>전체 검사 Observation</td><td>음성, 0, LOD, N/A도 유지</td></tr><tr><td>allergy_intolerance_bundle</td><td>양성 감별 대상, 확인 음식</td><td>관련=confirmed, 나머지=unconfirmed</td></tr><tr><td>screening_bundle</td><td>Condition, survey Observation, QuestionnaireResponse</td><td>환자 보고임을 유지</td></tr></tbody></table></div>
+<h3>실제 생성 Observation 예시</h3>
+<p>다음 필드 부분집합은 로컬 데모 MAST 결과에서 생성했습니다. <code>id</code>는 실행마다 달라집니다.</p>
+<div class="codehead"><span>실제 출력의 핵심 필드</span><button class="copy" data-copy="fhir-observation">복사</button></div><pre id="fhir-observation">{
+  "resourceType": "Observation",
+  "id": "obs-7dbeb558",
+  "status": "final",
+  "code": {
+    "coding": [{
+      "system": "http://snomed.info/sct",
+      "code": "399788006",
+      "display": "Allergen specific IgE antibody measurement, MAST type"
+    }],
+    "text": "Allergen specific IgE antibody measurement, MAST type - Dermatophagoides farinae"
+  },
+  "method": {
+    "coding": [{
+      "system": "http://snomed.info/sct",
+      "code": "703446000",
+      "display": "Immunoblot assay (qualifier value)"
+    }],
+    "text": "Immunoblot (MAST)"
+  },
+  "subject": {"reference": "Patient/홍길동"},
+  "effectiveDateTime": "2026-06-15",
+  "valueQuantity": {
+    "value": 17.6,
+    "unit": "kU/L",
+    "system": "http://unitsofmeasure.org",
+    "code": "kU/L"
+  },
+  "interpretation": [{"coding": [{
+    "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+    "code": "POS",
+    "display": "Positive"
+  }]}],
+  "component": [
+    {"code": {
+      "coding": [{"system": "http://snomed.info/sct", "code": "112476003",
+                   "display": "Dermatophagoides farinae"}],
+      "text": "Dermatophagoides farinae (집먼지진드기(D.farinae))"
+    }},
+    {"code": {"text": "IgE class (0-6, report semi-quantitative class)"},
+     "valueInteger": 4}
+  ],
+  "performer": [{"display": "OO대학교병원 진단검사의학과"}]
+}</pre>
+<h3>실제 생성 AllergyIntolerance 예시</h3>
+<p>같은 합성 입력에서 문진 답이 없으므로 <code>verificationStatus=unconfirmed</code>입니다. 긴 교육 note는 아래 예시에서 제외했습니다.</p>
+<div class="codehead"><span>실제 출력의 핵심 필드</span><button class="copy" data-copy="fhir-allergy">복사</button></div><pre id="fhir-allergy">{
+  "resourceType": "AllergyIntolerance",
+  "id": "allergy-3f281898",
+  "clinicalStatus": {"coding": [{
+    "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+    "code": "active",
+    "display": "Active"
+  }]},
+  "verificationStatus": {"coding": [{
+    "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+    "code": "unconfirmed",
+    "display": "Unconfirmed"
+  }]},
+  "type": "allergy",
+  "category": ["environment"],
+  "criticality": "unable-to-assess",
+  "code": {
+    "coding": [{
+      "system": "http://snomed.info/sct",
+      "code": "112476003",
+      "display": "Dermatophagoides farinae"
+    }],
+    "text": "Dermatophagoides farinae (집먼지진드기(D.farinae))"
+  },
+  "patient": {"reference": "Patient/홍길동", "display": "홍길동"},
+  "recordedDate": "2026-06-15"
+}</pre>
+<h3>실제 생성 QuestionnaireResponse 예시</h3>
+<p>이 자원은 스크리닝 답을 표현합니다. 적응형 질문 원본 Questionnaire 자원은 Bundle에 들어가지 않습니다.</p>
+<div class="codehead"><span>실제 출력의 축약본</span><button class="copy" data-copy="fhir-qr">복사</button></div><pre id="fhir-qr">{
+  "resourceType": "QuestionnaireResponse",
+  "id": "qr-screening-6d85d8ac",
+  "status": "completed",
+  "subject": {"reference": "Patient/홍길동", "display": "홍길동"},
+  "item": [
+    {"linkId": "allergic_diseases", "text": "기저 알레르기 질환",
+     "answer": [{"valueString": "알레르기 비염"}]},
+    {"linkId": "antihistamine_recent", "text": "최근 5-7일 내 항히스타민제 복용",
+     "answer": [{"valueBoolean": false}]},
+    {"linkId": "symptom_present", "text": "현재 알레르기 증상",
+     "answer": [{"valueBoolean": true}]},
+    {"linkId": "organ_systems", "text": "증상 부위",
+     "answer": [{"valueString": "코 (재채기·콧물·코막힘)"}]},
+    {"linkId": "season_pattern", "text": "증상 계절 패턴",
+     "answer": [{"valueString": "seasonal"}]},
+    {"linkId": "worse_months", "text": "증상 악화 월",
+     "answer": [{"valueInteger": 4}, {"valueInteger": 5}]}
+  ],
+  "authored": "2026-06-15"
+}</pre>
+<h3>필드별 원본, 변환, 손실</h3>
+<div class="tablewrap"><table><thead><tr><th>FHIR 필드</th><th>원본</th><th>변환</th><th>손실·한계</th></tr></thead><tbody>
+<tr><td>Observation.code</td><td>OCR test_type</td><td>검사 유형별 SNOMED CT 고정 코드</td><td>기관별 검사 panel·kit·검사실 세부는 없음</td></tr>
+<tr><td>Observation.method</td><td>MAST 또는 UniCAP</td><td>검사 방법 qualifier 코드</td><td>SPT는 전용 technique 코드가 없어 text 또는 선택 매핑</td></tr>
+<tr><td>valueQuantity</td><td>value, unit</td><td>UCUM system과 원 단위</td><td>원문 자리수는 value_raw에서 FHIR로 직접 보존되지 않음</td></tr>
+<tr><td>valueQuantity.comparator</td><td>value_text의 &lt; 기호</td><td><code>&lt;</code>와 숫자 분리</td><td>복합 문구는 구조화하지 못할 수 있음</td></tr>
+<tr><td>dataAbsentReason</td><td>N/A, 빈값, unreadable</td><td>결측 사유 CodeableConcept</td><td>원 보고서의 상세 결측 이유가 없으면 일반화</td></tr>
+<tr><td>component allergen</td><td>canonical name, Korean name</td><td>registry SNOMED mapping과 text</td><td>매핑 부재 시 text만 남음</td></tr>
+<tr><td>component class</td><td>class_value</td><td>valueInteger 또는 text</td><td>검사실별 class 기준표는 함께 전송하지 않음</td></tr>
+<tr><td>performer.display</td><td>patient.facility</td><td>문자열 Reference</td><td>Organization resource와 식별자는 만들지 않음</td></tr>
+<tr><td>subject.reference</td><td>환자 이름 또는 내부 값</td><td><code>Patient/{value}</code></td><td>FHIR id 문자 제약과 기관 식별체계를 별도 검증해야 함</td></tr>
+<tr><td>verificationStatus</td><td>clinical relevance</td><td>relevant는 confirmed, 나머지는 unconfirmed</td><td>앱 규칙 결과이며 임상 검증 상태를 보증하지 않음</td></tr>
+<tr><td>criticality</td><td>severity와 항원 종류</td><td>high, low, unable-to-assess</td><td>확률 기반 위해 평가가 아님. 약물은 unable-to-assess</td></tr>
+<tr><td>reaction.manifestation</td><td>reported_symptoms</td><td>문진 텍스트를 manifestation.text로 기록</td><td>증상 SNOMED coding은 제한적</td></tr>
+<tr><td>QuestionnaireResponse.item</td><td>ScreeningProfile와 정리된 answers</td><td>linkId별 FHIR answer type</td><td>Questionnaire canonical, version, authored provenance가 제한적</td></tr>
+</tbody></table></div>
+<div class="callout warn"><b>Patient 참조 주의</b>예시는 합성 이름을 사용합니다. 운영에서는 환자 이름을 resource ID로 쓰지 마십시오. 대상기관의 가명 식별자와 Patient resource를 사용하십시오.</div>
+<h3>검증 경계</h3><p><code>validate_fhir_resource()</code>는 필수 키 일부만 확인합니다. HL7 FHIR Validator와 구현 가이드 검증을 대체하지 않습니다. 용어 서버 검증도 별도로 수행해야 합니다.</p>
+<div class="callout warn"><b>상호운용 게이트</b>FHIR R4 validator와 대상기관 profile을 확인하십시오. SNOMED edition, UCUM 단위, 참조 무결성도 검증하십시오.</div>
+<p class="sources">코드: <a href="../../services/fhir_service.py#L29">검사 코드</a>, <a href="../../services/fhir_service.py#L138">Observation</a>, <a href="../../services/fhir_service.py#L573">AllergyIntolerance</a>, <a href="../../services/fhir_service.py#L712">Bundle</a>, <a href="../../services/fhir_service.py#L979">최소 검증</a>. 표준: <a href="https://hl7.org/fhir/R4/observation.html">Observation R4</a>, <a href="https://hl7.org/fhir/R4/allergyintolerance.html">AllergyIntolerance R4</a>, <a href="https://hl7.org/fhir/R4/validation.html">Validation R4</a>, <a href="https://docs.snomed.org/snomed-ct-specifications/snomed-ct-uri-standard">SNOMED URI</a></p>
+</section>
+
+<section id="api" data-search="API endpoint health allergen OCR questionnaire classify chat ontology FHIR session">
+<h2><span class="num">11.</span> API 계약</h2>
+<p class="lead">FastAPI는 단계별 계약, 본문 상한, rate limit, 보안 헤더를 제공합니다.</p>
+<div class="tablewrap"><table><thead><tr><th>Method / path</th><th>입력</th><th>출력</th></tr></thead><tbody><tr><td>GET /api/health</td><td>lang query</td><td>서비스, LLM, build.features.ui_modes, screening 선택지</td></tr><tr><td>POST /api/ocr</td><td>multipart 이미지</td><td>OCRResult + review flag</td></tr><tr><td>POST /api/screening/summary</td><td>ScreeningProfile</td><td>요약과 주의 문구</td></tr><tr><td>POST /api/questionnaire</td><td>OCR, screening, lang</td><td>항원별 질문과 초기 assessment</td></tr><tr><td>POST /api/classify</td><td>OCR, screening, answers, ui, lang</td><td>판정·리포트·카드뉴스·session. FHIR는 없음</td></tr><tr><td>POST /api/chat</td><td>ClassifyRequest + messages</td><td>답변, 추천 질문, 번역 상태</td></tr><tr><td>GET /api/ontology/search</td><td>q query</td><td>주제 검색 결과</td></tr><tr><td>POST /api/ontology/sparql</td><td>query, limit</td><td>SELECT rows 또는 ASK boolean</td></tr><tr><td>POST /api/fhir</td><td>ClassifyRequest</td><td>세 FHIR Bundle</td></tr><tr><td>GET /api/sessions/{id}/status</td><td>세션 capability ID</td><td>언어별 상태와 done</td></tr><tr><td>GET /api/sessions/{id}/outputs/{lang}</td><td>세션 ID와 언어</td><td>ready 언어의 저장 산출물</td></tr></tbody></table></div>
+<h3>공통 요청 shape</h3>
+<p>다음은 <code>/api/classify</code>, <code>/api/fhir</code>, <code>/api/chat</code>의 공통 뼈대입니다. 값은 합성 예시입니다.</p>
+<div class="codehead"><span>실행 가능한 합성 request template</span><button class="copy" data-copy="api-request">복사</button></div><pre id="api-request">{
+  "ocr": {
+    "test_type": "MAST",
+    "patient": {
+      "name": "SYNTH-001",
+      "test_date": "2026-10-29",
+      "facility": "Synthetic Lab"
+    },
+    "results": [{
+      "index": 1,
+      "raw_text": "D. pteronyssinus 2.10 Class 2",
+      "allergen_name": "Dermatophagoides pteronyssinus",
+      "korean_name": "집먼지진드기(D.pteronyssinus)",
+      "value": 2.1,
+      "value_raw": "2.10",
+      "unit": "kU/L",
+      "class": 2,
+      "interpretation": "Positive",
+      "review_flags": []
+    }]
+  },
+  "screening": {
+    "allergic_diseases": ["allergic_rhinitis"],
+    "symptom_present": true,
+    "season_pattern": "perennial",
+    "organ_systems": ["nasal"],
+    "pets": []
+  },
+  "answers": {},
+  "ui": "quest",
+  "lang": "ko",
+  "session_id": null,
+  "email": null
+}</pre>
+<div class="callout"><b>template 구분</b>위 JSON은 schema에 맞춘 권장 합성 template입니다. 특정 실행에서 캡처한 응답은 아닙니다. 문진 답 ID는 <code>/api/questionnaire</code>의 spec에서 가져오십시오.</div>
+<h3>classify 실제 키를 반영한 response shape template</h3>
+<p>2026-10-29 로컬 서버 응답 키를 확인했습니다. 아래 <code>…</code> 값은 표시용 축약 표식이며, 캡처한 실행 응답이 아닙니다. 저장소가 꺼져 있거나 저장이 실패하면 <code>session_id</code>는 null일 수 있습니다.</p>
+<pre>{
+  "assessments": ["…"],
+  "summary": {"total_positive": 1, "counts": {"…": 0}, "verdict_counts": {"…": 0}},
+  "report_markdown": "…",
+  "report_html": "…",
+  "report_document_html": "…",
+  "cardnews_html": "…",
+  "ui": "quest",
+  "lang": "ko",
+  "ignored_answers": {},
+  "controls": [],
+  "control_check": null,
+  "translation": {"segments": 0, "untranslated": 0, "errors": 0},
+  "session_id": "… 또는 null",
+  "user_email": null,
+  "i18n": {"ko": "ready", "en": "pending", "zh": "pending"}
+}</pre>
+<p><code>/api/health</code>의 UI mode는 최상위가 아닙니다. 정확한 경로는 <code>build.features.ui_modes</code>입니다. classic 디렉터리가 있으면 <code>["quest","classic"]</code>을 반환합니다.</p>
+<h3>오류 계약</h3>
+<div class="tablewrap"><table><thead><tr><th>HTTP</th><th>주요 code·형태</th><th>발생 조건</th><th>클라이언트 처리</th></tr></thead><tbody>
+<tr><td>400</td><td>plain detail 또는 <code>detail.code</code></td><td>API key 없음, 잘못된 SPARQL, 지원하지 않는 언어·action</td><td>입력과 설정을 수정하고 재요청</td></tr>
+<tr><td>413</td><td><code>file_too_large</code> 또는 <code>payload_too_large</code></td><td>OCR 파일 한도 또는 일반 body 한도 초과</td><td>이미지나 JSON을 줄임. 자동 재시도 금지</td></tr>
+<tr><td>415</td><td><code>unsupported_file</code></td><td>magic byte가 허용 이미지와 다름</td><td>JPEG, PNG, WEBP, GIF, BMP, TIFF로 변환</td></tr>
+<tr><td>422</td><td>문자열 detail 또는 FastAPI validation 배열</td><td>OCR 판독 실패, schema·길이·형식 오류</td><td>오류 위치를 표시하고 입력을 다시 받음</td></tr>
+<tr><td>429</td><td><code>rate_limited</code> 또는 <code>chat_full</code></td><td>IP bucket 한도 또는 세션 대화 한도</td><td><code>Retry-After</code>를 따름. 중복 요청 억제</td></tr>
+<tr><td>409</td><td><code>not_ready</code>와 현재 status</td><td>언어 산출물 또는 PDF가 아직 ready가 아님</td><td>status를 확인하고 pending·running일 때만 대기</td></tr>
+<tr><td>404</td><td><code>session_not_found</code> 등</td><td>세션·항원·ontology 자원이 없음</td><td>ID를 다시 확인. 다른 세션으로 추측 재시도 금지</td></tr>
+<tr><td>503</td><td><code>storage_disabled</code>, <code>admin_disabled</code>, <code>pdf_unavailable</code></td><td>해당 운영 기능이 꺼짐</td><td>기능을 숨기거나 대체 경로 제공</td></tr>
+</tbody></table></div>
+<pre>{
+  "detail": {
+    "code": "not_ready",
+    "status": "pending",
+    "message": "이 언어의 결과가 아직 준비되지 않았습니다."
+  }
+}</pre>
+<h3>세션과 번역 상태</h3>
+<div class="tablewrap"><table><thead><tr><th>status</th><th>뜻</th><th>본문 존재</th><th>다음 동작</th></tr></thead><tbody><tr><td>pending</td><td>백그라운드 작업 대기</td><td>없음</td><td>상태를 다시 조회</td></tr><tr><td>running</td><td>생성 중</td><td>없음</td><td>상태를 다시 조회</td></tr><tr><td>ready</td><td>모든 번역 대상이 완료</td><td>있음</td><td>outputs 조회 허용</td></tr><tr><td>failed</td><td>번역 오류 또는 untranslated 존재</td><td>저장하지 않음</td><td>원인 확인 후 관리자 retry</td></tr><tr><td>skipped</td><td>선택 backend 사용 불가</td><td>저장하지 않음</td><td>backend 설정 후 retry</td></tr><tr><td>missing</td><td>언어 row 없음</td><td>없음</td><td>생성 정책 확인</td></tr></tbody></table></div>
+<p><code>done=true</code>는 성공을 뜻하지 않습니다. pending과 running이 더 없다는 뜻입니다. failed, skipped, missing도 done에 포함될 수 있습니다.</p>
+<h3>요청과 보안</h3><ul><li><code>X-LLM-Backend</code>는 요청 단위 AI backend를 고릅니다.</li><li>OCR과 일반 API의 본문 상한은 다릅니다.</li><li>rate limit은 프로세스 메모리에 있습니다.</li><li>API 응답은 기본 <code>no-store</code>입니다.</li><li>세션 ID는 결과 열람 권한입니다.</li></ul>
+<p class="sources">코드 근거: <a href="../../server.py#L128">LLM middleware</a>, <a href="../../server.py#L199">보안 헤더</a>, <a href="../../server.py#L241">본문 상한</a>, <a href="../../server.py#L298">rate limiter</a>, <a href="../../server.py#L545">API 시작</a></p>
+</section>
+
+<section id="repro" data-search="reproducibility validation test security privacy operation audit hash">
+<h2><span class="num">12.</span> 연구 재현성, 검증, 운영</h2>
+<p class="lead">코드, 데이터, 환경, 합성 입력, 출력 해시를 한 번에 고정해야 재현할 수 있습니다.</p>
+<div class="codehead"><span>권장 실행 manifest</span><button class="copy" data-copy="manifest">복사</button></div><pre id="manifest">{
+  "run_id": "SYNTH-2026-10-29-001",
+  "git_commit": "RECORD_AT_RUN_TIME",
+  "python": "RECORD_RUNTIME_AND_LOCK_HASH",
+  "input_fixture": "RECORD_SHA256",
+  "data_files": {"allergens.json": "RECORD_SHA256"},
+  "llm_backend": "disabled-or-recorded",
+  "outputs": {"fhir.json": "RECORD_SHA256"}
+}</pre>
+<h3>검증 순서</h3><ol><li>JSON과 Python 구문을 확인합니다.</li><li>OCR parser와 review flag를 시험합니다.</li><li>문진 분류 회귀를 시험합니다.</li><li>리포트와 카드뉴스 snapshot을 비교합니다.</li><li>FHIR 내부 테스트를 실행합니다.</li><li>공식 FHIR Validator를 실행합니다.</li><li>ontology 검색과 SPARQL을 비교합니다.</li><li>세 언어 UI를 점검합니다.</li></ol>
+<pre>python3 -m compileall -q server.py services models
+pytest -q test_ontology.py test_ocr.py test_relevance_engine.py test_result_chat.py test_pdf_gen.py test_release_gate_fixes.py
+node --test web/*.test.js</pre>
+<h3>2026-10-29 로컬 화면 검증 조건</h3><p>사용자 매뉴얼 화면은 <code>127.0.0.1:18125</code>의 임시 DB에서 촬영했습니다. API key, 외부 OCR, 다국어 background 작업을 껐습니다. 이미지 선택 단계의 <code>/api/ocr</code>만 합성 fixture 응답으로 고정했습니다. questionnaire부터 FHIR까지 실제 로컬 서비스 결과를 사용했습니다. 이 범위에는 classify, report, cardnews, chat suggestion이 포함됩니다.</p>
+<div class="callout gold"><b>해석 제한</b>이 화면 검증은 운영 모델 가용성, 외부 OCR 성능, 임상 검증을 증명하지 않습니다.</div>
+<h3>운영·보안</h3><ul><li>비밀키를 HTML, 로그, fixture에 넣지 않습니다.</li><li>실제 환자 식별자를 연구 export에서 제거합니다.</li><li>보존 기간과 삭제 결과를 기록합니다.</li><li>세션 ID를 분석 도구에 전송하지 않습니다.</li><li>LLM backend, model, prompt version을 기록합니다.</li></ul>
+<h3>핵심 환경변수</h3>
+<div class="tablewrap"><table><thead><tr><th>변수</th><th>기본값</th><th>영향</th><th>연구 기록</th></tr></thead><tbody>
+<tr><td>LLM_BACKEND</td><td>openai</td><td>기본 backend. 요청의 X-LLM-Backend가 우선</td><td>실제 active backend</td></tr>
+<tr><td>OPENAI_VISION_MODEL</td><td>gpt-6-luna</td><td>OpenAI OCR 기본 모델</td><td>실제 선택 model ID</td></tr>
+<tr><td>OPENAI_CHAT_MODEL</td><td>gpt-6-luna</td><td>상담·번역 기본 모델</td><td>실제 선택 model ID</td></tr>
+<tr><td>OPENAI_BUDGET_MODEL</td><td>gpt-5.6-luna</td><td>토큰 예산 안에서 우선할 모델</td><td>예산과 사용량 snapshot</td></tr>
+<tr><td>OPENAI_BUDGET_TOKENS</td><td>10,000,000</td><td>예산 모델 전환 임계값</td><td>실행 시작·끝 사용량</td></tr>
+<tr><td>LLM_USAGE_LEDGER</td><td>data/store/llm_usage.json</td><td>모델별 토큰 장부</td><td>파일 hash와 영속 디스크 여부</td></tr>
+<tr><td>OLLAMA_BASE_URL</td><td>빈 값</td><td>연구실 OpenAI 호환 endpoint</td><td>주소 대신 배포 식별자 기록</td></tr>
+<tr><td>OCR_PREPROCESS</td><td>true</td><td>조명 평탄화·확대 전처리</td><td>boolean</td></tr>
+<tr><td>OCR_AUTO_ROTATE</td><td>true</td><td>회전 교정</td><td>boolean과 도구 버전</td></tr>
+<tr><td>OCR_DOUBLE_READ</td><td>true</td><td>전체·확대 판독 비교</td><td>boolean</td></tr>
+<tr><td>MAX_FILE_SIZE_MB</td><td>10</td><td>OCR 원 파일 상한</td><td>값</td></tr>
+<tr><td>MAX_REQUEST_BODY_KB</td><td>1024</td><td>OCR 외 쓰기 body 상한</td><td>값</td></tr>
+<tr><td>STORAGE_ENABLED</td><td>true</td><td>세션·상담·메일 기록</td><td>DB path 대신 가명 환경명</td></tr>
+<tr><td>APP_DB_PATH</td><td>data/store/app.sqlite3</td><td>입력·세션 DB</td><td>파일 hash, schema version</td></tr>
+<tr><td>I18N_DB_PATH</td><td>data/store/localized.sqlite3</td><td>언어별 산출물 DB</td><td>파일 hash, schema version</td></tr>
+<tr><td>I18N_BACKGROUND</td><td>true</td><td>요청 외 언어의 배경 생성</td><td>boolean</td></tr>
+<tr><td>I18N_CACHE_PATH</td><td>data/i18n_cache.json</td><td>번역 영구 캐시</td><td>cache hash와 초기화 여부</td></tr>
+<tr><td>SESSION_RETENTION_DAYS</td><td>0</td><td>0은 자동 삭제 없음</td><td>승인된 보존 정책</td></tr>
+<tr><td>KNOWLEDGE_GENERATED_PATH</td><td>생성 지식 JSON</td><td>review API가 읽고 쓰는 파일</td><td>실제 path와 전후 hash</td></tr>
+<tr><td>ALLERGEN_WIKIPEDIA_LOOKUP</td><td>false</td><td>미등록 이름 외부 조회</td><td>false 유지 권장</td></tr>
+<tr><td>ADMIN_PASSWORD</td><td>빈 값</td><td>빈 값이면 관리자 기능 비활성</td><td>설정 여부만 기록</td></tr>
+<tr><td>SECURITY_HEADERS</td><td>true</td><td>CSP, nosniff, frame 제한</td><td>boolean</td></tr>
+</tbody></table></div>
+<div class="callout warn"><b>비밀값 기록 금지</b>OPENAI_API_KEY, OLLAMA_API_KEY, SMTP_PASSWORD, ADMIN_PASSWORD, session secret의 값은 manifest에 넣지 마십시오. 설정 여부와 secret 관리 체계만 기록하십시오.</div>
+<h3>LLM routing과 예산</h3><ol><li><code>X-LLM-Backend</code>가 유효하고 사용 가능하면 요청 backend로 씁니다.</li><li>그렇지 않으면 <code>LLM_BACKEND</code>를 봅니다.</li><li>OpenAI는 번호 키가 하나라도 있으면 단일 키를 쓰지 않습니다.</li><li>번호 키는 요청마다 round-robin으로 선택합니다.</li><li>예산 모델 누적 total token이 임계값 미만이면 예산 모델을 씁니다.</li><li>임계값 이상이면 vision 또는 chat 기본 모델로 전환합니다.</li><li>성공한 OpenAI 호출만 장부에 기록합니다.</li></ol>
+<p>장부 잠금은 한 프로세스 안에서만 안전합니다. 여러 worker가 같은 JSON을 쓰면 집계가 어긋날 수 있습니다. 휘발 디스크는 배포마다 사용량을 잃습니다.</p>
+<h3>번역 상태와 보호 범위</h3><ul><li>ko 요청은 번역하지 않습니다.</li><li>환자 이름, 기관, 날짜, 자유 기재를 placeholder로 가립니다.</li><li>식별값은 일반 번역 캐시에 넣지 않습니다.</li><li>자유 기재 번역은 영구 cache에 넣지 않습니다.</li><li>번역 segment가 하나라도 남으면 ready로 저장하지 않습니다.</li><li>원 요청 언어 실패가 classify 자체를 실패시키지는 않을 수 있습니다.</li></ul>
+<h3>항원 소개문 검토 API 운영</h3>
+<div class="tablewrap"><table><thead><tr><th>단계</th><th>API·파일</th><th>검토자 확인</th><th>감사 기록</th></tr></thead><tbody>
+<tr><td>후보 조회</td><td>GET /api/knowledge/candidates?status=candidate</td><td>canonical name, category, model, 생성일</td><td>조회 시각과 reviewer</td></tr>
+<tr><td>근거 확인</td><td>generated JSON의 sources·profile</td><td>환자용 문장과 출처 일치</td><td>근거 ID와 판본</td></tr>
+<tr><td>승인</td><td>POST /api/knowledge/review action=approve</td><td>문장을 그대로 승인</td><td>전후 파일 hash</td></tr>
+<tr><td>수정 승인</td><td>action=edit, text 제공</td><td>2,000자 이하. 임상 의미 변경 검토</td><td>수정 사유와 reviewer</td></tr>
+<tr><td>거절</td><td>action=reject</td><td>생성 문장과 상태 필드 삭제</td><td>거절 사유 별도 기록</td></tr>
+<tr><td>즉시 반영</td><td>서비스가 generated 파일 재적재</td><td>환자 화면과 API 확인</td><td>반영 smoke test</td></tr>
+</tbody></table></div>
+<p>관리자 비밀번호가 없으면 검토 API는 닫힙니다. 상태 변경 요청은 origin 검사와 관리자 인증을 통과해야 합니다. 시험 서버는 <code>KNOWLEDGE_GENERATED_PATH</code>를 임시 복사본으로 지정하십시오.</p>
+<h3>새 지식을 추가하는 연구 절차</h3>
+<ol><li>추가할 지식의 질문과 사용 범위를 한 문장으로 정의합니다.</li><li>환자 판정, 일반 설명, 용어 매핑, 환경관리 중 한 층을 선택합니다.</li><li>출처 URL, 판본, 인용 위치, 이용 조건을 기록합니다.</li><li>원문과 구조화 주장을 분리합니다.</li><li>stable ID를 만들고 기존 ID와 중복을 검사합니다.</li><li>candidate로 넣고 accepted를 자동 부여하지 않습니다.</li><li>해당 서비스의 단위 테스트와 snapshot을 추가합니다.</li><li>관련 리포트, 카드뉴스, 상담, FHIR 영향을 확인합니다.</li><li>독립 검토자가 근거와 문구를 판정합니다.</li><li>승인 결과, 코드 commit, 데이터 hash를 release record에 고정합니다.</li></ol>
+<div class="tablewrap"><table><thead><tr><th>변경 자산</th><th>직접 영향</th><th>필수 회귀</th><th>추가 확인</th></tr></thead><tbody>
+<tr><td>allergens.json</td><td>OCR 이름 정규화, 검색, category</td><td>검색·중복·positive assessment</td><td>한글·영문·별칭 충돌</td></tr>
+<tr><td>allergen_knowledge_generated.json</td><td>설명, 노출, 회피, 카드</td><td>review API와 patient-facing snapshot</td><td>candidate가 승인 없이 노출되지 않는지</td></tr>
+<tr><td>allergen_environment_control.json</td><td>리포트, 카드, 상담, RDF 환경층</td><td>group별 선택과 출처</td><td>evidence grade와 rejected 처리</td></tr>
+<tr><td>clinical_groups.json</td><td>개수, 이름 접기, 상세 카드 수</td><td>report·cardnews count</td><td>서로 다른 항원의 오병합</td></tr>
+<tr><td>snomed_ct_map.json</td><td>Observation·AllergyIntolerance coding</td><td>FHIR coding snapshot</td><td>edition, SCTID, display 검증</td></tr>
+<tr><td>ontology-snapshot.json</td><td>SPARQL, ontology API, 상담 일반지식</td><td>topic·claim·evidence 연결</td><td>accepted 수와 provenance 보존</td></tr>
+<tr><td>questionnaire_service.py</td><td>질문, 판정, rationale, reaction</td><td>카테고리별 truth table</td><td>우선순위와 불확실 분기</td></tr>
+<tr><td>fhir_service.py</td><td>세 Bundle과 코드</td><td>공식 validator와 기관 profile</td><td>기존 소비자 호환성</td></tr>
+</tbody></table></div>
+<h3>재현 manifest 작성 절차</h3><ol><li>실행 직전 commit을 기록합니다.</li><li>작업 트리 변경 여부와 변경 파일 hash를 기록합니다.</li><li>Python·Node·의존성 lock hash를 기록합니다.</li><li>입력 fixture와 모든 데이터 파일의 SHA-256을 계산합니다.</li><li>비밀값을 제외한 영향 환경변수를 allowlist로 기록합니다.</li><li>health의 build, service, LLM 요약을 저장합니다.</li><li>각 API 응답의 원본 hash를 저장합니다.</li><li>FHIR validator 버전과 profile URL을 기록합니다.</li><li>검토자, 판정일, 제외 사례를 기록합니다.</li><li>실패한 검증도 삭제하지 말고 status로 남깁니다.</li></ol>
+<p class="sources">코드 근거: <a href="../../config/settings.py#L16">환경 설정</a>, <a href="../../server.py#L52">세션 ID 마스킹</a>, <a href="../../server.py#L76">재시작 복구</a>, <a href="../../server.py#L90">보존기간</a>, <a href="../../server.py#L699">번역 상태</a>, <a href="../../server.py#L1103">검토 API</a>.</p><p class="sources"><a href="../../services/llm_backend.py#L97">backend routing</a>, <a href="../../services/llm_backend.py#L133">model routing</a>, <a href="../../services/llm_usage.py#L37">LLM ledger</a>, <a href="../../services/translation_service.py#L78">사용자 값 보호</a>.</p>
+</section>
+
+<section id="limitations" data-search="limitation clinical validation real patient OWL FHIR generalization roadmap">
+<h2><span class="num">13.</span> 현재 한계와 연구 계획</h2>
+<p class="lead">현재 구현은 엔지니어링 검증 대상이며, 임상 효용과 일반화 성능은 별도 연구가 필요합니다.</p>
+<div class="tablewrap"><table><thead><tr><th>한계</th><th>현재 완화</th><th>다음 연구</th></tr></thead><tbody><tr><td>실제 환자 외부 검증 부족</td><td>합성 fixture와 회귀 테스트</td><td>IRB 승인 holdout 평가</td></tr><tr><td>OCR 오류 전파</td><td>이중 판독과 사람 확인</td><td>형식별 성능과 위해도</td></tr><tr><td>문진 규칙의 기준 타당도</td><td>명시적 규칙과 상태 분리</td><td>전문의 독립 adjudication</td></tr><tr><td>ontology 근거의 질</td><td>provenance와 candidate 표기</td><td>지침·논문 curated claim set</td></tr><tr><td>FHIR 상호운용성</td><td>R4와 SNOMED/UCUM</td><td>기관 profile 검증</td></tr><tr><td>다국어 의미 이동</td><td>블록 번역과 용어 보호</td><td>언어별 임상 검토</td></tr></tbody></table></div>
+<details><summary>연구 결과 보고 시 필수 구분</summary><div><ul><li>엔지니어링 테스트와 임상 검증을 구분합니다.</li><li>환자 보고와 의료진 확인을 구분합니다.</li><li>candidate와 accepted를 구분합니다.</li><li>내부 FHIR 검사와 공식 validator를 구분합니다.</li><li>합성 화면 검증과 운영 환경을 구분합니다.</li></ul></div></details>
+</section>
+
+<section id="glossary" data-search="glossary 용어 출처 standards">
+<h2><span class="num">14.</span> 용어표와 기준 출처</h2>
+<p class="lead">문서 전체에서 같은 용어는 같은 의미로 사용합니다.</p>
+<div class="tablewrap"><table><thead><tr><th>용어</th><th>뜻</th></tr></thead><tbody><tr><td>감작</td><td>검사 반응이 있으나 증상 유발은 별도 확인이 필요한 상태</td></tr><tr><td>임상적 의미</td><td>앱의 문진 규칙이 노출과 증상 연결을 분류한 결과</td></tr><tr><td>candidate</td><td>검토 전 연구 후보</td></tr><tr><td>evidence cell</td><td>판본, URL, 원문을 가진 근거 단위</td></tr><tr><td>ontology</td><td>현재 코드의 JSON→RDF 경량 지식 그래프</td></tr><tr><td>FHIR</td><td>HL7의 <code>Fast Healthcare Interoperability Resources</code></td></tr><tr><td>SNOMED CT</td><td>임상 용어 코드 체계</td></tr><tr><td>UCUM</td><td>측정 단위 표준 표현</td></tr></tbody></table></div>
+<h3>공식 기준</h3><ul><li><a href="https://hl7.org/fhir/R4/">HL7 FHIR R4</a></li><li><a href="https://hl7.org/fhir/validator/">HL7 FHIR Validator</a></li><li><a href="https://www.w3.org/TR/rdf11-concepts/">W3C RDF 1.1</a></li><li><a href="https://docs.snomed.org/snomed-ct-specifications/snomed-ct-uri-standard">SNOMED CT URI Standard</a></li></ul>
+<h3>연구자 질문 6개</h3>
+<details><summary>1. 검사 양성이면 AllergyIntolerance를 confirmed로 보내도 됩니까?</summary><div><p>안 됩니다. 검사 양성은 Observation에 보존합니다. 문진 규칙이 노출과 증상 연결을 확인한 경우만 현재 구현이 confirmed를 사용합니다. 이 상태도 임상 확정 진단을 보증하지 않습니다.</p></div></details>
+<details><summary>2. ontology의 candidate claim을 환자 판정 근거로 써도 됩니까?</summary><div><p>안 됩니다. candidate claim은 질환 일반 설명 후보입니다. 환자별 수치의 근거는 검사 결과입니다. 환자별 관련성의 근거는 screening과 문진 답입니다.</p></div></details>
+<details><summary>3. /api/classify 한 번으로 모든 산출물이 생깁니까?</summary><div><p>리포트와 카드뉴스는 생깁니다. FHIR는 포함되지 않습니다. 같은 ClassifyRequest를 <code>/api/fhir</code>에 별도로 보내십시오. PDF도 저장 세션의 ready 언어에서 별도 요청합니다.</p></div></details>
+<details><summary>4. done=true이면 세 언어가 모두 성공했습니까?</summary><div><p>아닙니다. done은 pending과 running이 없다는 뜻입니다. failed, skipped, missing이 남아도 true일 수 있습니다. ready 목록과 각 status를 함께 확인하십시오.</p></div></details>
+<details><summary>5. 카드뉴스 체크와 퀴즈를 연구 outcome으로 쓸 수 있습니까?</summary><div><p>현재 상태만으로는 어렵습니다. 체크와 진행은 브라우저 메모리 중심이며 서버 연구 event로 저장되지 않습니다. 동의, event schema, 결측 정의, 분석 계획을 먼저 설계하십시오.</p></div></details>
+<details><summary>6. 새 항원을 추가하면 어디까지 다시 검증해야 합니까?</summary><div><p>이름 검색, OCR 매핑, category 질문, 판정, 리포트, 카드뉴스, 상담, FHIR coding을 확인하십시오. 지식 문구는 candidate로 시작하고 별도 검토를 거치십시오.</p></div></details>
+<h3>프로젝트 기준</h3><ul><li><a href="../../README.md">README.md</a></li><li><a href="../../docs/ontology_rag_integration.md">ontology_rag_integration.md</a></li><li><a href="../../docs/report_questionnaire_rules.md">report_questionnaire_rules.md</a></li><li><a href="../../docs/release_2026-09-08_fhir_dual_ui.ko.md">FHIR 이중 UI 배포 기록</a></li></ul>
+<div class="callout ok"><b>독자 테스트</b>첫 실행 전에 합성 fixture, commit, 데이터 해시, 검증 계획을 고정하십시오.</div>
+</section>
+<footer>APAAACI MAST/SPT/UniCAP → 환자 리포트 &amp; HL7 FHIR · 2026-10-29</footer>
+</main></div>
+<script>
+const search=document.getElementById('search');
+const sections=[...document.querySelectorAll('main section')];
+const details=[...document.querySelectorAll('details')];
+const showAllSections=()=>sections.forEach(section=>section.classList.remove('hidden'));
+search.addEventListener('input',()=>{const q=search.value.trim().toLowerCase();sections.forEach(section=>section.classList.toggle('hidden',Boolean(q)&&!section.textContent.toLowerCase().includes(q)&&!(section.dataset.search||'').includes(q)))});
+document.querySelectorAll('.side a[href^="#"]').forEach(link=>link.addEventListener('click',event=>{const target=document.querySelector(link.getAttribute('href'));if(!target)return;event.preventDefault();search.value='';showAllSections();history.pushState(null,'',link.getAttribute('href'));target.scrollIntoView({block:'start'})}));
+let printState=null;
+const preparePrint=()=>{if(printState)return;printState={query:search.value,hidden:sections.map(section=>section.classList.contains('hidden')),open:details.map(item=>item.open)};search.value='';showAllSections();details.forEach(item=>{item.open=true})};
+const restorePrint=()=>{if(!printState)return;search.value=printState.query;sections.forEach((section,index)=>section.classList.toggle('hidden',printState.hidden[index]));details.forEach((item,index)=>{item.open=printState.open[index]});printState=null};
+window.addEventListener('beforeprint',preparePrint);
+window.addEventListener('afterprint',restorePrint);
+document.getElementById('print-document').addEventListener('click',()=>window.print());
+document.querySelectorAll('.copy').forEach(button=>button.addEventListener('click',async()=>{const element=document.getElementById(button.dataset.copy);try{await navigator.clipboard.writeText(element.innerText);button.textContent='복사됨';setTimeout(()=>button.textContent='복사',1200)}catch{button.textContent='선택 후 복사'}}));
+</script>
+</body></html>

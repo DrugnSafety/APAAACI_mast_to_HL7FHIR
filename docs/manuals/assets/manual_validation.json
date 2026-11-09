@@ -1,0 +1,56 @@
+{
+  "verified_at": "2026-10-29T05:29:20.028730+00:00",
+  "scope": "Documentation and synthetic UI demonstration; no clinical validation",
+  "files": {
+    "user_manual.html": {
+      "bytes": 14607521,
+      "sha256": "4a37e7128a27ced3a2cda557770ee602d70c98919ca0d4104781a0c5a5e14263"
+    },
+    "researcher_manual.html": {
+      "bytes": 81591,
+      "sha256": "76921579b97131bb9a0c936951ee60e673bf9168ed6e6a10f117a98ca64276fc"
+    }
+  },
+  "capture": {
+    "scenes": 39,
+    "distinct_real_ui_frames": 82,
+    "viewport": {
+      "width": 1440,
+      "height": 1000
+    },
+    "ocr_response": "Fixed synthetic training fixture",
+    "downstream": "Real local application APIs",
+    "external_ai_calls": false,
+    "real_patient_data": false
+  },
+  "browser": {
+    "engine": "Installed Google Chrome via Playwright",
+    "offline_checks_passed": 64,
+    "javascript_errors": [],
+    "external_automatic_requests": [],
+    "mobile_width": 390,
+    "mobile_horizontal_overflow": false,
+    "final_http_check": "Mobile playback/navigation and research contents recovery passed"
+  },
+  "structure": {
+    "duplicate_ids": 0,
+    "broken_local_links": 0,
+    "javascript_syntax": "passed"
+  },
+  "print": {
+    "user_landscape_pages": 39,
+    "researcher_portrait_pages": 32,
+    "researcher_search_and_details_restore": "passed"
+  },
+  "independent_accuracy_review": "Passed against current source and data",
+  "ste_lint": {
+    "user_prose_findings": 0,
+    "researcher_prose_findings": 1,
+    "researcher_finding": "Official name Fast Healthcare Interoperability Resources; retain standard name"
+  },
+  "limits": [
+    "OCR provider connection was not tested",
+    "No formal FHIR profile validation",
+    "No clinical validation"
+  ]
+}

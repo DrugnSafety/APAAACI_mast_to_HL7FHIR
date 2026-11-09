@@ -1,0 +1,24 @@
+{
+  "url": "http://127.0.0.1:18777/docs/patient_satisfaction_2026-10-29/index.html",
+  "status": 200,
+  "visible_title": "환자 만족도 평가 자료",
+  "links": [
+    {
+      "text": "전체 자료 ZIP",
+      "href": "http://127.0.0.1:18777/docs/patient_satisfaction_2026-10-29/APAAACI_patient_satisfaction.zip"
+    },
+    {
+      "text": "노션 하위 작업",
+      "href": "https://app.notion.com/p/40902c77e2c98127aa4ad71b8a5b9019"
+    },
+    {
+      "text": "Word DOC",
+      "href": "http://127.0.0.1:18777/docs/patient_satisfaction_2026-10-29/patient_satisfaction.doc"
+    },
+    {
+      "text": "Word DOCX",
+      "href": "http://127.0.0.1:18777/docs/patient_satisfaction_2026-10-29/patient_satisfaction.docx"
+    }
+  ],
+  "browser_errors": []
+}

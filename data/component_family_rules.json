@@ -1,0 +1,624 @@
+{
+ "version": "1.0",
+ "description": "WHO/IUIS allergen.org 의 BioNames(자유텍스트 단백질명)를 표준 component family 로 정규화하는 규칙. 위에서부터 순서대로 매칭하여 '첫 일치'를 채택한다(specific → generic). 새 family 나 표기 변형은 이 리스트에 항목/패턴을 추가하기만 하면 된다(코드 수정 불필요).",
+ "note_ko": "주의: 'parvalbumin' 은 문자열에 'albumin' 을 포함하므로 generic 'albumin' 패턴을 만들지 말 것. 반드시 구체 패턴(2S albumin / Serum albumin / parvalbumin)을 각각 둔다.",
+ "clinical_fields_note": "heat_stable / risk 는 EAACI Molecular Allergology User's Guide 2.0 등 근거로 채운다. null = 미확정(리서치 대기).",
+ "rules": [
+  {
+   "id": "2s_albumin",
+   "name_en": "2S albumin (seed storage protein)",
+   "name_ko": "2S 알부민(종자 저장단백)",
+   "pattern": "2S\\s*(albumin|sulfur-rich)|Conglutin|napin|conlinin|SESA|SFA-8",
+   "heat_stable": true,
+   "risk": "systemic",
+   "note_ko": "견과·종자 저장단백. 열·소화에 안정 → 전신·아나필락시스 위험. 대표: Ara h 2/6(땅콩), Ber e 1(브라질넛), Ses i 1(참깨).",
+   "panallergen": false,
+   "clinical_priority": "high",
+   "ask_routes": [
+    "ingestion"
+   ]
+  },
+  {
+   "id": "serum_albumin",
+   "name_en": "Serum albumin",
+   "name_ko": "혈청 알부민",
+   "pattern": "Serum albumin|alpha-livetin",
+   "heat_stable": false,
+   "risk": "variable",
+   "note_ko": "포유류 pan-allergen. pork-cat 증후군(Fel d 2↔돼지고기), beef-milk(Bos d 6). 열에 비교적 불안정.",
+   "panallergen": false,
+   "clinical_priority": "high",
+   "ask_routes": [
+    "inhalation",
+    "ingestion"
+   ]
+  },
+  {
+   "id": "parvalbumin",
+   "name_en": "Parvalbumin",
+   "name_ko": "파브알부민",
+   "pattern": "parvalbumin",
+   "heat_stable": true,
+   "risk": "systemic",
+   "note_ko": "어류 pan-allergen(베타형). 열·소화 안정 → 가열해도 반응. 대표: Gad c 1(대구), Cyp c 1(잉어). 조류·양서류도 일부 보유.",
+   "panallergen": false,
+   "clinical_priority": "high",
+   "ask_routes": [
+    "ingestion"
+   ]
+  },
+  {
+   "id": "alpha_lactalbumin",
+   "name_en": "Alpha-lactalbumin",
+   "name_ko": "알파-락트알부민",
+   "pattern": "Alpha-lactalbumin",
+   "heat_stable": false,
+   "risk": "systemic",
+   "note_ko": "우유 유청 단백(Bos d 4).",
+   "panallergen": false,
+   "clinical_priority": "medium",
+   "ask_routes": [
+    "ingestion"
+   ]
+  },
+  {
+   "id": "ovalbumin",
+   "name_en": "Ovalbumin / ovomucoid",
+   "name_ko": "오브알부민/오보뮤코이드",
+   "pattern": "Ovalbumin|Ovomucoid",
+   "heat_stable": false,
+   "risk": "systemic",
+   "note_ko": "계란 흰자. 오보뮤코이드(Gal d 1)는 열안정, 오브알부민(Gal d 2)은 열불안정.",
+   "panallergen": false,
+   "clinical_priority": "medium",
+   "ask_routes": [
+    "ingestion"
+   ]
+  },
+  {
+   "id": "vicilin_7s",
+   "name_en": "Vicilin / 7S globulin (seed storage)",
+   "name_ko": "비실린/7S 글로불린(종자 저장단백)",
+   "pattern": "[Vv]icill?in|7S globulin",
+   "heat_stable": true,
+   "risk": "systemic",
+   "note_ko": "견과·콩과 저장단백. 열·소화 안정 → 전신·아나필락시스 위험. 대표: Ara h 1(땅콩), Ana o 1(캐슈), Jug r 2(호두).",
+   "panallergen": false,
+   "clinical_priority": "high",
+   "ask_routes": [
+    "ingestion"
+   ]
+  },
+  {
+   "id": "legumin_11s",
+   "name_en": "Legumin / 11S globulin (cupin)",
+   "name_ko": "레구민/11S 글로불린(cupin)",
+   "pattern": "[Ll]egumin|11S globulin|Glycinin|Cupin",
+   "heat_stable": true,
+   "risk": "systemic",
+   "note_ko": "견과·콩과 저장단백(cupin superfamily). 열·소화 안정 → 전신 위험. 대표: Ara h 3(땅콩), Ana o 2(캐슈), Ber e 2(브라질넛).",
+   "panallergen": false,
+   "clinical_priority": "high",
+   "ask_routes": [
+    "ingestion"
+   ]
+  },
+  {
+   "id": "oleosin",
+   "name_en": "Oleosin",
+   "name_ko": "올레오신",
+   "pattern": "[Oo]leosin",
+   "heat_stable": true,
+   "risk": "systemic",
+   "note_ko": "종자 유체(oil body) 단백. 땅콩 Ara h 10/11/14/15, 헤이즐넛 Cor a 12/13, 참깨. 전신 반응과 연관.",
+   "panallergen": false,
+   "clinical_priority": "medium",
+   "ask_routes": [
+    "ingestion"
+   ]
+  },
+  {
+   "id": "casein",
+   "name_en": "Casein",
+   "name_ko": "카제인",
+   "pattern": "casein",
+   "heat_stable": true,
+   "risk": "systemic",
+   "note_ko": "우유 주요 단백(Bos d 8~12). 열안정 → 가열해도 반응. 염소·양유와 광범위 교차.",
+   "panallergen": false,
+   "clinical_priority": "high",
+   "ask_routes": [
+    "ingestion"
+   ]
+  },
+  {
+   "id": "beta_lactoglobulin",
+   "name_en": "Beta-lactoglobulin",
+   "name_ko": "베타-락토글로불린",
+   "pattern": "lactoglobulin",
+   "heat_stable": false,
+   "risk": "systemic",
+   "note_ko": "우유 유청 단백(Bos d 5). 열에 비교적 불안정.",
+   "panallergen": false,
+   "clinical_priority": "medium",
+   "ask_routes": [
+    "ingestion"
+   ]
+  },
+  {
+   "id": "gliadin_glutenin",
+   "name_en": "Gliadin / glutenin (gluten)",
+   "name_ko": "글리아딘/글루테닌(글루텐)",
+   "pattern": "gliadin|glutenin",
+   "heat_stable": true,
+   "risk": "systemic",
+   "note_ko": "밀 글루텐. 특히 오메가-5 글리아딘(Tri a 19)은 밀 의존성 운동유발 아나필락시스(WDEIA) 마커.",
+   "panallergen": false,
+   "clinical_priority": "high",
+   "ask_routes": [
+    "ingestion"
+   ]
+  },
+  {
+   "id": "chitinase_class1",
+   "name_en": "Class I chitinase (latex-fruit)",
+   "name_ko": "클래스 I 키티나아제(라텍스-과일)",
+   "pattern": "[Cc]hitinase class I\\b|[Cc]lass I chitinase",
+   "heat_stable": false,
+   "risk": "systemic",
+   "note_ko": "라텍스-과일 증후군의 핵심. 밤·바나나·아보카도·키위가 라텍스(헤베인 도메인)와 교차.",
+   "panallergen": false,
+   "clinical_priority": "high",
+   "ask_routes": [
+    "ingestion",
+    "contact"
+   ]
+  },
+  {
+   "id": "hevein",
+   "name_en": "Hevein / prohevein",
+   "name_ko": "헤베인",
+   "pattern": "[Hh]evein",
+   "heat_stable": null,
+   "risk": "systemic",
+   "note_ko": "라텍스 Hev b 6. 라텍스-과일 증후군(밤·바나나·아보카도·키위).",
+   "panallergen": false,
+   "clinical_priority": "high",
+   "ask_routes": [
+    "ingestion",
+    "contact"
+   ]
+  },
+  {
+   "id": "chitinase",
+   "name_en": "Chitinase (other classes)",
+   "name_ko": "키티나아제(기타)",
+   "pattern": "[Cc]hitinase",
+   "heat_stable": null,
+   "risk": "variable",
+   "note_ko": "진드기(Der f 15/18)·바퀴 키티나아제. 클래스 I(라텍스-과일)과는 임상 의미가 다르다.",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "gst",
+   "name_en": "Glutathione S-transferase (GST)",
+   "name_ko": "GST",
+   "pattern": "[Gg]lutathione",
+   "heat_stable": null,
+   "risk": "variable",
+   "note_ko": "진드기(Der p 8)·바퀴(Bla g 5)·기생충·꽃가루. 무척추동물간 교차.",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "nsltp",
+   "name_en": "Non-specific lipid transfer protein (nsLTP)",
+   "name_ko": "비특이 지질전달단백(nsLTP)",
+   "pattern": "lipid transfer",
+   "heat_stable": true,
+   "risk": "systemic",
+   "note_ko": "열·소화 안정 → 전신·아나필락시스 위험(지중해형). 대표: Pru p 3(복숭아). 식물성 식품 광범위.",
+   "panallergen": false,
+   "clinical_priority": "high",
+   "ask_routes": [
+    "ingestion"
+   ]
+  },
+  {
+   "id": "tropomyosin",
+   "name_en": "Tropomyosin",
+   "name_ko": "트로포마이오신",
+   "pattern": "Tropomyosin",
+   "heat_stable": true,
+   "risk": "systemic",
+   "note_ko": "무척추동물 pan-allergen. 갑각류·연체류·집먼지진드기·바퀴·기생충이 공유. 열안정 → 조리해도 반응. 대표: Pen a 1(새우), Der p 10(진드기).",
+   "panallergen": true,
+   "clinical_priority": "high",
+   "ask_routes": [
+    "ingestion"
+   ]
+  },
+  {
+   "id": "pr10",
+   "name_en": "PR-10 / Bet v 1 family",
+   "name_ko": "PR-10 (Bet v 1 계열)",
+   "pattern": "PR-10|Bet v 1|Cytokinin-specific binding protein|Major latex protein",
+   "heat_stable": false,
+   "risk": "oral",
+   "note_ko": "자작나무 Bet v 1 상동체. 열·소화에 불안정 → 대개 국소 구강알레르기증후군(OAS). 익히면 완화. 대표: Bet v 1, Mal d 1(사과), Ara h 8(땅콩).",
+   "panallergen": true,
+   "clinical_priority": "medium",
+   "ask_routes": [
+    "ingestion"
+   ]
+  },
+  {
+   "id": "profilin",
+   "name_en": "Profilin",
+   "name_ko": "프로필린",
+   "pattern": "Profilin",
+   "heat_stable": false,
+   "risk": "oral",
+   "note_ko": "범-식물 pan-allergen(꽃가루·과일·채소). 열불안정 → 대개 경증 OAS. 광범위 교차반응의 흔한 원인. 대표: Bet v 2.",
+   "panallergen": true,
+   "clinical_priority": "low",
+   "ask_routes": [
+    "ingestion"
+   ]
+  },
+  {
+   "id": "polcalcin",
+   "name_en": "Polcalcin (2/4 EF-hand)",
+   "name_ko": "폴칼신",
+   "pattern": "Polcalcin",
+   "heat_stable": null,
+   "risk": "low",
+   "note_ko": "꽃가루 pan-allergen 마커. 범꽃가루 감작 지표(음식 교차반응은 드묾). 대표: Phl p 7, Bet v 4.",
+   "panallergen": true,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "lipocalin",
+   "name_en": "Lipocalin",
+   "name_ko": "리포칼린",
+   "pattern": "Lipocalin|Calycin|Odorant binding protein|Alpha-2u-globulin",
+   "heat_stable": null,
+   "risk": "variable",
+   "note_ko": "동물 비듬 major allergen. 고양이 Fel d 4, 개 Can f 1/2, 말·소·설치류. 동물간 교차반응의 주 원인.",
+   "panallergen": false,
+   "clinical_priority": "high",
+   "ask_routes": [
+    "inhalation"
+   ]
+  },
+  {
+   "id": "arginine_kinase",
+   "name_en": "Arginine kinase",
+   "name_ko": "아르기닌 키나아제",
+   "pattern": "Arginine\\s*kinase",
+   "heat_stable": null,
+   "risk": "variable",
+   "note_ko": "무척추동물 pan-allergen(트로포마이오신 다음). 갑각류·진드기·바퀴·나방.",
+   "panallergen": true,
+   "clinical_priority": "low",
+   "ask_routes": [
+    "ingestion"
+   ]
+  },
+  {
+   "id": "thaumatin_pr5",
+   "name_en": "Thaumatin-like protein (PR-5)",
+   "name_ko": "타우마틴 유사단백(PR-5)",
+   "pattern": "Thaumatin|Osmotin|PR-5",
+   "heat_stable": null,
+   "risk": "variable",
+   "note_ko": "과일(사과·체리·키위·바나나)과 삼나무·편백 교차.",
+   "panallergen": false,
+   "clinical_priority": "medium",
+   "ask_routes": [
+    "ingestion"
+   ]
+  },
+  {
+   "id": "art_v1_defensin",
+   "name_en": "Defensin-like (Art v 1-like)",
+   "name_ko": "디펜신 유사(Art v 1형)",
+   "pattern": "Art v 1|Defensin-like protein (with|linked to) polyproline",
+   "heat_stable": null,
+   "risk": "variable",
+   "note_ko": "쑥 Art v 1. 쑥-셀러리-향신료 증후군의 핵심 성분.",
+   "panallergen": false,
+   "clinical_priority": "medium",
+   "ask_routes": [
+    "ingestion"
+   ]
+  },
+  {
+   "id": "ole_e_1",
+   "name_en": "Ole e 1-like protein",
+   "name_ko": "Ole e 1 유사단백",
+   "pattern": "Ole e 1",
+   "heat_stable": null,
+   "risk": "low",
+   "note_ko": "올리브·물푸레·라일락·질경이·화본과. 수목/잡초 꽃가루간 교차.",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "npc2_mite_group2",
+   "name_en": "NPC2 / MD-2-related (mite group 2)",
+   "name_ko": "NPC2(진드기 group 2)",
+   "pattern": "NPC2|MD-2-related",
+   "heat_stable": null,
+   "risk": "variable",
+   "note_ko": "집먼지진드기 major allergen Der p 2 계열. 진드기 종간 교차.",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "beta_expansin",
+   "name_en": "Beta-expansin (grass group 1)",
+   "name_ko": "베타-엑스팬신(화본과 group 1)",
+   "pattern": "expansin",
+   "heat_stable": null,
+   "risk": "low",
+   "note_ko": "화본과 꽃가루 major allergen(Phl p 1 등). 화본과 종간 광범위 교차.",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "group5_grass",
+   "name_en": "Grass group 5/21",
+   "name_ko": "화본과 group 5/21",
+   "pattern": "Group 5/21|Group 5 allergen",
+   "heat_stable": null,
+   "risk": "low",
+   "note_ko": "화본과 꽃가루 major(Phl p 5).",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "pectate_lyase",
+   "name_en": "Pectate lyase",
+   "name_ko": "펙테이트 리아제",
+   "pattern": "Pectate lyase",
+   "heat_stable": null,
+   "risk": "low",
+   "note_ko": "삼나무(Cry j 1)·측백·돼지풀(Amb a 1) major. 수목-잡초 교차.",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "antigen5",
+   "name_en": "Antigen 5 (venom)",
+   "name_ko": "항원 5(독)",
+   "pattern": "Antigen 5",
+   "heat_stable": null,
+   "risk": "systemic",
+   "note_ko": "말벌류 독 major allergen. 벌독 종간 교차.",
+   "panallergen": false,
+   "clinical_priority": "high",
+   "ask_routes": [
+    "sting"
+   ]
+  },
+  {
+   "id": "phospholipase_venom",
+   "name_en": "Phospholipase (venom)",
+   "name_ko": "포스포리파아제(독)",
+   "pattern": "Phospholipase A",
+   "heat_stable": null,
+   "risk": "systemic",
+   "note_ko": "꿀벌(Api m 1)·말벌 독.",
+   "panallergen": false,
+   "clinical_priority": "high",
+   "ask_routes": [
+    "sting"
+   ]
+  },
+  {
+   "id": "hyaluronidase",
+   "name_en": "Hyaluronidase (venom)",
+   "name_ko": "히알루로니다아제(독)",
+   "pattern": "Hyaluronidase",
+   "heat_stable": null,
+   "risk": "systemic",
+   "note_ko": "벌독. CCD 때문에 위양성 교차 주의.",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": [
+    "sting"
+   ]
+  },
+  {
+   "id": "paramyosin",
+   "name_en": "Paramyosin",
+   "name_ko": "파라마이오신",
+   "pattern": "Paramyosin",
+   "heat_stable": null,
+   "risk": "variable",
+   "note_ko": "무척추동물(진드기·연체류·기생충).",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "troponin_c",
+   "name_en": "Troponin C",
+   "name_ko": "트로포닌 C",
+   "pattern": "Troponin C",
+   "heat_stable": null,
+   "risk": "variable",
+   "note_ko": "무척추동물 근육단백. 갑각류·진드기.",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "myosin_light_chain",
+   "name_en": "Myosin light chain",
+   "name_ko": "마이오신 경쇄",
+   "pattern": "Myosin light chain",
+   "heat_stable": null,
+   "risk": "variable",
+   "note_ko": "무척추동물 근육단백.",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "enolase",
+   "name_en": "Enolase",
+   "name_ko": "에놀라아제",
+   "pattern": "Enolase",
+   "heat_stable": null,
+   "risk": "variable",
+   "note_ko": "곰팡이·어류·식물 pan-allergen.",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "tim",
+   "name_en": "Triosephosphate isomerase",
+   "name_ko": "TIM",
+   "pattern": "Triosephosphate isomerase",
+   "heat_stable": null,
+   "risk": "variable",
+   "note_ko": "무척추·어류 교차.",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "cyclophilin",
+   "name_en": "Cyclophilin",
+   "name_ko": "사이클로필린",
+   "pattern": "Cyclophilin",
+   "heat_stable": null,
+   "risk": "low",
+   "note_ko": "곰팡이·식물 pan-allergen.",
+   "panallergen": true,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "thioredoxin",
+   "name_en": "Thioredoxin",
+   "name_ko": "티오레독신",
+   "pattern": "Thioredoxin",
+   "heat_stable": null,
+   "risk": "low",
+   "note_ko": "곰팡이·식물 pan-allergen.",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "pr1",
+   "name_en": "Pathogenesis-related protein PR-1",
+   "name_ko": "PR-1",
+   "pattern": "Pathogenesis-related protein PR-1",
+   "heat_stable": null,
+   "risk": "low",
+   "note_ko": "식물 방어단백.",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "polygalacturonase",
+   "name_en": "Polygalacturonase",
+   "name_ko": "폴리갈락투로나아제",
+   "pattern": "Polygalacturonase",
+   "heat_stable": null,
+   "risk": "low",
+   "note_ko": "수목 꽃가루(삼나무·측백).",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "cysteine_protease",
+   "name_en": "Cysteine protease",
+   "name_ko": "시스테인 단백분해효소",
+   "pattern": "Cysteine protease",
+   "heat_stable": null,
+   "risk": "variable",
+   "note_ko": "진드기 Der p 1 계열, 파파인·키위 액티니딘.",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "serine_protease",
+   "name_en": "Serine protease",
+   "name_ko": "세린 단백분해효소",
+   "pattern": "([Aa]lkaline |[Vv]acuolar )?[Ss]erine protease|Trypsin",
+   "heat_stable": null,
+   "risk": "variable",
+   "note_ko": "진드기·곰팡이·바퀴.",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "fabp",
+   "name_en": "Fatty acid-binding protein",
+   "name_ko": "지방산결합단백(FABP)",
+   "pattern": "fatty acid-binding protein",
+   "heat_stable": null,
+   "risk": "variable",
+   "note_ko": "진드기·바퀴.",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "cofilin",
+   "name_en": "Cofilin",
+   "name_ko": "코필린",
+   "pattern": "Cofilin",
+   "heat_stable": null,
+   "risk": "variable",
+   "note_ko": "무척추·식물.",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "alpha_amylase",
+   "name_en": "Alpha-amylase",
+   "name_ko": "알파-아밀라아제",
+   "pattern": "Alpha-amylase",
+   "heat_stable": null,
+   "risk": "variable",
+   "note_ko": "곡물(baker's asthma)·곰팡이.",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  },
+  {
+   "id": "fba",
+   "name_en": "Fructose bisphosphate aldolase",
+   "name_ko": "FBA",
+   "pattern": "Fructose bisphosphate aldolase",
+   "heat_stable": null,
+   "risk": "variable",
+   "note_ko": "어류·곰팡이.",
+   "panallergen": false,
+   "clinical_priority": "low",
+   "ask_routes": []
+  }
+ ],
+ "research_note_ko": "임상 필드는 EAACI MAUG 2.0 등 근거의 '사실'만 자체 표현으로 재구성(저작권 회피). 핵심 보정(deep-research, 적대적 검증): (1) family 공유 = 교차반응 '확정'이 아니라 '가중 후보'(family 내 교차반응은 patchy). (2) panallergen(profilin/polcalcin/cyclophilin) 인식은 대체로 상호배타적 → 자동 캐스케이드 금지(clinical_priority=low). (3) ask_routes 로 노출경로를 제한해 임상 무의미 엣지(새우→모기, 고양이→모기) 제거. (4) 서열동일성 >70% 규칙은 반증됨 — 코드화 금지. (5) CCD/alpha-Gal 은 단백질 family 가 아닌 glycan-epitope 로 별도 모델링 필요(미구현). (6) component 양성은 임상 알레르기 확정이 아니며 CRD는 병력의 보조."
+}

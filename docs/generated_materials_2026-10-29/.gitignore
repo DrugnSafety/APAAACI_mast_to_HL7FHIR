@@ -1,0 +1,9 @@
+/materials/
+/downloads/
+/validation/
+/__pycache__/
+/manifest.json
+/pdf_manifest.json
+/catalog.json
+/catalog.csv
+/index.html
