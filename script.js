@@ -12,14 +12,14 @@
   const film = {
     ko: {
       title: '검사표 한 장이 결과지가 되기까지',
-      description: '합성 검사표에서 숫자를 대조하고, 증상 문진을 거쳐 환자 자료와 FHIR 기록을 만드는 과정을 따라갑니다.',
-      chapters: ['검사표 입력', 'OCR 대조와 확인', '증상 문진', '환자 결과지', '교육 카드뉴스', 'FHIR 내보내기'],
+      description: '검사값을 원본과 대조한 뒤 집먼지진드기·고양이·꽃가루 문진을 살펴봅니다. 이어서 환자 결과지, 카드뉴스, FHIR 기록을 확인합니다.',
+      chapters: ["검사표 입력", "OCR 대조와 확인", "노출과 증상", "집먼지진드기 문진", "고양이 문진", "꽃가루 문진", "환자 안내문", "교육 카드뉴스", "FHIR 파일"],
       chapterLabel: '장면 선택', download: '한국어 영상 받기', caption: '한국어', mediaLabel: '한국어 과정 영상'
     },
     en: {
       title: 'From a test sheet to a patient report',
-      description: 'Follow one synthetic test sheet through OCR review, symptom history, patient education and FHIR export.',
-      chapters: ['Source test sheet', 'OCR and review', 'Symptom questions', 'Patient report', 'Education cards', 'FHIR export'],
+      description: 'Follow a synthetic test sheet through OCR review, dust mite, cat and pollen questions, patient education and FHIR export.',
+      chapters: ["Source test sheet", "OCR review", "Exposure history", "House dust mite questions", "Cat questions", "Pollen questions", "Patient guidance", "Education cards", "FHIR export"],
       chapterLabel: 'Chapters', download: 'Download English video', caption: 'English', mediaLabel: 'English workflow film'
     }
   };

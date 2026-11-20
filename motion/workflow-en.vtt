@@ -2,24 +2,79 @@ WEBVTT
 
 1
 00:00:00.000 --> 00:00:08.000
-The synthetic MAST report contains 69 allergens.
+This synthetic MAST allergy test measures 69 allergens.
 
 2
 00:00:08.000 --> 00:00:16.000
-The OCR output reads 714 for dog dander. Checking the original row shows 7.14 IU/mL, class 3.
+OCR reads 714 for dog dander.
+The source shows 7.14 IU/mL, class 3.
 
 3
 00:00:16.000 --> 00:00:24.000
-The simulated patient reports worse symptoms after dog contact and no symptoms after eating orange.
+The simulated patient reports worse symptoms after dog contact
+and no symptoms after eating orange.
 
 4
-00:00:24.000 --> 00:00:32.000
-Dog dander and orange are both class 3. The patient guidance explains the reported symptoms alongside each value.
+00:00:24.000 --> 00:00:31.000
+For house dust mites, the questionnaire asks about timing.
+The simulated answer is yes to worse symptoms at night or early morning.
 
 5
-00:00:32.000 --> 00:00:40.000
-These three original Korean cards are part of the 14-card deck generated for this synthetic case.
+00:00:31.000 --> 00:00:38.000
+The simulated patient says symptoms improve
+after a few days away from home.
 
 6
-00:00:40.000 --> 00:00:48.000
-The FHIR R4 bundle links one Patient, 69 Observations and one DiagnosticReport, for a total of 71 resources.
+00:00:38.000 --> 00:00:45.000
+Do symptoms worsen when shaking out bedding or dusting?
+The simulated answer is yes.
+
+7
+00:00:45.000 --> 00:00:52.000
+The simulated patient often sees cats
+but does not live with one.
+
+8
+00:00:52.000 --> 00:00:59.000
+How often does the simulated patient see cats?
+The answer is about once a week.
+
+9
+00:00:59.000 --> 00:01:06.000
+Do symptoms worsen with more cat contact?
+The simulated answer is no.
+
+10
+00:01:06.000 --> 00:01:14.000
+The simulated patient selects “No seasonal difference”
+when asked which seasons are worse.
+
+11
+00:01:14.000 --> 00:01:22.000
+The spring tree pollen question asks about nose and eye symptoms
+from March to May. This case has no recorded answer.
+
+12
+00:01:22.000 --> 00:01:30.000
+The grass pollen question asks about symptoms near lawns
+in May and June. This case has no recorded answer.
+
+13
+00:01:30.000 --> 00:01:38.000
+The weed pollen question asks about nose and eye symptoms
+from August to October. This case has no recorded answer.
+
+14
+00:01:38.000 --> 00:01:46.000
+Dog dander and orange are both class 3. The patient guidance
+relates each test result to the reported symptoms.
+
+15
+00:01:46.000 --> 00:01:54.000
+These three original Korean cards come from the 14-card deck
+generated for the synthetic case.
+
+16
+00:01:54.000 --> 00:02:02.000
+The FHIR R4 bundle links one Patient, 69 Observations
+and one DiagnosticReport, for a total of 71 resources.
