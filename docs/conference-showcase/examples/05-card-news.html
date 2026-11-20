@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>공개 합성 사례님 알레르기 카드뉴스</title>
+
+
+
+<style>
+  
+      .month-strip { display:flex; gap:4px; flex-wrap:wrap; margin:14px 0; }
+      .month-strip .m { flex:1 1 0; min-width:26px; text-align:center; padding:7px 0;
+        border-radius:7px; background:rgba(0,0,0,.05); font-size:13px; font-weight:700;
+        color:#8a8f98; }
+      .month-strip .m.on { background:#ffd8a8; color:#7a4100; }
+      .month-strip .m.now { outline:2px solid #e8590c; outline-offset:1px; }
+    
+  
+      .section.knowledge { overflow-y:auto; }
+      .knowledge .tag { background:#eef3e8; color:#4f7a28; }
+      .knowledge .desc { margin-top:10px; }
+      .knowledge .src { font-size:11px; color:#8a8f98; margin-top:12px; line-height:1.5; }
+    
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --cream:#fbf7ee; --elev:#fffdf8; --ink:#1f2a24; --ink2:#4d5a52; --ink3:#5f6d63; --line:#e6dcc6;
+           --forest:#2f8f5b; --forest-d:#1f5f3f; --amber:#f2a33a; --amber-soft:#fdeed6; --amber-ink:#8a5a12;
+           --red:#a83616; --red-soft:#fde9e2; --slate:#4a5768; --slate-soft:#eef1f5; --indet:#8a5405; --indet-soft:#fdf3e3;
+           --display:'Do Hyeon','Pretendard','Apple SD Gothic Neo','Noto Sans KR',sans-serif; }
+  body { font-family:'Pretendard','Noto Sans KR','Malgun Gothic',-apple-system,sans-serif; color:var(--ink); padding:16px;
+         background:var(--cream) radial-gradient(rgba(47,143,91,.07) 1px, transparent 1px); background-size:22px 22px; }
+  h1,h2 { font-family:var(--display); font-weight:400; }
+  /* 스크립트가 없을 때(메일 미리보기·스크립트 차단)는 카드가 내용만큼 자란다 — 잘리는 내용도, 숨은 스크롤도 없다.
+     스크립트가 켜지면 아래 .js 규칙이 넘겨 보는 고정 높이 카드로 바꾸고 스크롤 단서를 붙인다. */
+  .deck { display:flex; align-items:flex-start; gap:16px; overflow-x:auto; padding:8px 2px 20px; scroll-snap-type:x mandatory; }
+  .card { flex:0 0 auto; width:340px; min-height:440px; display:flex; flex-direction:column; border-radius:22px; overflow:hidden; scroll-snap-align:center;
+          box-shadow:0 12px 32px rgba(60,48,20,.16); background:var(--elev); position:relative; border:1px solid var(--line); }
+  .card > div { flex:1 0 auto; padding:26px 24px; display:flex; flex-direction:column; position:relative; }
+  .card > div::before { content:''; position:absolute; inset:9px; border:1.5px dashed rgba(0,0,0,.12); border-radius:15px; pointer-events:none; }
+  /* 표지 */
+  .cover { background:linear-gradient(150deg,var(--forest-d) 0%,var(--forest) 60%,#6fb98a 100%); color:#fff; justify-content:space-between; }
+  .cover::before { border-color:rgba(255,255,255,.35) !important; }
+  .badge { font-size:11px; letter-spacing:2px; font-weight:800; opacity:.9; }
+  .cover h1 { font-size:32px; line-height:1.2; margin-top:8px; }
+  .cover .sub { font-size:13px; opacity:.92; margin-top:10px; line-height:1.5; }
+  .cover-stat { display:flex; gap:10px; margin-top:auto; }
+  .cover-stat > div { flex:1; background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.3); border-radius:14px; padding:12px 6px; text-align:center; }
+  .cover-stat .num { display:block; font-family:var(--display); font-size:30px; line-height:1; }
+  .cover-stat .lbl { display:block; font-size:11px; opacity:.95; margin-top:4px; font-weight:700; }
+  .cover .headline { margin-top:14px; font-size:14px; font-weight:700; background:rgba(0,0,0,.16); padding:10px 12px; border-radius:12px; }
+  /* 섹션 */
+  .section { background:var(--elev); }
+  .tag { align-self:flex-start; font-size:12px; font-weight:800; padding:6px 12px; border-radius:999px; background:var(--amber-soft); color:var(--amber-ink); }
+  .stamp-verdict { align-self:flex-start; font-family:var(--display); font-size:17px; letter-spacing:1px; padding:5px 12px;
+                    border:2.5px solid currentColor; border-radius:8px; transform:rotate(-4deg); margin:2px 0 4px 2px; }
+  .stamp-verdict.relevant { color:var(--red); } .stamp-verdict.sensitized { color:var(--slate); } .stamp-verdict.indet { color:var(--indet); }
+  .stamp-verdict.small { font-size:14px; margin-top:16px; }
+  .cat-stamp { display:inline-grid; place-items:center; width:22px; height:22px; border-radius:50%; background:var(--elev); border:1.5px solid var(--line); color:var(--forest-d); vertical-align:middle; margin-right:2px; }
+  .cat-stamp svg { width:16px; height:16px; }
+  .detail .tag { background:#e3f2e9; color:var(--forest-d); }
+  .treatment .tag { background:#e3f2e9; color:var(--forest-d); }
+  .prevention .tag { background:#e3f2e9; color:var(--forest-d); }
+  .oas .tag { background:var(--red-soft); color:var(--red); }
+  .oas .chip { background:#fff5f0; border-color:#f6c3b3; }
+  .detail .desc b, .treatment .tips b { color:var(--ink); }
+  .imt { margin-top:12px; font-size:12.5px; background:#e3f2e9; color:var(--forest-d); border-radius:10px; padding:10px 12px; line-height:1.5; }
+  .section { overflow-y:auto; }  /* 항목이 늘어도 어떤 카드든 잘리지 않고 스크롤 */
+  /* 스크롤 단서(고정 높이 카드일 때) — 아래(위)에 내용이 더 있을 때만 가장자리에 그림자가 생기고,
+     끝에 닿으면 본문과 함께 움직이는 가림막(local)이 그림자를 덮는다. 고정 높이 카드에서 긴 본문이
+     잘린 것처럼 보이던 문제(동물 카드: 538px 카드에 1,069px)를 눈에 보이게 한다. */
+  .card > .section {
+    background-image:
+      linear-gradient(var(--elev) 40%, rgba(255,253,248,0)), linear-gradient(rgba(255,253,248,0), var(--elev) 60%),
+      radial-gradient(farthest-side at 50% 0, rgba(31,42,36,.38), rgba(31,42,36,0)),
+      radial-gradient(farthest-side at 50% 100%, rgba(31,42,36,.38), rgba(31,42,36,0));
+    background-repeat:no-repeat; background-position:0 0, 0 100%, 0 0, 0 100%;
+    background-size:100% 44px, 100% 44px, 100% 16px, 100% 16px;
+    background-attachment:local, local, scroll, scroll;
+    scrollbar-width:thin; scrollbar-color:var(--forest) transparent; }
+  .card > .section::-webkit-scrollbar { width:6px; }
+  .card > .section::-webkit-scrollbar-thumb { background:var(--forest); border-radius:3px; }
+  .section h2 { font-size:26px; line-height:1.25; margin:12px 0 10px; }
+  .desc { font-size:13px; line-height:1.6; color:var(--ink2); }
+  .chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:14px; overflow:visible; }
+  /* 음식 경고 카드: 항목이 많아도 한눈에 보이도록 2열 그리드로 표기 */
+  .oas .chips { display:grid; grid-template-columns:1fr 1fr; gap:8px; overflow:visible; }
+  .chip { font-size:13px; background:#f7f1e3; border:1px solid var(--line); border-radius:12px; padding:8px 12px; }
+  .chip-season { display:inline-block; margin-left:6px; font-size:11px; color:var(--ink3); }
+  .relevant .chip { background:var(--red-soft); border-color:#f6c3b3; }
+  .sensitized .chip { background:var(--slate-soft); }
+  .mini-title { font-size:12px; font-weight:800; color:var(--amber-ink); margin-top:16px; }
+  .empty { font-size:13px; color:var(--ink3); margin-top:16px; line-height:1.6; }
+  .tips { list-style:none; margin-top:12px; display:flex; flex-direction:column; gap:9px; }
+  .tips li { font-size:13px; line-height:1.5; background:#f4faf6; border-left:4px solid var(--forest); padding:9px 12px; border-radius:8px; }
+  /* 마무리 */
+  .closing { background:linear-gradient(150deg,#1f2a24 0%,#2b3a44 100%); color:#fff; justify-content:center; }
+  .closing::before { border-color:rgba(255,255,255,.3) !important; }
+  .closing h2 { font-size:28px; }
+  .tag.light { background:rgba(255,255,255,.2); color:#fff; }
+  .desc.light { color:#e7ece8; }
+  .note { margin-top:auto; font-size:11px; color:#c3cdc6; line-height:1.5; }
+  .hint { text-align:center; color:var(--ink3); font-size:12px; margin-top:6px; }
+  
+      .sr { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+      .cn-ui { display:none; }
+      /* 퀴즈 — JS 없이는 정답 표시와 해설이 그대로 보이는 읽을거리 */
+      .cn-quiz { margin-top:16px; padding:12px 12px 10px; border-radius:14px; background:#fdf6e6; border:1.5px dashed #e3c98c; }
+      .cn-quiz.light { background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.4); }
+      .cn-quiz-t { font-size:11.5px; font-weight:800; letter-spacing:.5px; color:var(--amber-ink); }
+      .cn-quiz.light .cn-quiz-t { color:#ffe1a8; }
+      .cn-q { font-size:13.5px; font-weight:800; line-height:1.45; margin-top:4px; }
+      .cn-opts { list-style:none; display:flex; flex-direction:column; gap:6px; margin-top:8px; }
+      .cn-opts li, .cn-opts button { font:inherit; font-size:12.5px; line-height:1.45; text-align:left; width:100%; color:var(--ink);
+        background:var(--elev); border:1.5px solid var(--line); border-radius:10px; padding:8px 10px; }
+      html:not(.js) .cn-opts li[data-ok="1"] { border-color:var(--forest); font-weight:700; }
+      html:not(.js) .cn-opts li[data-ok="1"]::after { content:" ✓"; color:var(--forest-d); font-weight:800; }
+      .cn-exp { font-size:12px; line-height:1.5; margin-top:8px; color:var(--ink2); }
+      .cn-quiz.light .cn-exp { color:#e7ece8; }
+      .cn-check-t { display:none; }
+
+      .js body { padding:10px 0 12px; min-height:100vh; display:flex; flex-direction:column; }
+      .js .cn-ui { display:flex; }
+      .js .cn-top { flex-direction:column; gap:6px; padding:0 16px 4px; max-width:560px; width:100%; margin:0 auto; }
+      .cn-bar { height:8px; border-radius:999px; background:#efe6d2; overflow:hidden; border:1px solid var(--line); }
+      .cn-bar i { display:block; height:100%; width:100%; transform-origin:left center; transform:scaleX(0); border-radius:inherit;
+        background:linear-gradient(90deg,var(--forest),var(--amber)); transition:transform .4s cubic-bezier(.2,.8,.2,1); }
+      .cn-meta { display:flex; align-items:center; gap:12px; font-size:12.5px; font-weight:700; color:var(--ink2); }
+      .cn-meta .cn-num { font-family:var(--display); font-weight:400; font-size:16px; color:var(--ink); }
+      .cn-meta .cn-done { color:var(--forest-d); }
+      .cn-meta button { margin-left:auto; font:inherit; font-size:12px; font-weight:800; color:var(--ink2); background:var(--elev);
+        border:1.5px solid var(--line); border-radius:999px; padding:6px 12px; min-height:34px; cursor:pointer; }
+      .js .deck { flex:1 1 auto; align-items:center; gap:14px; padding:10px calc(50% - min(44vw, 180px)) 14px; scroll-padding:0 calc(50% - min(44vw, 180px));
+        scrollbar-width:none; overscroll-behavior-x:contain; outline:none; }
+      .js .deck::-webkit-scrollbar { display:none; }
+      .js .deck:focus-visible { box-shadow:inset 0 0 0 3px var(--amber); border-radius:12px; }
+      .js .card { width:min(88vw, 360px); height:min(540px, calc(100vh - 150px)); min-height:380px; scroll-snap-stop:always;
+        transition:transform .35s cubic-bezier(.2,.8,.2,1), opacity .35s; transform:scale(.94); opacity:.6; }
+      .js .card.active { transform:none; opacity:1; }
+      .js .card > div { flex:1 1 0; min-height:0; overflow-y:auto; }
+      /* 긴 카드 — 아래에 내용이 더 있으면 '아래로 더 있어요' 알약을 띄운다(끝까지 내리면 사라진다) */
+      .cn-more, .cn-js { display:none; }
+      .js .cn-js { display:inline; }
+      .js .card.more .cn-more { display:block; position:absolute; left:50%; bottom:14px; transform:translateX(-50%); z-index:2;
+        font:inherit; font-size:12px; font-weight:800; color:#fff; background:var(--forest-d); border:0; border-radius:999px;
+        padding:7px 14px; min-height:32px; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,.25); }
+      /* 점선 테두리를 스크롤되는 본문이 아니라 카드에 고정한다 */
+      .js .card > div::before { display:none; }
+      .js .card::after { content:''; position:absolute; inset:9px; border:1.5px dashed rgba(0,0,0,.12); border-radius:15px; pointer-events:none; }
+      .js .card[data-kind="cover"]::after, .js .card[data-kind="closing"]::after { border-color:rgba(255,255,255,.35); }
+      /* 등장 애니메이션은 카드가 화면에 들어올 때(.in) 시작한다. 가운데에 올 때(.active)까지 미루면
+         옆에 걸쳐 보이는 다음 카드가 빈 틀로 보인다. */
+      .js .card:not(.in) > div > * { opacity:0; }
+      .js .card.in > div > * { animation:cn-in .5s cubic-bezier(.2,.8,.2,1) both; }
+      .js .card.in > div > *:nth-child(2) { animation-delay:.07s; } .js .card.in > div > *:nth-child(3) { animation-delay:.14s; }
+      .js .card.in > div > *:nth-child(4) { animation-delay:.21s; } .js .card.in > div > *:nth-child(5) { animation-delay:.28s; }
+      .js .card.in > div > *:nth-child(n+6) { animation-delay:.35s; }
+      .js .card.in .stamp-verdict { animation-name:cn-stamp; }
+      @keyframes cn-in { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:none; } }
+      @keyframes cn-stamp { 0% { opacity:0; transform:rotate(-4deg) scale(1.6); } 60% { opacity:1; transform:rotate(-4deg) scale(.96); } 100% { opacity:1; transform:rotate(-4deg) scale(1); } }
+      .js .cn-nav { align-items:center; justify-content:center; gap:10px; padding:0 12px; }
+      .cn-nav button { width:46px; height:46px; border-radius:50%; border:1.5px solid var(--line); background:var(--elev); color:var(--ink);
+        font-size:18px; cursor:pointer; flex:none; }
+      .cn-nav button:disabled { opacity:.35; cursor:default; }
+      .cn-dots { display:flex; gap:5px; flex-wrap:wrap; justify-content:center; max-width:260px; }
+      .cn-dots button { width:12px; height:12px; min-width:0; border-radius:50%; padding:0; border:1.5px solid #cdbf9f; background:transparent; }
+      .cn-dots button.seen { background:var(--forest); border-color:var(--forest); }
+      .cn-dots button.on { box-shadow:0 0 0 3px var(--amber); }
+      .js button:focus-visible, .js [role="checkbox"]:focus-visible, .js .cn-fold:focus-visible { outline:3px solid var(--amber); outline-offset:2px; }
+      /* 퀴즈(상호작용) */
+      .js .cn-opts button { cursor:pointer; display:flex; gap:8px; align-items:flex-start; }
+      .js .cn-opts button::before { content:"○"; font-weight:800; color:var(--ink3); flex:none; }
+      .js .cn-opts button.right { border-color:var(--forest); background:#e3f2e9; font-weight:700; }
+      .js .cn-opts button.right::before { content:"✓"; color:var(--forest-d); }
+      .js .cn-opts button.wrong { border-style:dashed; color:var(--ink3); }
+      .js .cn-opts button.wrong::before { content:"✕"; }
+      .js .cn-quiz:not(.solved) .cn-exp { display:none; }
+      .js .cn-quiz .cn-try { font-size:12px; font-weight:700; margin-top:8px; color:var(--amber-ink); min-height:1em; }
+      .js .cn-quiz.light .cn-try { color:#ffe1a8; }
+      /* 내 실천 체크 */
+      .js .cn-check-t { display:flex; justify-content:space-between; align-items:center; font-size:12px; font-weight:800; color:var(--forest-d); margin-top:12px; }
+      .js [data-check] .tips { margin-top:8px; }
+      .js [data-check] .tips li { cursor:pointer; position:relative; padding-left:38px; user-select:none; -webkit-user-select:none; }
+      .js [data-check] .tips li::before { content:""; position:absolute; left:11px; top:10px; width:16px; height:16px; border-radius:5px; border:2px solid var(--forest); background:var(--elev); }
+      .js [data-check] .tips li[aria-checked="true"] { background:#e3f2e9; }
+      .js [data-check] .tips li[aria-checked="true"]::before { background:var(--forest); }
+      .js [data-check] .tips li[aria-checked="true"]::after { content:"✓"; position:absolute; left:14px; top:8px; color:#fff; font-size:13px; font-weight:900; }
+      /* 눌러서 펼치기 — 배경 설명만 접는다. 내용은 DOM 에 그대로 있어 보조기기·인쇄에서는 전부 읽힌다 */
+      .js .cn-fold { cursor:pointer; position:relative; padding:9px 30px 9px 12px; border-radius:10px; background:#f7f1e3; border:1px solid var(--line); margin-top:8px; }
+      .js .cn-fold::after { content:"＋"; position:absolute; right:10px; top:8px; font-weight:800; color:var(--amber-ink); }
+      .js .cn-fold.open::after { content:"－"; }
+      .js .cn-fold:not(.open) { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+      @media (prefers-reduced-motion: reduce) {
+        .js .card, .cn-bar i { transition:none; }
+        .js .card:not(.in) > div > * { opacity:1; }
+        .js .card.in > div > * { animation:none; }
+      }
+      @media print {
+        body, .js body { display:block; padding:0; background:#fff; min-height:0; }
+        .cn-ui, .js .cn-ui, .hint, .cn-try { display:none !important; }
+        .deck, .js .deck { display:block; overflow:visible; padding:0; }
+        .card, .js .card { display:block; width:auto; height:auto; min-height:0; margin:0 0 12px; box-shadow:none; transform:none !important; opacity:1 !important; break-inside:avoid; page-break-inside:avoid; }
+        .card > div, .js .card > div, .section { overflow:visible !important; height:auto; }
+        .card > div > *, .js .card > div > * { opacity:1 !important; animation:none !important; }
+        .js .cn-fold { white-space:normal !important; overflow:visible !important; }
+        .js .cn-quiz .cn-exp { display:block !important; }
+        .cn-more { display:none !important; }
+        .section, .card > .section { background-image:none !important; }
+        * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+      }
+    
+</style></head>
+<body>
+  <div class="cn-top cn-ui">
+    <div class="cn-bar" role="progressbar" aria-valuemin="0" aria-valuemax="14" aria-valuenow="0"><i></i></div>
+    <div class="cn-meta">
+      <span><span class="cn-num" id="cnI">1</span> / 14 <span class="sr">카드</span></span>
+      <span>퀴즈 <span class="cn-num" id="cnQ">0</span> / 4</span>
+      <span class="cn-done" id="cnDone" hidden>모든 카드를 읽었어요</span>
+      <button type="button" id="cnOpen">설명 모두 펼치기</button>
+    </div>
+  </div>
+  <div class="deck" id="deck" tabindex="0"><div class="card" data-kind="cover" data-i="1" role="group" aria-roledescription="slide" aria-label="1 / 14">
+        <div class="cover">
+          <div class="badge">ALLERGEN QUEST · 카드뉴스</div>
+          <h1>공개 합성 사례님의<br/>알러젠 탐험 리포트</h1>
+          <p class="sub">검사일 2026-08-03 · 검사 양성은 흔적일 뿐, 진범은 증상으로 확정</p>
+          <div class="cover-stat">
+            <div><span class="num">2</span><span class="lbl">진범 확정</span></div>
+            <div><span class="num">17</span><span class="lbl">무혐의·감작만</span></div>
+            <div><span class="num">1</span><span class="lbl">관찰 대상</span></div>
+            
+          </div>
+          <p class="headline">진범으로 확정된 알러젠 <b>2개</b></p>
+          
+        </div>
+        </div>
+<div class="card" data-kind="profile" data-i="2" role="group" aria-roledescription="slide" aria-label="2 / 14">
+        <div class="section profile">
+          <div class="tag">📋 처음 알려주신 정보</div>
+          <h2>이미 앓고 있는 질환과<br/>검사 결과를 이어봤어요</h2>
+          <ul class="tips">
+            <li>🩺 <b>알레르기 비염</b> — 코 증상은 원인 알러젠에 노출될 때 생기거나 심해져요. 아래 알러젠과의 관계를 살펴봤어요.</li>
+            
+            
+            
+            <li>🔎 이번 검사에서 실제 증상과 연결된 알러젠은 <b>2가지</b>였어요.</li>
+          </ul>
+        </div></div>
+<div class="card" data-kind="relevant" data-i="3" role="group" aria-roledescription="slide" aria-label="3 / 14">
+        <div class="section relevant">
+          <div class="stamp-verdict relevant">진범 확정</div>
+          <h2>증상으로 확인된<br/>진짜 범인</h2>
+          <p class="desc">검사 양성이면서 <b>노출/해당 계절에 증상이 실제로 나타나는</b> 항목입니다. 회피와 관리가 가장 중요합니다.</p>
+          <div class="chips"><div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="22" r="8"/><path d="M12 18l-5-4M28 18l5-4M11 24l-6 1M29 24l6 1M13 29l-4 4M27 29l4 4M17 20h6"/></svg></span> <b>집먼지진드기</b><span class="chip-season">연중 (고온다습한 여름~초가을에 개체수 증가)</span></div>
+<div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="26" r="6"/><circle cx="11" cy="18" r="3"/><circle cx="17" cy="12" r="3"/><circle cx="23" cy="12" r="3"/><circle cx="29" cy="18" r="3"/></svg></span> <b>개 표피</b><span class="chip-season">연중</span></div></div>
+        <div class="cn-quiz"><div class="cn-quiz-t">🔎 확인 퀴즈</div><p class="cn-q">&#x27;진범 확정&#x27; 도장은 어떤 항목에 찍힐까요?</p><ul class="cn-opts"><li data-ok="0">검사 수치가 높게 나온 항목</li><li data-ok="1">검사 양성이면서 노출·해당 계절에 증상이 실제로 나타나는 항목</li></ul><p class="cn-exp"><b>정답 해설</b> 검사 양성만으로는 정해지지 않아요. 증상이 실제로 나타나는지가 기준입니다.</p></div></div>
+        </div>
+<div class="card" data-kind="detail" data-i="4" role="group" aria-roledescription="slide" aria-label="4 / 14" data-fold="1">
+        <div class="section detail">
+          <div class="tag">🛏️ 알러젠 알아보기</div>
+          <h2>집먼지진드기(유럽·미국 두 종)</h2>
+          <p class="desc"><b>어떤 알러젠?</b> 사람 피부 각질을 먹고 사는 약 0.3 mm 크기의 눈 없는 진드기입니다. 18~27℃(25℃ 전후 최적), 상대습도 60~75% 이상에서 잘 번식하고 알에서 성충까지 약 4주가 걸리며 물을 마시지 못해 주변 습도에 전적으로 의존합니다. 알레르겐(Der f 1·Der f 2)은 주로 배설물 알갱이(10~35 µm)에 들어 있어 먼지가 흐트러질 때만 잠깐 공기 중에 떠 있습니다.</p>
+          <p class="desc"><b>어디서 노출?</b> 침실(매트리스·이불·베개), 천 소파(농도가 매우 높음), 카펫, 봉제인형, 커튼, 옷장 등 실내 먼지가 쌓이는 곳. 이불을 털거나 청소할 때 노출이 가장 큽니다.</p>
+          <div class="mini-title">🏠 이렇게 관리하세요</div><ul class="tips"><li>매트리스·베개·이불에 촘촘히 짠 진드기 차단 커버를 씌우고 커버도 정기적으로 세탁하세요(커버만으로는 부족하니 세탁·카펫 제거·습도 조절과 함께).</li><li>침구(시트·베갯잇·이불커버)를 주 1회 55~60℃ 이상 뜨거운 물로 20분 이상 세탁하세요(찬물·드라이클리닝은 부족합니다).</li><li>침실의 카펫·천 소파·봉제인형·커튼을 치우고 바닥은 닦을 수 있는 재질로 바꾸세요. 봉제인형은 세탁하거나 24시간 냉동 후 세탁하세요.</li></ul>
+          <div class="imt">💉 면역치료를 진료에서 상의해 볼 수 있는 항원이에요. 뒤쪽 면역치료 카드를 보세요.</div>
+        </div>
+        </div>
+<div class="card" data-kind="detail" data-i="5" role="group" aria-roledescription="slide" aria-label="5 / 14" data-fold="1">
+        <div class="section detail">
+          <div class="tag">🐾 알러젠 알아보기</div>
+          <h2>개 표피</h2>
+          <p class="desc"><b>어떤 알러젠?</b> 개의 비듬·침·소변에 있는 리포칼린 단백질(Can f 1·2·4)과 혈청알부민(Can f 3)이 알레르겐입니다. 공기 중 개 알레르겐의 약 20%가 5 µm 미만 입자에 실려 공기 중에 머물고 학교 먼지에서도 검출됩니다. 견종·개체에 따라 알레르겐 양 차이가 큽니다.</p>
+          <p class="desc"><b>어디서 노출?</b> 개를 키우는 가정과 개가 머무는 실내 공간, 개 주인의 옷을 통한 학교·직장.</p>
+          
+          <div class="imt">💉 면역치료를 진료에서 상의해 볼 수 있는 항원이에요. 뒤쪽 면역치료 카드를 보세요.</div>
+        </div>
+        </div>
+<div class="card" data-kind="animal" data-i="6" role="group" aria-roledescription="slide" aria-label="6 / 14" data-check="1">
+        <div class="section detail">
+          <div class="tag">🐾 개 표피 관리</div>
+          <h2>함께 살고 있다면 — 집 안 노출을 단계적으로 줄입니다</h2>
+          <ul class="tips"><li>침실에는 들이지 말고 문을 닫아 두세요. 잠자는 시간의 노출부터 줄입니다. 침실 카펫은 치우고 옷장 문도 닫아 두세요.</li><li>바닥·가구·카펫은 주 1회 청소하고, 침구는 주 1회 60℃ 물로 세탁한 뒤 커버를 씌우세요. 카펫과 천 소파는 알레르겐이 쌓이는 곳이니 줄일 수 있으면 줄이세요. 청소기와 공기청정기는 HEPA 필터가 달린 것을 쓰세요.</li><li>공기청정기에만 기대지 마세요. HEPA 공기청정기는 공기 중 알레르겐을 줄이지만, 증상까지 줄이는지는 임상시험마다 결과가 엇갈렸습니다. 침실 공기청정기와 침구 커버, 침실 출입 금지를 함께 한 시험에서는 증상과 약 사용이 줄지 않았고, 거실과 침실에 함께 둔 소규모 시험에서는 기도 과민성이 나아졌습니다. 한 가지만 하기보다 여러 조치를 함께 하세요.</li><li>목욕은 효과가 짧고, 증상이 줄어드는지는 증명되지 않았습니다. 개는 씻긴 지 3일이면 털의 알레르겐이 씻기 전 수준으로 돌아와, 주 2회는 씻겨야 줄어든 상태가 유지됩니다. 목욕과 빗질은 알레르기가 없는 가족이 맡으세요.</li><li>만지거나 안은 뒤에는 손을 씻고 옷을 갈아입으세요. 알레르겐은 옷에 묻어 다른 방으로 옮겨집니다.</li></ul>
+          <p class="desc" style="margin-top:8px">‘저알레르기 품종’을 키우는 집의 먼지 속 개 알레르겐은 다른 품종을 키우는 집과 차이가 없었습니다. 품종을 바꾸는 것으로 해결되지 않습니다.</p><p class="desc" style="margin-top:8px">개 알레르기 가운데 일부는 수컷 개에서만 나오는 성분(Can f 5)에만 반응합니다. 그런 경우 암컷 개에는 반응이 덜했다는 소규모 연구가 있습니다. 성분 검사가 필요한지는 진료에서 상의하세요. 이번 검사로는 구분되지 않습니다.</p><p class="desc" style="margin-top:8px">다른 집으로 보내는 것이 노출을 가장 확실히 줄이고, 미국 진료지침도 가능하면 분리를 고려하도록 권합니다. 다만 그 결정은 증상의 정도와 가족 사정을 놓고 진료에서 함께 정하세요. 반려동물 알레르기 천식 환자를 1년 이상 지켜본 소규모 연구에서는 동물을 내보낸 쪽이 기도 과민성이 더 좋아지고 흡입 스테로이드를 줄일 수 있었습니다.</p><p class="desc" style="margin-top:8px">분리한 뒤에도 바로 좋아지지는 않습니다. 고양이를 내보낸 집의 먼지 속 알레르겐이 고양이 없는 집 수준으로 내려가기까지 20~24주가 걸렸고, 절반 가까운 집은 그보다 더 걸렸습니다. 카펫·소파·침구를 적극적으로 청소한 집은 훨씬 빨리 줄었습니다. 매트리스에는 알레르겐이 오래 남을 수 있어 커버를 씌우는 것이 좋습니다. 몇 주 안에 차이가 없어도 실패가 아닙니다. 이 수치는 고양이 연구입니다. 다른 동물의 감소 속도는 따로 확인된 자료를 찾지 못했습니다.</p>
+          <p class="desc" style="margin-top:8px">환경 관리는 집 안 알레르겐을 줄이지만, 그것만으로 증상이 충분히 줄지 않는 경우가 많습니다. 약물 치료와 함께 가는 보조 수단으로 보세요.</p>
+        </div></div>
+<div class="card" data-kind="sensitized" data-i="7" role="group" aria-roledescription="slide" aria-label="7 / 14">
+        <div class="section sensitized">
+          <div class="stamp-verdict sensitized">무혐의 · 감작만</div>
+          <h2>검사만 양성,<br/>증상은 없는 항목</h2>
+          <p class="desc">검사는 양성이지만 <b>노출해도 증상이 없는</b> 항목입니다. ‘감작만’은 진단이 아닙니다. 과도한 회피는 필요하지 않고, 음식을 끊을 필요도 없습니다. 다만 부담이 적은 범위에서 노출을 줄여 두면 도움이 될 수 있습니다(임상시험으로 증명된 것은 아닙니다). 감작은 남아 있어 추적이 필요합니다. 증상이 새로 생기면 다시 평가받으세요.</p>
+          <div class="chips"><div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="22" r="8"/><path d="M12 18l-5-4M28 18l5-4M11 24l-6 1M29 24l6 1M13 29l-4 4M27 29l4 4M17 20h6"/></svg></span> <b>집먼지진드기</b><span class="chip-season">연중 (장마철·여름~초가을 개체수 증가)</span></div>
+<div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="15" cy="23" r="6"/><circle cx="25" cy="18" r="5"/><circle cx="25" cy="28" r="4"/><path d="M15 23h.01M25 18h.01"/></svg></span> <b>클라도스포리움 헤르바룸</b><span class="chip-season">연중 (장마철·여름~초가을 증가, 국내 대기 포자 6~12월)</span></div>
+<div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="15" cy="23" r="6"/><circle cx="25" cy="18" r="5"/><circle cx="25" cy="28" r="4"/><path d="M15 23h.01M25 18h.01"/></svg></span> <b>뮤코르 라세모수스</b><span class="chip-season">연중 (장마철·여름~초가을 증가, 국내 대기 포자 6~12월)</span></div>
+<div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="15" cy="23" r="6"/><circle cx="25" cy="18" r="5"/><circle cx="25" cy="28" r="4"/><path d="M15 23h.01M25 18h.01"/></svg></span> <b>푸사리움 모닐리포르메</b><span class="chip-season">연중 (장마철·여름~초가을 증가, 국내 대기 포자 6~12월)</span></div>
+<div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="26" r="6"/><circle cx="11" cy="18" r="3"/><circle cx="17" cy="12" r="3"/><circle cx="23" cy="12" r="3"/><circle cx="29" cy="18" r="3"/></svg></span> <b>고양이 표피</b><span class="chip-season">연중</span></div>
+<div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="26" r="6"/><circle cx="11" cy="18" r="3"/><circle cx="17" cy="12" r="3"/><circle cx="23" cy="12" r="3"/><circle cx="29" cy="18" r="3"/></svg></span> <b>말 비듬</b><span class="chip-season">연중 (접촉할 때)</span></div>
+<div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 35V24"/><path d="M11 24h18L20 8z"/><path d="M14 18h12"/></svg></span> <b>포플러나무</b><span class="chip-season">봄 (3~4월)</span></div>
+<div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 35V24"/><path d="M11 24h18L20 8z"/><path d="M14 18h12"/></svg></span> <b>버드나무</b><span class="chip-season">봄 (3~4월)</span></div>
+<div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 35V24"/><path d="M11 24h18L20 8z"/><path d="M14 18h12"/></svg></span> <b>너도밤나무</b><span class="chip-season">봄 (4~5월)</span></div>
+<div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 35V15"/><path d="M20 25c-7 0-10-5-11-11 6 0 10 4 11 11zM20 20c7 0 10-5 11-11-6 0-10 4-11 11z"/></svg></span> <b>환삼덩굴</b><span class="chip-season">늦여름~가을 (8~10월)</span></div>
+<div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 35V15"/><path d="M20 25c-7 0-10-5-11-11 6 0 10 4 11 11zM20 20c7 0 10-5 11-11-6 0-10 4-11 11z"/></svg></span> <b>질경이</b><span class="chip-season">늦봄~가을 (5~9월)</span></div>
+<div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 35V15"/><path d="M20 25c-7 0-10-5-11-11 6 0 10 4 11 11zM20 20c7 0 10-5 11-11-6 0-10 4-11 11z"/></svg></span> <b>미역취</b><span class="chip-season">가을 (8~10월)</span></div>
+<div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 35V15"/><path d="M20 25c-7 0-10-5-11-11 6 0 10 4 11 11zM20 20c7 0 10-5 11-11-6 0-10 4-11 11z"/></svg></span> <b>국화</b><span class="chip-season">가을 (9~10월)</span></div>
+<div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 35V15"/><path d="M20 25c-7 0-10-5-11-11 6 0 10 4 11 11zM20 20c7 0 10-5 11-11-6 0-10 4-11 11z"/></svg></span> <b>쑥</b><span class="chip-season">늦여름~가을 (8~10월, 9~10월 피크)</span></div>
+<div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 35V13M14 35c0-8 2-13 4-17M26 35c0-8-2-13-4-17M9 35c0-5 2-9 5-11M31 35c0-5-2-9-5-11"/></svg></span> <b>넓은김의털</b><span class="chip-season">늦봄~여름 (5~7월)</span></div>
+<div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 35V13M14 35c0-8 2-13 4-17M26 35c0-8-2-13-4-17M9 35c0-5 2-9 5-11M31 35c0-5-2-9-5-11"/></svg></span> <b>오리새</b><span class="chip-season">늦봄~여름 (5~7월)</span></div>
+<div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="22" r="10"/><circle cx="20" cy="22" r="4"/><path d="M6 12v8M34 12v8"/></svg></span> <b>오렌지</b><span class="chip-season">먹었을 때</span></div></div>
+          <div class="stamp-verdict indet small">관찰 대상</div><div class="chips"><div class="chip"><span class="cat-stamp"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="20" cy="22" r="10"/><circle cx="20" cy="22" r="4"/><path d="M6 12v8M34 12v8"/></svg></span> <b>전복</b><span class="chip-season">먹었을 때</span></div></div>
+        <div class="cn-quiz"><div class="cn-quiz-t">🔎 확인 퀴즈</div><p class="cn-q">&#x27;감작만&#x27;인 항목은 어떻게 하면 될까요?</p><ul class="cn-opts"><li data-ok="0">증상이 없어도 평생 완전히 피해야 한다</li><li data-ok="1">과도한 회피는 필요 없지만, 증상이 새로 생기면 재평가한다</li></ul><p class="cn-exp"><b>정답 해설</b> 감작은 남아 있어 추적이 필요합니다.</p></div></div>
+        </div>
+<div class="card" data-kind="detail" data-i="8" role="group" aria-roledescription="slide" aria-label="8 / 14" data-fold="1">
+        <div class="section detail">
+          <div class="tag">🌱 예방과 관찰</div>
+          <h2>감작만 된 항목,<br/>이렇게 지켜보세요</h2>
+          <ul class="tips"><li>🛏️ <b>집먼지진드기</b> — 부담이 적은 것부터: 환기와 제습으로 실내가 눅눅하지 않게 유지하기; 이불·베개 커버를 평소 빨래할 때 함께 세탁하기. 여력이 되면(선택): 침구를 주 1회 55~60℃ 물로 세탁하고 진드기 차단 커버 씌우기. 지켜볼 증상: 아침에 일어났을 때나 이불을 털고 청소할 때의 재채기·맑은 콧물·코막힘, 눈 가려움, 밤이나 새벽의 기침·쌕쌕거림.</li><li>🌿 <b>꽃가루 · 포플러나무, 버드나무, 너도밤나무, 환삼덩굴, 질경이, 미역취, 국화, 쑥, 넓은김의털, 오리새</b> — 부담이 적은 것부터: 그 꽃가루가 많이 날리는 날에는 창문을 닫아 두기; 밖에 다녀오면 세수하고 겉옷 털기. 여력이 되면(선택): 꽃가루가 많은 날 바깥 활동 줄이기, 나갈 때 마스크·안경 쓰기. 지켜볼 증상: 그 꽃가루 시기에만 되풀이되는 재채기·콧물·코막힘, 눈 가려움·충혈, 기침·쌕쌕거림.</li><li>🍄 <b>곰팡이 · 클라도스포리움 헤르바룸, 뮤코르 라세모수스, 푸사리움 모닐리포르메</b> — 부담이 적은 것부터: 욕실과 주방은 쓴 뒤 환기하기; 눈에 보이는 곰팡이와 물이 새는 자리는 그때그때 없애기. 여력이 되면(선택): 제습기로 실내 습도를 50% 아래로 유지하기. 지켜볼 증상: 습한 공간이나 장마철에 심해지는 코 증상, 기침·쌕쌕거림.</li><li>🍽️ <b>음식 · 오렌지</b> — 증상 없이 드시던 음식은 이 결과만으로 끊지 않습니다. 음식은 노출을 줄이는 대상이 아니며, 불필요한 식이 제한은 오히려 해로울 수 있습니다. 지켜볼 증상: 먹고 2시간 안에 생기는 두드러기, 입술·얼굴 부기, 구토·복통, 숨참. 이런 증상이 그 음식을 먹은 뒤 생기면 그 음식을 적어 두고 진료를 받아 다시 평가하세요. 숨이 차거나 어지러우면 바로 응급실로 가세요.</li><li>🐈 <b>고양이 표피</b> — 평소 접촉이 많지 않다면 지금 따로 바꿀 것은 없어요. 새로 기르거나 동물을 다루는 일을 시작하기 전에는 진료에서 먼저 상의하세요. 지켜볼 증상: 그 동물과 가까이 있을 때의 재채기·콧물·코막힘, 눈 가려움·충혈, 기침·쌕쌕거림·숨참, 닿은 피부의 두드러기·가려움.</li><li>🐇 <b>말 비듬</b> — 평소 접촉이 많지 않다면 지금 따로 바꿀 것은 없어요. 새로 기르거나 동물을 다루는 일을 시작하기 전에는 진료에서 먼저 상의하세요. 지켜볼 증상: 그 동물과 가까이 있을 때의 재채기·콧물·코막힘, 눈 가려움·충혈, 기침·쌕쌕거림·숨참, 닿은 피부의 두드러기·가려움.</li><li>🩺 위 ‘지켜볼 증상’이 그 노출 상황에서 되풀이되면 진료를 받아 다시 평가하세요. 필요하면 재검사를 합니다. 기침·쌕쌕거림·숨참은 미루지 마세요.</li></ul><div class="mini-title">🟡 관찰 필요 — 지켜볼 증상</div><ul class="tips"><li>🍽️ <b>음식 · 전복</b> — 증상 없이 드시던 음식은 이 결과만으로 끊지 않습니다. 음식은 노출을 줄이는 대상이 아니며, 불필요한 식이 제한은 오히려 해로울 수 있습니다. 지켜볼 증상: 먹고 2시간 안에 생기는 두드러기, 입술·얼굴 부기, 구토·복통, 숨참. 이런 증상이 그 음식을 먹은 뒤 생기면 그 음식을 적어 두고 진료를 받아 다시 평가하세요. 숨이 차거나 어지러우면 바로 응급실로 가세요.</li></ul>
+        </div></div>
+<div class="card" data-kind="prevention" data-i="9" role="group" aria-roledescription="slide" aria-label="9 / 14" data-check="1">
+        <div class="section prevention">
+          <div class="tag">🛡️ 예방·관리</div>
+          <h2>우선 실천할<br/>생활 수칙</h2>
+          
+          <ul class="tips"><li>🛏️ 매트리스·베개·이불에 촘촘히 짠 진드기 차단 커버를 씌우고 커버도 정기적으로 세탁하세요(커버만으로는 부족하니 세탁·카펫 제거·습도 조절과 함께).</li>
+<li>🐾 침실에는 들이지 말고 문을 닫아 두세요</li>
+<li>🛏️ 침구(시트·베갯잇·이불커버)를 주 1회 55~60℃ 이상 뜨거운 물로 20분 이상 세탁하세요(찬물·드라이클리닝은 부족합니다).</li>
+<li>🐾 바닥·가구는 주 1회 청소, 침구는 주 1회 60℃ 세탁</li>
+<li>🛏️ 침실의 카펫·천 소파·봉제인형·커튼을 치우고 바닥은 닦을 수 있는 재질로 바꾸세요. 봉제인형은 세탁하거나 24시간 냉동 후 세탁하세요.</li>
+<li>🐾 공기청정기만으로는 증상이 줄지 않을 수 있어요</li></ul>
+          <div class="mini-title">📚 왜 이렇게 하나요</div><ul class="tips"><li><strong>집먼지진드기</strong> · 집먼지진드기 알레르겐은 배설물 알갱이에 들어 있어 이불을 털거나 청소할 때만 잠깐 공기 중에 떠 있습니다.</li><li><strong>개</strong> · 개 알레르겐은 작은 비듬 입자에 실려 공기 중에 머뭅니다.</li></ul><p class="desc">알레르기 교과서를 정리한 일반 정보예요(전문의 검토 전). 약을 바꾸라는 뜻은 아니에요.</p>
+        </div>
+        </div>
+<div class="card" data-kind="treatment" data-i="10" role="group" aria-roledescription="slide" aria-label="10 / 14">
+        <div class="section treatment">
+          <div class="tag">🩺 치료와 연결하기</div>
+          <h2>노출과 증상,<br/>이렇게 이어집니다</h2>
+          <ul class="tips">
+            <li>🔗 <b>집먼지진드기:</b> 잠자는 동안의 침구(이불·베개·매트리스), 그리고 이불을 털거나 청소할 때 → 알려주신 <b>알레르기 비염</b>.</li><li>🔗 <b>개 표피:</b> 집 안에서 함께 지내는 내내, 특히 안거나 같은 방에서 잘 때 → 알려주신 <b>알레르기 비염</b>.</li>
+            
+            <li>🧑‍⚕️ <b>다시 평가:</b> 증상이 새로 생기거나 달라지면 담당 의료진과 다시 평가하세요.</li>
+          </ul>
+        </div>
+        </div>
+<div class="card" data-kind="detail" data-i="11" role="group" aria-roledescription="slide" aria-label="11 / 14" data-fold="1">
+        <div class="section detail">
+          <div class="tag">💊 내 약 이해하기</div>
+          <h2>약물 치료에 대해</h2>
+          <ul class="tips"><li>📝 알레르기 비염 진단을 받았다고 하셨고, 지금 쓰는 약은 고르지 않으셨습니다. 증상이 이어지거나 생활에 지장이 있으면 어떤 치료가 맞는지 진료에서 상의하세요.</li><li>🧑‍⚕️ 약을 새로 쓰거나, 그만 쓰거나, 양을 바꾸는 일은 스스로 정하지 말고 진료에서 상의하세요.</li></ul>
+        </div></div>
+<div class="card" data-kind="immunotherapy" data-i="12" role="group" aria-roledescription="slide" aria-label="12 / 14">
+        <div class="section treatment">
+          <div class="tag">💉 면역치료</div>
+          <h2>진료에서 상의할 수 있는<br/>선택지</h2>
+          <p class="desc">검사 양성이면서 <b>증상까지 확인된</b> 알러젠 가운데 면역치료가 가능한 항원이에요.</p>
+          <ul class="tips">
+            <li><b>💉 집먼지진드기</b> — 피하주사·설하. 국내 허가 피하 추출물(Tyrosine S, Novo-Helisen Depot, Hollister-Stier)과 설하 제제(Staloral 액, Actair 정, Acarizax 정, Lais 정)가 있습니다. 국내 설하면역치료 제품은 모두 집먼지진드기용입니다.</li><li><b>💉 개</b> — 피하주사. 국내 허가 피하 추출물(Tyrosine S, Novo-Helisen Depot, Hollister-Stier)이 있습니다.</li>
+            
+            <li>🧑‍⚕️ 시작하라는 권고가 아니에요. 증상과 약 조절 정도를 보고 <b>담당 의료진이 판단</b>해요. 보통 3년 이상 이어 가는 치료예요.</li>
+          </ul>
+          <p class="desc" style="margin-top:8px;font-size:11px">출처: KAAACI 알레르겐 면역치료 진료지침(2023)·설하면역치료 지침(2024). 국내 사용 가능 여부는 발간 시점 기준.</p>
+        <div class="cn-quiz"><div class="cn-quiz-t">🔎 확인 퀴즈</div><p class="cn-q">이 카드는 면역치료를 시작하라는 권고일까요?</p><ul class="cn-opts"><li data-ok="1">아니요, 증상과 약 조절 정도를 보고 담당 의료진이 판단한다</li><li data-ok="0">네, 검사가 양성이면 바로 시작한다</li></ul><p class="cn-exp"><b>정답 해설</b> 진료에서 상의해 볼 수 있는 선택지를 알려 드리는 카드입니다.</p></div></div></div>
+<div class="card" data-kind="knowledge" data-i="13" role="group" aria-roledescription="slide" aria-label="13 / 14" data-fold="1">
+        <div class="section knowledge">
+          <div class="tag">📚 질환 알아보기</div>
+          <h2>알아두면 좋은<br/>질환 정보</h2>
+          <p class="desc"><b>알레르기 비염</b> — 꽃가루·먼지·곰팡이·동물 비듬·바퀴벌레나 집먼지진드기 배설물 같은 알레르기 유발 물질 때문에 코 점막에 알레르기 염증이 생기는 병입니다. 재채기, 콧물, 코막힘, 눈 가려움과 눈물이 나타납니다.</p><ul class="tips"><li>🤧 <b>흔한 증상:</b> 재채기, 코막힘·코 가려움, 눈물, 눈 주위 부기</li><li>🩹 <b>일반적인 관리:</b> 비강 스테로이드 스프레이, 항히스타민제, 코 세척, 알레르기 면역치료 — 선택은 의료진과</li><li>🔗 <b>함께 나타날 수 있어요:</b> 천식, 아토피 피부염, 알레르기 결막염</li></ul>
+          <p class="src">위키백과 기반 온톨로지에서 고른 일반 정보예요. 전문가 검토 전이며, 내 검사 결과가 아니에요.</p>
+        </div></div>
+<div class="card" data-kind="closing" data-i="14" role="group" aria-roledescription="slide" aria-label="14 / 14">
+        <div class="closing">
+          <div class="tag light">✅ 정리</div>
+          <h2>공개 합성 사례님,<br/>탐험의 핵심은 '증상과의 연결'</h2>
+          <p class="desc light">검사 양성은 <b>감작</b>을 뜻할 뿐입니다. 실제로 <b>노출될 때 증상이 나타나는 알러젠</b>에 집중해 관리하세요.</p>
+          <p class="note">본 카드뉴스는 교육용 참고 자료이며, 정확한 진단·치료는 담당 의료진과 상담하세요.</p>
+        <div class="cn-quiz light"><div class="cn-quiz-t">🔎 확인 퀴즈</div><p class="cn-q">검사 &#x27;양성&#x27;이 뜻하는 것은 무엇일까요?</p><ul class="cn-opts"><li data-ok="0">그 알러젠에 반드시 알레르기가 있다</li><li data-ok="1">감작 — 실제 알레르기인지는 노출될 때의 증상으로 확인한다</li></ul><p class="cn-exp"><b>정답 해설</b> 노출될 때 증상이 나타나는 알러젠에 집중해 관리하세요.</p></div></div>
+        </div></div>
+  <div class="cn-nav cn-ui">
+    <button type="button" id="cnPrev"><span aria-hidden="true">←</span><span class="sr">이전 카드</span></button>
+    <div class="cn-dots" id="cnDots"></div>
+    <button type="button" id="cnNext"><span aria-hidden="true">→</span><span class="sr">다음 카드</span></button>
+  </div>
+  <p class="hint">← 좌우로 넘겨 보세요 · <span class="cn-js">긴 카드는 카드 안에서 위아래로 넘겨 보세요 · </span>캡처하여 공유할 수 있습니다 →</p>
+  <div id="cnText" hidden><span data-k="more">↓ 아래로 더 있어요</span><span data-k="right">맞아요!</span><span data-k="wrong">다시 골라 보세요.</span><span data-k="check">내 실천 체크</span><span data-k="openAll">설명 모두 펼치기</span><span data-k="closeAll">설명 모두 접기</span></div>
+  <script>
+function cnChecklist(deck, labelText) {
+  var doc = document, known = {}, cards = {}, paints = [];
+  var KEY = 'cardnews:' + doc.title + ':';
+  var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+                set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+  var framed = false; try { framed = !!window.parent && window.parent !== window; } catch (e) {}
+  function post(m) { if (!framed) return; m.source = 'allergy-cardnews'; m.v = 1; try { window.parent.postMessage(m, '*'); } catch (e) {} }
+  [].forEach.call(deck.querySelectorAll('.card[data-check]'), function (card) {
+    var list = card.querySelector('.tips'), ci = card.getAttribute('data-i') || '';
+    if (!list || !/^[1-9][0-9]{0,2}$/.test(ci)) return;
+    var items = [].slice.call(list.children, 0, 40); if (!items.length) return;
+    var head = doc.createElement('div'); head.className = 'cn-check-t';
+    var label = doc.createElement('span'), count = doc.createElement('span'); label.textContent = labelText; head.appendChild(label); head.appendChild(doc.createTextNode(' ')); head.appendChild(count);
+    list.parentNode.insertBefore(head, list);
+    function paint() { var n = items.filter(function (li) { return li.getAttribute('aria-checked') === 'true'; }).length; count.textContent = n + ' / ' + items.length; }
+    items.forEach(function (li, k) {
+      var id = ci + ':' + k;
+      li.setAttribute('role', 'checkbox'); li.tabIndex = 0;
+      li.setAttribute('aria-checked', store.get(KEY + id) === '1' ? 'true' : 'false');
+      function toggle() { var on = li.getAttribute('aria-checked') !== 'true'; li.setAttribute('aria-checked', on ? 'true' : 'false'); store.set(KEY + id, on ? '1' : '0'); post({ type: 'set', id: id, on: on }); paint(); }
+      li.addEventListener('click', toggle);
+      li.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); toggle(); } });
+      known[id] = li;
+    });
+    cards[ci] = items.length; paints.push(paint); paint();
+  });
+  if (!framed || !paints.length) return;
+  var has = Object.prototype.hasOwnProperty;
+  window.addEventListener('message', function (e) {
+    if (e.source !== window.parent) return;
+    var d = e.data; if (!d || typeof d !== 'object' || d.source !== 'allergy-app' || d.v !== 1 || d.type !== 'state') return;
+    var c = d.checks; if (!c || typeof c !== 'object' || Array.isArray(c)) return;
+    for (var id in known) { if (has.call(known, id) && has.call(c, id) && typeof c[id] === 'boolean') known[id].setAttribute('aria-checked', c[id] ? 'true' : 'false'); }
+    paints.forEach(function (f) { f(); });
+  });
+  post({ type: 'hello', cards: cards });
+}
+
+(function () {
+  var doc = document, root = doc.documentElement, deck = doc.getElementById('deck');
+  if (!deck || !deck.querySelectorAll) return;
+  var cards = [].slice.call(deck.querySelectorAll('.card')); if (!cards.length) return;
+  root.className += ' js';
+  var T = {}; [].forEach.call(doc.querySelectorAll('#cnText [data-k]'), function (e) { T[e.getAttribute('data-k')] = e.textContent; });
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cur = -1, want = 0, wantAt = 0, seen = {}, solved = 0;
+  var elI = doc.getElementById('cnI'), elQ = doc.getElementById('cnQ'), bar = doc.querySelector('.cn-bar'), fill = doc.querySelector('.cn-bar i');
+  var prev = doc.getElementById('cnPrev'), next = doc.getElementById('cnNext'), dotsBox = doc.getElementById('cnDots'), done = doc.getElementById('cnDone');
+  var dots = cards.map(function (c, i) {
+    var b = doc.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', (i + 1) + ' / ' + cards.length);
+    b.onclick = function () { go(i); }; dotsBox.appendChild(b); return b;
+  });
+  function go(i) {
+    i = Math.max(0, Math.min(cards.length - 1, i));
+    want = i; wantAt = Date.now();   // 부드럽게 넘기는 중에 또 누르면 그다음 카드로 이어 간다
+    var c = cards[i];
+    deck.scrollTo({ left: c.offsetLeft - (deck.clientWidth - c.offsetWidth) / 2, behavior: reduce ? 'auto' : 'smooth' });
+  }
+  function sync() {
+    var mid = deck.scrollLeft + deck.clientWidth / 2, best = 0, bestD = 1e9;
+    cards.forEach(function (c, i) {
+      var d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid);
+      if (d < bestD) { bestD = d; best = i; }
+    });
+    if (Date.now() - wantAt > 700) want = best;   // 손으로 넘긴 경우
+    // 화면에 조금이라도 걸친 카드는 내용을 드러낸다(가운데 카드는 덱 너비를 못 재는 순간에도 드러낸다)
+    var left = deck.scrollLeft, right = left + deck.clientWidth;
+    cards.forEach(function (c, i) { if (i === best || (c.offsetLeft < right && c.offsetLeft + c.offsetWidth > left)) c.classList.add('in'); });
+    if (best === cur) return;
+    cur = best; seen[cur] = true;
+    cards.forEach(function (c, i) { c.classList.toggle('active', i === cur); if (i === cur) c.classList.add('seen'); });
+    dots.forEach(function (d, i) { d.classList.toggle('on', i === cur); d.classList.toggle('seen', !!seen[i]); if (i === cur) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
+    var n = Object.keys(seen).length;
+    elI.textContent = cur + 1; fill.style.transform = 'scaleX(' + (n / cards.length) + ')';
+    bar.setAttribute('aria-valuenow', n);
+    prev.disabled = cur === 0; next.disabled = cur === cards.length - 1;
+    if (done) done.hidden = n < cards.length;
+  }
+  var raf = 0;
+  deck.addEventListener('scroll', function () { if (raf) return; raf = requestAnimationFrame(function () { raf = 0; sync(); }); });
+  window.addEventListener('resize', sync);
+  prev.onclick = function () { go(want - 1); }; next.onclick = function () { go(want + 1); };
+  doc.addEventListener('keydown', function (e) {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.key === 'ArrowRight') { e.preventDefault(); go(want + 1); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); go(want - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); go(0); }
+    else if (e.key === 'End') { e.preventDefault(); go(cards.length - 1); }
+  });
+  function keyAct(el, fn) {
+    el.addEventListener('click', fn);
+    el.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); fn(e); } });
+  }
+
+  // 긴 카드: 본문이 카드 높이를 넘으면 '아래로 더 있어요' 알약을 띄우고, 누르면 한 화면 내린다.
+  // 접힌 설명을 펼치거나 창 크기가 바뀌면 다시 잰다. 끝까지 내리면 사라진다.
+  var moreChecks = cards.map(function (card) {
+    var box = card.firstElementChild; if (!box) return function () {};
+    var b = doc.createElement('button'); b.type = 'button'; b.className = 'cn-more'; b.textContent = T.more || '↓';
+    b.onclick = function () { box.scrollBy({ top: Math.max(120, box.clientHeight - 80), behavior: reduce ? 'auto' : 'smooth' }); };
+    card.appendChild(b);
+    function check() { card.classList.toggle('more', box.scrollHeight - box.scrollTop - box.clientHeight > 12); }
+    box.addEventListener('scroll', check);
+    return check;
+  });
+  function checkMore() { moreChecks.forEach(function (f) { f(); }); }
+  window.addEventListener('resize', checkMore);
+  deck.addEventListener('click', function () { setTimeout(checkMore, 60); });
+  deck.addEventListener('keyup', function () { setTimeout(checkMore, 60); });
+
+  // 확인 퀴즈: 보기 목록을 버튼으로 바꾼다. 틀려도 다시 고를 수 있고, 맞히면 해설이 열린다.
+  [].forEach.call(deck.querySelectorAll('.cn-quiz'), function (q) {
+    var note = doc.createElement('p'); note.className = 'cn-try'; note.setAttribute('aria-live', 'polite');
+    [].forEach.call(q.querySelectorAll('.cn-opts li'), function (li) {
+      var b = doc.createElement('button'); b.type = 'button'; b.textContent = li.textContent; var ok = li.getAttribute('data-ok') === '1';
+      li.textContent = ''; li.removeAttribute('data-ok'); li.style.cssText = 'padding:0;border:0;background:none'; li.appendChild(b);
+      b.onclick = function () {
+        if (q.classList.contains('solved')) return;
+        if (ok) { b.classList.add('right'); q.classList.add('solved'); note.textContent = T.right || ''; solved++; elQ.textContent = solved;
+          [].forEach.call(q.querySelectorAll('button'), function (x) { if (x !== b) x.disabled = true; }); }
+        else { b.classList.add('wrong'); b.disabled = true; note.textContent = T.wrong || ''; }
+      };
+    });
+    q.insertBefore(note, q.querySelector('.cn-exp'));
+  });
+
+  // 내 실천 체크: 수칙 목록을 체크 항목으로(위 cnChecklist — 클래식 카드뉴스와 함께 쓴다).
+  cnChecklist(deck, T.check || '');
+
+  // 눌러서 펼치기: 배경 설명 문단만. 굵은 머리말이 있는 문단을 한 줄로 접어 두고 누르면 펼친다.
+  var folds = [];
+  [].forEach.call(deck.querySelectorAll('.card[data-fold] .desc'), function (p) {
+    if (!p.querySelector('b') || p.textContent.length < 60) return;
+    p.classList.add('cn-fold'); p.setAttribute('role', 'button'); p.tabIndex = 0; p.setAttribute('aria-expanded', 'false');
+    keyAct(p, function () { var on = p.classList.toggle('open'); p.setAttribute('aria-expanded', on ? 'true' : 'false'); });
+    folds.push(p);
+  });
+  var openAll = doc.getElementById('cnOpen');
+  if (openAll) {
+    if (!folds.length) openAll.hidden = true;
+    openAll.onclick = function () {
+      var on = !folds.every(function (p) { return p.classList.contains('open'); });
+      folds.forEach(function (p) { p.classList.toggle('open', on); p.setAttribute('aria-expanded', on ? 'true' : 'false'); });
+      openAll.textContent = on ? (T.closeAll || '') : (T.openAll || '');
+    };
+  }
+  sync();
+  checkMore(); setTimeout(checkMore, 700);   // 글꼴이 늦게 실리면 높이가 달라진다
+})();
+</script>
+<aside style="max-width:680px;margin:20px auto;padding:14px;border:2px solid #d9a441;border-radius:12px;background:#fff8e5;font:14px Arial,sans-serif">합성 검사지와 가상 환자의 문진 답변으로 만든 카드뉴스입니다.</aside><nav aria-label="연구 전시" style="max-width:1120px;margin:12px auto;padding:0 16px;font:15px sans-serif"><a style="color:#155d64" href="../index.html#showcase">← 예시 결과물 목록</a></nav></body></html>

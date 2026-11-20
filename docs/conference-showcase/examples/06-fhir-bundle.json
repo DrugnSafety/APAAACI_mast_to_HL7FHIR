@@ -1,0 +1,5480 @@
+{
+  "resourceType": "Bundle",
+  "id": "apaaaci-synthetic-mast-001",
+  "meta": {
+    "tag": [
+      {
+        "system": "https://example.org/apaaaci/data-class",
+        "code": "synthetic",
+        "display": "Synthetic public showcase data"
+      }
+    ]
+  },
+  "type": "collection",
+  "timestamp": "2026-08-04T09:00:00+09:00",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "showcase-patient",
+        "identifier": [
+          {
+            "system": "https://example.org/apaaaci/synthetic-case",
+            "value": "APAAACI-SYNTH-MAST-001"
+          }
+        ],
+        "name": [
+          {
+            "use": "usual",
+            "text": "Public synthetic case"
+          }
+        ],
+        "meta": {
+          "tag": [
+            {
+              "system": "https://example.org/apaaaci/data-class",
+              "code": "synthetic",
+              "display": "Synthetic public showcase data"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:bb9c44a6-0fcb-536e-9015-bcf1b3823b90",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-001",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - 2-spotted spider mite"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.15,
+          "comparator": "<",
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "106854009",
+                  "display": "Family Tetranychidae"
+                }
+              ],
+              "text": "2-spotted spider mite (점박이응애)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:56c7be3e-18fb-5c37-a382-c583b6e5d052",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-002",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Tyrophagus putrescentiae"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.23,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "711098005",
+                  "display": "Tyrophagus putrescentiae protein"
+                }
+              ],
+              "text": "Tyrophagus putrescentiae (긴털가루진드기)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:35f0eb82-8951-5c9b-9afb-63515ec43be7",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-003",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Dermatophagoides farinae"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.64,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "112476003",
+                  "display": "Dermatophagoides farinae"
+                }
+              ],
+              "text": "Dermatophagoides farinae (미국집먼지진드기)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 1
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:e4be17e2-c4f2-57aa-8db9-ea4c74294d73",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-004",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Dermatophagoides pteronyssinus"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.67,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "711094007",
+                  "display": "Dermatophagoides pteronyssinus protein"
+                }
+              ],
+              "text": "Dermatophagoides pteronyssinus (유럽 집먼지진드기)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 1
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:38d1ed07-ee47-599e-b0e9-4f5d3bc72e49",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-005",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Cladosporium herbarum"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.69,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "3459008",
+                  "display": "Cladosporium herbarum"
+                }
+              ],
+              "text": "Cladosporium herbarum (클라도스포리움 헤르바룸)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 1
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0ec99bc6-4cf8-54ec-a21d-dc5bf4c1ee5e",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-006",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Outdoor mold mixture"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.29,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "722071008",
+                  "display": "Mold antigen"
+                }
+              ],
+              "text": "Outdoor mold mixture (실외 곰팡이 혼합)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a2917d6f-1d4d-5435-9d1a-abde83ca8989",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-007",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Alternaria alternata"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.03,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "36703000",
+                  "display": "Alternaria alternata"
+                }
+              ],
+              "text": "Alternaria alternata (얼터나리아)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ec86ce0e-16af-5c19-9e2e-253023188bdf",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-008",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Aspergillus niger"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.27,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "89354002",
+                  "display": "Aspergillus niger"
+                }
+              ],
+              "text": "Aspergillus niger (아스페르길루스 니거)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:32f90d2a-758e-57ae-ba50-6f0341b93a6f",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-009",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Neurospora"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.09,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "708254003",
+                  "display": "Neurospora"
+                }
+              ],
+              "text": "Neurospora (뉴로스포라)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c63d4dc0-b5d3-58c6-a5d9-80dc92de08a5",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-010",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Indoor mold mixture"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.27,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "722071008",
+                  "display": "Mold antigen"
+                }
+              ],
+              "text": "Indoor mold mixture (실내 곰팡이 혼합)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d02d6c57-9d6c-5b0c-8390-fb6ce2dd124e",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-011",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Mucor racemosus"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.63,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "29589005",
+                  "display": "Mucor racemosus"
+                }
+              ],
+              "text": "Mucor racemosus (뮤코르 라세모수스)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 1
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1d39a4ff-1d6e-5c8d-8af5-826bc4936ab9",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-012",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Fusarium"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.49,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "35238009",
+                  "display": "Fusarium"
+                }
+              ],
+              "text": "Fusarium (푸사리움 모닐리포르메)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 1
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:73946bb5-1122-50b1-adb4-ab6b556238cc",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-013",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Penicillium"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.17,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "42993004",
+                  "display": "Penicillium"
+                }
+              ],
+              "text": "Penicillium (페니실리움)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f4d0db13-8d6c-5120-baa0-eff0ee8d1c18",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-014",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Aspergillus fumigatus"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.15,
+          "comparator": "<",
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "32684000",
+                  "display": "Aspergillus fumigatus"
+                }
+              ],
+              "text": "Aspergillus fumigatus (아스페르길루스 푸미가투스)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:e50d864b-3a56-5af5-8193-8b4c43027255",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-015",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Candida albicans"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.01,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "53326005",
+                  "display": "Candida albicans"
+                }
+              ],
+              "text": "Candida albicans (칸디다 알비칸스)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9345f445-e41c-591e-bfab-80f0fa8641bd",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-016",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Cat dander"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.68,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "260152009",
+                  "display": "Cat dander"
+                }
+              ],
+              "text": "Cat dander (고양이 표피)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 1
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:abd87540-0ec7-52b8-9c04-3f599e7f46db",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-017",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Dog dander"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 7.14,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "260154005",
+                  "display": "Dog dander"
+                }
+              ],
+              "text": "Dog dander (개 표피)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 3
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:997caabe-c229-5f91-a91d-35c8ff11389e",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-018",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Rabbit epithelium"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.15,
+          "comparator": "<",
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256421005",
+                  "display": "Rabbit epithelium"
+                }
+              ],
+              "text": "Rabbit epithelium (토끼 상피)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d7e67fdc-9b16-5a14-b814-ea05daa75d05",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-019",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Hamster"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.17,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "260164001",
+                  "display": "Hamster epithelium"
+                }
+              ],
+              "text": "Hamster (햄스터)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:165791cf-6296-54ea-b506-e54c7a495dba",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-020",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Cow dander"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.25,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "260153004",
+                  "display": "Cow dander (substance)"
+                }
+              ],
+              "text": "Cow dander (소 비듬)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:92d4000a-26e1-59cd-9e7b-acbb6c9a6686",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-021",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Mouse"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.23,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256419000",
+                  "display": "Mouse epithelium"
+                }
+              ],
+              "text": "Mouse (생쥐)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4d698672-b70e-5d72-a73a-84bdd81a0d19",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-022",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Guinea pig"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.06,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "703927007",
+                  "display": "Guinea pig dander"
+                }
+              ],
+              "text": "Guinea pig (기니피그)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b31aa775-3bc5-5a74-b40b-b49ed1a23589",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-023",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Chicken"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.15,
+          "comparator": "<",
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "260165000",
+                  "display": "Chicken feathers"
+                }
+              ],
+              "text": "Chicken (닭)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4500b820-588a-51d0-9894-0556943f3d81",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-024",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Horse dander"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 1.78,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256417003",
+                  "display": "Horse dander (substance)"
+                }
+              ],
+              "text": "Horse dander (말 비듬)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 2
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7fcbccd3-74cd-5747-8806-8ab57c95fb3a",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-025",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Rat epithelium"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.15,
+          "comparator": "<",
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256422003",
+                  "display": "Rat epithelium"
+                }
+              ],
+              "text": "Rat epithelium (쥐 상피)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:addc566c-8596-5594-9f65-678114391d6b",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-026",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Cockroach, German"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.2,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "710930006",
+                  "display": "German cockroach protein"
+                }
+              ],
+              "text": "Cockroach, German (독일바퀴)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c9729d21-93fc-57d9-8ceb-92423b1250a8",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-027",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Cockroach, Mix"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.15,
+          "comparator": "<",
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "710943006",
+                  "display": "Cockroach protein"
+                }
+              ],
+              "text": "Cockroach, Mix (바퀴벌레)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8f8c6a5d-3735-5d21-b337-cf3e16808084",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-028",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Cockroach, American"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.09,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "710937009",
+                  "display": "American cockroach protein"
+                }
+              ],
+              "text": "Cockroach, American (미국바퀴)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b2b2f66c-f09e-59d9-b9f0-185308032ffd",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-029",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Poplar"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.35,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256269005",
+                  "display": "Poplar pollen"
+                }
+              ],
+              "text": "Poplar (포플러나무)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 1
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f9bac937-4b73-5615-8719-de24251e06c5",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-030",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Hazel"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.01,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256263006",
+                  "display": "Hazel pollen"
+                }
+              ],
+              "text": "Hazel (개암나무)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7e291e71-de95-512a-9582-fb21ae24f196",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-031",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Oak"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.15,
+          "comparator": "<",
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256270006",
+                  "display": "Oak pollen"
+                }
+              ],
+              "text": "Oak (참나무)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0be3a195-2a0c-596d-8093-7caee3e9f374",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-032",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Tree mixture 2"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.15,
+          "comparator": "<",
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "782576004",
+                  "display": "Tree pollen"
+                }
+              ],
+              "text": "Tree mixture 2 (나무 꽃가루 혼합-2)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:92af4792-edd9-5e08-8d7e-6e895f0e2628",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-033",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Plane"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.29,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256268002",
+                  "display": "Plane pollen"
+                }
+              ],
+              "text": "Plane (양버즘나무)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:fb9deec2-024d-5c2e-8749-a4e5b12be7cd",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-034",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Birch"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.15,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256262001",
+                  "display": "European white birch pollen"
+                }
+              ],
+              "text": "Birch (자작나무)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:fec9735b-5085-5365-98c3-fb4539db1dde",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-035",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Olive"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.15,
+          "comparator": "<",
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "260126003",
+                  "display": "Olive pollen"
+                }
+              ],
+              "text": "Olive (올리브)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:2c1d052d-9794-59d0-9a3a-a7f449cf1e35",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-036",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Willow"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.38,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256271005",
+                  "display": "Willow pollen"
+                }
+              ],
+              "text": "Willow (버드나무)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 1
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c7cd491f-c0a4-52b5-979a-e2c0fca03995",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-037",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Pine"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.28,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256267007",
+                  "display": "Pine pollen"
+                }
+              ],
+              "text": "Pine (소나무)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7499c5fc-da10-5260-ae6c-107097aec175",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-038",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Beech"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 32.55,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256265004",
+                  "display": "Beech pollen"
+                }
+              ],
+              "text": "Beech (너도밤나무)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 4
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:bab0a473-ed03-5b2d-b93b-ce8df860f1b0",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-039",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Japanese cedar"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.13,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "260130000",
+                  "display": "Japanese cedar pollen"
+                }
+              ],
+              "text": "Japanese cedar (삼나무)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:73cc2e83-ab81-5330-bf79-538656e64ba8",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-040",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Ragweed"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.15,
+          "comparator": "<",
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256303006",
+                  "display": "Ragweed pollen"
+                }
+              ],
+              "text": "Ragweed (돼지풀)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:76548ad4-ff11-551a-87e8-54f866cdaadb",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-041",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Lamb's quarters"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.15,
+          "comparator": "<",
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "260110004",
+                  "display": "Lamb's quarters pollen"
+                }
+              ],
+              "text": "Lamb's quarters (명아주)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:af94414b-2a7c-5b59-9341-769de30152eb",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-042",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Dandelion"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.15,
+          "comparator": "<",
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256297004",
+                  "display": "Dandelion pollen"
+                }
+              ],
+              "text": "Dandelion (서양민들레)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:538ebe0d-24ca-5a95-8d73-32d952bf37b1",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-043",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Nettle"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.15,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256298009",
+                  "display": "Nettle pollen"
+                }
+              ],
+              "text": "Nettle (쐐기풀)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3e37bade-79e3-51ca-867b-ba7ff1d7422e",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-044",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Japanese hop"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.62,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "260119003",
+                  "display": "Japanese hop pollen"
+                }
+              ],
+              "text": "Japanese hop (환삼덩굴)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 1
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:58c24fec-19ca-544a-a8ff-43b9dadbb54b",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-045",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - English plantain"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 16.79,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256294006",
+                  "display": "English plantain pollen"
+                }
+              ],
+              "text": "English plantain (질경이)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 3
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:42c4bfcc-a9fa-54e4-835d-dea52916e830",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-046",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Goldenrod"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 13.82,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "710907000",
+                  "display": "Goldenrod pollen"
+                }
+              ],
+              "text": "Goldenrod (미역취)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 3
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:e2270b9b-294c-5778-8a32-28b35483fdcb",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-047",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Chrysanthemum"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.44,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256289006",
+                  "display": "Chrysanthemum pollen"
+                }
+              ],
+              "text": "Chrysanthemum (국화)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 1
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1964874e-d475-554c-9e86-0c8d9b81c030",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-048",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Russian thistle"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.26,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "260111000",
+                  "display": "Russian thistle pollen"
+                }
+              ],
+              "text": "Russian thistle (러시안 엉겅퀴)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3e000c29-80ee-5d61-966a-305f9ea85bbb",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-049",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Mugwort"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 1.48,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256293000",
+                  "display": "Mugwort pollen"
+                }
+              ],
+              "text": "Mugwort (쑥)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 2
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8737645d-7915-5768-9734-9b4038ad31ae",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-050",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Velvet grass"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.24,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256282002",
+                  "display": "Velvet grass pollen"
+                }
+              ],
+              "text": "Velvet grass (잔디)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d92c3d1f-98ec-5eeb-ac53-7edd2d6563b3",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-051",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Meadow fescue"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.45,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256279007",
+                  "display": "Meadow fescue pollen"
+                }
+              ],
+              "text": "Meadow fescue (넓은김의털)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 1
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:995ba988-bc6c-5616-9283-064cf2517f40",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-052",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Grass"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.02,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256277009",
+                  "display": "Grass pollen"
+                }
+              ],
+              "text": "Grass (잔디 꽃가루 혼합)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8286ba2b-4cef-57c6-8bee-4ae92d079018",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-053",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Cultivated oat"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.19,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "260098008",
+                  "display": "Cultivated oat pollen"
+                }
+              ],
+              "text": "Cultivated oat (귀리)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:21df64c1-50d5-5b2f-83f4-d1f80fca3a2a",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-054",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Kentucky blue grass"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.14,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256286004",
+                  "display": "Kentucky blue grass pollen"
+                }
+              ],
+              "text": "Kentucky blue grass (왕포아풀)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3355c368-b2c5-5686-89cb-553ccba386d5",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-055",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Bermuda grass"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.26,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "260089005",
+                  "display": "Bermuda grass pollen"
+                }
+              ],
+              "text": "Bermuda grass (우산잔디)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:52054512-eae5-59df-a2c3-489698ed11df",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-056",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Timothy"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.19,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256281009",
+                  "display": "Timothy grass pollen"
+                }
+              ],
+              "text": "Timothy (티모시)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a505679c-25b1-5c9d-826f-a3c0d8024bfd",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-057",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Rye grass, perennial"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.04,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "1264573001",
+                  "display": "Perennial rye grass pollen"
+                }
+              ],
+              "text": "Rye grass, perennial (호밀풀)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ebd731c4-f68f-5af3-885d-35227d751fb2",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-058",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Orchard grass"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.46,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256278004",
+                  "display": "Dactylis (orchardgrass) pollen"
+                }
+              ],
+              "text": "Orchard grass (오리새)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 1
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:dd4e524c-1cea-5f3a-add1-8a5baac1c027",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-059",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Mustard"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.15,
+          "comparator": "<",
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "51905005",
+                  "display": "Mustard"
+                }
+              ],
+              "text": "Mustard (겨자)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b36b9304-6893-56cb-920c-3be1b33b68db",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-060",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Mackerel"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.07,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "735043001",
+                  "display": "Mackerel"
+                }
+              ],
+              "text": "Mackerel (고등어)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4c2154c6-a937-5265-a1ce-124b02fe379b",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-061",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Lentil"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.33,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "227350006",
+                  "display": "Lentils"
+                }
+              ],
+              "text": "Lentil (렌즈콩)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3f9505e8-c722-5151-8eb0-ad8781ad9fba",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-062",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Shrimp"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.15,
+          "comparator": "<",
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "278840001",
+                  "display": "Shrimp"
+                }
+              ],
+              "text": "Shrimp (새우)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:804eadb6-4e18-5385-a193-00587f2307c7",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-063",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Orange"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 5.66,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256306003",
+                  "display": "Orange - fruit"
+                }
+              ],
+              "text": "Orange (오렌지)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 3
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9b408ad9-abc4-509a-9887-207870b08869",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-064",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Pistachio"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.15,
+          "comparator": "<",
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "227512001",
+                  "display": "Pistachio nut (substance)"
+                }
+              ],
+              "text": "Pistachio (피스타치오)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:44b4ff28-88f5-5fb6-a4a6-936b2d5697f9",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-065",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Grape"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.14,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256317002",
+                  "display": "Grapes"
+                }
+              ],
+              "text": "Grape (포도)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c34c5b41-cb16-5f32-a2ca-da528febccec",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-066",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Cashew"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.13,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "227493005",
+                  "display": "Cashew nut (substance)"
+                }
+              ],
+              "text": "Cashew (캐슈넛)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8a48d5aa-7641-58db-81a8-0835242af3c8",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-067",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Pineapple"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.33,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "256313003",
+                  "display": "Pineapple"
+                }
+              ],
+              "text": "Pineapple (파인애플)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:46b2eff1-679c-5eb5-afd3-1ba67015921a",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-068",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Pecan"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 0.15,
+          "comparator": "<",
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "NEG",
+                "display": "Negative"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "260189007",
+                  "display": "Pecan nut (substance)"
+                }
+              ],
+              "text": "Pecan (피칸)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 0
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:856ba123-4cee-5891-ae1c-9ceeec1bb0ba",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "mast-observation-069",
+        "status": "final",
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Allergen specific IgE antibody measurement, MAST type - Abalone"
+        },
+        "method": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "703446000",
+              "display": "Immunoblot assay (qualifier value)"
+            }
+          ],
+          "text": "Immunoblot (MAST)"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626",
+          "display": "Public synthetic case"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "valueQuantity": {
+          "value": 29.9,
+          "unit": "IU/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "[IU]/mL"
+        },
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "POS",
+                "display": "Positive"
+              }
+            ]
+          }
+        ],
+        "component": [
+          {
+            "code": {
+              "coding": [
+                {
+                  "system": "http://snomed.info/sct",
+                  "code": "765098000",
+                  "display": "Abalone (substance)"
+                }
+              ],
+              "text": "Abalone (전복)"
+            }
+          },
+          {
+            "code": {
+              "text": "IgE class (0-6, report semi-quantitative class)"
+            },
+            "valueInteger": 4
+          }
+        ],
+        "note": [
+          {
+            "text": "Synthetic public showcase result; not for clinical use."
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:cf5ff9ff-4a49-532d-a274-33d2c870b578",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "synthetic-mast-report",
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                "code": "LAB",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://snomed.info/sct",
+              "code": "399788006",
+              "display": "Allergen specific IgE antibody measurement, MAST type"
+            }
+          ],
+          "text": "Synthetic MAST panel"
+        },
+        "subject": {
+          "reference": "urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626"
+        },
+        "effectiveDateTime": "2026-08-03",
+        "issued": "2026-08-04T09:00:00+09:00",
+        "result": [
+          {
+            "reference": "urn:uuid:bb9c44a6-0fcb-536e-9015-bcf1b3823b90"
+          },
+          {
+            "reference": "urn:uuid:56c7be3e-18fb-5c37-a382-c583b6e5d052"
+          },
+          {
+            "reference": "urn:uuid:35f0eb82-8951-5c9b-9afb-63515ec43be7"
+          },
+          {
+            "reference": "urn:uuid:e4be17e2-c4f2-57aa-8db9-ea4c74294d73"
+          },
+          {
+            "reference": "urn:uuid:38d1ed07-ee47-599e-b0e9-4f5d3bc72e49"
+          },
+          {
+            "reference": "urn:uuid:0ec99bc6-4cf8-54ec-a21d-dc5bf4c1ee5e"
+          },
+          {
+            "reference": "urn:uuid:a2917d6f-1d4d-5435-9d1a-abde83ca8989"
+          },
+          {
+            "reference": "urn:uuid:ec86ce0e-16af-5c19-9e2e-253023188bdf"
+          },
+          {
+            "reference": "urn:uuid:32f90d2a-758e-57ae-ba50-6f0341b93a6f"
+          },
+          {
+            "reference": "urn:uuid:c63d4dc0-b5d3-58c6-a5d9-80dc92de08a5"
+          },
+          {
+            "reference": "urn:uuid:d02d6c57-9d6c-5b0c-8390-fb6ce2dd124e"
+          },
+          {
+            "reference": "urn:uuid:1d39a4ff-1d6e-5c8d-8af5-826bc4936ab9"
+          },
+          {
+            "reference": "urn:uuid:73946bb5-1122-50b1-adb4-ab6b556238cc"
+          },
+          {
+            "reference": "urn:uuid:f4d0db13-8d6c-5120-baa0-eff0ee8d1c18"
+          },
+          {
+            "reference": "urn:uuid:e50d864b-3a56-5af5-8193-8b4c43027255"
+          },
+          {
+            "reference": "urn:uuid:9345f445-e41c-591e-bfab-80f0fa8641bd"
+          },
+          {
+            "reference": "urn:uuid:abd87540-0ec7-52b8-9c04-3f599e7f46db"
+          },
+          {
+            "reference": "urn:uuid:997caabe-c229-5f91-a91d-35c8ff11389e"
+          },
+          {
+            "reference": "urn:uuid:d7e67fdc-9b16-5a14-b814-ea05daa75d05"
+          },
+          {
+            "reference": "urn:uuid:165791cf-6296-54ea-b506-e54c7a495dba"
+          },
+          {
+            "reference": "urn:uuid:92d4000a-26e1-59cd-9e7b-acbb6c9a6686"
+          },
+          {
+            "reference": "urn:uuid:4d698672-b70e-5d72-a73a-84bdd81a0d19"
+          },
+          {
+            "reference": "urn:uuid:b31aa775-3bc5-5a74-b40b-b49ed1a23589"
+          },
+          {
+            "reference": "urn:uuid:4500b820-588a-51d0-9894-0556943f3d81"
+          },
+          {
+            "reference": "urn:uuid:7fcbccd3-74cd-5747-8806-8ab57c95fb3a"
+          },
+          {
+            "reference": "urn:uuid:addc566c-8596-5594-9f65-678114391d6b"
+          },
+          {
+            "reference": "urn:uuid:c9729d21-93fc-57d9-8ceb-92423b1250a8"
+          },
+          {
+            "reference": "urn:uuid:8f8c6a5d-3735-5d21-b337-cf3e16808084"
+          },
+          {
+            "reference": "urn:uuid:b2b2f66c-f09e-59d9-b9f0-185308032ffd"
+          },
+          {
+            "reference": "urn:uuid:f9bac937-4b73-5615-8719-de24251e06c5"
+          },
+          {
+            "reference": "urn:uuid:7e291e71-de95-512a-9582-fb21ae24f196"
+          },
+          {
+            "reference": "urn:uuid:0be3a195-2a0c-596d-8093-7caee3e9f374"
+          },
+          {
+            "reference": "urn:uuid:92af4792-edd9-5e08-8d7e-6e895f0e2628"
+          },
+          {
+            "reference": "urn:uuid:fb9deec2-024d-5c2e-8749-a4e5b12be7cd"
+          },
+          {
+            "reference": "urn:uuid:fec9735b-5085-5365-98c3-fb4539db1dde"
+          },
+          {
+            "reference": "urn:uuid:2c1d052d-9794-59d0-9a3a-a7f449cf1e35"
+          },
+          {
+            "reference": "urn:uuid:c7cd491f-c0a4-52b5-979a-e2c0fca03995"
+          },
+          {
+            "reference": "urn:uuid:7499c5fc-da10-5260-ae6c-107097aec175"
+          },
+          {
+            "reference": "urn:uuid:bab0a473-ed03-5b2d-b93b-ce8df860f1b0"
+          },
+          {
+            "reference": "urn:uuid:73cc2e83-ab81-5330-bf79-538656e64ba8"
+          },
+          {
+            "reference": "urn:uuid:76548ad4-ff11-551a-87e8-54f866cdaadb"
+          },
+          {
+            "reference": "urn:uuid:af94414b-2a7c-5b59-9341-769de30152eb"
+          },
+          {
+            "reference": "urn:uuid:538ebe0d-24ca-5a95-8d73-32d952bf37b1"
+          },
+          {
+            "reference": "urn:uuid:3e37bade-79e3-51ca-867b-ba7ff1d7422e"
+          },
+          {
+            "reference": "urn:uuid:58c24fec-19ca-544a-a8ff-43b9dadbb54b"
+          },
+          {
+            "reference": "urn:uuid:42c4bfcc-a9fa-54e4-835d-dea52916e830"
+          },
+          {
+            "reference": "urn:uuid:e2270b9b-294c-5778-8a32-28b35483fdcb"
+          },
+          {
+            "reference": "urn:uuid:1964874e-d475-554c-9e86-0c8d9b81c030"
+          },
+          {
+            "reference": "urn:uuid:3e000c29-80ee-5d61-966a-305f9ea85bbb"
+          },
+          {
+            "reference": "urn:uuid:8737645d-7915-5768-9734-9b4038ad31ae"
+          },
+          {
+            "reference": "urn:uuid:d92c3d1f-98ec-5eeb-ac53-7edd2d6563b3"
+          },
+          {
+            "reference": "urn:uuid:995ba988-bc6c-5616-9283-064cf2517f40"
+          },
+          {
+            "reference": "urn:uuid:8286ba2b-4cef-57c6-8bee-4ae92d079018"
+          },
+          {
+            "reference": "urn:uuid:21df64c1-50d5-5b2f-83f4-d1f80fca3a2a"
+          },
+          {
+            "reference": "urn:uuid:3355c368-b2c5-5686-89cb-553ccba386d5"
+          },
+          {
+            "reference": "urn:uuid:52054512-eae5-59df-a2c3-489698ed11df"
+          },
+          {
+            "reference": "urn:uuid:a505679c-25b1-5c9d-826f-a3c0d8024bfd"
+          },
+          {
+            "reference": "urn:uuid:ebd731c4-f68f-5af3-885d-35227d751fb2"
+          },
+          {
+            "reference": "urn:uuid:dd4e524c-1cea-5f3a-add1-8a5baac1c027"
+          },
+          {
+            "reference": "urn:uuid:b36b9304-6893-56cb-920c-3be1b33b68db"
+          },
+          {
+            "reference": "urn:uuid:4c2154c6-a937-5265-a1ce-124b02fe379b"
+          },
+          {
+            "reference": "urn:uuid:3f9505e8-c722-5151-8eb0-ad8781ad9fba"
+          },
+          {
+            "reference": "urn:uuid:804eadb6-4e18-5385-a193-00587f2307c7"
+          },
+          {
+            "reference": "urn:uuid:9b408ad9-abc4-509a-9887-207870b08869"
+          },
+          {
+            "reference": "urn:uuid:44b4ff28-88f5-5fb6-a4a6-936b2d5697f9"
+          },
+          {
+            "reference": "urn:uuid:c34c5b41-cb16-5f32-a2ca-da528febccec"
+          },
+          {
+            "reference": "urn:uuid:8a48d5aa-7641-58db-81a8-0835242af3c8"
+          },
+          {
+            "reference": "urn:uuid:46b2eff1-679c-5eb5-afd3-1ba67015921a"
+          },
+          {
+            "reference": "urn:uuid:856ba123-4cee-5891-ae1c-9ceeec1bb0ba"
+          }
+        ],
+        "conclusion": "Synthetic demonstration only. Clinical interpretation requires history and clinician review."
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "case_id": "APAAACI-SYNTH-MAST-001",
+  "public_data_class": "synthetic",
+  "fixture": "tests/fixtures/ocr/mast_lab_report_clean_01.png",
+  "truth": "tests/fixtures/ocr/mast_lab_report_clean_01.truth.json",
+  "fixture_generator": "scripts/generate_result_sheets.py",
+  "project_generators": [
+    "services/questionnaire_service.py::QuestionnaireEngine.build",
+    "services/cardnews_service.py::CardNewsService.generate_html",
+    "services/fhir_service.py::FHIRService.create_observation_bundle"
+  ],
+  "static_only": true,
+  "external_requests": false,
+  "patient_submission": false,
+  "actual_patient_data": false
+}

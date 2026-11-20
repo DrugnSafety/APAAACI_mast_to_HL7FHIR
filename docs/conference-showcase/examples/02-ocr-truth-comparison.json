@@ -1,0 +1,567 @@
+{
+  "case_id": "APAAACI-SYNTH-MAST-001",
+  "comparison_type": "transparent_string_presence_check",
+  "warning": "Value tokens are checked anywhere in the page and do not prove row alignment. This is not an OCR accuracy estimate.",
+  "canonical_source": "tests/fixtures/ocr/mast_lab_report_clean_01.truth.json",
+  "actual_source": "02-ocr-output.json",
+  "counts": {
+    "canonical_rows": 69,
+    "name_substring_matches": 68,
+    "name_substring_misses": 1,
+    "value_token_present": 66
+  },
+  "rows": [
+    {
+      "index": 1,
+      "canonical_name": "2-spotted spider mite",
+      "canonical_value": "<0.15",
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 2,
+      "canonical_name": "Tyrophagus putrescentiae",
+      "canonical_value": 0.23,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 3,
+      "canonical_name": "Dermatophagoides farinae",
+      "canonical_value": 0.64,
+      "canonical_class": 1,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 4,
+      "canonical_name": "Dermatophagoides pteronyssinus",
+      "canonical_value": 0.67,
+      "canonical_class": 1,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 5,
+      "canonical_name": "Cladosporium herbarum",
+      "canonical_value": 0.69,
+      "canonical_class": 1,
+      "exact_normalized_name_substring": false,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 6,
+      "canonical_name": "Outdoor mold mixture",
+      "canonical_value": 0.29,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 7,
+      "canonical_name": "Alternaria alternata",
+      "canonical_value": 0.03,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 8,
+      "canonical_name": "Aspergillus niger",
+      "canonical_value": 0.27,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 9,
+      "canonical_name": "Neurospora",
+      "canonical_value": 0.09,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 10,
+      "canonical_name": "Indoor mold mixture",
+      "canonical_value": 0.27,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 11,
+      "canonical_name": "Mucor racemosus",
+      "canonical_value": 0.63,
+      "canonical_class": 1,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 12,
+      "canonical_name": "Fusarium",
+      "canonical_value": 0.49,
+      "canonical_class": 1,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 13,
+      "canonical_name": "Penicillium",
+      "canonical_value": 0.17,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 14,
+      "canonical_name": "Aspergillus fumigatus",
+      "canonical_value": "<0.15",
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 15,
+      "canonical_name": "Candida albicans",
+      "canonical_value": 0.01,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 16,
+      "canonical_name": "Cat dander",
+      "canonical_value": 0.68,
+      "canonical_class": 1,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 17,
+      "canonical_name": "Dog dander",
+      "canonical_value": 7.14,
+      "canonical_class": 3,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": false
+    },
+    {
+      "index": 18,
+      "canonical_name": "Rabbit epithelium",
+      "canonical_value": "<0.15",
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 19,
+      "canonical_name": "Hamster",
+      "canonical_value": 0.17,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 20,
+      "canonical_name": "Cow dander",
+      "canonical_value": 0.25,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 21,
+      "canonical_name": "Mouse",
+      "canonical_value": 0.23,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 22,
+      "canonical_name": "Guinea pig",
+      "canonical_value": 0.06,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 23,
+      "canonical_name": "Chicken",
+      "canonical_value": "<0.15",
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 24,
+      "canonical_name": "Horse dander",
+      "canonical_value": 1.78,
+      "canonical_class": 2,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": false
+    },
+    {
+      "index": 25,
+      "canonical_name": "Rat epithelium",
+      "canonical_value": "<0.15",
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 26,
+      "canonical_name": "Cockroach, German",
+      "canonical_value": 0.2,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 27,
+      "canonical_name": "Cockroach, Mix",
+      "canonical_value": "<0.15",
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 28,
+      "canonical_name": "Cockroach, American",
+      "canonical_value": 0.09,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 29,
+      "canonical_name": "Poplar",
+      "canonical_value": 0.35,
+      "canonical_class": 1,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 30,
+      "canonical_name": "Hazel",
+      "canonical_value": 0.01,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 31,
+      "canonical_name": "Oak",
+      "canonical_value": "<0.15",
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 32,
+      "canonical_name": "Tree mixture 2",
+      "canonical_value": "<0.15",
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 33,
+      "canonical_name": "Plane",
+      "canonical_value": 0.29,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 34,
+      "canonical_name": "Birch",
+      "canonical_value": 0.15,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 35,
+      "canonical_name": "Olive",
+      "canonical_value": "<0.15",
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 36,
+      "canonical_name": "Willow",
+      "canonical_value": 0.38,
+      "canonical_class": 1,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 37,
+      "canonical_name": "Pine",
+      "canonical_value": 0.28,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 38,
+      "canonical_name": "Beech",
+      "canonical_value": 32.55,
+      "canonical_class": 4,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 39,
+      "canonical_name": "Japanese cedar",
+      "canonical_value": 0.13,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 40,
+      "canonical_name": "Ragweed",
+      "canonical_value": "<0.15",
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 41,
+      "canonical_name": "Lamb's quarters",
+      "canonical_value": "<0.15",
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 42,
+      "canonical_name": "Dandelion",
+      "canonical_value": "<0.15",
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 43,
+      "canonical_name": "Nettle",
+      "canonical_value": 0.15,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 44,
+      "canonical_name": "Japanese hop",
+      "canonical_value": 0.62,
+      "canonical_class": 1,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 45,
+      "canonical_name": "English plantain",
+      "canonical_value": 16.79,
+      "canonical_class": 3,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 46,
+      "canonical_name": "Goldenrod",
+      "canonical_value": 13.82,
+      "canonical_class": 3,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 47,
+      "canonical_name": "Chrysanthemum",
+      "canonical_value": 0.44,
+      "canonical_class": 1,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 48,
+      "canonical_name": "Russian thistle",
+      "canonical_value": 0.26,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 49,
+      "canonical_name": "Mugwort",
+      "canonical_value": 1.48,
+      "canonical_class": 2,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": false
+    },
+    {
+      "index": 50,
+      "canonical_name": "Velvet grass",
+      "canonical_value": 0.24,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 51,
+      "canonical_name": "Meadow fescue",
+      "canonical_value": 0.45,
+      "canonical_class": 1,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 52,
+      "canonical_name": "Grass",
+      "canonical_value": 0.02,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 53,
+      "canonical_name": "Cultivated oat",
+      "canonical_value": 0.19,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 54,
+      "canonical_name": "Kentucky blue grass",
+      "canonical_value": 0.14,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 55,
+      "canonical_name": "Bermuda grass",
+      "canonical_value": 0.26,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 56,
+      "canonical_name": "Timothy",
+      "canonical_value": 0.19,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 57,
+      "canonical_name": "Rye grass, perennial",
+      "canonical_value": 0.04,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 58,
+      "canonical_name": "Orchard grass",
+      "canonical_value": 0.46,
+      "canonical_class": 1,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 59,
+      "canonical_name": "Mustard",
+      "canonical_value": "<0.15",
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 60,
+      "canonical_name": "Mackerel",
+      "canonical_value": 0.07,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 61,
+      "canonical_name": "Lentil",
+      "canonical_value": 0.33,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 62,
+      "canonical_name": "Shrimp",
+      "canonical_value": "<0.15",
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 63,
+      "canonical_name": "Orange",
+      "canonical_value": 5.66,
+      "canonical_class": 3,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 64,
+      "canonical_name": "Pistachio",
+      "canonical_value": "<0.15",
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 65,
+      "canonical_name": "Grape",
+      "canonical_value": 0.14,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 66,
+      "canonical_name": "Cashew",
+      "canonical_value": 0.13,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 67,
+      "canonical_name": "Pineapple",
+      "canonical_value": 0.33,
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 68,
+      "canonical_name": "Pecan",
+      "canonical_value": "<0.15",
+      "canonical_class": 0,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    },
+    {
+      "index": 69,
+      "canonical_name": "Abalone",
+      "canonical_value": 29.9,
+      "canonical_class": 4,
+      "exact_normalized_name_substring": true,
+      "exact_normalized_value_token_present_anywhere": true
+    }
+  ]
+}
