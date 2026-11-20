@@ -1,378 +1,75 @@
 <!doctype html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="알레르기 검사 결과를 문진, 환자 안내, 카드뉴스, HL7 FHIR 기록으로 연결하는 연구 프로토타입 전시 페이지">
-  <meta name="theme-color" content="#102b2a">
-  <title>알레르기 검사 결과에서 이해 가능한 기록까지</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#082e30">
+<title>알레르기 검사 연구 | 검사표에서 환자 설명까지</title>
+<meta name="description" content="MAST·피부단자검사 판독에서 증상 문진, 환자용 보고서, 카드뉴스와 FHIR 기록까지. 48초 한영 영상과 공개 합성 사례로 살펴보는 충북대학교 연구.">
+<meta property="og:title" content="알레르기 검사 연구 · 검사표에서 환자 설명까지">
+<meta property="og:description" content="하나의 합성 사례를 여섯 단계로 살펴보세요. 한영 영상과 연구 포스터, 생성 자료를 제공합니다.">
+<meta property="og:image" content="https://drugnsafety.github.io/APAAACI_mast_to_HL7FHIR/assets/dust-mite.webp">
+<link rel="preload" href="assets/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css"><script src="script.js" defer></script>
 </head>
 <body>
-  <a class="skip-link" href="#main">본문으로 바로가기</a>
-  <header class="site-header" data-header>
-    <div class="nav-shell">
-      <a class="brand" href="#top" aria-label="처음으로">
-        <span class="brand-mark" aria-hidden="true">A</span>
-        <span><strong>알레르기 검사 결과 리포트</strong><small>연구 전시</small></span>
-      </a>
-      <nav aria-label="주요 메뉴">
-        <a href="#workflow">워크플로</a>
-        <a href="#evidence">연구 근거</a>
-        <a href="#showcase">예시 결과물</a>
-        <a class="nav-cta" href="https://allergy.myadr.care/" target="_blank" rel="noopener noreferrer">실행 서비스 <span aria-hidden="true">↗</span></a>
-      </nav>
-    </div>
-  </header>
-
-  <main id="main">
-    <section class="hero" id="top">
-      <div class="hero-orb orb-one" aria-hidden="true"></div>
-      <div class="hero-orb orb-two" aria-hidden="true"></div>
-      <div class="hero-shell">
-        <div class="hero-copy">
-          <p class="eyebrow"><span></span> 연구 프로토타입 · 합성 공개 예시</p>
-          <h1>검사 결과를 읽고,<br><em>환자가 이해할 기록</em>으로 연결합니다.</h1>
-          <p class="hero-lead">MAST·피부단자검사 결과에서 항목을 추출하고, 증상 문진과 검토 가능한 지식 근거를 거쳐 환자 안내와 HL7 FHIR 초안을 함께 만듭니다.</p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="#showcase">결과물 6종 보기</a>
-            <a class="button button-secondary" href="poster/gaesin-A2.pdf">학술 포스터 보기 <span aria-hidden="true">↗</span></a>
-          </div>
-          <p class="safety-note"><strong>연구 범위</strong> 공개 예시는 모두 합성 자료입니다. 이 프로토타입은 의료진의 진단이나 최종 승인을 대신하지 않습니다.</p>
-        </div>
-
-        <div class="hero-visual" aria-label="검사 이미지가 구조화 결과로 전환되는 과정">
-          <div class="visual-label">이미지에서 표준 기록까지</div>
-          <div class="report-stack">
-            <div class="report-paper report-back" aria-hidden="true"></div>
-            <figure class="report-paper report-front">
-              <img src="examples/01-synthetic-mast-report.png" alt="합성 MAST 검사 결과지 예시">
-              <figcaption><span class="status-dot"></span> 합성 검사 결과지</figcaption>
-            </figure>
-          </div>
-          <div class="bridge-line" aria-hidden="true"><span>검토 가능한 변환</span></div>
-          <div class="data-card">
-            <div class="data-head"><span>FHIR R4</span><span class="valid-chip">연구용 예시</span></div>
-            <pre aria-hidden="true"><code>{
-  "resourceType": "Bundle",
-  "type": "collection",
-  "entry": [
-    { "resource": {
-      "resourceType": "Observation"
-    }}
-  ]
-}</code></pre>
-            <a href="examples/06-fhir-bundle.json" download>합성 번들 다운로드 <span aria-hidden="true">↓</span></a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="metric-ribbon" aria-label="연구 핵심 수치">
-      <div class="metric-shell">
-        <div><strong>21</strong><span>합성 결과지</span><small>6개 모델 비교</small></div>
-        <div><strong>29</strong><span>연구 평가용 페이지</span><small>이름을 마스킹한 7개 양식</small></div>
-        <div><strong>98</strong><span>양성 항목</span><small>모델 간 정면 비교</small></div>
-        <div><strong>174</strong><span>연구 FHIR 번들</span><small>공식 Validator 오류 0</small></div>
-      </div>
-    </section>
-
-    <section class="section problem-section">
-      <div class="section-shell split-layout">
-        <div class="section-heading">
-          <p class="eyebrow dark"><span></span> 연구 배경</p>
-          <h2>검사 수치만으로는<br>환자의 질문에 답하기 어렵습니다.</h2>
-        </div>
-        <div class="problem-grid">
-          <article>
-            <span class="index">01</span>
-            <h3>이미지에 머무는 결과</h3>
-            <p>검사 결과는 종이 또는 이미지로 전달됩니다. 검색, 교환, 재사용이 어렵습니다.</p>
-          </article>
-          <article>
-            <span class="index">02</span>
-            <h3>감작과 알레르기의 차이</h3>
-            <p>양성 수치는 감작을 뜻합니다. 실제 증상, 노출, 계절성 문진이 함께 필요합니다.</p>
-          </article>
-          <article>
-            <span class="index">03</span>
-            <h3>생성 모델의 안전 경계</h3>
-            <p>모델은 양성을 놓치거나 값을 잘못 읽을 수 있습니다. 이중 판독, 규칙 검사, 사람 확인이 필요합니다.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section workflow-section" id="workflow">
-      <div class="section-shell">
-        <div class="section-heading centered">
-          <p class="eyebrow light"><span></span> 전체 처리 흐름</p>
-          <h2>한 장의 결과지에서 두 독자를 위한 기록까지</h2>
-          <p>아래 단계를 선택하면 입력, 안전장치, 출력의 연결을 확인할 수 있습니다.</p>
-        </div>
-
-        <div class="workflow-layout">
-          <div class="workflow-rail" role="tablist" aria-label="처리 단계">
-            <button class="flow-tab active" id="tab-1" role="tab" aria-selected="true" aria-controls="flow-panel" data-step="0">
-              <span>01</span><strong>검사 결과 입력</strong><small>MAST · SPT</small>
-            </button>
-            <button class="flow-tab" id="tab-2" role="tab" aria-selected="false" aria-controls="flow-panel" data-step="1">
-              <span>02</span><strong>이중 OCR</strong><small>값 추출 · 불일치 표시</small>
-            </button>
-            <button class="flow-tab" id="tab-3" role="tab" aria-selected="false" aria-controls="flow-panel" data-step="2">
-              <span>03</span><strong>맞춤 문진</strong><small>증상 · 노출 · 계절</small>
-            </button>
-            <button class="flow-tab" id="tab-4" role="tab" aria-selected="false" aria-controls="flow-panel" data-step="3">
-              <span>04</span><strong>지식 연결</strong><small>온톨로지 · 교차반응</small>
-            </button>
-            <button class="flow-tab" id="tab-5" role="tab" aria-selected="false" aria-controls="flow-panel" data-step="4">
-              <span>05</span><strong>환자 설명</strong><small>가이드 · 카드뉴스</small>
-            </button>
-            <button class="flow-tab" id="tab-6" role="tab" aria-selected="false" aria-controls="flow-panel" data-step="5">
-              <span>06</span><strong>표준 기록</strong><small>HL7 FHIR R4</small>
-            </button>
-          </div>
-
-          <article class="flow-panel" id="flow-panel" role="tabpanel" aria-labelledby="tab-1" tabindex="0">
-            <div class="panel-kicker" data-flow-kicker>입력 · 합성 예시</div>
-            <h3 data-flow-title>MAST 또는 피부단자검사 결과지를 입력합니다.</h3>
-            <p data-flow-copy>공개 전시에서는 실제 환자 자료 대신 합성 MAST 결과지를 사용합니다. 운영 환경에서는 식별정보 처리와 접근 통제가 별도로 필요합니다.</p>
-            <ul data-flow-list>
-              <li>여러 검사기관 양식 지원</li>
-              <li>이미지 원본과 추출값 대조</li>
-              <li>공개 예시는 합성 자료만 사용</li>
-            </ul>
-            <a class="text-link" data-flow-link href="examples/01-synthetic-mast-report.png" download>이 단계의 예시 받기 <span aria-hidden="true">→</span></a>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section evidence-section" id="evidence">
-      <div class="section-shell">
-        <div class="section-heading evidence-heading">
-          <div>
-            <p class="eyebrow dark"><span></span> 구분해서 읽는 연구 근거</p>
-            <h2>성능 비교와 생성 규모를 분리해 제시합니다.</h2>
-          </div>
-          <p>합성 벤치마크, 이름을 마스킹한 연구 평가용 페이지, 생성 결과물 집계는 서로 다른 질문에 답합니다.</p>
-        </div>
-
-        <div class="evidence-grid">
-          <article class="evidence-card benchmark">
-            <p class="card-label">01 · 합성 벤치마크</p>
-            <h3>21장 × 6개 모델</h3>
-            <p>합성 결과지에서 모델별 양성 누락률을 비교했습니다.</p>
-            <div class="range-figure" aria-label="합성 양성 누락률 범위 0.5퍼센트에서 28퍼센트">
-              <span>0.5%</span><div><i></i></div><span>28.0%</span>
-            </div>
-            <small>모델 간 차이 P&lt;.001</small>
-          </article>
-
-          <article class="evidence-card comparison">
-            <p class="card-label">02 · 연구 평가용 페이지</p>
-            <h3>양성 98건 정면 비교</h3>
-            <p>이름을 마스킹한 검사 결과지 29페이지, 7개 양식에서 같은 양성 항목을 비교했습니다.</p>
-            <div class="compare-row">
-              <div><span>OpenAI GPT-5.4</span><strong>1<small>/98 누락</small></strong><i style="--miss:1.02%"></i></div>
-              <div><span>로컬 Qwen 3.8 27B</span><strong>26<small>/98 누락</small></strong><i style="--miss:26.53%"></i></div>
-            </div>
-            <small>GPT-5.4 민감도 99.0%, 위양성 0건 · 모델 간 차이 P&lt;.001</small>
-          </article>
-
-          <article class="evidence-card outputs">
-            <p class="card-label">03 · 생성 결과물</p>
-            <h3>29개 사례의 연결 출력</h3>
-            <p>29개 사례에서 만든 문진, 환자용 설명, 카드뉴스, FHIR 기록의 합계입니다.</p>
-            <dl>
-              <div><dt>문진 항목</dt><dd>431</dd></div>
-              <div><dt>환자 리포트</dt><dd>29</dd></div>
-              <div><dt>카드뉴스</dt><dd>188</dd></div>
-              <div><dt>FHIR 리소스</dt><dd>1,517</dd></div>
-            </dl>
-            <small>자동 교정 후 174개 FHIR 번들 Validator 오류 0건</small>
-          </article>
-        </div>
-        <p class="evidence-source">연구 수치는 제34회 개신의학학술대회와 AAAAI 2027 제출용 초록을 기준으로 합니다. 아래 합성 사례는 공개 시연을 위해 만들었습니다. <a class="card-link" href="poster/gaesin-A2-preview.jpg">포스터 이미지 보기 ↗</a></p>
-      </div>
-    </section>
-
-    <section class="section showcase-section" id="showcase">
-      <div class="section-shell">
-        <div class="section-heading showcase-heading">
-          <div>
-            <p class="eyebrow dark"><span></span> 연결 결과물</p>
-            <h2>하나의 합성 사례를 6개 결과물로 살펴보세요.</h2>
-          </div>
-          <p>검사지부터 FHIR 파일까지 같은 가상 환자의 자료입니다. 각 파일을 열거나 내려받을 수 있습니다. <a class="card-link" href="examples/provenance.json" download>예시 생성 기록(JSON) ↓</a></p>
-        </div>
-
-        <div class="showcase-grid">
-          <article class="showcase-card featured-card">
-            <a class="preview-frame" href="examples/01-synthetic-mast-report.png" aria-label="합성 MAST 결과지 원본 크기로 보기">
-              <img src="examples/previews/01-synthetic-mast-report.png" alt="합성 MAST 결과지 미리보기">
-              <span class="format">PNG</span>
-            </a>
-            <div class="card-body">
-              <p class="step-label">01 · 입력</p>
-              <h3>합성 MAST 결과지</h3>
-              <p>69개 항목이 있는 혈액 알레르기 검사 예시입니다. 이미지를 누르면 원본 크기로 볼 수 있습니다.</p>
-              <a class="card-link" href="examples/01-synthetic-mast-report.png" download>이미지 다운로드 <span aria-hidden="true">↓</span></a>
-            </div>
-          </article>
-
-          <article class="showcase-card">
-            <a class="preview-frame" href="examples/02-ocr-comparison.html" aria-label="합성 OCR 비교 페이지 열기">
-              <img src="examples/previews/02-ocr-comparison.png" alt="원본과 구조화 OCR 결과 비교 미리보기" loading="lazy">
-              <span class="format">HTML + JSON</span>
-            </a>
-            <div class="card-body">
-              <p class="step-label">02 · 추출</p>
-              <h3>OCR 추출과 대조</h3>
-              <p>Tesseract가 읽은 원문과 571개 단어 영역을 보여줍니다. 합성 검사지의 기준값과 대조할 수 있습니다.</p>
-              <div class="link-row"><a class="card-link" href="examples/02-ocr-comparison.html">비교 화면 열기 <span aria-hidden="true">→</span></a><a href="examples/02-ocr-output.json" download>JSON ↓</a></div>
-            </div>
-          </article>
-
-          <article class="showcase-card">
-            <a class="preview-frame" href="examples/03-simulated-questionnaire.html" aria-label="합성 환자 문진 열기">
-              <img src="examples/previews/03-simulated-questionnaire.png" alt="양성 항원별 환자 문진 미리보기" loading="lazy">
-              <span class="format">HTML + JSON</span>
-            </a>
-            <div class="card-body">
-              <p class="step-label">03 · 문진</p>
-              <h3>환자 맞춤 문진</h3>
-              <p>증상, 노출, 계절성, 반복성을 묻는 합성 응답 예시입니다.</p>
-              <div class="link-row"><a class="card-link" href="examples/03-simulated-questionnaire.html">문진 열기 <span aria-hidden="true">→</span></a><a href="examples/03-simulated-questionnaire.json" download>JSON ↓</a></div>
-            </div>
-          </article>
-
-          <article class="showcase-card">
-            <a class="preview-frame" href="examples/04-patient-guidance.html" aria-label="환자 안내서 열기">
-              <img src="examples/previews/04-patient-guidance.png" alt="환자 맞춤 알레르기 안내서 미리보기" loading="lazy">
-              <span class="format">HTML</span>
-            </a>
-            <div class="card-body">
-              <p class="step-label">04 · 설명</p>
-              <h3>환자용 결과 안내</h3>
-              <p>감작과 증상 정보를 구분하고 생활 속 확인점을 설명합니다.</p>
-              <div class="link-row"><a class="card-link" href="examples/04-patient-guidance.html">안내서 열기 <span aria-hidden="true">→</span></a><a href="examples/04-patient-guidance.html" download>HTML ↓</a></div>
-            </div>
-          </article>
-
-          <article class="showcase-card">
-            <a class="preview-frame" href="examples/05-card-news.html" aria-label="카드뉴스 열기">
-              <img src="examples/previews/05-card-news.png" alt="14장 환자 교육 카드뉴스 미리보기" loading="lazy">
-              <span class="format">14 CARDS</span>
-            </a>
-            <div class="card-body">
-              <p class="step-label">05 · 교육</p>
-              <h3>환자 교육 카드뉴스</h3>
-              <p>검사 의미와 다음 진료 질문을 14장의 짧은 화면으로 정리합니다.</p>
-              <div class="link-row"><a class="card-link" href="examples/05-card-news.html">카드 14장 보기 <span aria-hidden="true">→</span></a><a href="examples/05-card-news.html" download>HTML ↓</a></div>
-            </div>
-          </article>
-
-          <article class="showcase-card fhir-card">
-            <a class="preview-frame" href="examples/06-fhir-preview.html" aria-label="합성 FHIR R4 번들 구조 보기">
-              <img src="examples/previews/06-fhir-bundle.png" alt="FHIR R4 번들 구조 미리보기" loading="lazy">
-              <span class="format">FHIR JSON</span>
-            </a>
-            <div class="card-body">
-              <p class="step-label">06 · 표준화</p>
-              <h3>HL7 FHIR R4 번들</h3>
-              <p>가상 환자 1명, 검사 항목 69개, 검사 보고서 1개를 연결했습니다. 번들 안의 참조 139개가 모두 연결됩니다.</p>
-              <div class="link-row"><a class="card-link" href="examples/06-fhir-preview.html">구조 보기 <span aria-hidden="true">→</span></a><a href="examples/06-fhir-bundle.json" download>FHIR JSON ↓</a></div>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section research-path-section" aria-labelledby="research-path-title">
-      <div class="section-shell research-path-layout">
-        <div class="section-heading">
-          <p class="eyebrow dark"><span></span> 연구 개발 순서</p>
-          <h2 id="research-path-title">개발, 비교, 검증을 거쳐 전향적 평가로 이어갑니다.</h2>
-          <p>기술 성능과 임상 효과는 같은 질문이 아닙니다. 각 단계의 근거와 다음 과제를 구분합니다.</p>
-        </div>
-        <ol class="research-path">
-          <li class="complete">
-            <span class="path-number">01</span>
-            <div><strong>프로토타입 개발</strong><p>검사 입력에서 문진, 환자 안내, 카드뉴스, FHIR 출력까지 연결했습니다.</p></div>
-            <small>구현</small>
-          </li>
-          <li class="complete">
-            <span class="path-number">02</span>
-            <div><strong>OCR 모델 비교</strong><p>21개 합성 결과지의 6개 모델과 이름을 마스킹한 검사 결과지 29페이지의 두 모델을 평가했습니다.</p></div>
-            <small>평가</small>
-          </li>
-          <li class="complete">
-            <span class="path-number">03</span>
-            <div><strong>FHIR 기술 검증</strong><p>반복 오류 4종을 교정하고 174개 번들을 공식 Validator로 확인했습니다.</p></div>
-            <small>오류 0</small>
-          </li>
-          <li class="future">
-            <span class="path-number">04</span>
-            <div><strong>전향적 환자 평가</strong><p>승인된 연구 절차에서 사용성, 이해도, 안전성, 임상 운영 적합성을 확인해야 합니다.</p></div>
-            <small>향후 연구</small>
-          </li>
-        </ol>
-      </div>
-    </section>
-
-    <section class="section boundary-section">
-      <div class="section-shell boundary-layout">
-        <div>
-          <p class="eyebrow light"><span></span> 구현 범위</p>
-          <h2>연구 프로토타입과 병원 운영 계획을 구분합니다.</h2>
-          <p>현재 공개 범위는 합성 자료의 입력, 변환, 설명, 다운로드입니다. 병원 운영에는 별도 승인과 시스템 연계가 필요합니다.</p>
-        </div>
-        <div class="boundary-columns">
-          <article>
-            <span class="state implemented">구현·시험 범위</span>
-            <ul>
-              <li>MAST·SPT 이미지 추출과 확인</li>
-              <li>양성 항원별 문진 생성</li>
-              <li>환자 안내와 카드뉴스 생성</li>
-              <li>FHIR R4 번들 생성·기술 검증</li>
-            </ul>
-          </article>
-          <article>
-            <span class="state planned">병원 협의·계획</span>
-            <ul>
-              <li>연구 참여 동의와 소아 보호자 동의</li>
-              <li>병원정보시스템(HIS) 결과 수신 후 알림톡 문진</li>
-              <li>보고서·카드·FHIR 생성 후 의료진 검토</li>
-              <li>승인 후 결과 전달, 별도 알림톡으로 만족도 조사</li>
-            </ul>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="closing-section">
-      <div class="closing-shell">
-        <div>
-          <p class="eyebrow dark"><span></span> 연구 프로토타입</p>
-          <h2>검사 이미지에서 환자가 이해할 수 있는 기록까지 직접 확인하세요.</h2>
-        </div>
-        <div class="closing-actions">
-          <a class="button button-dark" href="https://allergy.myadr.care/" target="_blank" rel="noopener noreferrer">실행 중인 서비스 열기 <span aria-hidden="true">↗</span></a>
-          <a class="button button-outline" href="poster/gaesin-A2.pdf">포스터 PDF</a>
-          <a class="download-minor" href="poster/gaesin-A2.pptx" download>발표자료 PPTX ↓</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="footer-shell">
-      <div><strong>알레르기 검사 결과 리포트</strong><p>알레르기 검사 결과의 환자 중심 구조화 연구</p></div>
-      <p class="footer-note">연구 전시용 · 합성 공개 예시<br>기술 검증은 임상적 유효성이나 진료 승인을 뜻하지 않습니다.</p>
-    </div>
-  </footer>
-
-  <script src="script.js"></script>
-</body>
-</html>
+<a class="skip" href="#main">본문으로 건너뛰기</a>
+<header class="masthead" id="top"><div class="wrap mast-inner"><a class="brand" href="#top" aria-label="알레르기 검사 연구 처음으로"><span class="brand-mark"><svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 12a6 6 0 0 1 6-6h4m2 6a6 6 0 0 1-6 6H8"/><circle cx="6" cy="15" r="2.4"/><circle cx="18" cy="9" r="2.4"/></g></svg></span><span>알레르기 검사 연구</span></a>
+<nav aria-label="주요 메뉴"><a href="#workflow">과정 영상</a><a href="#showcase">합성 사례</a><a href="#evidence">연구 결과</a><a href="#poster">학회 포스터</a></nav>
+<a class="service" href="https://allergy.myadr.care/" target="_blank" rel="noopener" aria-label="서비스 열기 (새 창)">서비스 열기 <svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18 18 6M7 6h11v11"/></svg></a></div></header>
+<main id="main">
+<section class="hero" aria-labelledby="intro-title">
+<img class="hero-image" src="assets/dust-mite.webp" width="1536" height="1024" alt="" fetchpriority="high">
+<div class="wrap hero-inner"><div class="hero-copy">
+<p class="kicker light"><i aria-hidden="true"></i> 알레르기 임상정보학 연구</p>
+<h1 id="intro-title">알레르기 검사표를<br><em>환자의 말로 풀다</em></h1>
+<p class="intro">앱이 검사표의 글자와 수치를 읽고, 환자는 증상과 노출 경험을 답합니다. 의료진이 검토한 기록으로 환자 안내서, 교육 카드와 표준 의료정보 파일(FHIR)을 만듭니다.</p>
+<div class="hero-actions"><a href="#showcase" class="btn primary">합성 사례 자료 6종 <svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a><a href="#workflow" class="hero-link"><svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m8 5 11 7-11 7z" fill="currentColor" stroke="none"/></svg> 48초 과정 영상 보기</a></div></div>
+<span class="specimen"><i></i> 집먼지진드기 · AI 설명 도판</span>
+</div></section>
+<section class="film-section" id="workflow"><div class="wrap" data-player>
+<div class="section-heading"><div><p class="overline">과정 영상</p><h2 data-film-title>검사표 한 장이 결과지가 되기까지</h2></div>
+<div class="locale" role="group" aria-label="영상 언어"><button type="button" data-lang="ko" aria-pressed="true" lang="ko">한국어</button><button type="button" data-lang="en" aria-pressed="false" lang="en">English</button></div></div>
+<p class="section-intro" data-film-description>합성 검사표에서 숫자를 대조하고, 증상 문진을 거쳐 환자 자료와 FHIR 기록을 만드는 과정을 따라갑니다.</p>
+<div class="film-layout">
+<figure class="theater"><video lang="ko" aria-label="한국어 과정 영상" controls playsinline preload="metadata" poster="motion/workflow-ko.jpg" width="1280" height="720" src="motion/workflow-ko.mp4"><track kind="captions" srclang="ko" label="한국어" src="motion/workflow-ko.vtt"></video>
+<figcaption><span>48초 <b>·</b> 무음 모션그래픽</span><a data-film-download href="motion/workflow-ko.mp4" download><span>한국어 영상 받기</span> <svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M5 16v4h14v-4"/></svg></a></figcaption></figure>
+<aside class="chapters" aria-label="영상 장면"><h3 data-chapter-heading>장면 선택</h3><ol><li><button type="button" data-seek="0" aria-current="step"><time>00:00</time><span data-chapter-text>검사표 입력</span><svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m8 5 11 7-11 7z" fill="currentColor" stroke="none"/></svg></button></li><li><button type="button" data-seek="8"><time>00:08</time><span data-chapter-text>OCR 대조와 확인</span><svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m8 5 11 7-11 7z" fill="currentColor" stroke="none"/></svg></button></li><li><button type="button" data-seek="16"><time>00:16</time><span data-chapter-text>증상 문진</span><svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m8 5 11 7-11 7z" fill="currentColor" stroke="none"/></svg></button></li><li><button type="button" data-seek="24"><time>00:24</time><span data-chapter-text>환자 결과지</span><svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m8 5 11 7-11 7z" fill="currentColor" stroke="none"/></svg></button></li><li><button type="button" data-seek="32"><time>00:32</time><span data-chapter-text>교육 카드뉴스</span><svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m8 5 11 7-11 7z" fill="currentColor" stroke="none"/></svg></button></li><li><button type="button" data-seek="40"><time>00:40</time><span data-chapter-text>FHIR 내보내기</span><svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="m8 5 11 7-11 7z" fill="currentColor" stroke="none"/></svg></button></li></ol></aside>
+</div>
+<p class="sr-only" data-film-status aria-live="polite"></p>
+<details class="transcript"><summary data-transcript-heading>영상 대본 읽기</summary><ol lang="ko" data-transcript="ko"><li><time>00:00</time> 합성 MAST 검사표입니다. 이 사례에는 항원 69개가 들어 있습니다.</li><li><time>00:08</time> OCR 원문에서 개 표피 값은 714로 읽혔습니다. 원본의 값은 7.14 IU/mL, 3등급입니다.</li><li><time>00:16</time> 가상의 응답자는 개와 접촉한 뒤 증상이 심해지지만, 오렌지를 먹고 난 뒤에는 증상이 없었다고 답했습니다.</li><li><time>00:24</time> 개 표피와 오렌지는 모두 3등급입니다. 환자 안내문은 각 노출 후의 증상을 검사값과 함께 설명합니다.</li><li><time>00:32</time> 공개 합성 사례에서 실제 생성된 한국어 카드뉴스입니다. 총 14장 중 요약, 증상 연관성, 개 표피 카드를 보여줍니다.</li><li><time>00:40</time> 이 FHIR R4 번들에는 환자 1개, 검사 항목 69개, 검사 보고서 1개가 들어 있습니다.</li></ol><ol lang="en" data-transcript="en" hidden><li><time>00:00</time> The synthetic MAST report contains 69 allergens.</li><li><time>00:08</time> The OCR output reads 714 for dog dander. Checking the original row shows 7.14 IU/mL, class 3.</li><li><time>00:16</time> The simulated patient reports worse symptoms after dog contact and no symptoms after eating orange.</li><li><time>00:24</time> Dog dander and orange are both class 3. The patient guidance explains the reported symptoms alongside each value.</li><li><time>00:32</time> These three original Korean cards are part of the 14-card deck generated for this synthetic case.</li><li><time>00:40</time> The FHIR R4 bundle links one Patient, 69 Observations and one DiagnosticReport, for a total of 71 resources.</li></ol></details>
+<noscript><p>영상 파일 내려받기 <a href="motion/workflow-ko.mp4">한국어 MP4</a> · <a href="motion/workflow-en.mp4">English MP4</a></p></noscript>
+</div></section>
+<section id="showcase" class="gallery-section"><div class="wrap">
+<div class="section-heading"><div><p class="overline">공개 합성 사례</p><h2>같은 검사에서 나온 여섯 자료</h2></div><a class="inline-link" href="examples/provenance.json" download>생성 기록 JSON <svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M5 16v4h14v-4"/></svg></a></div>
+<p class="section-intro">검사값은 어떤 증상과 노출 경험으로 이어질까요? 한 가상 환자의 검사표와 문진에서 두 항목을 나란히 읽어 보세요.</p>
+<table class="link-table"><caption>같은 3등급, 서로 다른 문진 응답</caption>
+<thead><tr><th scope="col">항원</th><th scope="col">검사값</th><th scope="col">노출 후 증상 · 합성 응답</th></tr></thead><tbody>
+<tr><th scope="row">개 표피</th><td>7.14 IU/mL</td><td>개와 접촉한 뒤 증상이 심해짐</td></tr>
+<tr><th scope="row">오렌지</th><td>5.66 IU/mL</td><td>먹은 뒤 증상이 없었음</td></tr>
+</tbody></table>
+<div class="gallery"><article class="sample" id="sample-1">
+ <a class="sample-picture" href="examples/01-synthetic-mast-report.png" aria-label="합성 MAST 검사표 열기"><img src="examples/previews/01-synthetic-mast-report.png" alt="합성 MAST 검사표 화면 미리보기" loading="lazy" width="960" height="600"></a>
+ <div class="sample-text"><h3>합성 MAST 검사표</h3><p>69개 항원이 담긴 원본 검사표를 확대해 볼 수 있습니다.</p><div class="sample-links"><a href="examples/01-synthetic-mast-report.png">검사표 열기 <svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a><a href="examples/01-synthetic-mast-report.png" download aria-label="합성 MAST 검사표 PNG 다운로드">PNG <svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M5 16v4h14v-4"/></svg></a></div></div></article><article class="sample" id="sample-2">
+ <a class="sample-picture" href="examples/02-ocr-comparison.html" aria-label="OCR 원본 대조 열기"><img src="examples/previews/02-ocr-comparison.png" alt="OCR 원본 대조 화면 미리보기" loading="lazy" width="960" height="600"></a>
+ <div class="sample-text"><h3>OCR 원본 대조</h3><p>광학 문자 인식(OCR)이 읽은 값과 원본을 나란히 확인합니다.</p><div class="sample-links"><a href="examples/02-ocr-comparison.html">원본 대조 열기 <svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a><a href="examples/02-ocr-output.json" download aria-label="OCR 원본 대조 JSON 다운로드">JSON <svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M5 16v4h14v-4"/></svg></a></div></div></article><article class="sample" id="sample-3">
+ <a class="sample-picture" href="examples/03-simulated-questionnaire.html" aria-label="환자 증상 문진 열기"><img src="examples/previews/03-simulated-questionnaire.png" alt="환자 증상 문진 화면 미리보기" loading="lazy" width="960" height="600"></a>
+ <div class="sample-text"><h3>환자 증상 문진</h3><p>노출 시점과 증상을 묻는 맞춤 문진과 예시 응답입니다.</p><div class="sample-links"><a href="examples/03-simulated-questionnaire.html">문진 열기 <svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a><a href="examples/03-simulated-questionnaire.json" download aria-label="환자 증상 문진 JSON 다운로드">JSON <svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M5 16v4h14v-4"/></svg></a></div></div></article><article class="sample" id="sample-4">
+ <a class="sample-picture" href="examples/04-patient-guidance.html" aria-label="환자용 결과 안내 열기"><img src="examples/previews/04-patient-guidance.png" alt="환자용 결과 안내 화면 미리보기" loading="lazy" width="960" height="600"></a>
+ <div class="sample-text"><h3>환자용 결과 안내</h3><p>검사값과 문진 응답을 함께 읽으며 다음 진료에서 물어볼 점을 정리합니다.</p><div class="sample-links"><a href="examples/04-patient-guidance.html">결과 안내 열기 <svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a><a href="examples/04-patient-guidance.html" download aria-label="환자용 결과 안내 HTML 다운로드">HTML <svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M5 16v4h14v-4"/></svg></a></div></div></article><article class="sample" id="sample-5">
+ <a class="sample-picture" href="examples/05-card-news.html" aria-label="환자 교육 카드뉴스 열기"><img src="examples/previews/05-card-news.png" alt="환자 교육 카드뉴스 화면 미리보기" loading="lazy" width="960" height="600"></a>
+ <div class="sample-text"><h3>환자 교육 카드뉴스</h3><p>같은 사례에서 생성한 한국어 카드 14장을 한 장씩 넘겨 보세요.</p><div class="sample-links"><a href="examples/05-card-news.html">카드뉴스 열기 <svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a><a href="examples/05-card-news.html" download aria-label="환자 교육 카드뉴스 HTML 다운로드">HTML <svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M5 16v4h14v-4"/></svg></a></div></div></article><article class="sample" id="sample-6">
+ <a class="sample-picture" href="examples/06-fhir-preview.html" aria-label="FHIR R4 기록 열기"><img src="examples/previews/06-fhir-bundle.png" alt="FHIR R4 기록 화면 미리보기" loading="lazy" width="960" height="600"></a>
+ <div class="sample-text"><h3>FHIR R4 기록</h3><p>환자, 검사 관찰값 69개와 검사 보고서를 연결한 표준 파일입니다.</p><div class="sample-links"><a href="examples/06-fhir-preview.html">FHIR 기록 열기 <svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a><a href="examples/06-fhir-bundle.json" download aria-label="FHIR R4 기록 JSON 다운로드">JSON <svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M5 16v4h14v-4"/></svg></a></div></div></article></div></div></section>
+<section class="research" id="evidence"><div class="wrap evidence-layout"><div class="research-title"><p class="overline">연구 결과</p><h2>무엇을 확인했나</h2><p>7가지 양식의 검사 결과지 29페이지를 기준 전사와 대조했습니다. 연구용 평가 표본과 위의 공개 합성 사례는 별개입니다.</p></div>
+<div class="findings"><article><div class="stat">1 <small>/ 98</small></div><div><h3>GPT-5.4가 놓친 양성 항목</h3><p>같은 양성 98건에서 로컬 Qwen 27B는 26건을 놓쳤습니다. 짝지은 비교에서 P &lt; .001이었습니다.</p></div></article>
+<article><div class="stat">188<span>장</span></div><div><h3>29개 사례에서 생성한 교육 카드</h3><p>환자 결과지 29건, 문진 문항 431개, FHIR 리소스 1,517개를 함께 생성했습니다.</p></div></article>
+<article><div class="stat">174<span>개</span></div><div><h3>FHIR 번들 검증</h3><p>네 가지 오류 유형을 수정한 뒤 공식 검증기에서 오류가 0건이었습니다. 125개 번들에는 경고가 남았습니다.</p></div></article>
+<details><summary>검사값과 설명의 근거를 어떻게 확인하나요?</summary><p>앱은 두 판독 결과가 다르면 해당 행을 표시합니다. 검토자는 원본 이미지에서 항원명, 수치, 등급을 대조합니다.</p><p>알레르기 온톨로지는 항원, 단백질 성분과 교차반응에 관한 근거를 연결합니다. 예를 들어 집먼지진드기의 Der p 10과 바퀴의 Bla g 7은 그래프에서 같은 단백질 계열에 속합니다. 의료진은 이 정보와 환자가 답한 증상·노출 이력을 함께 확인합니다.</p></details>
+<details><summary>평가 범위와 병원 적용 계획</summary><p>별도의 합성 결과지 21장에 대한 6개 모델의 양성 누락률은 0.5–28.0%였습니다. 환자 이해도와 만족도는 전향적 평가 과제입니다.</p><p>병원 적용은 협의 단계입니다. 계획에는 성인 환자 또는 소아 보호자의 연구 동의, 병원정보시스템과 연계한 알림톡 문진, 의료진의 최종 승인, 결과 전달 후 별도 만족도 조사가 포함됩니다.</p></details></div></div></section>
+<section class="poster-section" id="poster"><div class="wrap poster-box">
+<a class="poster-figure" href="poster/gaesin-A2-preview.jpg" aria-label="A2 포스터 전체 이미지 크게 보기"><img src="poster/gaesin-A2-preview.jpg" alt="개신의학회 A2 포스터 전체 보기" width="420" height="594" loading="lazy"></a>
+<div><p class="overline">제34회 개신의학학술대회</p><h2>학회 포스터</h2><p class="poster-name" lang="en">Turning Allergy Test Results into Clinician and Patient Reports with Artificial Intelligence</p><p class="poster-note">영문 A2 포스터에 연구 설계와 평가 결과, 한국어 앱에서 생성한 카드뉴스 원본을 담았습니다.</p><div class="poster-links"><a class="btn primary" href="poster/gaesin-A2.pdf">인쇄용 PDF <svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M5 16v4h14v-4"/></svg></a><a class="inline-link" href="poster/gaesin-A2.pptx" download>PowerPoint <svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-5-5 5 5 5-5M5 16v4h14v-4"/></svg></a></div></div>
+</div></section>
+</main>
+<footer><div class="wrap footer"><span class="brand"><span class="brand-mark"><svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-width="1.7"><path d="M6 12a6 6 0 0 1 6-6h4m2 6a6 6 0 0 1-6 6H8"/><circle cx="6" cy="15" r="2.4"/><circle cx="18" cy="9" r="2.4"/></g></svg></span><span>알레르기 검사 연구</span></span><p>충북대학교·충북대학교병원 연구진 외</p><a href="https://github.com/DrugnSafety/APAAACI_mast_to_HL7FHIR/archive/refs/heads/gh-pages.zip">전체 자료 ZIP</a><a href="https://github.com/DrugnSafety/APAAACI_mast_to_HL7FHIR">GitHub <svg class="icon " width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18 18 6M7 6h11v11"/></svg></a><a href="#top">맨 위로 ↑</a></div></footer>
+</body></html>

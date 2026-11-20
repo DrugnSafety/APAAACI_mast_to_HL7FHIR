@@ -1,0 +1,25 @@
+WEBVTT
+
+1
+00:00:00.000 --> 00:00:08.000
+The synthetic MAST report contains 69 allergens.
+
+2
+00:00:08.000 --> 00:00:16.000
+The OCR output reads 714 for dog dander. Checking the original row shows 7.14 IU/mL, class 3.
+
+3
+00:00:16.000 --> 00:00:24.000
+The simulated patient reports worse symptoms after dog contact and no symptoms after eating orange.
+
+4
+00:00:24.000 --> 00:00:32.000
+Dog dander and orange are both class 3. The patient guidance explains the reported symptoms alongside each value.
+
+5
+00:00:32.000 --> 00:00:40.000
+These three original Korean cards are part of the 14-card deck generated for this synthetic case.
+
+6
+00:00:40.000 --> 00:00:48.000
+The FHIR R4 bundle links one Patient, 69 Observations and one DiagnosticReport, for a total of 71 resources.
