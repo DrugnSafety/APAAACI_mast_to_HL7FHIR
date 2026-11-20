@@ -1,0 +1,79 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>합성 MAST OCR 비교</title><style>
+:root{--navy:#15324b;--blue:#2077a6;--sky:#e8f4f9;--ink:#17232d;--muted:#526574;--line:#d5e1e8;--green:#236b54;--amber:#9b6617;--red:#a23a35}
+*{box-sizing:border-box}html,body{max-width:100%;overflow-x:hidden}body{margin:0;font-family:Arial,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;color:var(--ink);background:#f4f7f9;line-height:1.6}
+main{width:100%;max-width:1120px;margin:auto;padding:34px 24px 80px;min-width:0}header{background:linear-gradient(135deg,var(--navy),#275d7b);color:#fff;padding:28px;border-radius:18px;margin-bottom:22px;overflow-wrap:anywhere}
+h1{font-size:clamp(26px,4vw,42px);line-height:1.15;margin:4px 0 10px}h2{color:var(--navy);margin-top:0}.eyebrow{font-size:12px;letter-spacing:.16em;font-weight:700;text-transform:uppercase;opacity:.9}
+.notice,.source{padding:14px 16px;border-radius:12px;margin:16px 0;max-width:100%;overflow-wrap:anywhere}.notice{background:#fff3d9;border-left:5px solid #e0a52c}.source{background:#eaf4f0;border-left:5px solid var(--green);font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1.15fr;gap:20px}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;min-width:0}.scan{width:100%;height:auto;border:1px solid var(--line);border-radius:10px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}.stat{background:var(--sky);padding:12px;border-radius:10px;text-align:center}.stat b{display:block;font-size:24px;color:var(--navy)}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{position:sticky;top:0;background:#eaf1f5;color:var(--navy)}.table-wrap{width:100%;max-width:100%;min-width:0;max-height:720px;overflow:auto;border:1px solid var(--line);border-radius:10px}
+.positive{color:var(--red);font-weight:700}.negative{color:var(--green)}.tag{display:inline-block;padding:3px 9px;border-radius:999px;background:var(--sky);font-size:12px;font-weight:700}.answer{background:#eef7f3;border-left:4px solid var(--green);padding:9px 12px;margin:7px 0 16px}.sim{color:var(--amber);font-weight:700}.question{border-bottom:1px solid var(--line);padding:14px 0}.question:last-child{border:0}.question h3{font-size:17px;margin:0 0 5px}.question p{margin:4px 0;color:var(--muted)}
+.guide{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.guide section{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}.guide h2{font-size:20px}.guide ul,.guide ol{padding-left:22px}.warning{border:2px solid #d47b72!important;background:#fff8f7!important}.footer{font-size:13px;color:var(--muted);margin-top:24px;padding-top:16px;border-top:1px solid var(--line)}
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}.json{width:100%;max-width:100%;white-space:pre-wrap;word-break:break-all;background:#101b24;color:#d9edf5;padding:20px;border-radius:12px;max-height:760px;overflow:auto;font-size:12px}
+@media(max-width:760px){.grid,.guide{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}main{padding:18px 12px 50px}header{padding:22px 18px}}
+@media print{body{background:#fff}main{max-width:none;padding:0}.panel,.guide section{break-inside:avoid}.table-wrap{max-height:none;overflow:visible}th{position:static}}
+</style></head><body><nav aria-label="연구 전시" style="max-width:1120px;margin:12px auto;padding:0 16px;font:15px sans-serif"><a style="color:#155d64" href="../index.html#showcase">← 예시 결과물 목록</a></nav><main>
+<header><div class="eyebrow">PUBLIC SYNTHETIC EXAMPLE · OCR</div><h1>합성 MAST 검사지와 구조화 결과</h1><p>같은 저장소의 합성 이미지와 정답 JSON을 나란히 표시합니다.</p></header>
+<div class="notice"><strong>연구·시연 전용입니다.</strong> 이름과 식별자는 공개 사례용 값입니다. 이 결과를 진료에 사용하지 마십시오.</div>
+<div class="stats"><div class="stat"><b>69</b>정답 행</div><div class="stat"><b>571</b>OCR 단어</div><div class="stat"><b>68</b>이름 문자열 발견</div><div class="stat"><b>1</b>이름 문자열 미발견</div></div>
+<div class="grid"><section class="panel"><h2>1. 합성 검사 이미지</h2><img class="scan" src="01-synthetic-mast-report.png" alt="69개 항목이 있는 합성 MAST 검사 결과지"></section>
+<section class="panel"><h2>2. 실제 로컬 OCR 원문</h2><p><span class="tag">tesseract 5.5.3</span> <span class="tag">kor+eng</span> <span class="tag">PSM 3</span></p><pre class="json">MAST Allergy (Integrated) 검사보고서
+
+병(의)원명        해든병원 소아청소년과                      진료과/병동 내과                                              검체채취일        2026-08-03
+수진자명 김시우                                        의사명           최하윤                                            검사의뢰일  2026-08-03
+생년월일 2020-10-23                           접수번호  20260803-558-191                      결과보고일      2026-08-04
+차트번호      75382314                             검체종류      Serum                                   기     타
+구분                          Allergen                                                           결과 (U/mL)        Class            구분                          Allergen                                                           결과 (U/mL)        Class
+Total IgE                            Slee                  &lt;50        음성 ㅣ 잡초화분 Japanese hop                      환삼덩굴                0.62         1
+진드기. 2-500660 spider mite        점박이응애       &lt;0.15     0         English plantain           질경이          16.79     3
+T. putrescentiae                    긴털가루진드기         0.23         0                Goldenrod                         미역취                 13.82         3
+D. farinae                             미국집먼지진드기        0.64          1                  Chrysanthemum                     국화                     0.44          1
+D. pteronyssinus                      유럽 집먼지진드기 0.67           1                   Russian thistle                         러시안 IAal             0.26           0
+골팡이. &lt;. herbarum                          클라도스포리움… 0.69          1                  Mugwort                             쑥                        148          2
+Outdoor mold mixture             실외 곰팡이 혼합        0.29         0       목초화분 Velvet grass                       잔디                    0.24         0
+A.alternata                          얼터나리아              0.03          0                 Meadow fescue                      넓은김의털               0.45          1
+A. niger                            아스페르길루스 …      0.27         0               Grass                              잔디 꽃가루 혼합        0.02         0
+Neurospora                             뉴로스포라                0.09           0                   Cultivated oat                          귀리                        0.19           0
+Indoor mold mixture                실내 곰팡이 훈합        0.27          0                 Kentucky blue grass                왕포아풀                 0.14,          0
+M. racemosus                      뮤코르 라세모수스 0.63         1                Bermuda grass                     우산잔디                0.26         0
+Fusarium                                   푸사리움 모닐리… 0.49            1                     Timothy                                    티모시                       0.19            0
+Penicillium                                 페니실리움                  0.17            0                     Rye grass, perennial                    호밀풀                       0.04           0
+A. fumigatus                          아스페르길루스…  &lt;0.15          0                  Orchard grass                         오리새                    0.46           1
+C. albicans                        칸디다 알비칸스        0.01         0       식품 Mustard                          겨자                  &lt;0.15        0
+SEE Cat dander                        고양이 표피            0.68         1                Mackerel                          고등어                 0.07         0
+Dog dander                               개 표피                       714            3                     Lentil                                        렌즈콩                       0.33            0
+Rabbit epithelium                  토끼 상피               &lt;0.15         0                Shrimp                              새우                    &lt;0.15         0
+Hamster                              햄스터                    07          0                 Orange                               오렌지                   5.66          3
+Cow dander                         소 비듬                  0.25          0                Pistachio                            피스타치오              &lt;0.15         0
+Mouse                                생쥐                      0.23          0                 Grape                                포도                      0.14          0
+Guinea pig                          기니피그                0.06         0                Cashew                             Wael                   0.13          0
+Chicken                                         닭                               &lt;0.15            0                       Pineapple                                     파인애플                      0.33             0
+Horse dander             말 비듬          178     2         06000                 피칸           &lt;0.15     0
+Rat epithelium                           al 상피                      &lt;0.15           0                    Abalone                                    전복                         29.90           4
+2 Cockroach, German                 독일바퀴                 0.20          0
+Cockroach, Mix                     바퀴벌레               &lt;0.15         0
+Cockroach, American                미국바퀴                 0.09          0
+수목화분 Poplar                              포플러나무              0.35          1
+Hazel                                 개암나무                 0.01          0
+Oak                                   참나무                   &lt;0.15         0
+Tree mixture 2                        나무 꽃가루 혼…         &lt;0.15          0
+Plane                                 양버즘나무               0.29          0
+Birch                                 자작나무                 0.15          0
+Olive                                 올리브                   &lt;0.15         0
+Willow                                버드나무                 0.38          1
+Pine                                  소나무                   0.28          0
+Beech                                                 너도밤나무                     32.55              4
+Japanese cedar                                 삼나무                             0.13               0
+잡초화분 Ragweed                             돼지풀                   &lt;0.15         0
+Lamb&#x27;s quarters                     명아주                   &lt;0.15         0
+Dandelion                   서양민들레          &lt;0.15      0
+Nettle                                471e                   0.15          0
+버
+검사자 한서연
+
+검사기관번호 :78838919                                                                                                                                               보고자 오서연
+
+</pre></section></div>
+<section class="panel" style="margin-top:20px"><h2>3. 알려진 정답과의 투명한 점검</h2><p>아래 표는 정규화한 항원 이름이 OCR 원문에 있는지만 확인합니다. 값은 행에 연결하지 않았으므로 정확도 지표가 아닙니다.</p><div class="table-wrap"><table><thead><tr><th>#</th><th>정답 항원</th><th>정답 값</th><th>OCR 원문</th></tr></thead><tbody><tr><td>5</td><td>Cladosporium herbarum</td><td>0.69</td><td class="positive">not found</td></tr><tr><td>1</td><td>2-spotted spider mite</td><td>&lt;0.15</td><td class="negative">found</td></tr><tr><td>2</td><td>Tyrophagus putrescentiae</td><td>0.23</td><td class="negative">found</td></tr><tr><td>3</td><td>Dermatophagoides farinae</td><td>0.64</td><td class="negative">found</td></tr><tr><td>4</td><td>Dermatophagoides pteronyssinus</td><td>0.67</td><td class="negative">found</td></tr></tbody></table></div></section>
+<div class="source">Tesseract 5.5.3이 합성 검사지에서 읽은 결과입니다. 이후 문진과 안내문, FHIR 파일에는 합성 검사지를 만들 때 지정한 기준값을 사용했습니다. <a href="02-ocr-output.json" download>OCR 원문 JSON</a> · <a href="02-ocr-truth-comparison.json" download>기준값과 대조한 JSON</a></div>
+<p class="footer">Case APAAACI-SYNTH-MAST-001 · 합성 데이터 · 정적 파일 · 외부 요청 없음</p></main></body></html>

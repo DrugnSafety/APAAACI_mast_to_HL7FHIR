@@ -1,0 +1,3457 @@
+{
+  "resource": "APAAACI adaptive questionnaire showcase export",
+  "case_id": "APAAACI-SYNTH-MAST-001",
+  "synthetic": true,
+  "answer_status": "simulated",
+  "source_module": "services/questionnaire_service.py::QuestionnaireEngine.build",
+  "questionnaire": {
+    "sections": [
+      {
+        "id": "pattern",
+        "title": "증상은 언제 나타나나요?",
+        "subtitle": "가장 큰 그림부터 알려주세요. 이후 질문이 여기에 맞춰 달라집니다.",
+        "questions": [
+          {
+            "id": "symptom_pattern",
+            "type": "single",
+            "title": "알레르기 증상의 시기 패턴을 골라주세요.",
+            "options": [
+              {
+                "value": "perennial",
+                "label": "연중 계속돼요",
+                "hint": "특정 계절과 무관하게 1년 내내"
+              },
+              {
+                "value": "seasonal",
+                "label": "특정 계절에만 심해요",
+                "hint": "예: 봄·가을에만"
+              },
+              {
+                "value": "both",
+                "label": "연중 있는데 특정 계절에 더 심해요"
+              },
+              {
+                "value": "none",
+                "label": "뚜렷한 증상이 없어요"
+              }
+            ],
+            "applies_to": []
+          }
+        ]
+      },
+      {
+        "id": "season",
+        "title": "악화되는 계절",
+        "subtitle": "계절성 알러젠(꽃가루 등)의 실제 관련성을 가리는 핵심 단서입니다.",
+        "questions": [
+          {
+            "id": "worse_seasons",
+            "type": "multi",
+            "title": "증상이 더 심해지는 계절을 모두 선택하세요.",
+            "help": "‘연중 계속’을 고르셨어도, 특히 심한 계절이 있으면 선택해 주세요.",
+            "options": [
+              {
+                "value": "spring",
+                "label": "봄 (3~5월)"
+              },
+              {
+                "value": "summer",
+                "label": "여름 (6~8월)"
+              },
+              {
+                "value": "fall",
+                "label": "가을 (9~11월)"
+              },
+              {
+                "value": "winter",
+                "label": "겨울 (12~2월)"
+              },
+              {
+                "value": "none",
+                "label": "계절 차이 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": []
+          }
+        ],
+        "show_if": {
+          "any_of_pattern": [
+            "seasonal",
+            "both"
+          ],
+          "or_has_pollen": true
+        }
+      },
+      {
+        "id": "pollen",
+        "title": "꽃가루 시즌 증상",
+        "subtitle": "같은 시즌의 꽃가루는 한 번에 묶어 여쭤봅니다.",
+        "questions": [
+          {
+            "id": "pollen_season__spring_tree",
+            "type": "single",
+            "title": "봄철(3~5월)에 코·눈 증상(재채기·콧물·코막힘·눈 가려움)이 뚜렷하게 심해지나요?",
+            "help": "봄철 나무 꽃가루 · 봄 (3~5월)",
+            "options": [
+              {
+                "value": "yes",
+                "label": "예"
+              },
+              {
+                "value": "no",
+                "label": "아니오"
+              },
+              {
+                "value": "unsure",
+                "label": "잘 모르겠어요"
+              }
+            ],
+            "applies_to": [
+              "agn8",
+              "agn9",
+              "agn10"
+            ]
+          },
+          {
+            "id": "severity__pollen_spring_tree",
+            "type": "single",
+            "title": "봄 (3~5월) 증상이 있을 때, 가장 심했던 정도는?",
+            "help": "가장 심했던 에피소드 기준으로 골라주세요. 중증·아나필락시스는 전문의 평가가 필요합니다.",
+            "options": [
+              {
+                "value": "mild",
+                "label": "경증 — 가벼운 국소 증상, 일상에 큰 지장 없음"
+              },
+              {
+                "value": "moderate",
+                "label": "중등증 — 증상이 뚜렷하고 일상·수면에 지장"
+              },
+              {
+                "value": "severe",
+                "label": "중증 — 증상이 심해 약 없이는 조절이 어려움"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "아나필락시스 — 호흡곤란·전신 두드러기·어지럼(응급 병력)"
+              }
+            ],
+            "applies_to": [
+              "agn8",
+              "agn9",
+              "agn10"
+            ],
+            "reveal_if": {
+              "question": "pollen_season__spring_tree",
+              "any": [
+                "yes"
+              ]
+            }
+          },
+          {
+            "id": "pollen_season__summer_grass",
+            "type": "single",
+            "title": "늦봄~초여름(5~6월), 특히 잔디밭·풀밭 근처에서 코·눈 증상이 심해지나요?",
+            "help": "늦봄~초여름 잔디(화본과) 꽃가루 · 늦봄~초여름 (5~6월)",
+            "options": [
+              {
+                "value": "yes",
+                "label": "예"
+              },
+              {
+                "value": "no",
+                "label": "아니오"
+              },
+              {
+                "value": "unsure",
+                "label": "잘 모르겠어요"
+              }
+            ],
+            "applies_to": [
+              "agn16",
+              "agn17"
+            ]
+          },
+          {
+            "id": "severity__pollen_summer_grass",
+            "type": "single",
+            "title": "늦봄~초여름 (5~6월) 증상이 있을 때, 가장 심했던 정도는?",
+            "help": "가장 심했던 에피소드 기준으로 골라주세요. 중증·아나필락시스는 전문의 평가가 필요합니다.",
+            "options": [
+              {
+                "value": "mild",
+                "label": "경증 — 가벼운 국소 증상, 일상에 큰 지장 없음"
+              },
+              {
+                "value": "moderate",
+                "label": "중등증 — 증상이 뚜렷하고 일상·수면에 지장"
+              },
+              {
+                "value": "severe",
+                "label": "중증 — 증상이 심해 약 없이는 조절이 어려움"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "아나필락시스 — 호흡곤란·전신 두드러기·어지럼(응급 병력)"
+              }
+            ],
+            "applies_to": [
+              "agn16",
+              "agn17"
+            ],
+            "reveal_if": {
+              "question": "pollen_season__summer_grass",
+              "any": [
+                "yes"
+              ]
+            }
+          },
+          {
+            "id": "pollen_season__fall_weed",
+            "type": "single",
+            "title": "늦여름~가을(8~10월)에 코·눈 증상이 뚜렷하게 심해지나요?",
+            "help": "가을철 잡초 꽃가루 · 늦여름~가을 (8~10월)",
+            "options": [
+              {
+                "value": "yes",
+                "label": "예"
+              },
+              {
+                "value": "no",
+                "label": "아니오"
+              },
+              {
+                "value": "unsure",
+                "label": "잘 모르겠어요"
+              }
+            ],
+            "applies_to": [
+              "agn11",
+              "agn12",
+              "agn13",
+              "agn14",
+              "agn15"
+            ]
+          },
+          {
+            "id": "severity__pollen_fall_weed",
+            "type": "single",
+            "title": "늦여름~가을 (8~10월) 증상이 있을 때, 가장 심했던 정도는?",
+            "help": "가장 심했던 에피소드 기준으로 골라주세요. 중증·아나필락시스는 전문의 평가가 필요합니다.",
+            "options": [
+              {
+                "value": "mild",
+                "label": "경증 — 가벼운 국소 증상, 일상에 큰 지장 없음"
+              },
+              {
+                "value": "moderate",
+                "label": "중등증 — 증상이 뚜렷하고 일상·수면에 지장"
+              },
+              {
+                "value": "severe",
+                "label": "중증 — 증상이 심해 약 없이는 조절이 어려움"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "아나필락시스 — 호흡곤란·전신 두드러기·어지럼(응급 병력)"
+              }
+            ],
+            "applies_to": [
+              "agn11",
+              "agn12",
+              "agn13",
+              "agn14",
+              "agn15"
+            ],
+            "reveal_if": {
+              "question": "pollen_season__fall_weed",
+              "any": [
+                "yes"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "indoor",
+        "title": "실내 환경 알러젠",
+        "subtitle": "집먼지진드기·곰팡이·바퀴 등은 노출 상황과 시간대가 감별의 열쇠입니다.",
+        "questions": [
+          {
+            "id": "indoor_timing",
+            "type": "single",
+            "title": "증상이 주로 저녁·자는 동안·이른 아침에 더 심한가요?",
+            "help": "집먼지진드기·바퀴 등 실내 알러젠은 보통 실내에 머무는 저녁·새벽·아침에 악화됩니다.",
+            "options": [
+              {
+                "value": "yes",
+                "label": "예"
+              },
+              {
+                "value": "no",
+                "label": "아니오"
+              },
+              {
+                "value": "unsure",
+                "label": "잘 모르겠어요"
+              }
+            ],
+            "applies_to": [
+              "agn0",
+              "agn1"
+            ]
+          },
+          {
+            "id": "indoor_away",
+            "type": "single",
+            "title": "여행 등으로 집을 며칠 비우면 증상이 좋아지나요?",
+            "help": "집을 떠나면 호전된다면 실내 알러젠이 원인일 가능성이 높습니다.",
+            "options": [
+              {
+                "value": "yes",
+                "label": "예"
+              },
+              {
+                "value": "no",
+                "label": "아니오"
+              },
+              {
+                "value": "unsure",
+                "label": "잘 모르겠어요"
+              }
+            ],
+            "applies_to": [
+              "agn0",
+              "agn1"
+            ]
+          },
+          {
+            "id": "mite_dust",
+            "type": "single",
+            "title": "이불·카펫을 털거나 먼지 청소를 할 때 바로 증상이 심해지나요?",
+            "help": "집먼지진드기 알레르기의 특징적 신호입니다.",
+            "options": [
+              {
+                "value": "yes",
+                "label": "예"
+              },
+              {
+                "value": "no",
+                "label": "아니오"
+              },
+              {
+                "value": "unsure",
+                "label": "잘 모르겠어요"
+              }
+            ],
+            "applies_to": [
+              "agn0",
+              "agn1"
+            ]
+          },
+          {
+            "id": "mold_damp",
+            "type": "single",
+            "title": "장마철·습한 곳·곰팡이가 보이는 공간에서 증상이 심해지나요?",
+            "help": "집먼지진드기도 습할 때 늘어나므로, 이 질문만으로는 둘을 가르지 못합니다. 아래에서 어떤 공간·상황인지 구체적으로 여쭤봅니다.",
+            "options": [
+              {
+                "value": "yes",
+                "label": "예"
+              },
+              {
+                "value": "no",
+                "label": "아니오"
+              },
+              {
+                "value": "unsure",
+                "label": "잘 모르겠어요"
+              }
+            ],
+            "applies_to": [
+              "agn2",
+              "agn3",
+              "agn4"
+            ]
+          },
+          {
+            "id": "mold_space",
+            "type": "multi",
+            "title": "증상이 특히 심해지는 공간을 모두 골라주세요.",
+            "help": "욕실·지하실·누수 자국·에어컨은 곰팡이 쪽 단서이고, 침실 잠자리는 집먼지진드기 쪽 단서입니다. 어느 쪽인지 갈라내기 위한 질문입니다.",
+            "options": [
+              {
+                "value": "bathroom",
+                "label": "욕실·샤워실 등 늘 젖어 있는 곳"
+              },
+              {
+                "value": "basement",
+                "label": "지하실·창고·오래된 건물"
+              },
+              {
+                "value": "water_damage",
+                "label": "누수·결로·물에 젖었던 벽지나 가구 근처"
+              },
+              {
+                "value": "aircon",
+                "label": "에어컨·가습기·환기구를 켤 때"
+              },
+              {
+                "value": "bedroom",
+                "label": "침실 잠자리(이불·매트리스) 주변"
+              },
+              {
+                "value": "none",
+                "label": "특별히 그런 공간은 없어요",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn2",
+              "agn3",
+              "agn4"
+            ]
+          },
+          {
+            "id": "mold_outdoor",
+            "type": "multi",
+            "title": "야외에서 다음 상황에 증상이 심해진 적이 있나요?",
+            "help": "얼터나리아·클라도스포리움은 실외 곰팡이입니다. 낙엽·퇴비·비 온 뒤에 포자가 크게 늘어납니다. 집 안에서만 사는 집먼지진드기와는 확실히 구분됩니다.",
+            "options": [
+              {
+                "value": "leaves",
+                "label": "낙엽 더미·풀 깎기·잔디밭"
+              },
+              {
+                "value": "soil",
+                "label": "퇴비·흙·화분을 다룰 때"
+              },
+              {
+                "value": "rain",
+                "label": "비 온 직후·천둥번개가 친 뒤"
+              },
+              {
+                "value": "farm",
+                "label": "농장·창고·건초·곡물 주변"
+              },
+              {
+                "value": "none",
+                "label": "해당 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn2",
+              "agn3",
+              "agn4"
+            ]
+          },
+          {
+            "id": "mite_bedding_trial",
+            "type": "single",
+            "title": "침구를 뜨거운 물로 세탁하거나 진드기 차단 커버를 써본 뒤 증상이 좋아졌나요?",
+            "help": "좋아졌다면 집먼지진드기 쪽 근거입니다.",
+            "options": [
+              {
+                "value": "better",
+                "label": "해봤고, 증상이 좋아졌어요"
+              },
+              {
+                "value": "same",
+                "label": "해봤지만 변화가 없었어요"
+              },
+              {
+                "value": "never",
+                "label": "해본 적 없어요"
+              }
+            ],
+            "applies_to": [
+              "agn0",
+              "agn1"
+            ]
+          },
+          {
+            "id": "mold_dehum_trial",
+            "type": "single",
+            "title": "제습기를 쓰거나 곰팡이를 제거한 뒤 증상이 좋아졌나요?",
+            "help": "좋아졌다면 곰팡이 쪽 근거입니다.",
+            "options": [
+              {
+                "value": "better",
+                "label": "해봤고, 증상이 좋아졌어요"
+              },
+              {
+                "value": "same",
+                "label": "해봤지만 변화가 없었어요"
+              },
+              {
+                "value": "never",
+                "label": "해본 적 없어요"
+              }
+            ],
+            "applies_to": [
+              "agn2",
+              "agn3",
+              "agn4"
+            ]
+          },
+          {
+            "id": "severity__indoor",
+            "type": "single",
+            "title": "실내 환경 노출로 증상이 있을 때, 가장 심했던 정도는?",
+            "help": "가장 심했던 에피소드 기준으로 골라주세요. 중증·아나필락시스는 전문의 평가가 필요합니다.",
+            "options": [
+              {
+                "value": "mild",
+                "label": "경증 — 가벼운 국소 증상, 일상에 큰 지장 없음"
+              },
+              {
+                "value": "moderate",
+                "label": "중등증 — 증상이 뚜렷하고 일상·수면에 지장"
+              },
+              {
+                "value": "severe",
+                "label": "중증 — 증상이 심해 약 없이는 조절이 어려움"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "아나필락시스 — 호흡곤란·전신 두드러기·어지럼(응급 병력)"
+              }
+            ],
+            "applies_to": [
+              "agn0",
+              "agn1",
+              "agn2",
+              "agn3",
+              "agn4"
+            ],
+            "reveal_if_any": [
+              {
+                "question": "indoor_timing",
+                "any": [
+                  "yes"
+                ]
+              },
+              {
+                "question": "indoor_away",
+                "any": [
+                  "yes"
+                ]
+              },
+              {
+                "question": "mite_dust",
+                "any": [
+                  "yes"
+                ]
+              },
+              {
+                "question": "mold_damp",
+                "any": [
+                  "yes"
+                ]
+              },
+              {
+                "question": "mold_space",
+                "includes_any": [
+                  "aircon",
+                  "basement",
+                  "bathroom",
+                  "water_damage"
+                ]
+              },
+              {
+                "question": "mold_outdoor",
+                "includes_any": [
+                  "leaves",
+                  "soil",
+                  "rain",
+                  "farm"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "animal",
+        "title": "동물 알러젠",
+        "subtitle": "얼마나 접촉하는지, 접촉할 때 증상이 달라지는지 확인합니다.",
+        "questions": [
+          {
+            "id": "animal_contact__agn5",
+            "type": "single",
+            "title": "고양이 표피와 얼마나 접촉하나요?",
+            "help": "함께 사는지, 따로 살지만 얼마나 자주 만나는지 골라주세요. 일하면서 다루는 경우는 아래에서 따로 여쭤봅니다.",
+            "options": [
+              {
+                "value": "live",
+                "label": "함께 살아요",
+                "hint": "집에서 키우거나 같은 집에 있어요"
+              },
+              {
+                "value": "frequent",
+                "label": "함께 살지는 않지만 자주 만나요",
+                "hint": "주 1회 이상"
+              },
+              {
+                "value": "occasional",
+                "label": "가끔 만나요",
+                "hint": "한 달에 1~3번"
+              },
+              {
+                "value": "rare",
+                "label": "거의 만나지 않아요",
+                "hint": "1년에 몇 번 이하"
+              }
+            ],
+            "applies_to": [
+              "agn5"
+            ]
+          },
+          {
+            "id": "animal_contact_freq__agn5",
+            "type": "single",
+            "title": "고양이 표피를 얼마나 자주 만나나요?",
+            "options": [
+              {
+                "value": "daily",
+                "label": "거의 매일"
+              },
+              {
+                "value": "several",
+                "label": "주 2~6회"
+              },
+              {
+                "value": "weekly",
+                "label": "주 1회쯤"
+              }
+            ],
+            "applies_to": [
+              "agn5"
+            ],
+            "reveal_if": {
+              "question": "animal_contact__agn5",
+              "any": [
+                "frequent"
+              ]
+            }
+          },
+          {
+            "id": "animal_worse__agn5",
+            "type": "single",
+            "title": "고양이 표피와 접촉이 늘면 코·눈·피부·호흡기 증상이 심해지나요?",
+            "help": "접촉 직후~수십 분 내 증상이 생기는지 떠올려 보세요.",
+            "options": [
+              {
+                "value": "yes",
+                "label": "예"
+              },
+              {
+                "value": "no",
+                "label": "아니오"
+              },
+              {
+                "value": "unsure",
+                "label": "잘 모르겠어요"
+              }
+            ],
+            "applies_to": [
+              "agn5"
+            ]
+          },
+          {
+            "id": "severity__agn5",
+            "type": "single",
+            "title": "고양이 표피 접촉 시 증상이 있을 때, 가장 심했던 정도는?",
+            "help": "가장 심했던 에피소드 기준으로 골라주세요. 중증·아나필락시스는 전문의 평가가 필요합니다.",
+            "options": [
+              {
+                "value": "mild",
+                "label": "경증 — 가벼운 국소 증상, 일상에 큰 지장 없음"
+              },
+              {
+                "value": "moderate",
+                "label": "중등증 — 증상이 뚜렷하고 일상·수면에 지장"
+              },
+              {
+                "value": "severe",
+                "label": "중증 — 증상이 심해 약 없이는 조절이 어려움"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "아나필락시스 — 호흡곤란·전신 두드러기·어지럼(응급 병력)"
+              }
+            ],
+            "applies_to": [
+              "agn5"
+            ],
+            "reveal_if": {
+              "question": "animal_worse__agn5",
+              "any": [
+                "yes"
+              ]
+            }
+          },
+          {
+            "id": "animal_contact__agn6",
+            "type": "single",
+            "title": "개 표피와 얼마나 접촉하나요?",
+            "help": "함께 사는지, 따로 살지만 얼마나 자주 만나는지 골라주세요. 일하면서 다루는 경우는 아래에서 따로 여쭤봅니다.",
+            "options": [
+              {
+                "value": "live",
+                "label": "함께 살아요",
+                "hint": "집에서 키우거나 같은 집에 있어요"
+              },
+              {
+                "value": "frequent",
+                "label": "함께 살지는 않지만 자주 만나요",
+                "hint": "주 1회 이상"
+              },
+              {
+                "value": "occasional",
+                "label": "가끔 만나요",
+                "hint": "한 달에 1~3번"
+              },
+              {
+                "value": "rare",
+                "label": "거의 만나지 않아요",
+                "hint": "1년에 몇 번 이하"
+              }
+            ],
+            "applies_to": [
+              "agn6"
+            ]
+          },
+          {
+            "id": "animal_contact_freq__agn6",
+            "type": "single",
+            "title": "개 표피를 얼마나 자주 만나나요?",
+            "options": [
+              {
+                "value": "daily",
+                "label": "거의 매일"
+              },
+              {
+                "value": "several",
+                "label": "주 2~6회"
+              },
+              {
+                "value": "weekly",
+                "label": "주 1회쯤"
+              }
+            ],
+            "applies_to": [
+              "agn6"
+            ],
+            "reveal_if": {
+              "question": "animal_contact__agn6",
+              "any": [
+                "frequent"
+              ]
+            }
+          },
+          {
+            "id": "animal_worse__agn6",
+            "type": "single",
+            "title": "개 표피와 접촉이 늘면 코·눈·피부·호흡기 증상이 심해지나요?",
+            "help": "접촉 직후~수십 분 내 증상이 생기는지 떠올려 보세요.",
+            "options": [
+              {
+                "value": "yes",
+                "label": "예"
+              },
+              {
+                "value": "no",
+                "label": "아니오"
+              },
+              {
+                "value": "unsure",
+                "label": "잘 모르겠어요"
+              }
+            ],
+            "applies_to": [
+              "agn6"
+            ]
+          },
+          {
+            "id": "severity__agn6",
+            "type": "single",
+            "title": "개 표피 접촉 시 증상이 있을 때, 가장 심했던 정도는?",
+            "help": "가장 심했던 에피소드 기준으로 골라주세요. 중증·아나필락시스는 전문의 평가가 필요합니다.",
+            "options": [
+              {
+                "value": "mild",
+                "label": "경증 — 가벼운 국소 증상, 일상에 큰 지장 없음"
+              },
+              {
+                "value": "moderate",
+                "label": "중등증 — 증상이 뚜렷하고 일상·수면에 지장"
+              },
+              {
+                "value": "severe",
+                "label": "중증 — 증상이 심해 약 없이는 조절이 어려움"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "아나필락시스 — 호흡곤란·전신 두드러기·어지럼(응급 병력)"
+              }
+            ],
+            "applies_to": [
+              "agn6"
+            ],
+            "reveal_if": {
+              "question": "animal_worse__agn6",
+              "any": [
+                "yes"
+              ]
+            }
+          },
+          {
+            "id": "animal_contact__agn7",
+            "type": "single",
+            "title": "말 비듬과 얼마나 접촉하나요?",
+            "help": "함께 사는지, 따로 살지만 얼마나 자주 만나는지 골라주세요. 일하면서 다루는 경우는 아래에서 따로 여쭤봅니다.",
+            "options": [
+              {
+                "value": "live",
+                "label": "함께 살아요",
+                "hint": "집에서 키우거나 같은 집에 있어요"
+              },
+              {
+                "value": "frequent",
+                "label": "함께 살지는 않지만 자주 만나요",
+                "hint": "주 1회 이상"
+              },
+              {
+                "value": "occasional",
+                "label": "가끔 만나요",
+                "hint": "한 달에 1~3번"
+              },
+              {
+                "value": "rare",
+                "label": "거의 만나지 않아요",
+                "hint": "1년에 몇 번 이하"
+              }
+            ],
+            "applies_to": [
+              "agn7"
+            ]
+          },
+          {
+            "id": "animal_contact_freq__agn7",
+            "type": "single",
+            "title": "말 비듬을 얼마나 자주 만나나요?",
+            "options": [
+              {
+                "value": "daily",
+                "label": "거의 매일"
+              },
+              {
+                "value": "several",
+                "label": "주 2~6회"
+              },
+              {
+                "value": "weekly",
+                "label": "주 1회쯤"
+              }
+            ],
+            "applies_to": [
+              "agn7"
+            ],
+            "reveal_if": {
+              "question": "animal_contact__agn7",
+              "any": [
+                "frequent"
+              ]
+            }
+          },
+          {
+            "id": "animal_worse__agn7",
+            "type": "single",
+            "title": "말 비듬과 접촉이 늘면 코·눈·피부·호흡기 증상이 심해지나요?",
+            "help": "접촉 직후~수십 분 내 증상이 생기는지 떠올려 보세요.",
+            "options": [
+              {
+                "value": "yes",
+                "label": "예"
+              },
+              {
+                "value": "no",
+                "label": "아니오"
+              },
+              {
+                "value": "unsure",
+                "label": "잘 모르겠어요"
+              }
+            ],
+            "applies_to": [
+              "agn7"
+            ]
+          },
+          {
+            "id": "severity__agn7",
+            "type": "single",
+            "title": "말 비듬 접촉 시 증상이 있을 때, 가장 심했던 정도는?",
+            "help": "가장 심했던 에피소드 기준으로 골라주세요. 중증·아나필락시스는 전문의 평가가 필요합니다.",
+            "options": [
+              {
+                "value": "mild",
+                "label": "경증 — 가벼운 국소 증상, 일상에 큰 지장 없음"
+              },
+              {
+                "value": "moderate",
+                "label": "중등증 — 증상이 뚜렷하고 일상·수면에 지장"
+              },
+              {
+                "value": "severe",
+                "label": "중증 — 증상이 심해 약 없이는 조절이 어려움"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "아나필락시스 — 호흡곤란·전신 두드러기·어지럼(응급 병력)"
+              }
+            ],
+            "applies_to": [
+              "agn7"
+            ],
+            "reveal_if": {
+              "question": "animal_worse__agn7",
+              "any": [
+                "yes"
+              ]
+            }
+          },
+          {
+            "id": "animal_work",
+            "type": "multi",
+            "title": "일이나 실습으로 동물을 정기적으로 다루나요? 해당하는 것을 모두 골라주세요.",
+            "help": "직업으로 동물을 다루면 집에서보다 노출이 훨씬 큽니다. 해당하지 않으면 ‘해당 없음’을 고르세요.",
+            "options": [
+              {
+                "value": "vet",
+                "label": "동물병원·수의 진료"
+              },
+              {
+                "value": "lab",
+                "label": "실험동물을 다루는 연구실·동물실"
+              },
+              {
+                "value": "farm",
+                "label": "축산·농장·승마장"
+              },
+              {
+                "value": "pet_shop",
+                "label": "반려동물 판매·분양"
+              },
+              {
+                "value": "grooming",
+                "label": "미용·호텔·훈련"
+              },
+              {
+                "value": "care",
+                "label": "보호소·동물원·돌봄"
+              },
+              {
+                "value": "other",
+                "label": "그 밖에 정기적으로 동물을 다루는 일"
+              },
+              {
+                "value": "none",
+                "label": "해당 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn5",
+              "agn6",
+              "agn7"
+            ]
+          },
+          {
+            "id": "animal_work_animals",
+            "type": "multi",
+            "title": "그 일에서 다루는 동물을 모두 골라주세요.",
+            "help": "이번 검사에서 양성으로 나온 동물 가운데 일하면서 다루는 것을 고르세요.",
+            "options": [
+              {
+                "value": "agn5",
+                "label": "고양이 표피"
+              },
+              {
+                "value": "agn6",
+                "label": "개 표피"
+              },
+              {
+                "value": "agn7",
+                "label": "말 비듬"
+              },
+              {
+                "value": "other",
+                "label": "검사에서 양성이 아닌 다른 동물만 다뤄요",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn5",
+              "agn6",
+              "agn7"
+            ],
+            "reveal_if": {
+              "question": "animal_work",
+              "includes_any": [
+                "vet",
+                "lab",
+                "farm",
+                "pet_shop",
+                "grooming",
+                "care",
+                "other"
+              ]
+            }
+          },
+          {
+            "id": "animal_work_symptoms",
+            "type": "single",
+            "title": "코·눈·기침·숨참 같은 증상이 일하는 날에 심해지고, 쉬는 날이나 휴가 때 좋아지나요?",
+            "help": "직업과 관련된 알레르기인지 가늠하는 질문입니다.",
+            "options": [
+              {
+                "value": "yes",
+                "label": "예"
+              },
+              {
+                "value": "no",
+                "label": "아니오"
+              },
+              {
+                "value": "unsure",
+                "label": "잘 모르겠어요"
+              }
+            ],
+            "applies_to": [
+              "agn5",
+              "agn6",
+              "agn7"
+            ],
+            "reveal_if": {
+              "question": "animal_work",
+              "includes_any": [
+                "vet",
+                "lab",
+                "farm",
+                "pet_shop",
+                "grooming",
+                "care",
+                "other"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "food",
+        "title": "음식·구강 알레르기 · 교차반응",
+        "subtitle": "먹었을 때의 반응으로 실제 음식 알레르기와 교차반응을 가립니다.",
+        "questions": [
+          {
+            "id": "oral_allergy_syndrome",
+            "type": "single",
+            "title": "생과일·생채소·견과를 먹으면 입·입술·혀·목이 가렵거나 붓나요?",
+            "help": "구강알레르기증후군(OAS)일 수 있습니다. ‘예/잘 모르겠어요’면 아래에서 어떤 음식인지 항원별로 구체적으로 여쭤봅니다.",
+            "options": [
+              {
+                "value": "yes",
+                "label": "예"
+              },
+              {
+                "value": "no",
+                "label": "아니오"
+              },
+              {
+                "value": "unsure",
+                "label": "잘 모르겠어요"
+              }
+            ],
+            "applies_to": []
+          },
+          {
+            "id": "shellfish_react__agn19",
+            "type": "single",
+            "title": "전복을 실제로 먹었을 때 어떤가요?",
+            "help": "검사에 강양성이어도 실제로 먹으면 아무렇지 않은 경우(감작만)가 흔합니다. 무증상이면 불필요하게 끊을 필요가 없습니다.",
+            "options": [
+              {
+                "value": "none",
+                "label": "잘 먹어요 (증상 없음)"
+              },
+              {
+                "value": "oral",
+                "label": "입·입술·목만 가렵거나 부어요"
+              },
+              {
+                "value": "systemic",
+                "label": "두드러기·호흡곤란·복통 등 전신 증상"
+              },
+              {
+                "value": "never",
+                "label": "먹어본 적 없음 / 잘 모르겠어요"
+              }
+            ],
+            "applies_to": [
+              "agn19"
+            ]
+          },
+          {
+            "id": "severity__agn19",
+            "type": "single",
+            "title": "전복 섭취 시 증상이 있을 때, 가장 심했던 정도는?",
+            "help": "가장 심했던 에피소드 기준으로 골라주세요. 중증·아나필락시스는 전문의 평가가 필요합니다.",
+            "options": [
+              {
+                "value": "mild",
+                "label": "경증 — 가벼운 국소 증상, 일상에 큰 지장 없음"
+              },
+              {
+                "value": "moderate",
+                "label": "중등증 — 증상이 뚜렷하고 일상·수면에 지장"
+              },
+              {
+                "value": "severe",
+                "label": "중증 — 증상이 심해 약 없이는 조절이 어려움"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "아나필락시스 — 호흡곤란·전신 두드러기·어지럼(응급 병력)"
+              }
+            ],
+            "applies_to": [
+              "agn19"
+            ],
+            "reveal_if": {
+              "question": "shellfish_react__agn19",
+              "any": [
+                "oral",
+                "systemic"
+              ]
+            }
+          },
+          {
+            "id": "food_symptoms__agn18",
+            "type": "multi",
+            "title": "오렌지를 먹으면 어떤 증상이 생기나요?",
+            "help": "여러 개 선택 가능. 현재 문제없이 먹고 있다면 ‘먹어도 증상 없음’을 고르세요.",
+            "options": [
+              {
+                "value": "oral",
+                "label": "입·목 가려움/부종"
+              },
+              {
+                "value": "skin",
+                "label": "두드러기·피부 발진"
+              },
+              {
+                "value": "gi",
+                "label": "복통·구토·설사"
+              },
+              {
+                "value": "breathing",
+                "label": "호흡곤란·기침·쌕쌕"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "어지럼·아나필락시스"
+              },
+              {
+                "value": "none",
+                "label": "먹어도 증상 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn18"
+            ]
+          },
+          {
+            "id": "severity__agn18",
+            "type": "single",
+            "title": "오렌지 섭취 시 증상이 있을 때, 가장 심했던 정도는?",
+            "help": "가장 심했던 에피소드 기준으로 골라주세요. 중증·아나필락시스는 전문의 평가가 필요합니다.",
+            "options": [
+              {
+                "value": "mild",
+                "label": "경증 — 가벼운 국소 증상, 일상에 큰 지장 없음"
+              },
+              {
+                "value": "moderate",
+                "label": "중등증 — 증상이 뚜렷하고 일상·수면에 지장"
+              },
+              {
+                "value": "severe",
+                "label": "중증 — 증상이 심해 약 없이는 조절이 어려움"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "아나필락시스 — 호흡곤란·전신 두드러기·어지럼(응급 병력)"
+              }
+            ],
+            "applies_to": [
+              "agn18"
+            ],
+            "reveal_if": {
+              "question": "food_symptoms__agn18",
+              "includes_any": [
+                "oral",
+                "skin",
+                "gi",
+                "breathing",
+                "anaphylaxis"
+              ]
+            }
+          },
+          {
+            "id": "crossreact__agn0",
+            "type": "multi",
+            "title": "「집먼지진드기」에 감작되어 있습니다. 아래 음식 중 **드셨을 때 입·목이 가렵거나 붓는 등 증상이 있었던 것**을 모두 고르세요.",
+            "help": "유럽·미국 집먼지진드기는 항원이 매우 유사해 임상적으로 구분되지 않습니다. 두 종이 함께 양성인 경우가 흔하며, 회피·관리 방법도 동일해 하나로 묶어 설명합니다. 집먼지진드기와 같은 단백질(성분)을 공유해 교차반응이 나타날 수 있는 음식입니다. 이 중 일부는 전신 반응(두드러기·호흡곤란) 위험이 있어 특히 주의가 필요합니다. 실제로 증상이 있었던 것만 고르세요(감작만이면 불필요한 제한은 피합니다).",
+            "options": [
+              {
+                "value": "Anisakis",
+                "label": "아니사키스"
+              },
+              {
+                "value": "Lobster",
+                "label": "바닷가재"
+              },
+              {
+                "value": "Clam",
+                "label": "조개"
+              },
+              {
+                "value": "Prawn",
+                "label": "대하"
+              },
+              {
+                "value": "Shrimp",
+                "label": "새우"
+              },
+              {
+                "value": "Crab",
+                "label": "게"
+              },
+              {
+                "value": "Crayfish",
+                "label": "가재"
+              },
+              {
+                "value": "Krill",
+                "label": "크릴"
+              },
+              {
+                "value": "none",
+                "label": "해당 없음 / 문제된 것 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn0",
+              "agn1"
+            ],
+            "reveal_if_any": [
+              {
+                "question": "mite_dust",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "indoor_timing",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "indoor_away",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "food_general_react",
+                "includes_any": [
+                  "Anisakis",
+                  "Lobster",
+                  "Clam",
+                  "Prawn",
+                  "Shrimp",
+                  "Crab",
+                  "Crayfish",
+                  "Krill"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "crossreact_sev__agn0",
+            "type": "single",
+            "title": "위에서 고른 「집먼지진드기」 교차반응 음식의 증상은 어디까지였나요?",
+            "help": "같은 교차반응이어도 입·목에만 그치는 분이 있고 전신 반응이 오는 분이 있어 확인합니다.",
+            "options": [
+              {
+                "value": "oral",
+                "label": "입·입술·목만 가렵거나 부었어요 (국소)"
+              },
+              {
+                "value": "systemic",
+                "label": "전신 두드러기·복통 등 전신 증상이 있었어요"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "호흡곤란·어지럼 등 아나필락시스가 있었어요"
+              }
+            ],
+            "applies_to": [
+              "agn0",
+              "agn1"
+            ],
+            "reveal_if": {
+              "question": "crossreact__agn0",
+              "includes_any": [
+                "Anisakis",
+                "Lobster",
+                "Clam",
+                "Prawn",
+                "Shrimp",
+                "Crab",
+                "Crayfish",
+                "Krill"
+              ]
+            }
+          },
+          {
+            "id": "crossreact__agn5",
+            "type": "multi",
+            "title": "「고양이 표피」에 감작되어 있습니다. 아래 음식 중 **드셨을 때 입·목이 가렵거나 붓는 등 증상이 있었던 것**을 모두 고르세요.",
+            "help": "고양이 표피와 같은 단백질(성분)을 공유해 교차반응이 나타날 수 있는 음식입니다. 대개 입·목 증상이지만 개인차가 있습니다. 실제로 증상이 있었던 것만 고르세요(감작만이면 불필요한 제한은 피합니다).",
+            "options": [
+              {
+                "value": "Beef",
+                "label": "소고기"
+              },
+              {
+                "value": "Cow milk",
+                "label": "우유"
+              },
+              {
+                "value": "Pork",
+                "label": "돼지고기"
+              },
+              {
+                "value": "none",
+                "label": "해당 없음 / 문제된 것 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn5"
+            ],
+            "reveal_if_any": [
+              {
+                "question": "animal_worse__agn5",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "food_general_react",
+                "includes_any": [
+                  "Beef",
+                  "Cow milk",
+                  "Pork"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "crossreact_sev__agn5",
+            "type": "single",
+            "title": "위에서 고른 「고양이 표피」 교차반응 음식의 증상은 어디까지였나요?",
+            "help": "같은 교차반응이어도 입·목에만 그치는 분이 있고 전신 반응이 오는 분이 있어 확인합니다.",
+            "options": [
+              {
+                "value": "oral",
+                "label": "입·입술·목만 가렵거나 부었어요 (국소)"
+              },
+              {
+                "value": "systemic",
+                "label": "전신 두드러기·복통 등 전신 증상이 있었어요"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "호흡곤란·어지럼 등 아나필락시스가 있었어요"
+              }
+            ],
+            "applies_to": [
+              "agn5"
+            ],
+            "reveal_if": {
+              "question": "crossreact__agn5",
+              "includes_any": [
+                "Beef",
+                "Cow milk",
+                "Pork"
+              ]
+            }
+          },
+          {
+            "id": "crossreact__agn6",
+            "type": "multi",
+            "title": "「개 표피」에 감작되어 있습니다. 아래 음식 중 **드셨을 때 입·목이 가렵거나 붓는 등 증상이 있었던 것**을 모두 고르세요.",
+            "help": "개 표피와 같은 단백질(성분)을 공유해 교차반응이 나타날 수 있는 음식입니다. 대개 입·목 증상이지만 개인차가 있습니다. 실제로 증상이 있었던 것만 고르세요(감작만이면 불필요한 제한은 피합니다).",
+            "options": [
+              {
+                "value": "Beef",
+                "label": "소고기"
+              },
+              {
+                "value": "Cow milk",
+                "label": "우유"
+              },
+              {
+                "value": "Pork",
+                "label": "돼지고기"
+              },
+              {
+                "value": "none",
+                "label": "해당 없음 / 문제된 것 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn6"
+            ],
+            "reveal_if_any": [
+              {
+                "question": "animal_worse__agn6",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "food_general_react",
+                "includes_any": [
+                  "Beef",
+                  "Cow milk",
+                  "Pork"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "crossreact_sev__agn6",
+            "type": "single",
+            "title": "위에서 고른 「개 표피」 교차반응 음식의 증상은 어디까지였나요?",
+            "help": "같은 교차반응이어도 입·목에만 그치는 분이 있고 전신 반응이 오는 분이 있어 확인합니다.",
+            "options": [
+              {
+                "value": "oral",
+                "label": "입·입술·목만 가렵거나 부었어요 (국소)"
+              },
+              {
+                "value": "systemic",
+                "label": "전신 두드러기·복통 등 전신 증상이 있었어요"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "호흡곤란·어지럼 등 아나필락시스가 있었어요"
+              }
+            ],
+            "applies_to": [
+              "agn6"
+            ],
+            "reveal_if": {
+              "question": "crossreact__agn6",
+              "includes_any": [
+                "Beef",
+                "Cow milk",
+                "Pork"
+              ]
+            }
+          },
+          {
+            "id": "crossreact__agn7",
+            "type": "multi",
+            "title": "「말 비듬」에 감작되어 있습니다. 아래 음식 중 **드셨을 때 입·목이 가렵거나 붓는 등 증상이 있었던 것**을 모두 고르세요.",
+            "help": "말 비듬과 같은 단백질(성분)을 공유해 교차반응이 나타날 수 있는 음식입니다. 대개 입·목 증상이지만 개인차가 있습니다. 실제로 증상이 있었던 것만 고르세요(감작만이면 불필요한 제한은 피합니다).",
+            "options": [
+              {
+                "value": "Beef",
+                "label": "소고기"
+              },
+              {
+                "value": "Cow milk",
+                "label": "우유"
+              },
+              {
+                "value": "Pork",
+                "label": "돼지고기"
+              },
+              {
+                "value": "none",
+                "label": "해당 없음 / 문제된 것 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn7"
+            ],
+            "reveal_if_any": [
+              {
+                "question": "animal_worse__agn7",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "food_general_react",
+                "includes_any": [
+                  "Beef",
+                  "Cow milk",
+                  "Pork"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "crossreact_sev__agn7",
+            "type": "single",
+            "title": "위에서 고른 「말 비듬」 교차반응 음식의 증상은 어디까지였나요?",
+            "help": "같은 교차반응이어도 입·목에만 그치는 분이 있고 전신 반응이 오는 분이 있어 확인합니다.",
+            "options": [
+              {
+                "value": "oral",
+                "label": "입·입술·목만 가렵거나 부었어요 (국소)"
+              },
+              {
+                "value": "systemic",
+                "label": "전신 두드러기·복통 등 전신 증상이 있었어요"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "호흡곤란·어지럼 등 아나필락시스가 있었어요"
+              }
+            ],
+            "applies_to": [
+              "agn7"
+            ],
+            "reveal_if": {
+              "question": "crossreact__agn7",
+              "includes_any": [
+                "Beef",
+                "Cow milk",
+                "Pork"
+              ]
+            }
+          },
+          {
+            "id": "crossreact__agn8",
+            "type": "multi",
+            "title": "「포플러나무」에 감작되어 있습니다. 아래 음식 중 **드셨을 때 입·목이 가렵거나 붓는 등 증상이 있었던 것**을 모두 고르세요.",
+            "help": "포플러나무와 같은 단백질(성분)을 공유해 구강알레르기증후군(OAS)이 나타날 수 있는 음식입니다. 대개 입·목 증상이지만 개인차가 있습니다. 실제로 증상이 있었던 것만 고르세요(감작만이면 불필요한 제한은 피합니다).",
+            "options": [
+              {
+                "value": "Apple",
+                "label": "사과"
+              },
+              {
+                "value": "Peach",
+                "label": "복숭아"
+              },
+              {
+                "value": "Pear",
+                "label": "배"
+              },
+              {
+                "value": "Cherry",
+                "label": "체리"
+              },
+              {
+                "value": "plum/apricot",
+                "label": "자두·살구"
+              },
+              {
+                "value": "Kiwi",
+                "label": "키위"
+              },
+              {
+                "value": "Carrot",
+                "label": "당근"
+              },
+              {
+                "value": "Celery",
+                "label": "셀러리"
+              },
+              {
+                "value": "Hazelnut",
+                "label": "헤이즐넛"
+              },
+              {
+                "value": "Almond",
+                "label": "아몬드"
+              },
+              {
+                "value": "Peanut",
+                "label": "땅콩"
+              },
+              {
+                "value": "Soybean",
+                "label": "콩(대두)"
+              },
+              {
+                "value": "none",
+                "label": "해당 없음 / 문제된 것 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn8"
+            ],
+            "reveal_if_any": [
+              {
+                "question": "pollen_season__spring_tree",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "oral_allergy_syndrome",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "food_general_react",
+                "includes_any": [
+                  "Apple",
+                  "Peach",
+                  "Pear",
+                  "Cherry",
+                  "plum/apricot",
+                  "Kiwi",
+                  "Carrot",
+                  "Celery",
+                  "Hazelnut",
+                  "Almond",
+                  "Peanut",
+                  "Soybean"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "crossreact_sev__agn8",
+            "type": "single",
+            "title": "위에서 고른 「포플러나무」 교차반응 음식의 증상은 어디까지였나요?",
+            "help": "같은 교차반응이어도 입·목에만 그치는 분이 있고 전신 반응이 오는 분이 있어 확인합니다.",
+            "options": [
+              {
+                "value": "oral",
+                "label": "입·입술·목만 가렵거나 부었어요 (국소)"
+              },
+              {
+                "value": "systemic",
+                "label": "전신 두드러기·복통 등 전신 증상이 있었어요"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "호흡곤란·어지럼 등 아나필락시스가 있었어요"
+              }
+            ],
+            "applies_to": [
+              "agn8"
+            ],
+            "reveal_if": {
+              "question": "crossreact__agn8",
+              "includes_any": [
+                "Apple",
+                "Peach",
+                "Pear",
+                "Cherry",
+                "plum/apricot",
+                "Kiwi",
+                "Carrot",
+                "Celery",
+                "Hazelnut",
+                "Almond",
+                "Peanut",
+                "Soybean"
+              ]
+            }
+          },
+          {
+            "id": "crossreact__agn9",
+            "type": "multi",
+            "title": "「버드나무」에 감작되어 있습니다. 아래 음식 중 **드셨을 때 입·목이 가렵거나 붓는 등 증상이 있었던 것**을 모두 고르세요.",
+            "help": "버드나무와 같은 단백질(성분)을 공유해 구강알레르기증후군(OAS)이 나타날 수 있는 음식입니다. 대개 입·목 증상이지만 개인차가 있습니다. 실제로 증상이 있었던 것만 고르세요(감작만이면 불필요한 제한은 피합니다).",
+            "options": [
+              {
+                "value": "Apple",
+                "label": "사과"
+              },
+              {
+                "value": "Peach",
+                "label": "복숭아"
+              },
+              {
+                "value": "Pear",
+                "label": "배"
+              },
+              {
+                "value": "Cherry",
+                "label": "체리"
+              },
+              {
+                "value": "plum/apricot",
+                "label": "자두·살구"
+              },
+              {
+                "value": "Kiwi",
+                "label": "키위"
+              },
+              {
+                "value": "Carrot",
+                "label": "당근"
+              },
+              {
+                "value": "Celery",
+                "label": "셀러리"
+              },
+              {
+                "value": "Hazelnut",
+                "label": "헤이즐넛"
+              },
+              {
+                "value": "Almond",
+                "label": "아몬드"
+              },
+              {
+                "value": "Peanut",
+                "label": "땅콩"
+              },
+              {
+                "value": "Soybean",
+                "label": "콩(대두)"
+              },
+              {
+                "value": "none",
+                "label": "해당 없음 / 문제된 것 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn9"
+            ],
+            "reveal_if_any": [
+              {
+                "question": "pollen_season__spring_tree",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "oral_allergy_syndrome",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "food_general_react",
+                "includes_any": [
+                  "Apple",
+                  "Peach",
+                  "Pear",
+                  "Cherry",
+                  "plum/apricot",
+                  "Kiwi",
+                  "Carrot",
+                  "Celery",
+                  "Hazelnut",
+                  "Almond",
+                  "Peanut",
+                  "Soybean"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "crossreact_sev__agn9",
+            "type": "single",
+            "title": "위에서 고른 「버드나무」 교차반응 음식의 증상은 어디까지였나요?",
+            "help": "같은 교차반응이어도 입·목에만 그치는 분이 있고 전신 반응이 오는 분이 있어 확인합니다.",
+            "options": [
+              {
+                "value": "oral",
+                "label": "입·입술·목만 가렵거나 부었어요 (국소)"
+              },
+              {
+                "value": "systemic",
+                "label": "전신 두드러기·복통 등 전신 증상이 있었어요"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "호흡곤란·어지럼 등 아나필락시스가 있었어요"
+              }
+            ],
+            "applies_to": [
+              "agn9"
+            ],
+            "reveal_if": {
+              "question": "crossreact__agn9",
+              "includes_any": [
+                "Apple",
+                "Peach",
+                "Pear",
+                "Cherry",
+                "plum/apricot",
+                "Kiwi",
+                "Carrot",
+                "Celery",
+                "Hazelnut",
+                "Almond",
+                "Peanut",
+                "Soybean"
+              ]
+            }
+          },
+          {
+            "id": "crossreact__agn10",
+            "type": "multi",
+            "title": "「너도밤나무」에 감작되어 있습니다. 아래 음식 중 **드셨을 때 입·목이 가렵거나 붓는 등 증상이 있었던 것**을 모두 고르세요.",
+            "help": "너도밤나무와 같은 단백질(성분)을 공유해 구강알레르기증후군(OAS)이 나타날 수 있는 음식입니다. 대개 입·목 증상이지만 개인차가 있습니다. 실제로 증상이 있었던 것만 고르세요(감작만이면 불필요한 제한은 피합니다).",
+            "options": [
+              {
+                "value": "Apple",
+                "label": "사과"
+              },
+              {
+                "value": "Peach",
+                "label": "복숭아"
+              },
+              {
+                "value": "Pear",
+                "label": "배"
+              },
+              {
+                "value": "Cherry",
+                "label": "체리"
+              },
+              {
+                "value": "plum/apricot",
+                "label": "자두·살구"
+              },
+              {
+                "value": "Kiwi",
+                "label": "키위"
+              },
+              {
+                "value": "Carrot",
+                "label": "당근"
+              },
+              {
+                "value": "Celery",
+                "label": "셀러리"
+              },
+              {
+                "value": "Hazelnut",
+                "label": "헤이즐넛"
+              },
+              {
+                "value": "Almond",
+                "label": "아몬드"
+              },
+              {
+                "value": "Peanut",
+                "label": "땅콩"
+              },
+              {
+                "value": "Soybean",
+                "label": "콩(대두)"
+              },
+              {
+                "value": "none",
+                "label": "해당 없음 / 문제된 것 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn10"
+            ],
+            "reveal_if_any": [
+              {
+                "question": "pollen_season__spring_tree",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "oral_allergy_syndrome",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "food_general_react",
+                "includes_any": [
+                  "Apple",
+                  "Peach",
+                  "Pear",
+                  "Cherry",
+                  "plum/apricot",
+                  "Kiwi",
+                  "Carrot",
+                  "Celery",
+                  "Hazelnut",
+                  "Almond",
+                  "Peanut",
+                  "Soybean"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "crossreact_sev__agn10",
+            "type": "single",
+            "title": "위에서 고른 「너도밤나무」 교차반응 음식의 증상은 어디까지였나요?",
+            "help": "같은 교차반응이어도 입·목에만 그치는 분이 있고 전신 반응이 오는 분이 있어 확인합니다.",
+            "options": [
+              {
+                "value": "oral",
+                "label": "입·입술·목만 가렵거나 부었어요 (국소)"
+              },
+              {
+                "value": "systemic",
+                "label": "전신 두드러기·복통 등 전신 증상이 있었어요"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "호흡곤란·어지럼 등 아나필락시스가 있었어요"
+              }
+            ],
+            "applies_to": [
+              "agn10"
+            ],
+            "reveal_if": {
+              "question": "crossreact__agn10",
+              "includes_any": [
+                "Apple",
+                "Peach",
+                "Pear",
+                "Cherry",
+                "plum/apricot",
+                "Kiwi",
+                "Carrot",
+                "Celery",
+                "Hazelnut",
+                "Almond",
+                "Peanut",
+                "Soybean"
+              ]
+            }
+          },
+          {
+            "id": "crossreact__agn11",
+            "type": "multi",
+            "title": "「환삼덩굴」에 감작되어 있습니다. 아래 음식 중 **드셨을 때 입·목이 가렵거나 붓는 등 증상이 있었던 것**을 모두 고르세요.",
+            "help": "환삼덩굴과 같은 단백질(성분)을 공유해 구강알레르기증후군(OAS)이 나타날 수 있는 음식입니다. 대개 입·목 증상이지만 개인차가 있습니다. 실제로 증상이 있었던 것만 고르세요(감작만이면 불필요한 제한은 피합니다).",
+            "options": [
+              {
+                "value": "Celery",
+                "label": "셀러리"
+              },
+              {
+                "value": "Carrot",
+                "label": "당근"
+              },
+              {
+                "value": "parsley/coriander",
+                "label": "파슬리·고수"
+              },
+              {
+                "value": "spices",
+                "label": "향신료(커민·회향·후추)"
+              },
+              {
+                "value": "Mustard",
+                "label": "겨자"
+              },
+              {
+                "value": "mango",
+                "label": "망고"
+              },
+              {
+                "value": "sunflower seed",
+                "label": "해바라기씨"
+              },
+              {
+                "value": "lychee/grape",
+                "label": "리치·포도"
+              },
+              {
+                "value": "Almond",
+                "label": "아몬드"
+              },
+              {
+                "value": "Apple",
+                "label": "사과"
+              },
+              {
+                "value": "Banana",
+                "label": "바나나"
+              },
+              {
+                "value": "none",
+                "label": "해당 없음 / 문제된 것 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn11"
+            ],
+            "reveal_if_any": [
+              {
+                "question": "pollen_season__fall_weed",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "oral_allergy_syndrome",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "food_general_react",
+                "includes_any": [
+                  "Celery",
+                  "Carrot",
+                  "parsley/coriander",
+                  "spices",
+                  "Mustard",
+                  "mango",
+                  "sunflower seed",
+                  "lychee/grape",
+                  "Almond",
+                  "Apple",
+                  "Banana"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "crossreact_sev__agn11",
+            "type": "single",
+            "title": "위에서 고른 「환삼덩굴」 교차반응 음식의 증상은 어디까지였나요?",
+            "help": "같은 교차반응이어도 입·목에만 그치는 분이 있고 전신 반응이 오는 분이 있어 확인합니다.",
+            "options": [
+              {
+                "value": "oral",
+                "label": "입·입술·목만 가렵거나 부었어요 (국소)"
+              },
+              {
+                "value": "systemic",
+                "label": "전신 두드러기·복통 등 전신 증상이 있었어요"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "호흡곤란·어지럼 등 아나필락시스가 있었어요"
+              }
+            ],
+            "applies_to": [
+              "agn11"
+            ],
+            "reveal_if": {
+              "question": "crossreact__agn11",
+              "includes_any": [
+                "Celery",
+                "Carrot",
+                "parsley/coriander",
+                "spices",
+                "Mustard",
+                "mango",
+                "sunflower seed",
+                "lychee/grape",
+                "Almond",
+                "Apple",
+                "Banana"
+              ]
+            }
+          },
+          {
+            "id": "crossreact__agn12",
+            "type": "multi",
+            "title": "「질경이」에 감작되어 있습니다. 아래 음식 중 **드셨을 때 입·목이 가렵거나 붓는 등 증상이 있었던 것**을 모두 고르세요.",
+            "help": "질경이와 같은 단백질(성분)을 공유해 구강알레르기증후군(OAS)이 나타날 수 있는 음식입니다. 대개 입·목 증상이지만 개인차가 있습니다. 실제로 증상이 있었던 것만 고르세요(감작만이면 불필요한 제한은 피합니다).",
+            "options": [
+              {
+                "value": "Celery",
+                "label": "셀러리"
+              },
+              {
+                "value": "Carrot",
+                "label": "당근"
+              },
+              {
+                "value": "parsley/coriander",
+                "label": "파슬리·고수"
+              },
+              {
+                "value": "spices",
+                "label": "향신료(커민·회향·후추)"
+              },
+              {
+                "value": "Mustard",
+                "label": "겨자"
+              },
+              {
+                "value": "mango",
+                "label": "망고"
+              },
+              {
+                "value": "sunflower seed",
+                "label": "해바라기씨"
+              },
+              {
+                "value": "lychee/grape",
+                "label": "리치·포도"
+              },
+              {
+                "value": "none",
+                "label": "해당 없음 / 문제된 것 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn12"
+            ],
+            "reveal_if_any": [
+              {
+                "question": "pollen_season__fall_weed",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "oral_allergy_syndrome",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "food_general_react",
+                "includes_any": [
+                  "Celery",
+                  "Carrot",
+                  "parsley/coriander",
+                  "spices",
+                  "Mustard",
+                  "mango",
+                  "sunflower seed",
+                  "lychee/grape"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "crossreact_sev__agn12",
+            "type": "single",
+            "title": "위에서 고른 「질경이」 교차반응 음식의 증상은 어디까지였나요?",
+            "help": "같은 교차반응이어도 입·목에만 그치는 분이 있고 전신 반응이 오는 분이 있어 확인합니다.",
+            "options": [
+              {
+                "value": "oral",
+                "label": "입·입술·목만 가렵거나 부었어요 (국소)"
+              },
+              {
+                "value": "systemic",
+                "label": "전신 두드러기·복통 등 전신 증상이 있었어요"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "호흡곤란·어지럼 등 아나필락시스가 있었어요"
+              }
+            ],
+            "applies_to": [
+              "agn12"
+            ],
+            "reveal_if": {
+              "question": "crossreact__agn12",
+              "includes_any": [
+                "Celery",
+                "Carrot",
+                "parsley/coriander",
+                "spices",
+                "Mustard",
+                "mango",
+                "sunflower seed",
+                "lychee/grape"
+              ]
+            }
+          },
+          {
+            "id": "crossreact__agn13",
+            "type": "multi",
+            "title": "「미역취」에 감작되어 있습니다. 아래 음식 중 **드셨을 때 입·목이 가렵거나 붓는 등 증상이 있었던 것**을 모두 고르세요.",
+            "help": "미역취와 같은 단백질(성분)을 공유해 구강알레르기증후군(OAS)이 나타날 수 있는 음식입니다. 대개 입·목 증상이지만 개인차가 있습니다. 실제로 증상이 있었던 것만 고르세요(감작만이면 불필요한 제한은 피합니다).",
+            "options": [
+              {
+                "value": "Celery",
+                "label": "셀러리"
+              },
+              {
+                "value": "Carrot",
+                "label": "당근"
+              },
+              {
+                "value": "parsley/coriander",
+                "label": "파슬리·고수"
+              },
+              {
+                "value": "spices",
+                "label": "향신료(커민·회향·후추)"
+              },
+              {
+                "value": "Mustard",
+                "label": "겨자"
+              },
+              {
+                "value": "mango",
+                "label": "망고"
+              },
+              {
+                "value": "sunflower seed",
+                "label": "해바라기씨"
+              },
+              {
+                "value": "lychee/grape",
+                "label": "리치·포도"
+              },
+              {
+                "value": "none",
+                "label": "해당 없음 / 문제된 것 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn13"
+            ],
+            "reveal_if_any": [
+              {
+                "question": "pollen_season__fall_weed",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "oral_allergy_syndrome",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "food_general_react",
+                "includes_any": [
+                  "Celery",
+                  "Carrot",
+                  "parsley/coriander",
+                  "spices",
+                  "Mustard",
+                  "mango",
+                  "sunflower seed",
+                  "lychee/grape"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "crossreact_sev__agn13",
+            "type": "single",
+            "title": "위에서 고른 「미역취」 교차반응 음식의 증상은 어디까지였나요?",
+            "help": "같은 교차반응이어도 입·목에만 그치는 분이 있고 전신 반응이 오는 분이 있어 확인합니다.",
+            "options": [
+              {
+                "value": "oral",
+                "label": "입·입술·목만 가렵거나 부었어요 (국소)"
+              },
+              {
+                "value": "systemic",
+                "label": "전신 두드러기·복통 등 전신 증상이 있었어요"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "호흡곤란·어지럼 등 아나필락시스가 있었어요"
+              }
+            ],
+            "applies_to": [
+              "agn13"
+            ],
+            "reveal_if": {
+              "question": "crossreact__agn13",
+              "includes_any": [
+                "Celery",
+                "Carrot",
+                "parsley/coriander",
+                "spices",
+                "Mustard",
+                "mango",
+                "sunflower seed",
+                "lychee/grape"
+              ]
+            }
+          },
+          {
+            "id": "crossreact__agn14",
+            "type": "multi",
+            "title": "「국화」에 감작되어 있습니다. 아래 음식 중 **드셨을 때 입·목이 가렵거나 붓는 등 증상이 있었던 것**을 모두 고르세요.",
+            "help": "국화와 같은 단백질(성분)을 공유해 구강알레르기증후군(OAS)이 나타날 수 있는 음식입니다. 대개 입·목 증상이지만 개인차가 있습니다. 실제로 증상이 있었던 것만 고르세요(감작만이면 불필요한 제한은 피합니다).",
+            "options": [
+              {
+                "value": "Celery",
+                "label": "셀러리"
+              },
+              {
+                "value": "Carrot",
+                "label": "당근"
+              },
+              {
+                "value": "parsley/coriander",
+                "label": "파슬리·고수"
+              },
+              {
+                "value": "spices",
+                "label": "향신료(커민·회향·후추)"
+              },
+              {
+                "value": "Mustard",
+                "label": "겨자"
+              },
+              {
+                "value": "mango",
+                "label": "망고"
+              },
+              {
+                "value": "sunflower seed",
+                "label": "해바라기씨"
+              },
+              {
+                "value": "lychee/grape",
+                "label": "리치·포도"
+              },
+              {
+                "value": "none",
+                "label": "해당 없음 / 문제된 것 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn14"
+            ],
+            "reveal_if_any": [
+              {
+                "question": "pollen_season__fall_weed",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "oral_allergy_syndrome",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "food_general_react",
+                "includes_any": [
+                  "Celery",
+                  "Carrot",
+                  "parsley/coriander",
+                  "spices",
+                  "Mustard",
+                  "mango",
+                  "sunflower seed",
+                  "lychee/grape"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "crossreact_sev__agn14",
+            "type": "single",
+            "title": "위에서 고른 「국화」 교차반응 음식의 증상은 어디까지였나요?",
+            "help": "같은 교차반응이어도 입·목에만 그치는 분이 있고 전신 반응이 오는 분이 있어 확인합니다.",
+            "options": [
+              {
+                "value": "oral",
+                "label": "입·입술·목만 가렵거나 부었어요 (국소)"
+              },
+              {
+                "value": "systemic",
+                "label": "전신 두드러기·복통 등 전신 증상이 있었어요"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "호흡곤란·어지럼 등 아나필락시스가 있었어요"
+              }
+            ],
+            "applies_to": [
+              "agn14"
+            ],
+            "reveal_if": {
+              "question": "crossreact__agn14",
+              "includes_any": [
+                "Celery",
+                "Carrot",
+                "parsley/coriander",
+                "spices",
+                "Mustard",
+                "mango",
+                "sunflower seed",
+                "lychee/grape"
+              ]
+            }
+          },
+          {
+            "id": "crossreact__agn15",
+            "type": "multi",
+            "title": "「쑥」에 감작되어 있습니다. 아래 음식 중 **드셨을 때 입·목이 가렵거나 붓는 등 증상이 있었던 것**을 모두 고르세요.",
+            "help": "쑥과 같은 단백질(성분)을 공유해 구강알레르기증후군(OAS)이 나타날 수 있는 음식입니다. 이 중 일부는 전신 반응(두드러기·호흡곤란) 위험이 있어 특히 주의가 필요합니다. 실제로 증상이 있었던 것만 고르세요(감작만이면 불필요한 제한은 피합니다).",
+            "options": [
+              {
+                "value": "Celery",
+                "label": "셀러리"
+              },
+              {
+                "value": "Carrot",
+                "label": "당근"
+              },
+              {
+                "value": "parsley/coriander",
+                "label": "파슬리·고수"
+              },
+              {
+                "value": "spices",
+                "label": "향신료(커민·회향·후추)"
+              },
+              {
+                "value": "Mustard",
+                "label": "겨자"
+              },
+              {
+                "value": "mango",
+                "label": "망고"
+              },
+              {
+                "value": "sunflower seed",
+                "label": "해바라기씨"
+              },
+              {
+                "value": "lychee/grape",
+                "label": "리치·포도"
+              },
+              {
+                "value": "Almond",
+                "label": "아몬드"
+              },
+              {
+                "value": "Apple",
+                "label": "사과"
+              },
+              {
+                "value": "Banana",
+                "label": "바나나"
+              },
+              {
+                "value": "Apricot",
+                "label": "살구"
+              },
+              {
+                "value": "none",
+                "label": "해당 없음 / 문제된 것 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn15"
+            ],
+            "reveal_if_any": [
+              {
+                "question": "pollen_season__fall_weed",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "oral_allergy_syndrome",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "food_general_react",
+                "includes_any": [
+                  "Celery",
+                  "Carrot",
+                  "parsley/coriander",
+                  "spices",
+                  "Mustard",
+                  "mango",
+                  "sunflower seed",
+                  "lychee/grape",
+                  "Almond",
+                  "Apple",
+                  "Banana",
+                  "Apricot"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "crossreact_sev__agn15",
+            "type": "single",
+            "title": "위에서 고른 「쑥」 교차반응 음식의 증상은 어디까지였나요?",
+            "help": "같은 교차반응이어도 입·목에만 그치는 분이 있고 전신 반응이 오는 분이 있어 확인합니다.",
+            "options": [
+              {
+                "value": "oral",
+                "label": "입·입술·목만 가렵거나 부었어요 (국소)"
+              },
+              {
+                "value": "systemic",
+                "label": "전신 두드러기·복통 등 전신 증상이 있었어요"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "호흡곤란·어지럼 등 아나필락시스가 있었어요"
+              }
+            ],
+            "applies_to": [
+              "agn15"
+            ],
+            "reveal_if": {
+              "question": "crossreact__agn15",
+              "includes_any": [
+                "Celery",
+                "Carrot",
+                "parsley/coriander",
+                "spices",
+                "Mustard",
+                "mango",
+                "sunflower seed",
+                "lychee/grape",
+                "Almond",
+                "Apple",
+                "Banana",
+                "Apricot"
+              ]
+            }
+          },
+          {
+            "id": "crossreact__agn16",
+            "type": "multi",
+            "title": "「넓은김의털」에 감작되어 있습니다. 아래 음식 중 **드셨을 때 입·목이 가렵거나 붓는 등 증상이 있었던 것**을 모두 고르세요.",
+            "help": "넓은김의털과 같은 단백질(성분)을 공유해 구강알레르기증후군(OAS)이 나타날 수 있는 음식입니다. 대개 입·목 증상이지만 개인차가 있습니다. 실제로 증상이 있었던 것만 고르세요(감작만이면 불필요한 제한은 피합니다).",
+            "options": [
+              {
+                "value": "Melon",
+                "label": "멜론(수박·참외·머스크멜론)"
+              },
+              {
+                "value": "Tomato",
+                "label": "토마토"
+              },
+              {
+                "value": "Orange",
+                "label": "오렌지·감귤"
+              },
+              {
+                "value": "Kiwi",
+                "label": "키위"
+              },
+              {
+                "value": "Peanut",
+                "label": "땅콩"
+              },
+              {
+                "value": "Potato",
+                "label": "감자(생)"
+              },
+              {
+                "value": "none",
+                "label": "해당 없음 / 문제된 것 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn16"
+            ],
+            "reveal_if_any": [
+              {
+                "question": "pollen_season__summer_grass",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "oral_allergy_syndrome",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "food_general_react",
+                "includes_any": [
+                  "Melon",
+                  "Tomato",
+                  "Orange",
+                  "Kiwi",
+                  "Peanut",
+                  "Potato"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "crossreact_sev__agn16",
+            "type": "single",
+            "title": "위에서 고른 「넓은김의털」 교차반응 음식의 증상은 어디까지였나요?",
+            "help": "같은 교차반응이어도 입·목에만 그치는 분이 있고 전신 반응이 오는 분이 있어 확인합니다.",
+            "options": [
+              {
+                "value": "oral",
+                "label": "입·입술·목만 가렵거나 부었어요 (국소)"
+              },
+              {
+                "value": "systemic",
+                "label": "전신 두드러기·복통 등 전신 증상이 있었어요"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "호흡곤란·어지럼 등 아나필락시스가 있었어요"
+              }
+            ],
+            "applies_to": [
+              "agn16"
+            ],
+            "reveal_if": {
+              "question": "crossreact__agn16",
+              "includes_any": [
+                "Melon",
+                "Tomato",
+                "Orange",
+                "Kiwi",
+                "Peanut",
+                "Potato"
+              ]
+            }
+          },
+          {
+            "id": "crossreact__agn17",
+            "type": "multi",
+            "title": "「오리새」에 감작되어 있습니다. 아래 음식 중 **드셨을 때 입·목이 가렵거나 붓는 등 증상이 있었던 것**을 모두 고르세요.",
+            "help": "오리새와 같은 단백질(성분)을 공유해 구강알레르기증후군(OAS)이 나타날 수 있는 음식입니다. 대개 입·목 증상이지만 개인차가 있습니다. 실제로 증상이 있었던 것만 고르세요(감작만이면 불필요한 제한은 피합니다).",
+            "options": [
+              {
+                "value": "Melon",
+                "label": "멜론(수박·참외·머스크멜론)"
+              },
+              {
+                "value": "Tomato",
+                "label": "토마토"
+              },
+              {
+                "value": "Orange",
+                "label": "오렌지·감귤"
+              },
+              {
+                "value": "Kiwi",
+                "label": "키위"
+              },
+              {
+                "value": "Peanut",
+                "label": "땅콩"
+              },
+              {
+                "value": "Potato",
+                "label": "감자(생)"
+              },
+              {
+                "value": "none",
+                "label": "해당 없음 / 문제된 것 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn17"
+            ],
+            "reveal_if_any": [
+              {
+                "question": "pollen_season__summer_grass",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "oral_allergy_syndrome",
+                "any": [
+                  "yes",
+                  "unsure"
+                ]
+              },
+              {
+                "question": "food_general_react",
+                "includes_any": [
+                  "Melon",
+                  "Tomato",
+                  "Orange",
+                  "Kiwi",
+                  "Peanut",
+                  "Potato"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "crossreact_sev__agn17",
+            "type": "single",
+            "title": "위에서 고른 「오리새」 교차반응 음식의 증상은 어디까지였나요?",
+            "help": "같은 교차반응이어도 입·목에만 그치는 분이 있고 전신 반응이 오는 분이 있어 확인합니다.",
+            "options": [
+              {
+                "value": "oral",
+                "label": "입·입술·목만 가렵거나 부었어요 (국소)"
+              },
+              {
+                "value": "systemic",
+                "label": "전신 두드러기·복통 등 전신 증상이 있었어요"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "호흡곤란·어지럼 등 아나필락시스가 있었어요"
+              }
+            ],
+            "applies_to": [
+              "agn17"
+            ],
+            "reveal_if": {
+              "question": "crossreact__agn17",
+              "includes_any": [
+                "Melon",
+                "Tomato",
+                "Orange",
+                "Kiwi",
+                "Peanut",
+                "Potato"
+              ]
+            }
+          },
+          {
+            "id": "crossreact__agn18",
+            "type": "multi",
+            "title": "「오렌지」에 감작되어 있습니다. 아래 음식 중 **드셨을 때 입·목이 가렵거나 붓는 등 증상이 있었던 것**을 모두 고르세요.",
+            "help": "오렌지와 같은 단백질(성분)을 공유해 교차반응이 나타날 수 있는 음식입니다. 대개 입·목 증상이지만 개인차가 있습니다. 실제로 증상이 있었던 것만 고르세요(감작만이면 불필요한 제한은 피합니다).",
+            "options": [
+              {
+                "value": "Almond",
+                "label": "아몬드"
+              },
+              {
+                "value": "Apple",
+                "label": "사과"
+              },
+              {
+                "value": "Banana",
+                "label": "바나나"
+              },
+              {
+                "value": "Carrot",
+                "label": "당근"
+              },
+              {
+                "value": "Celery",
+                "label": "셀러리"
+              },
+              {
+                "value": "none",
+                "label": "해당 없음 / 문제된 것 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn18"
+            ],
+            "reveal_if_any": [
+              {
+                "question": "food_symptoms__agn18",
+                "includes_any": [
+                  "oral",
+                  "skin",
+                  "gi",
+                  "breathing",
+                  "anaphylaxis"
+                ]
+              },
+              {
+                "question": "shellfish_react__agn18",
+                "any": [
+                  "oral",
+                  "systemic"
+                ]
+              },
+              {
+                "question": "food_general_react",
+                "includes_any": [
+                  "Almond",
+                  "Apple",
+                  "Banana",
+                  "Carrot",
+                  "Celery"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "crossreact_sev__agn18",
+            "type": "single",
+            "title": "위에서 고른 「오렌지」 교차반응 음식의 증상은 어디까지였나요?",
+            "help": "같은 교차반응이어도 입·목에만 그치는 분이 있고 전신 반응이 오는 분이 있어 확인합니다.",
+            "options": [
+              {
+                "value": "oral",
+                "label": "입·입술·목만 가렵거나 부었어요 (국소)"
+              },
+              {
+                "value": "systemic",
+                "label": "전신 두드러기·복통 등 전신 증상이 있었어요"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "호흡곤란·어지럼 등 아나필락시스가 있었어요"
+              }
+            ],
+            "applies_to": [
+              "agn18"
+            ],
+            "reveal_if": {
+              "question": "crossreact__agn18",
+              "includes_any": [
+                "Almond",
+                "Apple",
+                "Banana",
+                "Carrot",
+                "Celery"
+              ]
+            }
+          },
+          {
+            "id": "crossreact__agn19",
+            "type": "multi",
+            "title": "「전복」에 감작되어 있습니다. 아래 음식 중 **드셨을 때 입·목이 가렵거나 붓는 등 증상이 있었던 것**을 모두 고르세요.",
+            "help": "전복과 같은 단백질(성분)을 공유해 교차반응이 나타날 수 있는 음식입니다. 이 중 일부는 전신 반응(두드러기·호흡곤란) 위험이 있어 특히 주의가 필요합니다. 실제로 증상이 있었던 것만 고르세요(감작만이면 불필요한 제한은 피합니다).",
+            "options": [
+              {
+                "value": "Anisakis",
+                "label": "아니사키스"
+              },
+              {
+                "value": "Clam",
+                "label": "조개"
+              },
+              {
+                "value": "Crab",
+                "label": "게"
+              },
+              {
+                "value": "Crayfish",
+                "label": "가재"
+              },
+              {
+                "value": "Krill",
+                "label": "크릴"
+              },
+              {
+                "value": "none",
+                "label": "해당 없음 / 문제된 것 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": [
+              "agn19"
+            ],
+            "reveal_if_any": [
+              {
+                "question": "food_symptoms__agn19",
+                "includes_any": [
+                  "oral",
+                  "skin",
+                  "gi",
+                  "breathing",
+                  "anaphylaxis"
+                ]
+              },
+              {
+                "question": "shellfish_react__agn19",
+                "any": [
+                  "oral",
+                  "systemic"
+                ]
+              },
+              {
+                "question": "food_general_react",
+                "includes_any": [
+                  "Anisakis",
+                  "Clam",
+                  "Crab",
+                  "Crayfish",
+                  "Krill"
+                ]
+              }
+            ]
+          },
+          {
+            "id": "crossreact_sev__agn19",
+            "type": "single",
+            "title": "위에서 고른 「전복」 교차반응 음식의 증상은 어디까지였나요?",
+            "help": "같은 교차반응이어도 입·목에만 그치는 분이 있고 전신 반응이 오는 분이 있어 확인합니다.",
+            "options": [
+              {
+                "value": "oral",
+                "label": "입·입술·목만 가렵거나 부었어요 (국소)"
+              },
+              {
+                "value": "systemic",
+                "label": "전신 두드러기·복통 등 전신 증상이 있었어요"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "호흡곤란·어지럼 등 아나필락시스가 있었어요"
+              }
+            ],
+            "applies_to": [
+              "agn19"
+            ],
+            "reveal_if": {
+              "question": "crossreact__agn19",
+              "includes_any": [
+                "Anisakis",
+                "Clam",
+                "Crab",
+                "Crayfish",
+                "Krill"
+              ]
+            }
+          },
+          {
+            "id": "food_general_react",
+            "type": "multi",
+            "title": "위에서 다루지 못한 음식 중, 드셨을 때 이상반응(입·목 가려움·두드러기 등)이 있었던 것이 더 있나요?",
+            "help": "감작된 항원과 성분을 공유해 교차반응할 수 있는 음식 목록입니다. 여기서 고르시면 관련 항원의 교차반응 항목을 다시 확인합니다. 없으면 ‘해당 없음’.",
+            "options": [
+              {
+                "value": "Anisakis",
+                "label": "아니사키스"
+              },
+              {
+                "value": "Lobster",
+                "label": "바닷가재"
+              },
+              {
+                "value": "Clam",
+                "label": "조개"
+              },
+              {
+                "value": "Prawn",
+                "label": "대하"
+              },
+              {
+                "value": "Shrimp",
+                "label": "새우"
+              },
+              {
+                "value": "Crab",
+                "label": "게"
+              },
+              {
+                "value": "Crayfish",
+                "label": "가재"
+              },
+              {
+                "value": "Krill",
+                "label": "크릴"
+              },
+              {
+                "value": "Beef",
+                "label": "소고기"
+              },
+              {
+                "value": "Cow milk",
+                "label": "우유"
+              },
+              {
+                "value": "Pork",
+                "label": "돼지고기"
+              },
+              {
+                "value": "Apple",
+                "label": "사과"
+              },
+              {
+                "value": "Peach",
+                "label": "복숭아"
+              },
+              {
+                "value": "Pear",
+                "label": "배"
+              },
+              {
+                "value": "Cherry",
+                "label": "체리"
+              },
+              {
+                "value": "plum/apricot",
+                "label": "자두·살구"
+              },
+              {
+                "value": "Kiwi",
+                "label": "키위"
+              },
+              {
+                "value": "Carrot",
+                "label": "당근"
+              },
+              {
+                "value": "Celery",
+                "label": "셀러리"
+              },
+              {
+                "value": "Hazelnut",
+                "label": "헤이즐넛"
+              },
+              {
+                "value": "Almond",
+                "label": "아몬드"
+              },
+              {
+                "value": "Peanut",
+                "label": "땅콩"
+              },
+              {
+                "value": "Soybean",
+                "label": "콩(대두)"
+              },
+              {
+                "value": "parsley/coriander",
+                "label": "파슬리·고수"
+              },
+              {
+                "value": "spices",
+                "label": "향신료(커민·회향·후추)"
+              },
+              {
+                "value": "Mustard",
+                "label": "겨자"
+              },
+              {
+                "value": "mango",
+                "label": "망고"
+              },
+              {
+                "value": "sunflower seed",
+                "label": "해바라기씨"
+              },
+              {
+                "value": "lychee/grape",
+                "label": "리치·포도"
+              },
+              {
+                "value": "Banana",
+                "label": "바나나"
+              },
+              {
+                "value": "Apricot",
+                "label": "살구"
+              },
+              {
+                "value": "Melon",
+                "label": "멜론(수박·참외·머스크멜론)"
+              },
+              {
+                "value": "Tomato",
+                "label": "토마토"
+              },
+              {
+                "value": "Orange",
+                "label": "오렌지·감귤"
+              },
+              {
+                "value": "Potato",
+                "label": "감자(생)"
+              },
+              {
+                "value": "none",
+                "label": "해당 없음",
+                "exclusive": true
+              }
+            ],
+            "applies_to": []
+          },
+          {
+            "id": "food_systemic",
+            "type": "single",
+            "title": "마지막으로, 특정 음식을 먹은 뒤 두드러기·호흡곤란·복통 등 **전신** 증상이 있었나요?",
+            "help": "위에서 고른 교차반응 음식이든 그 밖의 음식이든, 입·목을 넘어선 전신 반응은 응급 상황일 수 있어 반드시 확인합니다.",
+            "options": [
+              {
+                "value": "yes",
+                "label": "예"
+              },
+              {
+                "value": "no",
+                "label": "아니오"
+              },
+              {
+                "value": "unsure",
+                "label": "잘 모르겠어요"
+              }
+            ],
+            "applies_to": []
+          },
+          {
+            "id": "food_systemic_foods",
+            "type": "multi",
+            "title": "전신 증상을 일으켰던 음식을 모두 선택하세요.",
+            "help": "여러 개일 수 있습니다. 각 음식마다 아래에서 심했던 정도를 여쭤봅니다.",
+            "options": [
+              {
+                "value": "agn18",
+                "label": "오렌지"
+              },
+              {
+                "value": "agn19",
+                "label": "전복"
+              },
+              {
+                "value": "other",
+                "label": "그 밖의 음식(검사에 없던 음식)"
+              }
+            ],
+            "applies_to": [],
+            "reveal_if": {
+              "question": "food_systemic",
+              "equals": "yes"
+            }
+          },
+          {
+            "id": "food_systemic_sev__agn18",
+            "type": "single",
+            "title": "오렌지로 인한 전신 증상은 어느 정도였나요?",
+            "help": "가장 심했던 에피소드 기준으로 골라주세요. 중증·아나필락시스는 전문의 평가가 필요합니다.",
+            "options": [
+              {
+                "value": "mild",
+                "label": "경증 — 가벼운 국소 증상, 일상에 큰 지장 없음"
+              },
+              {
+                "value": "moderate",
+                "label": "중등증 — 증상이 뚜렷하고 일상·수면에 지장"
+              },
+              {
+                "value": "severe",
+                "label": "중증 — 증상이 심해 약 없이는 조절이 어려움"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "아나필락시스 — 호흡곤란·전신 두드러기·어지럼(응급 병력)"
+              }
+            ],
+            "applies_to": [
+              "agn18"
+            ],
+            "reveal_if": {
+              "question": "food_systemic_foods",
+              "includes_any": [
+                "agn18"
+              ]
+            }
+          },
+          {
+            "id": "food_systemic_sev__agn19",
+            "type": "single",
+            "title": "전복으로 인한 전신 증상은 어느 정도였나요?",
+            "help": "가장 심했던 에피소드 기준으로 골라주세요. 중증·아나필락시스는 전문의 평가가 필요합니다.",
+            "options": [
+              {
+                "value": "mild",
+                "label": "경증 — 가벼운 국소 증상, 일상에 큰 지장 없음"
+              },
+              {
+                "value": "moderate",
+                "label": "중등증 — 증상이 뚜렷하고 일상·수면에 지장"
+              },
+              {
+                "value": "severe",
+                "label": "중증 — 증상이 심해 약 없이는 조절이 어려움"
+              },
+              {
+                "value": "anaphylaxis",
+                "label": "아나필락시스 — 호흡곤란·전신 두드러기·어지럼(응급 병력)"
+              }
+            ],
+            "applies_to": [
+              "agn19"
+            ],
+            "reveal_if": {
+              "question": "food_systemic_foods",
+              "includes_any": [
+                "agn19"
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "allergen_index": {
+      "agn0": {
+        "name": "Dermatophagoides farinae",
+        "korean_name": "미국집먼지진드기",
+        "category": "mite",
+        "season_label": "연중 (고온다습한 여름~초가을에 개체수 증가)",
+        "strength": "weak",
+        "test_value": 0.64,
+        "test_unit": "IU/mL"
+      },
+      "agn1": {
+        "name": "Dermatophagoides pteronyssinus",
+        "korean_name": "유럽 집먼지진드기",
+        "category": "mite",
+        "season_label": "연중 (장마철·여름~초가을 개체수 증가)",
+        "strength": "weak",
+        "test_value": 0.67,
+        "test_unit": "IU/mL"
+      },
+      "agn2": {
+        "name": "Cladosporium herbarum",
+        "korean_name": "클라도스포리움 헤르바룸",
+        "category": "mold",
+        "season_label": "연중 (장마철·여름~초가을 증가, 국내 대기 포자 6~12월)",
+        "strength": "weak",
+        "test_value": 0.69,
+        "test_unit": "IU/mL"
+      },
+      "agn3": {
+        "name": "Mucor racemosus",
+        "korean_name": "뮤코르 라세모수스",
+        "category": "mold",
+        "season_label": "연중 (장마철·여름~초가을 증가, 국내 대기 포자 6~12월)",
+        "strength": "weak",
+        "test_value": 0.63,
+        "test_unit": "IU/mL"
+      },
+      "agn4": {
+        "name": "Fusarium",
+        "korean_name": "푸사리움 모닐리포르메",
+        "category": "mold",
+        "season_label": "연중 (장마철·여름~초가을 증가, 국내 대기 포자 6~12월)",
+        "strength": "weak",
+        "test_value": 0.49,
+        "test_unit": "IU/mL"
+      },
+      "agn5": {
+        "name": "Cat dander",
+        "korean_name": "고양이 표피",
+        "category": "animal",
+        "season_label": "연중",
+        "strength": "weak",
+        "test_value": 0.68,
+        "test_unit": "IU/mL"
+      },
+      "agn6": {
+        "name": "Dog dander",
+        "korean_name": "개 표피",
+        "category": "animal",
+        "season_label": "연중",
+        "strength": "moderate",
+        "test_value": 7.14,
+        "test_unit": "IU/mL"
+      },
+      "agn7": {
+        "name": "Horse dander",
+        "korean_name": "말 비듬",
+        "category": "animal",
+        "season_label": "연중 (접촉할 때)",
+        "strength": "moderate",
+        "test_value": 1.78,
+        "test_unit": "IU/mL"
+      },
+      "agn8": {
+        "name": "Poplar",
+        "korean_name": "포플러나무",
+        "category": "pollen_tree",
+        "season_label": "봄 (3~4월)",
+        "strength": "weak",
+        "test_value": 0.35,
+        "test_unit": "IU/mL"
+      },
+      "agn9": {
+        "name": "Willow",
+        "korean_name": "버드나무",
+        "category": "pollen_tree",
+        "season_label": "봄 (3~4월)",
+        "strength": "weak",
+        "test_value": 0.38,
+        "test_unit": "IU/mL"
+      },
+      "agn10": {
+        "name": "Beech",
+        "korean_name": "너도밤나무",
+        "category": "pollen_tree",
+        "season_label": "봄 (4~5월)",
+        "strength": "strong",
+        "test_value": 32.55,
+        "test_unit": "IU/mL"
+      },
+      "agn11": {
+        "name": "Japanese hop",
+        "korean_name": "환삼덩굴",
+        "category": "pollen_weed",
+        "season_label": "늦여름~가을 (8~10월)",
+        "strength": "weak",
+        "test_value": 0.62,
+        "test_unit": "IU/mL"
+      },
+      "agn12": {
+        "name": "English plantain",
+        "korean_name": "질경이",
+        "category": "pollen_weed",
+        "season_label": "늦봄~가을 (5~9월)",
+        "strength": "moderate",
+        "test_value": 16.79,
+        "test_unit": "IU/mL"
+      },
+      "agn13": {
+        "name": "Goldenrod",
+        "korean_name": "미역취",
+        "category": "pollen_weed",
+        "season_label": "가을 (8~10월)",
+        "strength": "moderate",
+        "test_value": 13.82,
+        "test_unit": "IU/mL"
+      },
+      "agn14": {
+        "name": "Chrysanthemum",
+        "korean_name": "국화",
+        "category": "pollen_weed",
+        "season_label": "가을 (9~10월)",
+        "strength": "weak",
+        "test_value": 0.44,
+        "test_unit": "IU/mL"
+      },
+      "agn15": {
+        "name": "Mugwort",
+        "korean_name": "쑥",
+        "category": "pollen_weed",
+        "season_label": "늦여름~가을 (8~10월, 9~10월 피크)",
+        "strength": "moderate",
+        "test_value": 1.48,
+        "test_unit": "IU/mL"
+      },
+      "agn16": {
+        "name": "Meadow fescue",
+        "korean_name": "넓은김의털",
+        "category": "pollen_grass",
+        "season_label": "늦봄~여름 (5~7월)",
+        "strength": "weak",
+        "test_value": 0.45,
+        "test_unit": "IU/mL"
+      },
+      "agn17": {
+        "name": "Orchard grass",
+        "korean_name": "오리새",
+        "category": "pollen_grass",
+        "season_label": "늦봄~여름 (5~7월)",
+        "strength": "weak",
+        "test_value": 0.46,
+        "test_unit": "IU/mL"
+      },
+      "agn18": {
+        "name": "Orange",
+        "korean_name": "오렌지",
+        "category": "food",
+        "season_label": "먹었을 때",
+        "strength": "moderate",
+        "test_value": 5.66,
+        "test_unit": "IU/mL"
+      },
+      "agn19": {
+        "name": "Abalone",
+        "korean_name": "전복",
+        "category": "food",
+        "season_label": "먹었을 때",
+        "strength": "strong",
+        "test_value": 29.9,
+        "test_unit": "IU/mL"
+      }
+    },
+    "answer_prefill": {}
+  },
+  "answers": {
+    "symptom_pattern": "perennial",
+    "worse_seasons": [
+      "none"
+    ],
+    "indoor_timing": "yes",
+    "indoor_away": "yes",
+    "mite_dust": "yes",
+    "animal_contact__agn5": "frequent",
+    "animal_contact_freq__agn5": "weekly",
+    "animal_worse__agn5": "no",
+    "animal_contact__agn6": "live",
+    "animal_worse__agn6": "yes",
+    "severity__agn6": "moderate",
+    "oral_allergy_syndrome": "no",
+    "food_symptoms__agn18": [
+      "none"
+    ],
+    "shellfish_react__agn19": "never",
+    "food_systemic": "no"
+  },
+  "limits": [
+    "Answers are fictional and exist only to demonstrate branching.",
+    "The questionnaire is not presented as a validated patient-reported outcome measure.",
+    "No answer is submitted or stored by the static page."
+  ]
+}

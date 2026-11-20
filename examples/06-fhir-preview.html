@@ -1,0 +1,58 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>FHIR R4 합성 MAST 검사 결과 번들</title><style>
+:root{--navy:#15324b;--blue:#2077a6;--sky:#e8f4f9;--ink:#17232d;--muted:#526574;--line:#d5e1e8;--green:#236b54;--amber:#9b6617;--red:#a23a35}
+*{box-sizing:border-box}html,body{max-width:100%;overflow-x:hidden}body{margin:0;font-family:Arial,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;color:var(--ink);background:#f4f7f9;line-height:1.6}
+main{width:100%;max-width:1120px;margin:auto;padding:34px 24px 80px;min-width:0}header{background:linear-gradient(135deg,var(--navy),#275d7b);color:#fff;padding:28px;border-radius:18px;margin-bottom:22px;overflow-wrap:anywhere}
+h1{font-size:clamp(26px,4vw,42px);line-height:1.15;margin:4px 0 10px}h2{color:var(--navy);margin-top:0}.eyebrow{font-size:12px;letter-spacing:.16em;font-weight:700;text-transform:uppercase;opacity:.9}
+.notice,.source{padding:14px 16px;border-radius:12px;margin:16px 0;max-width:100%;overflow-wrap:anywhere}.notice{background:#fff3d9;border-left:5px solid #e0a52c}.source{background:#eaf4f0;border-left:5px solid var(--green);font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1.15fr;gap:20px}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;min-width:0}.scan{width:100%;height:auto;border:1px solid var(--line);border-radius:10px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}.stat{background:var(--sky);padding:12px;border-radius:10px;text-align:center}.stat b{display:block;font-size:24px;color:var(--navy)}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{position:sticky;top:0;background:#eaf1f5;color:var(--navy)}.table-wrap{width:100%;max-width:100%;min-width:0;max-height:720px;overflow:auto;border:1px solid var(--line);border-radius:10px}
+.positive{color:var(--red);font-weight:700}.negative{color:var(--green)}.tag{display:inline-block;padding:3px 9px;border-radius:999px;background:var(--sky);font-size:12px;font-weight:700}.answer{background:#eef7f3;border-left:4px solid var(--green);padding:9px 12px;margin:7px 0 16px}.sim{color:var(--amber);font-weight:700}.question{border-bottom:1px solid var(--line);padding:14px 0}.question:last-child{border:0}.question h3{font-size:17px;margin:0 0 5px}.question p{margin:4px 0;color:var(--muted)}
+.guide{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}.guide section{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px}.guide h2{font-size:20px}.guide ul,.guide ol{padding-left:22px}.warning{border:2px solid #d47b72!important;background:#fff8f7!important}.footer{font-size:13px;color:var(--muted);margin-top:24px;padding-top:16px;border-top:1px solid var(--line)}
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}.json{width:100%;max-width:100%;white-space:pre-wrap;word-break:break-all;background:#101b24;color:#d9edf5;padding:20px;border-radius:12px;max-height:760px;overflow:auto;font-size:12px}
+@media(max-width:760px){.grid,.guide{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}main{padding:18px 12px 50px}header{padding:22px 18px}}
+@media print{body{background:#fff}main{max-width:none;padding:0}.panel,.guide section{break-inside:avoid}.table-wrap{max-height:none;overflow:visible}th{position:static}}
+</style></head><body><nav aria-label="연구 전시" style="max-width:1120px;margin:12px auto;padding:0 16px;font:15px sans-serif"><a style="color:#155d64" href="../index.html#showcase">← 예시 결과물 목록</a></nav><main>
+<header><div class="eyebrow">PUBLIC SYNTHETIC EXAMPLE · FHIR R4</div><h1>FHIR R4 검사 결과 번들</h1><p>Patient, Observation, DiagnosticReport를 하나의 collection Bundle로 연결했습니다. 이 예시는 AllergyIntolerance를 포함하지 않습니다.</p></header>
+<div class="stats"><div class="stat"><b>71</b>리소스</div><div class="stat"><b>69</b>Observation</div><div class="stat"><b>1</b>Patient</div><div class="stat"><b>1</b>Report</div></div>
+<section class="panel"><h2>번들 미리보기</h2><pre class="json">{
+  &quot;resourceType&quot;: &quot;Bundle&quot;,
+  &quot;id&quot;: &quot;apaaaci-synthetic-mast-001&quot;,
+  &quot;type&quot;: &quot;collection&quot;,
+  &quot;entry_count&quot;: 71,
+  &quot;resource_counts&quot;: {
+    &quot;Patient&quot;: 1,
+    &quot;Observation&quot;: 69,
+    &quot;DiagnosticReport&quot;: 1
+  },
+  &quot;first_entry&quot;: {
+    &quot;fullUrl&quot;: &quot;urn:uuid:228a82af-dc1a-5c7b-a876-66e80b2f9626&quot;,
+    &quot;resource&quot;: {
+      &quot;resourceType&quot;: &quot;Patient&quot;,
+      &quot;id&quot;: &quot;showcase-patient&quot;,
+      &quot;identifier&quot;: [
+        {
+          &quot;system&quot;: &quot;https://example.org/apaaaci/synthetic-case&quot;,
+          &quot;value&quot;: &quot;APAAACI-SYNTH-MAST-001&quot;
+        }
+      ],
+      &quot;name&quot;: [
+        {
+          &quot;use&quot;: &quot;usual&quot;,
+          &quot;text&quot;: &quot;Public synthetic case&quot;
+        }
+      ],
+      &quot;meta&quot;: {
+        &quot;tag&quot;: [
+          {
+            &quot;system&quot;: &quot;https://example.org/apaaaci/data-class&quot;,
+            &quot;code&quot;: &quot;synthetic&quot;,
+            &quot;display&quot;: &quot;Synthetic public showcase data&quot;
+          }
+        ]
+      }
+    }
+  }
+}</pre></section>
+<div class="source"><strong>출처와 방법:</strong> <code>services/fhir_service.py::FHIRService.create_observation_bundle</code>로 69개 Observation을 생성했습니다. 공개 예시에 Patient와 DiagnosticReport를 추가했습니다. <a href="06-fhir-bundle.json" download>FHIR JSON 다운로드</a></div>
+<p class="footer">HL7 FHIR R4 구조 예시 · 공식 프로파일 또는 임상 검증 아님</p></main></body></html>

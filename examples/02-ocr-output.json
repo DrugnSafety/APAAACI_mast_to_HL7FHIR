@@ -1,0 +1,5733 @@
+{
+  "case_id": "APAAACI-SYNTH-MAST-001",
+  "synthetic": true,
+  "input": "01-synthetic-mast-report.png",
+  "engine": {
+    "name": "Tesseract OCR",
+    "version": "tesseract 5.5.3",
+    "languages": [
+      "kor",
+      "eng"
+    ],
+    "page_segmentation_mode": 3
+  },
+  "run_type": "fresh_local_ocr",
+  "raw_text": "MAST Allergy (Integrated) 검사보고서\n\n병(의)원명        해든병원 소아청소년과                      진료과/병동 내과                                              검체채취일        2026-08-03\n수진자명 김시우                                        의사명           최하윤                                            검사의뢰일  2026-08-03\n생년월일 2020-10-23                           접수번호  20260803-558-191                      결과보고일      2026-08-04\n차트번호      75382314                             검체종류      Serum                                   기     타\n구분                          Allergen                                                           결과 (U/mL)        Class            구분                          Allergen                                                           결과 (U/mL)        Class\nTotal IgE                            Slee                  <50        음성 ㅣ 잡초화분 Japanese hop                      환삼덩굴                0.62         1\n진드기. 2-500660 spider mite        점박이응애       <0.15     0         English plantain           질경이          16.79     3\nT. putrescentiae                    긴털가루진드기         0.23         0                Goldenrod                         미역취                 13.82         3\nD. farinae                             미국집먼지진드기        0.64          1                  Chrysanthemum                     국화                     0.44          1\nD. pteronyssinus                      유럽 집먼지진드기 0.67           1                   Russian thistle                         러시안 IAal             0.26           0\n골팡이. <. herbarum                          클라도스포리움… 0.69          1                  Mugwort                             쑥                        148          2\nOutdoor mold mixture             실외 곰팡이 혼합        0.29         0       목초화분 Velvet grass                       잔디                    0.24         0\nA.alternata                          얼터나리아              0.03          0                 Meadow fescue                      넓은김의털               0.45          1\nA. niger                            아스페르길루스 …      0.27         0               Grass                              잔디 꽃가루 혼합        0.02         0\nNeurospora                             뉴로스포라                0.09           0                   Cultivated oat                          귀리                        0.19           0\nIndoor mold mixture                실내 곰팡이 훈합        0.27          0                 Kentucky blue grass                왕포아풀                 0.14,          0\nM. racemosus                      뮤코르 라세모수스 0.63         1                Bermuda grass                     우산잔디                0.26         0\nFusarium                                   푸사리움 모닐리… 0.49            1                     Timothy                                    티모시                       0.19            0\nPenicillium                                 페니실리움                  0.17            0                     Rye grass, perennial                    호밀풀                       0.04           0\nA. fumigatus                          아스페르길루스…  <0.15          0                  Orchard grass                         오리새                    0.46           1\nC. albicans                        칸디다 알비칸스        0.01         0       식품 Mustard                          겨자                  <0.15        0\nSEE Cat dander                        고양이 표피            0.68         1                Mackerel                          고등어                 0.07         0\nDog dander                               개 표피                       714            3                     Lentil                                        렌즈콩                       0.33            0\nRabbit epithelium                  토끼 상피               <0.15         0                Shrimp                              새우                    <0.15         0\nHamster                              햄스터                    07          0                 Orange                               오렌지                   5.66          3\nCow dander                         소 비듬                  0.25          0                Pistachio                            피스타치오              <0.15         0\nMouse                                생쥐                      0.23          0                 Grape                                포도                      0.14          0\nGuinea pig                          기니피그                0.06         0                Cashew                             Wael                   0.13          0\nChicken                                         닭                               <0.15            0                       Pineapple                                     파인애플                      0.33             0\nHorse dander             말 비듬          178     2         06000                 피칸           <0.15     0\nRat epithelium                           al 상피                      <0.15           0                    Abalone                                    전복                         29.90           4\n2 Cockroach, German                 독일바퀴                 0.20          0\nCockroach, Mix                     바퀴벌레               <0.15         0\nCockroach, American                미국바퀴                 0.09          0\n수목화분 Poplar                              포플러나무              0.35          1\nHazel                                 개암나무                 0.01          0\nOak                                   참나무                   <0.15         0\nTree mixture 2                        나무 꽃가루 혼…         <0.15          0\nPlane                                 양버즘나무               0.29          0\nBirch                                 자작나무                 0.15          0\nOlive                                 올리브                   <0.15         0\nWillow                                버드나무                 0.38          1\nPine                                  소나무                   0.28          0\nBeech                                                 너도밤나무                     32.55              4\nJapanese cedar                                 삼나무                             0.13               0\n잡초화분 Ragweed                             돼지풀                   <0.15         0\nLamb's quarters                     명아주                   <0.15         0\nDandelion                   서양민들레          <0.15      0\nNettle                                471e                   0.15          0\n버\n검사자 한서연\n\n검사기관번호 :78838919                                                                                                                                               보고자 오서연\n\n",
+  "words": [
+    {
+      "text": "MAST",
+      "confidence": 96.526054,
+      "bounding_box": {
+        "left": 392,
+        "top": 53,
+        "width": 71,
+        "height": 22
+      }
+    },
+    {
+      "text": "Allergy",
+      "confidence": 96.468254,
+      "bounding_box": {
+        "left": 470,
+        "top": 52,
+        "width": 86,
+        "height": 27
+      }
+    },
+    {
+      "text": "(Integrated)",
+      "confidence": 93.268829,
+      "bounding_box": {
+        "left": 565,
+        "top": 51,
+        "width": 146,
+        "height": 28
+      }
+    },
+    {
+      "text": "검",
+      "confidence": 93.092957,
+      "bounding_box": {
+        "left": 723,
+        "top": 50,
+        "width": 20,
+        "height": 27
+      }
+    },
+    {
+      "text": "사",
+      "confidence": 93.290001,
+      "bounding_box": {
+        "left": 751,
+        "top": 50,
+        "width": 21,
+        "height": 28
+      }
+    },
+    {
+      "text": "보",
+      "confidence": 93.267593,
+      "bounding_box": {
+        "left": 776,
+        "top": 52,
+        "width": 21,
+        "height": 22
+      }
+    },
+    {
+      "text": "고서",
+      "confidence": 96.703987,
+      "bounding_box": {
+        "left": 799,
+        "top": 50,
+        "width": 48,
+        "height": 28
+      }
+    },
+    {
+      "text": "병",
+      "confidence": 93.099541,
+      "bounding_box": {
+        "left": 53,
+        "top": 112,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "(",
+      "confidence": 93.28331,
+      "bounding_box": {
+        "left": 68,
+        "top": 113,
+        "width": 4,
+        "height": 14
+      }
+    },
+    {
+      "text": "의",
+      "confidence": 93.276154,
+      "bounding_box": {
+        "left": 75,
+        "top": 112,
+        "width": 10,
+        "height": 15
+      }
+    },
+    {
+      "text": ")",
+      "confidence": 93.237549,
+      "bounding_box": {
+        "left": 87,
+        "top": 113,
+        "width": 5,
+        "height": 14
+      }
+    },
+    {
+      "text": "원",
+      "confidence": 92.967834,
+      "bounding_box": {
+        "left": 96,
+        "top": 112,
+        "width": 9,
+        "height": 15
+      }
+    },
+    {
+      "text": "명",
+      "confidence": 96.982758,
+      "bounding_box": {
+        "left": 110,
+        "top": 112,
+        "width": 10,
+        "height": 15
+      }
+    },
+    {
+      "text": "해",
+      "confidence": 92.808434,
+      "bounding_box": {
+        "left": 168,
+        "top": 112,
+        "width": 57,
+        "height": 15
+      }
+    },
+    {
+      "text": "든",
+      "confidence": 93.139618,
+      "bounding_box": {
+        "left": 183,
+        "top": 108,
+        "width": 15,
+        "height": 28
+      }
+    },
+    {
+      "text": "병원",
+      "confidence": 93.306252,
+      "bounding_box": {
+        "left": 197,
+        "top": 112,
+        "width": 25,
+        "height": 15
+      }
+    },
+    {
+      "text": "소",
+      "confidence": 93.286224,
+      "bounding_box": {
+        "left": 231,
+        "top": 113,
+        "width": 14,
+        "height": 13
+      }
+    },
+    {
+      "text": "아",
+      "confidence": 91.309494,
+      "bounding_box": {
+        "left": 247,
+        "top": 112,
+        "width": 14,
+        "height": 15
+      }
+    },
+    {
+      "text": "청",
+      "confidence": 93.14856,
+      "bounding_box": {
+        "left": 262,
+        "top": 112,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "소",
+      "confidence": 93.290886,
+      "bounding_box": {
+        "left": 276,
+        "top": 113,
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "text": "년",
+      "confidence": 93.303497,
+      "bounding_box": {
+        "left": 291,
+        "top": 112,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "과",
+      "confidence": 89.370636,
+      "bounding_box": {
+        "left": 307,
+        "top": 112,
+        "width": 13,
+        "height": 15
+      }
+    },
+    {
+      "text": "진",
+      "confidence": 93.284828,
+      "bounding_box": {
+        "left": 453,
+        "top": 112,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "료",
+      "confidence": 93.267212,
+      "bounding_box": {
+        "left": 471,
+        "top": 113,
+        "width": 17,
+        "height": 13
+      }
+    },
+    {
+      "text": "과",
+      "confidence": 93.200325,
+      "bounding_box": {
+        "left": 492,
+        "top": 112,
+        "width": 4,
+        "height": 15
+      }
+    },
+    {
+      "text": "/",
+      "confidence": 83.977409,
+      "bounding_box": {
+        "left": 498,
+        "top": 113,
+        "width": 3,
+        "height": 14
+      }
+    },
+    {
+      "text": "병",
+      "confidence": 91.165642,
+      "bounding_box": {
+        "left": 506,
+        "top": 112,
+        "width": 19,
+        "height": 15
+      }
+    },
+    {
+      "text": "동",
+      "confidence": 89.524918,
+      "bounding_box": {
+        "left": 524,
+        "top": 108,
+        "width": 15,
+        "height": 28
+      }
+    },
+    {
+      "text": "내과",
+      "confidence": 91.954269,
+      "bounding_box": {
+        "left": 569,
+        "top": 112,
+        "width": 29,
+        "height": 15
+      }
+    },
+    {
+      "text": "검",
+      "confidence": 93.289551,
+      "bounding_box": {
+        "left": 873,
+        "top": 112,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "체",
+      "confidence": 93.171227,
+      "bounding_box": {
+        "left": 888,
+        "top": 112,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "채",
+      "confidence": 93.250259,
+      "bounding_box": {
+        "left": 902,
+        "top": 112,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "취",
+      "confidence": 93.293831,
+      "bounding_box": {
+        "left": 918,
+        "top": 112,
+        "width": 11,
+        "height": 15
+      }
+    },
+    {
+      "text": "일",
+      "confidence": 97.001091,
+      "bounding_box": {
+        "left": 933,
+        "top": 112,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "2026-08-03",
+      "confidence": 93.525307,
+      "bounding_box": {
+        "left": 991,
+        "top": 113,
+        "width": 90,
+        "height": 13
+      }
+    },
+    {
+      "text": "수",
+      "confidence": 93.222595,
+      "bounding_box": {
+        "left": 53,
+        "top": 143,
+        "width": 13,
+        "height": 14
+      }
+    },
+    {
+      "text": "진",
+      "confidence": 93.209717,
+      "bounding_box": {
+        "left": 72,
+        "top": 142,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "자명",
+      "confidence": 61.272411,
+      "bounding_box": {
+        "left": 90,
+        "top": 142,
+        "width": 33,
+        "height": 15
+      }
+    },
+    {
+      "text": "김",
+      "confidence": 86.852432,
+      "bounding_box": {
+        "left": 169,
+        "top": 142,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "시",
+      "confidence": 93.174629,
+      "bounding_box": {
+        "left": 184,
+        "top": 142,
+        "width": 27,
+        "height": 15
+      }
+    },
+    {
+      "text": "우",
+      "confidence": 93.148834,
+      "bounding_box": {
+        "left": 199,
+        "top": 131,
+        "width": 17,
+        "height": 35
+      }
+    },
+    {
+      "text": "의",
+      "confidence": 93.289452,
+      "bounding_box": {
+        "left": 453,
+        "top": 142,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "사",
+      "confidence": 93.273422,
+      "bounding_box": {
+        "left": 471,
+        "top": 142,
+        "width": 14,
+        "height": 15
+      }
+    },
+    {
+      "text": "명",
+      "confidence": 97.013504,
+      "bounding_box": {
+        "left": 491,
+        "top": 142,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "최",
+      "confidence": 93.245819,
+      "bounding_box": {
+        "left": 569,
+        "top": 142,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "하",
+      "confidence": 93.248901,
+      "bounding_box": {
+        "left": 584,
+        "top": 143,
+        "width": 9,
+        "height": 11
+      }
+    },
+    {
+      "text": "윤",
+      "confidence": 93.156403,
+      "bounding_box": {
+        "left": 599,
+        "top": 142,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "검",
+      "confidence": 91.038208,
+      "bounding_box": {
+        "left": 873,
+        "top": 142,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "사",
+      "confidence": 93.287628,
+      "bounding_box": {
+        "left": 890,
+        "top": 142,
+        "width": 11,
+        "height": 15
+      }
+    },
+    {
+      "text": "의",
+      "confidence": 93.278694,
+      "bounding_box": {
+        "left": 905,
+        "top": 142,
+        "width": 20,
+        "height": 15
+      }
+    },
+    {
+      "text": "뢰",
+      "confidence": 92.280891,
+      "bounding_box": {
+        "left": 932,
+        "top": 142,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "일",
+      "confidence": 4.04006,
+      "bounding_box": {
+        "left": 943,
+        "top": 131,
+        "width": 14,
+        "height": 34
+      }
+    },
+    {
+      "text": " 2026-08-03",
+      "confidence": 4.04006,
+      "bounding_box": {
+        "left": 991,
+        "top": 143,
+        "width": 90,
+        "height": 13
+      }
+    },
+    {
+      "text": "생년월일",
+      "confidence": 55.118923,
+      "bounding_box": {
+        "left": 53,
+        "top": 172,
+        "width": 71,
+        "height": 15
+      }
+    },
+    {
+      "text": "2020-10-23",
+      "confidence": 50.033611,
+      "bounding_box": {
+        "left": 169,
+        "top": 173,
+        "width": 85,
+        "height": 13
+      }
+    },
+    {
+      "text": "접",
+      "confidence": 93.258873,
+      "bounding_box": {
+        "left": 453,
+        "top": 172,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "수",
+      "confidence": 93.297569,
+      "bounding_box": {
+        "left": 472,
+        "top": 172,
+        "width": 31,
+        "height": 15
+      }
+    },
+    {
+      "text": "번호",
+      "confidence": 30.919765,
+      "bounding_box": {
+        "left": 511,
+        "top": 173,
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "text": " 20260803-558-191",
+      "confidence": 19.588804,
+      "bounding_box": {
+        "left": 569,
+        "top": 173,
+        "width": 143,
+        "height": 13
+      }
+    },
+    {
+      "text": "결",
+      "confidence": 93.251144,
+      "bounding_box": {
+        "left": 873,
+        "top": 172,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "과",
+      "confidence": 93.29464,
+      "bounding_box": {
+        "left": 888,
+        "top": 172,
+        "width": 14,
+        "height": 15
+      }
+    },
+    {
+      "text": "보",
+      "confidence": 93.294258,
+      "bounding_box": {
+        "left": 902,
+        "top": 173,
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "text": "고",
+      "confidence": 93.25985,
+      "bounding_box": {
+        "left": 917,
+        "top": 174,
+        "width": 13,
+        "height": 11
+      }
+    },
+    {
+      "text": "일",
+      "confidence": 96.242401,
+      "bounding_box": {
+        "left": 932,
+        "top": 172,
+        "width": 13,
+        "height": 15
+      }
+    },
+    {
+      "text": "2026-08-04",
+      "confidence": 89.29203,
+      "bounding_box": {
+        "left": 991,
+        "top": 173,
+        "width": 92,
+        "height": 13
+      }
+    },
+    {
+      "text": "차",
+      "confidence": 93.24968,
+      "bounding_box": {
+        "left": 52,
+        "top": 202,
+        "width": 14,
+        "height": 15
+      }
+    },
+    {
+      "text": "트",
+      "confidence": 93.295387,
+      "bounding_box": {
+        "left": 72,
+        "top": 204,
+        "width": 13,
+        "height": 12
+      }
+    },
+    {
+      "text": "번호",
+      "confidence": 89.302536,
+      "bounding_box": {
+        "left": 91,
+        "top": 202,
+        "width": 33,
+        "height": 15
+      }
+    },
+    {
+      "text": "75382314",
+      "confidence": 81.781776,
+      "bounding_box": {
+        "left": 168,
+        "top": 203,
+        "width": 69,
+        "height": 13
+      }
+    },
+    {
+      "text": "검",
+      "confidence": 93.18502,
+      "bounding_box": {
+        "left": 453,
+        "top": 202,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "체",
+      "confidence": 93.29332,
+      "bounding_box": {
+        "left": 472,
+        "top": 202,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "종류",
+      "confidence": 96.653549,
+      "bounding_box": {
+        "left": 490,
+        "top": 203,
+        "width": 34,
+        "height": 14
+      }
+    },
+    {
+      "text": "Serum",
+      "confidence": 96.353958,
+      "bounding_box": {
+        "left": 568,
+        "top": 203,
+        "width": 45,
+        "height": 13
+      }
+    },
+    {
+      "text": "기",
+      "confidence": 96.906303,
+      "bounding_box": {
+        "left": 873,
+        "top": 202,
+        "width": 12,
+        "height": 15
+      }
+    },
+    {
+      "text": "타",
+      "confidence": 92.460876,
+      "bounding_box": {
+        "left": 923,
+        "top": 202,
+        "width": 14,
+        "height": 15
+      }
+    },
+    {
+      "text": "구분",
+      "confidence": 86.425293,
+      "bounding_box": {
+        "left": 55,
+        "top": 251,
+        "width": 27,
+        "height": 23
+      }
+    },
+    {
+      "text": "Allergen",
+      "confidence": 15.112753,
+      "bounding_box": {
+        "left": 178,
+        "top": 250,
+        "width": 59,
+        "height": 23
+      }
+    },
+    {
+      "text": "결과",
+      "confidence": 95.811066,
+      "bounding_box": {
+        "left": 471,
+        "top": 254,
+        "width": 22,
+        "height": 12
+      }
+    },
+    {
+      "text": "(U/mL)",
+      "confidence": 59.770958,
+      "bounding_box": {
+        "left": 497,
+        "top": 255,
+        "width": 41,
+        "height": 11
+      }
+    },
+    {
+      "text": "Class",
+      "confidence": 77.191391,
+      "bounding_box": {
+        "left": 568,
+        "top": 251,
+        "width": 27,
+        "height": 22
+      }
+    },
+    {
+      "text": "구분",
+      "confidence": 92.012108,
+      "bounding_box": {
+        "left": 643,
+        "top": 251,
+        "width": 25,
+        "height": 22
+      }
+    },
+    {
+      "text": "Allergen",
+      "confidence": 15.112753,
+      "bounding_box": {
+        "left": 766,
+        "top": 250,
+        "width": 59,
+        "height": 23
+      }
+    },
+    {
+      "text": "결과",
+      "confidence": 95.811066,
+      "bounding_box": {
+        "left": 1059,
+        "top": 254,
+        "width": 22,
+        "height": 12
+      }
+    },
+    {
+      "text": "(U/mL)",
+      "confidence": 59.770958,
+      "bounding_box": {
+        "left": 1085,
+        "top": 255,
+        "width": 41,
+        "height": 11
+      }
+    },
+    {
+      "text": "Class",
+      "confidence": 77.191391,
+      "bounding_box": {
+        "left": 1156,
+        "top": 255,
+        "width": 27,
+        "height": 10
+      }
+    },
+    {
+      "text": "Total",
+      "confidence": 96.002014,
+      "bounding_box": {
+        "left": 100,
+        "top": 281,
+        "width": 33,
+        "height": 12
+      }
+    },
+    {
+      "text": "IgE",
+      "confidence": 80.891479,
+      "bounding_box": {
+        "left": 139,
+        "top": 281,
+        "width": 19,
+        "height": 14
+      }
+    },
+    {
+      "text": "Slee",
+      "confidence": 77.045128,
+      "bounding_box": {
+        "left": 337,
+        "top": 280,
+        "width": 37,
+        "height": 15
+      }
+    },
+    {
+      "text": "<50",
+      "confidence": 91.303444,
+      "bounding_box": {
+        "left": 491,
+        "top": 281,
+        "width": 25,
+        "height": 12
+      }
+    },
+    {
+      "text": "음성",
+      "confidence": 95.815506,
+      "bounding_box": {
+        "left": 568,
+        "top": 280,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "ㅣ",
+      "confidence": 66.894012,
+      "bounding_box": {
+        "left": 607,
+        "top": 273,
+        "width": 8,
+        "height": 30
+      }
+    },
+    {
+      "text": "잡",
+      "confidence": 21.255131,
+      "bounding_box": {
+        "left": 634,
+        "top": 281,
+        "width": 11,
+        "height": 12
+      }
+    },
+    {
+      "text": "초",
+      "confidence": 76.441437,
+      "bounding_box": {
+        "left": 646,
+        "top": 282,
+        "width": 10,
+        "height": 10
+      }
+    },
+    {
+      "text": "화분",
+      "confidence": 93.305847,
+      "bounding_box": {
+        "left": 659,
+        "top": 281,
+        "width": 20,
+        "height": 12
+      }
+    },
+    {
+      "text": "Japanese",
+      "confidence": 94.482788,
+      "bounding_box": {
+        "left": 688,
+        "top": 281,
+        "width": 62,
+        "height": 14
+      }
+    },
+    {
+      "text": "hop",
+      "confidence": 96.914589,
+      "bounding_box": {
+        "left": 755,
+        "top": 281,
+        "width": 24,
+        "height": 14
+      }
+    },
+    {
+      "text": "환",
+      "confidence": 93.064049,
+      "bounding_box": {
+        "left": 922,
+        "top": 280,
+        "width": 14,
+        "height": 14
+      }
+    },
+    {
+      "text": "삼",
+      "confidence": 92.989197,
+      "bounding_box": {
+        "left": 936,
+        "top": 280,
+        "width": 14,
+        "height": 14
+      }
+    },
+    {
+      "text": "덩굴",
+      "confidence": 96.988525,
+      "bounding_box": {
+        "left": 951,
+        "top": 280,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.62",
+      "confidence": 90.860382,
+      "bounding_box": {
+        "left": 1078,
+        "top": 281,
+        "width": 29,
+        "height": 12
+      }
+    },
+    {
+      "text": "1",
+      "confidence": 96.008591,
+      "bounding_box": {
+        "left": 1168,
+        "top": 281,
+        "width": 3,
+        "height": 12
+      }
+    },
+    {
+      "text": "진드기.",
+      "confidence": 34.071663,
+      "bounding_box": {
+        "left": 47,
+        "top": 306,
+        "width": 32,
+        "height": 12
+      }
+    },
+    {
+      "text": "2-500660",
+      "confidence": 0.0,
+      "bounding_box": {
+        "left": 101,
+        "top": 306,
+        "width": 65,
+        "height": 14
+      }
+    },
+    {
+      "text": "spider",
+      "confidence": 96.711205,
+      "bounding_box": {
+        "left": 171,
+        "top": 306,
+        "width": 41,
+        "height": 14
+      }
+    },
+    {
+      "text": "mite",
+      "confidence": 95.709633,
+      "bounding_box": {
+        "left": 217,
+        "top": 306,
+        "width": 29,
+        "height": 12
+      }
+    },
+    {
+      "text": "점",
+      "confidence": 93.295883,
+      "bounding_box": {
+        "left": 335,
+        "top": 305,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "박",
+      "confidence": 93.297798,
+      "bounding_box": {
+        "left": 349,
+        "top": 305,
+        "width": 13,
+        "height": 14
+      }
+    },
+    {
+      "text": "이",
+      "confidence": 93.286102,
+      "bounding_box": {
+        "left": 363,
+        "top": 305,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "응애",
+      "confidence": 96.870682,
+      "bounding_box": {
+        "left": 377,
+        "top": 305,
+        "width": 25,
+        "height": 14
+      }
+    },
+    {
+      "text": "<0.15",
+      "confidence": 60.791508,
+      "bounding_box": {
+        "left": 487,
+        "top": 306,
+        "width": 35,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 578,
+        "top": 306,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "English",
+      "confidence": 96.00592,
+      "bounding_box": {
+        "left": 689,
+        "top": 306,
+        "width": 46,
+        "height": 14
+      }
+    },
+    {
+      "text": "plantain",
+      "confidence": 96.748253,
+      "bounding_box": {
+        "left": 741,
+        "top": 306,
+        "width": 52,
+        "height": 14
+      }
+    },
+    {
+      "text": "질경이",
+      "confidence": 93.777008,
+      "bounding_box": {
+        "left": 923,
+        "top": 305,
+        "width": 39,
+        "height": 14
+      }
+    },
+    {
+      "text": "16.79",
+      "confidence": 81.052254,
+      "bounding_box": {
+        "left": 1076,
+        "top": 298,
+        "width": 33,
+        "height": 30
+      }
+    },
+    {
+      "text": "3",
+      "confidence": 96.599991,
+      "bounding_box": {
+        "left": 1167,
+        "top": 306,
+        "width": 7,
+        "height": 12
+      }
+    },
+    {
+      "text": "T.",
+      "confidence": 80.023804,
+      "bounding_box": {
+        "left": 100,
+        "top": 331,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "putrescentiae",
+      "confidence": 78.260384,
+      "bounding_box": {
+        "left": 118,
+        "top": 331,
+        "width": 90,
+        "height": 14
+      }
+    },
+    {
+      "text": "긴",
+      "confidence": 93.249428,
+      "bounding_box": {
+        "left": 335,
+        "top": 330,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "털",
+      "confidence": 93.234756,
+      "bounding_box": {
+        "left": 349,
+        "top": 330,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "가",
+      "confidence": 93.226219,
+      "bounding_box": {
+        "left": 363,
+        "top": 330,
+        "width": 13,
+        "height": 14
+      }
+    },
+    {
+      "text": "루",
+      "confidence": 93.287323,
+      "bounding_box": {
+        "left": 377,
+        "top": 330,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "진드기",
+      "confidence": 96.991714,
+      "bounding_box": {
+        "left": 390,
+        "top": 330,
+        "width": 39,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.23",
+      "confidence": 90.853508,
+      "bounding_box": {
+        "left": 490,
+        "top": 331,
+        "width": 29,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 84.846199,
+      "bounding_box": {
+        "left": 578,
+        "top": 331,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Goldenrod",
+      "confidence": 96.642815,
+      "bounding_box": {
+        "left": 689,
+        "top": 323,
+        "width": 69,
+        "height": 30
+      }
+    },
+    {
+      "text": "미",
+      "confidence": 93.287399,
+      "bounding_box": {
+        "left": 923,
+        "top": 330,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "역",
+      "confidence": 93.232109,
+      "bounding_box": {
+        "left": 937,
+        "top": 330,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "취",
+      "confidence": 92.192329,
+      "bounding_box": {
+        "left": 952,
+        "top": 330,
+        "width": 10,
+        "height": 14
+      }
+    },
+    {
+      "text": "13.82",
+      "confidence": 92.566765,
+      "bounding_box": {
+        "left": 1075,
+        "top": 331,
+        "width": 34,
+        "height": 12
+      }
+    },
+    {
+      "text": "3",
+      "confidence": 96.430878,
+      "bounding_box": {
+        "left": 1167,
+        "top": 331,
+        "width": 7,
+        "height": 12
+      }
+    },
+    {
+      "text": "D.",
+      "confidence": 77.202118,
+      "bounding_box": {
+        "left": 101,
+        "top": 356,
+        "width": 9,
+        "height": 12
+      }
+    },
+    {
+      "text": "farinae",
+      "confidence": 92.467575,
+      "bounding_box": {
+        "left": 118,
+        "top": 356,
+        "width": 46,
+        "height": 12
+      }
+    },
+    {
+      "text": "미",
+      "confidence": 93.294678,
+      "bounding_box": {
+        "left": 335,
+        "top": 355,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "국",
+      "confidence": 92.831764,
+      "bounding_box": {
+        "left": 348,
+        "top": 356,
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "text": "집",
+      "confidence": 93.189499,
+      "bounding_box": {
+        "left": 363,
+        "top": 355,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "먼",
+      "confidence": 92.833549,
+      "bounding_box": {
+        "left": 377,
+        "top": 355,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "지",
+      "confidence": 93.246552,
+      "bounding_box": {
+        "left": 390,
+        "top": 355,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "진드기",
+      "confidence": 96.971382,
+      "bounding_box": {
+        "left": 404,
+        "top": 355,
+        "width": 39,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.64",
+      "confidence": 91.783218,
+      "bounding_box": {
+        "left": 489,
+        "top": 356,
+        "width": 31,
+        "height": 12
+      }
+    },
+    {
+      "text": "1",
+      "confidence": 96.004959,
+      "bounding_box": {
+        "left": 580,
+        "top": 356,
+        "width": 3,
+        "height": 12
+      }
+    },
+    {
+      "text": "Chrysanthemum",
+      "confidence": 96.535194,
+      "bounding_box": {
+        "left": 689,
+        "top": 348,
+        "width": 108,
+        "height": 30
+      }
+    },
+    {
+      "text": "국화",
+      "confidence": 96.889488,
+      "bounding_box": {
+        "left": 922,
+        "top": 355,
+        "width": 28,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.44",
+      "confidence": 92.301575,
+      "bounding_box": {
+        "left": 1077,
+        "top": 356,
+        "width": 31,
+        "height": 12
+      }
+    },
+    {
+      "text": "1",
+      "confidence": 96.57753,
+      "bounding_box": {
+        "left": 1168,
+        "top": 356,
+        "width": 3,
+        "height": 12
+      }
+    },
+    {
+      "text": "D.",
+      "confidence": 84.661392,
+      "bounding_box": {
+        "left": 101,
+        "top": 381,
+        "width": 9,
+        "height": 12
+      }
+    },
+    {
+      "text": "pteronyssinus",
+      "confidence": 86.45549,
+      "bounding_box": {
+        "left": 119,
+        "top": 381,
+        "width": 92,
+        "height": 14
+      }
+    },
+    {
+      "text": "유럽",
+      "confidence": 93.304131,
+      "bounding_box": {
+        "left": 334,
+        "top": 380,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "집",
+      "confidence": 93.279396,
+      "bounding_box": {
+        "left": 367,
+        "top": 380,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "먼",
+      "confidence": 93.253906,
+      "bounding_box": {
+        "left": 381,
+        "top": 380,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "지",
+      "confidence": 93.269608,
+      "bounding_box": {
+        "left": 395,
+        "top": 380,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "진드기",
+      "confidence": 88.739838,
+      "bounding_box": {
+        "left": 408,
+        "top": 380,
+        "width": 39,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.67",
+      "confidence": 30.693836,
+      "bounding_box": {
+        "left": 490,
+        "top": 381,
+        "width": 29,
+        "height": 12
+      }
+    },
+    {
+      "text": "1",
+      "confidence": 96.004959,
+      "bounding_box": {
+        "left": 580,
+        "top": 381,
+        "width": 3,
+        "height": 12
+      }
+    },
+    {
+      "text": "Russian",
+      "confidence": 94.821602,
+      "bounding_box": {
+        "left": 689,
+        "top": 381,
+        "width": 49,
+        "height": 12
+      }
+    },
+    {
+      "text": "thistle",
+      "confidence": 92.635742,
+      "bounding_box": {
+        "left": 743,
+        "top": 381,
+        "width": 41,
+        "height": 12
+      }
+    },
+    {
+      "text": "러시안",
+      "confidence": 93.281281,
+      "bounding_box": {
+        "left": 923,
+        "top": 380,
+        "width": 41,
+        "height": 14
+      }
+    },
+    {
+      "text": "IAal",
+      "confidence": 0.0,
+      "bounding_box": {
+        "left": 969,
+        "top": 380,
+        "width": 38,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.26",
+      "confidence": 95.615845,
+      "bounding_box": {
+        "left": 1078,
+        "top": 381,
+        "width": 29,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 84.846199,
+      "bounding_box": {
+        "left": 1166,
+        "top": 381,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "골",
+      "confidence": 31.101475,
+      "bounding_box": {
+        "left": 46,
+        "top": 406,
+        "width": 16,
+        "height": 12
+      }
+    },
+    {
+      "text": "팡",
+      "confidence": 49.334763,
+      "bounding_box": {
+        "left": 70,
+        "top": 407,
+        "width": 5,
+        "height": 9
+      }
+    },
+    {
+      "text": "이.",
+      "confidence": 50.172318,
+      "bounding_box": {
+        "left": 78,
+        "top": 397,
+        "width": 17,
+        "height": 31
+      }
+    },
+    {
+      "text": "<.",
+      "confidence": 73.151932,
+      "bounding_box": {
+        "left": 101,
+        "top": 406,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "herbarum",
+      "confidence": 69.809944,
+      "bounding_box": {
+        "left": 118,
+        "top": 406,
+        "width": 63,
+        "height": 12
+      }
+    },
+    {
+      "text": "클",
+      "confidence": 92.73922,
+      "bounding_box": {
+        "left": 334,
+        "top": 406,
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "text": "라",
+      "confidence": 93.284218,
+      "bounding_box": {
+        "left": 349,
+        "top": 405,
+        "width": 13,
+        "height": 14
+      }
+    },
+    {
+      "text": "도",
+      "confidence": 93.270966,
+      "bounding_box": {
+        "left": 362,
+        "top": 406,
+        "width": 13,
+        "height": 12
+      }
+    },
+    {
+      "text": "스",
+      "confidence": 93.290237,
+      "bounding_box": {
+        "left": 376,
+        "top": 406,
+        "width": 16,
+        "height": 12
+      }
+    },
+    {
+      "text": "포",
+      "confidence": 93.295547,
+      "bounding_box": {
+        "left": 404,
+        "top": 406,
+        "width": 5,
+        "height": 10
+      }
+    },
+    {
+      "text": "리",
+      "confidence": 93.2593,
+      "bounding_box": {
+        "left": 414,
+        "top": 405,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "움",
+      "confidence": 88.946579,
+      "bounding_box": {
+        "left": 425,
+        "top": 398,
+        "width": 12,
+        "height": 30
+      }
+    },
+    {
+      "text": "…",
+      "confidence": 78.289314,
+      "bounding_box": {
+        "left": 436,
+        "top": 411,
+        "width": 11,
+        "height": 2
+      }
+    },
+    {
+      "text": "0.69",
+      "confidence": 74.107468,
+      "bounding_box": {
+        "left": 489,
+        "top": 406,
+        "width": 29,
+        "height": 12
+      }
+    },
+    {
+      "text": "1",
+      "confidence": 96.004959,
+      "bounding_box": {
+        "left": 580,
+        "top": 406,
+        "width": 3,
+        "height": 12
+      }
+    },
+    {
+      "text": "Mugwort",
+      "confidence": 92.898659,
+      "bounding_box": {
+        "left": 689,
+        "top": 398,
+        "width": 59,
+        "height": 30
+      }
+    },
+    {
+      "text": "쑥",
+      "confidence": 92.938225,
+      "bounding_box": {
+        "left": 923,
+        "top": 405,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "148",
+      "confidence": 92.806168,
+      "bounding_box": {
+        "left": 1079,
+        "top": 406,
+        "width": 26,
+        "height": 12
+      }
+    },
+    {
+      "text": "2",
+      "confidence": 96.102058,
+      "bounding_box": {
+        "left": 1167,
+        "top": 406,
+        "width": 7,
+        "height": 12
+      }
+    },
+    {
+      "text": "Outdoor",
+      "confidence": 96.680176,
+      "bounding_box": {
+        "left": 101,
+        "top": 431,
+        "width": 55,
+        "height": 12
+      }
+    },
+    {
+      "text": "mold",
+      "confidence": 96.768578,
+      "bounding_box": {
+        "left": 162,
+        "top": 431,
+        "width": 32,
+        "height": 12
+      }
+    },
+    {
+      "text": "mixture",
+      "confidence": 94.796417,
+      "bounding_box": {
+        "left": 200,
+        "top": 431,
+        "width": 50,
+        "height": 12
+      }
+    },
+    {
+      "text": "실외",
+      "confidence": 96.55809,
+      "bounding_box": {
+        "left": 335,
+        "top": 430,
+        "width": 25,
+        "height": 14
+      }
+    },
+    {
+      "text": "곰팡이",
+      "confidence": 96.933517,
+      "bounding_box": {
+        "left": 366,
+        "top": 430,
+        "width": 40,
+        "height": 14
+      }
+    },
+    {
+      "text": "혼합",
+      "confidence": 92.32679,
+      "bounding_box": {
+        "left": 413,
+        "top": 430,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.29",
+      "confidence": 88.345161,
+      "bounding_box": {
+        "left": 489,
+        "top": 431,
+        "width": 29,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 86.672333,
+      "bounding_box": {
+        "left": 578,
+        "top": 431,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "목",
+      "confidence": 91.470757,
+      "bounding_box": {
+        "left": 634,
+        "top": 432,
+        "width": 11,
+        "height": 11
+      }
+    },
+    {
+      "text": "초",
+      "confidence": 92.69062,
+      "bounding_box": {
+        "left": 647,
+        "top": 432,
+        "width": 9,
+        "height": 10
+      }
+    },
+    {
+      "text": "화분",
+      "confidence": 92.90432,
+      "bounding_box": {
+        "left": 659,
+        "top": 431,
+        "width": 20,
+        "height": 12
+      }
+    },
+    {
+      "text": "Velvet",
+      "confidence": 96.875534,
+      "bounding_box": {
+        "left": 688,
+        "top": 431,
+        "width": 42,
+        "height": 12
+      }
+    },
+    {
+      "text": "grass",
+      "confidence": 95.76046,
+      "bounding_box": {
+        "left": 735,
+        "top": 434,
+        "width": 34,
+        "height": 11
+      }
+    },
+    {
+      "text": "잔디",
+      "confidence": 95.66127,
+      "bounding_box": {
+        "left": 922,
+        "top": 430,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.24",
+      "confidence": 90.530975,
+      "bounding_box": {
+        "left": 1078,
+        "top": 431,
+        "width": 30,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 71.108528,
+      "bounding_box": {
+        "left": 1166,
+        "top": 431,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "A.alternata",
+      "confidence": 64.960823,
+      "bounding_box": {
+        "left": 100,
+        "top": 456,
+        "width": 77,
+        "height": 12
+      }
+    },
+    {
+      "text": "얼",
+      "confidence": 93.253777,
+      "bounding_box": {
+        "left": 335,
+        "top": 455,
+        "width": 25,
+        "height": 14
+      }
+    },
+    {
+      "text": "터",
+      "confidence": 93.260712,
+      "bounding_box": {
+        "left": 348,
+        "top": 446,
+        "width": 14,
+        "height": 31
+      }
+    },
+    {
+      "text": "나",
+      "confidence": 93.297134,
+      "bounding_box": {
+        "left": 363,
+        "top": 455,
+        "width": 13,
+        "height": 14
+      }
+    },
+    {
+      "text": "리",
+      "confidence": 93.291107,
+      "bounding_box": {
+        "left": 377,
+        "top": 455,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "아",
+      "confidence": 91.706177,
+      "bounding_box": {
+        "left": 393,
+        "top": 455,
+        "width": 10,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.03",
+      "confidence": 90.074806,
+      "bounding_box": {
+        "left": 489,
+        "top": 456,
+        "width": 30,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 578,
+        "top": 456,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Meadow",
+      "confidence": 96.626114,
+      "bounding_box": {
+        "left": 689,
+        "top": 456,
+        "width": 56,
+        "height": 12
+      }
+    },
+    {
+      "text": "fescue",
+      "confidence": 94.354095,
+      "bounding_box": {
+        "left": 749,
+        "top": 456,
+        "width": 44,
+        "height": 12
+      }
+    },
+    {
+      "text": "넓",
+      "confidence": 85.247765,
+      "bounding_box": {
+        "left": 923,
+        "top": 455,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "은",
+      "confidence": 93.281845,
+      "bounding_box": {
+        "left": 936,
+        "top": 455,
+        "width": 13,
+        "height": 14
+      }
+    },
+    {
+      "text": "김",
+      "confidence": 93.283157,
+      "bounding_box": {
+        "left": 951,
+        "top": 455,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "의",
+      "confidence": 93.246552,
+      "bounding_box": {
+        "left": 964,
+        "top": 455,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "털",
+      "confidence": 91.766571,
+      "bounding_box": {
+        "left": 979,
+        "top": 455,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.45",
+      "confidence": 88.960274,
+      "bounding_box": {
+        "left": 1078,
+        "top": 456,
+        "width": 29,
+        "height": 12
+      }
+    },
+    {
+      "text": "1",
+      "confidence": 96.004959,
+      "bounding_box": {
+        "left": 1168,
+        "top": 456,
+        "width": 3,
+        "height": 12
+      }
+    },
+    {
+      "text": "A.",
+      "confidence": 93.106621,
+      "bounding_box": {
+        "left": 100,
+        "top": 481,
+        "width": 9,
+        "height": 12
+      }
+    },
+    {
+      "text": "niger",
+      "confidence": 96.291573,
+      "bounding_box": {
+        "left": 119,
+        "top": 481,
+        "width": 32,
+        "height": 14
+      }
+    },
+    {
+      "text": "아",
+      "confidence": 92.775429,
+      "bounding_box": {
+        "left": 335,
+        "top": 480,
+        "width": 13,
+        "height": 14
+      }
+    },
+    {
+      "text": "스",
+      "confidence": 93.207199,
+      "bounding_box": {
+        "left": 348,
+        "top": 481,
+        "width": 13,
+        "height": 11
+      }
+    },
+    {
+      "text": "페",
+      "confidence": 93.293541,
+      "bounding_box": {
+        "left": 363,
+        "top": 480,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "르",
+      "confidence": 93.292648,
+      "bounding_box": {
+        "left": 378,
+        "top": 481,
+        "width": 11,
+        "height": 11
+      }
+    },
+    {
+      "text": "길",
+      "confidence": 93.295959,
+      "bounding_box": {
+        "left": 392,
+        "top": 480,
+        "width": 10,
+        "height": 14
+      }
+    },
+    {
+      "text": "루스",
+      "confidence": 89.394196,
+      "bounding_box": {
+        "left": 407,
+        "top": 480,
+        "width": 23,
+        "height": 14
+      }
+    },
+    {
+      "text": "…",
+      "confidence": 91.013359,
+      "bounding_box": {
+        "left": 436,
+        "top": 486,
+        "width": 11,
+        "height": 2
+      }
+    },
+    {
+      "text": "0.27",
+      "confidence": 93.871758,
+      "bounding_box": {
+        "left": 490,
+        "top": 481,
+        "width": 29,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 80.324203,
+      "bounding_box": {
+        "left": 578,
+        "top": 481,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Grass",
+      "confidence": 96.732193,
+      "bounding_box": {
+        "left": 689,
+        "top": 477,
+        "width": 35,
+        "height": 25
+      }
+    },
+    {
+      "text": "잔디",
+      "confidence": 96.896568,
+      "bounding_box": {
+        "left": 922,
+        "top": 480,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "꽃가루",
+      "confidence": 90.623024,
+      "bounding_box": {
+        "left": 954,
+        "top": 480,
+        "width": 41,
+        "height": 14
+      }
+    },
+    {
+      "text": "혼합",
+      "confidence": 95.994446,
+      "bounding_box": {
+        "left": 1001,
+        "top": 480,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.02",
+      "confidence": 89.344429,
+      "bounding_box": {
+        "left": 1077,
+        "top": 481,
+        "width": 31,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 80.324203,
+      "bounding_box": {
+        "left": 1166,
+        "top": 481,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Neurospora",
+      "confidence": 96.743439,
+      "bounding_box": {
+        "left": 101,
+        "top": 498,
+        "width": 76,
+        "height": 30
+      }
+    },
+    {
+      "text": "뉴",
+      "confidence": 93.220276,
+      "bounding_box": {
+        "left": 334,
+        "top": 506,
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "text": "로",
+      "confidence": 93.140388,
+      "bounding_box": {
+        "left": 348,
+        "top": 506,
+        "width": 13,
+        "height": 12
+      }
+    },
+    {
+      "text": "스",
+      "confidence": 93.251076,
+      "bounding_box": {
+        "left": 362,
+        "top": 506,
+        "width": 13,
+        "height": 11
+      }
+    },
+    {
+      "text": "포",
+      "confidence": 93.243233,
+      "bounding_box": {
+        "left": 378,
+        "top": 506,
+        "width": 11,
+        "height": 12
+      }
+    },
+    {
+      "text": "라",
+      "confidence": 93.282898,
+      "bounding_box": {
+        "left": 392,
+        "top": 505,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.09",
+      "confidence": 92.606369,
+      "bounding_box": {
+        "left": 489,
+        "top": 506,
+        "width": 31,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 578,
+        "top": 506,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Cultivated",
+      "confidence": 96.474113,
+      "bounding_box": {
+        "left": 689,
+        "top": 506,
+        "width": 66,
+        "height": 12
+      }
+    },
+    {
+      "text": "oat",
+      "confidence": 79.519363,
+      "bounding_box": {
+        "left": 760,
+        "top": 507,
+        "width": 21,
+        "height": 11
+      }
+    },
+    {
+      "text": "귀리",
+      "confidence": 95.676308,
+      "bounding_box": {
+        "left": 922,
+        "top": 505,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.19",
+      "confidence": 91.844856,
+      "bounding_box": {
+        "left": 1079,
+        "top": 506,
+        "width": 26,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 84.846199,
+      "bounding_box": {
+        "left": 1166,
+        "top": 506,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Indoor",
+      "confidence": 96.735138,
+      "bounding_box": {
+        "left": 101,
+        "top": 531,
+        "width": 43,
+        "height": 12
+      }
+    },
+    {
+      "text": "mold",
+      "confidence": 95.579361,
+      "bounding_box": {
+        "left": 149,
+        "top": 531,
+        "width": 32,
+        "height": 12
+      }
+    },
+    {
+      "text": "mixture",
+      "confidence": 93.443733,
+      "bounding_box": {
+        "left": 187,
+        "top": 531,
+        "width": 51,
+        "height": 12
+      }
+    },
+    {
+      "text": "실내",
+      "confidence": 96.995399,
+      "bounding_box": {
+        "left": 335,
+        "top": 530,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "곰팡이",
+      "confidence": 93.285439,
+      "bounding_box": {
+        "left": 366,
+        "top": 530,
+        "width": 40,
+        "height": 14
+      }
+    },
+    {
+      "text": "훈",
+      "confidence": 90.850517,
+      "bounding_box": {
+        "left": 413,
+        "top": 530,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "합",
+      "confidence": 92.8405,
+      "bounding_box": {
+        "left": 428,
+        "top": 523,
+        "width": 14,
+        "height": 30
+      }
+    },
+    {
+      "text": "0.27",
+      "confidence": 96.117226,
+      "bounding_box": {
+        "left": 490,
+        "top": 531,
+        "width": 29,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 578,
+        "top": 531,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Kentucky",
+      "confidence": 95.186325,
+      "bounding_box": {
+        "left": 689,
+        "top": 531,
+        "width": 61,
+        "height": 14
+      }
+    },
+    {
+      "text": "blue",
+      "confidence": 96.370461,
+      "bounding_box": {
+        "left": 756,
+        "top": 531,
+        "width": 28,
+        "height": 12
+      }
+    },
+    {
+      "text": "grass",
+      "confidence": 96.711899,
+      "bounding_box": {
+        "left": 788,
+        "top": 534,
+        "width": 33,
+        "height": 11
+      }
+    },
+    {
+      "text": "왕",
+      "confidence": 93.16127,
+      "bounding_box": {
+        "left": 922,
+        "top": 530,
+        "width": 14,
+        "height": 14
+      }
+    },
+    {
+      "text": "포",
+      "confidence": 93.134483,
+      "bounding_box": {
+        "left": 936,
+        "top": 531,
+        "width": 13,
+        "height": 12
+      }
+    },
+    {
+      "text": "아풀",
+      "confidence": 96.816383,
+      "bounding_box": {
+        "left": 951,
+        "top": 530,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.14,",
+      "confidence": 62.658218,
+      "bounding_box": {
+        "left": 1079,
+        "top": 531,
+        "width": 27,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 84.846199,
+      "bounding_box": {
+        "left": 1166,
+        "top": 531,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "M.",
+      "confidence": 52.006523,
+      "bounding_box": {
+        "left": 101,
+        "top": 556,
+        "width": 11,
+        "height": 12
+      }
+    },
+    {
+      "text": "racemosus",
+      "confidence": 85.79509,
+      "bounding_box": {
+        "left": 122,
+        "top": 559,
+        "width": 69,
+        "height": 9
+      }
+    },
+    {
+      "text": "뮤",
+      "confidence": 92.993675,
+      "bounding_box": {
+        "left": 334,
+        "top": 556,
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "text": "코르",
+      "confidence": 91.79512,
+      "bounding_box": {
+        "left": 348,
+        "top": 556,
+        "width": 26,
+        "height": 11
+      }
+    },
+    {
+      "text": "라",
+      "confidence": 91.79512,
+      "bounding_box": {
+        "left": 382,
+        "top": 555,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "세",
+      "confidence": 93.240715,
+      "bounding_box": {
+        "left": 395,
+        "top": 555,
+        "width": 9,
+        "height": 14
+      }
+    },
+    {
+      "text": "모",
+      "confidence": 93.303993,
+      "bounding_box": {
+        "left": 410,
+        "top": 555,
+        "width": 18,
+        "height": 14
+      }
+    },
+    {
+      "text": "수",
+      "confidence": 93.26973,
+      "bounding_box": {
+        "left": 435,
+        "top": 556,
+        "width": 10,
+        "height": 11
+      }
+    },
+    {
+      "text": "스",
+      "confidence": 89.142952,
+      "bounding_box": {
+        "left": 444,
+        "top": 548,
+        "width": 14,
+        "height": 30
+      }
+    },
+    {
+      "text": "0.63",
+      "confidence": 52.688881,
+      "bounding_box": {
+        "left": 489,
+        "top": 556,
+        "width": 30,
+        "height": 12
+      }
+    },
+    {
+      "text": "1",
+      "confidence": 96.57753,
+      "bounding_box": {
+        "left": 580,
+        "top": 556,
+        "width": 3,
+        "height": 12
+      }
+    },
+    {
+      "text": "Bermuda",
+      "confidence": 96.191605,
+      "bounding_box": {
+        "left": 689,
+        "top": 556,
+        "width": 59,
+        "height": 12
+      }
+    },
+    {
+      "text": "grass",
+      "confidence": 77.938271,
+      "bounding_box": {
+        "left": 753,
+        "top": 559,
+        "width": 33,
+        "height": 11
+      }
+    },
+    {
+      "text": "우",
+      "confidence": 71.916832,
+      "bounding_box": {
+        "left": 922,
+        "top": 556,
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "text": "산",
+      "confidence": 93.23101,
+      "bounding_box": {
+        "left": 936,
+        "top": 555,
+        "width": 14,
+        "height": 14
+      }
+    },
+    {
+      "text": "잔디",
+      "confidence": 93.767807,
+      "bounding_box": {
+        "left": 950,
+        "top": 555,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.26",
+      "confidence": 90.478699,
+      "bounding_box": {
+        "left": 1078,
+        "top": 556,
+        "width": 29,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 84.846199,
+      "bounding_box": {
+        "left": 1166,
+        "top": 556,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Fusarium",
+      "confidence": 94.350487,
+      "bounding_box": {
+        "left": 101,
+        "top": 572,
+        "width": 59,
+        "height": 31
+      }
+    },
+    {
+      "text": "푸",
+      "confidence": 93.165581,
+      "bounding_box": {
+        "left": 335,
+        "top": 581,
+        "width": 12,
+        "height": 13
+      }
+    },
+    {
+      "text": "사",
+      "confidence": 93.262314,
+      "bounding_box": {
+        "left": 348,
+        "top": 580,
+        "width": 14,
+        "height": 14
+      }
+    },
+    {
+      "text": "리",
+      "confidence": 93.295174,
+      "bounding_box": {
+        "left": 363,
+        "top": 580,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "움",
+      "confidence": 91.821487,
+      "bounding_box": {
+        "left": 377,
+        "top": 580,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "모",
+      "confidence": 89.771637,
+      "bounding_box": {
+        "left": 396,
+        "top": 581,
+        "width": 11,
+        "height": 12
+      }
+    },
+    {
+      "text": "닐",
+      "confidence": 92.979736,
+      "bounding_box": {
+        "left": 412,
+        "top": 580,
+        "width": 16,
+        "height": 14
+      }
+    },
+    {
+      "text": "리",
+      "confidence": 93.016869,
+      "bounding_box": {
+        "left": 432,
+        "top": 580,
+        "width": 6,
+        "height": 14
+      }
+    },
+    {
+      "text": "…",
+      "confidence": 73.508949,
+      "bounding_box": {
+        "left": 441,
+        "top": 586,
+        "width": 6,
+        "height": 2
+      }
+    },
+    {
+      "text": "0.49",
+      "confidence": 52.18708,
+      "bounding_box": {
+        "left": 489,
+        "top": 581,
+        "width": 29,
+        "height": 12
+      }
+    },
+    {
+      "text": "1",
+      "confidence": 96.004959,
+      "bounding_box": {
+        "left": 580,
+        "top": 581,
+        "width": 3,
+        "height": 12
+      }
+    },
+    {
+      "text": "Timothy",
+      "confidence": 92.372765,
+      "bounding_box": {
+        "left": 688,
+        "top": 581,
+        "width": 55,
+        "height": 14
+      }
+    },
+    {
+      "text": "티모시",
+      "confidence": 96.918953,
+      "bounding_box": {
+        "left": 923,
+        "top": 580,
+        "width": 39,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.19",
+      "confidence": 91.844856,
+      "bounding_box": {
+        "left": 1079,
+        "top": 581,
+        "width": 26,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 1166,
+        "top": 581,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Penicillium",
+      "confidence": 94.633484,
+      "bounding_box": {
+        "left": 101,
+        "top": 597,
+        "width": 70,
+        "height": 31
+      }
+    },
+    {
+      "text": "페",
+      "confidence": 93.231316,
+      "bounding_box": {
+        "left": 334,
+        "top": 605,
+        "width": 13,
+        "height": 14
+      }
+    },
+    {
+      "text": "니",
+      "confidence": 93.186295,
+      "bounding_box": {
+        "left": 349,
+        "top": 605,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "실",
+      "confidence": 93.26049,
+      "bounding_box": {
+        "left": 363,
+        "top": 605,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "리움",
+      "confidence": 96.390694,
+      "bounding_box": {
+        "left": 377,
+        "top": 605,
+        "width": 25,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.17",
+      "confidence": 96.491943,
+      "bounding_box": {
+        "left": 491,
+        "top": 606,
+        "width": 26,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 578,
+        "top": 606,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Rye",
+      "confidence": 95.855942,
+      "bounding_box": {
+        "left": 689,
+        "top": 606,
+        "width": 24,
+        "height": 14
+      }
+    },
+    {
+      "text": "grass,",
+      "confidence": 96.8367,
+      "bounding_box": {
+        "left": 717,
+        "top": 609,
+        "width": 36,
+        "height": 11
+      }
+    },
+    {
+      "text": "perennial",
+      "confidence": 89.854668,
+      "bounding_box": {
+        "left": 760,
+        "top": 606,
+        "width": 61,
+        "height": 14
+      }
+    },
+    {
+      "text": "호",
+      "confidence": 92.746468,
+      "bounding_box": {
+        "left": 923,
+        "top": 606,
+        "width": 12,
+        "height": 12
+      }
+    },
+    {
+      "text": "밀",
+      "confidence": 92.972221,
+      "bounding_box": {
+        "left": 937,
+        "top": 605,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "풀",
+      "confidence": 93.224159,
+      "bounding_box": {
+        "left": 952,
+        "top": 605,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.04",
+      "confidence": 91.689522,
+      "bounding_box": {
+        "left": 1077,
+        "top": 606,
+        "width": 32,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 84.846199,
+      "bounding_box": {
+        "left": 1166,
+        "top": 606,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "A.",
+      "confidence": 78.403793,
+      "bounding_box": {
+        "left": 100,
+        "top": 631,
+        "width": 9,
+        "height": 12
+      }
+    },
+    {
+      "text": "fumigatus",
+      "confidence": 89.446045,
+      "bounding_box": {
+        "left": 118,
+        "top": 631,
+        "width": 65,
+        "height": 14
+      }
+    },
+    {
+      "text": "아",
+      "confidence": 91.011047,
+      "bounding_box": {
+        "left": 335,
+        "top": 630,
+        "width": 13,
+        "height": 14
+      }
+    },
+    {
+      "text": "스",
+      "confidence": 93.215248,
+      "bounding_box": {
+        "left": 349,
+        "top": 631,
+        "width": 12,
+        "height": 11
+      }
+    },
+    {
+      "text": "페",
+      "confidence": 93.214043,
+      "bounding_box": {
+        "left": 362,
+        "top": 630,
+        "width": 13,
+        "height": 14
+      }
+    },
+    {
+      "text": "르",
+      "confidence": 93.226234,
+      "bounding_box": {
+        "left": 377,
+        "top": 631,
+        "width": 12,
+        "height": 11
+      }
+    },
+    {
+      "text": "길",
+      "confidence": 92.689476,
+      "bounding_box": {
+        "left": 392,
+        "top": 630,
+        "width": 10,
+        "height": 14
+      }
+    },
+    {
+      "text": "루",
+      "confidence": 93.184158,
+      "bounding_box": {
+        "left": 407,
+        "top": 630,
+        "width": 18,
+        "height": 14
+      }
+    },
+    {
+      "text": "스",
+      "confidence": 93.212944,
+      "bounding_box": {
+        "left": 436,
+        "top": 636,
+        "width": 2,
+        "height": 2
+      }
+    },
+    {
+      "text": "…",
+      "confidence": 74.351349,
+      "bounding_box": {
+        "left": 441,
+        "top": 636,
+        "width": 6,
+        "height": 2
+      }
+    },
+    {
+      "text": " <0.15",
+      "confidence": 42.220551,
+      "bounding_box": {
+        "left": 487,
+        "top": 631,
+        "width": 35,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 84.846199,
+      "bounding_box": {
+        "left": 578,
+        "top": 631,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Orchard",
+      "confidence": 96.725807,
+      "bounding_box": {
+        "left": 689,
+        "top": 631,
+        "width": 52,
+        "height": 12
+      }
+    },
+    {
+      "text": "grass",
+      "confidence": 90.991035,
+      "bounding_box": {
+        "left": 746,
+        "top": 634,
+        "width": 34,
+        "height": 11
+      }
+    },
+    {
+      "text": "오",
+      "confidence": 93.201057,
+      "bounding_box": {
+        "left": 922,
+        "top": 631,
+        "width": 13,
+        "height": 12
+      }
+    },
+    {
+      "text": "리",
+      "confidence": 93.288963,
+      "bounding_box": {
+        "left": 938,
+        "top": 630,
+        "width": 10,
+        "height": 14
+      }
+    },
+    {
+      "text": "새",
+      "confidence": 93.289276,
+      "bounding_box": {
+        "left": 953,
+        "top": 630,
+        "width": 10,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.46",
+      "confidence": 91.853622,
+      "bounding_box": {
+        "left": 1077,
+        "top": 631,
+        "width": 30,
+        "height": 12
+      }
+    },
+    {
+      "text": "1",
+      "confidence": 96.004959,
+      "bounding_box": {
+        "left": 1168,
+        "top": 631,
+        "width": 3,
+        "height": 12
+      }
+    },
+    {
+      "text": "C.",
+      "confidence": 74.873329,
+      "bounding_box": {
+        "left": 101,
+        "top": 656,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "albicans",
+      "confidence": 94.294579,
+      "bounding_box": {
+        "left": 117,
+        "top": 656,
+        "width": 53,
+        "height": 12
+      }
+    },
+    {
+      "text": "칸",
+      "confidence": 93.284142,
+      "bounding_box": {
+        "left": 335,
+        "top": 655,
+        "width": 13,
+        "height": 14
+      }
+    },
+    {
+      "text": "디",
+      "confidence": 92.828392,
+      "bounding_box": {
+        "left": 349,
+        "top": 655,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "다",
+      "confidence": 93.305824,
+      "bounding_box": {
+        "left": 363,
+        "top": 656,
+        "width": 8,
+        "height": 10
+      }
+    },
+    {
+      "text": "알",
+      "confidence": 93.177574,
+      "bounding_box": {
+        "left": 379,
+        "top": 655,
+        "width": 15,
+        "height": 14
+      }
+    },
+    {
+      "text": "비",
+      "confidence": 93.12384,
+      "bounding_box": {
+        "left": 395,
+        "top": 655,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "칸",
+      "confidence": 93.184265,
+      "bounding_box": {
+        "left": 408,
+        "top": 655,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "스",
+      "confidence": 92.864929,
+      "bounding_box": {
+        "left": 424,
+        "top": 648,
+        "width": 14,
+        "height": 30
+      }
+    },
+    {
+      "text": "0.01",
+      "confidence": 95.908684,
+      "bounding_box": {
+        "left": 490,
+        "top": 656,
+        "width": 27,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 84.846199,
+      "bounding_box": {
+        "left": 578,
+        "top": 656,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "식품",
+      "confidence": 51.252022,
+      "bounding_box": {
+        "left": 634,
+        "top": 656,
+        "width": 22,
+        "height": 12
+      }
+    },
+    {
+      "text": "Mustard",
+      "confidence": 84.338326,
+      "bounding_box": {
+        "left": 689,
+        "top": 656,
+        "width": 54,
+        "height": 12
+      }
+    },
+    {
+      "text": "겨자",
+      "confidence": 96.943932,
+      "bounding_box": {
+        "left": 923,
+        "top": 655,
+        "width": 27,
+        "height": 14
+      }
+    },
+    {
+      "text": "<0.15",
+      "confidence": 83.993523,
+      "bounding_box": {
+        "left": 1075,
+        "top": 656,
+        "width": 35,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 84.846199,
+      "bounding_box": {
+        "left": 1166,
+        "top": 656,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "SEE",
+      "confidence": 59.676643,
+      "bounding_box": {
+        "left": 46,
+        "top": 681,
+        "width": 33,
+        "height": 12
+      }
+    },
+    {
+      "text": "Cat",
+      "confidence": 14.33939,
+      "bounding_box": {
+        "left": 101,
+        "top": 681,
+        "width": 21,
+        "height": 12
+      }
+    },
+    {
+      "text": "dander",
+      "confidence": 14.33939,
+      "bounding_box": {
+        "left": 126,
+        "top": 681,
+        "width": 47,
+        "height": 12
+      }
+    },
+    {
+      "text": "고양이",
+      "confidence": 96.91993,
+      "bounding_box": {
+        "left": 334,
+        "top": 680,
+        "width": 40,
+        "height": 14
+      }
+    },
+    {
+      "text": "표피",
+      "confidence": 96.91993,
+      "bounding_box": {
+        "left": 380,
+        "top": 680,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.68",
+      "confidence": 88.980568,
+      "bounding_box": {
+        "left": 489,
+        "top": 681,
+        "width": 31,
+        "height": 12
+      }
+    },
+    {
+      "text": "1",
+      "confidence": 96.004959,
+      "bounding_box": {
+        "left": 580,
+        "top": 681,
+        "width": 3,
+        "height": 12
+      }
+    },
+    {
+      "text": "Mackerel",
+      "confidence": 95.0728,
+      "bounding_box": {
+        "left": 689,
+        "top": 673,
+        "width": 59,
+        "height": 30
+      }
+    },
+    {
+      "text": "고등어",
+      "confidence": 96.966469,
+      "bounding_box": {
+        "left": 922,
+        "top": 680,
+        "width": 40,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.07",
+      "confidence": 96.675766,
+      "bounding_box": {
+        "left": 1077,
+        "top": 681,
+        "width": 30,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 1166,
+        "top": 681,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Dog",
+      "confidence": 96.644859,
+      "bounding_box": {
+        "left": 101,
+        "top": 706,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "dander",
+      "confidence": 94.133591,
+      "bounding_box": {
+        "left": 131,
+        "top": 706,
+        "width": 47,
+        "height": 12
+      }
+    },
+    {
+      "text": "개",
+      "confidence": 84.604454,
+      "bounding_box": {
+        "left": 335,
+        "top": 705,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "표피",
+      "confidence": 84.604454,
+      "bounding_box": {
+        "left": 352,
+        "top": 705,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "714",
+      "confidence": 92.188744,
+      "bounding_box": {
+        "left": 491,
+        "top": 706,
+        "width": 26,
+        "height": 12
+      }
+    },
+    {
+      "text": "3",
+      "confidence": 96.599991,
+      "bounding_box": {
+        "left": 579,
+        "top": 706,
+        "width": 7,
+        "height": 12
+      }
+    },
+    {
+      "text": "Lentil",
+      "confidence": 93.907761,
+      "bounding_box": {
+        "left": 689,
+        "top": 698,
+        "width": 36,
+        "height": 30
+      }
+    },
+    {
+      "text": "렌",
+      "confidence": 93.26963,
+      "bounding_box": {
+        "left": 923,
+        "top": 705,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "즈",
+      "confidence": 93.257271,
+      "bounding_box": {
+        "left": 936,
+        "top": 707,
+        "width": 13,
+        "height": 10
+      }
+    },
+    {
+      "text": "콩",
+      "confidence": 92.467491,
+      "bounding_box": {
+        "left": 951,
+        "top": 706,
+        "width": 12,
+        "height": 13
+      }
+    },
+    {
+      "text": "0.33",
+      "confidence": 90.103607,
+      "bounding_box": {
+        "left": 1078,
+        "top": 706,
+        "width": 29,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 1166,
+        "top": 706,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Rabbit",
+      "confidence": 89.071533,
+      "bounding_box": {
+        "left": 101,
+        "top": 731,
+        "width": 42,
+        "height": 12
+      }
+    },
+    {
+      "text": "epithelium",
+      "confidence": 95.056099,
+      "bounding_box": {
+        "left": 148,
+        "top": 731,
+        "width": 70,
+        "height": 14
+      }
+    },
+    {
+      "text": "토끼",
+      "confidence": 95.761917,
+      "bounding_box": {
+        "left": 334,
+        "top": 730,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "상피",
+      "confidence": 91.945099,
+      "bounding_box": {
+        "left": 366,
+        "top": 730,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "<0.15",
+      "confidence": 83.993523,
+      "bounding_box": {
+        "left": 487,
+        "top": 731,
+        "width": 35,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 84.846199,
+      "bounding_box": {
+        "left": 578,
+        "top": 731,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Shrimp",
+      "confidence": 87.946625,
+      "bounding_box": {
+        "left": 688,
+        "top": 731,
+        "width": 47,
+        "height": 14
+      }
+    },
+    {
+      "text": "새우",
+      "confidence": 96.272522,
+      "bounding_box": {
+        "left": 922,
+        "top": 730,
+        "width": 27,
+        "height": 14
+      }
+    },
+    {
+      "text": "<0.15",
+      "confidence": 83.993523,
+      "bounding_box": {
+        "left": 1075,
+        "top": 731,
+        "width": 35,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 1166,
+        "top": 731,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Hamster",
+      "confidence": 96.059303,
+      "bounding_box": {
+        "left": 101,
+        "top": 747,
+        "width": 55,
+        "height": 31
+      }
+    },
+    {
+      "text": "햄스터",
+      "confidence": 97.016884,
+      "bounding_box": {
+        "left": 335,
+        "top": 755,
+        "width": 39,
+        "height": 14
+      }
+    },
+    {
+      "text": "07",
+      "confidence": 89.684074,
+      "bounding_box": {
+        "left": 491,
+        "top": 756,
+        "width": 26,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 84.846199,
+      "bounding_box": {
+        "left": 578,
+        "top": 756,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Orange",
+      "confidence": 96.629402,
+      "bounding_box": {
+        "left": 689,
+        "top": 748,
+        "width": 48,
+        "height": 30
+      }
+    },
+    {
+      "text": "오렌지",
+      "confidence": 95.115433,
+      "bounding_box": {
+        "left": 922,
+        "top": 755,
+        "width": 40,
+        "height": 14
+      }
+    },
+    {
+      "text": "5.66",
+      "confidence": 94.869034,
+      "bounding_box": {
+        "left": 1077,
+        "top": 756,
+        "width": 28,
+        "height": 12
+      }
+    },
+    {
+      "text": "3",
+      "confidence": 96.430878,
+      "bounding_box": {
+        "left": 1167,
+        "top": 756,
+        "width": 7,
+        "height": 12
+      }
+    },
+    {
+      "text": "Cow",
+      "confidence": 94.942543,
+      "bounding_box": {
+        "left": 101,
+        "top": 781,
+        "width": 28,
+        "height": 12
+      }
+    },
+    {
+      "text": "dander",
+      "confidence": 96.965538,
+      "bounding_box": {
+        "left": 134,
+        "top": 781,
+        "width": 46,
+        "height": 12
+      }
+    },
+    {
+      "text": "소",
+      "confidence": 48.820648,
+      "bounding_box": {
+        "left": 334,
+        "top": 781,
+        "width": 13,
+        "height": 12
+      }
+    },
+    {
+      "text": "비듬",
+      "confidence": 48.820648,
+      "bounding_box": {
+        "left": 353,
+        "top": 780,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.25",
+      "confidence": 88.753677,
+      "bounding_box": {
+        "left": 490,
+        "top": 781,
+        "width": 28,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 578,
+        "top": 781,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Pistachio",
+      "confidence": 91.01416,
+      "bounding_box": {
+        "left": 685,
+        "top": 772,
+        "width": 63,
+        "height": 31
+      }
+    },
+    {
+      "text": "피",
+      "confidence": 93.294441,
+      "bounding_box": {
+        "left": 923,
+        "top": 780,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "스",
+      "confidence": 93.273796,
+      "bounding_box": {
+        "left": 936,
+        "top": 781,
+        "width": 13,
+        "height": 11
+      }
+    },
+    {
+      "text": "타",
+      "confidence": 93.115334,
+      "bounding_box": {
+        "left": 951,
+        "top": 780,
+        "width": 13,
+        "height": 14
+      }
+    },
+    {
+      "text": "치",
+      "confidence": 93.293388,
+      "bounding_box": {
+        "left": 965,
+        "top": 780,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "오",
+      "confidence": 92.933952,
+      "bounding_box": {
+        "left": 979,
+        "top": 781,
+        "width": 11,
+        "height": 12
+      }
+    },
+    {
+      "text": "<0.15",
+      "confidence": 72.335686,
+      "bounding_box": {
+        "left": 1075,
+        "top": 781,
+        "width": 35,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 84.846199,
+      "bounding_box": {
+        "left": 1166,
+        "top": 781,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Mouse",
+      "confidence": 96.540764,
+      "bounding_box": {
+        "left": 101,
+        "top": 798,
+        "width": 43,
+        "height": 30
+      }
+    },
+    {
+      "text": "생쥐",
+      "confidence": 95.717705,
+      "bounding_box": {
+        "left": 334,
+        "top": 805,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.23",
+      "confidence": 90.853508,
+      "bounding_box": {
+        "left": 490,
+        "top": 806,
+        "width": 29,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 578,
+        "top": 806,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Grape",
+      "confidence": 96.934822,
+      "bounding_box": {
+        "left": 689,
+        "top": 806,
+        "width": 39,
+        "height": 14
+      }
+    },
+    {
+      "text": "포도",
+      "confidence": 96.974121,
+      "bounding_box": {
+        "left": 922,
+        "top": 806,
+        "width": 27,
+        "height": 12
+      }
+    },
+    {
+      "text": "0.14",
+      "confidence": 86.82901,
+      "bounding_box": {
+        "left": 1079,
+        "top": 806,
+        "width": 27,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 1166,
+        "top": 806,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Guinea",
+      "confidence": 96.10183,
+      "bounding_box": {
+        "left": 101,
+        "top": 831,
+        "width": 45,
+        "height": 12
+      }
+    },
+    {
+      "text": "pig",
+      "confidence": 96.00737,
+      "bounding_box": {
+        "left": 152,
+        "top": 831,
+        "width": 19,
+        "height": 14
+      }
+    },
+    {
+      "text": "기니피그",
+      "confidence": 96.497429,
+      "bounding_box": {
+        "left": 335,
+        "top": 830,
+        "width": 54,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.06",
+      "confidence": 92.334358,
+      "bounding_box": {
+        "left": 489,
+        "top": 831,
+        "width": 31,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 84.846199,
+      "bounding_box": {
+        "left": 578,
+        "top": 831,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Cashew",
+      "confidence": 96.95224,
+      "bounding_box": {
+        "left": 685,
+        "top": 823,
+        "width": 54,
+        "height": 30
+      }
+    },
+    {
+      "text": "Wael",
+      "confidence": 38.063614,
+      "bounding_box": {
+        "left": 923,
+        "top": 823,
+        "width": 40,
+        "height": 30
+      }
+    },
+    {
+      "text": "0.13",
+      "confidence": 84.192329,
+      "bounding_box": {
+        "left": 1079,
+        "top": 831,
+        "width": 26,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 84.846199,
+      "bounding_box": {
+        "left": 1166,
+        "top": 831,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Chicken",
+      "confidence": 96.913887,
+      "bounding_box": {
+        "left": 101,
+        "top": 848,
+        "width": 51,
+        "height": 30
+      }
+    },
+    {
+      "text": "닭",
+      "confidence": 86.970528,
+      "bounding_box": {
+        "left": 335,
+        "top": 855,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "<0.15",
+      "confidence": 72.335686,
+      "bounding_box": {
+        "left": 487,
+        "top": 856,
+        "width": 35,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 578,
+        "top": 856,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Pineapple",
+      "confidence": 95.847702,
+      "bounding_box": {
+        "left": 689,
+        "top": 856,
+        "width": 65,
+        "height": 14
+      }
+    },
+    {
+      "text": "파인애플",
+      "confidence": 96.418442,
+      "bounding_box": {
+        "left": 922,
+        "top": 855,
+        "width": 55,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.33",
+      "confidence": 90.103607,
+      "bounding_box": {
+        "left": 1078,
+        "top": 856,
+        "width": 29,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 84.846199,
+      "bounding_box": {
+        "left": 1166,
+        "top": 856,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Horse",
+      "confidence": 96.868347,
+      "bounding_box": {
+        "left": 101,
+        "top": 881,
+        "width": 38,
+        "height": 12
+      }
+    },
+    {
+      "text": "dander",
+      "confidence": 96.868347,
+      "bounding_box": {
+        "left": 144,
+        "top": 881,
+        "width": 46,
+        "height": 12
+      }
+    },
+    {
+      "text": "말",
+      "confidence": 93.275429,
+      "bounding_box": {
+        "left": 335,
+        "top": 880,
+        "width": 10,
+        "height": 14
+      }
+    },
+    {
+      "text": "비듬",
+      "confidence": 93.531143,
+      "bounding_box": {
+        "left": 354,
+        "top": 880,
+        "width": 25,
+        "height": 14
+      }
+    },
+    {
+      "text": "178",
+      "confidence": 93.320061,
+      "bounding_box": {
+        "left": 492,
+        "top": 881,
+        "width": 25,
+        "height": 12
+      }
+    },
+    {
+      "text": "2",
+      "confidence": 96.374611,
+      "bounding_box": {
+        "left": 579,
+        "top": 881,
+        "width": 7,
+        "height": 12
+      }
+    },
+    {
+      "text": "06000",
+      "confidence": 91.062927,
+      "bounding_box": {
+        "left": 689,
+        "top": 872,
+        "width": 39,
+        "height": 31
+      }
+    },
+    {
+      "text": "피칸",
+      "confidence": 97.003708,
+      "bounding_box": {
+        "left": 923,
+        "top": 880,
+        "width": 27,
+        "height": 14
+      }
+    },
+    {
+      "text": "<0.15",
+      "confidence": 83.993523,
+      "bounding_box": {
+        "left": 1075,
+        "top": 881,
+        "width": 35,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 1166,
+        "top": 881,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Rat",
+      "confidence": 96.863869,
+      "bounding_box": {
+        "left": 101,
+        "top": 906,
+        "width": 21,
+        "height": 12
+      }
+    },
+    {
+      "text": "epithelium",
+      "confidence": 94.713074,
+      "bounding_box": {
+        "left": 127,
+        "top": 906,
+        "width": 70,
+        "height": 14
+      }
+    },
+    {
+      "text": "al",
+      "confidence": 78.452461,
+      "bounding_box": {
+        "left": 334,
+        "top": 905,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "상피",
+      "confidence": 73.497856,
+      "bounding_box": {
+        "left": 352,
+        "top": 905,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "<0.15",
+      "confidence": 83.993523,
+      "bounding_box": {
+        "left": 487,
+        "top": 906,
+        "width": 35,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 84.846199,
+      "bounding_box": {
+        "left": 578,
+        "top": 906,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Abalone",
+      "confidence": 95.285309,
+      "bounding_box": {
+        "left": 688,
+        "top": 898,
+        "width": 55,
+        "height": 30
+      }
+    },
+    {
+      "text": "전복",
+      "confidence": 96.932793,
+      "bounding_box": {
+        "left": 923,
+        "top": 905,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "29.90",
+      "confidence": 92.43898,
+      "bounding_box": {
+        "left": 1073,
+        "top": 906,
+        "width": 38,
+        "height": 12
+      }
+    },
+    {
+      "text": "4",
+      "confidence": 95.827667,
+      "bounding_box": {
+        "left": 1166,
+        "top": 906,
+        "width": 9,
+        "height": 12
+      }
+    },
+    {
+      "text": "2",
+      "confidence": 55.40123,
+      "bounding_box": {
+        "left": 46,
+        "top": 931,
+        "width": 22,
+        "height": 12
+      }
+    },
+    {
+      "text": "Cockroach,",
+      "confidence": 46.506714,
+      "bounding_box": {
+        "left": 101,
+        "top": 931,
+        "width": 71,
+        "height": 14
+      }
+    },
+    {
+      "text": "German",
+      "confidence": 96.872276,
+      "bounding_box": {
+        "left": 179,
+        "top": 931,
+        "width": 51,
+        "height": 12
+      }
+    },
+    {
+      "text": "독",
+      "confidence": 92.278267,
+      "bounding_box": {
+        "left": 334,
+        "top": 930,
+        "width": 13,
+        "height": 14
+      }
+    },
+    {
+      "text": "일",
+      "confidence": 93.267616,
+      "bounding_box": {
+        "left": 349,
+        "top": 930,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "바퀴",
+      "confidence": 91.940582,
+      "bounding_box": {
+        "left": 363,
+        "top": 930,
+        "width": 25,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.20",
+      "confidence": 90.921753,
+      "bounding_box": {
+        "left": 489,
+        "top": 931,
+        "width": 30,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 84.846199,
+      "bounding_box": {
+        "left": 578,
+        "top": 931,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Cockroach,",
+      "confidence": 96.903549,
+      "bounding_box": {
+        "left": 101,
+        "top": 956,
+        "width": 71,
+        "height": 14
+      }
+    },
+    {
+      "text": "Mix",
+      "confidence": 96.370735,
+      "bounding_box": {
+        "left": 179,
+        "top": 956,
+        "width": 22,
+        "height": 12
+      }
+    },
+    {
+      "text": "바퀴벌레",
+      "confidence": 96.506561,
+      "bounding_box": {
+        "left": 335,
+        "top": 955,
+        "width": 54,
+        "height": 14
+      }
+    },
+    {
+      "text": "<0.15",
+      "confidence": 83.993523,
+      "bounding_box": {
+        "left": 487,
+        "top": 956,
+        "width": 35,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 578,
+        "top": 956,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Cockroach,",
+      "confidence": 96.866203,
+      "bounding_box": {
+        "left": 101,
+        "top": 981,
+        "width": 71,
+        "height": 14
+      }
+    },
+    {
+      "text": "American",
+      "confidence": 92.401222,
+      "bounding_box": {
+        "left": 178,
+        "top": 981,
+        "width": 62,
+        "height": 12
+      }
+    },
+    {
+      "text": "미",
+      "confidence": 93.285721,
+      "bounding_box": {
+        "left": 335,
+        "top": 980,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "국",
+      "confidence": 93.03553,
+      "bounding_box": {
+        "left": 348,
+        "top": 981,
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "text": "바퀴",
+      "confidence": 96.728409,
+      "bounding_box": {
+        "left": 363,
+        "top": 980,
+        "width": 25,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.09",
+      "confidence": 91.589478,
+      "bounding_box": {
+        "left": 489,
+        "top": 981,
+        "width": 31,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 578,
+        "top": 981,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "수",
+      "confidence": 92.96711,
+      "bounding_box": {
+        "left": 46,
+        "top": 1007,
+        "width": 13,
+        "height": 11
+      }
+    },
+    {
+      "text": "목",
+      "confidence": 93.255989,
+      "bounding_box": {
+        "left": 58,
+        "top": 1000,
+        "width": 13,
+        "height": 27
+      }
+    },
+    {
+      "text": "화분",
+      "confidence": 92.847549,
+      "bounding_box": {
+        "left": 70,
+        "top": 1006,
+        "width": 21,
+        "height": 12
+      }
+    },
+    {
+      "text": "Poplar",
+      "confidence": 96.576065,
+      "bounding_box": {
+        "left": 101,
+        "top": 1006,
+        "width": 41,
+        "height": 14
+      }
+    },
+    {
+      "text": "포",
+      "confidence": 92.091652,
+      "bounding_box": {
+        "left": 334,
+        "top": 1006,
+        "width": 13,
+        "height": 12
+      }
+    },
+    {
+      "text": "플",
+      "confidence": 93.250572,
+      "bounding_box": {
+        "left": 349,
+        "top": 1005,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "러",
+      "confidence": 93.301895,
+      "bounding_box": {
+        "left": 363,
+        "top": 1005,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "나무",
+      "confidence": 95.239449,
+      "bounding_box": {
+        "left": 377,
+        "top": 1005,
+        "width": 25,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.35",
+      "confidence": 88.99649,
+      "bounding_box": {
+        "left": 490,
+        "top": 1006,
+        "width": 28,
+        "height": 12
+      }
+    },
+    {
+      "text": "1",
+      "confidence": 95.266769,
+      "bounding_box": {
+        "left": 580,
+        "top": 1006,
+        "width": 3,
+        "height": 12
+      }
+    },
+    {
+      "text": "Hazel",
+      "confidence": 96.765007,
+      "bounding_box": {
+        "left": 101,
+        "top": 1022,
+        "width": 35,
+        "height": 31
+      }
+    },
+    {
+      "text": "개",
+      "confidence": 93.275146,
+      "bounding_box": {
+        "left": 335,
+        "top": 1030,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "암",
+      "confidence": 92.659431,
+      "bounding_box": {
+        "left": 349,
+        "top": 1030,
+        "width": 13,
+        "height": 14
+      }
+    },
+    {
+      "text": "나무",
+      "confidence": 96.283791,
+      "bounding_box": {
+        "left": 363,
+        "top": 1030,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.01",
+      "confidence": 95.908684,
+      "bounding_box": {
+        "left": 490,
+        "top": 1031,
+        "width": 27,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 578,
+        "top": 1031,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Oak",
+      "confidence": 93.072815,
+      "bounding_box": {
+        "left": 101,
+        "top": 1048,
+        "width": 24,
+        "height": 30
+      }
+    },
+    {
+      "text": "참나무",
+      "confidence": 96.488625,
+      "bounding_box": {
+        "left": 335,
+        "top": 1055,
+        "width": 40,
+        "height": 14
+      }
+    },
+    {
+      "text": "<0.15",
+      "confidence": 83.993523,
+      "bounding_box": {
+        "left": 487,
+        "top": 1056,
+        "width": 35,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 578,
+        "top": 1056,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Tree",
+      "confidence": 91.497192,
+      "bounding_box": {
+        "left": 100,
+        "top": 1081,
+        "width": 30,
+        "height": 12
+      }
+    },
+    {
+      "text": "mixture",
+      "confidence": 94.579605,
+      "bounding_box": {
+        "left": 135,
+        "top": 1081,
+        "width": 51,
+        "height": 12
+      }
+    },
+    {
+      "text": "2",
+      "confidence": 96.352982,
+      "bounding_box": {
+        "left": 191,
+        "top": 1081,
+        "width": 7,
+        "height": 12
+      }
+    },
+    {
+      "text": "나무",
+      "confidence": 97.011101,
+      "bounding_box": {
+        "left": 335,
+        "top": 1080,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "꽃가루",
+      "confidence": 93.306129,
+      "bounding_box": {
+        "left": 366,
+        "top": 1080,
+        "width": 41,
+        "height": 14
+      }
+    },
+    {
+      "text": "혼",
+      "confidence": 83.008888,
+      "bounding_box": {
+        "left": 416,
+        "top": 1080,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "…",
+      "confidence": 92.164398,
+      "bounding_box": {
+        "left": 431,
+        "top": 1086,
+        "width": 6,
+        "height": 2
+      }
+    },
+    {
+      "text": "<0.15",
+      "confidence": 83.993523,
+      "bounding_box": {
+        "left": 487,
+        "top": 1081,
+        "width": 35,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 578,
+        "top": 1081,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Plane",
+      "confidence": 94.413673,
+      "bounding_box": {
+        "left": 101,
+        "top": 1097,
+        "width": 36,
+        "height": 31
+      }
+    },
+    {
+      "text": "양",
+      "confidence": 93.190712,
+      "bounding_box": {
+        "left": 335,
+        "top": 1105,
+        "width": 13,
+        "height": 14
+      }
+    },
+    {
+      "text": "버",
+      "confidence": 92.955742,
+      "bounding_box": {
+        "left": 349,
+        "top": 1105,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "즘",
+      "confidence": 93.111748,
+      "bounding_box": {
+        "left": 362,
+        "top": 1106,
+        "width": 13,
+        "height": 13
+      }
+    },
+    {
+      "text": "나무",
+      "confidence": 96.980797,
+      "bounding_box": {
+        "left": 377,
+        "top": 1105,
+        "width": 25,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.29",
+      "confidence": 92.001114,
+      "bounding_box": {
+        "left": 489,
+        "top": 1106,
+        "width": 29,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 84.846199,
+      "bounding_box": {
+        "left": 578,
+        "top": 1106,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Birch",
+      "confidence": 92.388931,
+      "bounding_box": {
+        "left": 101,
+        "top": 1131,
+        "width": 33,
+        "height": 12
+      }
+    },
+    {
+      "text": "자",
+      "confidence": 93.265663,
+      "bounding_box": {
+        "left": 334,
+        "top": 1131,
+        "width": 9,
+        "height": 10
+      }
+    },
+    {
+      "text": "작",
+      "confidence": 93.249306,
+      "bounding_box": {
+        "left": 347,
+        "top": 1130,
+        "width": 15,
+        "height": 14
+      }
+    },
+    {
+      "text": "나무",
+      "confidence": 97.016212,
+      "bounding_box": {
+        "left": 363,
+        "top": 1130,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.15",
+      "confidence": 92.628944,
+      "bounding_box": {
+        "left": 491,
+        "top": 1131,
+        "width": 25,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 578,
+        "top": 1131,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Olive",
+      "confidence": 96.638809,
+      "bounding_box": {
+        "left": 101,
+        "top": 1148,
+        "width": 33,
+        "height": 30
+      }
+    },
+    {
+      "text": "올리브",
+      "confidence": 96.841423,
+      "bounding_box": {
+        "left": 334,
+        "top": 1155,
+        "width": 41,
+        "height": 14
+      }
+    },
+    {
+      "text": "<0.15",
+      "confidence": 72.335686,
+      "bounding_box": {
+        "left": 487,
+        "top": 1156,
+        "width": 35,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 84.846199,
+      "bounding_box": {
+        "left": 578,
+        "top": 1156,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Willow",
+      "confidence": 94.254364,
+      "bounding_box": {
+        "left": 96,
+        "top": 1173,
+        "width": 48,
+        "height": 30
+      }
+    },
+    {
+      "text": "버",
+      "confidence": 93.271271,
+      "bounding_box": {
+        "left": 335,
+        "top": 1180,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "드",
+      "confidence": 87.309967,
+      "bounding_box": {
+        "left": 348,
+        "top": 1181,
+        "width": 13,
+        "height": 11
+      }
+    },
+    {
+      "text": "나무",
+      "confidence": 96.997185,
+      "bounding_box": {
+        "left": 363,
+        "top": 1180,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.38",
+      "confidence": 94.171585,
+      "bounding_box": {
+        "left": 489,
+        "top": 1181,
+        "width": 30,
+        "height": 12
+      }
+    },
+    {
+      "text": "1",
+      "confidence": 93.859322,
+      "bounding_box": {
+        "left": 580,
+        "top": 1181,
+        "width": 3,
+        "height": 12
+      }
+    },
+    {
+      "text": "Pine",
+      "confidence": 92.450661,
+      "bounding_box": {
+        "left": 101,
+        "top": 1206,
+        "width": 28,
+        "height": 12
+      }
+    },
+    {
+      "text": "소나무",
+      "confidence": 97.00325,
+      "bounding_box": {
+        "left": 334,
+        "top": 1205,
+        "width": 41,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.28",
+      "confidence": 88.87693,
+      "bounding_box": {
+        "left": 489,
+        "top": 1206,
+        "width": 30,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 578,
+        "top": 1206,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Beech",
+      "confidence": 96.813324,
+      "bounding_box": {
+        "left": 97,
+        "top": 1223,
+        "width": 44,
+        "height": 30
+      }
+    },
+    {
+      "text": "너",
+      "confidence": 93.275635,
+      "bounding_box": {
+        "left": 335,
+        "top": 1230,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "도",
+      "confidence": 93.143265,
+      "bounding_box": {
+        "left": 348,
+        "top": 1231,
+        "width": 13,
+        "height": 12
+      }
+    },
+    {
+      "text": "밤나무",
+      "confidence": 96.758316,
+      "bounding_box": {
+        "left": 363,
+        "top": 1230,
+        "width": 39,
+        "height": 14
+      }
+    },
+    {
+      "text": "32.55",
+      "confidence": 89.668396,
+      "bounding_box": {
+        "left": 487,
+        "top": 1231,
+        "width": 34,
+        "height": 12
+      }
+    },
+    {
+      "text": "4",
+      "confidence": 95.827667,
+      "bounding_box": {
+        "left": 578,
+        "top": 1231,
+        "width": 9,
+        "height": 12
+      }
+    },
+    {
+      "text": "Japanese",
+      "confidence": 95.932121,
+      "bounding_box": {
+        "left": 100,
+        "top": 1256,
+        "width": 62,
+        "height": 14
+      }
+    },
+    {
+      "text": "cedar",
+      "confidence": 89.931877,
+      "bounding_box": {
+        "left": 166,
+        "top": 1256,
+        "width": 36,
+        "height": 12
+      }
+    },
+    {
+      "text": "삼나무",
+      "confidence": 96.998787,
+      "bounding_box": {
+        "left": 334,
+        "top": 1255,
+        "width": 41,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.13",
+      "confidence": 84.192329,
+      "bounding_box": {
+        "left": 491,
+        "top": 1256,
+        "width": 26,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 578,
+        "top": 1256,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "잡",
+      "confidence": 86.782082,
+      "bounding_box": {
+        "left": 46,
+        "top": 1281,
+        "width": 11,
+        "height": 12
+      }
+    },
+    {
+      "text": "초",
+      "confidence": 91.945114,
+      "bounding_box": {
+        "left": 59,
+        "top": 1282,
+        "width": 9,
+        "height": 10
+      }
+    },
+    {
+      "text": "화분",
+      "confidence": 93.183983,
+      "bounding_box": {
+        "left": 71,
+        "top": 1281,
+        "width": 20,
+        "height": 12
+      }
+    },
+    {
+      "text": "Ragweed",
+      "confidence": 96.505524,
+      "bounding_box": {
+        "left": 101,
+        "top": 1281,
+        "width": 60,
+        "height": 14
+      }
+    },
+    {
+      "text": "돼",
+      "confidence": 92.984306,
+      "bounding_box": {
+        "left": 334,
+        "top": 1280,
+        "width": 13,
+        "height": 14
+      }
+    },
+    {
+      "text": "지",
+      "confidence": 93.255714,
+      "bounding_box": {
+        "left": 349,
+        "top": 1280,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "풀",
+      "confidence": 92.910255,
+      "bounding_box": {
+        "left": 363,
+        "top": 1280,
+        "width": 12,
+        "height": 14
+      }
+    },
+    {
+      "text": "<0.15",
+      "confidence": 83.993523,
+      "bounding_box": {
+        "left": 487,
+        "top": 1281,
+        "width": 35,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 578,
+        "top": 1281,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Lamb's",
+      "confidence": 75.909721,
+      "bounding_box": {
+        "left": 101,
+        "top": 1306,
+        "width": 45,
+        "height": 12
+      }
+    },
+    {
+      "text": "quarters",
+      "confidence": 96.631981,
+      "bounding_box": {
+        "left": 151,
+        "top": 1307,
+        "width": 56,
+        "height": 13
+      }
+    },
+    {
+      "text": "명",
+      "confidence": 93.293587,
+      "bounding_box": {
+        "left": 335,
+        "top": 1305,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "아주",
+      "confidence": 96.933594,
+      "bounding_box": {
+        "left": 349,
+        "top": 1305,
+        "width": 26,
+        "height": 14
+      }
+    },
+    {
+      "text": "<0.15",
+      "confidence": 83.993523,
+      "bounding_box": {
+        "left": 487,
+        "top": 1306,
+        "width": 35,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 578,
+        "top": 1306,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Dandelion",
+      "confidence": 96.797577,
+      "bounding_box": {
+        "left": 101,
+        "top": 1327,
+        "width": 66,
+        "height": 25
+      }
+    },
+    {
+      "text": "서",
+      "confidence": 93.288177,
+      "bounding_box": {
+        "left": 335,
+        "top": 1330,
+        "width": 11,
+        "height": 14
+      }
+    },
+    {
+      "text": "양",
+      "confidence": 92.909065,
+      "bounding_box": {
+        "left": 349,
+        "top": 1330,
+        "width": 13,
+        "height": 14
+      }
+    },
+    {
+      "text": "민들레",
+      "confidence": 96.567078,
+      "bounding_box": {
+        "left": 363,
+        "top": 1330,
+        "width": 39,
+        "height": 14
+      }
+    },
+    {
+      "text": "<0.15",
+      "confidence": 84.794868,
+      "bounding_box": {
+        "left": 487,
+        "top": 1331,
+        "width": 35,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 80.324203,
+      "bounding_box": {
+        "left": 578,
+        "top": 1331,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "Nettle",
+      "confidence": 94.535347,
+      "bounding_box": {
+        "left": 101,
+        "top": 1348,
+        "width": 44,
+        "height": 30
+      }
+    },
+    {
+      "text": "471e",
+      "confidence": 12.951431,
+      "bounding_box": {
+        "left": 334,
+        "top": 1355,
+        "width": 41,
+        "height": 14
+      }
+    },
+    {
+      "text": "0.15",
+      "confidence": 92.628944,
+      "bounding_box": {
+        "left": 491,
+        "top": 1356,
+        "width": 25,
+        "height": 12
+      }
+    },
+    {
+      "text": "0",
+      "confidence": 89.424278,
+      "bounding_box": {
+        "left": 578,
+        "top": 1356,
+        "width": 8,
+        "height": 12
+      }
+    },
+    {
+      "text": "버",
+      "confidence": 0.0,
+      "bounding_box": {
+        "left": 614,
+        "top": 1628,
+        "width": 11,
+        "height": 11
+      }
+    },
+    {
+      "text": "검",
+      "confidence": 91.675194,
+      "bounding_box": {
+        "left": 901,
+        "top": 1665,
+        "width": 9,
+        "height": 12
+      }
+    },
+    {
+      "text": "사",
+      "confidence": 93.278854,
+      "bounding_box": {
+        "left": 911,
+        "top": 1665,
+        "width": 23,
+        "height": 12
+      }
+    },
+    {
+      "text": "자",
+      "confidence": 93.093788,
+      "bounding_box": {
+        "left": 924,
+        "top": 1656,
+        "width": 8,
+        "height": 31
+      }
+    },
+    {
+      "text": "한",
+      "confidence": 92.721375,
+      "bounding_box": {
+        "left": 942,
+        "top": 1665,
+        "width": 10,
+        "height": 12
+      }
+    },
+    {
+      "text": "서",
+      "confidence": 92.462921,
+      "bounding_box": {
+        "left": 953,
+        "top": 1665,
+        "width": 20,
+        "height": 12
+      }
+    },
+    {
+      "text": "연",
+      "confidence": 53.255554,
+      "bounding_box": {
+        "left": 966,
+        "top": 1656,
+        "width": 11,
+        "height": 31
+      }
+    },
+    {
+      "text": "검",
+      "confidence": 71.877609,
+      "bounding_box": {
+        "left": 53,
+        "top": 1687,
+        "width": 9,
+        "height": 12
+      }
+    },
+    {
+      "text": "사",
+      "confidence": 93.247162,
+      "bounding_box": {
+        "left": 63,
+        "top": 1687,
+        "width": 11,
+        "height": 12
+      }
+    },
+    {
+      "text": "기",
+      "confidence": 93.260605,
+      "bounding_box": {
+        "left": 76,
+        "top": 1687,
+        "width": 9,
+        "height": 12
+      }
+    },
+    {
+      "text": "관",
+      "confidence": 93.069992,
+      "bounding_box": {
+        "left": 87,
+        "top": 1688,
+        "width": 10,
+        "height": 11
+      }
+    },
+    {
+      "text": "번호",
+      "confidence": 93.263931,
+      "bounding_box": {
+        "left": 98,
+        "top": 1687,
+        "width": 21,
+        "height": 12
+      }
+    },
+    {
+      "text": ":78838919",
+      "confidence": 78.97551,
+      "bounding_box": {
+        "left": 130,
+        "top": 1688,
+        "width": 54,
+        "height": 10
+      }
+    },
+    {
+      "text": "보고자",
+      "confidence": 91.103073,
+      "bounding_box": {
+        "left": 901,
+        "top": 1687,
+        "width": 33,
+        "height": 12
+      }
+    },
+    {
+      "text": "오",
+      "confidence": 86.628204,
+      "bounding_box": {
+        "left": 942,
+        "top": 1688,
+        "width": 9,
+        "height": 10
+      }
+    },
+    {
+      "text": "서",
+      "confidence": 93.106056,
+      "bounding_box": {
+        "left": 953,
+        "top": 1687,
+        "width": 9,
+        "height": 12
+      }
+    },
+    {
+      "text": "연",
+      "confidence": 93.113586,
+      "bounding_box": {
+        "left": 964,
+        "top": 1687,
+        "width": 9,
+        "height": 12
+      }
+    }
+  ],
+  "notes": [
+    "The image is a repository-generated synthetic fixture.",
+    "Raw text and word boxes come directly from Tesseract.",
+    "Canonical fixture values are stored separately and drive downstream examples."
+  ]
+}
